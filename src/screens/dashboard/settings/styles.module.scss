@@ -1,0 +1,64 @@
+@import "@/styles/vars";
+@import "@/styles/mixin";
+@import "@/styles/flex";
+@import "@/styles/fonts";
+
+.options {
+	display: flex;
+	flex-direction: column;
+	gap: $gap_regular;
+	@include pageScroll(5px, 100%, 90.5dvh);
+	@include breakpoint(mobile-x) {
+		@include pageScroll(5px, 100%, 100%);
+	}
+	.option {
+		border: 1px solid $light_grey;
+		border-radius: 16px;
+		padding: 16px;
+		position: relative;
+	}
+
+	.end {
+		@include flex-end;
+		width: 100%;
+		gap: 12px;
+
+		&__icon {
+			cursor: pointer;
+			@include link_hover;
+		}
+	}
+
+	.option {
+		border: 1px solid $light_grey;
+		border-radius: 16px;
+		padding: 16px;
+		position: relative;
+	}
+
+	.end {
+		@include flex-end;
+		width: 100%;
+	}
+}
+
+.settings_wrapper {
+	width: 100%;
+
+	.settings_btns {
+		width: 100%;
+		@include flex-align;
+		gap: 8px;
+		margin-top: 40px;
+		@include breakpoint(mobile-x) {
+			margin-top: 24px;
+		}
+
+		.btn {
+			@include width-2(8px);
+			@include breakpoint(mobile-x) {
+				width: 100%;
+			}
+		}
+	}
+}

@@ -1,0 +1,49 @@
+@import "@/styles/vars";
+@import "@/styles/mixin";
+@import "@/styles/flex";
+
+.container {
+  background-color           : $white;
+  padding                    : 5px;
+  border-radius              : 8px;
+  border                     : 1px solid $medium_grey;
+  width                      : 100%;
+  overflow                   : auto;
+  -webkit-overflow-scrolling : touch;
+
+  [class~="ant-segmented"] {
+	background-color : $white !important;
+	margin-bottom    : 0 !important;
+	height           : 33px !important;
+	width            : 100% !important;
+  }
+
+  [class~="ant-segmented-group"] {
+	overflow-x  : auto !important;
+	white-space : nowrap !important;
+	//@include breakpoint(mini-tablet) {
+	//  width         : 500px;
+	//  padding-right : 24px;
+	//}
+	//@include customBreakpointSize(480px) {
+	//  width         : 330px;
+	//  padding-right : 24px;
+	//}
+	//@include customBreakpointSize(380px) {
+	//  width         : 320px;
+	//  padding-right : 24px;
+	//}
+	//@include customBreakpointSize(320px) {
+	//  width         : 260px;
+	//  padding-right : 24px;
+	//}
+  }
+
+  //   [class~="ant-segmented-item"] {
+  // 	display : inline-block !important;
+
+  // 	&:last-child {
+  // 	  margin-right : 24px !important;
+  // 	}
+  //   }
+}

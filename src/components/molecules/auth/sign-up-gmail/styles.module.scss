@@ -1,0 +1,137 @@
+@import "@/styles/vars";
+@import "@/styles/flex";
+@import "@/styles/mixin";
+@import "@/styles/fonts";
+
+.wrapper {
+	@include flex-column-align;
+	max-width: 628px;
+	padding: 40px;
+	gap: 32px;
+	border-radius: 20px;
+	margin-top: 24px;
+	box-shadow: 4px 4px 32px 0px rgba(0, 0, 0, 0.08);
+	background-color: $white;
+
+	@include breakpoint(mobile-x) {
+		min-height: calc(100dvh - 60px);
+		justify-content: center;
+		margin-top: 0;
+		box-shadow: none;
+		padding: 16px;
+	}
+
+	.container {
+		@include flex-column-center;
+		flex: 1;
+		@include breakpoint(mobile-x) {
+			justify-content: flex-end;
+			width: 100%;
+		}
+		.block {
+			width: 100%;
+			@include flex-column-align;
+			margin-bottom: 16px;
+			@include breakpoint(mobile-x) {
+				justify-content: flex-end;
+				height: 100%;
+				margin-bottom: 0;
+				margin-top: 60px;
+			}
+
+			.title {
+				margin-bottom: 8px;
+				@include font_size_xl;
+				font-weight: $font_weight_medium;
+				text-align: center;
+				font-family: $font_mulish;
+				@include breakpoint(mobile-x) {
+					margin-top: 16px;
+				}
+			}
+
+			.text {
+				font-size: $font-size_desktop_s;
+				font-weight: $font_weight_normal;
+				line-height: $line_height_m;
+				color: $black;
+				text-align: center;
+				@include breakpoint(mobile-x) {
+					font-size: $font_size_mobile_m;
+				}
+			}
+			.main_content {
+				width: 100%;
+
+				.form {
+					width: 100%;
+					margin-top: 40px;
+					display: flex;
+					flex-direction: column;
+					justify-content: flex-start;
+					align-items: center;
+					gap: 24px;
+
+					> figure {
+						width: 100%;
+					}
+					.first_name {
+						margin-top: 40px;
+					}
+					@include breakpoint(mobile-x) {
+						margin-top: 16px;
+					}
+
+					// 	  .agreement {
+					margin-top: 8px;
+					@include flex-column;
+					gap: 12px;
+					@include breakpoint(mobile-x) {
+						margin-top: -10px;
+					}
+
+					.child {
+						width: 100%;
+						@include flex-start;
+						margin: 6px 0;
+
+						> p {
+							font-size: 14px;
+							line-height: 120%;
+							margin-top: 2px;
+							@include breakpoint(mobile-x) {
+								font-size: 12px;
+							}
+							span > a {
+								border-bottom: 0.8px solid $accent;
+								font-weight: $font-weight_normal;
+								color: $accent;
+								@include breakpoint(mobile-x) {
+									text-decoration: none;
+									color: $accent;
+								}
+							}
+						}
+					}
+					.end {
+						margin-top: 24px;
+						width: 100%;
+						margin-bottom: -16px;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+						align-items: center;
+						@include breakpoint(mobile-x) {
+							width: 100%;
+							margin-top: 16px;
+							padding-bottom: 24px;
+						}
+						@include customBreakpointSize("310px") {
+							flex: 2;
+						}
+					}
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,769 @@
+@import "@/styles/flex.scss";
+@import "@/styles/vars.scss";
+@import "@/styles/mixin.scss";
+
+.burger {
+  display : none;
+  padding : 16px;
+  right   : 0;
+  z-index : 3 !important;
+  height  : 80px;
+  @include breakpoint(tablet-x) {
+	display  : block;
+	@include flex-align-end;
+	position : absolute;
+	top      : 0;
+	right    : 0;
+	width    : fit-content;
+	z-index  : $z-index_high !important;
+  }
+  @include breakpoint(mini-tablet) {
+	height : 50px;
+  }
+
+
+  &.dark_mode {
+	background-color : transparent;
+  }
+
+  &.purple_mode {
+	background-color : transparent;
+  }
+
+  &.packagesStyle {
+	width      : 100%;
+	background : #060606;
+  }
+
+  .ant-menu-ite {
+	font-size   : 30px !important;
+	font-weight : 400 !important;
+  }
+
+  .burger_icon {
+	padding          : 10px;
+	background-color : $white;
+	border-radius    : 8px;
+	border           : 1px solid $medium_grey;
+	display          : block;
+	@include flex-center;
+	@include breakpoint(mini-tablet) {
+	  height     : 40px;
+	  width      : 40px;
+	  margin-top : 5px;
+	}
+
+	&.burger_black {
+	  background : #242224;
+	  border     : 1px solid #3C393C;
+	}
+
+	&.dark_mode {
+	  background-color : transparent;
+	  border           : 1px solid #3c393c;
+	}
+
+	&.purple_mode {
+	  background-color : transparent;
+	  border           : 1px solid #502f71;
+
+	  svg {
+		width  : 28px;
+		height : 28px;
+
+		path {
+		  fill : white;
+		}
+	  }
+	}
+
+	&.burger_packge {
+	  border     : 1px solid #3C393C;
+	  background : #242224;
+	}
+
+	svg {
+	  width  : 28px;
+	  height : 28px;
+
+	  path {
+		fill : $accent;
+	  }
+	}
+  }
+}
+
+.overlay {
+  position   : absolute !important;
+  top        : 0;
+  left       : 0;
+  height     : 100%;
+  width      : 100%;
+  background : rgba(0, 0, 0, 0.3);
+  z-index    : $z-index_below;
+  opacity    : 0;
+  transition : opacity 0s ease-in-out;
+
+  @include breakpoint(tablet-x) {
+	&.show_overlay {
+	  opacity    : 1;
+	  z-index    : 100;
+	  transition : opacity 0.4s ease-in-out;
+	}
+  }
+}
+
+.menuLayout {
+  display          : flex;
+  height           : 100dvh;
+  background-color : $white;
+  position         : relative;
+
+  &.purple_mode {
+	background : $dark_purple;
+  }
+
+  @include breakpoint(tablet-x) {
+	transform  : translateX(-300px);
+	transition : transform 0.4s ease-in-out;
+	position   : fixed;
+	z-index    : $z-index_sidebar !important;
+	&.showMobileMenu {
+	  display    : flex;
+	  position   : fixed;
+	  z-index    : 200;
+	  transform  : translateX(0px);
+	  transition : transform 0.4s ease-in-out;
+	}
+  }
+
+  .menuItems {
+	flex             : 1;
+	width            : 260px;
+	height           : 100dvh;
+	display          : flex;
+	flex-direction   : column;
+	gap              : 6px;
+	border-right     : 1px solid $medium_grey;
+	padding          : 16px;
+	align-items      : flex-start;
+	position         : relative;
+	padding-top      : 26px;
+	overflow-y       : auto;
+	background-color : $white;
+	@include customBreakpointSize("1340px") {
+	  &.completed {
+		position : fixed;
+		z-index  : $z-index_sidebar;
+	  }
+	  &.collapsed {
+		position : relative;
+	  }
+	}
+
+	&.dark_mode {
+	  border           : unset;
+	  background-color : #242224;
+	}
+
+	&.parple_mode {
+	  border-right     : 1px solid #502f71;
+	  background-color : $dark_purple;
+	}
+
+	& > * {
+	  flex : none;
+	}
+
+	&.collapsed {
+	  transition : all 0.3s ease-in-out;
+	  width      : 70px;
+	}
+
+	.close_aside {
+	  position : absolute;
+	  right    : 16px;
+	  top      : 24px;
+	  display  : block;
+
+	  &.desktopVersionCollapse {
+		left : 20px;
+		top  : 16px;
+	  }
+
+	  .iconTwoArrowsRight {
+		> svg {
+		  > path {
+			fill : $black;
+		  }
+		}
+	  }
+
+	  .iconTwoArrowsLeft > svg {
+		> path {
+		  fill : $black;
+		}
+	  }
+
+	  &.hidden {
+		display : none;
+	  }
+
+	  &.dark_mode {
+		.iconTwoArrowsRight > svg {
+		  > path {
+			fill : $grey;
+		  }
+		}
+
+		.iconTwoArrowsLeft > svg {
+		  > path {
+			fill : $grey;
+		  }
+		}
+	  }
+
+	  &.parple_mode {
+		.iconTwoArrowsRight > svg {
+		  > path {
+			fill : $white;
+		  }
+		}
+
+		.iconTwoArrowsLeft > svg {
+		  > path {
+			fill : $white;
+		  }
+		}
+	  }
+
+	  @include breakpoint(tablet-x) {
+		display    : block;
+		margin-top : 10px;
+	  }
+	  @include link_hover;
+	}
+
+	.logo {
+	  width      : 100%;
+	  cursor     : pointer;
+	  @include flex-center;
+	  object-fit : cover;
+
+	  &.align_left {
+		width : fit-content;
+	  }
+	}
+
+	@include breakpoint(tablet-x) {
+	  width            : 300px;
+	  justify-content  : flex-start;
+	  align-items      : flex-start;
+	  position         : fixed;
+	  top              : 0;
+	  bottom           : 0;
+	  left             : 0;
+	  z-index          : 50;
+	  background-color : $white;
+	  .logo {
+		display : none;
+	  }
+	}
+
+	.user_info {
+	  align-items : center;
+	  gap         : 12px;
+	  display     : none;
+	  @include breakpoint(tablet-x) {
+		display : flex;
+	  }
+
+	  .user_avatar {
+		width            : 40px;
+		height           : 40px;
+		border-radius    : 50%;
+		background-color : $accent;
+		overflow         : hidden;
+
+		> img {
+		  border-radius : 50%;
+		  object-fit    : cover;
+		}
+	  }
+
+	  .user_name {
+		display     : flex;
+		align-items : center;
+		gap         : 6px;
+		font-size   : $font_size_mobile_m;
+		font-weight : $font_weight_medium;
+
+		&.dark_mode {
+		  color : $light_grey;
+		}
+
+		&.parple_mode {
+		  color : $light_grey;
+		}
+	  }
+	}
+
+	.search_bar {
+	  border        : 1px solid $medium_grey;
+	  border-radius : 8px;
+	  padding       : 12px;
+	  margin        : 16px 0;
+	  cursor        : pointer;
+	  @include flex-center;
+
+	  &.dark_mode {
+		background-color : #2e2d2d;
+		border           : none !important;
+	  }
+
+	  &.purple_mode {
+		background-color : #502f71;
+		border           : none !important;
+	  }
+
+	  &.full_width {
+		width   : 100%;
+		border  : none !important;
+		padding : 0;
+	  }
+
+	  @include breakpoint(tablet-x) {
+		width   : 100%;
+		border  : none;
+		padding : 0;
+	  }
+
+	  .search_input {
+		display      : none;
+
+		&.full_width {
+		  display : flex;
+		}
+
+		&.dark_mode {
+		  background-color : #2e2d2d;
+		  border           : 1px solid #2e2d2d !important;
+		  inset            : 0 !important;
+		  box-shadow       : 0 !important;
+		  color            : $light_grey;
+		}
+
+		&.parple_mode {
+		  background-color : $dark_purple;
+		  border           : 1px solid #502f71 !important;
+		  inset            : 0 !important;
+		  box-shadow       : 0 !important;
+		  color            : $light_accent;
+		}
+
+		@include breakpoint(tablet-x) {
+		  display : flex;
+		}
+		padding-left : 12px;
+
+		& > svg {
+		  position : absolute;
+		}
+	  }
+
+	  .search_button_icon {
+		@include flex-center;
+
+		&.hidden {
+		  display : none;
+		}
+
+		&.dark_mode {
+		  background-color : #2e2d2d !important;
+
+		  > svg > path {
+			fill : white;
+		  }
+		}
+
+		&.parple_mode {
+		  > svg > path {
+			fill : white;
+		  }
+		}
+
+		@include breakpoint(tablet-x) {
+		  display : none;
+		}
+	  }
+	}
+
+	.menu_button {
+	  display         : flex;
+	  justify-content : flex-start;
+	  align-items     : center;
+	  gap             : 12px;
+	  width           : 100%;
+	  color           : $accent;
+	  height          : 40px;
+	  position        : relative;
+	  padding-left    : 10px;
+	  padding-right   : 10px;
+
+	  &.collapsed {
+		width : 40px;
+		@include flex-center;
+	  }
+
+	  &.active_menu_before_effect {
+		position         : relative;
+		background-color : transparent;
+
+		&::before {
+		  content          : "";
+		  position         : absolute;
+		  width            : 2px;
+		  height           : 32px;
+		  background-color : $accent;
+		  left             : 0;
+		  z-index          : 200;
+		}
+
+		&.dark_mode {
+		  &.svg_fill {
+			.menu_icon > svg > g {
+			  stroke : $accent;
+			}
+		  }
+
+		  &.path_fill_stroke {
+			.menu_icon > svg {
+			  path {
+				stroke : $accent;
+			  }
+			}
+		  }
+
+		  &.path_fill {
+			.menu_icon > svg {
+			  path {
+				fill : $accent;
+			  }
+			}
+		  }
+		}
+
+		&.svg_fill {
+		  .menu_icon > svg > g {
+			stroke : $accent;
+		  }
+		}
+
+		&.path_fill_stroke {
+		  .menu_icon > svg {
+			path {
+			  stroke : $accent;
+			}
+		  }
+		}
+
+		&.path_fill {
+		  .menu_icon > svg {
+			path {
+			  fill : $accent;
+			}
+		  }
+		}
+	  }
+
+	  .menu_icon {
+		@include flex-center;
+		height : 100%;
+	  }
+
+	  &.locked_svg_fill {
+		.menu_icon > svg > g {
+		  stroke : #7c7c7c;
+		}
+	  }
+
+	  &.locked_path_fill_stroke {
+		.menu_icon > svg {
+		  path {
+			stroke : #7c7c7c;
+		  }
+		}
+	  }
+
+	  &.locked_path_fill {
+		.menu_icon > svg {
+		  path {
+			fill : #7c7c7c;
+		  }
+		}
+	  }
+
+	  p {
+		width           : 100%;
+		display         : flex;
+		justify-content : space-between;
+		align-items     : center;
+		color           : $black !important;
+
+		&.dark_mode {
+		  color : $light_grey !important;
+		}
+
+		&.parple_mode {
+		  color : $light_accent !important;
+		}
+
+		&.locked {
+		  color : #7c7c7c !important;
+		}
+
+		&.hidden {
+		  display : none;
+		}
+
+		&.dark_mode {
+		  > svg {
+			path {
+			  fill : $medium_grey;
+			}
+		  }
+		}
+
+		&.parple_mode {
+		  > svg {
+			path {
+			  fill : $light_accent;
+			}
+		  }
+		}
+	  }
+
+	  // &.locked{
+	  // 	cursor:not-allowed;
+	  // 	pointer-events: none;
+	  // }
+	  @include breakpoint(tablet-x) {
+		width           : 100%;
+		justify-content : flex-start;
+		font-size       : 14px;
+		gap             : 12px;
+		> p {
+		  width         : 100%;
+		  padding-right : 8px;
+		  @include flex-justify-between-center;
+		  align-items   : center;
+
+		  & > span {
+			@include flex-center;
+
+			& > svg {
+			  fill : black;
+			}
+		  }
+		}
+	  }
+
+	  &.menu_button_active {
+		background-color : #f6f3fc;
+		border-radius    : 8px;
+
+		&.dark_mode {
+		  background-color : $dark_grey;
+		}
+
+		&.active_menu_before_effect {
+		  background-color : transparent;
+		}
+	  }
+
+	  &.dark_mode {
+		&.svg_fill_dark {
+		  .menu_icon > svg > g {
+			stroke : $light_grey !important;
+		  }
+		}
+
+		&.path_fill_stroke_dark {
+		  .menu_icon > svg {
+			path {
+			  stroke : $light_grey !important;
+			}
+		  }
+		}
+
+		&.path_fill_dark {
+		  .menu_icon > svg {
+			path {
+			  fill : $light_grey;
+			}
+		  }
+		}
+	  }
+	}
+
+	.signOutButton {
+	  width           : 100%;
+	  margin-top      : auto;
+	  border-top      : 1px solid $medium_grey;
+	  padding         : 10px 0;
+	  color           : $black;
+	  display         : flex;
+	  justify-content : flex-start;
+
+	  &.dark_mode {
+		border-top : 1px solid rgb(47, 47, 47);
+
+		> svg > path {
+		  stroke : #c1c1c1;
+		}
+
+		> p {
+		  color : $white;
+		}
+	  }
+
+	  &.purple_mode {
+		border-top : 1px solid #502f71;
+
+		> svg > path {
+		  stroke : white;
+		}
+
+		> p {
+		  color : $white;
+		}
+	  }
+
+	  &.collapsed {
+		@include flex-center;
+	  }
+
+	  p {
+		display : none;
+
+		&.visible {
+		  display     : block;
+		  margin-left : 12px;
+		  @include breakpoint(tablet-x) {
+			margin-left : 0;
+		  }
+		}
+
+		&.hidden {
+		  display : none;
+		}
+
+		@include breakpoint(tablet-x) {
+		  font-size : 14px;
+		  display   : block;
+		}
+	  }
+
+	  @include breakpoint(tablet-x) {
+		width           : 100%;
+		@include flex-center;
+		gap             : 12px;
+		justify-content : flex-start;
+	  }
+	}
+  }
+
+  .sub_menu_closed {
+	display : none;
+  }
+
+  .sub_menu_opened {
+	background-color : white;
+	min-width        : 280px;
+
+	&.dark_mode {
+	  background-color : #242224;
+	}
+
+	&.parple_mode {
+	  background-color : $dark_purple;
+	}
+
+	@include pageScroll(3px, 100dvh, 100dvh);
+	@include customBreakpointSize("1340px") {
+	  position  : fixed;
+	  left      : 70px;
+	  top       : 0;
+	  bottom    : 0;
+	  z-index   : $z-index_sidebar;
+	  min-width : 260px;
+	}
+	@include breakpoint(tablet-x) {
+	  left : 0;
+	}
+	@include breakpoint(tablet-x) {
+	  width : 100%;
+	}
+	padding          : 16px;
+
+	.subMenu_header {
+	  display       : flex;
+	  align-items   : center;
+	  gap           : 12px;
+	  margin-bottom : 24px;
+
+	  .back_button {
+		display     : flex;
+		align-items : center;
+		gap         : 10px;
+
+		@include breakpoint(tablet-x) {
+		  position : absolute;
+		  top      : 22px;
+		  left     : 16px;
+		}
+
+		svg {
+		  width  : 12px;
+		  height : 12px;
+		  @include flex-center;
+
+		  path {
+			fill : #7c7c7c;
+			@include breakpoint(tablet-x) {
+			  fill : $accent;
+			}
+		  }
+		}
+
+		span {
+		  display : none;
+		  @include breakpoint(tablet-x) {
+			display     : block;
+			color       : $accent;
+			font-size   : $font_size_mobile_m;
+			font-weight : $font_weight_normal;
+		  }
+		}
+	  }
+
+	  .sub_menu_title {
+		font-size   : 24px;
+		font-weight : 600;
+
+		&.dark_mode {
+		  color : $light_grey;
+		}
+
+		&.purple_mode {
+		  color : $light_grey;
+		}
+
+		@include breakpoint(tablet-x) {
+		  width      : 100%;
+		  text-align : center;
+		}
+	  }
+	}
+  }
+}

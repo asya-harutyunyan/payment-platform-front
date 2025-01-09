@@ -1,0 +1,89 @@
+@import "@/styles/vars";
+@import "@/styles/mixin";
+@import "@/styles/flex";
+
+.container {
+  width : 100%;
+
+  .selectedItems {
+	margin-bottom : 8px;
+
+	.selectedLabel {
+	  font-size   : 14px;
+	  font-weight : $font_weight_medium;
+	  color       : $accent;
+	  margin      : 8px 0;
+	}
+
+  }
+
+  .no_result_item {
+	width         : 100%;
+	height        : 200px;
+	border-radius : 8px;
+	background    : $white;
+	@include flex-column-center;
+	gap           : 6px;
+	@include svgFill($accent);
+	border        : 1px solid $light_grey;
+	margin        : 10px 0;
+
+	.no_result_text {
+	  font-size   : 14px;
+	  color       : $accent;
+	  font-weight : $font_weight_medium;
+	}
+  }
+
+  .loading {
+	width         : 100%;
+	height        : 200px;
+	border-radius : 8px;
+	background    : $white;
+	@include flex-column-center;
+	gap           : 6px;
+	@include svgFill($accent);
+	border        : 1px solid $light_grey;
+	margin        : 10px 0;
+  }
+
+  .optionsContainer {
+	max-height    : 210px;
+	overflow-y    : auto;
+	border-radius : 8px;
+	border        : 1px solid $dark_white;
+	background    : $white;
+	@include flex-column;
+
+	&::-webkit-scrollbar {
+	  background : $dark_white;
+	  width      : 5px;
+	}
+
+	&::-webkit-scrollbar-thumb {
+	  background : $accent;
+	  width      : 5px;
+	}
+  }
+
+  .option {
+	padding : 10px 14px;
+	@include flex-align;
+
+	[class~="ant-checkbox-inner"] {
+	  transform    : scale(1.3);
+	  margin-right : 6px;
+	}
+  }
+
+  .disabled {
+	color  : #bfbfbf;
+	cursor : not-allowed;
+  }
+
+  .errorText {
+	color      : red;
+	margin-top : 8px;
+	font-size  : 12px;
+  }
+}

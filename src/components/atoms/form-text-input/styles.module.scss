@@ -1,0 +1,116 @@
+@import "@/styles/flex";
+@import "@/styles/vars";
+
+.input {
+	width: 100%;
+	position: relative;
+
+	&__label {
+		display: flex;
+		margin-bottom: 8px;
+		font-size: $font_size_desktop_xs;
+
+		&.align {
+			align-items: center;
+		}
+
+		&__optional {
+			padding-left: 6px;
+			color: #8c8c8c;
+			font-size: 14px;
+			line-height: normal;
+		}
+
+		b {
+			margin-left: 4px;
+			color: $status_red;
+			font-size: $font_size_desktop_m;
+		}
+	}
+
+	&__box {
+		position: relative;
+		width: 100%;
+		border-radius: 8px;
+
+		span > input,
+		input {
+			height: 44px;
+			caret-color: $accent;
+			border-color: $light_grey;
+
+			&::placeholder {
+				color: $dark_grey;
+			}
+
+			&:hover {
+				border-color: $grey;
+			}
+
+			&:focus {
+				border-color: $grey;
+				box-shadow: unset;
+			}
+		}
+
+		span {
+			height: 44px;
+			@include flex-align;
+			border-color: $light_grey;
+
+			&:focus-within {
+				border-color: $grey;
+				box-shadow: unset;
+			}
+
+			&:hover {
+				border-color: $grey;
+			}
+
+			&:focus {
+				border-color: $grey;
+				box-shadow: unset;
+			}
+		}
+	}
+
+	&.disabled {
+		span > input,
+		input {
+			background: $dark_white;
+			border-color: $light_grey;
+
+			&:hover {
+				border-color: $light_grey;
+			}
+		}
+	}
+
+	&__error_text {
+		margin-top: $font_size_mobile_xs;
+		color: $status_red;
+		font-size: $font_size_desktop_xs;
+		text-align: left;
+		width: 100%;
+		display: flex;
+		gap: 8px;
+
+		> span > svg {
+			margin-top: 2px;
+		}
+	}
+
+	&__warning_text {
+		margin-top: $font_size_mobile_xs;
+		color: $dark_grey;
+		font-size: $font_size_desktop_xs;
+		text-align: left;
+		width: 100%;
+		display: flex;
+		gap: 8px;
+
+		> span > svg {
+			margin-top: 3px;
+		}
+	}
+}

@@ -1,0 +1,181 @@
+@import "@/styles/vars";
+@import "@/styles/flex";
+
+.icon_button {
+	width: 100%;
+	height: 100%;
+	border-radius: 50%;
+	position: relative;
+	transition: $transition;
+	border: 1px solid transparent;
+
+	&:active {
+		transition: $transition;
+		transform: scale(0.96);
+	}
+
+	&__icon,
+	&__loader {
+		width: 100%;
+		height: 100%;
+		@include flex-center;
+
+		& > span {
+			width: 100%;
+			height: 100%;
+		}
+	}
+
+	&.large {
+		width: 60px;
+		height: 60px;
+
+		svg {
+			width: 24px;
+			height: 24px;
+		}
+	}
+
+	&.middle {
+		width: 44px;
+		height: 44px;
+
+		svg {
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+	&.small {
+		width: 32px;
+		height: 32px;
+
+		svg {
+			width: 14px;
+			height: 14px;
+		}
+	}
+
+	&.primary {
+		background: $pink_light;
+
+		.icon_button__icon {
+			&.fill {
+				@include svgFill($accent);
+			}
+
+			&.stroke {
+				@include svgStroke($accent);
+			}
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 100px;
+			padding: 1px;
+			background: $accent_gradient;
+			-webkit-mask:
+				linear-gradient(#fff 0 0) content-box,
+				linear-gradient(#fff 0 0);
+			-webkit-mask-composite: xor;
+			mask-composite: exclude;
+		}
+
+		&:hover {
+			color: $accent;
+
+			&::before {
+				padding: 1.5px;
+			}
+		}
+	}
+
+	&.secondary {
+		background: $white;
+
+		.icon_button__icon {
+			&.fill {
+				@include svgFill($accent);
+			}
+
+			&.stroke {
+				@include svgStroke($accent);
+			}
+		}
+
+		&::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			border-radius: 100px;
+			padding: 1px;
+			background: $accent_gradient;
+			-webkit-mask:
+				linear-gradient(#fff 0 0) content-box,
+				linear-gradient(#fff 0 0);
+			-webkit-mask-composite: xor;
+			mask-composite: exclude;
+		}
+
+		&:hover {
+			color: $accent;
+
+			&::before {
+				padding: 1.5px;
+			}
+		}
+	}
+
+	&.danger {
+		background: $status_light_red;
+
+		.icon_button__icon {
+			&.fill {
+				@include svgFill($status_red);
+			}
+
+			&.stroke {
+				@include svgStroke($status_red);
+			}
+		}
+	}
+
+	&.red-outlined {
+		background: $status_light_red;
+		border: 1px solid $status_red;
+		.icon_button__icon {
+			&.fill {
+				@include svgFill($status_red);
+			}
+
+			&.stroke {
+				@include svgStroke($status_red);
+			}
+		}
+	}
+
+	&.disabled {
+		border: 1px solid rgba(235, 235, 235, 1);
+		cursor: not-allowed;
+
+		&:before {
+			display: none;
+		}
+
+		.icon_button__icon {
+			&.fill {
+				@include svgFill($grey);
+			}
+
+			&.stroke {
+				@include svgStroke($grey);
+			}
+		}
+
+		&:active {
+			transform: none;
+		}
+	}
+}

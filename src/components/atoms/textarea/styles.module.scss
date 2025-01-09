@@ -1,0 +1,68 @@
+@import "@/styles/flex";
+@import "@/styles/vars";
+
+.wrapper {
+	width: 100%;
+	@include flex-column;
+	gap: 12px;
+
+	.label {
+		color: $black;
+		font-size: $font_size_desktop_xs;
+	}
+
+	textarea {
+		width: 100%;
+		box-shadow: unset !important;
+		border-color: $light_grey !important;
+
+		&:focus {
+			border-color: $grey !important;
+		}
+
+		&:hover {
+			border-color: $grey !important;
+		}
+	}
+
+	.error {
+		color: $status_red;
+		font-size: $font_size_desktop_xs;
+		text-align: left;
+		width: 100%;
+		display: flex;
+		gap: 8px;
+
+		> span > svg {
+			margin-top: 2px;
+		}
+	}
+}
+
+.warning_text {
+	color: $dark_grey;
+	font-size: $font_size_desktop_xs;
+	text-align: left;
+	width: 100%;
+	display: flex;
+	gap: 8px;
+
+	> span > svg {
+		margin-top: 3px;
+	}
+}
+
+.errors {
+	textarea {
+		box-shadow: unset !important;
+		border-color: $status_red !important;
+
+		&:focus {
+			border-color: $status_red !important;
+		}
+
+		&:hover {
+			border-color: $status_red !important;
+		}
+	}
+}

@@ -1,0 +1,13 @@
+export { default as IconCrownSimpleGradient } from './IconCrownSimpleGradient'
+export { default as IconStarGradient } from './IconStarGradient'
+export { default as IconGraduationCapGradient } from './IconGraduationCapGradient'
+export { default as IconCrownSimpleGradientOrange } from './IconCrownSimpleGradientOrange'
+export { default as IconStarGradientOrange } from './IconStarGradientOrange'
+export { default as IconGraduationCapGradientOrange } from './IconGraduationCapGradienOrange'
+export { default as IconSalaryGradient } from './IconSalaryGradient'
+export { default as IconLocationGradient } from './IconLocationGradient'
+export { default as IconVerificationFIllGreenGradient } from './IconVerificationFIllGreenGradient'
+export { default as IconWorldInHand } from './IconWorldInHand'
+export { default as IconEyeGradient } from './IconEyeGradient'
+export { default as IconLikeGradient } from './IconLikeGradient'
+

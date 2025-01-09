@@ -1,0 +1,34 @@
+@import '@/styles/vars';
+
+.graphContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.svg {
+    transform: rotate(-90deg);
+}
+
+.circleBackground {
+    stroke: $light_accent;
+    stroke-width: 5px;
+    fill: none;
+}
+
+.circleProgress {
+    stroke: $accent;
+    stroke-width: 5px;
+    fill: none;
+    stroke-linecap: round;
+}
+
+.percentText {
+    position: absolute;
+    font-size: 14px;
+    font-weight: 600;
+
+    stroke: $accent;
+    color: $accent;
+}

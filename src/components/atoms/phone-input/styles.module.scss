@@ -1,0 +1,143 @@
+@import "@/styles/vars";
+@import "@/styles/mixin";
+@import "@/styles/flex";
+@import "@/styles/fonts";
+
+.phone_input {
+	width: 100%;
+	position: relative;
+
+	&__label {
+		margin-bottom: 8px;
+		font-size: $font_size_desktop_xs;
+		@include flex-align;
+
+		b {
+			margin-left: 4px;
+			color: $status_red;
+			font-size: $font_size_desktop_m;
+		}
+	}
+	.custom_value {
+		position: absolute;
+		flex: 1;
+		top: 31px;
+		left: 80px;
+		right: 1px;
+		height: 42px;
+		background-color: #f5f5f5;
+		display: flex;
+		align-items: center;
+		padding-left: 10px;
+		border-radius: 0 8px 8px 0px;
+	}
+	&.error {
+		input,
+		button {
+			border: 1px solid $status_red;
+		}
+
+		button {
+			border-right: none;
+		}
+
+		input {
+			border-left: none;
+		}
+	}
+
+	&.disabled {
+		button,
+		input {
+			background: $light_grey;
+			cursor: not-allowed;
+		}
+
+		button {
+			&:hover {
+				background: $light_grey;
+			}
+		}
+	}
+
+	&__box {
+		position: relative;
+		&__code {
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translateY(-50%);
+			color: $black;
+			z-index: $z-index_second;
+			margin: 0 $font_size_desktop_s;
+			font-size: $font-size_desktop_xs;
+		}
+
+		ul {
+			position: absolute;
+
+			min-width: unset !important;
+			max-width: unset !important;
+			width: 100% !important;
+
+			&::-webkit-scrollbar {
+				width: 8px;
+				border-radius: 6px;
+				background: $dark_white;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				width: 8px;
+				border-radius: 6px;
+				background: $accent;
+			}
+		}
+
+		button {
+			border-right: none;
+			background: $white;
+			width: 80px;
+			display: flex;
+			justify-content: flex-end;
+
+			&:after {
+				content: "";
+				width: 1.5px;
+				height: 40%;
+				margin-left: 5px;
+				background: $grey;
+			}
+
+			&:hover {
+				background: transparent;
+			}
+		}
+
+		input {
+			min-height: 44px;
+			caret-color: $accent;
+			border-radius: 0 8px 8px 0;
+			width: 100%;
+			font-size: $font_size_desktop_s;
+			outline: 1px solid transparent;
+			transition: $transition;
+			color: $black;
+
+			&::placeholder {
+				letter-spacing: 1px;
+				text-transform: capitalize;
+				color: $dark_grey;
+			}
+		}
+	}
+
+	&__error_text {
+		margin-top: $font_size_mobile_xs;
+		color: $status_red;
+		font-size: $font_size_desktop_xs;
+		text-align: left;
+		width: 100%;
+		display: flex;
+		gap: 8px;
+	}
+}
