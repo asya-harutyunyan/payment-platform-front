@@ -1,5 +1,5 @@
-import React, { ReactElement, ReactNode } from "react";
 import {
+  Box,
   Drawer,
   List,
   ListItem,
@@ -11,18 +11,23 @@ import {
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import { Link } from "@tanstack/react-router";
+import { FC, ReactNode } from "react";
 
-const DashboardPage = ({ children }: ReactElement) => {
+
+interface DashboardPageProps {
+  children?: ReactNode; 
+}
+
+const DashboardPage :FC<DashboardPageProps> = ({ children }) => {
   const sidebarItems = [
     { text: "Home", icon: <HomeIcon />, link: "/dashboard" },
     { text: "Test", icon: <InfoIcon />, link: "/dashboard/test" },
   ];
 
   return (
-    <div style={{ display: "flex" }}>
-      {/* Sidebar */}
+    <Box sx={{ display: "flex"}}>
       <Drawer
-        variant="permanent" // Keeps the sidebar always visible
+        variant="permanent" 
         anchor="left"
         sx={{
           width: 240,
@@ -30,13 +35,12 @@ const DashboardPage = ({ children }: ReactElement) => {
           "& .MuiDrawer-paper": {
             width: 240,
             boxSizing: "border-box",
-            backgroundColor: "#f4f4f4", // Optional background color
+            backgroundColor: "#f4f4f4", 
             paddingTop: "10px",
           },
         }}
       >
         <List>
-          {/* Map over the sidebar items and create the list with icons */}
           {sidebarItems.map((item, index) => (
             <ListItem key={index} disablePadding>
               <Link to={item.link}>
@@ -50,9 +54,8 @@ const DashboardPage = ({ children }: ReactElement) => {
         </List>
       </Drawer>
 
-      {/* Main content area */}
       <main style={{ flexGrow: 1, padding: "20px" }}>{children}</main>
-    </div>
+    </Box>
   );
 };
 

@@ -1,12 +1,12 @@
 import { LoginForm } from "@/auth";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import styles from './index.module.scss'
+import { Box } from "@mui/material";
 
 const Index = () => {
   return (
-   <div className={styles.wrapper}>
-   <LoginForm />
- </div>
+  <Box sx={{width:"100%"}}>
+    <LoginForm />
+  </Box>
   );
 };
 
