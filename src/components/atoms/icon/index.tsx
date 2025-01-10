@@ -1,6 +1,5 @@
-import { type SVGProps, memo } from "react";
 import * as icons from "@/assets";
-
+import { type SVGProps, memo } from "react";
 
 export type IconType = keyof typeof icons;
 

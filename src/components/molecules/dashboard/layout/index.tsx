@@ -3,17 +3,16 @@ import  { FC } from "react";
 import styles from "./styles.module.scss";
 import type { IDashboardLayout } from "./types";
 import classNames from "classnames";
-import EmSideMenu from "../../em-side-menu";
+import EmSideMenu from "../../sidebar";
 import SideMenu from "../../side-menu";
+import { SideBar } from "@/auth/dashboard";
+import DashboardPage from "../../sidebar";
 
 const DashboardLayout: FC<IDashboardLayout> = ({
 	children,
 	onboardingStyle = false,
 	profileStyle = false,
-	isOnboardingCompleted,
 	masterUi,
-	userRole,
-	setIsOnboardingCompleted,
 	packagesStyles,
 }) => {
 
@@ -25,17 +24,7 @@ const DashboardLayout: FC<IDashboardLayout> = ({
 				packagesStyles && styles.packagesContainer
 			)}
 		>
-			{userRole === "freelancer" ? (
-				<SideMenu
-					isOnboardingCompleted={isOnboardingCompleted}
-					setIsOnboardingCompleted={setIsOnboardingCompleted}
-				/>
-			) : (
-				<EmSideMenu
-					isOnboardingCompleted={isOnboardingCompleted}
-					setIsOnboardingCompleted={setIsOnboardingCompleted}
-				/>
-			)}
+			<DashboardPage children={undefined}/>
 
 			<div
 				className={classNames(

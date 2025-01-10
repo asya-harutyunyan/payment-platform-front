@@ -27,17 +27,7 @@ const PageLoaderComponent = (loading: { loading: boolean }) => {
 
 	return (
 		<div className={styles.wrapper}>
-			{/* <LazyLottie
-				getAnimationData={() =>
-					import("../../../assets/animation/loading.json")
-				}
-				loop={false}
-				id="empty-box"
-				style={{
-					width: "300px",
-					height: "fit-content",
-				}}
-			/> */}
+		
 		</div>
 	);
 };

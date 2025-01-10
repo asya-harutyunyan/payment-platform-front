@@ -6,12 +6,10 @@ import useSignUp from "./_services/useSignUp";
 import { Controller } from "react-hook-form";
 import { FC } from "react";
 import { ISignUpPropTypes } from "./types";
-import TempRestricted from "../temp-restricted";
 import { ButtonComponent, InputComponent, CheckboxComponent } from "../../../atoms";
 import ServiceAvailability from "../service-availability";
-import UnknownIP from "../unknown-IP";
 
-const SignUpForm: FC<ISignUpPropTypes> = ({ role }) => {
+const SignUpForm: FC<ISignUpPropTypes> = () => {
 
 	const {
 		handleFormSubmit,
@@ -20,30 +18,16 @@ const SignUpForm: FC<ISignUpPropTypes> = ({ role }) => {
 		control,
 		checkMarks,
 		handleCheck,
-		registrationState,
-		isIpValidation,
-		setIsIpValidation,
 		isUnknown,
 		setIsUnknown,
-		proceedSignup,
-		tempRestricted,
-		setTempRestricted,
 		showWrongRole,
-	} = useSignUp({ role });
+	} = useSignUp();
 
 	const { policy } = checkMarks;
 
 	return (
 		<section className={styles.wrapper}>
-			<TempRestricted
-				isOpen={tempRestricted}
-				onClose={() => setTempRestricted(false)}
-			/>
-			<UnknownIP
-				requestData={proceedSignup}
-				isIpValidation={isIpValidation}
-				setIsIpValidation={setIsIpValidation}
-			/>
+			
 			<ServiceAvailability
 				isIpValidation={isUnknown}
 				setIsIpValidation={setIsUnknown}
@@ -63,18 +47,7 @@ const SignUpForm: FC<ISignUpPropTypes> = ({ role }) => {
 						}
 					/>
 				</div>
-				<div className={styles.social_btn}>
-					<ButtonComponent
-						type={"button"}
-						icon={"IconApple"}
-						size={"small"}
-						text="Sign up with Apple"
-						variant={"dashed"}
-						onClick={() =>
-						{}
-						}
-					/>
-				</div>
+				
 			</div>
 			<div className={styles.or}>
 				<span className={styles.left_thumb} />
@@ -197,7 +170,7 @@ const SignUpForm: FC<ISignUpPropTypes> = ({ role }) => {
 						text={"Sign Up"}
 						variant={"primary"}
 						disabled={!policy}
-						isLoading={registrationState.isLoading}
+						isLoading={false}
 					/>
 				</div>
 				<div className={styles.to_login}>
