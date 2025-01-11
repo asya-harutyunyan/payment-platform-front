@@ -15,14 +15,18 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#0E1D40",
-      contrastText: "#B5BBC6",
+      contrastText: "#EBECF0",
     },
     secondary: {
       main: "#3279FD",
       contrastText: "#EBECF0",
     },
+    tertiary: {
+      main: "#D9D9D9",
+      contrastText: "#808186",
+    },
     text: {
-      primary: "#0E1D40",
+      primary: "#f8f8f8",
       secondary: "#FFFFFF",
     },
   },

@@ -1,19 +1,42 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import { SxProps, Theme } from "@mui/material";
+import DinamicButton from "@mui/material/Button";
+import * as React from "react";
 
-type ButtonVariant = 'text' | 'contained' | 'outlined';
-
+type ButtonVariant = "text" | "contained" | "outlined";
+type Sizes = "small" | "medium" | "large";
+type Colors =
+  | "inherit"
+  | "primary"
+  | "secondary"
+  | "success"
+  | "error"
+  | "info"
+  | "warning";
 interface DynamicButtonProps {
   variant: ButtonVariant;
-  text:string
+  color?: Colors;
+  text: string;
+  sx?: SxProps<Theme>;
+  size?: Sizes;
 }
 
-const DynamicButton: React.FC<DynamicButtonProps> = ({ variant ,text}) => {
+const Button: React.FC<DynamicButtonProps> = ({
+  variant,
+  text,
+  sx,
+  size,
+  color,
+}) => {
   return (
-    <Button variant={variant}>
-        {text} 
-    </Button>
+    <DinamicButton
+      variant={variant}
+      sx={{ ...sx, height: "40px", minWidth: "100px" }}
+      size={size}
+      color={color}
+    >
+      {text}
+    </DinamicButton>
   );
-}
+};
 
-export default DynamicButton;
+export default Button;
