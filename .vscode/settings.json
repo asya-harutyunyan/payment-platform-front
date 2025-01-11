@@ -1,0 +1,11 @@
+{
+	"editor.indentSize": "tabSize",
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll": "explicit",
+		"source.organizeImports": "explicit",
+		"source.sortMembers": "explicit"
+	},
+	"search.useGlobalIgnoreFiles": false,
+	"search.useParentIgnoreFiles": false
+}

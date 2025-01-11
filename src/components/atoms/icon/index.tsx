@@ -1,27 +1,23 @@
-import * as icons from "@/assets";
-import { type SVGProps, memo } from "react";
+import React from 'react';
+import { SvgIconProps } from '@mui/material';
+import * as Icons from '@mui/icons-material';
 
-export type IconType = keyof typeof icons;
-
-interface IIconProps {
-	icon: IconType;
-	svgProps?: SVGProps<SVGSVGElement>;
-	fill?: string;
-	width?: string;
-	height?: string;
+// DynamicIcon component
+interface DynamicIconProps extends SvgIconProps {
+  name: string;
 }
 
-const Icon = memo((props: IIconProps) => {
-	const { svgProps, icon, fill = "none" } = props;
-	const xm = icons;
-	const image: IconType | unknown = xm[icon];
+const DynamicIcon: React.FC<DynamicIconProps> = ({ name, ...props }) => {
+  // Dynamically select the icon based on the "name" prop
+  const IconComponent = Icons[name as keyof typeof Icons];
 
-	if (typeof image === "function") {
-		return image({ ...svgProps, fill });
-	}
-	return image;
-});
+  // Check if the icon exists, and show a default if it doesn't
+  if (!IconComponent) {
+    console.warn(`Icon with name '${name}' not found.`);
+    return <span>Icon not found</span>;
+  }
 
-Icon.displayName = "Icon";
+  return <IconComponent {...props} />;
+};
 
-export default Icon;
+export default DynamicIcon;

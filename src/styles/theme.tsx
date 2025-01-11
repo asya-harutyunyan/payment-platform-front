@@ -1,0 +1,90 @@
+import { createTheme } from "@mui/material/styles";
+
+declare module "@mui/material/styles" {
+  interface Palette {
+    tertiary: Palette["primary"];
+    quaternary: Palette["primary"];
+  }
+  interface PaletteOptions {
+    tertiary?: PaletteOptions["primary"];
+    quaternary?: PaletteOptions["primary"];
+  }
+}
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#0E1D40",
+      contrastText: "#B5BBC6",
+    },
+    secondary: {
+      main: "#3279FD",
+      contrastText: "#EBECF0",
+    },
+    text: {
+      primary: "#0E1D40",
+      secondary: "#FFFFFF",
+    },
+  },
+  typography: {
+    h1: {
+      fontSize: "2.5rem",
+      fontWeight: "bold",
+      padding: "10px 0",
+      color: "#EBECF0",
+      fontFamily: "Poppins, sans-serif",
+    },
+    h2: {
+      fontSize: "2rem",
+      fontWeight: "bold",
+      padding: "10px 0",
+      color: "#EBECF0",
+      fontFamily: "Poppins, sans-serif",
+    },
+    h3: {
+      fontSize: "1.75rem",
+      fontWeight: "bold",
+      padding: "10px 0",
+      color: "#EBECF0",
+      fontFamily: "Poppins, sans-serif",
+    },
+    h4: {
+      fontSize: "1.5rem",
+      fontWeight: "bold",
+      padding: "10px 0",
+      color: "#EBECF0",
+      fontFamily: "Poppins, sans-serif",
+    },
+    h5: {
+      fontSize: "1.25rem",
+      fontWeight: "bold",
+      padding: "10px 0",
+      color: "#EBECF0",
+      fontFamily: "Poppins, sans-serif",
+    },
+    h6: {
+      fontSize: "1rem",
+      fontWeight: "bold",
+      padding: "10px 0",
+      color: "#EBECF0",
+      fontFamily: "Poppins, sans-serif",
+    },
+    body1: {
+      fontSize: "1rem",
+      fontWeight: "light",
+      color: "#B5BBC6",
+      fontFamily: "Poppins, sans-serif",
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 768,
+      md: 1024,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
+});
+
+export default theme;
