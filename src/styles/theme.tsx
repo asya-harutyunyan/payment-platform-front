@@ -76,7 +76,7 @@ const theme = createTheme({
     body1: {
       fontSize: "1rem",
       fontWeight: "light",
-      color: "#B5BBC6",
+      color: "#0E1D40",
       fontFamily: "Poppins, sans-serif",
     },
   },

@@ -1,5 +1,7 @@
+import theme from "@/styles/theme";
 import { SxProps, Theme } from "@mui/material";
 import DinamicButton from "@mui/material/Button";
+import { Link } from "@tanstack/react-router";
 import * as React from "react";
 
 type ButtonVariant = "text" | "contained" | "outlined";
@@ -18,6 +20,8 @@ interface DynamicButtonProps {
   text: string;
   sx?: SxProps<Theme>;
   size?: Sizes;
+  isLink?: boolean;
+  link?: string;
 }
 
 const Button: React.FC<DynamicButtonProps> = ({
@@ -26,15 +30,33 @@ const Button: React.FC<DynamicButtonProps> = ({
   sx,
   size,
   color,
+  isLink = false,
+  link,
 }) => {
   return (
     <DinamicButton
       variant={variant}
-      sx={{ ...sx, height: "40px", minWidth: "100px" }}
+      sx={{
+        ...sx,
+        minHeight: "55px",
+        minWidth: "100px",
+        textTransform: "capitalize",
+      }}
       size={size}
       color={color}
     >
-      {text}
+      {!isLink ? (
+        text
+      ) : (
+        <Link
+          to={link ?? "/"}
+          style={{
+            color: theme.palette.secondary.main,
+          }}
+        >
+          {text}
+        </Link>
+      )}
     </DinamicButton>
   );
 };
