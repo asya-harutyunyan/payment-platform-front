@@ -5,6 +5,6 @@ const BankInfo = () => {
   return <BankInfoComponent />
 }
 
-export const Route = createFileRoute('/_dashboard/bank-info/')({
+export const Route = createFileRoute('/_dashboard/info/')({
   component: BankInfo,
 })

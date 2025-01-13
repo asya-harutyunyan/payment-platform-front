@@ -3,6 +3,8 @@ import { BasicCard } from "@/components/atoms/card";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/text-with-divider";
+import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
+import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,31 +15,38 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { ISignUpPropTypes } from "./types";
 
-const schema = z.object({
+export const authSchema = z.object({
   name: z.string(),
   surname: z.string(),
   email: z.string().email("Invalid email address"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  comfirm_password: z.string().min(6, "Password must be at least 6 characters"),
+  password_confirmation: z
+    .string()
+    .min(6, "Password must be at least 6 characters"),
   checkbox: z.boolean(),
 });
-type FormData = z.infer<typeof schema>;
+type FormData = z.infer<typeof authSchema>;
 
 const SignUpForm: FC<ISignUpPropTypes> = () => {
-  const { control, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(schema),
+  const dispatch = useAppDispatch();
+  const { control, handleSubmit, watch } = useForm<FormData>({
+    resolver: zodResolver(authSchema),
     defaultValues: {
       name: "",
       surname: "",
       email: "",
       password: "",
-      comfirm_password: "",
+      password_confirmation: "",
       checkbox: false,
     },
   });
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log("Form Data:", data);
+    if (data.password !== data.password_confirmation) {
+      alert("Passwords do not match!");
+      return;
+    }
+    dispatch(registerUser(data));
   };
 
   return (
@@ -85,7 +94,7 @@ const SignUpForm: FC<ISignUpPropTypes> = () => {
         />
         <FormTextInput
           control={control}
-          name="comfirm_password"
+          name="password_confirmation"
           placeholder="Comfirm your password"
         />
         <Box sx={{ width: "100%" }}>
@@ -101,6 +110,7 @@ const SignUpForm: FC<ISignUpPropTypes> = () => {
           text={"Login"}
           sx={{ width: "100%" }}
           type="submit"
+          disabled={watch("checkbox") !== true}
         />
         <TextWithDivider>
           <P>

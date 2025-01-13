@@ -2,7 +2,9 @@ import { RouterProvider, createRouter } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
 
 import { ThemeProvider } from "@emotion/react";
+import { Provider } from "react-redux";
 import { routeTree } from "./routeTree.gen";
+import { store } from "./store/reducers/store";
 import theme from "./styles/theme";
 
 const router = createRouter({ routeTree });
@@ -17,8 +19,10 @@ const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </Provider>
   );
 }

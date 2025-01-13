@@ -5,6 +5,6 @@ const HistoryTransaktions = () => {
   return <UserBankTransaktionsComponent />
 }
 
-export const Route = createFileRoute('/_dashboard/history-transactions/')({
+export const Route = createFileRoute('/_dashboard/transactions/')({
   component: HistoryTransaktions,
 })

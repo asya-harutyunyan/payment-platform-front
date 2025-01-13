@@ -23,6 +23,7 @@ interface DynamicButtonProps {
   isLink?: boolean;
   link?: string;
   type?: "submit" | "button";
+  disabled?: boolean;
 }
 
 const Button: React.FC<DynamicButtonProps> = ({
@@ -33,6 +34,7 @@ const Button: React.FC<DynamicButtonProps> = ({
   color,
   isLink = false,
   link,
+  disabled,
   type,
 }) => {
   return (
@@ -47,6 +49,7 @@ const Button: React.FC<DynamicButtonProps> = ({
       size={size}
       color={color}
       type={type ?? "button"}
+      disabled={disabled}
     >
       {!isLink ? (
         text

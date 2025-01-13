@@ -16,10 +16,10 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as DashboardUserTaskListIndexImport } from './routes/_dashboard/user-task-list/index'
 import { Route as DashboardUserListIndexImport } from './routes/_dashboard/user-list/index'
+import { Route as DashboardTransactionsIndexImport } from './routes/_dashboard/transactions/index'
 import { Route as DashboardTaskListIndexImport } from './routes/_dashboard/task-list/index'
 import { Route as DashboardOrderListIndexImport } from './routes/_dashboard/order-list/index'
-import { Route as DashboardHistoryTransactionsIndexImport } from './routes/_dashboard/history-transactions/index'
-import { Route as DashboardBankInfoIndexImport } from './routes/_dashboard/bank-info/index'
+import { Route as DashboardInfoIndexImport } from './routes/_dashboard/info/index'
 
 // Create Virtual Routes
 
@@ -79,6 +79,14 @@ const DashboardUserListIndexRoute = DashboardUserListIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
+const DashboardTransactionsIndexRoute = DashboardTransactionsIndexImport.update(
+  {
+    id: '/transactions/',
+    path: '/transactions/',
+    getParentRoute: () => DashboardRoute,
+  } as any,
+)
+
 const DashboardTaskListIndexRoute = DashboardTaskListIndexImport.update({
   id: '/task-list/',
   path: '/task-list/',
@@ -91,16 +99,9 @@ const DashboardOrderListIndexRoute = DashboardOrderListIndexImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const DashboardHistoryTransactionsIndexRoute =
-  DashboardHistoryTransactionsIndexImport.update({
-    id: '/history-transactions/',
-    path: '/history-transactions/',
-    getParentRoute: () => DashboardRoute,
-  } as any)
-
-const DashboardBankInfoIndexRoute = DashboardBankInfoIndexImport.update({
-  id: '/bank-info/',
-  path: '/bank-info/',
+const DashboardInfoIndexRoute = DashboardInfoIndexImport.update({
+  id: '/info/',
+  path: '/info/',
   getParentRoute: () => DashboardRoute,
 } as any)
 
@@ -129,18 +130,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotfoundIndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/_dashboard/bank-info/': {
-      id: '/_dashboard/bank-info/'
-      path: '/bank-info'
-      fullPath: '/bank-info'
-      preLoaderRoute: typeof DashboardBankInfoIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/_dashboard/history-transactions/': {
-      id: '/_dashboard/history-transactions/'
-      path: '/history-transactions'
-      fullPath: '/history-transactions'
-      preLoaderRoute: typeof DashboardHistoryTransactionsIndexImport
+    '/_dashboard/info/': {
+      id: '/_dashboard/info/'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof DashboardInfoIndexImport
       parentRoute: typeof DashboardImport
     }
     '/_dashboard/order-list/': {
@@ -155,6 +149,13 @@ declare module '@tanstack/react-router' {
       path: '/task-list'
       fullPath: '/task-list'
       preLoaderRoute: typeof DashboardTaskListIndexImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/transactions/': {
+      id: '/_dashboard/transactions/'
+      path: '/transactions'
+      fullPath: '/transactions'
+      preLoaderRoute: typeof DashboardTransactionsIndexImport
       parentRoute: typeof DashboardImport
     }
     '/_dashboard/user-list/': {
@@ -191,20 +192,19 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface DashboardRouteChildren {
-  DashboardBankInfoIndexRoute: typeof DashboardBankInfoIndexRoute
-  DashboardHistoryTransactionsIndexRoute: typeof DashboardHistoryTransactionsIndexRoute
+  DashboardInfoIndexRoute: typeof DashboardInfoIndexRoute
   DashboardOrderListIndexRoute: typeof DashboardOrderListIndexRoute
   DashboardTaskListIndexRoute: typeof DashboardTaskListIndexRoute
+  DashboardTransactionsIndexRoute: typeof DashboardTransactionsIndexRoute
   DashboardUserListIndexRoute: typeof DashboardUserListIndexRoute
   DashboardUserTaskListIndexRoute: typeof DashboardUserTaskListIndexRoute
 }
 
 const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardBankInfoIndexRoute: DashboardBankInfoIndexRoute,
-  DashboardHistoryTransactionsIndexRoute:
-    DashboardHistoryTransactionsIndexRoute,
+  DashboardInfoIndexRoute: DashboardInfoIndexRoute,
   DashboardOrderListIndexRoute: DashboardOrderListIndexRoute,
   DashboardTaskListIndexRoute: DashboardTaskListIndexRoute,
+  DashboardTransactionsIndexRoute: DashboardTransactionsIndexRoute,
   DashboardUserListIndexRoute: DashboardUserListIndexRoute,
   DashboardUserTaskListIndexRoute: DashboardUserTaskListIndexRoute,
 }
@@ -217,10 +217,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '': typeof DashboardRouteWithChildren
   '/not_found': typeof NotfoundIndexLazyRoute
-  '/bank-info': typeof DashboardBankInfoIndexRoute
-  '/history-transactions': typeof DashboardHistoryTransactionsIndexRoute
+  '/info': typeof DashboardInfoIndexRoute
   '/order-list': typeof DashboardOrderListIndexRoute
   '/task-list': typeof DashboardTaskListIndexRoute
+  '/transactions': typeof DashboardTransactionsIndexRoute
   '/user-list': typeof DashboardUserListIndexRoute
   '/user-task-list': typeof DashboardUserTaskListIndexRoute
   '/auth/sign-in': typeof AuthSignInIndexLazyRoute
@@ -231,10 +231,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '': typeof DashboardRouteWithChildren
   '/not_found': typeof NotfoundIndexLazyRoute
-  '/bank-info': typeof DashboardBankInfoIndexRoute
-  '/history-transactions': typeof DashboardHistoryTransactionsIndexRoute
+  '/info': typeof DashboardInfoIndexRoute
   '/order-list': typeof DashboardOrderListIndexRoute
   '/task-list': typeof DashboardTaskListIndexRoute
+  '/transactions': typeof DashboardTransactionsIndexRoute
   '/user-list': typeof DashboardUserListIndexRoute
   '/user-task-list': typeof DashboardUserTaskListIndexRoute
   '/auth/sign-in': typeof AuthSignInIndexLazyRoute
@@ -246,10 +246,10 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/_dashboard': typeof DashboardRouteWithChildren
   '/not_found/': typeof NotfoundIndexLazyRoute
-  '/_dashboard/bank-info/': typeof DashboardBankInfoIndexRoute
-  '/_dashboard/history-transactions/': typeof DashboardHistoryTransactionsIndexRoute
+  '/_dashboard/info/': typeof DashboardInfoIndexRoute
   '/_dashboard/order-list/': typeof DashboardOrderListIndexRoute
   '/_dashboard/task-list/': typeof DashboardTaskListIndexRoute
+  '/_dashboard/transactions/': typeof DashboardTransactionsIndexRoute
   '/_dashboard/user-list/': typeof DashboardUserListIndexRoute
   '/_dashboard/user-task-list/': typeof DashboardUserTaskListIndexRoute
   '/auth/sign-in/': typeof AuthSignInIndexLazyRoute
@@ -262,10 +262,10 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/not_found'
-    | '/bank-info'
-    | '/history-transactions'
+    | '/info'
     | '/order-list'
     | '/task-list'
+    | '/transactions'
     | '/user-list'
     | '/user-task-list'
     | '/auth/sign-in'
@@ -275,10 +275,10 @@ export interface FileRouteTypes {
     | '/'
     | ''
     | '/not_found'
-    | '/bank-info'
-    | '/history-transactions'
+    | '/info'
     | '/order-list'
     | '/task-list'
+    | '/transactions'
     | '/user-list'
     | '/user-task-list'
     | '/auth/sign-in'
@@ -288,10 +288,10 @@ export interface FileRouteTypes {
     | '/'
     | '/_dashboard'
     | '/not_found/'
-    | '/_dashboard/bank-info/'
-    | '/_dashboard/history-transactions/'
+    | '/_dashboard/info/'
     | '/_dashboard/order-list/'
     | '/_dashboard/task-list/'
+    | '/_dashboard/transactions/'
     | '/_dashboard/user-list/'
     | '/_dashboard/user-task-list/'
     | '/auth/sign-in/'
@@ -338,10 +338,10 @@ export const routeTree = rootRoute
     "/_dashboard": {
       "filePath": "_dashboard.tsx",
       "children": [
-        "/_dashboard/bank-info/",
-        "/_dashboard/history-transactions/",
+        "/_dashboard/info/",
         "/_dashboard/order-list/",
         "/_dashboard/task-list/",
+        "/_dashboard/transactions/",
         "/_dashboard/user-list/",
         "/_dashboard/user-task-list/"
       ]
@@ -349,12 +349,8 @@ export const routeTree = rootRoute
     "/not_found/": {
       "filePath": "not_found/index.lazy.tsx"
     },
-    "/_dashboard/bank-info/": {
-      "filePath": "_dashboard/bank-info/index.tsx",
-      "parent": "/_dashboard"
-    },
-    "/_dashboard/history-transactions/": {
-      "filePath": "_dashboard/history-transactions/index.tsx",
+    "/_dashboard/info/": {
+      "filePath": "_dashboard/info/index.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/order-list/": {
@@ -363,6 +359,10 @@ export const routeTree = rootRoute
     },
     "/_dashboard/task-list/": {
       "filePath": "_dashboard/task-list/index.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/transactions/": {
+      "filePath": "_dashboard/transactions/index.tsx",
       "parent": "/_dashboard"
     },
     "/_dashboard/user-list/": {
