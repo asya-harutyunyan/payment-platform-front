@@ -1,198 +1,124 @@
-
-import styles from "./styles.module.scss";
-
-import classNames from "classnames";
-import useSignUp from "./_services/useSignUp";
-import { Controller } from "react-hook-form";
+import Button from "@/components/atoms/button";
+import { BasicCard } from "@/components/atoms/card";
+import { CustomCheckbox } from "@/components/atoms/checkbox";
+import { FormTextInput } from "@/components/atoms/input";
+import TextWithDivider from "@/components/text-with-divider";
+import theme from "@/styles/theme";
+import { P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box } from "@mui/material";
+import { Link } from "@tanstack/react-router";
 import { FC } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { z } from "zod";
 import { ISignUpPropTypes } from "./types";
-import { ButtonComponent, InputComponent, CheckboxComponent } from "../../../atoms";
-import ServiceAvailability from "../service-availability";
+
+const schema = z.object({
+  name: z.string(),
+  surname: z.string(),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  comfirm_password: z.string().min(6, "Password must be at least 6 characters"),
+  checkbox: z.boolean(),
+});
+type FormData = z.infer<typeof schema>;
 
 const SignUpForm: FC<ISignUpPropTypes> = () => {
+  const { control, handleSubmit } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      comfirm_password: "",
+      checkbox: false,
+    },
+  });
 
-	const {
-		handleFormSubmit,
-		handleSubmit,
-		errors,
-		control,
-		checkMarks,
-		handleCheck,
-		isUnknown,
-		setIsUnknown,
-		showWrongRole,
-	} = useSignUp();
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log("Form Data:", data);
+  };
 
-	const { policy } = checkMarks;
+  return (
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        justifyContent: "end",
+        alignItems: "center",
+        bgcolor: "#1f70cb",
+      }}
+    >
+      <BasicCard
+        sx={{
+          width: "40%",
+          height: "80%",
+          marginRight: "50px",
+        }}
+      >
+        <P
+          fontSize={"21px"}
+          paddingBottom={"20px"}
+          align="center"
+          fontWeight={500}
+          color={theme.palette.primary.main}
+        >
+          If you are logging in for the first time, please, change your password
+          using the Forgot password button
+        </P>
 
-	return (
-		<section className={styles.wrapper}>
-			
-			<ServiceAvailability
-				isIpValidation={isUnknown}
-				setIsIpValidation={setIsUnknown}
-			/>
-			<h1 className={styles.title}>Create Your Account</h1>
-			<p className={styles.sub_title}>Enter your details to Sign Up</p>
-			<div className={styles.social_auth}>
-				<div className={styles.social_btn}>
-					<ButtonComponent
-						type={"button"}
-						icon={"IconGoogle"}
-						size={"small"}
-						text="Sign up with Google"
-						variant={"dashed"}
-						onClick={() =>
-						{}
-						}
-					/>
-				</div>
-				
-			</div>
-			<div className={styles.or}>
-				<span className={styles.left_thumb} />
-				<p className={styles.text}>or</p>
-				<span className={styles.right_thumb} />
-			</div>
-			<form
-				className={styles.form}
-				onSubmit={handleSubmit(handleFormSubmit)}
-				data-netlify="true"
-				data-netlify-honeypot="bot-field"
-			>
-				<figure className={classNames(styles.input, styles.half_width)}>
-					<Controller
-						name={"name"}
-						control={control}
-						render={({ field }) => (
-							<InputComponent
-								label={"First Name"}
-								placeholder={"Enter your first name"}
-								error={!!errors.name?.message}
-								errorText={errors.name?.message}
-								{...field}
-							/>
-						)}
-					/>
-				</figure>
-				<figure className={classNames(styles.input, styles.half_width)}>
-					<Controller
-						name={"last_name"}
-						control={control}
-						render={({ field }) => (
-							<InputComponent
-								label={"Last Name"}
-								placeholder={"Enter your last name"}
-								error={!!errors.last_name?.message}
-								errorText={errors.last_name?.message}
-								{...field}
-							/>
-						)}
-					/>
-				</figure>
-				<figure className={styles.input}>
-					<Controller
-						name={"email"}
-						control={control}
-						render={({ field }) => (
-							<InputComponent
-								label={"Email Address"}
-								placeholder={"Provide a valid email address"}
-								error={!!errors.email?.message}
-								errorText={errors.email?.message}
-								{...field}
-							/>
-						)}
-					/>
-				</figure>
-				<figure className={styles.input}>
-					<Controller
-						name={"password"}
-						control={control}
-						render={({ field }) => (
-							<InputComponent
-								inputType={"password"}
-								label={"Password"}
-								placeholder={"Set a strong and secure password"}
-								autoComplete="on"
-								error={!!errors.password?.message}
-								errorText={errors.password?.message}
-								{...field}
-							/>
-						)}
-					/>
-				</figure>
-				<figure className={styles.input}>
-					<Controller
-						name={"password_confirmation"}
-						control={control}
-						render={({ field }) => (
-							<InputComponent
-								inputType={"password"}
-								label={"Confirm Password"}
-								autoComplete="on"
-								placeholder={"Confirm your password"}
-								error={!!errors.password_confirmation?.message}
-								errorText={errors.password_confirmation?.message}
-								{...field}
-							/>
-						)}
-					/>
-				</figure>
-				<figure className={styles.agreement}>
-					<div className={styles.child}>
-						<CheckboxComponent
-							checked={checkMarks.agree}
-							onChange={(e) => handleCheck("agree", e.target.checked)}
-						/>
-						<div className={styles.child_text}>
-							I agree to receive periodic emails from Loxala
-						</div>
-					</div>
-					<div className={styles.child}>
-						<CheckboxComponent
-							checked={checkMarks.policy}
-							onChange={(e) => handleCheck("policy", e.target.checked)}
-						/>
-						<div className={styles.child_text}>
-							I acknowledge and consent to the{" "}
-							<a href={'/'}>Terms of Service</a> of
-							Loxala, inclusive of the{" "}
-							<a href={'/'}>User Agreement</a> and{" "}
-							<a href={'/'}>Privacy Policy</a>.
-						</div>
-					</div>
-				</figure>
-				<div className={styles.btn}>
-					<ButtonComponent
-						type={"submit"}
-						size={"middle"}
-						text={"Sign Up"}
-						variant={"primary"}
-						disabled={!policy}
-						isLoading={false}
-					/>
-				</div>
-				<div className={styles.to_login}>
-					<div className={styles.to_login_text}>
-						Already have an account?{" "}
-						<a
-							href={
-								'/'
-							}
-						>
-							Login Now
-						</a>
-					</div>
-				</div>
-			</form>
-			{showWrongRole && (
-				<div className={styles.wrong_role}>
-				
-				</div>
-			)}
-		</section>
-	);
+        <FormTextInput control={control} name="name" placeholder="Name" />
+        <FormTextInput control={control} name="surname" placeholder="Surname" />
+        <FormTextInput
+          control={control}
+          name="email"
+          placeholder="Enter your email"
+        />
+        <FormTextInput
+          control={control}
+          name="password"
+          placeholder="Enter your password"
+        />
+        <FormTextInput
+          control={control}
+          name="comfirm_password"
+          placeholder="Comfirm your password"
+        />
+        <Box sx={{ width: "100%" }}>
+          <CustomCheckbox
+            control={control}
+            label={"I agree to the Terms of Service and Privacy Policy"}
+            name={"checkbox"}
+          />
+        </Box>
+        <Button
+          variant={"contained"}
+          color="secondary"
+          text={"Login"}
+          sx={{ width: "100%" }}
+          type="submit"
+        />
+        <TextWithDivider>
+          <P>
+            <Link
+              to="/"
+              style={{
+                color: theme.palette.primary.main,
+                fontWeight: 300,
+                fontSize: "14px",
+              }}
+            >
+              You already have an account?
+            </Link>
+          </P>
+        </TextWithDivider>
+      </BasicCard>
+    </Box>
+  );
 };
 
 export default SignUpForm;

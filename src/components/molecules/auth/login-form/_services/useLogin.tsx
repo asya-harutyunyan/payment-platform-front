@@ -2,7 +2,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { loginSchema } from "../../../../../schema/login.schema";
+import { loginSchema } from "../../../schema/login.schema";
 
 type TLoginType = z.infer<typeof loginSchema>;
 const useLogin = () => {
@@ -21,7 +21,6 @@ const useLogin = () => {
 
 	const handleFormSubmit = async () => {
 	
-		
 	};
 
 	const handleRememberMe = () => setRememberMe(!rememberMe);

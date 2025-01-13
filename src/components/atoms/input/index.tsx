@@ -1,32 +1,65 @@
-import { Theme } from "@emotion/react";
-import { SxProps } from "@mui/material";
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
-import { FC } from "react";
+import { Box } from "@mui/material";
+import { ReactNode, useMemo } from "react";
+import {
+  Control,
+  FieldPath,
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
+import { BasicTextFields } from "../form-text-input";
 
-interface IBasicTextFields {
-  sx?: SxProps<Theme>;
-  placeholder: string;
+interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
+  control: Control<T>;
+  name: FieldPath<T>;
+  defaultValue?: T[FieldPath<T>];
+  placeholder?: string;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  fullWidth?: boolean;
+  type?: string;
 }
-export const BasicTextFields: FC<IBasicTextFields> = ({ sx, placeholder }) => {
+
+export const FormTextInput = <T extends FieldValues>({
+  control,
+  name,
+  defaultValue,
+  placeholder,
+  leftIcon,
+  rightIcon,
+  type,
+  ...props
+}: IFormTextInput<T>) => {
+  const { field, fieldState } = useController<T>({
+    name,
+    control,
+    defaultValue,
+    ...props,
+  });
+
+  const helperText = useMemo(() => {
+    if (
+      fieldState.isTouched &&
+      fieldState.invalid &&
+      fieldState.error?.message
+    ) {
+      return fieldState.error.message;
+    }
+    return undefined;
+  }, [fieldState]);
+
   return (
-    <Box
-      component="form"
-      sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 } }}
-      noValidate
-      autoComplete="off"
-    >
-      <TextField
-        id="outlined-basic"
-        label={placeholder}
-        variant="outlined"
-        sx={{
-          width: "100%",
-          border: "#B5BBC6",
-          ".MuiFormLabel-root": {
-            color: "#B5BBC6",
-          },
-        }}
+    <Box width={"100%"}>
+      <BasicTextFields
+        placeholder={placeholder || ""}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+        value={field.value}
+        onChange={field.onChange}
+        onBlur={field.onBlur}
+        error={!!helperText}
+        helperText={helperText}
+        type={type}
       />
     </Box>
   );

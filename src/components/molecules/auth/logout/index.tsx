@@ -1,12 +1,10 @@
 
 
-import useLogout from "./_services/useLogout";
 
 const Logout = () => {
-	const { handleLogout } = useLogout();
 	return (
 		<button
-			onClick={handleLogout}
+			onClick={() => {}}
 			style={{
 				padding: "8px 12px",
 				border: "1px solid green",

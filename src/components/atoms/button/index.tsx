@@ -22,6 +22,7 @@ interface DynamicButtonProps {
   size?: Sizes;
   isLink?: boolean;
   link?: string;
+  type?: "submit" | "button";
 }
 
 const Button: React.FC<DynamicButtonProps> = ({
@@ -32,18 +33,20 @@ const Button: React.FC<DynamicButtonProps> = ({
   color,
   isLink = false,
   link,
+  type,
 }) => {
   return (
     <DinamicButton
       variant={variant}
       sx={{
         ...sx,
-        minHeight: "55px",
+        minHeight: "40px",
         minWidth: "100px",
         textTransform: "capitalize",
       }}
       size={size}
       color={color}
+      type={type ?? "button"}
     >
       {!isLink ? (
         text

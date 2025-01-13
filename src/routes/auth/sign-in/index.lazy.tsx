@@ -1,6 +1,6 @@
+import { SignUpForm } from "@/components/molecules/auth";
 import { Box } from "@mui/material";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { SignUpForm } from "../../../auth";
 
 const SignUp = () => {
   return (

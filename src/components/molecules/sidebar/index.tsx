@@ -1,6 +1,6 @@
 import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
-import { H2, P } from "@/styles/typography";
+import { H2, H4, P } from "@/styles/typography";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import {
@@ -23,10 +23,7 @@ interface DashboardPageProps {
   role?: "admin" | "user";
 }
 
-const DashboardPage: FC<DashboardPageProps> = ({
-  children,
-  role = "admin",
-}) => {
+const DashboardPage: FC<DashboardPageProps> = ({ children, role = "user" }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const [sidebarItems, setSidebarItems] = useState(userItems);
@@ -36,6 +33,7 @@ const DashboardPage: FC<DashboardPageProps> = ({
   };
   const drawerStyles = {
     width: 240,
+    height: "100vh",
     boxSizing: "border-box",
     backgroundColor: theme.palette.primary.main,
     "& .MuiDrawer-paper": {
@@ -57,7 +55,7 @@ const DashboardPage: FC<DashboardPageProps> = ({
       <ListItem key={index} sx={{ width: "100%" }}>
         <Link
           to={item.link}
-          onClick={isDrawerOpen ? toggleDrawer : undefined} // Close the drawer on mobile
+          onClick={isDrawerOpen ? toggleDrawer : undefined}
           style={{ textDecoration: "none", width: "100%" }}
         >
           <ListItemButton sx={{ width: "100%" }}>
@@ -98,6 +96,7 @@ const DashboardPage: FC<DashboardPageProps> = ({
           display: { xs: "none", sm: "block" },
           width: 240,
           flexShrink: 0,
+          height: "100vh",
           "& .MuiDrawer-paper": {
             width: 240,
             boxSizing: "border-box",
@@ -119,8 +118,20 @@ const DashboardPage: FC<DashboardPageProps> = ({
           >
             Name
           </P>
-          <List sx={{ height: "100vh" }}>{renderSidebarItems()}</List>
+          <List>{renderSidebarItems()}</List>
         </Box>
+        <P
+          color={theme.palette.secondary.contrastText}
+          sx={{
+            width: "100%",
+            textAlign: "center",
+            textDecoration: "underline",
+            position: "absolute",
+            bottom: "50px",
+          }}
+        >
+          Log aut
+        </P>
       </Drawer>
       <Drawer
         variant="temporary"
@@ -138,6 +149,7 @@ const DashboardPage: FC<DashboardPageProps> = ({
       >
         <Box sx={drawerStyles}>
           <List>{renderSidebarItems()}</List>
+          <H4 color="white">Log out</H4>
         </Box>
       </Drawer>
       <Box

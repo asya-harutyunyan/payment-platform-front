@@ -1,4 +1,5 @@
 import Button from "@/components/atoms/button";
+import PaginationOutlined from "@/components/pagination";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
@@ -197,6 +198,16 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
             )}
           </Box>
         ))}
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <PaginationOutlined />
+        </Box>
       </Box>
     </Box>
   );
