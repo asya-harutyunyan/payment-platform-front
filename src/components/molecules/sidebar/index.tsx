@@ -12,7 +12,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText,
   Toolbar,
   Typography,
 } from "@mui/material";
@@ -47,7 +46,7 @@ const DashboardPage: FC<DashboardPageProps> = ({
   };
 
   const drawerItemStyles = {
-    color: theme.palette.primary.contrastText,
+    color: theme.palette.secondary.contrastText,
   };
   useEffect(() => {
     setSidebarItems(role === "admin" ? adminItems : userItems);
@@ -55,15 +54,15 @@ const DashboardPage: FC<DashboardPageProps> = ({
 
   const renderSidebarItems = () =>
     sidebarItems.map((item, index) => (
-      <ListItem key={index} disablePadding>
+      <ListItem key={index} sx={{ width: "100%" }}>
         <Link
           to={item.link}
           onClick={isDrawerOpen ? toggleDrawer : undefined} // Close the drawer on mobile
-          style={{ textDecoration: "none" }}
+          style={{ textDecoration: "none", width: "100%" }}
         >
-          <ListItemButton>
+          <ListItemButton sx={{ width: "100%" }}>
             <ListItemIcon sx={drawerItemStyles}>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} sx={drawerItemStyles} />
+            <P sx={drawerItemStyles}> {item.text}</P>
           </ListItemButton>
         </Link>
       </ListItem>

@@ -60,6 +60,7 @@ const LoginForm = () => {
                 color: theme.palette.primary.main,
                 fontWeight: 300,
                 fontSize: "14px",
+                textDecoration: "none",
               }}
             >
               Haven't account?
@@ -88,7 +89,7 @@ const LoginForm = () => {
           <Button
             variant={"outlined"}
             color="secondary"
-            text={"Haven't account?"}
+            text={"Sign up"}
             sx={{ fontSize: "14px", height: "50px" }}
             isLink
             link="/auth/sign-up"
