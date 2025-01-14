@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as NoauthImport } from './routes/_no_auth'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as DashboardUserTaskListIndexImport } from './routes/_dashboard/user-task-list/index'
 import { Route as DashboardUserListIndexImport } from './routes/_dashboard/user-list/index'
@@ -32,6 +33,11 @@ const AuthConfirmEmailIndexLazyImport = createFileRoute(
 )()
 
 // Create/Update Routes
+
+const NoauthRoute = NoauthImport.update({
+  id: '/_no_auth',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const DashboardRoute = DashboardImport.update({
   id: '/_dashboard',
@@ -134,6 +140,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
     }
+    '/_no_auth': {
+      id: '/_no_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof NoauthImport
+      parentRoute: typeof rootRoute
+    }
     '/not_found/': {
       id: '/not_found/'
       path: '/not_found'
@@ -233,7 +246,7 @@ const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
-  '': typeof DashboardRouteWithChildren
+  '': typeof NoauthRoute
   '/not_found': typeof NotfoundIndexLazyRoute
   '/info': typeof DashboardInfoIndexRoute
   '/order-list': typeof DashboardOrderListIndexRoute
@@ -248,7 +261,7 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
-  '': typeof DashboardRouteWithChildren
+  '': typeof NoauthRoute
   '/not_found': typeof NotfoundIndexLazyRoute
   '/info': typeof DashboardInfoIndexRoute
   '/order-list': typeof DashboardOrderListIndexRoute
@@ -265,6 +278,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/_dashboard': typeof DashboardRouteWithChildren
+  '/_no_auth': typeof NoauthRoute
   '/not_found/': typeof NotfoundIndexLazyRoute
   '/_dashboard/info/': typeof DashboardInfoIndexRoute
   '/_dashboard/order-list/': typeof DashboardOrderListIndexRoute
@@ -310,6 +324,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_dashboard'
+    | '/_no_auth'
     | '/not_found/'
     | '/_dashboard/info/'
     | '/_dashboard/order-list/'
@@ -326,6 +341,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   DashboardRoute: typeof DashboardRouteWithChildren
+  NoauthRoute: typeof NoauthRoute
   NotfoundIndexLazyRoute: typeof NotfoundIndexLazyRoute
   AuthConfirmEmailIndexLazyRoute: typeof AuthConfirmEmailIndexLazyRoute
   AuthSignInIndexLazyRoute: typeof AuthSignInIndexLazyRoute
@@ -335,6 +351,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   DashboardRoute: DashboardRouteWithChildren,
+  NoauthRoute: NoauthRoute,
   NotfoundIndexLazyRoute: NotfoundIndexLazyRoute,
   AuthConfirmEmailIndexLazyRoute: AuthConfirmEmailIndexLazyRoute,
   AuthSignInIndexLazyRoute: AuthSignInIndexLazyRoute,
@@ -353,6 +370,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/_dashboard",
+        "/_no_auth",
         "/not_found/",
         "/auth/confirm-email/",
         "/auth/sign-in/",
@@ -372,6 +390,9 @@ export const routeTree = rootRoute
         "/_dashboard/user-list/",
         "/_dashboard/user-task-list/"
       ]
+    },
+    "/_no_auth": {
+      "filePath": "_no_auth.tsx"
     },
     "/not_found/": {
       "filePath": "not_found/index.lazy.tsx"

@@ -6,7 +6,6 @@ import { z } from "zod";
 export interface AuthState {
   loading: boolean;
   error: string | null;
-  isAuthenticated: boolean;
 }
 export type RegisterUserType = z.infer<typeof auth_schema>;
 export type LoginUserType = z.infer<typeof login_schema>;

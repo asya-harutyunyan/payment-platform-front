@@ -3,6 +3,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
+import { useAuth } from "@/context/auth.context";
 import { auth_schema } from "@/schema/signUp.schema";
 import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -20,7 +21,7 @@ type FormData = z.infer<typeof auth_schema>;
 const SignUpForm: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const { setIsAuthenticated } = useAuth();
   const { control, handleSubmit, watch } = useForm<FormData>({
     resolver: zodResolver(auth_schema),
     defaultValues: {
@@ -41,6 +42,9 @@ const SignUpForm: FC = () => {
     dispatch(registerUser(data))
       .unwrap()
       .then((response) => {
+        if (response.status === 200 && response.data.token) {
+          setIsAuthenticated(true);
+        }
         navigate({ to: "/auth/sign-in" });
 
         console.log("Registration successful, token:", response.token);

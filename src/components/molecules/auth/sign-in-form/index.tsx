@@ -7,15 +7,13 @@ import {
   confirmEmailRequest,
   loginUser,
 } from "@/store/reducers/auth/authSlice/thunks";
-import { RootState, useAppDispatch } from "@/store/reducers/store";
+import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { z } from "zod";
 
 type FormData = z.infer<typeof login_schema>;
@@ -23,9 +21,6 @@ type FormData = z.infer<typeof login_schema>;
 const LoginForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.auth.isAuthenticated
-  );
 
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(login_schema),
@@ -34,9 +29,6 @@ const LoginForm = () => {
       password: "",
     },
   });
-  useEffect(() => {
-    console.log(isAuthenticated, "ans");
-  }, []);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("Form Data:", data);

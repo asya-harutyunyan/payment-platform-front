@@ -11,7 +11,6 @@ import { AuthState } from "./types";
 const initialState: AuthState = {
   loading: false,
   error: null,
-  isAuthenticated: !!localStorage.getItem("accessToken"),
 };
 
 const authSlice = createSlice({
@@ -20,7 +19,6 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.error = null;
-      state.isAuthenticated = false;
       localStorage.removeItem("accessToken");
     },
   },
@@ -28,11 +26,9 @@ const authSlice = createSlice({
     builder
       .addCase(registerUser.fulfilled, (state) => {
         state.loading = false;
-        state.isAuthenticated = true;
       })
       .addCase(loginUser.fulfilled, (state) => {
         state.loading = false;
-        state.isAuthenticated = true;
       })
       .addCase(confirmEmailRequest.fulfilled, (state) => {
         state.loading = false;
@@ -44,7 +40,6 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.error = null;
-        state.isAuthenticated = false;
         localStorage.removeItem("accessToken");
       })
       .addMatcher(isPending, (state) => {
