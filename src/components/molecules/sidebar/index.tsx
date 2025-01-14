@@ -2,6 +2,8 @@ import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
 import { H2, H4, P } from "@/styles/typography";
 
+import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
+import { useAppDispatch } from "@/store/reducers/store";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -15,7 +17,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { adminItems, userItems } from "./__item_list__";
 interface DashboardPageProps {
@@ -25,9 +27,9 @@ interface DashboardPageProps {
 
 const DashboardPage: FC<DashboardPageProps> = ({ children, role = "user" }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const [sidebarItems, setSidebarItems] = useState(userItems);
-
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -50,6 +52,15 @@ const DashboardPage: FC<DashboardPageProps> = ({ children, role = "user" }) => {
     setSidebarItems(role === "admin" ? adminItems : userItems);
   }, [role]);
 
+  const handleLogout = async () => {
+    const resultAction = await dispatch(logoutUser());
+
+    if (logoutUser.fulfilled.match(resultAction)) {
+      navigate({ to: "/" });
+    } else {
+      console.error("Logout failed:", resultAction.payload);
+    }
+  };
   const renderSidebarItems = () =>
     sidebarItems.map((item, index) => (
       <ListItem key={index} sx={{ width: "100%" }}>
@@ -122,6 +133,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children, role = "user" }) => {
         </Box>
         <P
           color={theme.palette.secondary.contrastText}
+          onClick={handleLogout}
           sx={{
             width: "100%",
             textAlign: "center",

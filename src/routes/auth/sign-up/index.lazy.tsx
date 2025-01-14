@@ -5,7 +5,7 @@ import { SignUpForm } from "@/components/molecules/auth";
 const SignUp = () => {
   return (
     <Box sx={{ width: "100%" }}>
-      <SignUpForm role={"freelancer"} />
+      <SignUpForm />
     </Box>
   );
 };

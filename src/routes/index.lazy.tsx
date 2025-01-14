@@ -1,4 +1,4 @@
-import LoginForm from "@/components/molecules/auth/login-form";
+import LoginForm from "@/components/molecules/auth/sign-in-form";
 import { Box } from "@mui/material";
 import { createLazyFileRoute } from "@tanstack/react-router";
 

@@ -27,6 +27,9 @@ const IndexLazyImport = createFileRoute('/')()
 const NotfoundIndexLazyImport = createFileRoute('/not_found/')()
 const AuthSignUpIndexLazyImport = createFileRoute('/auth/sign-up/')()
 const AuthSignInIndexLazyImport = createFileRoute('/auth/sign-in/')()
+const AuthConfirmEmailIndexLazyImport = createFileRoute(
+  '/auth/confirm-email/',
+)()
 
 // Create/Update Routes
 
@@ -63,6 +66,14 @@ const AuthSignInIndexLazyRoute = AuthSignInIndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() =>
   import('./routes/auth/sign-in/index.lazy').then((d) => d.Route),
+)
+
+const AuthConfirmEmailIndexLazyRoute = AuthConfirmEmailIndexLazyImport.update({
+  id: '/auth/confirm-email/',
+  path: '/auth/confirm-email/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/auth/confirm-email/index.lazy').then((d) => d.Route),
 )
 
 const DashboardUserTaskListIndexRoute = DashboardUserTaskListIndexImport.update(
@@ -172,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardUserTaskListIndexImport
       parentRoute: typeof DashboardImport
     }
+    '/auth/confirm-email/': {
+      id: '/auth/confirm-email/'
+      path: '/auth/confirm-email'
+      fullPath: '/auth/confirm-email'
+      preLoaderRoute: typeof AuthConfirmEmailIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/auth/sign-in/': {
       id: '/auth/sign-in/'
       path: '/auth/sign-in'
@@ -223,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/transactions': typeof DashboardTransactionsIndexRoute
   '/user-list': typeof DashboardUserListIndexRoute
   '/user-task-list': typeof DashboardUserTaskListIndexRoute
+  '/auth/confirm-email': typeof AuthConfirmEmailIndexLazyRoute
   '/auth/sign-in': typeof AuthSignInIndexLazyRoute
   '/auth/sign-up': typeof AuthSignUpIndexLazyRoute
 }
@@ -237,6 +256,7 @@ export interface FileRoutesByTo {
   '/transactions': typeof DashboardTransactionsIndexRoute
   '/user-list': typeof DashboardUserListIndexRoute
   '/user-task-list': typeof DashboardUserTaskListIndexRoute
+  '/auth/confirm-email': typeof AuthConfirmEmailIndexLazyRoute
   '/auth/sign-in': typeof AuthSignInIndexLazyRoute
   '/auth/sign-up': typeof AuthSignUpIndexLazyRoute
 }
@@ -252,6 +272,7 @@ export interface FileRoutesById {
   '/_dashboard/transactions/': typeof DashboardTransactionsIndexRoute
   '/_dashboard/user-list/': typeof DashboardUserListIndexRoute
   '/_dashboard/user-task-list/': typeof DashboardUserTaskListIndexRoute
+  '/auth/confirm-email/': typeof AuthConfirmEmailIndexLazyRoute
   '/auth/sign-in/': typeof AuthSignInIndexLazyRoute
   '/auth/sign-up/': typeof AuthSignUpIndexLazyRoute
 }
@@ -268,6 +289,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/user-list'
     | '/user-task-list'
+    | '/auth/confirm-email'
     | '/auth/sign-in'
     | '/auth/sign-up'
   fileRoutesByTo: FileRoutesByTo
@@ -281,6 +303,7 @@ export interface FileRouteTypes {
     | '/transactions'
     | '/user-list'
     | '/user-task-list'
+    | '/auth/confirm-email'
     | '/auth/sign-in'
     | '/auth/sign-up'
   id:
@@ -294,6 +317,7 @@ export interface FileRouteTypes {
     | '/_dashboard/transactions/'
     | '/_dashboard/user-list/'
     | '/_dashboard/user-task-list/'
+    | '/auth/confirm-email/'
     | '/auth/sign-in/'
     | '/auth/sign-up/'
   fileRoutesById: FileRoutesById
@@ -303,6 +327,7 @@ export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   DashboardRoute: typeof DashboardRouteWithChildren
   NotfoundIndexLazyRoute: typeof NotfoundIndexLazyRoute
+  AuthConfirmEmailIndexLazyRoute: typeof AuthConfirmEmailIndexLazyRoute
   AuthSignInIndexLazyRoute: typeof AuthSignInIndexLazyRoute
   AuthSignUpIndexLazyRoute: typeof AuthSignUpIndexLazyRoute
 }
@@ -311,6 +336,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   DashboardRoute: DashboardRouteWithChildren,
   NotfoundIndexLazyRoute: NotfoundIndexLazyRoute,
+  AuthConfirmEmailIndexLazyRoute: AuthConfirmEmailIndexLazyRoute,
   AuthSignInIndexLazyRoute: AuthSignInIndexLazyRoute,
   AuthSignUpIndexLazyRoute: AuthSignUpIndexLazyRoute,
 }
@@ -328,6 +354,7 @@ export const routeTree = rootRoute
         "/",
         "/_dashboard",
         "/not_found/",
+        "/auth/confirm-email/",
         "/auth/sign-in/",
         "/auth/sign-up/"
       ]
@@ -372,6 +399,9 @@ export const routeTree = rootRoute
     "/_dashboard/user-task-list/": {
       "filePath": "_dashboard/user-task-list/index.tsx",
       "parent": "/_dashboard"
+    },
+    "/auth/confirm-email/": {
+      "filePath": "auth/confirm-email/index.lazy.tsx"
     },
     "/auth/sign-in/": {
       "filePath": "auth/sign-in/index.lazy.tsx"

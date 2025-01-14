@@ -9,7 +9,7 @@ export const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use((req) => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("accessToken");
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }

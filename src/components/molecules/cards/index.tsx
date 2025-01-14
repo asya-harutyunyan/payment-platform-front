@@ -1,5 +1,5 @@
 import Button from "@/components/atoms/button";
-import PaginationOutlined from "@/components/pagination";
+import PaginationOutlined from "@/components/atoms/pagination";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";

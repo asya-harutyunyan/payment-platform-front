@@ -1,33 +1,55 @@
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
-// import { BasicTextFields } from "@/components/atoms/input";
-import TextWithDivider from "@/components/text-with-divider";
+import TextWithDivider from "@/components/atoms/text-with-divider";
+import { login_schema } from "@/schema/login.schema";
+import {
+  confirmEmailRequest,
+  loginUser,
+} from "@/store/reducers/auth/authSlice/thunks";
+import { RootState, useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { z } from "zod";
 
-const schema = z.object({
-  name: z.string(),
-  surname: z.string(),
-});
-type FormData = z.infer<typeof schema>;
+type FormData = z.infer<typeof login_schema>;
 
 const LoginForm = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const isAuthenticated = useSelector(
+    (state: RootState) => state.auth.isAuthenticated
+  );
+
   const { control, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(login_schema),
     defaultValues: {
-      name: "",
-      surname: "",
+      email: "",
+      password: "",
     },
   });
+  useEffect(() => {
+    console.log(isAuthenticated, "ans");
+  }, []);
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log("Form Data:", data);
+
+    dispatch(loginUser(data))
+      .then((response) => {
+        console.log("Registration successful, token:", response);
+        dispatch(confirmEmailRequest());
+        navigate({ to: "/auth/confirm-email" });
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error);
+      });
   };
 
   return (
@@ -60,20 +82,15 @@ const LoginForm = () => {
           If you are logging in for the first time, please, change your password
           using the Forgot password button
         </P>
-        {/* <BasicTextFields
-          sx={{ width: "100%" }}
-          placeholder={"Your email address"}
-        />
-        <BasicTextFields sx={{ width: "100%" }} placeholder={"Password"} /> */}
         <FormTextInput
           control={control}
-          name="name"
+          name="email"
+          placeholder="Enter your email"
+        />
+        <FormTextInput
+          control={control}
+          name="password"
           placeholder="Enter your password"
-        />
-        <FormTextInput
-          control={control}
-          name="surname"
-          placeholder="Comfirm your password"
         />
         <Box sx={{ width: "100%" }}>
           {/* <CustomCheckbox label={"password button"} control={}/> */}
@@ -83,6 +100,7 @@ const LoginForm = () => {
           color="secondary"
           text={"Login"}
           sx={{ width: "100%" }}
+          type="submit"
         />
         <TextWithDivider>
           <P>
