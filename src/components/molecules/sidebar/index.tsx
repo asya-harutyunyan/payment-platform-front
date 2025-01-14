@@ -2,6 +2,7 @@ import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
 import { H2, H4, P } from "@/styles/typography";
 
+import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -22,12 +23,12 @@ import { FC, ReactNode, useEffect, useState } from "react";
 import { adminItems, userItems } from "./__item_list__";
 interface DashboardPageProps {
   children?: ReactNode;
-  role?: "admin" | "user";
 }
 
-const DashboardPage: FC<DashboardPageProps> = ({ children, role = "user" }) => {
+const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
+  const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const toggleDrawer = () => {
@@ -49,8 +50,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children, role = "user" }) => {
     color: theme.palette.secondary.contrastText,
   };
   useEffect(() => {
-    setSidebarItems(role === "admin" ? adminItems : userItems);
-  }, [role]);
+    setSidebarItems(user?.role === "admin" ? adminItems : userItems);
+  }, [user?.role]);
 
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());

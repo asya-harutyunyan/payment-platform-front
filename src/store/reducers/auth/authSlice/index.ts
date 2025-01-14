@@ -2,6 +2,7 @@ import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   confirmEmail,
   confirmEmailRequest,
+  fetchUser,
   loginUser,
   logoutUser,
   registerUser,
@@ -31,6 +32,10 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(confirmEmailRequest.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(fetchUser.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
       })

@@ -11,11 +11,11 @@ export const userItems = [
   {
     text: "Transactions",
     icon: <InfoIcon />,
-    link: "/transactions",
+    link: "/order-list",
   },
 ];
 export const adminItems = [
   { text: "User List", icon: <HomeIcon />, link: "/user-list" },
   { text: "Task List", icon: <InfoIcon />, link: "/task-list" },
-  { text: "Order List", icon: <InfoIcon />, link: "/order-list" },
+  { text: "Order List", icon: <InfoIcon />, link: "/orders" },
 ];

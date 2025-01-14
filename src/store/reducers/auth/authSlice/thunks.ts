@@ -1,4 +1,5 @@
 import { httpClient } from "@/common/api";
+import { User } from "@/common/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ConfirmEmailType, LoginUserType, RegisterUserType } from "./types";
@@ -91,6 +92,23 @@ export const logoutUser = createAsyncThunk(
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
           error.response?.data?.message || "Logout failed"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const fetchUser = createAsyncThunk(
+  "auth/fetchUser",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get<User>("/auth/user");
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "fetch user failed"
         );
       }
       return rejectWithValue("An unexpected error occurred");

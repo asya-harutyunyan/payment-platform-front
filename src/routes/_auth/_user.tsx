@@ -1,9 +1,8 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/_no_auth")({
+export const Route = createFileRoute("/_auth/_user")({
   beforeLoad: ({ context }) => {
-    // if (context.auth.isAuthenticated) {
-    if (localStorage.getItem("accessToken")) {
+    if (context.auth.user?.role !== "client") {
       throw redirect({
         to: "/",
       });

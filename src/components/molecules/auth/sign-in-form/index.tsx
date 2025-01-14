@@ -2,11 +2,9 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
+import { useAuth } from "@/context/auth.context";
 import { login_schema } from "@/schema/login.schema";
-import {
-  confirmEmailRequest,
-  loginUser,
-} from "@/store/reducers/auth/authSlice/thunks";
+import { fetchUser, loginUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
@@ -20,6 +18,7 @@ type FormData = z.infer<typeof login_schema>;
 
 const LoginForm = () => {
   const dispatch = useAppDispatch();
+  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const { control, handleSubmit } = useForm<FormData>({
@@ -34,10 +33,17 @@ const LoginForm = () => {
     console.log("Form Data:", data);
 
     dispatch(loginUser(data))
+      .unwrap()
       .then((response) => {
         console.log("Registration successful, token:", response);
-        dispatch(confirmEmailRequest());
-        navigate({ to: "/auth/confirm-email" });
+        dispatch(fetchUser())
+          .unwrap()
+          .then((data) => {
+            if (data.id) {
+              setUser(data);
+              navigate({ to: "/" });
+            }
+          });
       })
       .catch((error) => {
         console.error("Registration failed:", error);
@@ -82,6 +88,7 @@ const LoginForm = () => {
         <FormTextInput
           control={control}
           name="password"
+          type="password"
           placeholder="Enter your password"
         />
         <Box sx={{ width: "100%" }}>

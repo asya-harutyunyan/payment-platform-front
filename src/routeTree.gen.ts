@@ -14,22 +14,28 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as NoauthImport } from './routes/_no_auth'
-import { Route as DashboardImport } from './routes/_dashboard'
-import { Route as DashboardUserTaskListIndexImport } from './routes/_dashboard/user-task-list/index'
-import { Route as DashboardUserListIndexImport } from './routes/_dashboard/user-list/index'
-import { Route as DashboardTransactionsIndexImport } from './routes/_dashboard/transactions/index'
-import { Route as DashboardTaskListIndexImport } from './routes/_dashboard/task-list/index'
-import { Route as DashboardOrderListIndexImport } from './routes/_dashboard/order-list/index'
-import { Route as DashboardInfoIndexImport } from './routes/_dashboard/info/index'
+import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthUserImport } from './routes/_auth/_user'
+import { Route as AuthAdminImport } from './routes/_auth/_admin'
+import { Route as AuthUserUserTaskListIndexImport } from './routes/_auth/_user/user-task-list/index'
+import { Route as AuthUserOrderListIndexImport } from './routes/_auth/_user/order-list/index'
+import { Route as AuthUserInfoIndexImport } from './routes/_auth/_user/info/index'
+import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
+import { Route as AuthAdminTaskListIndexImport } from './routes/_auth/_admin/task-list/index'
+import { Route as AuthAdminOrdersIndexImport } from './routes/_auth/_admin/orders/index'
 
 // Create Virtual Routes
 
-const IndexLazyImport = createFileRoute('/')()
 const NotfoundIndexLazyImport = createFileRoute('/not_found/')()
-const AuthSignUpIndexLazyImport = createFileRoute('/auth/sign-up/')()
-const AuthSignInIndexLazyImport = createFileRoute('/auth/sign-in/')()
-const AuthConfirmEmailIndexLazyImport = createFileRoute(
-  '/auth/confirm-email/',
+const AuthIndexLazyImport = createFileRoute('/_auth/')()
+const NoauthAuthSignUpIndexLazyImport = createFileRoute(
+  '/_no_auth/auth/sign-up/',
+)()
+const NoauthAuthSignInIndexLazyImport = createFileRoute(
+  '/_no_auth/auth/sign-in/',
+)()
+const NoauthAuthConfirmEmailIndexLazyImport = createFileRoute(
+  '/_no_auth/auth/confirm-email/',
 )()
 
 // Create/Update Routes
@@ -39,16 +45,10 @@ const NoauthRoute = NoauthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardRoute = DashboardImport.update({
-  id: '/_dashboard',
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
-
-const IndexLazyRoute = IndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
 const NotfoundIndexLazyRoute = NotfoundIndexLazyImport.update({
   id: '/not_found/',
@@ -58,86 +58,94 @@ const NotfoundIndexLazyRoute = NotfoundIndexLazyImport.update({
   import('./routes/not_found/index.lazy').then((d) => d.Route),
 )
 
-const AuthSignUpIndexLazyRoute = AuthSignUpIndexLazyImport.update({
+const AuthIndexLazyRoute = AuthIndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() => import('./routes/_auth/index.lazy').then((d) => d.Route))
+
+const AuthUserRoute = AuthUserImport.update({
+  id: '/_user',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthAdminRoute = AuthAdminImport.update({
+  id: '/_admin',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const NoauthAuthSignUpIndexLazyRoute = NoauthAuthSignUpIndexLazyImport.update({
   id: '/auth/sign-up/',
   path: '/auth/sign-up/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => NoauthRoute,
 } as any).lazy(() =>
-  import('./routes/auth/sign-up/index.lazy').then((d) => d.Route),
+  import('./routes/_no_auth/auth/sign-up/index.lazy').then((d) => d.Route),
 )
 
-const AuthSignInIndexLazyRoute = AuthSignInIndexLazyImport.update({
+const NoauthAuthSignInIndexLazyRoute = NoauthAuthSignInIndexLazyImport.update({
   id: '/auth/sign-in/',
   path: '/auth/sign-in/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => NoauthRoute,
 } as any).lazy(() =>
-  import('./routes/auth/sign-in/index.lazy').then((d) => d.Route),
+  import('./routes/_no_auth/auth/sign-in/index.lazy').then((d) => d.Route),
 )
 
-const AuthConfirmEmailIndexLazyRoute = AuthConfirmEmailIndexLazyImport.update({
-  id: '/auth/confirm-email/',
-  path: '/auth/confirm-email/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/auth/confirm-email/index.lazy').then((d) => d.Route),
-)
+const NoauthAuthConfirmEmailIndexLazyRoute =
+  NoauthAuthConfirmEmailIndexLazyImport.update({
+    id: '/auth/confirm-email/',
+    path: '/auth/confirm-email/',
+    getParentRoute: () => NoauthRoute,
+  } as any).lazy(() =>
+    import('./routes/_no_auth/auth/confirm-email/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
-const DashboardUserTaskListIndexRoute = DashboardUserTaskListIndexImport.update(
-  {
-    id: '/user-task-list/',
-    path: '/user-task-list/',
-    getParentRoute: () => DashboardRoute,
-  } as any,
-)
-
-const DashboardUserListIndexRoute = DashboardUserListIndexImport.update({
-  id: '/user-list/',
-  path: '/user-list/',
-  getParentRoute: () => DashboardRoute,
+const AuthUserUserTaskListIndexRoute = AuthUserUserTaskListIndexImport.update({
+  id: '/user-task-list/',
+  path: '/user-task-list/',
+  getParentRoute: () => AuthUserRoute,
 } as any)
 
-const DashboardTransactionsIndexRoute = DashboardTransactionsIndexImport.update(
-  {
-    id: '/transactions/',
-    path: '/transactions/',
-    getParentRoute: () => DashboardRoute,
-  } as any,
-)
-
-const DashboardTaskListIndexRoute = DashboardTaskListIndexImport.update({
-  id: '/task-list/',
-  path: '/task-list/',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardOrderListIndexRoute = DashboardOrderListIndexImport.update({
+const AuthUserOrderListIndexRoute = AuthUserOrderListIndexImport.update({
   id: '/order-list/',
   path: '/order-list/',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => AuthUserRoute,
 } as any)
 
-const DashboardInfoIndexRoute = DashboardInfoIndexImport.update({
+const AuthUserInfoIndexRoute = AuthUserInfoIndexImport.update({
   id: '/info/',
   path: '/info/',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => AuthUserRoute,
+} as any)
+
+const AuthAdminUserListIndexRoute = AuthAdminUserListIndexImport.update({
+  id: '/user-list/',
+  path: '/user-list/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+
+const AuthAdminTaskListIndexRoute = AuthAdminTaskListIndexImport.update({
+  id: '/task-list/',
+  path: '/task-list/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+
+const AuthAdminOrdersIndexRoute = AuthAdminOrdersIndexImport.update({
+  id: '/orders/',
+  path: '/orders/',
+  getParentRoute: () => AuthAdminRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/_dashboard': {
-      id: '/_dashboard'
+    '/_auth': {
+      id: '/_auth'
       path: ''
       fullPath: ''
-      preLoaderRoute: typeof DashboardImport
+      preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
     '/_no_auth': {
@@ -147,6 +155,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NoauthImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/_admin': {
+      id: '/_auth/_admin'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthAdminImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/_user': {
+      id: '/_auth/_user'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthUserImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/': {
+      id: '/_auth/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof AuthIndexLazyImport
+      parentRoute: typeof AuthImport
+    }
     '/not_found/': {
       id: '/not_found/'
       path: '/not_found'
@@ -154,208 +183,243 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotfoundIndexLazyImport
       parentRoute: typeof rootRoute
     }
-    '/_dashboard/info/': {
-      id: '/_dashboard/info/'
-      path: '/info'
-      fullPath: '/info'
-      preLoaderRoute: typeof DashboardInfoIndexImport
-      parentRoute: typeof DashboardImport
+    '/_auth/_admin/orders/': {
+      id: '/_auth/_admin/orders/'
+      path: '/orders'
+      fullPath: '/orders'
+      preLoaderRoute: typeof AuthAdminOrdersIndexImport
+      parentRoute: typeof AuthAdminImport
     }
-    '/_dashboard/order-list/': {
-      id: '/_dashboard/order-list/'
-      path: '/order-list'
-      fullPath: '/order-list'
-      preLoaderRoute: typeof DashboardOrderListIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/_dashboard/task-list/': {
-      id: '/_dashboard/task-list/'
+    '/_auth/_admin/task-list/': {
+      id: '/_auth/_admin/task-list/'
       path: '/task-list'
       fullPath: '/task-list'
-      preLoaderRoute: typeof DashboardTaskListIndexImport
-      parentRoute: typeof DashboardImport
+      preLoaderRoute: typeof AuthAdminTaskListIndexImport
+      parentRoute: typeof AuthAdminImport
     }
-    '/_dashboard/transactions/': {
-      id: '/_dashboard/transactions/'
-      path: '/transactions'
-      fullPath: '/transactions'
-      preLoaderRoute: typeof DashboardTransactionsIndexImport
-      parentRoute: typeof DashboardImport
-    }
-    '/_dashboard/user-list/': {
-      id: '/_dashboard/user-list/'
+    '/_auth/_admin/user-list/': {
+      id: '/_auth/_admin/user-list/'
       path: '/user-list'
       fullPath: '/user-list'
-      preLoaderRoute: typeof DashboardUserListIndexImport
-      parentRoute: typeof DashboardImport
+      preLoaderRoute: typeof AuthAdminUserListIndexImport
+      parentRoute: typeof AuthAdminImport
     }
-    '/_dashboard/user-task-list/': {
-      id: '/_dashboard/user-task-list/'
+    '/_auth/_user/info/': {
+      id: '/_auth/_user/info/'
+      path: '/info'
+      fullPath: '/info'
+      preLoaderRoute: typeof AuthUserInfoIndexImport
+      parentRoute: typeof AuthUserImport
+    }
+    '/_auth/_user/order-list/': {
+      id: '/_auth/_user/order-list/'
+      path: '/order-list'
+      fullPath: '/order-list'
+      preLoaderRoute: typeof AuthUserOrderListIndexImport
+      parentRoute: typeof AuthUserImport
+    }
+    '/_auth/_user/user-task-list/': {
+      id: '/_auth/_user/user-task-list/'
       path: '/user-task-list'
       fullPath: '/user-task-list'
-      preLoaderRoute: typeof DashboardUserTaskListIndexImport
-      parentRoute: typeof DashboardImport
+      preLoaderRoute: typeof AuthUserUserTaskListIndexImport
+      parentRoute: typeof AuthUserImport
     }
-    '/auth/confirm-email/': {
-      id: '/auth/confirm-email/'
+    '/_no_auth/auth/confirm-email/': {
+      id: '/_no_auth/auth/confirm-email/'
       path: '/auth/confirm-email'
       fullPath: '/auth/confirm-email'
-      preLoaderRoute: typeof AuthConfirmEmailIndexLazyImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof NoauthAuthConfirmEmailIndexLazyImport
+      parentRoute: typeof NoauthImport
     }
-    '/auth/sign-in/': {
-      id: '/auth/sign-in/'
+    '/_no_auth/auth/sign-in/': {
+      id: '/_no_auth/auth/sign-in/'
       path: '/auth/sign-in'
       fullPath: '/auth/sign-in'
-      preLoaderRoute: typeof AuthSignInIndexLazyImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof NoauthAuthSignInIndexLazyImport
+      parentRoute: typeof NoauthImport
     }
-    '/auth/sign-up/': {
-      id: '/auth/sign-up/'
+    '/_no_auth/auth/sign-up/': {
+      id: '/_no_auth/auth/sign-up/'
       path: '/auth/sign-up'
       fullPath: '/auth/sign-up'
-      preLoaderRoute: typeof AuthSignUpIndexLazyImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof NoauthAuthSignUpIndexLazyImport
+      parentRoute: typeof NoauthImport
     }
   }
 }
 
 // Create and export the route tree
 
-interface DashboardRouteChildren {
-  DashboardInfoIndexRoute: typeof DashboardInfoIndexRoute
-  DashboardOrderListIndexRoute: typeof DashboardOrderListIndexRoute
-  DashboardTaskListIndexRoute: typeof DashboardTaskListIndexRoute
-  DashboardTransactionsIndexRoute: typeof DashboardTransactionsIndexRoute
-  DashboardUserListIndexRoute: typeof DashboardUserListIndexRoute
-  DashboardUserTaskListIndexRoute: typeof DashboardUserTaskListIndexRoute
+interface AuthAdminRouteChildren {
+  AuthAdminOrdersIndexRoute: typeof AuthAdminOrdersIndexRoute
+  AuthAdminTaskListIndexRoute: typeof AuthAdminTaskListIndexRoute
+  AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
 }
 
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardInfoIndexRoute: DashboardInfoIndexRoute,
-  DashboardOrderListIndexRoute: DashboardOrderListIndexRoute,
-  DashboardTaskListIndexRoute: DashboardTaskListIndexRoute,
-  DashboardTransactionsIndexRoute: DashboardTransactionsIndexRoute,
-  DashboardUserListIndexRoute: DashboardUserListIndexRoute,
-  DashboardUserTaskListIndexRoute: DashboardUserTaskListIndexRoute,
+const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminOrdersIndexRoute: AuthAdminOrdersIndexRoute,
+  AuthAdminTaskListIndexRoute: AuthAdminTaskListIndexRoute,
+  AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
 }
 
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
+const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
+  AuthAdminRouteChildren,
 )
 
+interface AuthUserRouteChildren {
+  AuthUserInfoIndexRoute: typeof AuthUserInfoIndexRoute
+  AuthUserOrderListIndexRoute: typeof AuthUserOrderListIndexRoute
+  AuthUserUserTaskListIndexRoute: typeof AuthUserUserTaskListIndexRoute
+}
+
+const AuthUserRouteChildren: AuthUserRouteChildren = {
+  AuthUserInfoIndexRoute: AuthUserInfoIndexRoute,
+  AuthUserOrderListIndexRoute: AuthUserOrderListIndexRoute,
+  AuthUserUserTaskListIndexRoute: AuthUserUserTaskListIndexRoute,
+}
+
+const AuthUserRouteWithChildren = AuthUserRoute._addFileChildren(
+  AuthUserRouteChildren,
+)
+
+interface AuthRouteChildren {
+  AuthAdminRoute: typeof AuthAdminRouteWithChildren
+  AuthUserRoute: typeof AuthUserRouteWithChildren
+  AuthIndexLazyRoute: typeof AuthIndexLazyRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthAdminRoute: AuthAdminRouteWithChildren,
+  AuthUserRoute: AuthUserRouteWithChildren,
+  AuthIndexLazyRoute: AuthIndexLazyRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
+interface NoauthRouteChildren {
+  NoauthAuthConfirmEmailIndexLazyRoute: typeof NoauthAuthConfirmEmailIndexLazyRoute
+  NoauthAuthSignInIndexLazyRoute: typeof NoauthAuthSignInIndexLazyRoute
+  NoauthAuthSignUpIndexLazyRoute: typeof NoauthAuthSignUpIndexLazyRoute
+}
+
+const NoauthRouteChildren: NoauthRouteChildren = {
+  NoauthAuthConfirmEmailIndexLazyRoute: NoauthAuthConfirmEmailIndexLazyRoute,
+  NoauthAuthSignInIndexLazyRoute: NoauthAuthSignInIndexLazyRoute,
+  NoauthAuthSignUpIndexLazyRoute: NoauthAuthSignUpIndexLazyRoute,
+}
+
+const NoauthRouteWithChildren =
+  NoauthRoute._addFileChildren(NoauthRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexLazyRoute
-  '': typeof NoauthRoute
+  '': typeof AuthUserRouteWithChildren
+  '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
-  '/info': typeof DashboardInfoIndexRoute
-  '/order-list': typeof DashboardOrderListIndexRoute
-  '/task-list': typeof DashboardTaskListIndexRoute
-  '/transactions': typeof DashboardTransactionsIndexRoute
-  '/user-list': typeof DashboardUserListIndexRoute
-  '/user-task-list': typeof DashboardUserTaskListIndexRoute
-  '/auth/confirm-email': typeof AuthConfirmEmailIndexLazyRoute
-  '/auth/sign-in': typeof AuthSignInIndexLazyRoute
-  '/auth/sign-up': typeof AuthSignUpIndexLazyRoute
+  '/orders': typeof AuthAdminOrdersIndexRoute
+  '/task-list': typeof AuthAdminTaskListIndexRoute
+  '/user-list': typeof AuthAdminUserListIndexRoute
+  '/info': typeof AuthUserInfoIndexRoute
+  '/order-list': typeof AuthUserOrderListIndexRoute
+  '/user-task-list': typeof AuthUserUserTaskListIndexRoute
+  '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
+  '/auth/sign-in': typeof NoauthAuthSignInIndexLazyRoute
+  '/auth/sign-up': typeof NoauthAuthSignUpIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexLazyRoute
-  '': typeof NoauthRoute
+  '': typeof AuthUserRouteWithChildren
+  '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
-  '/info': typeof DashboardInfoIndexRoute
-  '/order-list': typeof DashboardOrderListIndexRoute
-  '/task-list': typeof DashboardTaskListIndexRoute
-  '/transactions': typeof DashboardTransactionsIndexRoute
-  '/user-list': typeof DashboardUserListIndexRoute
-  '/user-task-list': typeof DashboardUserTaskListIndexRoute
-  '/auth/confirm-email': typeof AuthConfirmEmailIndexLazyRoute
-  '/auth/sign-in': typeof AuthSignInIndexLazyRoute
-  '/auth/sign-up': typeof AuthSignUpIndexLazyRoute
+  '/orders': typeof AuthAdminOrdersIndexRoute
+  '/task-list': typeof AuthAdminTaskListIndexRoute
+  '/user-list': typeof AuthAdminUserListIndexRoute
+  '/info': typeof AuthUserInfoIndexRoute
+  '/order-list': typeof AuthUserOrderListIndexRoute
+  '/user-task-list': typeof AuthUserUserTaskListIndexRoute
+  '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
+  '/auth/sign-in': typeof NoauthAuthSignInIndexLazyRoute
+  '/auth/sign-up': typeof NoauthAuthSignUpIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexLazyRoute
-  '/_dashboard': typeof DashboardRouteWithChildren
-  '/_no_auth': typeof NoauthRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/_no_auth': typeof NoauthRouteWithChildren
+  '/_auth/_admin': typeof AuthAdminRouteWithChildren
+  '/_auth/_user': typeof AuthUserRouteWithChildren
+  '/_auth/': typeof AuthIndexLazyRoute
   '/not_found/': typeof NotfoundIndexLazyRoute
-  '/_dashboard/info/': typeof DashboardInfoIndexRoute
-  '/_dashboard/order-list/': typeof DashboardOrderListIndexRoute
-  '/_dashboard/task-list/': typeof DashboardTaskListIndexRoute
-  '/_dashboard/transactions/': typeof DashboardTransactionsIndexRoute
-  '/_dashboard/user-list/': typeof DashboardUserListIndexRoute
-  '/_dashboard/user-task-list/': typeof DashboardUserTaskListIndexRoute
-  '/auth/confirm-email/': typeof AuthConfirmEmailIndexLazyRoute
-  '/auth/sign-in/': typeof AuthSignInIndexLazyRoute
-  '/auth/sign-up/': typeof AuthSignUpIndexLazyRoute
+  '/_auth/_admin/orders/': typeof AuthAdminOrdersIndexRoute
+  '/_auth/_admin/task-list/': typeof AuthAdminTaskListIndexRoute
+  '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
+  '/_auth/_user/info/': typeof AuthUserInfoIndexRoute
+  '/_auth/_user/order-list/': typeof AuthUserOrderListIndexRoute
+  '/_auth/_user/user-task-list/': typeof AuthUserUserTaskListIndexRoute
+  '/_no_auth/auth/confirm-email/': typeof NoauthAuthConfirmEmailIndexLazyRoute
+  '/_no_auth/auth/sign-in/': typeof NoauthAuthSignInIndexLazyRoute
+  '/_no_auth/auth/sign-up/': typeof NoauthAuthSignUpIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
     | ''
+    | '/'
     | '/not_found'
+    | '/orders'
+    | '/task-list'
+    | '/user-list'
     | '/info'
     | '/order-list'
-    | '/task-list'
-    | '/transactions'
-    | '/user-list'
     | '/user-task-list'
     | '/auth/confirm-email'
     | '/auth/sign-in'
     | '/auth/sign-up'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
     | ''
+    | '/'
     | '/not_found'
+    | '/orders'
+    | '/task-list'
+    | '/user-list'
     | '/info'
     | '/order-list'
-    | '/task-list'
-    | '/transactions'
-    | '/user-list'
     | '/user-task-list'
     | '/auth/confirm-email'
     | '/auth/sign-in'
     | '/auth/sign-up'
   id:
     | '__root__'
-    | '/'
-    | '/_dashboard'
+    | '/_auth'
     | '/_no_auth'
+    | '/_auth/_admin'
+    | '/_auth/_user'
+    | '/_auth/'
     | '/not_found/'
-    | '/_dashboard/info/'
-    | '/_dashboard/order-list/'
-    | '/_dashboard/task-list/'
-    | '/_dashboard/transactions/'
-    | '/_dashboard/user-list/'
-    | '/_dashboard/user-task-list/'
-    | '/auth/confirm-email/'
-    | '/auth/sign-in/'
-    | '/auth/sign-up/'
+    | '/_auth/_admin/orders/'
+    | '/_auth/_admin/task-list/'
+    | '/_auth/_admin/user-list/'
+    | '/_auth/_user/info/'
+    | '/_auth/_user/order-list/'
+    | '/_auth/_user/user-task-list/'
+    | '/_no_auth/auth/confirm-email/'
+    | '/_no_auth/auth/sign-in/'
+    | '/_no_auth/auth/sign-up/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexLazyRoute: typeof IndexLazyRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
-  NoauthRoute: typeof NoauthRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  NoauthRoute: typeof NoauthRouteWithChildren
   NotfoundIndexLazyRoute: typeof NotfoundIndexLazyRoute
-  AuthConfirmEmailIndexLazyRoute: typeof AuthConfirmEmailIndexLazyRoute
-  AuthSignInIndexLazyRoute: typeof AuthSignInIndexLazyRoute
-  AuthSignUpIndexLazyRoute: typeof AuthSignUpIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexLazyRoute: IndexLazyRoute,
-  DashboardRoute: DashboardRouteWithChildren,
-  NoauthRoute: NoauthRoute,
+  AuthRoute: AuthRouteWithChildren,
+  NoauthRoute: NoauthRouteWithChildren,
   NotfoundIndexLazyRoute: NotfoundIndexLazyRoute,
-  AuthConfirmEmailIndexLazyRoute: AuthConfirmEmailIndexLazyRoute,
-  AuthSignInIndexLazyRoute: AuthSignInIndexLazyRoute,
-  AuthSignUpIndexLazyRoute: AuthSignUpIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -368,67 +432,87 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/_dashboard",
+        "/_auth",
         "/_no_auth",
-        "/not_found/",
-        "/auth/confirm-email/",
-        "/auth/sign-in/",
-        "/auth/sign-up/"
+        "/not_found/"
       ]
     },
-    "/": {
-      "filePath": "index.lazy.tsx"
-    },
-    "/_dashboard": {
-      "filePath": "_dashboard.tsx",
+    "/_auth": {
+      "filePath": "_auth.tsx",
       "children": [
-        "/_dashboard/info/",
-        "/_dashboard/order-list/",
-        "/_dashboard/task-list/",
-        "/_dashboard/transactions/",
-        "/_dashboard/user-list/",
-        "/_dashboard/user-task-list/"
+        "/_auth/_admin",
+        "/_auth/_user",
+        "/_auth/"
       ]
     },
     "/_no_auth": {
-      "filePath": "_no_auth.tsx"
+      "filePath": "_no_auth.tsx",
+      "children": [
+        "/_no_auth/auth/confirm-email/",
+        "/_no_auth/auth/sign-in/",
+        "/_no_auth/auth/sign-up/"
+      ]
+    },
+    "/_auth/_admin": {
+      "filePath": "_auth/_admin.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/_admin/orders/",
+        "/_auth/_admin/task-list/",
+        "/_auth/_admin/user-list/"
+      ]
+    },
+    "/_auth/_user": {
+      "filePath": "_auth/_user.tsx",
+      "parent": "/_auth",
+      "children": [
+        "/_auth/_user/info/",
+        "/_auth/_user/order-list/",
+        "/_auth/_user/user-task-list/"
+      ]
+    },
+    "/_auth/": {
+      "filePath": "_auth/index.lazy.tsx",
+      "parent": "/_auth"
     },
     "/not_found/": {
       "filePath": "not_found/index.lazy.tsx"
     },
-    "/_dashboard/info/": {
-      "filePath": "_dashboard/info/index.tsx",
-      "parent": "/_dashboard"
+    "/_auth/_admin/orders/": {
+      "filePath": "_auth/_admin/orders/index.tsx",
+      "parent": "/_auth/_admin"
     },
-    "/_dashboard/order-list/": {
-      "filePath": "_dashboard/order-list/index.tsx",
-      "parent": "/_dashboard"
+    "/_auth/_admin/task-list/": {
+      "filePath": "_auth/_admin/task-list/index.tsx",
+      "parent": "/_auth/_admin"
     },
-    "/_dashboard/task-list/": {
-      "filePath": "_dashboard/task-list/index.tsx",
-      "parent": "/_dashboard"
+    "/_auth/_admin/user-list/": {
+      "filePath": "_auth/_admin/user-list/index.tsx",
+      "parent": "/_auth/_admin"
     },
-    "/_dashboard/transactions/": {
-      "filePath": "_dashboard/transactions/index.tsx",
-      "parent": "/_dashboard"
+    "/_auth/_user/info/": {
+      "filePath": "_auth/_user/info/index.tsx",
+      "parent": "/_auth/_user"
     },
-    "/_dashboard/user-list/": {
-      "filePath": "_dashboard/user-list/index.tsx",
-      "parent": "/_dashboard"
+    "/_auth/_user/order-list/": {
+      "filePath": "_auth/_user/order-list/index.tsx",
+      "parent": "/_auth/_user"
     },
-    "/_dashboard/user-task-list/": {
-      "filePath": "_dashboard/user-task-list/index.tsx",
-      "parent": "/_dashboard"
+    "/_auth/_user/user-task-list/": {
+      "filePath": "_auth/_user/user-task-list/index.tsx",
+      "parent": "/_auth/_user"
     },
-    "/auth/confirm-email/": {
-      "filePath": "auth/confirm-email/index.lazy.tsx"
+    "/_no_auth/auth/confirm-email/": {
+      "filePath": "_no_auth/auth/confirm-email/index.lazy.tsx",
+      "parent": "/_no_auth"
     },
-    "/auth/sign-in/": {
-      "filePath": "auth/sign-in/index.lazy.tsx"
+    "/_no_auth/auth/sign-in/": {
+      "filePath": "_no_auth/auth/sign-in/index.lazy.tsx",
+      "parent": "/_no_auth"
     },
-    "/auth/sign-up/": {
-      "filePath": "auth/sign-up/index.lazy.tsx"
+    "/_no_auth/auth/sign-up/": {
+      "filePath": "_no_auth/auth/sign-up/index.lazy.tsx",
+      "parent": "/_no_auth"
     }
   }
 }
