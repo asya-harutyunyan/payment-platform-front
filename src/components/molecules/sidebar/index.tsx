@@ -5,6 +5,7 @@ import { H2, H4, P } from "@/styles/typography";
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -120,13 +121,33 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <H2 align="center" padding={"30px 30px 30px 0"}>
             <Icon name="Home" /> Payment
           </H2>
-          <P sx={{ textDecoration: "underline" }} align="center">
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <AccountCircleIcon
+              sx={{
+                width: "90px",
+                height: "90px",
+                color: theme.palette.tertiary.contrastText,
+              }}
+            />
+          </Box>
+          <P
+            sx={{ textDecoration: "underline" }}
+            align="center"
+            color={theme.palette.tertiary.contrastText}
+          >
             Surename
           </P>
           <P
             sx={{ textDecoration: "underline" }}
             align="center"
             paddingBottom={"20px"}
+            color={theme.palette.tertiary.contrastText}
           >
             Name
           </P>

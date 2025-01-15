@@ -24,6 +24,7 @@ interface DynamicButtonProps {
   link?: string;
   type?: "submit" | "button";
   disabled?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
 const Button: React.FC<DynamicButtonProps> = ({
@@ -32,6 +33,7 @@ const Button: React.FC<DynamicButtonProps> = ({
   sx,
   size,
   color,
+  onClick,
   isLink = false,
   link,
   disabled,
@@ -50,6 +52,7 @@ const Button: React.FC<DynamicButtonProps> = ({
       color={color}
       type={type ?? "button"}
       disabled={disabled}
+      onClick={onClick}
     >
       {!isLink ? (
         text

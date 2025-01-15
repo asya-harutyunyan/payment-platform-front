@@ -9,7 +9,7 @@ interface CustomCheckboxProps extends CheckboxProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   name: keyof FormData;
-  label: string;
+  label?: string;
 }
 
 export const CustomCheckbox = ({
