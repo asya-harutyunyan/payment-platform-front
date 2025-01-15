@@ -42,6 +42,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setIsAuthenticated(!!user);
+    if (user) {
+      localStorage.setItem("user_role", user?.role ?? "");
+    }
   }, [user]);
 
   const fetchAuthUser = async () => {

@@ -41,7 +41,10 @@ const LoginForm = () => {
           .then((data) => {
             if (data.id) {
               setUser(data);
-              navigate({ to: "/" });
+              localStorage.setItem("user_role", data.role ?? "");
+              navigate({
+                to: data.role === "admin" ? "/task-list" : "/user-task-list",
+              });
             }
           });
       })

@@ -87,6 +87,7 @@ export const logoutUser = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await httpClient.post("/auth/logout");
+      localStorage.removeItem("user_role");
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
