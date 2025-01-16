@@ -33,7 +33,7 @@ export const StepThree = () => (
             sx={{ color: "green", width: "90px", height: "90px" }}
           />
         </Box>
-        <P fontSize={"16px"}>Done !</P>
+        <P fontSize={"15px"}> Lorem Ipsum .</P>
       </Box>
     </BasicCard>
   </Box>

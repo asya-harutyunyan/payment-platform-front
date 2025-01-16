@@ -34,8 +34,14 @@ const NoauthAuthSignUpIndexLazyImport = createFileRoute(
 const NoauthAuthSignInIndexLazyImport = createFileRoute(
   '/_no_auth/auth/sign-in/',
 )()
+const NoauthAuthResetPasswordIndexLazyImport = createFileRoute(
+  '/_no_auth/auth/reset-password/',
+)()
 const NoauthAuthConfirmEmailIndexLazyImport = createFileRoute(
   '/_no_auth/auth/confirm-email/',
+)()
+const NoauthAuthChangePasswordIndexLazyImport = createFileRoute(
+  '/_no_auth/auth/change-password/',
 )()
 
 // Create/Update Routes
@@ -90,6 +96,17 @@ const NoauthAuthSignInIndexLazyRoute = NoauthAuthSignInIndexLazyImport.update({
   import('./routes/_no_auth/auth/sign-in/index.lazy').then((d) => d.Route),
 )
 
+const NoauthAuthResetPasswordIndexLazyRoute =
+  NoauthAuthResetPasswordIndexLazyImport.update({
+    id: '/auth/reset-password/',
+    path: '/auth/reset-password/',
+    getParentRoute: () => NoauthRoute,
+  } as any).lazy(() =>
+    import('./routes/_no_auth/auth/reset-password/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
 const NoauthAuthConfirmEmailIndexLazyRoute =
   NoauthAuthConfirmEmailIndexLazyImport.update({
     id: '/auth/confirm-email/',
@@ -97,6 +114,17 @@ const NoauthAuthConfirmEmailIndexLazyRoute =
     getParentRoute: () => NoauthRoute,
   } as any).lazy(() =>
     import('./routes/_no_auth/auth/confirm-email/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const NoauthAuthChangePasswordIndexLazyRoute =
+  NoauthAuthChangePasswordIndexLazyImport.update({
+    id: '/auth/change-password/',
+    path: '/auth/change-password/',
+    getParentRoute: () => NoauthRoute,
+  } as any).lazy(() =>
+    import('./routes/_no_auth/auth/change-password/index.lazy').then(
       (d) => d.Route,
     ),
   )
@@ -225,11 +253,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserUserTaskListIndexImport
       parentRoute: typeof AuthUserImport
     }
+    '/_no_auth/auth/change-password/': {
+      id: '/_no_auth/auth/change-password/'
+      path: '/auth/change-password'
+      fullPath: '/auth/change-password'
+      preLoaderRoute: typeof NoauthAuthChangePasswordIndexLazyImport
+      parentRoute: typeof NoauthImport
+    }
     '/_no_auth/auth/confirm-email/': {
       id: '/_no_auth/auth/confirm-email/'
       path: '/auth/confirm-email'
       fullPath: '/auth/confirm-email'
       preLoaderRoute: typeof NoauthAuthConfirmEmailIndexLazyImport
+      parentRoute: typeof NoauthImport
+    }
+    '/_no_auth/auth/reset-password/': {
+      id: '/_no_auth/auth/reset-password/'
+      path: '/auth/reset-password'
+      fullPath: '/auth/reset-password'
+      preLoaderRoute: typeof NoauthAuthResetPasswordIndexLazyImport
       parentRoute: typeof NoauthImport
     }
     '/_no_auth/auth/sign-in/': {
@@ -298,13 +340,18 @@ const AuthRouteChildren: AuthRouteChildren = {
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface NoauthRouteChildren {
+  NoauthAuthChangePasswordIndexLazyRoute: typeof NoauthAuthChangePasswordIndexLazyRoute
   NoauthAuthConfirmEmailIndexLazyRoute: typeof NoauthAuthConfirmEmailIndexLazyRoute
+  NoauthAuthResetPasswordIndexLazyRoute: typeof NoauthAuthResetPasswordIndexLazyRoute
   NoauthAuthSignInIndexLazyRoute: typeof NoauthAuthSignInIndexLazyRoute
   NoauthAuthSignUpIndexLazyRoute: typeof NoauthAuthSignUpIndexLazyRoute
 }
 
 const NoauthRouteChildren: NoauthRouteChildren = {
+  NoauthAuthChangePasswordIndexLazyRoute:
+    NoauthAuthChangePasswordIndexLazyRoute,
   NoauthAuthConfirmEmailIndexLazyRoute: NoauthAuthConfirmEmailIndexLazyRoute,
+  NoauthAuthResetPasswordIndexLazyRoute: NoauthAuthResetPasswordIndexLazyRoute,
   NoauthAuthSignInIndexLazyRoute: NoauthAuthSignInIndexLazyRoute,
   NoauthAuthSignUpIndexLazyRoute: NoauthAuthSignUpIndexLazyRoute,
 }
@@ -322,7 +369,9 @@ export interface FileRoutesByFullPath {
   '/info': typeof AuthUserInfoIndexRoute
   '/order-list': typeof AuthUserOrderListIndexRoute
   '/user-task-list': typeof AuthUserUserTaskListIndexRoute
+  '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
+  '/auth/reset-password': typeof NoauthAuthResetPasswordIndexLazyRoute
   '/auth/sign-in': typeof NoauthAuthSignInIndexLazyRoute
   '/auth/sign-up': typeof NoauthAuthSignUpIndexLazyRoute
 }
@@ -337,7 +386,9 @@ export interface FileRoutesByTo {
   '/info': typeof AuthUserInfoIndexRoute
   '/order-list': typeof AuthUserOrderListIndexRoute
   '/user-task-list': typeof AuthUserUserTaskListIndexRoute
+  '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
+  '/auth/reset-password': typeof NoauthAuthResetPasswordIndexLazyRoute
   '/auth/sign-in': typeof NoauthAuthSignInIndexLazyRoute
   '/auth/sign-up': typeof NoauthAuthSignUpIndexLazyRoute
 }
@@ -356,7 +407,9 @@ export interface FileRoutesById {
   '/_auth/_user/info/': typeof AuthUserInfoIndexRoute
   '/_auth/_user/order-list/': typeof AuthUserOrderListIndexRoute
   '/_auth/_user/user-task-list/': typeof AuthUserUserTaskListIndexRoute
+  '/_no_auth/auth/change-password/': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/_no_auth/auth/confirm-email/': typeof NoauthAuthConfirmEmailIndexLazyRoute
+  '/_no_auth/auth/reset-password/': typeof NoauthAuthResetPasswordIndexLazyRoute
   '/_no_auth/auth/sign-in/': typeof NoauthAuthSignInIndexLazyRoute
   '/_no_auth/auth/sign-up/': typeof NoauthAuthSignUpIndexLazyRoute
 }
@@ -373,7 +426,9 @@ export interface FileRouteTypes {
     | '/info'
     | '/order-list'
     | '/user-task-list'
+    | '/auth/change-password'
     | '/auth/confirm-email'
+    | '/auth/reset-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
   fileRoutesByTo: FileRoutesByTo
@@ -387,7 +442,9 @@ export interface FileRouteTypes {
     | '/info'
     | '/order-list'
     | '/user-task-list'
+    | '/auth/change-password'
     | '/auth/confirm-email'
+    | '/auth/reset-password'
     | '/auth/sign-in'
     | '/auth/sign-up'
   id:
@@ -404,7 +461,9 @@ export interface FileRouteTypes {
     | '/_auth/_user/info/'
     | '/_auth/_user/order-list/'
     | '/_auth/_user/user-task-list/'
+    | '/_no_auth/auth/change-password/'
     | '/_no_auth/auth/confirm-email/'
+    | '/_no_auth/auth/reset-password/'
     | '/_no_auth/auth/sign-in/'
     | '/_no_auth/auth/sign-up/'
   fileRoutesById: FileRoutesById
@@ -448,7 +507,9 @@ export const routeTree = rootRoute
     "/_no_auth": {
       "filePath": "_no_auth.tsx",
       "children": [
+        "/_no_auth/auth/change-password/",
         "/_no_auth/auth/confirm-email/",
+        "/_no_auth/auth/reset-password/",
         "/_no_auth/auth/sign-in/",
         "/_no_auth/auth/sign-up/"
       ]
@@ -502,8 +563,16 @@ export const routeTree = rootRoute
       "filePath": "_auth/_user/user-task-list/index.tsx",
       "parent": "/_auth/_user"
     },
+    "/_no_auth/auth/change-password/": {
+      "filePath": "_no_auth/auth/change-password/index.lazy.tsx",
+      "parent": "/_no_auth"
+    },
     "/_no_auth/auth/confirm-email/": {
       "filePath": "_no_auth/auth/confirm-email/index.lazy.tsx",
+      "parent": "/_no_auth"
+    },
+    "/_no_auth/auth/reset-password/": {
+      "filePath": "_no_auth/auth/reset-password/index.lazy.tsx",
       "parent": "/_no_auth"
     },
     "/_no_auth/auth/sign-in/": {

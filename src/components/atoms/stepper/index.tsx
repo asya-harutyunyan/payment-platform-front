@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
 import * as React from "react";
 import { FC } from "react";
+import { BasicCard } from "../card";
 
 type Steps = {
   label: string;
@@ -85,7 +86,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
       </Stepper>
       <div>
         {allStepsCompleted() ? (
-          <React.Fragment>
+          <BasicCard sx={{ height: "300px" }}>
             <Typography sx={{ mt: 2, mb: 1 }}>
               All steps completed - you&apos;re finished
             </Typography>
@@ -93,7 +94,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
               <Box sx={{ flex: "1 1 auto" }} />
               <ButtonMui onClick={handleReset}>Reset</ButtonMui>
             </Box>
-          </React.Fragment>
+          </BasicCard>
         ) : (
           <React.Fragment>
             <Box sx={{ mt: 2, mb: 1, py: 1 }}>
@@ -112,25 +113,32 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
                 Back
               </ButtonMui>
               <Box sx={{ flex: "1 1 auto" }} />
-              <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
+              {/* <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
                 Next
-              </ButtonMui>
+              </ButtonMui> */}
               <Box
                 sx={{ height: "40px", display: "flex", alignItems: "center" }}
               >
                 {activeStep !== steps.length &&
                   (completed[activeStep] ? (
-                    <P
-                      sx={{ display: "inline-block" }}
-                      color="tertiary.contrastText"
-                    >
-                      Step ${activeStep + 1} already completed
-                    </P>
+                    <Box>
+                      <P
+                        sx={{ display: "inline-block" }}
+                        color="tertiary.contrastText"
+                      >
+                        Step ${activeStep + 1} already completed
+                      </P>
+                    </Box>
                   ) : (
-                    <ButtonMui onClick={handleComplete}>
+                    <ButtonMui
+                      onClick={() => {
+                        handleComplete();
+                        handleNext();
+                      }}
+                    >
                       {completedSteps() === totalSteps() - 1
                         ? "Finish"
-                        : "Complete Step"}
+                        : "NEXT"}
                     </ButtonMui>
                   ))}
               </Box>

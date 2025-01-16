@@ -1,10 +1,12 @@
-import { z } from "zod";
-import { password_regex } from "./password.schema";
+import * as z from "zod";
+import { password_regex } from "./password.regex";
 
-export const auth_schema = z.object({
-  name: z.string(),
-  surname: z.string(),
+export const reset_schema = z.object({
   email: z.string().email("Invalid email address"),
+});
+export const change_password_schema = z.object({
+  email: z.string().email("Invalid email address"),
+  two_factor_code: z.string(),
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
@@ -15,5 +17,4 @@ export const auth_schema = z.object({
   password_confirmation: z
     .string()
     .min(6, "Password must be at least 6 characters"),
-  checkbox: z.boolean(),
 });

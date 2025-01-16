@@ -1,17 +1,20 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
+  changePassword,
   confirmEmail,
   confirmEmailRequest,
   fetchUser,
   loginUser,
   logoutUser,
   registerUser,
+  resetPassword,
 } from "./thunks";
 import { AuthState } from "./types";
 
 const initialState: AuthState = {
   loading: false,
   error: null,
+  email: "",
 };
 
 const authSlice = createSlice({
@@ -21,6 +24,9 @@ const authSlice = createSlice({
     logout: (state) => {
       state.error = null;
       localStorage.removeItem("accessToken");
+    },
+    setEmail: (state, action) => {
+      state.email = action.payload; // Сохраняем email
     },
   },
   extraReducers: (builder) => {
@@ -36,6 +42,14 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUser.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.loading = false;
+        state.error = null;
+      })
+      .addCase(changePassword.fulfilled, (state) => {
         state.loading = false;
         state.error = null;
       })
@@ -55,5 +69,6 @@ const authSlice = createSlice({
       });
   },
 });
+export const { setEmail } = authSlice.actions;
 
 export default authSlice.reducer;

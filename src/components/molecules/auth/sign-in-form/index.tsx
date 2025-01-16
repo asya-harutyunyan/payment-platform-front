@@ -130,7 +130,7 @@ const LoginForm = () => {
         >
           <P style={{ padding: "30px 0", fontSize: "14px" }}>
             <Link
-              to="/"
+              to="/auth/reset-password"
               style={{
                 color: theme.palette.primary.main,
               }}

@@ -1,53 +1,39 @@
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
-import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import { useAuth } from "@/context/auth.context";
-import { auth_schema } from "@/schema/sign_up.schema";
-import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
+import { reset_schema } from "@/schema/change_password.schema";
+import { setEmail } from "@/store/reducers/auth/authSlice";
+import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type FormData = z.infer<typeof auth_schema>;
+export type ResetPasswordschema = z.infer<typeof reset_schema>;
 
-const SignUpForm: FC = () => {
+const ResetPasswordComponent = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
-  const { control, handleSubmit, watch } = useForm<FormData>({
-    resolver: zodResolver(auth_schema),
+  const { control, handleSubmit } = useForm<ResetPasswordschema>({
+    resolver: zodResolver(reset_schema),
     defaultValues: {
-      name: "",
-      surname: "",
       email: "",
-      password: "",
-      password_confirmation: "",
-      checkbox: false,
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (data.password !== data.password_confirmation) {
-      alert("Passwords do not match!");
-      return;
-    }
-    dispatch(registerUser(data))
-      .unwrap()
-      .then((response) => {
-        if (response.status === 200 && response.data.token) {
-          setIsAuthenticated(true);
-        }
-        navigate({ to: "/auth/sign-in" });
+  const onSubmit: SubmitHandler<ResetPasswordschema> = async (data) => {
+    console.log("Form Data:", data);
+    dispatch(setEmail(data.email));
 
-        console.log("Registration successful, token:", response.token);
+    dispatch(resetPassword(data))
+      .then((response) => {
+        console.log("Registration successful, token:", response);
+        navigate({ to: "/auth/change-password" });
       })
       .catch((error) => {
         console.error("Registration failed:", error);
@@ -84,40 +70,18 @@ const SignUpForm: FC = () => {
           If you are logging in for the first time, please, change your password
           using the Forgot password button
         </P>
-
-        <FormTextInput control={control} name="name" placeholder="Name" />
-        <FormTextInput control={control} name="surname" placeholder="Surname" />
         <FormTextInput
           control={control}
           name="email"
           placeholder="Enter your email"
         />
-        <FormTextInput
-          control={control}
-          name="password"
-          type="password"
-          placeholder="Enter your password"
-        />
-        <FormTextInput
-          control={control}
-          name="password_confirmation"
-          type="password"
-          placeholder="Comfirm your password"
-        />
-        <Box sx={{ width: "100%" }}>
-          <CustomCheckbox
-            control={control}
-            label={"I agree to the Terms of Service and Privacy Policy"}
-            name={"checkbox"}
-          />
-        </Box>
+
         <Button
           variant={"contained"}
           color="secondary"
-          text={"Register"}
+          text={"Login"}
           sx={{ width: "100%" }}
           type="submit"
-          disabled={watch("checkbox") !== true}
         />
         <TextWithDivider>
           <P>
@@ -127,15 +91,44 @@ const SignUpForm: FC = () => {
                 color: theme.palette.primary.main,
                 fontWeight: 300,
                 fontSize: "14px",
+                textDecoration: "none",
               }}
             >
-              You already have an account?
+              Haven't account?
             </Link>
           </P>
         </TextWithDivider>
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <P style={{ padding: "30px 0", fontSize: "14px" }}>
+            <Link
+              to="/"
+              style={{
+                color: theme.palette.primary.main,
+              }}
+            >
+              Forgot your password?
+            </Link>
+          </P>
+          <Button
+            variant={"outlined"}
+            color="secondary"
+            text={"Sign up"}
+            sx={{ fontSize: "14px", height: "50px" }}
+            isLink
+            link="/auth/sign-up"
+          />
+        </Box>
       </BasicCard>
     </Box>
   );
 };
 
-export default SignUpForm;
+export default ResetPasswordComponent;

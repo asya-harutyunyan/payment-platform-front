@@ -162,6 +162,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             textDecoration: "underline",
             position: "absolute",
             bottom: "50px",
+            cursor: "pointer",
           }}
         >
           Log aut
@@ -183,7 +184,9 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       >
         <Box sx={drawerStyles}>
           <List>{renderSidebarItems()}</List>
-          <H4 color="white">Log out</H4>
+          <H4 color="white" sx={{ cursor: "pointer" }}>
+            Log out
+          </H4>
         </Box>
       </Drawer>
       <Box

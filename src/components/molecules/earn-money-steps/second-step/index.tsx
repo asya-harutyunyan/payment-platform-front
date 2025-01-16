@@ -13,8 +13,19 @@ export const StepTwo = () => {
         <H2 color="primary.main" paddingBottom={4} textAlign={"center"}>
           Your profit will be +5%. Does that work for you?{" "}
         </H2>
-        <P>Add new card +</P>
-        <Button text="Confirm" variant={"text"} onClick={onSubmit} />
+        <P fontSize={"20px"}>Add new card +</P>
+        <P fontSize={"20px"}> there will be card component</P>
+        <Button
+          sx={{
+            marginTop: "20px",
+            width: "130px",
+            height: "50px",
+            fontSize: "17px",
+          }}
+          text="Confirm"
+          variant={"outlined"}
+          onClick={onSubmit}
+        />
       </BasicCard>
     </Box>
   );

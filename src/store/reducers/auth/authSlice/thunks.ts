@@ -1,5 +1,7 @@
 import { httpClient } from "@/common/api";
 import { User } from "@/common/types";
+import { ConfirmEmailFormData } from "@/components/molecules/auth/change-password-form";
+import { ResetPasswordschema } from "@/components/molecules/auth/reset-password-form";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ConfirmEmailType, LoginUserType, RegisterUserType } from "./types";
@@ -110,6 +112,44 @@ export const fetchUser = createAsyncThunk(
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
           error.response?.data?.message || "fetch user failed"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const resetPassword = createAsyncThunk<User, ResetPasswordschema>(
+  "auth/resetPassword",
+  async (email, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post<User>(
+        "/auth/password/reset/request",
+        { email }
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Reset password failed"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const changePassword = createAsyncThunk<User, ConfirmEmailFormData>(
+  "auth/changePassword",
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post<User>(
+        "/auth/password/reset",
+        data
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Change password failed"
         );
       }
       return rejectWithValue("An unexpected error occurred");
