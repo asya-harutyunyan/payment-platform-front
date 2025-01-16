@@ -27,7 +27,12 @@ export const StepOne = () => {
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <BasicCard sx={{ width: "70%", marginTop: "20px" }}>
-        <H2 color="primary.main" paddingBottom={4} textAlign={"center"}>
+        <H2
+          color="primary.main"
+          paddingBottom={4}
+          textAlign={"center"}
+          sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
+        >
           How much money do you want to earn?
         </H2>
         <FormTextInput

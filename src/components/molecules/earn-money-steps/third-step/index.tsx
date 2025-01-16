@@ -13,7 +13,12 @@ export const StepThree = () => (
           alignItems: "center",
         }}
       >
-        <H2 color="primary.main" paddingBottom={4} textAlign={"center"}>
+        <H2
+          color="primary.main"
+          paddingBottom={4}
+          textAlign={"center"}
+          sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
+        >
           Success !
         </H2>
         <P fontSize={"18px"}>Your actions successfully done!</P>

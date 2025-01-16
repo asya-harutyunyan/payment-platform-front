@@ -5,7 +5,7 @@ import { FC } from "react";
 interface ITextWithDivider {
   children: ReactNode;
 }
-const LoginForm: FC<ITextWithDivider> = ({ children }) => {
+const TextWithDriver: FC<ITextWithDivider> = ({ children }) => {
   return (
     <Box
       sx={{
@@ -37,4 +37,4 @@ const LoginForm: FC<ITextWithDivider> = ({ children }) => {
   );
 };
 
-export default LoginForm;
+export default TextWithDriver;

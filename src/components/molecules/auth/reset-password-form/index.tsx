@@ -48,16 +48,16 @@ const ResetPasswordComponent = () => {
         width: "100%",
         height: "100vh",
         display: "flex",
-        justifyContent: "end",
+        justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
         bgcolor: "#1f70cb",
       }}
     >
       <BasicCard
         sx={{
-          width: "40%",
-          height: "80%",
-          marginRight: "50px",
+          width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
+          height: "60%",
+          marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
         <P
@@ -80,7 +80,7 @@ const ResetPasswordComponent = () => {
           variant={"contained"}
           color="secondary"
           text={"Login"}
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
         <TextWithDivider>
@@ -122,8 +122,7 @@ const ResetPasswordComponent = () => {
             color="secondary"
             text={"Sign up"}
             sx={{ fontSize: "14px", height: "50px" }}
-            isLink
-            link="/auth/sign-up"
+            onClick={() => navigate({ to: "/auth/sign-up" })}
           />
         </Box>
       </BasicCard>

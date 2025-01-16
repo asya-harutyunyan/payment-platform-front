@@ -1,7 +1,7 @@
 import { createRouter, RouterProvider } from "@tanstack/react-router";
 import { useAuth } from "./context/auth.context";
+import "./index.css";
 import { routeTree } from "./routeTree.gen";
-
 const router = createRouter({
   routeTree,
   defaultPreload: "intent",

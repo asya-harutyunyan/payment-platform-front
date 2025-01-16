@@ -1,6 +1,6 @@
 import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
-import { H2, H4, P } from "@/styles/typography";
+import { H2, P } from "@/styles/typography";
 
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
@@ -36,6 +36,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     setIsDrawerOpen(!isDrawerOpen);
   };
   const drawerStyles = {
+    paddingTop: "70px",
     width: 240,
     height: "100vh",
     boxSizing: "border-box",
@@ -78,6 +79,52 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </Link>
       </ListItem>
     ));
+  const renderGeneralInfo = () => {
+    return (
+      <Box>
+        <H2
+          align="center"
+          padding={"30px 30px 30px 0"}
+          sx={{
+            display: { lg: "inline", md: "inline", sx: "none", xs: "none" },
+          }}
+        >
+          <Icon name="Home" /> Payment
+        </H2>
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <AccountCircleIcon
+            sx={{
+              width: "90px",
+              height: "90px",
+              color: theme.palette.tertiary.contrastText,
+            }}
+          />
+        </Box>
+        <P
+          sx={{ textDecoration: "underline" }}
+          align="center"
+          color={theme.palette.tertiary.contrastText}
+        >
+          Surename
+        </P>
+        <P
+          sx={{ textDecoration: "underline" }}
+          align="center"
+          paddingBottom={"20px"}
+          color={theme.palette.tertiary.contrastText}
+        >
+          Name
+        </P>
+        <List>{renderSidebarItems()}</List>
+      </Box>
+    );
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -98,7 +145,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Dashboard
+            Payment
           </Typography>
         </Toolbar>
       </AppBar>
@@ -117,42 +164,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           },
         }}
       >
-        <Box>
-          <H2 align="center" padding={"30px 30px 30px 0"}>
-            <Icon name="Home" /> Payment
-          </H2>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <AccountCircleIcon
-              sx={{
-                width: "90px",
-                height: "90px",
-                color: theme.palette.tertiary.contrastText,
-              }}
-            />
-          </Box>
-          <P
-            sx={{ textDecoration: "underline" }}
-            align="center"
-            color={theme.palette.tertiary.contrastText}
-          >
-            Surename
-          </P>
-          <P
-            sx={{ textDecoration: "underline" }}
-            align="center"
-            paddingBottom={"20px"}
-            color={theme.palette.tertiary.contrastText}
-          >
-            Name
-          </P>
-          <List>{renderSidebarItems()}</List>
-        </Box>
+        {renderGeneralInfo()}
         <P
           color={theme.palette.secondary.contrastText}
           onClick={handleLogout}
@@ -165,7 +177,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             cursor: "pointer",
           }}
         >
-          Log aut
+          Log out
         </P>
       </Drawer>
       <Drawer
@@ -183,10 +195,22 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         }}
       >
         <Box sx={drawerStyles}>
-          <List>{renderSidebarItems()}</List>
-          <H4 color="white" sx={{ cursor: "pointer" }}>
+          <List>{renderGeneralInfo()}</List>
+          <P
+            color={theme.palette.secondary.contrastText}
+            onClick={handleLogout}
+            sx={{
+              width: "100%",
+              textAlign: "center",
+              textDecoration: "underline",
+              position: "absolute",
+              bottom: "50px",
+              cursor: "pointer",
+            }}
+          >
+            {" "}
             Log out
-          </H4>
+          </P>
         </Box>
       </Drawer>
       <Box

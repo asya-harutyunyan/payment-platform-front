@@ -35,11 +35,21 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
   return (
     <Box
       style={{ borderRadius: 8 }}
-      sx={{ display: "flex", flexDirection: "column" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: {
+          lg: "100%",
+          md: "100%",
+          sx: "800px",
+          xs: "800px",
+        },
+      }}
     >
       <Box
         sx={{
           width: "100%",
+          minWidth: "300px",
           display: "flex",
           flexDirection: "column",
         }}

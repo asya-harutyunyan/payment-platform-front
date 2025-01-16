@@ -17,7 +17,11 @@ export const TaskListComponent: FC = () => {
     <Box>
       <TaskHeader title={"Task List"} subTitle={"Lorem ipsum"} />
       <Box
-        sx={{ display: "flex", justifyContent: "center", padding: "0 50px" }}
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          padding: { lg: "0 50px", md: "0 50px", sx: "0", xs: "0" },
+        }}
       >
         <HorizontalNonLinearStepper steps={steps} />
       </Box>

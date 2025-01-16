@@ -21,7 +21,7 @@ const LoginForm = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, register } = useForm<FormData>({
     resolver: zodResolver(login_schema),
     defaultValues: {
       email: "",
@@ -61,16 +61,16 @@ const LoginForm = () => {
         width: "100%",
         height: "100vh",
         display: "flex",
-        justifyContent: "end",
+        justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
         bgcolor: "#1f70cb",
       }}
     >
       <BasicCard
         sx={{
-          width: "40%",
+          width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: "80%",
-          marginRight: "50px",
+          marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
         <P
@@ -80,28 +80,30 @@ const LoginForm = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          If you are logging in for the first time, please, change your password
-          using the Forgot password button
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry.Lorem Ipsum
         </P>
         <FormTextInput
           control={control}
+          {...register("email")}
           name="email"
           placeholder="Enter your email"
         />
         <FormTextInput
           control={control}
+          {...register("password")}
           name="password"
           type="password"
           placeholder="Enter your password"
         />
         <Box sx={{ width: "100%" }}>
-          {/* <CustomCheckbox label={"password button"} control={}/> */}
+          {/* <CustomCheckbox label={"Remember me"} control={}/> */}
         </Box>
         <Button
           variant={"contained"}
           color="secondary"
           text={"Login"}
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
         <TextWithDivider>
@@ -143,8 +145,7 @@ const LoginForm = () => {
             color="secondary"
             text={"Sign up"}
             sx={{ fontSize: "14px", height: "50px" }}
-            isLink
-            link="/auth/sign-up"
+            onClick={() => navigate({ to: "/auth/sign-up" })}
           />
         </Box>
       </BasicCard>

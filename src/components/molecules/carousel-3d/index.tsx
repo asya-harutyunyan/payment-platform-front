@@ -4,7 +4,6 @@ import Carousel from "react-spring-3d-carousel";
 
 interface Card {
   key: number; // Define the properties of the card
-  title: string;
   content: JSX.Element;
 }
 
@@ -22,7 +21,6 @@ const Carroussel: React.FC<CarouselProps> = (props) => {
     return {
       key: index,
       content: element.content,
-      title: element.title, // Include the title
       onClick: () => setGoToSlide(index),
     };
   });

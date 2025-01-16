@@ -22,7 +22,7 @@ const SignUpForm: FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
-  const { control, handleSubmit, watch } = useForm<FormData>({
+  const { control, handleSubmit, watch, register } = useForm<FormData>({
     resolver: zodResolver(auth_schema),
     defaultValues: {
       name: "",
@@ -62,16 +62,17 @@ const SignUpForm: FC = () => {
         width: "100%",
         height: "100vh",
         display: "flex",
-        justifyContent: "end",
+        justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
         bgcolor: "#1f70cb",
       }}
     >
       <BasicCard
         sx={{
-          width: "40%",
+          width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: "80%",
-          marginRight: "50px",
+          marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
+          overflowY: "auto",
         }}
       >
         <P
@@ -81,25 +82,38 @@ const SignUpForm: FC = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          If you are logging in for the first time, please, change your password
-          using the Forgot password button
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been
         </P>
 
-        <FormTextInput control={control} name="name" placeholder="Name" />
-        <FormTextInput control={control} name="surname" placeholder="Surname" />
         <FormTextInput
           control={control}
+          {...register("name")}
+          name="name"
+          placeholder="Name"
+        />
+        <FormTextInput
+          control={control}
+          {...register("surname")}
+          name="surname"
+          placeholder="Surname"
+        />
+        <FormTextInput
+          control={control}
+          {...register("email")}
           name="email"
           placeholder="Enter your email"
         />
         <FormTextInput
           control={control}
+          {...register("password")}
           name="password"
           type="password"
           placeholder="Enter your password"
         />
         <FormTextInput
           control={control}
+          {...register("password_confirmation")}
           name="password_confirmation"
           type="password"
           placeholder="Comfirm your password"
@@ -115,12 +129,12 @@ const SignUpForm: FC = () => {
           variant={"contained"}
           color="secondary"
           text={"Register"}
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
           disabled={watch("checkbox") !== true}
         />
         <TextWithDivider>
-          <P>
+          <P padding={"0 0 20px 0"}>
             <Link
               to="/"
               style={{

@@ -10,11 +10,21 @@ export const StepTwo = () => {
   return (
     <Box component="form" sx={{ display: "flex", justifyContent: "center" }}>
       <BasicCard sx={{ width: "70%", marginTop: "20px" }}>
-        <H2 color="primary.main" paddingBottom={4} textAlign={"center"}>
+        <H2
+          color="primary.main"
+          paddingBottom={4}
+          textAlign={"center"}
+          sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
+        >
           Your profit will be +5%. Does that work for you?{" "}
         </H2>
-        <P fontSize={"20px"}>Add new card +</P>
-        <P fontSize={"20px"}> there will be card component</P>
+        <P fontSize={"20px"} textAlign={"center"}>
+          Add new card +
+        </P>
+        <P fontSize={"20px"} textAlign={"center"}>
+          {" "}
+          // there will be card component
+        </P>
         <Button
           sx={{
             marginTop: "20px",

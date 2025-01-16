@@ -1,6 +1,6 @@
 import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
-import Carroussel from "@/components/molecules/carousel";
+import Carroussel from "@/components/molecules/carousel-3d";
 import { TabsComponent } from "@/components/molecules/tabs";
 import TaskHeader from "@/components/molecules/title";
 import theme from "@/styles/theme";
@@ -11,7 +11,6 @@ import { FC } from "react";
 const cards = [
   {
     key: Math.random(),
-    title: "s",
     content: (
       <BankCard
         cardHolder="Jane Smith"
@@ -25,7 +24,6 @@ const cards = [
   },
   {
     key: Math.random(),
-    title: "swewe",
     content: (
       <BankCard
         cardHolder="Jane Smith"
@@ -39,7 +37,6 @@ const cards = [
   },
   {
     key: Math.random(),
-    title: "swewe",
     content: (
       <BankCard
         cardHolder="Jane Smith"
@@ -64,14 +61,22 @@ const tabContent = [
           justifyContent: "space-between",
         }}
       >
-        <Carroussel
-          cards={cards}
-          height="500px"
-          width="100%"
-          margin="0 auto"
-          offset={2}
-          showArrows={false}
-        />
+        <Box
+          sx={{
+            width: "100%",
+            display: { lg: "block", md: "block", sx: "none", xs: "none" },
+          }}
+        >
+          <Carroussel
+            cards={cards}
+            height="500px"
+            width="100%"
+            margin="0 auto"
+            offset={2}
+            showArrows={false}
+          />
+        </Box>
+        <Box>{/* <SimpleSlider slider={cards}></SimpleSlider> */}</Box>
       </Box>
     ),
   },
@@ -86,15 +91,34 @@ export const BankInfoComponent: FC = () => {
     <Box>
       <TaskHeader title={"Order List"} subTitle={"Lorem ipsum"} />
       <Box sx={{ display: "flex", width: "100%" }}>
-        {/* <TabsComponent tabPanel={tabContent} tabNames={tabNames} /> */}
         <Box
           sx={{
             width: "100%",
             display: "flex",
-            justifyContent: "space-between",
+            justifyContent: {
+              lg: "space-between",
+              md: "space-between",
+              sx: "center",
+              xs: "center",
+            },
+            flexDirection: {
+              lg: "row",
+              md: "row",
+              sx: "column",
+              xs: "column",
+            },
           }}
         >
-          <Box sx={{ width: "45%" }}>
+          <Box
+            sx={{
+              width: {
+                lg: "45%",
+                md: "45%",
+                sx: "100%",
+                xs: "100%",
+              },
+            }}
+          >
             <H2 color="primary.main">
               <AccountBalanceIcon
                 sx={{ paddingRight: "10px", width: "30px", height: "30px" }}
@@ -147,7 +171,11 @@ export const BankInfoComponent: FC = () => {
               type and scrambled it to make a type specimen book.
             </P>
           </Box>
-          <Box sx={{ width: "50%" }}>
+          <Box
+            sx={{
+              width: { lg: "50%", md: "50%", sx: "100%", xs: "100%" },
+            }}
+          >
             <TabsComponent tabPanel={tabContent} tabNames={tabNames} />
           </Box>
           {/* <Carroussel

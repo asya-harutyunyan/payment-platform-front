@@ -22,7 +22,7 @@ const ChangePasswordComponent = () => {
   const navigate = useNavigate();
   const email = useSelector((state: RootState) => state.auth.email);
 
-  const { control, handleSubmit } = useForm<ConfirmEmailFormData>({
+  const { control, handleSubmit, register } = useForm<ConfirmEmailFormData>({
     resolver: zodResolver(change_password_schema),
     defaultValues: {
       email: email,
@@ -54,16 +54,16 @@ const ChangePasswordComponent = () => {
         width: "100%",
         height: "100vh",
         display: "flex",
-        justifyContent: "end",
+        justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
         bgcolor: "#1f70cb",
       }}
     >
       <BasicCard
         sx={{
-          width: "40%",
+          width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: "80%",
-          marginRight: "50px",
+          marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
         <P
@@ -73,17 +73,19 @@ const ChangePasswordComponent = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          If you are logging in for the first time, please, change your password
-          using the Forgot password button
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been
         </P>
         <FormTextInput
           control={control}
+          {...register("two_factor_code")}
           name="two_factor_code"
           placeholder="Enter code"
         />
 
         <FormTextInput
           control={control}
+          {...register("password")}
           name="password"
           type="password"
           placeholder="New password"
@@ -91,6 +93,7 @@ const ChangePasswordComponent = () => {
 
         <FormTextInput
           control={control}
+          {...register("password_confirmation")}
           name="password_confirmation"
           type="password"
           placeholder="Confirm Password"
@@ -100,7 +103,7 @@ const ChangePasswordComponent = () => {
           variant={"contained"}
           color="secondary"
           text={"Login"}
-          sx={{ width: "100%" }}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
         <TextWithDivider>
@@ -134,7 +137,7 @@ const ChangePasswordComponent = () => {
                 color: theme.palette.primary.main,
               }}
             >
-              Forgot your password?
+              Already have an account?
             </Link>
           </P>
           <Button
@@ -142,8 +145,7 @@ const ChangePasswordComponent = () => {
             color="secondary"
             text={"Sign up"}
             sx={{ fontSize: "14px", height: "50px" }}
-            isLink
-            link="/auth/sign-up"
+            onClick={() => navigate({ to: "/auth/sign-up" })}
           />
         </Box>
       </BasicCard>

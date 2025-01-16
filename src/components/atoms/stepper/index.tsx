@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
 import * as React from "react";
 import { FC } from "react";
+import Button from "../button";
 import { BasicCard } from "../card";
 
 type Steps = {
@@ -79,7 +80,13 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
               onClick={handleStep(index)}
               aria-label={`Step ${index + 1}`}
             >
-              <P sx={{ color: theme.palette.primary.main }}>{step.label}</P>
+              <P
+                sx={{
+                  color: theme.palette.primary.main,
+                }}
+              >
+                {step.label}
+              </P>
             </StepButton>
           </Step>
         ))}
@@ -113,9 +120,9 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
                 Back
               </ButtonMui>
               <Box sx={{ flex: "1 1 auto" }} />
-              {/* <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
+              <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
                 Next
-              </ButtonMui> */}
+              </ButtonMui>
               <Box
                 sx={{ height: "40px", display: "flex", alignItems: "center" }}
               >
@@ -130,16 +137,18 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
                       </P>
                     </Box>
                   ) : (
-                    <ButtonMui
+                    <Button
+                      variant="outlined"
                       onClick={() => {
                         handleComplete();
                         handleNext();
                       }}
-                    >
-                      {completedSteps() === totalSteps() - 1
-                        ? "Finish"
-                        : "NEXT"}
-                    </ButtonMui>
+                      text={
+                        completedSteps() === totalSteps() - 1
+                          ? "Finish"
+                          : "Complete step"
+                      }
+                    />
                   ))}
               </Box>
             </Box>

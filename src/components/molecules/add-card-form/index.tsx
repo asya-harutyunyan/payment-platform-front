@@ -20,7 +20,11 @@ export const BankCardDetalis: FC = () => {
 
   const onSubmit: SubmitHandler<FormData> = async () => {};
   return (
-    <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{ width: "100%" }}
+    >
       <FormTextInput
         control={control}
         name="name_cards_member"

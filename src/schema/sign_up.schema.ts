@@ -2,8 +2,8 @@ import { z } from "zod";
 import { password_regex } from "./password.regex";
 
 export const auth_schema = z.object({
-  name: z.string(),
-  surname: z.string(),
+  name: z.string().min(3, "Name must be at least 6 characters"),
+  surname: z.string().min(3, "Surname must be at least 6 characters"),
   email: z.string().email("Invalid email address"),
   password: z
     .string()

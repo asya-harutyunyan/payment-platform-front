@@ -71,9 +71,11 @@ const titles = [
 ];
 export const UserBankTransaktionsComponent: FC = () => {
   return (
-    <Box>
-      <TaskHeader title={"Transaktions history"} subTitle={"Lorem ipsum"} />
-      <TaskTable titles={titles} data={tasks} bg={"light"} />
+    <Box sx={{ width: "100%" }}>
+      <TaskHeader title={"Order List"} subTitle={"Lorem ipsum"} />
+      <Box sx={{ width: "350px", overflowX: "auto" }}>
+        <TaskTable titles={titles} data={tasks} bg={"light"} />
+      </Box>
     </Box>
   );
 };
