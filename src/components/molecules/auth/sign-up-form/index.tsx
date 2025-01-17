@@ -12,9 +12,11 @@ import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import bg from "../../../../assets/images/bg.jpeg";
 
 type FormData = z.infer<typeof auth_schema>;
 
@@ -64,13 +66,41 @@ const SignUpForm: FC = () => {
         display: "flex",
         justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
-        bgcolor: "#1f70cb",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        flexDirection: {
+          lg: "row",
+          md: "row",
+          sx: "column-reverse",
+          xs: "column-reverse",
+        },
       }}
     >
+      <Box
+        sx={{
+          width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
+          display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <P
+          fontSize={"30px"}
+          color="primary.contrastText"
+          width={"75%"}
+          paddingBottom={"20px"}
+        >
+          {t("lorem_short")}
+        </P>
+        <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
+          {t("lorem_short")}
+        </P>
+      </Box>
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: "80%",
+          height: "85%",
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
           overflowY: "auto",
         }}
@@ -82,59 +112,58 @@ const SignUpForm: FC = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been
+          {t("lorem_short")}
         </P>
 
         <FormTextInput
           control={control}
           {...register("name")}
           name="name"
-          placeholder="Name"
+          placeholder={t("name")}
         />
         <FormTextInput
           control={control}
           {...register("surname")}
           name="surname"
-          placeholder="Surname"
+          placeholder={t("surname")}
         />
         <FormTextInput
           control={control}
           {...register("email")}
           name="email"
-          placeholder="Enter your email"
+          placeholder={t("email")}
         />
         <FormTextInput
           control={control}
           {...register("password")}
           name="password"
           type="password"
-          placeholder="Enter your password"
+          placeholder={t("password")}
         />
         <FormTextInput
           control={control}
           {...register("password_confirmation")}
           name="password_confirmation"
           type="password"
-          placeholder="Comfirm your password"
+          placeholder={t("password_confirmation")}
         />
         <Box sx={{ width: "100%" }}>
           <CustomCheckbox
             control={control}
-            label={"I agree to the Terms of Service and Privacy Policy"}
+            label={t("privacy")}
             name={"checkbox"}
           />
         </Box>
         <Button
-          variant={"contained"}
+          variant={"gradient"}
           color="secondary"
-          text={"Register"}
-          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+          text={t("register")}
+          sx={{ width: "100%", height: "50px" }}
           type="submit"
           disabled={watch("checkbox") !== true}
         />
         <TextWithDivider>
-          <P padding={"0 0 20px 0"}>
+          <P padding={"0 0 10px 0"}>
             <Link
               to="/"
               style={{
@@ -143,7 +172,7 @@ const SignUpForm: FC = () => {
                 fontSize: "14px",
               }}
             >
-              You already have an account?
+              {t("have_account")}
             </Link>
           </P>
         </TextWithDivider>

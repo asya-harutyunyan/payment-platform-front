@@ -4,18 +4,19 @@ import { StepTwo } from "@/components/molecules/earn-money-steps/second-step";
 import { StepThree } from "@/components/molecules/earn-money-steps/third-step";
 import TaskHeader from "@/components/molecules/title";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC } from "react";
 
 const steps = [
-  { label: "Earn money.", component: <StepOne /> },
-  { label: "How much will it be?", component: <StepTwo /> },
-  { label: "Success!", component: <StepThree /> },
+  { label: "earn_money", component: <StepOne /> },
+  { label: "it_will_be", component: <StepTwo /> },
+  { label: "success", component: <StepThree /> },
 ];
 
 export const TaskListComponent: FC = () => {
   return (
     <Box>
-      <TaskHeader title={"Task List"} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("task_list")} subTitle={"Lorem ipsum"} />
       <Box
         sx={{
           display: "flex",

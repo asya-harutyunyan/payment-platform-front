@@ -5,6 +5,7 @@ import { price_schema } from "@/schema/price.schema";
 import { H2 } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -33,7 +34,7 @@ export const StepOne = () => {
           textAlign={"center"}
           sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
         >
-          How much money do you want to earn?
+          {t("how_much_money")}
         </H2>
         <FormTextInput
           control={control}
@@ -42,7 +43,7 @@ export const StepOne = () => {
           type="number"
         />
         <Button
-          text="Confirmation"
+          text="confirm"
           variant="contained"
           sx={{
             height: "50px",

@@ -8,6 +8,7 @@ import StepButton from "@mui/material/StepButton";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
+import { t } from "i18next";
 import * as React from "react";
 import { FC } from "react";
 import { BasicCard } from "../card";
@@ -76,7 +77,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
                   color: theme.palette.primary.main,
                 }}
               >
-                {step.label}
+                {t(step.label)}
               </P>
             </StepButton>
           </Step>
@@ -86,7 +87,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
         {allStepsCompleted() ? (
           <BasicCard sx={{ height: "300px" }}>
             <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
+              {t("complated_steps")}
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
@@ -98,7 +99,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
             <Box sx={{ mt: 2, mb: 1, py: 1 }}>
               {/* Render the dynamic component for the current step */}
               {steps[activeStep]?.component || (
-                <Typography>No content for this step</Typography>
+                <Typography>{t("no_content")}</Typography>
               )}
             </Box>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
@@ -108,11 +109,11 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
                 onClick={handleBack}
                 sx={{ mr: 1 }}
               >
-                Back
+                {t("back")}
               </ButtonMui>
               <Box sx={{ flex: "1 1 auto" }} />
               <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
-                Next
+                {t("next")}
               </ButtonMui>
             </Box>
           </React.Fragment>

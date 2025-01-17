@@ -2,6 +2,7 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { H2, P } from "@/styles/typography";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 
 export const StepTwo = () => {
   const onSubmit = () => {
@@ -16,10 +17,10 @@ export const StepTwo = () => {
           textAlign={"center"}
           sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
         >
-          Your profit will be +5%. Does that work for you?{" "}
+          {t("profit")}
         </H2>
         <P fontSize={"20px"} textAlign={"center"}>
-          Add new card +
+          {t("add_bank_card")}+
         </P>
         <P fontSize={"20px"} textAlign={"center"}>
           {" "}
@@ -32,7 +33,7 @@ export const StepTwo = () => {
             height: "50px",
             fontSize: "17px",
           }}
-          text="Confirm"
+          text="confirm"
           variant={"outlined"}
           onClick={onSubmit}
         />

@@ -11,9 +11,11 @@ import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { z } from "zod";
+import bg from "../../../../assets/images/bg.jpeg";
 
 export type ConfirmEmailFormData = z.infer<typeof change_password_schema>;
 
@@ -56,9 +58,31 @@ const ChangePasswordComponent = () => {
         display: "flex",
         justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
-        bgcolor: "#1f70cb",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
+      <Box
+        sx={{
+          width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
+          display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <P
+          fontSize={"30px"}
+          color="primary.contrastText"
+          width={"75%"}
+          paddingBottom={"20px"}
+        >
+          {t("lorem_short")}
+        </P>
+        <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
+          {t("lorem_short")}
+        </P>
+      </Box>
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
@@ -73,14 +97,13 @@ const ChangePasswordComponent = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been
+          {t("lorem_short")}
         </P>
         <FormTextInput
           control={control}
           {...register("two_factor_code")}
           name="two_factor_code"
-          placeholder="Enter code"
+          placeholder={t("enter_code")}
         />
 
         <FormTextInput
@@ -88,21 +111,21 @@ const ChangePasswordComponent = () => {
           {...register("password")}
           name="password"
           type="password"
-          placeholder="New password"
+          placeholder={t("new_password")}
         />
 
         <FormTextInput
           control={control}
           {...register("password_confirmation")}
           name="password_confirmation"
-          type="password"
-          placeholder="Confirm Password"
+          type={t("password_confirmation")}
+          placeholder={t("password_confirmation")}
         />
 
         <Button
-          variant={"contained"}
+          variant={"gradient"}
           color="secondary"
-          text={"Change password"}
+          text={t("change_password")}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
@@ -117,7 +140,7 @@ const ChangePasswordComponent = () => {
                 textDecoration: "none",
               }}
             >
-              Haven't account?
+              {t("havent_account")}
             </Link>
           </P>
         </TextWithDivider>
@@ -137,13 +160,13 @@ const ChangePasswordComponent = () => {
                 color: theme.palette.primary.main,
               }}
             >
-              Already have an account?
+              {t("have_account")}
             </Link>
           </P>
           <Button
             variant={"outlined"}
             color="secondary"
-            text={"Sign up"}
+            text={t("sign_up")}
             sx={{ fontSize: "14px", height: "50px" }}
             onClick={() => navigate({ to: "/auth/sign-up" })}
           />

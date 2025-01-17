@@ -1,6 +1,7 @@
 import TaskTable from "@/components/molecules/cards";
 import TaskHeader from "@/components/molecules/title";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC } from "react";
 
 const tasks = [
@@ -56,7 +57,7 @@ const titles = [
 export const UserTaskListComponent: FC = () => {
   return (
     <Box>
-      <TaskHeader title={"Task List"} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("task_list")} subTitle={"Lorem ipsum"} />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },

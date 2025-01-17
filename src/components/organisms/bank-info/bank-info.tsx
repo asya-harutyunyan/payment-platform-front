@@ -7,7 +7,9 @@ import theme from "@/styles/theme";
 import { H2, P } from "@/styles/typography";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 const cards = [
   {
     key: Math.random(),
@@ -83,13 +85,13 @@ const tabContent = [
   { id: 2, component: <BankCardDetalis /> },
 ];
 const tabNames = [
-  { id: 1, name: "Bank Information" },
-  { id: 2, name: "Add Bank Card" },
+  { id: 1, name: "bank_info" },
+  { id: 2, name: "add_bank_card" },
 ];
 export const BankInfoComponent: FC = () => {
   return (
     <Box>
-      <TaskHeader title={"Order List"} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("order_list")} subTitle={"Lorem ipsum"} />
       <Box sx={{ display: "flex", width: "100%" }}>
         <Box
           sx={{
@@ -123,10 +125,10 @@ export const BankInfoComponent: FC = () => {
               <AccountBalanceIcon
                 sx={{ paddingRight: "10px", width: "30px", height: "30px" }}
               />
-              Bank Information
+              {t("bank_info")}
             </H2>
             <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
-              NAME :{" "}
+              {t("name")} :{" "}
               <span
                 style={{
                   fontSize: "17px",
@@ -138,7 +140,7 @@ export const BankInfoComponent: FC = () => {
               </span>
             </P>
             <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
-              SURNAME :{" "}
+              {t("surname")} :{" "}
               <span
                 style={{
                   fontSize: "17px",
@@ -150,7 +152,7 @@ export const BankInfoComponent: FC = () => {
               </span>
             </P>
             <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
-              EMAIL :{" "}
+              {t("email")} :{" "}
               <span
                 style={{
                   fontSize: "17px",
@@ -165,10 +167,7 @@ export const BankInfoComponent: FC = () => {
               fontSize={"18px"}
               color="tertiary.contrastText"
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              {t("about_me")}
             </P>
           </Box>
           <Box

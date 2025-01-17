@@ -1,6 +1,8 @@
 import { Box, Tab, Tabs } from "@mui/material";
 import { ReactNode } from "@tanstack/react-router";
+import { t } from "i18next";
 import { FC, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -60,7 +62,7 @@ export const TabsComponent: FC<ITabsComponent> = ({ tabPanel, tabNames }) => {
               key={index}
               color="primary.main"
               sx={{ color: "primary.main" }}
-              label={item.name}
+              label={t(item.name)}
               {...a11yProps(index)}
             />
           );

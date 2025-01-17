@@ -20,8 +20,8 @@ import {
   Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import { adminItems, userItems } from "./__item_list__";
 interface DashboardPageProps {
   children?: ReactNode;
@@ -30,11 +30,10 @@ interface DashboardPageProps {
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
-  const { t, i18n } = useTranslation();
 
-  const changeLanguage = (lang: string | undefined) => {
-    i18n.changeLanguage(lang);
-  };
+  // const changeLanguage = (lang: string | undefined) => {
+  //   i18n.changeLanguage(lang);
+  // };
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -187,7 +186,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         >
           {t("log_out")}
         </P>
-        <button onClick={() => changeLanguage("en")}>English</button>
+        {/* <button onClick={() => changeLanguage("en")}>English</button> */}
       </Drawer>
       <Drawer
         variant="temporary"
@@ -219,8 +218,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           >
             {t("log_out")}
           </P>
-          <button onClick={() => changeLanguage("en")}>English</button>
-          <button onClick={() => changeLanguage("es")}>Español</button>{" "}
+          {/* <button onClick={() => changeLanguage("en")}>English</button>
+          <button onClick={() => changeLanguage("es")}>Español</button>{" "} */}
         </Box>
       </Drawer>
       <Box

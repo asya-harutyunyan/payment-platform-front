@@ -1,7 +1,9 @@
 import TaskTable from "@/components/molecules/cards";
 import TaskHeader from "@/components/molecules/title";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 const tasks = [
   {
@@ -41,7 +43,7 @@ const titles = [
 export const OrderListComponent: FC = () => {
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={"Order List"} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("order_list")} subTitle={"Lorem ipsum"} />
       <Box sx={{ width: "350px", overflowX: "auto" }}>
         <TaskTable titles={titles} data={tasks} bg={"light"} />
       </Box>

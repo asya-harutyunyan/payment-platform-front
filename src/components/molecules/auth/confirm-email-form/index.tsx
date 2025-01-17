@@ -10,8 +10,10 @@ import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import bg from "../../../../assets/images/bg.jpeg";
 
 type FormData = z.infer<typeof comfirm_email_schema>;
 
@@ -48,9 +50,31 @@ const ConfirmEmailForm = () => {
         display: "flex",
         justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
-        bgcolor: "#1f70cb",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
+      <Box
+        sx={{
+          width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
+          display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <P
+          fontSize={"30px"}
+          color="primary.contrastText"
+          width={"75%"}
+          paddingBottom={"20px"}
+        >
+          {t("lorem_short")}
+        </P>
+        <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
+          {t("lorem_short")}
+        </P>
+      </Box>
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
@@ -65,19 +89,18 @@ const ConfirmEmailForm = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          If you are logging in for the first time, please, change your password
-          using the Forgot password button
+          {t("lorem_short")}
         </P>
         <FormTextInput
           control={control}
           name="two_factor_code"
-          placeholder="Enter your email"
+          placeholder={t("two_factor_code")}
         />
 
         <Button
-          variant={"contained"}
+          variant={"gradient"}
           color="secondary"
-          text={"Confirm email"}
+          text={t("confirm_email")}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
@@ -92,7 +115,7 @@ const ConfirmEmailForm = () => {
                 textDecoration: "none",
               }}
             >
-              Haven't account?
+              {t("havent_account")}
             </Link>
           </P>
         </TextWithDivider>
@@ -112,13 +135,13 @@ const ConfirmEmailForm = () => {
                 color: theme.palette.primary.main,
               }}
             >
-              Forgot your password?
+              {t("forgot_password")}
             </Link>
           </P>
           <Button
             variant={"outlined"}
             color="secondary"
-            text={"Sign up"}
+            text={t("sign_up")}
             sx={{ fontSize: "14px", height: "50px" }}
             onClick={() => navigate({ to: "/auth/sign-up" })}
           />

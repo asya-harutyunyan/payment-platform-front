@@ -3,6 +3,7 @@ import { FormTextInput } from "@/components/atoms/input";
 import { bank_card_schema } from "@/schema/bank_card_detalis.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -28,12 +29,12 @@ export const BankCardDetalis: FC = () => {
       <FormTextInput
         control={control}
         name="name_cards_member"
-        placeholder="Name Surname"
+        placeholder={t("name_cards_member")}
       />
       <FormTextInput
         control={control}
         name="card_number"
-        placeholder="card number"
+        placeholder={t("card_number")}
       />
       <Box sx={{ display: "flex" }}>
         <Button

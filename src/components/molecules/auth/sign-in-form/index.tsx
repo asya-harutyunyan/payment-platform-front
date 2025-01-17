@@ -11,8 +11,10 @@ import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import bg from "../../../../assets/images/bg.jpeg";
 
 type FormData = z.infer<typeof login_schema>;
 
@@ -63,9 +65,31 @@ const LoginForm = () => {
         display: "flex",
         justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
-        bgcolor: "#1f70cb",
+        backgroundImage: `url(${bg})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
       }}
     >
+      <Box
+        sx={{
+          width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
+          display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <P
+          fontSize={"30px"}
+          color="primary.contrastText"
+          width={"75%"}
+          paddingBottom={"20px"}
+        >
+          {t("lorem_short")}
+        </P>
+        <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
+          {t("lorem_short")}
+        </P>
+      </Box>
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
@@ -80,29 +104,28 @@ const LoginForm = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry.Lorem Ipsum
+          {t("lorem_short")}
         </P>
         <FormTextInput
           control={control}
           {...register("email")}
           name="email"
-          placeholder="Enter your email"
+          placeholder={t("email")}
         />
         <FormTextInput
           control={control}
           {...register("password")}
           name="password"
           type="password"
-          placeholder="Enter your password"
+          placeholder={t("password")}
         />
         <Box sx={{ width: "100%" }}>
           {/* <CustomCheckbox label={"Remember me"} control={}/> */}
         </Box>
         <Button
-          variant={"contained"}
+          variant={"gradient"}
           color="secondary"
-          text={"Login"}
+          text={t("sign_in")}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
@@ -117,7 +140,7 @@ const LoginForm = () => {
                 textDecoration: "none",
               }}
             >
-              Haven't account?
+              {t("havent_account")}
             </Link>
           </P>
         </TextWithDivider>
@@ -137,13 +160,13 @@ const LoginForm = () => {
                 color: theme.palette.primary.main,
               }}
             >
-              Forgot your password?
+              {t("forgot_password")}
             </Link>
           </P>
           <Button
             variant={"outlined"}
             color="secondary"
-            text={"Sign up"}
+            text={t("sign_up")}
             sx={{ fontSize: "14px", height: "50px" }}
             onClick={() => navigate({ to: "/auth/sign-up" })}
           />

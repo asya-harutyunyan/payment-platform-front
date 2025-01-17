@@ -11,6 +11,12 @@ declare module "@mui/material/styles" {
   }
 }
 
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    gradient: true;
+  }
+}
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -28,6 +34,22 @@ const theme = createTheme({
     text: {
       primary: "#f8f8f8",
       secondary: "#FFFFFF",
+    },
+  },
+  components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: "gradient" },
+          style: {
+            backgroundImage: "linear-gradient(to right, #0967eb, #6ea8f9)",
+            color: "#fff",
+            "&:hover": {
+              backgroundImage: "linear-gradient(to right, #6ea8f9, #0151C1)",
+            },
+          },
+        },
+      ],
     },
   },
   typography: {
@@ -75,7 +97,7 @@ const theme = createTheme({
     },
     body1: {
       fontSize: "1rem",
-      fontWeight: "light",
+      fontWeight: 300, // Use a numeric value for "light"
       color: "#0E1D40",
       fontFamily: "Poppins, sans-serif",
     },

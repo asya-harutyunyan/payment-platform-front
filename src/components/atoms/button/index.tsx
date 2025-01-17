@@ -2,9 +2,10 @@ import theme from "@/styles/theme";
 import { SxProps, Theme } from "@mui/material";
 import DinamicButton from "@mui/material/Button";
 import { Link } from "@tanstack/react-router";
+import { t } from "i18next";
 import * as React from "react";
 
-type ButtonVariant = "text" | "contained" | "outlined";
+type ButtonVariant = "text" | "contained" | "outlined" | "gradient";
 type Sizes = "small" | "medium" | "large";
 type Colors =
   | "inherit"
@@ -24,6 +25,7 @@ interface DynamicButtonProps {
   link?: string;
   type?: "submit" | "button";
   disabled?: boolean;
+  gradient?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -55,7 +57,7 @@ const Button: React.FC<DynamicButtonProps> = ({
       onClick={onClick}
     >
       {!isLink ? (
-        text
+        t(text)
       ) : (
         <Link
           to={link ?? "/"}
