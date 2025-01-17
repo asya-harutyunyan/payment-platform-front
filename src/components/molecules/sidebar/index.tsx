@@ -82,15 +82,17 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const renderGeneralInfo = () => {
     return (
       <Box>
-        <H2
-          align="center"
-          padding={"30px 30px 30px 0"}
-          sx={{
-            display: { lg: "inline", md: "inline", sx: "none", xs: "none" },
-          }}
-        >
-          <Icon name="Home" /> Payment
-        </H2>
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <H2
+            align="center"
+            padding={"30px 30px 30px 0"}
+            sx={{
+              display: { lg: "inline", md: "inline", sx: "none", xs: "none" },
+            }}
+          >
+            <Icon name="Home" /> Payment
+          </H2>
+        </Box>
         <Box
           sx={{
             width: "100%",

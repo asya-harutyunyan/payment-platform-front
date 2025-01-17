@@ -10,7 +10,6 @@ import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
 import * as React from "react";
 import { FC } from "react";
-import Button from "../button";
 import { BasicCard } from "../card";
 
 type Steps = {
@@ -51,14 +50,6 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
 
   const handleStep = (step: number) => () => {
     setActiveStep(step);
-  };
-
-  const handleComplete = () => {
-    setCompleted((prevCompleted) => ({
-      ...prevCompleted,
-      [activeStep]: true,
-    }));
-    handleNext();
   };
 
   const handleReset = () => {
@@ -123,34 +114,6 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
               <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
                 Next
               </ButtonMui>
-              <Box
-                sx={{ height: "40px", display: "flex", alignItems: "center" }}
-              >
-                {activeStep !== steps.length &&
-                  (completed[activeStep] ? (
-                    <Box>
-                      <P
-                        sx={{ display: "inline-block" }}
-                        color="tertiary.contrastText"
-                      >
-                        Step ${activeStep + 1} already completed
-                      </P>
-                    </Box>
-                  ) : (
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        handleComplete();
-                        handleNext();
-                      }}
-                      text={
-                        completedSteps() === totalSteps() - 1
-                          ? "Finish"
-                          : "Complete step"
-                      }
-                    />
-                  ))}
-              </Box>
             </Box>
           </React.Fragment>
         )}

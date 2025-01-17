@@ -79,7 +79,7 @@ const ResetPasswordComponent = () => {
         <Button
           variant={"contained"}
           color="secondary"
-          text={"Login"}
+          text={"Send email"}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />

@@ -102,7 +102,7 @@ const ChangePasswordComponent = () => {
         <Button
           variant={"contained"}
           color="secondary"
-          text={"Login"}
+          text={"Change password"}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />

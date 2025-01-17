@@ -73,7 +73,12 @@ export const UserBankTransaktionsComponent: FC = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={"Order List"} subTitle={"Lorem ipsum"} />
-      <Box sx={{ width: "350px", overflowX: "auto" }}>
+      <Box
+        sx={{
+          width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+          overflowX: "auto",
+        }}
+      >
         <TaskTable titles={titles} data={tasks} bg={"light"} />
       </Box>
     </Box>

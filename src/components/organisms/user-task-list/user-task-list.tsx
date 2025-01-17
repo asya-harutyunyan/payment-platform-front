@@ -57,7 +57,12 @@ export const UserTaskListComponent: FC = () => {
   return (
     <Box>
       <TaskHeader title={"Task List"} subTitle={"Lorem ipsum"} />
-      <Box sx={{ width: "350px", overflowX: "auto" }}>
+      <Box
+        sx={{
+          width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+          overflowX: "auto",
+        }}
+      >
         <TaskTable titles={titles} data={tasks} bg={"dark"} />
       </Box>
     </Box>
