@@ -2,20 +2,20 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 
 export const userItems = [
-  { text: "Task List", icon: <HomeIcon />, link: "/user-task-list" },
+  { text: "task_list", icon: <HomeIcon />, link: "/user-task-list" },
   {
-    text: "Bank Info",
+    text: "bank_info",
     icon: <InfoIcon />,
     link: "/info",
   },
   {
-    text: "Transactions",
+    text: "order_list",
     icon: <InfoIcon />,
     link: "/order-list",
   },
 ];
 export const adminItems = [
-  { text: "User List", icon: <HomeIcon />, link: "/user-list" },
-  { text: "Task List", icon: <InfoIcon />, link: "/task-list" },
-  { text: "Order List", icon: <InfoIcon />, link: "/orders" },
+  { text: "user_list", icon: <HomeIcon />, link: "/user-list" },
+  { text: "task_list", icon: <InfoIcon />, link: "/task-list" },
+  { text: "order_list", icon: <InfoIcon />, link: "/orders" },
 ];
