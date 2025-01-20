@@ -2,7 +2,6 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { ReactNode } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useState } from "react";
-import { useTranslation } from "react-i18next";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -48,6 +47,7 @@ export const TabsComponent: FC<ITabsComponent> = ({ tabPanel, tabNames }) => {
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    console.log(event);
   };
   return (
     <Box sx={{ width: "100%" }}>

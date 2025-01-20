@@ -23,7 +23,6 @@ export { default as IconLoxalaPatternRight } from "./IconLoxalaPatternRight";
 export { default as IconNoResults } from "./IconNoResults";
 export { default as IconLoxalaPatternBig } from "./IconLoxalaPatternBig";
 export { default as IconLoxalaPatternBigRight } from "./IconLoxalaPatternBigRight";
-export { default as IconNotFoundMapSpace } from "./IconNotFoundMapSpace";
 export { default as IconSkillMatcherButtonBody } from "./IconSkillMatcherButtonBody";
 export { default as IconNotFoundMapQuestions } from "./IconNotFoundMapQuestions";
 export { default as IconMiniChatHeaderIconLight } from "./IconMiniChatHeaderIconLight";
