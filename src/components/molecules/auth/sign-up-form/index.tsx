@@ -3,58 +3,17 @@ import { BasicCard } from "@/components/atoms/card";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import { useAuth } from "@/context/auth.context";
-import { auth_schema } from "@/schema/sign_up.schema";
-import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
-import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import bg from "../../../../assets/images/bg.jpeg";
-
-type FormData = z.infer<typeof auth_schema>;
+import useSignUp from "./_services/useSignUp";
 
 const SignUpForm: FC = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
-  const { control, handleSubmit, watch, register } = useForm<FormData>({
-    resolver: zodResolver(auth_schema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      checkbox: false,
-    },
-  });
-
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (data.password !== data.password_confirmation) {
-      alert("Passwords do not match!");
-      return;
-    }
-    dispatch(registerUser(data))
-      .unwrap()
-      .then((response) => {
-        if (response.status === 200 && response.data.token) {
-          setIsAuthenticated(true);
-        }
-        navigate({ to: "/auth/sign-in" });
-
-        console.log("Registration successful, token:", response.token);
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
-  };
+  const { control, handleSubmit, watch, register, onSubmit } = useSignUp();
 
   return (
     <Box

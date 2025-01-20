@@ -2,59 +2,16 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import { useAuth } from "@/context/auth.context";
-import { login_schema } from "@/schema/login.schema";
-import { fetchUser, loginUser } from "@/store/reducers/auth/authSlice/thunks";
-import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import bg from "../../../../assets/images/bg.jpeg";
-
-type FormData = z.infer<typeof login_schema>;
+import useSignIn from "./_services/useSignIn";
 
 const LoginForm = () => {
-  const dispatch = useAppDispatch();
-  const { setUser } = useAuth();
-  const navigate = useNavigate();
-
-  const { control, handleSubmit, register } = useForm<FormData>({
-    resolver: zodResolver(login_schema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form Data:", data);
-
-    dispatch(loginUser(data))
-      .unwrap()
-      .then((response) => {
-        console.log("Registration successful, token:", response);
-        dispatch(fetchUser())
-          .unwrap()
-          .then((data) => {
-            if (data.id) {
-              setUser(data);
-              localStorage.setItem("user_role", data.role ?? "");
-              navigate({
-                to: data.role === "admin" ? "/task-list" : "/user-task-list",
-              });
-            }
-          });
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
-  };
-
+  const { handleSubmit, register, control, onSubmit, navigate } = useSignIn();
   return (
     <Box
       component="form"

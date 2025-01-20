@@ -18,6 +18,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   rightIcon?: ReactNode;
   fullWidth?: boolean;
   type?: string;
+  isPassword?: boolean;
 }
 
 export const FormTextInput = <T extends FieldValues>({

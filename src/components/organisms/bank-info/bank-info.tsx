@@ -9,7 +9,6 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import { useTranslation } from "react-i18next";
 const cards = [
   {
     key: Math.random(),
@@ -51,7 +50,6 @@ const cards = [
     ),
   },
 ];
-//needed
 const tabContent = [
   {
     id: 1,

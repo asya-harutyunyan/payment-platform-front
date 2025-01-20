@@ -65,7 +65,7 @@ const Button: React.FC<DynamicButtonProps> = ({
             color: theme.palette.secondary.main,
           }}
         >
-          {text}
+          {t(text)}
         </Link>
       )}
     </DinamicButton>

@@ -2,8 +2,12 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
+import { useAuth } from "@/context/auth.context";
 import { comfirm_email_schema } from "@/schema/comfirm_email.schema";
-import { confirmEmail } from "@/store/reducers/auth/authSlice/thunks";
+import {
+  confirmEmail,
+  fetchUser,
+} from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
@@ -20,6 +24,7 @@ type FormData = z.infer<typeof comfirm_email_schema>;
 const ConfirmEmailForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const { control, handleSubmit } = useForm<FormData>({
     resolver: zodResolver(comfirm_email_schema),
     defaultValues: {
@@ -33,7 +38,17 @@ const ConfirmEmailForm = () => {
     dispatch(confirmEmail(data))
       .then((response) => {
         console.log("Registration successful, token:", response);
-        navigate({ to: "/order-list" });
+        dispatch(fetchUser())
+          .unwrap()
+          .then((data) => {
+            if (data.id) {
+              setUser(data);
+              localStorage.setItem("user_role", data.role ?? "");
+              navigate({
+                to: data.role === "admin" ? "/task-list" : "/user-task-list",
+              });
+            }
+          });
       })
       .catch((error) => {
         console.error("Registration failed:", error);

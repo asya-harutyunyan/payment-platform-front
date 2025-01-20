@@ -1,27 +1,57 @@
-
-import * as z from "zod";
-import { useForm } from "react-hook-form";
+import { useAuth } from "@/context/auth.context";
+import { auth_schema } from "@/schema/sign_up.schema";
+import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
+import { useAppDispatch } from "@/store/reducers/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signUpSchema } from "../../../schema/signUp.schema";
+import { useNavigate } from "@tanstack/react-router";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod";
 
-type TSignUpType = z.infer<typeof signUpSchema>;
-
+type FormData = z.infer<typeof auth_schema>;
 
 const useSignUp = () => {
-	const {
-		control,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<TSignUpType>({
-		mode: "onSubmit",
-		resolver: zodResolver(signUpSchema),
-	});
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { setIsAuthenticated } = useAuth();
+  const { control, handleSubmit, watch, register } = useForm<FormData>({
+    resolver: zodResolver(auth_schema),
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+      password: "",
+      password_confirmation: "",
+      checkbox: false,
+    },
+  });
 
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    if (data.password !== data.password_confirmation) {
+      alert("Passwords do not match!");
+      return;
+    }
+    dispatch(registerUser(data))
+      .unwrap()
+      .then((response) => {
+        if (response.status === 200 && response.data.token) {
+          setIsAuthenticated(true);
+        }
+        navigate({ to: "/auth/confirm-email" });
 
-	return {
-		control,
-		handleSubmit,
-		errors,
-	};
+        console.log("Registration successful, token:", response.token);
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error);
+      });
+  };
+
+  return {
+    control,
+    handleSubmit,
+    watch,
+    register,
+    onSubmit,
+    navigate,
+  };
 };
 export default useSignUp;

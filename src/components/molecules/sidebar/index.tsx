@@ -30,7 +30,7 @@ interface DashboardPageProps {
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
-
+  const data = useAuth();
   // const changeLanguage = (lang: string | undefined) => {
   //   i18n.changeLanguage(lang);
   // };
@@ -118,7 +118,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           align="center"
           color={theme.palette.tertiary.contrastText}
         >
-          Surename
+          {data?.user?.surname}
         </P>
         <P
           sx={{ textDecoration: "underline" }}
@@ -126,7 +126,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           paddingBottom={"20px"}
           color={theme.palette.tertiary.contrastText}
         >
-          Name
+          {data?.user?.name}
         </P>
         <List>{renderSidebarItems()}</List>
       </Box>
