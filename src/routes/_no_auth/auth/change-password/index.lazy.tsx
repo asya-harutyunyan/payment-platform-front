@@ -1,4 +1,4 @@
-import ChangePasswordComponent from "@/components/molecules/auth/change-password-form";
+import ChangePasswordComponent from "@/components/organisms/auth/change-password-form";
 import { Box } from "@mui/material";
 import { createLazyFileRoute } from "@tanstack/react-router";
 

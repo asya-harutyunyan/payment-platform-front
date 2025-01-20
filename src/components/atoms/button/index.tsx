@@ -57,7 +57,7 @@ const Button: React.FC<DynamicButtonProps> = ({
       onClick={onClick}
     >
       {!isLink ? (
-        t(text)
+        text
       ) : (
         <Link
           to={link ?? "/"}

@@ -1,4 +1,4 @@
-import ResetPasswordComponent from "@/components/molecules/auth/reset-password-form";
+import ResetPasswordComponent from "@/components/organisms/auth/reset-password-form";
 import { Box } from "@mui/material";
 import { createLazyFileRoute } from "@tanstack/react-router";
 

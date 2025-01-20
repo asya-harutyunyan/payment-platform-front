@@ -14,7 +14,7 @@ const useSignIn = () => {
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  const { control, handleSubmit, register } = useForm<FormData>({
+  const { control, handleSubmit, register, setError } = useForm<FormData>({
     resolver: zodResolver(login_schema),
     defaultValues: {
       email: "",
@@ -23,8 +23,6 @@ const useSignIn = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form Data:", data);
-
     dispatch(loginUser(data))
       .unwrap()
       .then((response) => {
@@ -42,7 +40,18 @@ const useSignIn = () => {
           });
       })
       .catch((error) => {
-        console.error("Registration failed:", error);
+        if (typeof error === "string") {
+          setError("email", {
+            type: "manual", // Specify the type of error
+            message: error, // Error message to display
+          });
+          setError("password", {
+            type: "manual", // Specify the type of error
+            message: error,
+          });
+        }
+
+        console.error("Sign in failed:", error);
       });
   };
   return {

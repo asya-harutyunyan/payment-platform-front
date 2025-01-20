@@ -1,6 +1,6 @@
 import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
-import { H2, P } from "@/styles/typography";
+import { H3, P } from "@/styles/typography";
 
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
@@ -88,7 +88,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     return (
       <Box>
         <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <H2
+          <H3
             align="center"
             padding={"30px 30px 30px 0"}
             sx={{
@@ -96,7 +96,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             }}
           >
             <Icon name="Home" /> Payment
-          </H2>
+          </H3>
         </Box>
         <Box
           sx={{

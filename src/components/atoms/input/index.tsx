@@ -59,6 +59,7 @@ export const FormTextInput = <T extends FieldValues>({
         onChange={field.onChange}
         onBlur={field.onBlur}
         error={!!helperText}
+        // error={!!fieldState.error?.message}
         helperText={helperText}
         type={type}
       />

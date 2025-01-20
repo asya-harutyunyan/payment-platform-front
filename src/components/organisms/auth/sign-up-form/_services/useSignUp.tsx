@@ -13,23 +13,20 @@ const useSignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { setIsAuthenticated } = useAuth();
-  const { control, handleSubmit, watch, register } = useForm<FormData>({
-    resolver: zodResolver(auth_schema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      password: "",
-      password_confirmation: "",
-      checkbox: false,
-    },
-  });
+  const { control, handleSubmit, watch, register, setError } =
+    useForm<FormData>({
+      resolver: zodResolver(auth_schema),
+      defaultValues: {
+        name: "",
+        surname: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        checkbox: false,
+      },
+    });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (data.password !== data.password_confirmation) {
-      alert("Passwords do not match!");
-      return;
-    }
     dispatch(registerUser(data))
       .unwrap()
       .then((response) => {
@@ -41,6 +38,16 @@ const useSignUp = () => {
         console.log("Registration successful, token:", response.token);
       })
       .catch((error) => {
+        if (typeof error === "string") {
+          setError("email", {
+            type: "manual",
+            message: error,
+          });
+          setError("password", {
+            type: "manual",
+            message: error,
+          });
+        }
         console.error("Registration failed:", error);
       });
   };

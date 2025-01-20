@@ -2,45 +2,16 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import { reset_schema } from "@/schema/change_password.schema";
-import { setEmail } from "@/store/reducers/auth/authSlice";
-import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
-import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
 import bg from "../../../../assets/images/bg.jpeg";
-export type ResetPasswordschema = z.infer<typeof reset_schema>;
+import useSignIn from "./_services/useSignIn";
 
-const ResetPasswordComponent = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { control, handleSubmit } = useForm<ResetPasswordschema>({
-    resolver: zodResolver(reset_schema),
-    defaultValues: {
-      email: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<ResetPasswordschema> = async (data) => {
-    console.log("Form Data:", data);
-    dispatch(setEmail(data.email));
-
-    dispatch(resetPassword(data))
-      .then((response) => {
-        console.log("Registration successful, token:", response);
-        navigate({ to: "/auth/change-password" });
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
-  };
-
+const LoginForm = () => {
+  const { handleSubmit, register, control, onSubmit, navigate } = useSignIn();
   return (
     <Box
       component="form"
@@ -79,7 +50,7 @@ const ResetPasswordComponent = () => {
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: "60%",
+          height: "80%",
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
@@ -94,14 +65,25 @@ const ResetPasswordComponent = () => {
         </P>
         <FormTextInput
           control={control}
+          {...register("email")}
+          type="test"
           name="email"
           placeholder={t("email")}
         />
-
+        <FormTextInput
+          control={control}
+          {...register("password")}
+          name="password"
+          type="password"
+          placeholder={t("password")}
+        />
+        <Box sx={{ width: "100%" }}>
+          {/* <CustomCheckbox label={"Remember me"} control={}/> */}
+        </Box>
         <Button
           variant={"gradient"}
           color="secondary"
-          text={t("send_email")}
+          text={t("sign_in")}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
@@ -131,7 +113,7 @@ const ResetPasswordComponent = () => {
         >
           <P style={{ padding: "30px 0", fontSize: "14px" }}>
             <Link
-              to="/"
+              to="/auth/reset-password"
               style={{
                 color: theme.palette.primary.main,
               }}
@@ -152,4 +134,4 @@ const ResetPasswordComponent = () => {
   );
 };
 
-export default ResetPasswordComponent;
+export default LoginForm;

@@ -130,7 +130,7 @@ const ConfirmEmailForm = () => {
                 textDecoration: "none",
               }}
             >
-              {t("havent_account")}
+              {t("have_account")}
             </Link>
           </P>
         </TextWithDivider>
