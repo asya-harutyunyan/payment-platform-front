@@ -40,5 +40,6 @@
   "send_email": "Send email",
   "enter_code": "Enter code",
   "new_password": "Новый пароль",
-  "change_password": "Change password"
+  "change_password": "Change password",
+  "already": "Don’t have an account yet?"
 }

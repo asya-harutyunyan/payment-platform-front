@@ -129,9 +129,13 @@ const SignUpForm: FC = () => {
                 color: theme.palette.primary.main,
                 fontWeight: 300,
                 fontSize: "14px",
+                textDecoration: "none",
               }}
             >
-              {t("have_account")}
+              {t("have_account")}{" "}
+              <span style={{ textDecoration: "underline" }}>
+                {t("sign_in")}
+              </span>
             </Link>
           </P>
         </TextWithDivider>

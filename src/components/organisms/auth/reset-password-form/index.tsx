@@ -122,37 +122,13 @@ const ResetPasswordComponent = () => {
                 textDecoration: "none",
               }}
             >
-              {t("havent_account")}
+              {t("have_account")}{" "}
+              <span style={{ textDecoration: "underline" }}>
+                {t("sign_in")}
+              </span>
             </Link>
           </P>
         </TextWithDivider>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <P style={{ padding: "30px 0", fontSize: "14px" }}>
-            <Link
-              to="/"
-              style={{
-                color: theme.palette.primary.main,
-              }}
-            >
-              {t("forgot_password")}
-            </Link>
-          </P>
-          <Button
-            variant={"outlined"}
-            color="secondary"
-            text={t("sign_up")}
-            sx={{ fontSize: "14px", height: "50px" }}
-            onClick={() => navigate({ to: "/auth/sign-up" })}
-          />
-        </Box>
       </BasicCard>
     </Box>
   );

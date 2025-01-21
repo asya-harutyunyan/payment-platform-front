@@ -26,7 +26,7 @@ const authSlice = createSlice({
       localStorage.removeItem("accessToken");
     },
     setEmail: (state, action) => {
-      state.email = action.payload; // Сохраняем email
+      state.email = action.payload;
     },
   },
   extraReducers: (builder) => {

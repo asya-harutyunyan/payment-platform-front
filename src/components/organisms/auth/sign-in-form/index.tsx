@@ -11,7 +11,7 @@ import bg from "../../../../assets/images/bg.jpeg";
 import useSignIn from "./_services/useSignIn";
 
 const LoginForm = () => {
-  const { handleSubmit, register, control, onSubmit, navigate } = useSignIn();
+  const { handleSubmit, register, control, onSubmit } = useSignIn();
   return (
     <Box
       component="form"
@@ -77,41 +77,8 @@ const LoginForm = () => {
           type="password"
           placeholder={t("password")}
         />
-        <Box sx={{ width: "100%" }}>
-          {/* <CustomCheckbox label={"Remember me"} control={}/> */}
-        </Box>
-        <Button
-          variant={"gradient"}
-          color="secondary"
-          text={t("sign_in")}
-          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
-          type="submit"
-        />
-        <TextWithDivider>
-          <P>
-            <Link
-              to="/"
-              style={{
-                color: theme.palette.primary.main,
-                fontWeight: 300,
-                fontSize: "14px",
-                textDecoration: "none",
-              }}
-            >
-              {t("havent_account")}
-            </Link>
-          </P>
-        </TextWithDivider>
-
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            width: "100%",
-          }}
-        >
-          <P style={{ padding: "30px 0", fontSize: "14px" }}>
+        <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
+          <P style={{ padding: "20px 0", fontSize: "14px" }}>
             <Link
               to="/auth/reset-password"
               style={{
@@ -121,13 +88,41 @@ const LoginForm = () => {
               {t("forgot_password")}
             </Link>
           </P>
-          <Button
-            variant={"outlined"}
-            color="secondary"
-            text={t("sign_up")}
-            sx={{ fontSize: "14px", height: "50px" }}
-            onClick={() => navigate({ to: "/auth/sign-up" })}
-          />
+        </Box>
+        <Button
+          variant={"gradient"}
+          color="secondary"
+          text={t("sign_in")}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+          type="submit"
+        />
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            width: "100%",
+          }}
+        >
+          <TextWithDivider>
+            <P>
+              <Link
+                to="/auth/sign-up"
+                style={{
+                  color: theme.palette.primary.main,
+                  fontWeight: 300,
+                  fontSize: "14px",
+                  textDecoration: "none",
+                }}
+              >
+                {t("already")}
+                <span style={{ textDecoration: "underline" }}>
+                  {t("sign_up")}
+                </span>
+              </Link>
+            </P>
+          </TextWithDivider>
         </Box>
       </BasicCard>
     </Box>
