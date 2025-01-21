@@ -59,7 +59,7 @@ const SignUpForm: FC = () => {
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: "85%",
+          height: { lg: "85%", md: "85%", sx: "75%", xs: "75%" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
           overflowY: "auto",
         }}

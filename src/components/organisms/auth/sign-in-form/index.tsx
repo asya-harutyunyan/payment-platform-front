@@ -50,7 +50,7 @@ const LoginForm = () => {
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: "80%",
+          height: { lg: "60%", md: "60%", sx: "55%", xs: "55%" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
