@@ -33,7 +33,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
 
   const completedSteps = () => Object.keys(completed).length;
 
-  const isLastStep = () => activeStep === totalSteps() - 1;
+  // const isLastStep = () => activeStep === totalSteps() - 1;
 
   const allStepsCompleted = () => completedSteps() === totalSteps();
 
