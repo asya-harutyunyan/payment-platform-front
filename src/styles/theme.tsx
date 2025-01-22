@@ -49,6 +49,23 @@ const theme = createTheme({
             },
           },
         },
+        {
+          props: { variant: "text" },
+          style: {
+            backgroundImage: "linear-gradient(to right, #E9F2FC, #E9F2FC)",
+            color: "#0E1D40",
+            "&:hover": {
+              backgroundImage: "linear-gradient(to right, #c5cdd5, #E9F2FC)",
+            },
+          },
+        },
+        {
+          props: { variant: "outlined" },
+          style: {
+            borderColor: "#E9F2FC",
+            color: "#E9F2FC",
+          },
+        },
       ],
     },
   },

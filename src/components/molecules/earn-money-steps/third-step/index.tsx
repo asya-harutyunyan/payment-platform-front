@@ -1,29 +1,44 @@
+import third_step from "@/assets/images/step_3.png";
+import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
-import { H2, P } from "@/styles/typography";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
+
 export const StepThree = () => (
   <Box sx={{ display: "flex", justifyContent: "center" }}>
-    <BasicCard sx={{ width: "70%", marginTop: "20px" }}>
+    <BasicCard
+      sx={{
+        width: "100%",
+        marginTop: "20px",
+        padding: "0",
+        height: "300px",
+      }}
+      bg={third_step}
+      title={t("step_c")}
+    >
+      {" "}
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
+          border: "1p solid red",
         }}
       >
-        <H2
-          color="primary.main"
-          paddingBottom={4}
-          textAlign={"center"}
-          sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
+        <P
+          fontSize={"16px"}
+          color="tertiary.main"
+          paddingBottom={"10px"}
+          paddingTop={"20px"}
         >
-          {t("success")} !
-        </H2>
-        <P fontSize={"18px"}>{t("your_action_success")}</P>
-        <P fontSize={"18px"}>{t("lorem_short")}</P>
+          Address: Lorem Ipsum
+        </P>
+        <P fontSize={"16px"} color="tertiary.main" paddingBottom={"10px"}>
+          Currency: Lorem Ipsum
+        </P>
+        <P fontSize={"16px"} color="tertiary.main" paddingBottom={"10px"}>
+          Network: Lorem Ipsum
+        </P>
         <Box
           sx={{
             width: "100%",
@@ -32,10 +47,21 @@ export const StepThree = () => (
             margin: "10px 0",
           }}
         >
-          <CheckCircleIcon
-            sx={{ color: "green", width: "90px", height: "90px" }}
+          <Button
+            variant={"text"}
+            text={"Back"}
+            sx={{ marginRight: "30px", width: "180px", height: "50px" }}
+          />
+          <Button
+            variant={"outlined"}
+            text={"Confirm"}
+            sx={{ width: "180px", height: "50px" }}
           />
         </Box>
+        <P color="tertiary.main" sx={{ textDecoration: "underline" }}>
+          {" "}
+          Keep going for 00:34
+        </P>
       </Box>
     </BasicCard>
   </Box>

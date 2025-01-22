@@ -14,6 +14,7 @@ import {
 
 interface IBasicTextFields {
   sx?: SxProps<Theme>;
+  style?: SxProps<Theme>;
   placeholder: string;
   type?: HTMLInputTypeAttribute;
   leftIcon?: ReactNode;
@@ -28,6 +29,7 @@ interface IBasicTextFields {
 
 export const BasicTextFields: FC<IBasicTextFields> = ({
   sx,
+  // style,
   placeholder,
   type = "text",
   value,
@@ -56,6 +58,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         variant="outlined"
         type={inputType}
         sx={{
+          // ...style,
           width: "100%",
           border: "#B5BBC6",
           ".MuiFormLabel-root": {

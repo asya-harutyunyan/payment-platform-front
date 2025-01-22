@@ -1,7 +1,7 @@
 {
   "log_out": "Выйти",
   "user_list": "Список пользователь",
-  "task_list": "Шаги",
+  "task_list": "Дотока платежей",
   "order_list": "Список заказов",
   "bank_info": "Банковская информация",
   "add_bank_card": "Добавить Банковская карта",
@@ -10,9 +10,12 @@
   "name": "Имя",
   "surname": "Фамилия",
   "email": "Почта",
+  "step_c": "Вот адрес для перевода",
+
   "how_much_money": "Сколько денег вы хотите заработать?",
   "about_me": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  "profit": "Ваша прибыль составит +5%. Это вас устраивает?",
+  "profit": "Ваша прибыль составит",
+  "profit_B": " Это вас устраивает?",
   "success": "Платёж успешно выполнен",
   "confirm": "Подтверждать",
   "your_action_success": "Your actions successfully done!",

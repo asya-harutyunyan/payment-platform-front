@@ -1,10 +1,10 @@
-import { TaskListComponent } from '@/components/organisms/task-list'
-import { createFileRoute } from '@tanstack/react-router'
+import { StepWelcome } from "@/components/molecules/earn-money-steps/step-welcome";
+import { createFileRoute } from "@tanstack/react-router";
 
 const TaskList = () => {
-  return <TaskListComponent />
-}
+  return <StepWelcome />;
+};
 
-export const Route = createFileRoute('/_auth/_user/user-task-list/')({
+export const Route = createFileRoute("/_auth/_user/user-task-list/")({
   component: TaskList,
-})
+});

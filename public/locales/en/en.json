@@ -1,7 +1,7 @@
 {
   "log_out": "Log out",
   "user_list": "User list",
-  "task_list": "Task list",
+  "task_list": "Deposit Flow",
   "order_list": "Order list",
   "bank_info": "Bank info",
   "add_bank_card": "Add bank card",
@@ -10,9 +10,12 @@
   "name": "Name",
   "surname": "Surname",
   "email": "Email",
+  "step_c": "Here is the address to make the transfer",
+
   "how_much_money": "How much money do you want to earn?",
   "about_me": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-  "profit": "Your profit will be +5%. Does that work for you?",
+  "profit": "Your profit will be",
+  "profit_B": " Does that work for you?",
   "success": "Success",
   "confirm": "Confirm",
   "your_action_success": "Your actions successfully done!",

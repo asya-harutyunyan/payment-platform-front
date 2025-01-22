@@ -1,8 +1,5 @@
-import theme from "@/styles/theme";
-import { SxProps, Theme } from "@mui/material";
+import { SvgIconProps, SxProps, Theme } from "@mui/material";
 import DinamicButton from "@mui/material/Button";
-import { Link } from "@tanstack/react-router";
-import { t } from "i18next";
 import * as React from "react";
 
 type ButtonVariant = "text" | "contained" | "outlined" | "gradient";
@@ -21,11 +18,10 @@ interface DynamicButtonProps {
   text: string;
   sx?: SxProps<Theme>;
   size?: Sizes;
-  isLink?: boolean;
-  link?: string;
   type?: "submit" | "button";
   disabled?: boolean;
   gradient?: boolean;
+  icon?: React.ElementType<SvgIconProps>;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -36,10 +32,10 @@ const Button: React.FC<DynamicButtonProps> = ({
   size,
   color,
   onClick,
-  isLink = false,
-  link,
+
   disabled,
   type,
+  icon: Icon,
 }) => {
   return (
     <DinamicButton
@@ -56,18 +52,10 @@ const Button: React.FC<DynamicButtonProps> = ({
       disabled={disabled}
       onClick={onClick}
     >
-      {!isLink ? (
-        text
-      ) : (
-        <Link
-          to={link ?? "/"}
-          style={{
-            color: theme.palette.secondary.main,
-          }}
-        >
-          {t(text)}
-        </Link>
-      )}
+      <div style={{ display: "flex", alignItems: "center" }}>
+        {Icon && <Icon fontSize="small" />}
+        <div style={{ paddingLeft: "5px" }}>{text}</div>
+      </div>
     </DinamicButton>
   );
 };

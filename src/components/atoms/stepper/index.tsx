@@ -97,12 +97,12 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
         ) : (
           <React.Fragment>
             <Box sx={{ mt: 2, mb: 1, py: 1 }}>
-              {/* Render the dynamic component for the current step */}
               {steps[activeStep]?.component || (
                 <Typography>{t("no_content")}</Typography>
               )}
             </Box>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+            //needed
               <ButtonMui
                 color="inherit"
                 disabled={activeStep === 0}
@@ -115,7 +115,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
               <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
                 {t("next")}
               </ButtonMui>
-            </Box>
+            </Box> */}
           </React.Fragment>
         )}
       </div>

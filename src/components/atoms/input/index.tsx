@@ -18,6 +18,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   rightIcon?: ReactNode;
   fullWidth?: boolean;
   type?: string;
+  // style?: SxProps<Theme>;
   isPassword?: boolean;
 }
 
@@ -28,6 +29,7 @@ export const FormTextInput = <T extends FieldValues>({
   placeholder,
   leftIcon,
   rightIcon,
+  // style,
   type,
   ...props
 }: IFormTextInput<T>) => {
@@ -52,6 +54,7 @@ export const FormTextInput = <T extends FieldValues>({
   return (
     <Box width={"100%"}>
       <BasicTextFields
+        // style={style}
         placeholder={placeholder || ""}
         leftIcon={leftIcon}
         rightIcon={rightIcon}

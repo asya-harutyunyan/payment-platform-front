@@ -1,8 +1,8 @@
+import first_step from "@/assets/images/step_1.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import { price_schema } from "@/schema/price.schema";
-import { H2 } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -27,31 +27,44 @@ export const StepOne = () => {
       onSubmit={handleSubmit(onSubmit)}
       sx={{ display: "flex", justifyContent: "center" }}
     >
-      <BasicCard sx={{ width: "70%", marginTop: "20px" }}>
-        <H2
-          color="primary.main"
-          paddingBottom={4}
-          textAlign={"center"}
-          sx={{ fontSize: { lg: "28px", md: "28px", sx: "18px", xs: "18px" } }}
-        >
-          {t("how_much_money")}
-        </H2>
-        <FormTextInput
-          control={control}
-          name="price"
-          placeholder="Price"
-          type="number"
-        />
-        <Button
-          text="confirm"
-          variant="contained"
+      <BasicCard
+        sx={{ width: "100%", marginTop: "20px", padding: "0", height: "300px" }}
+        bg={first_step}
+        title={t("how_much_money")}
+      >
+        <Box
           sx={{
-            height: "50px",
-            width: "170px",
-            marginTop: "30px",
-            fontSize: "18px",
+            display: "flex",
+            flexDirection: "column",
+            width: "40%",
+            marginTop: "20px",
           }}
-        />
+        >
+          <Box sx={{ width: "60%" }}>
+            <FormTextInput
+              control={control}
+              name="price"
+              placeholder="Price"
+              type="number"
+              // style={{
+              //   fieldset: { border: "1px solid white" },
+              //   "&:.MuiOutlinedInput-input": {
+              //     border: "1px solid white",
+              //   },
+              // }}
+            />
+          </Box>
+          <Button
+            variant={"text"}
+            sx={{
+              height: "50px",
+              width: "90%",
+              marginTop: "30px",
+              fontSize: "18px",
+            }}
+            text={"test"}
+          />
+        </Box>
       </BasicCard>
     </Box>
   );

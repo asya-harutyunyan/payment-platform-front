@@ -1,11 +1,13 @@
 import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
-import { H3, P } from "@/styles/typography";
+import { H2, H3, H6, P } from "@/styles/typography";
 
+import Button from "@/components/atoms/button";
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import LogoutIcon from "@mui/icons-material/Logout";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
@@ -17,7 +19,6 @@ import {
   ListItemButton,
   ListItemIcon,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
@@ -71,13 +72,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   };
   const renderSidebarItems = () =>
     sidebarItems.map((item, index) => (
-      <ListItem key={index} sx={{ width: "100%" }}>
+      <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>
         <Link
           to={item.link}
           onClick={isDrawerOpen ? toggleDrawer : undefined}
-          style={{ textDecoration: "none", width: "100%" }}
+          style={{ textDecoration: "none", width: "100%", padding: "0" }}
         >
-          <ListItemButton sx={{ width: "100%" }}>
+          <ListItemButton sx={{ width: "100%", padding: "20px 0" }}>
             <ListItemIcon sx={drawerItemStyles}>{item.icon}</ListItemIcon>
             <P sx={drawerItemStyles}> {t(item.text)}</P>
           </ListItemButton>
@@ -87,47 +88,58 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const renderGeneralInfo = () => {
     return (
       <Box>
-        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <H3
-            align="center"
-            padding={"30px 30px 30px 0"}
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+            paddingBottom: "20px",
+          }}
+        >
+          <Icon name="Home" fontSize="large" />{" "}
+          <H2
             sx={{
               display: { lg: "inline", md: "inline", sx: "none", xs: "none" },
+              paddingLeft: "15px",
             }}
           >
-            <Icon name="Home" /> Payment
-          </H3>
+            Payment
+          </H2>
         </Box>
         <Box
           sx={{
             width: "100%",
             display: "flex",
-            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: "30px",
           }}
         >
-          <AccountCircleIcon
-            sx={{
-              width: "90px",
-              height: "90px",
-              color: theme.palette.tertiary.contrastText,
-            }}
-          />
+          <Box>
+            <AccountCircleIcon
+              sx={{
+                width: "75px",
+                height: "75px",
+                color: theme.palette.tertiary.contrastText,
+              }}
+            />
+          </Box>
+          <H6
+            align="center"
+            color={theme.palette.tertiary.contrastText}
+            paddingLeft={"10px"}
+          >
+            {data?.user?.surname}
+          </H6>
+          <H6
+            align="center"
+            paddingLeft={"10px"}
+            color={theme.palette.tertiary.contrastText}
+          >
+            {data?.user?.name}
+          </H6>
         </Box>
-        <P
-          sx={{ textDecoration: "underline" }}
-          align="center"
-          color={theme.palette.tertiary.contrastText}
-        >
-          {data?.user?.surname}
-        </P>
-        <P
-          sx={{ textDecoration: "underline" }}
-          align="center"
-          paddingBottom={"20px"}
-          color={theme.palette.tertiary.contrastText}
-        >
-          {data?.user?.name}
-        </P>
+
         <List>{renderSidebarItems()}</List>
       </Box>
     );
@@ -151,9 +163,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Payment
-          </Typography>
+          <H3 noWrap>Payment</H3>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -161,32 +171,40 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         anchor="left"
         sx={{
           display: { xs: "none", sm: "block" },
-          width: 240,
+          width: "22%",
           flexShrink: 0,
           height: "100vh",
           "& .MuiDrawer-paper": {
-            width: 240,
+            width: "22%",
+            padding: "30px",
             boxSizing: "border-box",
             backgroundColor: theme.palette.primary.main,
           },
         }}
       >
         {renderGeneralInfo()}
-        <P
-          color={theme.palette.secondary.contrastText}
-          onClick={handleLogout}
+        <Box
           sx={{
             width: "100%",
-            textAlign: "center",
-            textDecoration: "underline",
-            position: "absolute",
-            bottom: "50px",
-            cursor: "pointer",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
           }}
         >
-          {t("log_out")}
-        </P>
-        {/* <button onClick={() => changeLanguage("en")}>English</button> */}
+          <Button
+            onClick={handleLogout}
+            sx={{
+              width: "70%",
+              textAlign: "center",
+              position: "absolute",
+              bottom: "50px",
+              cursor: "pointer",
+            }}
+            icon={LogoutIcon}
+            text={t("log_out")}
+            variant={"text"}
+          />
+        </Box>
       </Drawer>
       <Drawer
         variant="temporary"
@@ -204,29 +222,36 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       >
         <Box sx={drawerStyles}>
           <List>{renderGeneralInfo()}</List>
-          <P
-            color={theme.palette.secondary.contrastText}
-            onClick={handleLogout}
+          <Box
             sx={{
               width: "100%",
-              textAlign: "center",
-              textDecoration: "underline",
-              position: "absolute",
-              bottom: "50px",
-              cursor: "pointer",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
             }}
           >
-            {t("log_out")}
-          </P>
-          {/* <button onClick={() => changeLanguage("en")}>English</button>
-          <button onClick={() => changeLanguage("es")}>Español</button>{" "} */}
+            <Button
+              onClick={handleLogout}
+              sx={{
+                width: "70%",
+                textAlign: "center",
+                position: "absolute",
+                bottom: "50px",
+                cursor: "pointer",
+              }}
+              icon={LogoutIcon}
+              text={t("log_out")}
+              variant={"text"}
+            />
+          </Box>
         </Box>
       </Drawer>
       <Box
         component="main"
         sx={{
+          width: "78%",
           flexGrow: 1,
-          p: 3,
+          padding: "50px",
           mt: { xs: "64px", sm: 0 },
         }}
       >

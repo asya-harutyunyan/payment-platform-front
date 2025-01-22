@@ -20,6 +20,7 @@ import { Route as AuthAdminImport } from './routes/_auth/_admin'
 import { Route as AuthUserUserTaskListIndexImport } from './routes/_auth/_user/user-task-list/index'
 import { Route as AuthUserOrderListIndexImport } from './routes/_auth/_user/order-list/index'
 import { Route as AuthUserInfoIndexImport } from './routes/_auth/_user/info/index'
+import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
 import { Route as AuthAdminTaskListIndexImport } from './routes/_auth/_admin/task-list/index'
 import { Route as AuthAdminOrdersIndexImport } from './routes/_auth/_admin/orders/index'
@@ -147,6 +148,12 @@ const AuthUserInfoIndexRoute = AuthUserInfoIndexImport.update({
   getParentRoute: () => AuthUserRoute,
 } as any)
 
+const AuthUserDepositInfoIndexRoute = AuthUserDepositInfoIndexImport.update({
+  id: '/deposit-info/',
+  path: '/deposit-info/',
+  getParentRoute: () => AuthUserRoute,
+} as any)
+
 const AuthAdminUserListIndexRoute = AuthAdminUserListIndexImport.update({
   id: '/user-list/',
   path: '/user-list/',
@@ -232,6 +239,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminUserListIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_user/deposit-info/': {
+      id: '/_auth/_user/deposit-info/'
+      path: '/deposit-info'
+      fullPath: '/deposit-info'
+      preLoaderRoute: typeof AuthUserDepositInfoIndexImport
+      parentRoute: typeof AuthUserImport
+    }
     '/_auth/_user/info/': {
       id: '/_auth/_user/info/'
       path: '/info'
@@ -310,12 +324,14 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 )
 
 interface AuthUserRouteChildren {
+  AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
   AuthUserInfoIndexRoute: typeof AuthUserInfoIndexRoute
   AuthUserOrderListIndexRoute: typeof AuthUserOrderListIndexRoute
   AuthUserUserTaskListIndexRoute: typeof AuthUserUserTaskListIndexRoute
 }
 
 const AuthUserRouteChildren: AuthUserRouteChildren = {
+  AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
   AuthUserInfoIndexRoute: AuthUserInfoIndexRoute,
   AuthUserOrderListIndexRoute: AuthUserOrderListIndexRoute,
   AuthUserUserTaskListIndexRoute: AuthUserUserTaskListIndexRoute,
@@ -366,6 +382,7 @@ export interface FileRoutesByFullPath {
   '/orders': typeof AuthAdminOrdersIndexRoute
   '/task-list': typeof AuthAdminTaskListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
+  '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/info': typeof AuthUserInfoIndexRoute
   '/order-list': typeof AuthUserOrderListIndexRoute
   '/user-task-list': typeof AuthUserUserTaskListIndexRoute
@@ -383,6 +400,7 @@ export interface FileRoutesByTo {
   '/orders': typeof AuthAdminOrdersIndexRoute
   '/task-list': typeof AuthAdminTaskListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
+  '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/info': typeof AuthUserInfoIndexRoute
   '/order-list': typeof AuthUserOrderListIndexRoute
   '/user-task-list': typeof AuthUserUserTaskListIndexRoute
@@ -404,6 +422,7 @@ export interface FileRoutesById {
   '/_auth/_admin/orders/': typeof AuthAdminOrdersIndexRoute
   '/_auth/_admin/task-list/': typeof AuthAdminTaskListIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
+  '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/info/': typeof AuthUserInfoIndexRoute
   '/_auth/_user/order-list/': typeof AuthUserOrderListIndexRoute
   '/_auth/_user/user-task-list/': typeof AuthUserUserTaskListIndexRoute
@@ -423,6 +442,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/task-list'
     | '/user-list'
+    | '/deposit-info'
     | '/info'
     | '/order-list'
     | '/user-task-list'
@@ -439,6 +459,7 @@ export interface FileRouteTypes {
     | '/orders'
     | '/task-list'
     | '/user-list'
+    | '/deposit-info'
     | '/info'
     | '/order-list'
     | '/user-task-list'
@@ -458,6 +479,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/orders/'
     | '/_auth/_admin/task-list/'
     | '/_auth/_admin/user-list/'
+    | '/_auth/_user/deposit-info/'
     | '/_auth/_user/info/'
     | '/_auth/_user/order-list/'
     | '/_auth/_user/user-task-list/'
@@ -527,6 +549,7 @@ export const routeTree = rootRoute
       "filePath": "_auth/_user.tsx",
       "parent": "/_auth",
       "children": [
+        "/_auth/_user/deposit-info/",
         "/_auth/_user/info/",
         "/_auth/_user/order-list/",
         "/_auth/_user/user-task-list/"
@@ -550,6 +573,10 @@ export const routeTree = rootRoute
     "/_auth/_admin/user-list/": {
       "filePath": "_auth/_admin/user-list/index.tsx",
       "parent": "/_auth/_admin"
+    },
+    "/_auth/_user/deposit-info/": {
+      "filePath": "_auth/_user/deposit-info/index.tsx",
+      "parent": "/_auth/_user"
     },
     "/_auth/_user/info/": {
       "filePath": "_auth/_user/info/index.tsx",

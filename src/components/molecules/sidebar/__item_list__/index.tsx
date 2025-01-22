@@ -1,21 +1,26 @@
-import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
-
+import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import ImportExportIcon from "@mui/icons-material/ImportExport";
+import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import PersonIcon from "@mui/icons-material/Person";
 export const userItems = [
-  { text: "task_list", icon: <HomeIcon />, link: "/user-task-list" },
+  {
+    text: "task_list",
+    icon: <FormatListBulletedIcon />,
+    link: "/user-task-list",
+  },
   {
     text: "bank_info",
-    icon: <InfoIcon />,
+    icon: <MonetizationOnIcon />,
     link: "/info",
   },
   {
     text: "order_list",
-    icon: <InfoIcon />,
+    icon: <ImportExportIcon />,
     link: "/order-list",
   },
 ];
 export const adminItems = [
-  { text: "user_list", icon: <HomeIcon />, link: "/user-list" },
-  { text: "task_list", icon: <InfoIcon />, link: "/task-list" },
-  { text: "order_list", icon: <InfoIcon />, link: "/orders" },
+  { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
+  { text: "task_list", icon: <FormatListBulletedIcon />, link: "/task-list" },
+  { text: "order_list", icon: <ImportExportIcon />, link: "/orders" },
 ];
