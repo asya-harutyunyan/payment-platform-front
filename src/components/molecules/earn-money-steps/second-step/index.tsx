@@ -1,3 +1,4 @@
+import bg from "@/assets/images/modal.png";
 import second_step from "@/assets/images/step_2.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
@@ -99,7 +100,7 @@ export const StepTwo = () => {
           onClick={onSubmit}
         />
       </BasicCard>
-      <BasicModal handleClose={handleClose} open={open}>
+      <BasicModal handleClose={handleClose} open={open} bg={bg}>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
@@ -111,26 +112,31 @@ export const StepTwo = () => {
             control={control}
             name="name_cards_member"
             placeholder={t("name_cards_member")}
+            whiteVariant
           />
           <FormTextInput
             control={control}
             name="surname_cards_member"
-            placeholder={t("surname_cards_member")}
+            placeholder={t("surname")}
+            whiteVariant
           />
           <FormTextInput
             control={control}
             name="card_number"
             placeholder={t("card_number")}
+            whiteVariant
           />
           <FormTextInput
             control={control}
             name="bank_name"
             placeholder={t("bank_name")}
+            whiteVariant
           />
           <FormTextInput
             control={control}
             name="phone_number"
             placeholder={t("phone_number")}
+            whiteVariant
           />
           <Box
             sx={{

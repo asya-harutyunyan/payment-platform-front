@@ -14,6 +14,7 @@ declare module "@mui/material/styles" {
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     gradient: true;
+    outlinedBlue: true;
   }
 }
 
@@ -64,6 +65,16 @@ const theme = createTheme({
           style: {
             borderColor: "#E9F2FC",
             color: "#E9F2FC",
+          },
+        },
+        {
+          props: { variant: "outlinedBlue" },
+          style: {
+            color: "#fff",
+            border: "2px solid #4B93F8",
+            "&:hover": {
+              backgroundColor: "#4b93f861",
+            },
           },
         },
       ],

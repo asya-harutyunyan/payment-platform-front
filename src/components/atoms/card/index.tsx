@@ -1,5 +1,5 @@
 import theme from "@/styles/theme";
-import { H4 } from "@/styles/typography";
+import { H4, H5 } from "@/styles/typography";
 import { SxProps, Theme } from "@mui/material";
 import Box from "@mui/material/Box";
 import * as React from "react";
@@ -63,7 +63,7 @@ export const BasicCard: React.FC<IBasicCard> = ({
         )}
       </span>
       {title_B ? (
-        <H4 sx={{ color: "text.secondary" }}>{title_B ?? ""}</H4>
+        <H5 sx={{ color: "text.secondary" }}>{title_B ?? ""}</H5>
       ) : undefined}
       <Box>{children}</Box>
     </Box>

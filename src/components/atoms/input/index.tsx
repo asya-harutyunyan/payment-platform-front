@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import {
   Control,
@@ -18,8 +18,9 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   rightIcon?: ReactNode;
   fullWidth?: boolean;
   type?: string;
-  // style?: SxProps<Theme>;
+  style?: SxProps;
   isPassword?: boolean;
+  whiteVariant?: boolean;
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -29,8 +30,9 @@ export const FormTextInput = <T extends FieldValues>({
   placeholder,
   leftIcon,
   rightIcon,
-  // style,
+  style,
   type,
+  whiteVariant,
   ...props
 }: IFormTextInput<T>) => {
   const { field, fieldState } = useController<T>({
@@ -54,7 +56,7 @@ export const FormTextInput = <T extends FieldValues>({
   return (
     <Box width={"100%"}>
       <BasicTextFields
-        // style={style}
+        style={style}
         placeholder={placeholder || ""}
         leftIcon={leftIcon}
         rightIcon={rightIcon}
@@ -62,6 +64,7 @@ export const FormTextInput = <T extends FieldValues>({
         onChange={field.onChange}
         onBlur={field.onBlur}
         error={!!helperText}
+        whiteVariant={whiteVariant}
         // error={!!fieldState.error?.message}
         helperText={helperText}
         type={type}

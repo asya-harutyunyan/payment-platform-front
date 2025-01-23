@@ -2,7 +2,12 @@ import { SvgIconProps, SxProps, Theme } from "@mui/material";
 import DinamicButton from "@mui/material/Button";
 import * as React from "react";
 
-type ButtonVariant = "text" | "contained" | "outlined" | "gradient";
+type ButtonVariant =
+  | "text"
+  | "contained"
+  | "outlined"
+  | "gradient"
+  | "outlinedBlue";
 type Sizes = "small" | "medium" | "large";
 type Colors =
   | "inherit"

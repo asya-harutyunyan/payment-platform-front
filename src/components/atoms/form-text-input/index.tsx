@@ -25,11 +25,12 @@ interface IBasicTextFields {
   error?: boolean;
   helperText?: string | ReactNode;
   textColor?: string;
+  whiteVariant?: boolean;
 }
 
 export const BasicTextFields: FC<IBasicTextFields> = ({
   sx,
-  // style,
+  style,
   placeholder,
   type = "text",
   value,
@@ -37,7 +38,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   onBlur,
   error = false,
   helperText,
-  textColor = "#000",
+  whiteVariant,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -58,14 +59,22 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         variant="outlined"
         type={inputType}
         sx={{
-          // ...style,
+          ...style,
           width: "100%",
           border: "#B5BBC6",
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+          },
           ".MuiFormLabel-root": {
-            color: "#B5BBC6",
+            color: whiteVariant ? "tertiary.main" : "primary.main",
           },
           ".MuiInputBase-input": {
-            color: textColor,
+            color: whiteVariant ? "tertiary.main" : "primary.main",
+          },
+          "& .MuiOutlinedInput-root": {
+            "&.Mui-focused fieldset": {
+              borderColor: whiteVariant ? "tertiary.main" : "primary.main", // Change to your desired color
+            },
           },
         }}
         value={value}

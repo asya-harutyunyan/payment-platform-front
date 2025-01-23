@@ -46,12 +46,7 @@ export const StepOne = () => {
               name="price"
               placeholder="Price"
               type="number"
-              // style={{
-              //   fieldset: { border: "1px solid white" },
-              //   "&:.MuiOutlinedInput-input": {
-              //     border: "1px solid white",
-              //   },
-              // }}
+              whiteVariant={true}
             />
           </Box>
           <Button

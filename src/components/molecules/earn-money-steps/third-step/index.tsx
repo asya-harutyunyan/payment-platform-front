@@ -48,12 +48,12 @@ export const StepThree = () => (
           }}
         >
           <Button
-            variant={"text"}
+            variant={"outlinedBlue"}
             text={"Back"}
             sx={{ marginRight: "30px", width: "180px", height: "50px" }}
           />
           <Button
-            variant={"outlined"}
+            variant={"gradient"}
             text={"Confirm"}
             sx={{ width: "180px", height: "50px" }}
           />
