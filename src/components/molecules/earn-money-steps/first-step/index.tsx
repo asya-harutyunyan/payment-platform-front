@@ -2,25 +2,17 @@ import first_step from "@/assets/images/step_1.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
-import { price_schema } from "@/schema/price.schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
+import { Dispatch, FC, SetStateAction } from "react";
+import useProcessingAmount from "./_services/useProcessingAmount";
+interface IStepOne {
+  setNext: Dispatch<SetStateAction<boolean>>;
+}
 
-type FormData = z.infer<typeof price_schema>;
-
-export const StepOne = () => {
-  const { control, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(price_schema),
-    defaultValues: {
-      price: "",
-    },
-  });
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("Form Data:", data);
-  };
+export const StepOne: FC<IStepOne> = ({ setNext }) => {
+  const { handleSubmit, onSubmit, control, processingAmountValue } =
+    useProcessingAmount();
   return (
     <Box
       component="form"
@@ -43,7 +35,7 @@ export const StepOne = () => {
           <Box sx={{ width: "60%" }}>
             <FormTextInput
               control={control}
-              name="price"
+              name="processing_amount"
               placeholder="Price"
               type="number"
               whiteVariant={true}
@@ -51,6 +43,9 @@ export const StepOne = () => {
           </Box>
           <Button
             variant={"text"}
+            type="submit"
+            disabled={!processingAmountValue}
+            onClick={() => setNext(true)}
             sx={{
               height: "50px",
               width: "90%",

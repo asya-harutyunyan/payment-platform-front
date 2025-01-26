@@ -10,8 +10,9 @@ import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
 import { t } from "i18next";
 import * as React from "react";
-import { FC } from "react";
+import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import { BasicCard } from "../card";
+import { useStepper } from "./_services/useStepper";
 
 type Steps = {
   label: string;
@@ -19,44 +20,33 @@ type Steps = {
 };
 interface IHorizontalNonLinearStepper {
   steps: Steps[];
+  next?: boolean;
+  setNext?: Dispatch<SetStateAction<boolean>>;
+  reset?: boolean;
+  setReset?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
   steps,
+  next,
+  setNext,
+  reset,
+  setReset,
 }) => {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<{ [k: number]: boolean }>(
-    {}
-  );
+  const { activeStep, completed, handleStep, handleReset, handleNext } =
+    useStepper(steps.length, setNext, setReset, reset);
 
   const totalSteps = () => steps.length;
 
   const completedSteps = () => Object.keys(completed).length;
 
-  // const isLastStep = () => activeStep === totalSteps() - 1;
-
   const allStepsCompleted = () => completedSteps() === totalSteps();
 
-  // const handleNext = () => {
-  //   const newActiveStep =
-  //     isLastStep() && !allStepsCompleted()
-  //       ? steps.findIndex((_, i) => !(i in completed))
-  //       : activeStep + 1;
-  //   setActiveStep(newActiveStep);
-  // };
-
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
-
-  const handleStep = (step: number) => () => {
-    setActiveStep(step);
-  };
-
-  const handleReset = () => {
-    setActiveStep(0);
-    setCompleted({});
-  };
+  useEffect(() => {
+    if (next) {
+      handleNext();
+    }
+  }, [handleNext, next]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -69,7 +59,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
           >
             <StepButton
               color="inherit"
-              onClick={handleStep(index)}
+              onClick={() => handleStep(index)} // Wrap it in a function
               aria-label={`Step ${index + 1}`}
             >
               <P
@@ -102,7 +92,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
               )}
             </Box>
             {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-            //needed
+              //needed
               <ButtonMui
                 color="inherit"
                 disabled={activeStep === 0}

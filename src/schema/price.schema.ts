@@ -1,4 +1,8 @@
 import * as z from "zod";
-export const price_schema = z.object({
-  price: z.string().min(50, "Minimum 50$"),
+export const deposit_id_schema = z.object({
+  processing_amount: z.string(),
+});
+
+export const deposit_id_confirm_schema = z.object({
+  processing_amount: z.string(),
 });

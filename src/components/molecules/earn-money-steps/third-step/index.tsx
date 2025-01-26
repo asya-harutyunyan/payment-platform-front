@@ -4,8 +4,12 @@ import { BasicCard } from "@/components/atoms/card";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-
-export const StepThree = () => (
+import { Dispatch, FC, SetStateAction } from "react";
+interface IStepThree {
+  setNext: Dispatch<SetStateAction<boolean>>;
+  setReset: Dispatch<SetStateAction<boolean>>;
+}
+export const StepThree: FC<IStepThree> = ({ setNext }) => (
   <Box sx={{ display: "flex", justifyContent: "center" }}>
     <BasicCard
       sx={{
@@ -55,6 +59,7 @@ export const StepThree = () => (
           <Button
             variant={"gradient"}
             text={"Confirm"}
+            onClick={() => setNext(true)}
             sx={{ width: "180px", height: "50px" }}
           />
         </Box>

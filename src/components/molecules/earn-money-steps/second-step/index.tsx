@@ -11,13 +11,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { useState } from "react";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type FormData = z.infer<typeof bank_card_schema>;
+interface IStepTwo {
+  setNext: Dispatch<SetStateAction<boolean>>;
+}
 
-export const StepTwo = () => {
+export const StepTwo: FC<IStepTwo> = ({ setNext }) => {
   const [open, setOpen] = useState(false);
 
   const onSubmit = () => {
@@ -32,6 +35,10 @@ export const StepTwo = () => {
       card_number: "",
     },
   });
+  const cards = [
+    { id: 1, value: " **** **** **** 1728 " },
+    { id: 2, value: " **** **** **** 1712" },
+  ];
 
   return (
     <Box component="form" sx={{ display: "flex", justifyContent: "center" }}>
@@ -45,7 +52,7 @@ export const StepTwo = () => {
         bg={second_step}
         title={t("profit")}
         sub_title="+5"
-        title_B={t("profit_B")}
+        // title_B={t("profit_B")}
       >
         <Box
           sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}
@@ -65,29 +72,8 @@ export const StepTwo = () => {
             {t("add_bank_card")}
           </P>
         </Box>
-        <Box
-          sx={{
-            border: "1px solid white",
-            height: "50px",
-            width: "40%",
-            marginTop: "20px",
-            borderRadius: "10px",
-            display: "flex",
-            alignItems: "center",
-          }}
-        >
-          <RadioButtonsGroup />
-          <P
-            sx={{
-              color: "tertiary.main",
-              fontSize: "22px",
-              letterSpacing: "4px",
-            }}
-          >
-            {" "}
-            **** **** **** 1728
-          </P>
-        </Box>
+
+        <RadioButtonsGroup data={cards} />
         <Button
           sx={{
             marginTop: "20px",
@@ -97,7 +83,8 @@ export const StepTwo = () => {
           }}
           text="confirm"
           variant={"gradient"}
-          onClick={onSubmit}
+          // type="submit"
+          onClick={() => setNext(true)}
         />
       </BasicCard>
       <BasicModal handleClose={handleClose} open={open} bg={bg}>

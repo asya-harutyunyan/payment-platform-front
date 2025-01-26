@@ -1,0 +1,37 @@
+import { deposit_id_schema } from "@/schema/price.schema";
+import { useAppDispatch } from "@/store/reducers/store";
+import { processingAmount } from "@/store/reducers/user/depositSlice/thunks";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod";
+
+type FormData = z.infer<typeof deposit_id_schema>;
+
+const useProcessingAmount = () => {
+  const dispatch = useAppDispatch();
+
+  const { control, handleSubmit, reset, watch } = useForm<FormData>({
+    resolver: zodResolver(deposit_id_schema),
+    defaultValues: {
+      processing_amount: "",
+    },
+  });
+  const processingAmountValue = watch("processing_amount");
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    dispatch(processingAmount(data))
+      .unwrap()
+      .then(() => {
+        reset();
+      });
+  };
+  return {
+    processingAmountValue,
+    handleSubmit,
+    onSubmit,
+    reset,
+    control,
+  };
+};
+
+export default useProcessingAmount;
