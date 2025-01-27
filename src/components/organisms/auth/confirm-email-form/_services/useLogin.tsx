@@ -1,8 +1,8 @@
+import { z } from "@/common/validation";
 import { login_schema } from "@/schema/login.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 type TLoginType = z.infer<typeof login_schema>;
 const useLogin = () => {

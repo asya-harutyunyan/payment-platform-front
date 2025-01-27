@@ -1,11 +1,12 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { AppState } from "../../store";
 import { AmountType, Deposit, WalletDetalisType } from "./types";
 //first step
 export const processingAmount = createAsyncThunk(
   "deposit/processingAmount",
-  async (amount: AmountType, { rejectWithValue }) => {
+  async (amount: AmountType | undefined, { rejectWithValue }) => {
     try {
       const response = await httpClient.post<Deposit>(
         "/deposits/create",
@@ -52,6 +53,29 @@ export const processingAmountStatus = createAsyncThunk(
       const response = await httpClient.post(
         "/deposits/confirm/client",
         deposit_id
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const updateDeposit = createAsyncThunk(
+  "deposit/updateDeposit",
+  async (data: Partial<Deposit>, { rejectWithValue, getState }) => {
+    try {
+      const {
+        deposit: { deposit },
+      } = getState() as AppState;
+      const response = await httpClient.post<Deposit>(
+        `/deposits/update/${deposit?.id}`,
+        data
       );
       return response.data;
     } catch (error: unknown) {

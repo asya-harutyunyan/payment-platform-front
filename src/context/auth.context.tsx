@@ -48,7 +48,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [user]);
 
   const fetchAuthUser = async () => {
-    if (!user && localStorage.getItem("accessToken")) {
+    if (localStorage.getItem("accessToken")) {
       const user = await dispatch(fetchUser()).unwrap();
       setUser(user);
     }

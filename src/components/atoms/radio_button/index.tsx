@@ -11,23 +11,24 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
-type Cards = {
-  id: number;
-  value: string;
-};
 
-interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
+interface IFormTextInput<T extends FieldValues, U extends object>
+  extends UseControllerProps<T> {
   control: Control<T>;
-  data: Cards[];
+  data: U[];
   name: FieldPath<T>;
+  labelKey?: keyof U;
+  valueKey?: keyof U;
 }
 
-export const FormTextInput = <T extends FieldValues>({
+export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   control,
   data,
   name,
+  labelKey,
+  valueKey,
   ...props
-}: IFormTextInput<T>) => {
+}: IFormTextInput<T, U>) => {
   const { field, fieldState } = useController<T>({
     name,
     control,
@@ -46,9 +47,9 @@ export const FormTextInput = <T extends FieldValues>({
           {...field}
           name={name}
         >
-          {data.map((item) => (
+          {data.map((item, index) => (
             <Box
-              key={item.id}
+              key={index}
               sx={{
                 border: "1px solid white",
                 height: "50px",
@@ -62,7 +63,7 @@ export const FormTextInput = <T extends FieldValues>({
               }}
             >
               <FormControlLabel
-                value={item.value}
+                value={valueKey ? item[valueKey as keyof U] : item}
                 name={name}
                 control={
                   <Radio
@@ -75,7 +76,11 @@ export const FormTextInput = <T extends FieldValues>({
                     }}
                   />
                 }
-                label={item.value}
+                label={
+                  labelKey
+                    ? `${item[labelKey as keyof U]}`
+                    : (item as unknown as string)
+                }
                 sx={{
                   span: {
                     color: "white",

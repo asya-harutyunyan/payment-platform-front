@@ -1,3 +1,4 @@
+import { z } from "@/common/validation";
 import { useAuth } from "@/context/auth.context";
 import { auth_schema } from "@/schema/sign_up.schema";
 import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
@@ -5,7 +6,6 @@ import { useAppDispatch } from "@/store/reducers/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
-import * as z from "zod";
 
 type FormData = z.infer<typeof auth_schema>;
 

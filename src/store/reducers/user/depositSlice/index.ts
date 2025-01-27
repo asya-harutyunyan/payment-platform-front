@@ -1,5 +1,5 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { processingAmount } from "./thunks";
+import { processingAmount, updateDeposit } from "./thunks";
 import { DepositState } from "./types";
 
 const initialState: DepositState = {
@@ -11,10 +11,16 @@ const initialState: DepositState = {
 const depositSlice = createSlice({
   name: "deposit",
   initialState,
-  reducers: {},
+  reducers: {
+    resetDeposit: () => initialState,
+  },
   extraReducers: (builder) => {
     builder
       .addCase(processingAmount.fulfilled, (state, action) => {
+        state.loading = false;
+        state.deposit = action.payload;
+      })
+      .addCase(updateDeposit.fulfilled, (state, action) => {
         state.loading = false;
         state.deposit = action.payload;
       })
@@ -26,5 +32,7 @@ const depositSlice = createSlice({
       });
   },
 });
+
+export const { resetDeposit } = depositSlice.actions;
 
 export default depositSlice.reducer;

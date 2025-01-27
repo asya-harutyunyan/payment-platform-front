@@ -1,9 +1,10 @@
+import { z } from "@/common/validation";
 import { deposit_id_schema } from "@/schema/price.schema";
 import { useAppDispatch } from "@/store/reducers/store";
 import { processingAmount } from "@/store/reducers/user/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import * as z from "zod";
 
 type FormData = z.infer<typeof deposit_id_schema>;
 
@@ -25,6 +26,15 @@ const useProcessingAmount = () => {
         reset();
       });
   };
+
+  useEffect(() => {
+    dispatch(processingAmount())
+      .unwrap()
+      .then(() => {
+        reset();
+      });
+  }, []);
+
   return {
     processingAmountValue,
     handleSubmit,

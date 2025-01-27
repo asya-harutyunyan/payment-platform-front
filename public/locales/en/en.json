@@ -45,5 +45,6 @@
   "enter_code": "Enter code",
   "new_password": "Новый пароль",
   "change_password": "Change password",
-  "already": "Don’t have an account yet?"
+  "already": "Don’t have an account yet?",
+  "bank_card_added_success": "Bank card added successfully"
 }

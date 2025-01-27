@@ -1,8 +1,8 @@
+import { z } from "@/common/validation";
 import { wallet_details_schema } from "@/schema/wallet_details.schema";
 import { useAppSelector } from "@/store/reducers/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import * as z from "zod";
 
 type FormData = z.infer<typeof wallet_details_schema>;
 

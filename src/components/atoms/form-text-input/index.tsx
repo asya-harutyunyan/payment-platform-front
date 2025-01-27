@@ -54,12 +54,11 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   return (
     <Box sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 }, width: "100%" }}>
       <TextField
-        id="outlined-basic"
+        key={placeholder}
         label={placeholder}
         variant="outlined"
         type={inputType}
         sx={{
-          ...style,
           width: "100%",
           border: "#B5BBC6",
           ".MuiOutlinedInput-notchedOutline": {
@@ -67,6 +66,9 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
           },
           ".MuiFormLabel-root": {
             color: whiteVariant ? "tertiary.main" : "primary.main",
+            "&.Mui-focused": {
+              color: whiteVariant ? "tertiary.main" : "primary.main",
+            },
           },
           ".MuiInputBase-input": {
             color: whiteVariant ? "tertiary.main" : "primary.main",
@@ -76,6 +78,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
               borderColor: whiteVariant ? "tertiary.main" : "primary.main", // Change to your desired color
             },
           },
+          ...style,
         }}
         value={value}
         onChange={(e) => onChange?.(e.target.value)}

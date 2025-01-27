@@ -2,9 +2,10 @@ import first_step from "@/assets/images/step_1.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
+import { useAppSelector } from "@/store/reducers/store";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { BaseSyntheticEvent, FC } from "react";
+import { BaseSyntheticEvent, FC, useEffect } from "react";
 import useProcessingAmount from "./_services/useProcessingAmount";
 interface IStepOne {
   handleNext?: () => void;
@@ -14,10 +15,19 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
   const { handleSubmit, onSubmit, control, processingAmountValue } =
     useProcessingAmount();
 
+  const { deposit } = useAppSelector((state) => state.deposit);
+
   const sumitForm = async (e?: BaseSyntheticEvent) => {
     await handleSubmit(onSubmit)(e);
     handleNext?.();
   };
+
+  useEffect(() => {
+    if (deposit?.id) {
+      handleNext?.();
+    }
+  }, [deposit]);
+
   return (
     <Box
       component="form"

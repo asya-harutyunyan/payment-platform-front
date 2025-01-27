@@ -14,6 +14,11 @@ export const addBankCardThunk = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        if (error.response?.data.errors) {
+          return rejectWithValue(
+            error.response?.data.errors || "Something went wrong"
+          );
+        }
         return rejectWithValue(
           error.response?.data?.message || "Something went wrong"
         );

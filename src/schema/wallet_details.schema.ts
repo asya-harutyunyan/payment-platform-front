@@ -1,4 +1,4 @@
-import * as z from "zod";
+import { z } from "@/common/validation";
 export const deposit_id_schema = z.object({
   processing_amount: z.string(),
 });

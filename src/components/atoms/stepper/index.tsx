@@ -32,6 +32,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
     handleReset,
     handleNext,
     handleBack,
+    setActiveStep,
   } = useStepper(steps.length);
 
   const totalSteps = () => steps.length;
@@ -83,6 +84,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
                 handleNext,
                 handleReset,
                 handleBack,
+                setActiveStep,
               }) || <Typography>{t("no_content")}</Typography>}
             </Box>
           </React.Fragment>

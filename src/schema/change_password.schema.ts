@@ -1,12 +1,12 @@
-import * as z from "zod";
+import { z } from "@/common/validation";
 import { password_regex } from "./password.regex";
 
 export const reset_schema = z.object({
-  email: z.string().email("Invalid email address"),
+  email: z.string().email(),
 });
 export const change_password_schema = z.object({
-  email: z.string().email("Invalid email address"),
-  two_factor_code: z.string().min(3, "Code must be at least 3 characters"),
+  email: z.string().email(),
+  two_factor_code: z.string().min(3),
   password: z
     .string()
     .min(6, "Password must be at least 6 characters")
