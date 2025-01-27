@@ -11,16 +11,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 type FormData = z.infer<typeof bank_card_schema>;
 interface IStepTwo {
-  setNext: Dispatch<SetStateAction<boolean>>;
+  handleNext?: () => void;
+  handleBack?: () => void;
 }
 
-export const StepTwo: FC<IStepTwo> = ({ setNext }) => {
+export const StepTwo: FC<IStepTwo> = ({ handleNext, handleBack }) => {
   const [open, setOpen] = useState(false);
 
   const onSubmit = () => {
@@ -68,6 +69,7 @@ export const StepTwo: FC<IStepTwo> = ({ setNext }) => {
               paddingLeft: "5px",
               cursor: "pointer",
             }}
+            onClick={() => handleBack?.()}
           >
             {t("add_bank_card")}
           </P>
@@ -84,7 +86,7 @@ export const StepTwo: FC<IStepTwo> = ({ setNext }) => {
           text="confirm"
           variant={"gradient"}
           // type="submit"
-          onClick={() => setNext(true)}
+          onClick={() => handleNext?.()}
         />
       </BasicCard>
       <BasicModal handleClose={handleClose} open={open} bg={bg}>

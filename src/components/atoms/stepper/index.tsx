@@ -10,7 +10,7 @@ import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
 import { t } from "i18next";
 import * as React from "react";
-import { Dispatch, FC, SetStateAction, useEffect } from "react";
+import { FC } from "react";
 import { BasicCard } from "../card";
 import { useStepper } from "./_services/useStepper";
 
@@ -20,33 +20,25 @@ type Steps = {
 };
 interface IHorizontalNonLinearStepper {
   steps: Steps[];
-  next?: boolean;
-  setNext?: Dispatch<SetStateAction<boolean>>;
-  reset?: boolean;
-  setReset?: Dispatch<SetStateAction<boolean>>;
 }
 
 export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
   steps,
-  next,
-  setNext,
-  reset,
-  setReset,
 }) => {
-  const { activeStep, completed, handleStep, handleReset, handleNext } =
-    useStepper(steps.length, setNext, setReset, reset);
+  const {
+    activeStep,
+    completed,
+    handleStep,
+    handleReset,
+    handleNext,
+    handleBack,
+  } = useStepper(steps.length);
 
   const totalSteps = () => steps.length;
 
   const completedSteps = () => Object.keys(completed).length;
 
   const allStepsCompleted = () => completedSteps() === totalSteps();
-
-  useEffect(() => {
-    if (next) {
-      handleNext();
-    }
-  }, [handleNext, next]);
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -59,7 +51,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
           >
             <StepButton
               color="inherit"
-              onClick={() => handleStep(index)} // Wrap it in a function
+              onClick={() => handleStep(index)}
               aria-label={`Step ${index + 1}`}
             >
               <P
@@ -87,25 +79,12 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
         ) : (
           <React.Fragment>
             <Box sx={{ mt: 2, mb: 1, py: 1 }}>
-              {steps[activeStep]?.component || (
-                <Typography>{t("no_content")}</Typography>
-              )}
+              {steps[activeStep]?.component({
+                handleNext,
+                handleReset,
+                handleBack,
+              }) || <Typography>{t("no_content")}</Typography>}
             </Box>
-            {/* <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              //needed
-              <ButtonMui
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                {t("back")}
-              </ButtonMui>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <ButtonMui onClick={handleNext} sx={{ mr: 1 }}>
-                {t("next")}
-              </ButtonMui>
-            </Box> */}
           </React.Fragment>
         )}
       </div>

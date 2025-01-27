@@ -4,12 +4,12 @@ import { BasicCard } from "@/components/atoms/card";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 
 interface ISuccess {
-  setReset: Dispatch<SetStateAction<boolean>>;
+  handleReset?: () => void;
 }
-export const Success: FC<ISuccess> = ({ setReset }) => {
+export const Success: FC<ISuccess> = ({ handleReset }) => {
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <BasicCard
@@ -39,7 +39,7 @@ export const Success: FC<ISuccess> = ({ setReset }) => {
             variant={"gradient"}
             sx={{ width: "230px", margin: "0 auto" }}
             text={"Start Again"}
-            onClick={() => window.location.reload()}
+            onClick={() => handleReset?.()}
           />
         </Box>
       </BasicCard>

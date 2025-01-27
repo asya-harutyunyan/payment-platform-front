@@ -4,13 +4,13 @@ import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 import useProcessingAmount from "./_services/useProcessingAmount";
 interface IStepOne {
-  setNext: Dispatch<SetStateAction<boolean>>;
+  handleNext?: () => void;
 }
 
-export const StepOne: FC<IStepOne> = ({ setNext }) => {
+export const StepOne: FC<IStepOne> = ({ handleNext }) => {
   const { handleSubmit, onSubmit, control, processingAmountValue } =
     useProcessingAmount();
   return (
@@ -45,14 +45,14 @@ export const StepOne: FC<IStepOne> = ({ setNext }) => {
             variant={"text"}
             type="submit"
             disabled={!processingAmountValue}
-            onClick={() => setNext(true)}
+            onClick={() => handleNext?.()}
             sx={{
               height: "50px",
               width: "90%",
               marginTop: "30px",
               fontSize: "18px",
             }}
-            text={"test"}
+            text={t("confirm")}
           />
         </Box>
       </BasicCard>

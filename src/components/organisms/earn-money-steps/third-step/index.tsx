@@ -4,12 +4,11 @@ import { BasicCard } from "@/components/atoms/card";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 interface IStepThree {
-  setNext: Dispatch<SetStateAction<boolean>>;
-  setReset: Dispatch<SetStateAction<boolean>>;
+  handleNext?: () => void;
 }
-export const StepThree: FC<IStepThree> = ({ setNext }) => (
+export const StepThree: FC<IStepThree> = ({ handleNext }) => (
   <Box sx={{ display: "flex", justifyContent: "center" }}>
     <BasicCard
       sx={{
@@ -59,7 +58,7 @@ export const StepThree: FC<IStepThree> = ({ setNext }) => (
           <Button
             variant={"gradient"}
             text={"Confirm"}
-            onClick={() => setNext(true)}
+            onClick={() => handleNext?.()}
             sx={{ width: "180px", height: "50px" }}
           />
         </Box>

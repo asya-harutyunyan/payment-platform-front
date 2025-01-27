@@ -1,4 +1,4 @@
-import { StepWelcome } from "@/components/molecules/earn-money-steps/step-welcome";
+import { StepWelcome } from "@/components/organisms/earn-money-steps/step-welcome";
 import { createFileRoute } from "@tanstack/react-router";
 
 const TaskList = () => {

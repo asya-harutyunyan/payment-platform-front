@@ -1,11 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useState } from "react";
 
-export const useStepper = (
-  stepsLength: number,
-  setNext?: Dispatch<SetStateAction<boolean>>,
-  setReset?: Dispatch<SetStateAction<boolean>>,
-  reset?: boolean
-) => {
+export const useStepper = (stepsLength: number) => {
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState<{ [k: number]: boolean }>({});
 
@@ -24,18 +19,9 @@ export const useStepper = (
             (_, i) => !(i in completed)
           )
         : activeStep + 1;
-    setNext?.(false);
-    setReset?.(false);
-
     setActiveStep(newActiveStep);
   };
-  useEffect(() => {
-    console.log(reset);
 
-    if (reset) {
-      setActiveStep(0);
-    }
-  }, [reset]);
   const handleBack = () => setActiveStep((prev) => prev - 1);
 
   const handleStep = (step: number) => setActiveStep(step);
