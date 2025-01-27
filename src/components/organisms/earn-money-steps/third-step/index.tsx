@@ -1,4 +1,3 @@
-import qr from "@/assets/images/qr.png";
 import third_step from "@/assets/images/step_3.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
@@ -109,7 +108,7 @@ export const StepThree: FC<IStepThree> = ({
                 marginLeft: "80px",
               }}
             >
-              <img src={qr} style={{ width: "119px" }} />
+              <img src={deposit?.wallet.qr_code} style={{ width: "119px" }} />
             </Box>
           </Box>
 

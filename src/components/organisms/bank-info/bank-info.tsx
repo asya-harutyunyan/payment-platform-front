@@ -3,6 +3,7 @@ import BankCard from "@/components/molecules/bankCard";
 import Carroussel from "@/components/molecules/carousel-3d";
 import { TabsComponent } from "@/components/molecules/tabs";
 import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { H2, P } from "@/styles/typography";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
@@ -87,6 +88,7 @@ const tabNames = [
   { id: 2, name: "add_bank_card" },
 ];
 export const BankInfoComponent: FC = () => {
+  const { user } = useAuth();
   return (
     <Box>
       <TaskHeader title={t("order_list")} />
@@ -134,7 +136,7 @@ export const BankInfoComponent: FC = () => {
                 }}
               >
                 {" "}
-                John
+                {user?.name}
               </span>
             </P>
             <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
@@ -146,7 +148,7 @@ export const BankInfoComponent: FC = () => {
                 }}
               >
                 {" "}
-                Smith
+                {user?.surname}
               </span>
             </P>
             <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
@@ -157,7 +159,7 @@ export const BankInfoComponent: FC = () => {
                   color: theme.palette.tertiary.contrastText,
                 }}
               >
-                JohnSmith@user.com
+                {user?.email}
               </span>
             </P>
             <P

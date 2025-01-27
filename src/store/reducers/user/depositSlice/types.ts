@@ -35,6 +35,7 @@ export interface Wallet {
   network: string;
   created_at: string;
   updated_at: string;
+  qr_code: string;
 }
 
 export interface PaymentMethod {
