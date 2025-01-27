@@ -1,20 +1,20 @@
 import Button from "@/components/atoms/button";
-import { FormTextInput } from "@/components/atoms/input";
-import { bank_card_schema } from "@/schema/bank_card_detalis.schema";
+import { add_card_schema } from "@/schema/add_card.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { t } from "i18next";
 import { FC } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type FormData = z.infer<typeof bank_card_schema>;
+type FormData = z.infer<typeof add_card_schema>;
 
 export const BankCardDetalis: FC = () => {
   const { control, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(bank_card_schema),
+    resolver: zodResolver(add_card_schema),
     defaultValues: {
-      name_cards_member: "",
+      bank_name: "",
+      first_name: "",
+      last_name: "",
       card_number: "",
     },
   });
@@ -26,7 +26,7 @@ export const BankCardDetalis: FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       sx={{ width: "100%" }}
     >
-      <FormTextInput
+      {/* <FormTextInput
         control={control}
         name="name_cards_member"
         placeholder={t("name_cards_member")}
@@ -35,7 +35,7 @@ export const BankCardDetalis: FC = () => {
         control={control}
         name="card_number"
         placeholder={t("card_number")}
-      />
+      /> */}
       <Box sx={{ display: "flex" }}>
         <Button
           text="Add Card"

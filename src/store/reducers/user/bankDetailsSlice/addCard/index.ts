@@ -1,20 +1,19 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { processingAmount } from "./thunks";
+import { addBankCardThunk } from "./thunks";
 import { DepositState } from "./types";
 
 const initialState: DepositState = {
   loading: false,
   error: null,
-  email: "",
 };
 
-const bankDetalisSlice = createSlice({
-  name: "deposit",
+const bankDetailsSlice = createSlice({
+  name: "bankDetails",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(processingAmount.fulfilled, (state) => {
+      .addCase(addBankCardThunk.fulfilled, (state) => {
         state.loading = false;
       })
       .addMatcher(isPending, (state) => {
@@ -26,4 +25,4 @@ const bankDetalisSlice = createSlice({
   },
 });
 
-export default bankDetalisSlice.reducer;
+export default bankDetailsSlice.reducer;

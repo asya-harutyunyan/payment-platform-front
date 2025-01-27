@@ -19,7 +19,7 @@ const useProcessingAmount = () => {
   const processingAmountValue = watch("processing_amount");
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    dispatch(processingAmount(data))
+    return dispatch(processingAmount(data))
       .unwrap()
       .then(() => {
         reset();

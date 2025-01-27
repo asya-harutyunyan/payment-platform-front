@@ -3,34 +3,48 @@ import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import { FC, useState } from "react";
-
+import { useMemo } from "react";
+import {
+  Control,
+  FieldPath,
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
 type Cards = {
   id: number;
   value: string;
 };
 
-interface IRadioButtonsGroup {
+interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
+  control: Control<T>;
   data: Cards[];
+  name: FieldPath<T>;
 }
 
-export const RadioButtonsGroup: FC<IRadioButtonsGroup> = ({ data }) => {
-  const [selectedValue, setSelectedValue] = useState<string>(
-    data[0]?.value || ""
-  );
+export const FormTextInput = <T extends FieldValues>({
+  control,
+  data,
+  name,
+  ...props
+}: IFormTextInput<T>) => {
+  const { field, fieldState } = useController<T>({
+    name,
+    control,
+    ...props,
+  });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value); // Ensure only one selection
-  };
+  const hasErrors = useMemo(() => {
+    return fieldState.isTouched && fieldState.invalid;
+  }, [fieldState.invalid, fieldState.isTouched]);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
-      <FormControl>
+      <FormControl error={hasErrors}>
         <RadioGroup
           aria-labelledby="demo-radio-buttons-group-label"
-          value={selectedValue}
-          onChange={handleChange}
-          name="radio-buttons-group"
+          {...field}
+          name={name}
         >
           {data.map((item) => (
             <Box
@@ -49,6 +63,7 @@ export const RadioButtonsGroup: FC<IRadioButtonsGroup> = ({ data }) => {
             >
               <FormControlLabel
                 value={item.value}
+                name={name}
                 control={
                   <Radio
                     sx={{

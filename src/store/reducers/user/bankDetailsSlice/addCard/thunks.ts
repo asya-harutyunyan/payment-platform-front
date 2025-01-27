@@ -1,13 +1,16 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { DepositState } from "./types";
+import { AddCardType } from "./types";
 
-export const processingAmount = createAsyncThunk(
-  "deposit/processingAmount",
-  async (amount: DepositState, { rejectWithValue }) => {
+export const addBankCardThunk = createAsyncThunk(
+  "bankDetails/addBankCard",
+  async (add_cards: AddCardType, { rejectWithValue }) => {
     try {
-      const response = await httpClient.post("/users/add-bank-details", amount);
+      const response = await httpClient.post(
+        "/users/add-bank-details",
+        add_cards
+      );
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

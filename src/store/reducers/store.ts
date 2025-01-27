@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
 
 export const store = configureStore({
   reducer: rootReducer,
-  devTools: true, // Enables Redux DevTools
+  devTools: true,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

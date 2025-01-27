@@ -4,7 +4,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC } from "react";
+import { BaseSyntheticEvent, FC } from "react";
 import useProcessingAmount from "./_services/useProcessingAmount";
 interface IStepOne {
   handleNext?: () => void;
@@ -13,10 +13,15 @@ interface IStepOne {
 export const StepOne: FC<IStepOne> = ({ handleNext }) => {
   const { handleSubmit, onSubmit, control, processingAmountValue } =
     useProcessingAmount();
+
+  const sumitForm = async (e?: BaseSyntheticEvent) => {
+    await handleSubmit(onSubmit)(e);
+    handleNext?.();
+  };
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={sumitForm}
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <BasicCard
@@ -45,7 +50,6 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
             variant={"text"}
             type="submit"
             disabled={!processingAmountValue}
-            onClick={() => handleNext?.()}
             sx={{
               height: "50px",
               width: "90%",

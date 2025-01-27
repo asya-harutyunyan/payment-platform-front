@@ -1,21 +1,19 @@
-import bg from "@/assets/images/modal.png";
 import second_step from "@/assets/images/step_2.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
-import { FormTextInput } from "@/components/atoms/input";
-import { BasicModal } from "@/components/atoms/modal";
 import { RadioButtonsGroup } from "@/components/atoms/radio_button";
-import { bank_card_schema } from "@/schema/bank_card_detalis.schema";
+import { add_card_schema } from "@/schema/add_card.schema";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, useState } from "react";
+import { BaseSyntheticEvent, FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { AddCardModal } from "../../add_card_modal";
 
-type FormData = z.infer<typeof bank_card_schema>;
+type FormData = z.infer<typeof add_card_schema>;
 interface IStepTwo {
   handleNext?: () => void;
   handleBack?: () => void;
@@ -28,21 +26,26 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, handleBack }) => {
     console.log("Form Data:");
   };
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const { control, handleSubmit } = useForm<FormData>({
-    resolver: zodResolver(bank_card_schema),
-    defaultValues: {
-      name_cards_member: "",
-      card_number: "",
-    },
+    resolver: zodResolver(add_card_schema),
+    defaultValues: {},
   });
+
   const cards = [
     { id: 1, value: " **** **** **** 1728 " },
     { id: 2, value: " **** **** **** 1712" },
   ];
+  const sumitForm = async (e?: BaseSyntheticEvent) => {
+    await handleSubmit(onSubmit)(e);
+    handleNext?.();
+  };
 
   return (
-    <Box component="form" sx={{ display: "flex", justifyContent: "center" }}>
+    <Box
+      component="form"
+      onSubmit={sumitForm}
+      sx={{ display: "flex", justifyContent: "center" }}
+    >
       <BasicCard
         sx={{
           width: "100%",
@@ -69,13 +72,13 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, handleBack }) => {
               paddingLeft: "5px",
               cursor: "pointer",
             }}
-            onClick={() => handleBack?.()}
+            onClick={() => handleOpen()}
           >
             {t("add_bank_card")}
           </P>
         </Box>
 
-        <RadioButtonsGroup data={cards} />
+        <RadioButtonsGroup data={cards} control={control} />
         <Button
           sx={{
             marginTop: "20px",
@@ -85,64 +88,10 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, handleBack }) => {
           }}
           text="confirm"
           variant={"gradient"}
-          // type="submit"
-          onClick={() => handleNext?.()}
+          type="submit"
         />
       </BasicCard>
-      <BasicModal handleClose={handleClose} open={open} bg={bg}>
-        <Box
-          component="form"
-          onSubmit={handleSubmit(onSubmit)}
-          sx={{
-            width: "40%",
-          }}
-        >
-          <FormTextInput
-            control={control}
-            name="name_cards_member"
-            placeholder={t("name_cards_member")}
-            whiteVariant
-          />
-          <FormTextInput
-            control={control}
-            name="surname_cards_member"
-            placeholder={t("surname")}
-            whiteVariant
-          />
-          <FormTextInput
-            control={control}
-            name="card_number"
-            placeholder={t("card_number")}
-            whiteVariant
-          />
-          <FormTextInput
-            control={control}
-            name="bank_name"
-            placeholder={t("bank_name")}
-            whiteVariant
-          />
-          <FormTextInput
-            control={control}
-            name="phone_number"
-            placeholder={t("phone_number")}
-            whiteVariant
-          />
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              margin: "20px 0",
-            }}
-          >
-            <Button
-              sx={{ width: "99%", height: "50px" }}
-              variant={"gradient"}
-              text={t("confirm")}
-            />
-          </Box>
-        </Box>
-      </BasicModal>
+      <AddCardModal open={open} setOpen={setOpen} />
     </Box>
   );
 };
