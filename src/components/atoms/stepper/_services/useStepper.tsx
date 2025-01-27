@@ -38,5 +38,6 @@ export const useStepper = (stepsLength: number) => {
     handleBack,
     handleStep,
     handleReset,
+    setActiveStep,
   };
 };
