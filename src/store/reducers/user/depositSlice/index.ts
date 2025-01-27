@@ -1,5 +1,5 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { processingAmount, updateDeposit } from "./thunks";
+import { processingAmountThunk, updateDeposit } from "./thunks";
 import { DepositState } from "./types";
 
 const initialState: DepositState = {
@@ -16,7 +16,7 @@ const depositSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(processingAmount.fulfilled, (state, action) => {
+      .addCase(processingAmountThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.deposit = action.payload;
       })

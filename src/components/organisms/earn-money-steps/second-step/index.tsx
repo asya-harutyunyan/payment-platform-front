@@ -1,10 +1,12 @@
 import second_step from "@/assets/images/step_2.png";
+import { BankDetail } from "@/common/types/user";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { RadioButtonsGroup } from "@/components/atoms/radio_button";
 import { useAuth } from "@/context/auth.context";
 import { choose_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { deleteBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
 import { updateDeposit } from "@/store/reducers/user/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user/depositSlice/types";
 import { P } from "@/styles/typography";
@@ -12,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { BaseSyntheticEvent, FC, useMemo, useState } from "react";
+import { BaseSyntheticEvent, FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AddCardModal } from "../../add_card_modal";
 
@@ -25,10 +27,12 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
-  const { user } = useAuth();
+  const { user, fetchAuthUser } = useAuth();
 
   const handleOpen = () => setOpen(true);
-  const { control, handleSubmit, watch, setError } = useForm<Partial<Deposit>>({
+  const { control, handleSubmit, watch, setError, setValue } = useForm<
+    Partial<Deposit>
+  >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
       payment_method_id: deposit?.payment_method_id,
@@ -52,7 +56,12 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
         }
       });
   };
-
+  useEffect(() => {
+    if (deposit?.payment_method_id) {
+      //@ts-expect-error TODO::fix
+      setValue("payment_method_id", `${deposit.payment_method_id}`);
+    }
+  }, [deposit]);
   const submitForm = async (e?: BaseSyntheticEvent) => {
     await handleSubmit(onSubmit)(e);
   };
@@ -65,7 +74,13 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   }, [user]);
 
   const payment_method_id = watch("payment_method_id");
-
+  const onCardDelete = (card: BankDetail) => {
+    dispatch(deleteBankCardThunk(card.id))
+      .unwrap()
+      .then(() => {
+        fetchAuthUser?.();
+      });
+  };
   return (
     <Box>
       <Box
@@ -78,7 +93,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
             width: "100%",
             marginTop: "20px",
             padding: "0",
-            height: "300px",
+            height: "330px",
           }}
           bg={second_step}
           title={t("profit")}
@@ -116,6 +131,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
             name="payment_method_id"
             labelKey="card_number"
             valueKey="id"
+            onItemDelete={onCardDelete}
           />
           <Button
             sx={{
@@ -125,7 +141,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
               fontSize: "17px",
             }}
             disabled={!payment_method_id}
-            text="confirm"
+            text={t("confirm")}
             variant={"gradient"}
             type="submit"
           />

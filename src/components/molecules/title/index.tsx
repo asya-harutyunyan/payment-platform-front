@@ -21,7 +21,7 @@ const TaskHeader: FC<ITaskHeader> = ({ title, subTitle }) => {
       >
         {subTitle}
       </P>
-      <Divider sx={{ marginTop: "8px", marginBottom: "30px" }} />
+      {subTitle && <Divider sx={{ marginTop: "8px", marginBottom: "30px" }} />}
     </Box>
   );
 };

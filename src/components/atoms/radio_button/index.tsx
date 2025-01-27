@@ -1,3 +1,4 @@
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -11,7 +12,6 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
-
 interface IFormTextInput<T extends FieldValues, U extends object>
   extends UseControllerProps<T> {
   control: Control<T>;
@@ -19,11 +19,13 @@ interface IFormTextInput<T extends FieldValues, U extends object>
   name: FieldPath<T>;
   labelKey?: keyof U;
   valueKey?: keyof U;
+  onItemDelete?: (item: U) => void;
 }
 
 export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   control,
   data,
+  onItemDelete,
   name,
   labelKey,
   valueKey,
@@ -34,7 +36,6 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
     control,
     ...props,
   });
-
   const hasErrors = useMemo(() => {
     return fieldState.isTouched && fieldState.invalid;
   }, [fieldState.invalid, fieldState.isTouched]);
@@ -58,6 +59,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                 borderRadius: "10px",
                 display: "flex",
                 alignItems: "center",
+                justifyContent: "space-between",
                 color: "white",
                 fontSize: "17px",
               }}
@@ -89,6 +91,12 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                   },
                 }}
               />
+              {onItemDelete && (
+                <DeleteIcon
+                  sx={{ marginRight: "10px", cursor: "pointer" }}
+                  onClick={() => onItemDelete?.(item)}
+                />
+              )}
             </Box>
           ))}
         </RadioGroup>

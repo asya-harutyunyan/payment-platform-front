@@ -4,7 +4,7 @@ import axios from "axios";
 import { AppState } from "../../store";
 import { AmountType, Deposit, WalletDetalisType } from "./types";
 //first step
-export const processingAmount = createAsyncThunk(
+export const processingAmountThunk = createAsyncThunk(
   "deposit/processingAmount",
   async (amount: AmountType | undefined, { rejectWithValue }) => {
     try {
@@ -24,8 +24,8 @@ export const processingAmount = createAsyncThunk(
   }
 );
 //third step
-export const processingAmountConfirm = createAsyncThunk(
-  "deposit/processingAmountConfirm",
+export const confirmDepositByUserThunk = createAsyncThunk(
+  "deposit/confirmDepositByUser",
   async (data: WalletDetalisType, { rejectWithValue }) => {
     try {
       const response = await httpClient.post(
@@ -46,12 +46,12 @@ export const processingAmountConfirm = createAsyncThunk(
   }
 );
 
-export const processingAmountStatus = createAsyncThunk(
-  "deposit/processingAmountStatus",
+export const confirmDepositByAdminThunk = createAsyncThunk(
+  "deposit/confirmDepositByAdminThunk",
   async (deposit_id: AmountType, { rejectWithValue }) => {
     try {
       const response = await httpClient.post(
-        "/deposits/confirm/client",
+        "/deposits/confirm/admin",
         deposit_id
       );
       return response.data;

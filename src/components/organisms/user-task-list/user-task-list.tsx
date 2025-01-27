@@ -57,7 +57,7 @@ const titles = [
 export const UserTaskListComponent: FC = () => {
   return (
     <Box>
-      <TaskHeader title={t("task_list")} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("task_list")} />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },

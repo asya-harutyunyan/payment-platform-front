@@ -59,7 +59,7 @@ export const StepWelcome = () => {
         }}
       >
         <Button
-          text="Start Earning Money"
+          text={t("start_earning_money")}
           sx={{ width: "350px", height: "55px" }}
           variant={"gradient"}
           onClick={() => {

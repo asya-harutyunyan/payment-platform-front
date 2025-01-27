@@ -35,7 +35,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <BasicCard
-        sx={{ width: "100%", marginTop: "20px", padding: "0", height: "300px" }}
+        sx={{ width: "100%", marginTop: "20px", padding: "0", height: "330px" }}
         bg={first_step}
         title={t("how_much_money")}
       >

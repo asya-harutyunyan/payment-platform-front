@@ -30,7 +30,7 @@ export const TaskListComponent: FC = () => {
 
   return (
     <Box>
-      <TaskHeader title={t("task_list")} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("task_list")} />
       <Box
         sx={{
           display: "flex",

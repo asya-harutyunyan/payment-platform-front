@@ -73,7 +73,7 @@ const titles = [
 export const UserBankTransaktionsComponent: FC = () => {
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("order_list")} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("order_list")} />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },

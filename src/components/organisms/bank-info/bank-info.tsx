@@ -89,7 +89,7 @@ const tabNames = [
 export const BankInfoComponent: FC = () => {
   return (
     <Box>
-      <TaskHeader title={t("order_list")} subTitle={"Lorem ipsum"} />
+      <TaskHeader title={t("order_list")} />
       <Box sx={{ display: "flex", width: "100%" }}>
         <Box
           sx={{

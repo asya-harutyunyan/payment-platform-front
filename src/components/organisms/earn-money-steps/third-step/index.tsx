@@ -1,3 +1,4 @@
+import qr from "@/assets/images/qr.png";
 import third_step from "@/assets/images/step_3.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
@@ -8,17 +9,24 @@ import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import { Dispatch, FC, useMemo } from "react";
+import { BaseSyntheticEvent, Dispatch, FC, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import useBankDetalis from "./_services/useDeposit";
-
 interface IStepThree {
   handleNext?: () => void;
   setActiveStep?: Dispatch<number>;
+  handleBack?: () => void;
 }
-export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
-  const { handleSubmit, onSubmit, control } = useBankDetalis();
+export const StepThree: FC<IStepThree> = ({
+  handleNext,
+  setActiveStep,
+  handleBack,
+}) => {
+  const { handleSubmit, onSubmit, control, watch } = useBankDetalis();
   const dispatch = useAppDispatch();
+
+  const transactionId = watch("transaction_id");
+
   const { deposit } = useAppSelector((state) => state.deposit);
   const timer = useMemo(() => {
     return new Date(
@@ -35,10 +43,8 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
 
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
-      // Render a completed state
-      return <span></span>;
+      return <span>Your time is end</span>;
     } else {
-      // Render a countdown
       return (
         <span>
           {formatted.minutes}:{formatted.seconds}
@@ -51,11 +57,14 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
     dispatch(resetDeposit());
     setActiveStep?.(0);
   };
-
+  const submitForm = async (e?: BaseSyntheticEvent) => {
+    await handleSubmit(onSubmit)(e);
+    handleNext?.();
+  };
   return (
     <Box
       component="form"
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={submitForm}
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <BasicCard
@@ -63,7 +72,8 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
           width: "100%",
           marginTop: "20px",
           padding: "0",
-          height: "300px",
+          height: "350px",
+          display: "flex",
         }}
         bg={third_step}
         title={t("step_c")}
@@ -73,28 +83,41 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
             display: "flex",
             flexDirection: "column",
             border: "1p solid red",
+            width: "40%",
           }}
         >
-          <P
-            fontSize={"16px"}
-            color="tertiary.main"
-            paddingBottom={"10px"}
-            paddingTop={"20px"}
-          >
-            Address: {deposit?.wallet.address}
-          </P>
-          <P fontSize={"16px"} color="tertiary.main" paddingBottom={"10px"}>
-            Currency: {deposit?.wallet.currency}
-          </P>
-          <P fontSize={"16px"} color="tertiary.main" paddingBottom={"10px"}>
-            Network: {deposit?.wallet.network}
-          </P>
-          <Box sx={{ width: "60%" }}>
+          <Box sx={{ display: "flex" }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <P
+                fontSize={"15px"}
+                color="tertiary.main"
+                paddingBottom={"10px"}
+                paddingTop={"20px"}
+              >
+                {t("address")}: {deposit?.wallet.address}
+              </P>
+              <P fontSize={"15px"} color="tertiary.main" paddingBottom={"10px"}>
+                {t("currency")}: {deposit?.wallet.currency}
+              </P>
+              <P fontSize={"15px"} color="tertiary.main" paddingBottom={"10px"}>
+                {t("network")}: {deposit?.wallet.network}
+              </P>
+            </Box>{" "}
+            <Box
+              sx={{
+                width: "60%",
+                marginLeft: "80px",
+              }}
+            >
+              <img src={qr} style={{ width: "119px" }} />
+            </Box>
+          </Box>
+
+          <Box sx={{ width: "100%" }}>
             <FormTextInput
               control={control}
               name="transaction_id"
               placeholder="Transaction ID"
-              type="number"
               whiteVariant={true}
             />
           </Box>
@@ -102,24 +125,35 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
             sx={{
               width: "100%",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
               margin: "10px 0",
             }}
           >
             <Button
               variant={"outlinedBlue"}
-              text={"Back"}
-              sx={{ marginRight: "30px", width: "150px", height: "40px" }}
+              text={t("back")}
+              onClick={() => handleBack?.()}
+              sx={{ marginRight: "20px", width: "48%", height: "50px" }}
             />
             <Button
               variant={"gradient"}
-              text={"Confirm"}
-              onClick={() => handleNext?.()}
-              sx={{ width: "150px", height: "40px" }}
+              disabled={!transactionId}
+              text={t("confirm")}
+              type="submit"
+              sx={{ width: "48%", height: "50px" }}
             />
           </Box>
-          <P color="tertiary.main" sx={{ textDecoration: "underline" }}>
-            Keep going for{" "}
+          <P
+            color="tertiary.main"
+            sx={{
+              textDecoration: "underline",
+              paddingTop: "10px",
+              fontWeight: "700",
+              backgroundColor:
+                "linear-gradient(to right,#041F44,#0A4DAA,#041F44)",
+            }}
+          >
+            {t("timer")}{" "}
             <Countdown
               date={timer}
               renderer={countDownrenderer}

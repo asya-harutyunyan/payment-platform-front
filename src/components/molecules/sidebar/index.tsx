@@ -104,7 +104,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               paddingLeft: "15px",
             }}
           >
-            Payment
+            Payhub
           </H2>
         </Box>
         <Box
@@ -163,7 +163,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           >
             <MenuIcon />
           </IconButton>
-          <H3 noWrap>Payment</H3>
+          <H3 noWrap>Payhub</H3>
         </Toolbar>
       </AppBar>
       <Drawer

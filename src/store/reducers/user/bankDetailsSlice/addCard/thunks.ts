@@ -27,3 +27,27 @@ export const addBankCardThunk = createAsyncThunk(
     }
   }
 );
+
+export const deleteBankCardThunk = createAsyncThunk(
+  "bankDetails/deleteBankCardThunk",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.delete(
+        `users/delete-bank-details/${id}`
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data.errors) {
+          return rejectWithValue(
+            error.response?.data.errors || "Something went wrong"
+          );
+        }
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);

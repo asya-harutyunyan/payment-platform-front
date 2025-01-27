@@ -28,7 +28,8 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
   const {
     activeStep,
     completed,
-    handleStep,
+    //do not delete
+    // handleStep,
     handleReset,
     handleNext,
     handleBack,
@@ -52,7 +53,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
           >
             <StepButton
               color="inherit"
-              onClick={() => handleStep(index)}
+              // onClick={() => handleStep(index)}
               aria-label={`Step ${index + 1}`}
             >
               <P

@@ -1,15 +1,17 @@
 import { z } from "@/common/validation";
 import { wallet_details_schema } from "@/schema/wallet_details.schema";
-import { useAppSelector } from "@/store/reducers/store";
+import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { resetDeposit } from "@/store/reducers/user/depositSlice";
+import { confirmDepositByUserThunk } from "@/store/reducers/user/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof wallet_details_schema>;
 
 const useBankDetalis = () => {
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
-  const { control, handleSubmit, reset } = useForm<FormData>({
+  const { control, handleSubmit, reset, watch } = useForm<FormData>({
     resolver: zodResolver(wallet_details_schema),
     defaultValues: {
       deposit_id: deposit?.id,
@@ -18,19 +20,19 @@ const useBankDetalis = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
-
-    // dispatch(processingAmount(data))
-    //   .unwrap()
-    //   .then(() => {
-    //     reset();
-    //   });
+    dispatch(confirmDepositByUserThunk(data))
+      .unwrap()
+      .then(() => {
+        reset();
+        dispatch(resetDeposit());
+      });
   };
   return {
     handleSubmit,
     onSubmit,
     reset,
     control,
+    watch,
   };
 };
 

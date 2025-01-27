@@ -17,7 +17,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           width: "100%",
           marginTop: "20px",
           padding: "0",
-          height: "280px",
+          height: "330px",
           display: "flex",
           alignItems: "center",
         }}
@@ -34,11 +34,11 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             flexDirection: "column",
           }}
         >
-          <P color="tertiary.main">Your actions successfully done!</P>
+          <P color="tertiary.main">{t("success_step")}</P>
           <Button
             variant={"gradient"}
             sx={{ width: "230px", margin: "0 auto" }}
-            text={"Start Again"}
+            text={t("start_again")}
             onClick={() => handleReset?.()}
           />
         </Box>

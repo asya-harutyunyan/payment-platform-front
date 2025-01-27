@@ -46,5 +46,13 @@
   "new_password": "Новый пароль",
   "change_password": "Change password",
   "already": "Don’t have an account yet?",
-  "bank_card_added_success": "Bank card added successfully"
+  "bank_card_added_success": "Bank card added successfully",
+  "timer": "Keep going for",
+  "address": "Address",
+  "currency": "Currency",
+  "network": "Network",
+  "success_step": "Your actions successfully done!",
+  "start_again": "Start again",
+  "welcome": "Tutorial",
+  "start_earning_money": "Start earning money"
 }
