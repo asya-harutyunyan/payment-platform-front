@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { config } from "react-spring";
 import Carousel from "react-spring-3d-carousel";
 
@@ -16,19 +16,22 @@ interface CarouselProps {
   margin: string;
 }
 
-const Carroussel: React.FC<CarouselProps> = (props) => {
-  const table = props.cards.map((element, index) => {
-    return {
-      key: index,
-      content: element.content,
-      onClick: () => setGoToSlide(index),
-    };
-  });
+const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
+  const table = useMemo(() => {
+    return (
+      cards.map((element, index) => {
+        return {
+          key: index,
+          content: element.content,
+          onClick: () => setGoToSlide(index),
+        };
+      }) ?? []
+    );
+  }, [cards]);
 
   const [offsetRadius, setOffsetRadius] = useState<number>(2);
   const [showArrows, setShowArrows] = useState<boolean>(false);
   const [goToSlide, setGoToSlide] = useState<number>();
-  const [cards] = useState(table);
 
   useEffect(() => {
     setOffsetRadius(props.offset);
@@ -44,7 +47,7 @@ const Carroussel: React.FC<CarouselProps> = (props) => {
       }}
     >
       <Carousel
-        slides={cards}
+        slides={table}
         goToSlide={goToSlide}
         offsetRadius={offsetRadius}
         showNavigation={showArrows}

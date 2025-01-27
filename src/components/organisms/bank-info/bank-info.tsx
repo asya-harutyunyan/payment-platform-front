@@ -1,3 +1,4 @@
+import { formatCardNumber } from "@/common/utils";
 import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
 import Carroussel from "@/components/molecules/carousel-3d";
@@ -9,86 +10,68 @@ import { H2, P } from "@/styles/typography";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC } from "react";
-const cards = [
-  {
-    key: Math.random(),
-    content: (
-      <BankCard
-        cardHolder="Jane Smith"
-        cardNumber="9876 5432 1098 7654"
-        expiryDate="11/26"
-        bankName="MUI Bank"
-        bgColor="#4CAF50"
-        textColor="#FFFFFF"
-      />
-    ),
-  },
-  {
-    key: Math.random(),
-    content: (
-      <BankCard
-        cardHolder="Jane Smith"
-        cardNumber="9876 5432 1098 7654"
-        expiryDate="11/26"
-        bankName="MUI Bank"
-        bgColor="#4CAF50"
-        textColor="#FFFFFF"
-      />
-    ),
-  },
-  {
-    key: Math.random(),
-    content: (
-      <BankCard
-        cardHolder="Jane Smith"
-        cardNumber="9876 5432 1098 7654"
-        expiryDate="11/26"
-        bankName="MUI Bank"
-        bgColor="#4CAF50"
-        textColor="#FFFFFF"
-      />
-    ),
-  },
-];
-const tabContent = [
-  {
-    id: 1,
-    component: (
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box
-          sx={{
-            width: "100%",
-            display: { lg: "block", md: "block", sx: "none", xs: "none" },
-          }}
-        >
-          <Carroussel
-            cards={cards}
-            height="500px"
-            width="100%"
-            margin="0 auto"
-            offset={2}
-            showArrows={false}
-          />
-        </Box>
-        <Box>{/* <SimpleSlider slider={cards}></SimpleSlider> */}</Box>
-      </Box>
-    ),
-  },
-  { id: 2, component: <BankCardDetalis /> },
-];
+import { FC, useMemo } from "react";
+
 const tabNames = [
   { id: 1, name: "bank_info" },
   { id: 2, name: "add_bank_card" },
 ];
 export const BankInfoComponent: FC = () => {
   const { user } = useAuth();
+
+  const cards = useMemo(() => {
+    return Array.from({ length: 3 }).map((_, index) => ({
+      key: index,
+      content: (
+        <BankCard
+          cardHolder={user?.bank_details[index]?.card_holder ?? "John Doe"}
+          cardNumber={formatCardNumber(
+            user?.bank_details[index]?.card_number ?? "1234 5678 1234 5678"
+          )}
+          expiryDate="11/26"
+          bankName="Bank of America"
+          bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
+          textColor="#FFFFFF"
+        />
+      ),
+    }));
+  }, [user]);
+
+  const tabContent = useMemo(
+    () => [
+      {
+        id: 1,
+        component: (
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                display: { lg: "block", md: "block", sx: "none", xs: "none" },
+              }}
+            >
+              <Carroussel
+                cards={cards}
+                height="500px"
+                width="100%"
+                margin="0 auto"
+                offset={2}
+                showArrows={false}
+              />
+            </Box>
+            <Box>{/* <SimpleSlider slider={cards}></SimpleSlider> */}</Box>
+          </Box>
+        ),
+      },
+      { id: 2, component: <BankCardDetalis /> },
+    ],
+    [cards]
+  );
   return (
     <Box>
       <TaskHeader title={t("order_list")} />
@@ -135,7 +118,6 @@ export const BankInfoComponent: FC = () => {
                   color: theme.palette.tertiary.contrastText,
                 }}
               >
-                {" "}
                 {user?.name}
               </span>
             </P>
@@ -147,7 +129,6 @@ export const BankInfoComponent: FC = () => {
                   color: theme.palette.tertiary.contrastText,
                 }}
               >
-                {" "}
                 {user?.surname}
               </span>
             </P>
@@ -177,14 +158,6 @@ export const BankInfoComponent: FC = () => {
           >
             <TabsComponent tabPanel={tabContent} tabNames={tabNames} />
           </Box>
-          {/* <Carroussel
-            cards={cards}
-            height="500px"
-            width="40%"
-            margin="0 auto"
-            offset={2}
-            showArrows={false}
-          /> */}
         </Box>
       </Box>
     </Box>
