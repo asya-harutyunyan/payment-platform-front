@@ -17,7 +17,7 @@ import { t } from "i18next";
 import { BaseSyntheticEvent, FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AddCardModal } from "../../add_card_modal";
-
+import AddCardIcon from "@mui/icons-material/AddCard";
 interface IStepTwo {
   handleNext?: () => void;
   handleBack?: () => void;
@@ -98,7 +98,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           bg={second_step}
           title={t("profit")}
           sub_title="+5"
-          // title_B={t("profit_B")}
         >
           {showAddCard && (
             <Box
@@ -121,6 +120,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
                 onClick={() => handleOpen()}
               >
                 {t("add_bank_card")}
+                <AddCardIcon />
               </P>
             </Box>
           )}

@@ -27,6 +27,7 @@ export const BankCardDetalis: FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
   const dispatch = useAppDispatch();
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(addBankCardThunk(data))
       .unwrap()

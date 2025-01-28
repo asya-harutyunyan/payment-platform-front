@@ -24,14 +24,17 @@ export const BankInfoComponent: FC = () => {
       key: index,
       content: (
         <BankCard
-          cardHolder={user?.bank_details[index]?.card_holder ?? "John Doe"}
+          cardHolder={user?.bank_details[index]?.card_holder ?? "Name Surname"}
           cardNumber={formatCardNumber(
             user?.bank_details[index]?.card_number ?? "1234 5678 1234 5678"
           )}
-          expiryDate="11/26"
-          bankName="Bank of America"
+          bankName={user?.bank_details[index]?.bank_name ?? "Bank"}
+          phoneNumber={
+            user?.bank_details[index]?.phone_number ?? "+37400000000"
+          }
           bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
           textColor="#FFFFFF"
+          bankDetail={user?.bank_details[index]?.id ?? 0}
         />
       ),
     }));

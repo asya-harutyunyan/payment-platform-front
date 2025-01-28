@@ -6,7 +6,10 @@ import { BasicModal } from "@/components/atoms/modal";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
-import { addBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
+import {
+  addBankCardThunk,
+  editBankCardThunk,
+} from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -18,9 +21,24 @@ type FormData = z.infer<typeof add_card_schema>;
 interface IStepTwo {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  cardHolder?: string;
+  bankName?: string;
+  cardNumber?: string;
+  phoneNumber?: string;
+  bankDetail?: number;
+  isEdit?: boolean;
 }
 
-export const AddCardModal: FC<IStepTwo> = ({ open, setOpen }) => {
+export const AddCardModal: FC<IStepTwo> = ({
+  open,
+  setOpen,
+  cardHolder,
+  bankDetail,
+  bankName,
+  phoneNumber,
+  cardNumber,
+  isEdit,
+}) => {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
@@ -29,14 +47,14 @@ export const AddCardModal: FC<IStepTwo> = ({ open, setOpen }) => {
   const { control, handleSubmit, setError } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
-      bank_name: "",
-      card_holder: "",
-      phone_number: "",
-      card_number: "",
+      bank_name: bankName ?? "",
+      card_holder: cardHolder ?? "",
+      phone_number: phoneNumber ?? "",
+      card_number: cardNumber ?? "",
     },
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onAddSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(addBankCardThunk(data))
       .unwrap()
       .then(() => {
@@ -58,10 +76,39 @@ export const AddCardModal: FC<IStepTwo> = ({ open, setOpen }) => {
         }
       });
   };
+  const onEditSubmit: SubmitHandler<FormData> = async (data) => {
+    if (bankDetail) {
+      dispatch(editBankCardThunk({ ...data, id: bankDetail }))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("bank_card_added_success"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          fetchAuthUser?.();
+          handleClose();
+        })
+        .catch((error) => {
+          if (typeof error === "object") {
+            for (const key in error) {
+              setError(key as keyof FormData, {
+                type: "validate",
+                message: error[key as keyof FormData][0],
+              });
+            }
+          }
+        });
+    }
+  };
 
   const submitForm = async (e?: BaseSyntheticEvent) => {
     e?.preventDefault();
-    handleSubmit(onSubmit)(e);
+
+    if (isEdit) {
+      handleSubmit(onAddSubmit)(e);
+    } else {
+      handleSubmit(onEditSubmit)(e);
+    }
   };
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>

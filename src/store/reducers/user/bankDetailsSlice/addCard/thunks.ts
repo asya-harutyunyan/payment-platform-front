@@ -1,7 +1,7 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AddCardType } from "./types";
+import { AddCardType, EditCardType } from "./types";
 
 export const addBankCardThunk = createAsyncThunk(
   "bankDetails/addBankCard",
@@ -54,6 +54,31 @@ export const deleteBankCardThunk = createAsyncThunk(
     try {
       const response = await httpClient.delete(
         `users/delete-bank-details/${id}`
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data.errors) {
+          return rejectWithValue(
+            error.response?.data.errors || "Something went wrong"
+          );
+        }
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const editBankCardThunk = createAsyncThunk(
+  "bankDetails/addBankCard",
+  async (edit_card: EditCardType, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post(
+        `/users/update-bank-details/${edit_card.id}`,
+        edit_card
       );
       return response.data;
     } catch (error: unknown) {

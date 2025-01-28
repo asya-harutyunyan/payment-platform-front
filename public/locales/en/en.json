@@ -55,5 +55,6 @@
   "start_again": "Start again",
   "welcome": "Tutorial",
   "start_earning_money": "Start earning money",
-  "add_card": "Add card"
+  "add_card": "Add card",
+  "third_step": "Once the transaction is complete, enter the Transaction ID and click Confirm."
 }

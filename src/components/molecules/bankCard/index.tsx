@@ -1,70 +1,155 @@
+import { BankDetail } from "@/common/types/user";
+import { AddCardModal } from "@/components/organisms/add_card_modal";
+import { useAuth } from "@/context/auth.context";
+import { useAppDispatch } from "@/store/reducers/store";
+import { deleteBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
+import { H5 } from "@/styles/typography";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
+import { Dispatch, FC, SetStateAction, useState } from "react";
 
-const BankCard = ({
-  cardHolder = "John Doe",
-  cardNumber = "1234 5678 9012 3456",
-  expiryDate = "12/34",
-  bankName = "React Bank",
+interface IBankCard {
+  cardHolder: string;
+  cardNumber: string;
+  bankName: string;
+  phoneNumber: string;
+  bgColor: string;
+  textColor: string;
+  onClick?: (card: BankDetail) => void;
+  bankDetail: number;
+  setChangeTab?: Dispatch<SetStateAction<number>>;
+}
+const BankCard: FC<IBankCard> = ({
+  cardHolder = "Name Surname",
+  cardNumber = "1234 5678 1234 5678",
+  bankName = "Bank",
   bgColor = "#2D9CDB",
   textColor = "#FFFFFF",
+  bankDetail,
+  phoneNumber,
 }) => {
-  return (
-    <Box
-      sx={{
-        width: { md: 300, xs: 200, sm: 100 },
-        height: { md: 160, xs: 120, sm: 80 },
-        borderRadius: 2,
-        backgroundColor: bgColor,
-        color: textColor,
-        p: 3,
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        boxShadow: 4,
-        fontFamily: "Arial, sans-serif",
-        cursor: "pointer",
-      }}
-    >
-      <Typography variant="h6" fontWeight="bold" fontSize={"13px"}>
-        {bankName}
-      </Typography>
+  const { fetchAuthUser } = useAuth();
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
 
-      <Box display="flex" alignItems="center" gap={2}>
+  const dispatch = useAppDispatch();
+  const onItemDelete = (card?: number) => {
+    if (card) {
+      dispatch(deleteBankCardThunk(card))
+        .unwrap()
+        .then(() => {
+          fetchAuthUser?.();
+        });
+    }
+  };
+
+  return (
+    <Box component="form">
+      <Box
+        sx={{
+          width: { md: 300, xs: 200, sm: 100 },
+          height: { md: 160, xs: 120, sm: 80 },
+          borderRadius: 2,
+          backgroundColor: bgColor,
+          color: textColor,
+          p: 3,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          boxShadow: 4,
+          fontFamily: "Arial, sans-serif",
+          cursor: "pointer",
+        }}
+      >
         <Box
           sx={{
-            width: 30,
-            height: 18,
-            borderRadius: 1,
-            backgroundColor: "#D6D6D6",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-        ></Box>
-        <Typography fontSize={"10px"} variant="body2">
-          Secure Chip
-        </Typography>
-      </Box>
+        >
+          <H5>{bankName}</H5>
+          {bankDetail ? (
+            <Box sx={{ display: "flex" }}>
+              <Box onClick={() => handleOpen()}>
+                <EditIcon
+                  sx={{
+                    color: "#ffffff",
+                    marginRight: "5px",
+                    fontSize: "27px",
+                    ":hover": {
+                      color: "#dad8d8",
+                    },
+                  }}
+                />
+              </Box>
+              <Box onClick={() => onItemDelete?.(bankDetail)}>
+                <DeleteForeverIcon
+                  sx={{
+                    color: "#dc0e0e",
+                    fontSize: "27px",
+                    ":hover": {
+                      color: "#a01b1b",
+                    },
+                  }}
+                />
+              </Box>
+            </Box>
+          ) : undefined}
+        </Box>
 
-      <Typography variant="h5" letterSpacing={2} fontSize={"16px"}>
-        {cardNumber}
-      </Typography>
-
-      <Box display="flex" justifyContent="space-between" alignItems="center">
-        <Box>
-          <Typography variant="caption" display="block" fontSize={"11px"}>
-            Card Holder
-          </Typography>
-          <Typography variant="body1" fontSize={"14px"}>
-            {cardHolder}
+        <Box display="flex" alignItems="center" gap={2}>
+          <Box
+            sx={{
+              width: 30,
+              height: 18,
+              borderRadius: 1,
+              backgroundColor: "#D6D6D6",
+            }}
+          ></Box>
+          <Typography fontSize={"10px"} variant="body2">
+            Secure Chip
           </Typography>
         </Box>
-        <Box>
+
+        <Typography variant="h5" letterSpacing={2} fontSize={"16px"}>
+          {cardNumber}
+        </Typography>
+
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Box>
+            <Typography variant="caption" display="block" fontSize={"11px"}>
+              Card Holder
+            </Typography>
+            <Typography
+              variant="body1"
+              fontSize={"14px"}
+              color="primary.contrastText"
+            >
+              {cardHolder}
+            </Typography>
+          </Box>
+          {/* <Box>
           <Typography variant="caption" display="block" fontSize={"11px"}>
             Expires
           </Typography>
           <Typography variant="body1" fontSize={"14px"}>
             {expiryDate}
           </Typography>
+        </Box> */}
         </Box>
       </Box>
+      <AddCardModal
+        open={open}
+        setOpen={setOpen}
+        cardHolder={cardHolder}
+        bankName={bankName}
+        cardNumber={cardNumber}
+        phoneNumber={phoneNumber}
+        bankDetail={bankDetail}
+        // isEdit
+      />
     </Box>
   );
 };
