@@ -1,0 +1,43 @@
+import { httpClient } from "@/common/api";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+import { GetUser, User, UsersList } from "./types";
+
+export const getUsersThunk = createAsyncThunk(
+  "users/getUsers",
+  async (data: GetUser, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get<UsersList>("/users", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const getUserThunk = createAsyncThunk(
+  "users/getUser",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get<User>(`/users/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);

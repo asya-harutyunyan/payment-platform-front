@@ -2,7 +2,7 @@ import { BankDetail } from "@/common/types/user";
 import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store/reducers/store";
-import { deleteBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
+import { deleteBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/thunks";
 import { H5 } from "@/styles/typography";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";

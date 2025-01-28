@@ -1,27 +1,12 @@
 import Button from "@/components/atoms/button";
-import PaginationOutlined from "@/components/atoms/pagination";
+import { PaginationOutlined } from "@/components/atoms/pagination";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC } from "react";
+import { ITaskTable } from "./types";
 
-type Data = {
-  taskName?: string;
-  description?: string;
-  leadTime?: string;
-  instruction?: string;
-  price?: string;
-  availableTasks?: number;
-};
-type Titles = {
-  id: number;
-  name: string;
-};
-interface ITaskTable {
-  titles: Titles[];
-  data: Data[];
-  bg: "dark" | "light";
-}
 const CardsContainer = {
   display: "flex",
   justifyContent: "space-evenly",
@@ -31,6 +16,16 @@ const CardsContainer = {
   height: "100%",
   flexDirection: "column",
 };
+const EmailContainer = {
+  display: "flex",
+  justifyContent: "space-evenly",
+  alignItems: "start",
+  paddingLeft: "20px",
+  width: "30%",
+  height: "100%",
+  flexDirection: "column",
+};
+
 const TaskTable: FC<ITaskTable> = ({ data }) => {
   return (
     <Box
@@ -68,7 +63,7 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
               border: `1px solid ${theme.palette.primary.contrastText}`,
             }}
           >
-            {task.taskName && (
+            {task.name && (
               <Box sx={CardsContainer}>
                 <P
                   sx={{
@@ -76,7 +71,7 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   }}
                   fontWeight="400"
                 >
-                  TASK NAME
+                  {t("name")}
                 </P>
                 <P
                   sx={{
@@ -84,11 +79,11 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   }}
                   fontWeight="300"
                 >
-                  {task.taskName}
+                  {task.name}
                 </P>
               </Box>
             )}
-            {task.description && (
+            {task.surname && (
               <Box sx={CardsContainer}>
                 <P
                   sx={{
@@ -96,7 +91,7 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   }}
                   fontWeight="400"
                 >
-                  TASK NAME
+                  {t("surname")}
                 </P>
                 <P
                   sx={{
@@ -104,19 +99,19 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   }}
                   fontWeight="300"
                 >
-                  {task.description}
+                  {task.surname}
                 </P>
               </Box>
             )}
-            {task.leadTime && (
-              <Box sx={CardsContainer}>
+            {task.email && (
+              <Box sx={EmailContainer}>
                 <P
                   sx={{
                     color: theme.palette.secondary.contrastText,
                   }}
                   fontWeight="400"
                 >
-                  TASK NAME
+                  {t("email")}
                 </P>
                 <P
                   sx={{
@@ -124,11 +119,11 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   }}
                   fontWeight="300"
                 >
-                  {task.leadTime}
+                  {task.email}
                 </P>
               </Box>
             )}
-            {task.instruction && (
+            {task.role && (
               <Box sx={CardsContainer}>
                 <P
                   sx={{
@@ -136,7 +131,7 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   }}
                   fontWeight="400"
                 >
-                  TASK NAME
+                  {t("role")}
                 </P>
                 <P
                   sx={{
@@ -145,52 +140,11 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
                   fontWeight="300"
                 >
                   {" "}
-                  {task.instruction}
+                  {task.role}
                 </P>
               </Box>
             )}
-            {task.price && (
-              <Box sx={CardsContainer}>
-                <P
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                  }}
-                  fontWeight="400"
-                >
-                  TASK NAME
-                </P>
-                <P
-                  sx={{
-                    color: theme.palette.primary.main,
-                  }}
-                  fontWeight="300"
-                >
-                  {task.price}
-                </P>
-              </Box>
-            )}
-            {task.availableTasks && (
-              <Box sx={CardsContainer}>
-                {" "}
-                <P
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                  }}
-                  fontWeight="400"
-                >
-                  TASK NAME
-                </P>
-                <P
-                  sx={{
-                    color: theme.palette.primary.main,
-                  }}
-                  fontWeight="300"
-                >
-                  {task.availableTasks}
-                </P>
-              </Box>
-            )}
-            {task.taskName && (
+            {task.name && (
               <Box sx={CardsContainer}>
                 <Button
                   variant="contained"

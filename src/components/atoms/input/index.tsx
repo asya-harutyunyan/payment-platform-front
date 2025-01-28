@@ -8,6 +8,7 @@ import {
   UseControllerProps,
 } from "react-hook-form";
 import { BasicTextFields } from "../form-text-input";
+import CreditCardInput from "../input-mask";
 
 interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   control: Control<T>;
@@ -21,6 +22,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   style?: SxProps;
   isPassword?: boolean;
   whiteVariant?: boolean;
+  mask?: boolean;
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -33,6 +35,7 @@ export const FormTextInput = <T extends FieldValues>({
   style,
   type,
   whiteVariant,
+  mask,
   ...props
 }: IFormTextInput<T>) => {
   const { field, fieldState } = useController<T>({
@@ -55,20 +58,31 @@ export const FormTextInput = <T extends FieldValues>({
 
   return (
     <Box width={"100%"}>
-      <BasicTextFields
-        style={style}
-        placeholder={placeholder || ""}
-        leftIcon={leftIcon}
-        rightIcon={rightIcon}
-        value={field.value}
-        onChange={field.onChange}
-        onBlur={field.onBlur}
-        error={!!helperText}
-        whiteVariant={whiteVariant}
-        // error={!!fieldState.error?.message}
-        helperText={helperText}
-        type={type}
-      />
+      {!mask ? (
+        <BasicTextFields
+          style={style}
+          placeholder={placeholder || ""}
+          leftIcon={leftIcon}
+          rightIcon={rightIcon}
+          value={field.value}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          error={!!helperText}
+          whiteVariant={whiteVariant}
+          // error={!!fieldState.error?.message}
+          helperText={helperText}
+          type={type}
+        />
+      ) : (
+        <CreditCardInput
+          value={field.value}
+          onChange={field.onChange}
+          onBlur={field.onBlur}
+          placeholder={placeholder}
+          error={!!helperText}
+          helperText={helperText}
+        />
+      )}
     </Box>
   );
 };

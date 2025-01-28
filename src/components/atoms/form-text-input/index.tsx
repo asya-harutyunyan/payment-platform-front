@@ -8,6 +8,7 @@ import {
   FC,
   HTMLInputTypeAttribute,
   ReactNode,
+  Ref,
   useMemo,
   useState,
 } from "react";
@@ -26,6 +27,8 @@ interface IBasicTextFields {
   helperText?: string | ReactNode;
   textColor?: string;
   whiteVariant?: boolean;
+  ref?: Ref<HTMLDivElement>;
+  id?: string;
 }
 
 export const BasicTextFields: FC<IBasicTextFields> = ({
@@ -39,6 +42,8 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   error = false,
   helperText,
   whiteVariant,
+  id,
+  ref,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -58,6 +63,8 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         label={placeholder}
         variant="outlined"
         type={inputType}
+        ref={ref}
+        id={id}
         sx={{
           width: "100%",
           border: "#B5BBC6",

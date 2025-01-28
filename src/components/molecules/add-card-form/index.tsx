@@ -3,7 +3,7 @@ import { FormTextInput } from "@/components/atoms/input";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
-import { addBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
+import { addBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -50,25 +50,21 @@ export const BankCardDetalis: FC = () => {
         control={control}
         name="card_holder"
         placeholder={t("name_cards_member")}
-        whiteVariant
       />
       <FormTextInput
         control={control}
         name="bank_name"
         placeholder={t("bank_info")}
-        whiteVariant
       />
       <FormTextInput
         control={control}
         name="phone_number"
         placeholder={t("phone_number")}
-        whiteVariant
       />
       <FormTextInput
         control={control}
         name="card_number"
         placeholder={t("card_number")}
-        whiteVariant
       />
       <Box sx={{ display: "flex" }}>
         <Button

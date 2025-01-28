@@ -1,7 +1,16 @@
 {
   "files": [],
   "references": [
-    { "path": "./tsconfig.app.json" },
-    { "path": "./tsconfig.node.json" }
-  ]
+    {
+      "path": "./tsconfig.app.json"
+    },
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ],
+  "compilerOptions": {
+    "jsx": "react-jsx", // This ensures TypeScript compiles JSX correctly
+    "esModuleInterop": true, // Ensures compatibility with ES modules
+    "skipLibCheck": true // Skips type checking of declaration files (useful if there are issues with types)
+  }
 }

@@ -9,7 +9,8 @@ import { useAppDispatch } from "@/store/reducers/store";
 import {
   addBankCardThunk,
   editBankCardThunk,
-} from "@/store/reducers/user/bankDetailsSlice/addCard/thunks";
+} from "@/store/reducers/user/bankDetailsSlice/thunks";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -140,6 +141,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         <FormTextInput
           control={control}
           name="card_number"
+          mask
           placeholder={t("card_number")}
           whiteVariant
         />
