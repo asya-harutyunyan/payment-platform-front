@@ -1,14 +1,13 @@
-import Icon from "@/components/atoms/icon";
 import theme from "@/styles/theme";
 import { H2, H3, H6, P } from "@/styles/typography";
 
 import Button from "@/components/atoms/button";
+import { Logo } from "@/components/atoms/logo";
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
-import MenuIcon from "@mui/icons-material/Menu";
 import {
   AppBar,
   Box,
@@ -97,14 +96,19 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             paddingBottom: "20px",
           }}
         >
-          <Icon name="Home" fontSize="large" />{" "}
+          <Logo />
           <H2
             sx={{
-              display: { lg: "inline", md: "inline", sx: "none", xs: "none" },
+              display: {
+                lg: "inline",
+                md: "inline",
+                sx: "none",
+                xs: "none",
+              },
               paddingLeft: "15px",
             }}
           >
-            Payhub
+            {t("payhub")}
           </H2>
         </Box>
         <Box
@@ -161,9 +165,9 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             onClick={toggleDrawer}
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
+            <Logo />
           </IconButton>
-          <H3 noWrap>Payhub</H3>
+          <H3 noWrap> {t("payhub")}</H3>
         </Toolbar>
       </AppBar>
       <Drawer
