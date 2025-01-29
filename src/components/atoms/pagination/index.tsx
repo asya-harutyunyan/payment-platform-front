@@ -5,31 +5,34 @@ import { FC } from "react";
 
 interface IPaginationOutlined {
   onPageChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
+  count?: number;
 }
 
 export const PaginationOutlined: FC<IPaginationOutlined> = ({
   onPageChange,
+  count,
 }) => {
   return (
     <Stack spacing={2}>
       <Pagination
         onChange={onPageChange}
         variant="outlined"
+        count={count}
         color="secondary"
         sx={{
           "& .MuiPaginationItem-root:not(.Mui-selected)": {
-            color: theme.palette.tertiary.contrastText, // Color for unselected items
-            borderColor: "gray", // Border color for unselected items
+            color: theme.palette.tertiary.contrastText,
+            borderColor: "gray",
           },
           "& .MuiPaginationItem-root.Mui-selected": {
-            backgroundColor: theme.palette.secondary.main, // Selected page item background
-            color: theme.palette.common.white, // Color for selected item text
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.common.white,
             "&:hover": {
-              backgroundColor: theme.palette.secondary.dark, // Darker background when hovered
+              backgroundColor: theme.palette.secondary.dark,
             },
           },
           "& .MuiPaginationItem-previousNext": {
-            color: theme.palette.primary.main, // Color for "Previous" and "Next" buttons
+            color: theme.palette.primary.main,
           },
         }}
       />

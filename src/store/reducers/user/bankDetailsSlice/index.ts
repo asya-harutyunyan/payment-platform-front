@@ -5,7 +5,7 @@ import {
   editBankCardThunk,
   getCardsThunk,
 } from "./thunks";
-import { DepositState } from "./types";
+import { DepositState } from "./addCard/types";
 
 const initialState: DepositState = {
   loading: false,

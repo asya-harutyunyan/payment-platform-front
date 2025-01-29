@@ -1,10 +1,9 @@
-import { OrderListComponent } from '@/components/organisms/order-list'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
 const OrderList = () => {
-  return <OrderListComponent />
-}
+  return <div />;
+};
 
-export const Route = createFileRoute('/_auth/_admin/orders/')({
+export const Route = createFileRoute("/_auth/_admin/orders/")({
   component: OrderList,
-})
+});

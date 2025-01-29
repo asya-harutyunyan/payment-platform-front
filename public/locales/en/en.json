@@ -57,5 +57,8 @@
   "welcome": "Tutorial",
   "start_earning_money": "Start earning money",
   "add_card": "Add card",
-  "third_step": "Once the transaction is complete, enter the Transaction ID and click Confirm."
+  "third_step": "Once the transaction is complete, enter the Transaction ID and click Confirm.",
+  "role": "Role",
+  "user_list_title": "List of Registered Users",
+  "user_info": "Detailed Information of Registered User"
 }

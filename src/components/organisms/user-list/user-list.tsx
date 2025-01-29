@@ -3,26 +3,22 @@ import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getUsersThunk } from "@/store/reducers/user/usersSlice/thunks";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import { FC, useEffect, useState } from "react";
 
 export const UserListComponent: FC = () => {
   const dispatch = useAppDispatch();
   const { users } = useAppSelector((state) => state.users);
-  const [pageData] = useState({
-    page: 1,
-    per_page: 5,
-  });
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(
-      getUsersThunk({ page: pageData.page, per_page: pageData.per_page })
-    );
-  }, [pageData]);
+    dispatch(getUsersThunk({ page: page }));
+  }, []);
 
   return (
     <Box>
-      <TaskHeader title={"User List"} />
+      <TaskHeader title={t("user_list_title")} />
       <Box sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}>
-        {users && <TaskTable data={users} bg={"light"} />}
+        {users && <TaskTable data={users} bg={"light"} setPage={setPage} />}
       </Box>
     </Box>
   );

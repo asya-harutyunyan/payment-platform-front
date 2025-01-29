@@ -9,6 +9,8 @@ const initialState: UserState = {
   user: null,
   currentPage: null,
   lastPage: null,
+  per_page: 5,
+  total: 0,
 };
 
 const usersSlice = createSlice({
@@ -19,7 +21,9 @@ const usersSlice = createSlice({
     builder
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = action.payload;
+        state.users = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = action.payload.total;
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.loading = false;

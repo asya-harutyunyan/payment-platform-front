@@ -21,6 +21,11 @@ export const userItems = [
 ];
 export const adminItems = [
   { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
-  { text: "task_list", icon: <FormatListBulletedIcon />, link: "/task-list" },
+  { text: "task_list", icon: <FormatListBulletedIcon />, link: "/walet-list" },
   { text: "order_list", icon: <ImportExportIcon />, link: "/orders" },
+  {
+    text: "transaction_list",
+    icon: <ImportExportIcon />,
+    link: "/transaction-list",
+  },
 ];

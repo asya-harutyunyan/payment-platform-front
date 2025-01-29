@@ -69,6 +69,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("Logout failed:", resultAction.payload);
     }
   };
+
   const renderSidebarItems = () =>
     sidebarItems.map((item, index) => (
       <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>

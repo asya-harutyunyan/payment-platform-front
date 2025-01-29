@@ -21,9 +21,11 @@ import { Route as AuthUserUserTaskListIndexImport } from './routes/_auth/_user/u
 import { Route as AuthUserOrderListIndexImport } from './routes/_auth/_user/order-list/index'
 import { Route as AuthUserInfoIndexImport } from './routes/_auth/_user/info/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
+import { Route as AuthAdminWaletListIndexImport } from './routes/_auth/_admin/walet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
-import { Route as AuthAdminTaskListIndexImport } from './routes/_auth/_admin/task-list/index'
+import { Route as AuthAdminTransactionListIndexImport } from './routes/_auth/_admin/transaction-list/index'
 import { Route as AuthAdminOrdersIndexImport } from './routes/_auth/_admin/orders/index'
+import { Route as AuthAdminUserListIdImport } from './routes/_auth/_admin/user-list/$id'
 
 // Create Virtual Routes
 
@@ -154,21 +156,34 @@ const AuthUserDepositInfoIndexRoute = AuthUserDepositInfoIndexImport.update({
   getParentRoute: () => AuthUserRoute,
 } as any)
 
+const AuthAdminWaletListIndexRoute = AuthAdminWaletListIndexImport.update({
+  id: '/walet-list/',
+  path: '/walet-list/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+
 const AuthAdminUserListIndexRoute = AuthAdminUserListIndexImport.update({
   id: '/user-list/',
   path: '/user-list/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
-const AuthAdminTaskListIndexRoute = AuthAdminTaskListIndexImport.update({
-  id: '/task-list/',
-  path: '/task-list/',
-  getParentRoute: () => AuthAdminRoute,
-} as any)
+const AuthAdminTransactionListIndexRoute =
+  AuthAdminTransactionListIndexImport.update({
+    id: '/transaction-list/',
+    path: '/transaction-list/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 
 const AuthAdminOrdersIndexRoute = AuthAdminOrdersIndexImport.update({
   id: '/orders/',
   path: '/orders/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+
+const AuthAdminUserListIdRoute = AuthAdminUserListIdImport.update({
+  id: '/user-list/$id',
+  path: '/user-list/$id',
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
@@ -218,6 +233,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotfoundIndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/_auth/_admin/user-list/$id': {
+      id: '/_auth/_admin/user-list/$id'
+      path: '/user-list/$id'
+      fullPath: '/user-list/$id'
+      preLoaderRoute: typeof AuthAdminUserListIdImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/orders/': {
       id: '/_auth/_admin/orders/'
       path: '/orders'
@@ -225,11 +247,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminOrdersIndexImport
       parentRoute: typeof AuthAdminImport
     }
-    '/_auth/_admin/task-list/': {
-      id: '/_auth/_admin/task-list/'
-      path: '/task-list'
-      fullPath: '/task-list'
-      preLoaderRoute: typeof AuthAdminTaskListIndexImport
+    '/_auth/_admin/transaction-list/': {
+      id: '/_auth/_admin/transaction-list/'
+      path: '/transaction-list'
+      fullPath: '/transaction-list'
+      preLoaderRoute: typeof AuthAdminTransactionListIndexImport
       parentRoute: typeof AuthAdminImport
     }
     '/_auth/_admin/user-list/': {
@@ -237,6 +259,13 @@ declare module '@tanstack/react-router' {
       path: '/user-list'
       fullPath: '/user-list'
       preLoaderRoute: typeof AuthAdminUserListIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
+    '/_auth/_admin/walet-list/': {
+      id: '/_auth/_admin/walet-list/'
+      path: '/walet-list'
+      fullPath: '/walet-list'
+      preLoaderRoute: typeof AuthAdminWaletListIndexImport
       parentRoute: typeof AuthAdminImport
     }
     '/_auth/_user/deposit-info/': {
@@ -308,15 +337,19 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface AuthAdminRouteChildren {
+  AuthAdminUserListIdRoute: typeof AuthAdminUserListIdRoute
   AuthAdminOrdersIndexRoute: typeof AuthAdminOrdersIndexRoute
-  AuthAdminTaskListIndexRoute: typeof AuthAdminTaskListIndexRoute
+  AuthAdminTransactionListIndexRoute: typeof AuthAdminTransactionListIndexRoute
   AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
+  AuthAdminWaletListIndexRoute: typeof AuthAdminWaletListIndexRoute
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
+  AuthAdminUserListIdRoute: AuthAdminUserListIdRoute,
   AuthAdminOrdersIndexRoute: AuthAdminOrdersIndexRoute,
-  AuthAdminTaskListIndexRoute: AuthAdminTaskListIndexRoute,
+  AuthAdminTransactionListIndexRoute: AuthAdminTransactionListIndexRoute,
   AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
+  AuthAdminWaletListIndexRoute: AuthAdminWaletListIndexRoute,
 }
 
 const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
@@ -379,9 +412,11 @@ export interface FileRoutesByFullPath {
   '': typeof AuthUserRouteWithChildren
   '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
+  '/user-list/$id': typeof AuthAdminUserListIdRoute
   '/orders': typeof AuthAdminOrdersIndexRoute
-  '/task-list': typeof AuthAdminTaskListIndexRoute
+  '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
+  '/walet-list': typeof AuthAdminWaletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/info': typeof AuthUserInfoIndexRoute
   '/order-list': typeof AuthUserOrderListIndexRoute
@@ -397,9 +432,11 @@ export interface FileRoutesByTo {
   '': typeof AuthUserRouteWithChildren
   '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
+  '/user-list/$id': typeof AuthAdminUserListIdRoute
   '/orders': typeof AuthAdminOrdersIndexRoute
-  '/task-list': typeof AuthAdminTaskListIndexRoute
+  '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
+  '/walet-list': typeof AuthAdminWaletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/info': typeof AuthUserInfoIndexRoute
   '/order-list': typeof AuthUserOrderListIndexRoute
@@ -419,9 +456,11 @@ export interface FileRoutesById {
   '/_auth/_user': typeof AuthUserRouteWithChildren
   '/_auth/': typeof AuthIndexLazyRoute
   '/not_found/': typeof NotfoundIndexLazyRoute
+  '/_auth/_admin/user-list/$id': typeof AuthAdminUserListIdRoute
   '/_auth/_admin/orders/': typeof AuthAdminOrdersIndexRoute
-  '/_auth/_admin/task-list/': typeof AuthAdminTaskListIndexRoute
+  '/_auth/_admin/transaction-list/': typeof AuthAdminTransactionListIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
+  '/_auth/_admin/walet-list/': typeof AuthAdminWaletListIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/info/': typeof AuthUserInfoIndexRoute
   '/_auth/_user/order-list/': typeof AuthUserOrderListIndexRoute
@@ -439,9 +478,11 @@ export interface FileRouteTypes {
     | ''
     | '/'
     | '/not_found'
+    | '/user-list/$id'
     | '/orders'
-    | '/task-list'
+    | '/transaction-list'
     | '/user-list'
+    | '/walet-list'
     | '/deposit-info'
     | '/info'
     | '/order-list'
@@ -456,9 +497,11 @@ export interface FileRouteTypes {
     | ''
     | '/'
     | '/not_found'
+    | '/user-list/$id'
     | '/orders'
-    | '/task-list'
+    | '/transaction-list'
     | '/user-list'
+    | '/walet-list'
     | '/deposit-info'
     | '/info'
     | '/order-list'
@@ -476,9 +519,11 @@ export interface FileRouteTypes {
     | '/_auth/_user'
     | '/_auth/'
     | '/not_found/'
+    | '/_auth/_admin/user-list/$id'
     | '/_auth/_admin/orders/'
-    | '/_auth/_admin/task-list/'
+    | '/_auth/_admin/transaction-list/'
     | '/_auth/_admin/user-list/'
+    | '/_auth/_admin/walet-list/'
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/info/'
     | '/_auth/_user/order-list/'
@@ -540,9 +585,11 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin.tsx",
       "parent": "/_auth",
       "children": [
+        "/_auth/_admin/user-list/$id",
         "/_auth/_admin/orders/",
-        "/_auth/_admin/task-list/",
-        "/_auth/_admin/user-list/"
+        "/_auth/_admin/transaction-list/",
+        "/_auth/_admin/user-list/",
+        "/_auth/_admin/walet-list/"
       ]
     },
     "/_auth/_user": {
@@ -562,16 +609,24 @@ export const routeTree = rootRoute
     "/not_found/": {
       "filePath": "not_found/index.lazy.tsx"
     },
+    "/_auth/_admin/user-list/$id": {
+      "filePath": "_auth/_admin/user-list/$id.tsx",
+      "parent": "/_auth/_admin"
+    },
     "/_auth/_admin/orders/": {
       "filePath": "_auth/_admin/orders/index.tsx",
       "parent": "/_auth/_admin"
     },
-    "/_auth/_admin/task-list/": {
-      "filePath": "_auth/_admin/task-list/index.tsx",
+    "/_auth/_admin/transaction-list/": {
+      "filePath": "_auth/_admin/transaction-list/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/user-list/": {
       "filePath": "_auth/_admin/user-list/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/walet-list/": {
+      "filePath": "_auth/_admin/walet-list/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_user/deposit-info/": {

@@ -1,30 +1,36 @@
+import { User } from "@/common/types";
+
 export interface UserState {
   loading: boolean;
   error: string | null;
-  users: UsersList[];
+  users: User[];
   user: User | null;
-
+  per_page: number;
   currentPage: number | null;
   lastPage: number | null;
+  total: number;
 }
 
-export type User = {
-  id: number;
-  user_id: number;
-};
-
 export interface UsersList {
-  id: number;
-  name: string;
-  surname: string;
-  email: string;
-  email_verified_at?: string;
-  role: string;
-  created_at: string;
-  updated_at: string;
-  bank_details: BankDetail[];
-  currentPage: number;
-  lastPage: number;
+  current_page: number;
+  data: User[];
+  first_page_url: string;
+  from: number;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: string;
+  path: string;
+  per_page: number;
+  prev_page_url: string;
+  to: number;
+  total: number;
+}
+
+export interface Link {
+  url?: string;
+  label: string;
+  active: boolean;
 }
 
 export interface BankDetail {
@@ -37,9 +43,8 @@ export interface BankDetail {
   created_at: string;
   updated_at: string;
 }
-export interface GetUser {
+export interface GetUsersRequest {
   page: number;
-  per_page: number;
 }
 export interface PaginatedUsersResponse {
   data: UsersList[];

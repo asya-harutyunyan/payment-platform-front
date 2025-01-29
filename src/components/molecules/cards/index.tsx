@@ -1,8 +1,11 @@
 import Button from "@/components/atoms/button";
 import { PaginationOutlined } from "@/components/atoms/pagination";
+import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { getUsersThunk } from "@/store/reducers/user/usersSlice/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
 import { ITaskTable } from "./types";
@@ -26,7 +29,17 @@ const EmailContainer = {
   flexDirection: "column",
 };
 
-const TaskTable: FC<ITaskTable> = ({ data }) => {
+const TaskTable: FC<ITaskTable> = ({ data, setPage }) => {
+  const { total } = useAppSelector((state) => state.users);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+    setPage?.(page);
+    dispatch(getUsersThunk({ page }));
+  };
+  const handleUserInformation = (id: number) => {
+    navigate({ to: `/user-list/${id}` });
+  };
   return (
     <Box
       style={{ borderRadius: 8 }}
@@ -49,119 +62,126 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
           flexDirection: "column",
         }}
       >
-        {data.map((task, index) => (
-          <Box
-            key={index}
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "120px",
-              borderRadius: "8px",
-              marginBottom: "20px",
-              border: `1px solid ${theme.palette.primary.contrastText}`,
-            }}
-          >
-            {task.name && (
-              <Box sx={CardsContainer}>
-                <P
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                  }}
-                  fontWeight="400"
-                >
-                  {t("name")}
-                </P>
-                <P
-                  sx={{
-                    color: theme.palette.primary.main,
-                  }}
-                  fontWeight="300"
-                >
-                  {task.name}
-                </P>
-              </Box>
-            )}
-            {task.surname && (
-              <Box sx={CardsContainer}>
-                <P
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                  }}
-                  fontWeight="400"
-                >
-                  {t("surname")}
-                </P>
-                <P
-                  sx={{
-                    color: theme.palette.primary.main,
-                  }}
-                  fontWeight="300"
-                >
-                  {task.surname}
-                </P>
-              </Box>
-            )}
-            {task.email && (
-              <Box sx={EmailContainer}>
-                <P
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                  }}
-                  fontWeight="400"
-                >
-                  {t("email")}
-                </P>
-                <P
-                  sx={{
-                    color: theme.palette.primary.main,
-                  }}
-                  fontWeight="300"
-                >
-                  {task.email}
-                </P>
-              </Box>
-            )}
-            {task.role && (
-              <Box sx={CardsContainer}>
-                <P
-                  sx={{
-                    color: theme.palette.secondary.contrastText,
-                  }}
-                  fontWeight="400"
-                >
-                  {t("role")}
-                </P>
-                <P
-                  sx={{
-                    color: theme.palette.primary.main,
-                  }}
-                  fontWeight="300"
-                >
-                  {" "}
-                  {task.role}
-                </P>
-              </Box>
-            )}
-            {task.name && (
-              <Box sx={CardsContainer}>
-                <Button
-                  variant="contained"
-                  text={"Status of task"}
-                  size="small"
-                  sx={{
-                    borderRadius: 2,
-                    padding: "0 20px",
-                    textTransform: "none",
-                    bgcolor: theme.palette.secondary.main,
-                    color: theme.palette.text.primary,
-                  }}
-                />
-              </Box>
-            )}
-          </Box>
-        ))}
+        {data &&
+          data?.map((item, index) => (
+            <Box
+              key={index}
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "120px",
+                borderRadius: "8px",
+                marginBottom: "20px",
+                border: `1px solid ${theme.palette.primary.contrastText}`,
+              }}
+              onClick={() => handleUserInformation(item.id)}
+            >
+              {item.name && (
+                <Box sx={CardsContainer}>
+                  <P
+                    sx={{
+                      color: theme.palette.secondary.contrastText,
+                      fontSize: "18px",
+                    }}
+                    fontWeight="400"
+                  >
+                    {t("name")}
+                  </P>
+                  <P
+                    sx={{
+                      color: theme.palette.primary.main,
+                    }}
+                    fontWeight="300"
+                  >
+                    {item.name}
+                  </P>
+                </Box>
+              )}
+              {item.surname && (
+                <Box sx={CardsContainer}>
+                  <P
+                    sx={{
+                      color: theme.palette.secondary.contrastText,
+                      fontSize: "18px",
+                    }}
+                    fontWeight="400"
+                  >
+                    {t("surname")}
+                  </P>
+                  <P
+                    sx={{
+                      color: theme.palette.primary.main,
+                      fontSize: "18px",
+                    }}
+                    fontWeight="300"
+                  >
+                    {item.surname}
+                  </P>
+                </Box>
+              )}
+              {item.email && (
+                <Box sx={EmailContainer}>
+                  <P
+                    sx={{
+                      color: theme.palette.secondary.contrastText,
+                      fontSize: "18px",
+                    }}
+                    fontWeight="400"
+                  >
+                    {t("email")}
+                  </P>
+                  <P
+                    sx={{
+                      color: theme.palette.primary.main,
+                    }}
+                    fontWeight="300"
+                  >
+                    {item.email}
+                  </P>
+                </Box>
+              )}
+              {item.role && (
+                <Box sx={CardsContainer}>
+                  <P
+                    sx={{
+                      color: theme.palette.secondary.contrastText,
+                      fontSize: "18px",
+                    }}
+                    fontWeight="400"
+                  >
+                    {t("role")}
+                  </P>
+                  <P
+                    sx={{
+                      color: theme.palette.primary.main,
+                    }}
+                    fontWeight="300"
+                  >
+                    {" "}
+                    {item.role && t("role")}
+                  </P>
+                </Box>
+              )}
+              {item.name && (
+                <Box sx={CardsContainer}>
+                  <Button
+                    variant="contained"
+                    text={"Status of task"}
+                    size="small"
+                    sx={{
+                      borderRadius: 2,
+                      padding: "0 20px",
+                      textTransform: "none",
+                      bgcolor: theme.palette.secondary.main,
+                      color: theme.palette.text.primary,
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
+          ))}
         <Box
           sx={{
             width: "100%",
@@ -170,7 +190,7 @@ const TaskTable: FC<ITaskTable> = ({ data }) => {
             marginTop: "20px",
           }}
         >
-          <PaginationOutlined />
+          <PaginationOutlined onPageChange={onChangePage} count={total} />
         </Box>
       </Box>
     </Box>

@@ -1,16 +1,20 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GetUser, User, UsersList } from "./types";
+import { AppState } from "../../store";
+import { GetUsersRequest, UsersList } from "./types";
 
 export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
-  async (data: GetUser, { rejectWithValue }) => {
+  async (data: GetUsersRequest, { rejectWithValue, getState }) => {
     try {
+      const {
+        users: { per_page },
+      } = getState() as AppState;
       const response = await httpClient.get<UsersList>("/users", {
         params: {
           page: data.page,
-          per_page: data.per_page,
+          per_page,
         },
       });
       return response.data;
@@ -27,9 +31,9 @@ export const getUsersThunk = createAsyncThunk(
 
 export const getUserThunk = createAsyncThunk(
   "users/getUser",
-  async (id, { rejectWithValue }) => {
+  async (id: number, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get<User>(`/users/${id}`);
+      const response = await httpClient.get(`/users/${id}`);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
