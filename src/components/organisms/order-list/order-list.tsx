@@ -3,32 +3,32 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 
-const tasks = [
-  {
-    taskName: "Status",
-    description: "Like",
-    leadTime: "1 hour",
-    instruction: "view instruction",
-    price: "10 GRAND",
-    availableTasks: 10,
-  },
-  {
-    taskName: "Status",
-    description: "Like",
-    leadTime: "1 hour",
-    instruction: "view instruction",
-    price: "10 GRAND",
-    availableTasks: 10,
-  },
-  {
-    taskName: "Status",
-    description: "Like",
-    leadTime: "1 hour",
-    instruction: "view instruction",
-    price: "10 GRAND",
-    availableTasks: 10,
-  },
-];
+// const tasks = [
+//   {
+//     taskName: "Status",
+//     description: "Like",
+//     leadTime: "1 hour",
+//     instruction: "view instruction",
+//     price: "10 GRAND",
+//     availableTasks: 10,
+//   },
+//   {
+//     taskName: "Status",
+//     description: "Like",
+//     leadTime: "1 hour",
+//     instruction: "view instruction",
+//     price: "10 GRAND",
+//     availableTasks: 10,
+//   },
+//   {
+//     taskName: "Status",
+//     description: "Like",
+//     leadTime: "1 hour",
+//     instruction: "view instruction",
+//     price: "10 GRAND",
+//     availableTasks: 10,
+//   },
+// ];
 // const titles = [
 //   { id: Math.random(), name: "ORDER NAME" },
 //   { id: Math.random(), name: "DESCRIPTION" },

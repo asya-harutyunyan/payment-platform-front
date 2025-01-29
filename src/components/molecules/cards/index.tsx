@@ -37,6 +37,7 @@ const TaskTable: FC<ITaskTable> = ({ data, setPage }) => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getUsersThunk({ page }));
+    console.log(event);
   };
   useEffect(() => {
     console.log(data);

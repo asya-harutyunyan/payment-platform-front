@@ -34,7 +34,7 @@ const useSignIn = () => {
               setUser(data);
               localStorage.setItem("user_role", data.role ?? "");
               navigate({
-                to: data.role === "admin" ? "/task-list" : "/user-task-list",
+                to: data.role === "admin" ? "/user-list" : "/user-task-list",
               });
             }
           });
