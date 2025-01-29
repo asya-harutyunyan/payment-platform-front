@@ -29,7 +29,7 @@ const LoginForm = () => {
     >
       <Box
         sx={{
-          width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
+          width: { lg: "60%", md: "60%", sx: "70%", xs: "70%" },
           display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
           alignItems: "center",
           flexDirection: "column",

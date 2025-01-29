@@ -43,10 +43,6 @@ const useSignUp = () => {
             type: "manual",
             message: error,
           });
-          setError("password", {
-            type: "manual",
-            message: error,
-          });
         }
         console.error("Registration failed:", error);
       });

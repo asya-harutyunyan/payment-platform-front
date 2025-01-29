@@ -12,10 +12,12 @@ export const StepWelcome = () => {
     <Box
       sx={{
         width: "100%",
+        height: "80vh",
         display: "flex",
         alignItems: "start",
         flexDirection: "column",
         justifyContent: "center",
+        overflow: "hidden",
       }}
     >
       <H1
@@ -46,7 +48,7 @@ export const StepWelcome = () => {
           url="https://www.youtube.com/watch?v=NR5IFPoRqmo"
           controls={true}
           width="100%"
-          height="400px"
+          height="380px"
           borderRadius={"10px"}
         />
       </Box>

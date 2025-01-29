@@ -84,6 +84,9 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
             "&.Mui-focused fieldset": {
               borderColor: whiteVariant ? "tertiary.main" : "primary.main", // Change to your desired color
             },
+            "&:hover fieldset": {
+              borderColor: "primary.main", // Change this to your desired hover color
+            },
           },
           ...style,
         }}
