@@ -4,6 +4,8 @@
   "user_list": "User list",
   "task_list": "Deposit Flow",
   "order_list": "Order list",
+  "deposit_list": "Deposit list",
+  "walet_list": "Walet list",
   "bank_info": "Bank info",
   "add_bank_card": "Add bank card",
   "name_cards_member": "Name Surname",
@@ -60,5 +62,6 @@
   "third_step": "Once the transaction is complete, enter the Transaction ID and click Confirm.",
   "role": "Role",
   "user_list_title": "List of Registered Users",
-  "user_info": "Detailed Information of Registered User"
+  "user_info": "Detailed Information of Registered User",
+  "transaction_list": "Transaction list"
 }

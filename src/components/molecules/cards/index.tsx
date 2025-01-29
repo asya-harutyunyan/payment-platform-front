@@ -7,7 +7,7 @@ import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ITaskTable } from "./types";
 
 const CardsContainer = {
@@ -31,12 +31,17 @@ const EmailContainer = {
 
 const TaskTable: FC<ITaskTable> = ({ data, setPage }) => {
   const { total } = useAppSelector((state) => state.users);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getUsersThunk({ page }));
   };
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   const handleUserInformation = (id: number) => {
     navigate({ to: `/user-list/${id}` });
   };

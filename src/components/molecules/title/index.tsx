@@ -1,15 +1,16 @@
 import theme from "@/styles/theme";
 import { H3, P } from "@/styles/typography";
-import { Box, Divider } from "@mui/material";
+import { Box, Divider, SxProps } from "@mui/material";
 import { FC } from "react";
 
 interface ITaskHeader {
   title?: string;
   subTitle?: string;
+  sx?: SxProps;
 }
-const TaskHeader: FC<ITaskHeader> = ({ title, subTitle }) => {
+const TaskHeader: FC<ITaskHeader> = ({ title, subTitle, sx }) => {
   return (
-    <Box sx={{ padding: "16px", width: "100%" }}>
+    <Box sx={{ padding: "16px", width: "100%", ...sx }}>
       <H3 color={theme.palette.primary.main}>{title}</H3>
       <P
         sx={{
