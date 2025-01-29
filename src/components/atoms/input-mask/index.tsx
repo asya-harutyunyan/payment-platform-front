@@ -37,7 +37,7 @@ const CreditCardInput = ({
             lazy: false,
           },
         },
-        prepare: (value) => value.replace(/\D/g, ""),
+        prepare: (value: string) => value.replace(/\D/g, ""),
       });
 
       return () => {
