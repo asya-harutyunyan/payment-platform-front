@@ -7,7 +7,7 @@ export const Route = createFileRoute("/_no_auth")({
       ctx.location.pathname !== "/auth/confirm-email"
     ) {
       throw redirect({
-        to: "/",
+        to: "/order-list",
       });
     }
   },

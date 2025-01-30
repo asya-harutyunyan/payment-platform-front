@@ -1,4 +1,4 @@
-import { TaskListComponent } from "@/components/organisms/task-list";
+import { TaskListComponent } from "@/components/organisms/wallet-stepts";
 import { createFileRoute } from "@tanstack/react-router";
 
 const DepositInfo = () => {

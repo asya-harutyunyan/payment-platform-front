@@ -4,7 +4,7 @@ import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
-import { addBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/thunks";
+import { addBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";

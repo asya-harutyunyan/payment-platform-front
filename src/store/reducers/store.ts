@@ -1,13 +1,15 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import walletSlice from "./admin/walletSlice";
 import authSlice from "./auth/authSlice";
-import depositSlice from "./user/depositSlice";
-import usersSlice from "./user/usersSlice";
+import depositSlice from "./user-info/depositSlice";
+import usersSlice from "./usersSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
   deposit: depositSlice,
   users: usersSlice,
+  wallet: walletSlice,
 });
 
 export const store = configureStore({

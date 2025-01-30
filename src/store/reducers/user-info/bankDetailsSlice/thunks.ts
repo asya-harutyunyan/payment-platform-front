@@ -73,7 +73,7 @@ export const deleteBankCardThunk = createAsyncThunk(
 );
 
 export const editBankCardThunk = createAsyncThunk(
-  "bankDetails/addBankCard",
+  "bankDetails/editBankCard",
   async (edit_card: EditCardType, { rejectWithValue }) => {
     try {
       const response = await httpClient.post(

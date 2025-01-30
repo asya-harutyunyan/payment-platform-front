@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/button";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
-import { getUserThunk } from "@/store/reducers/user/usersSlice/thunks";
+import { getUserThunk } from "@/store/reducers/usersSlice/thunks";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { Box, Paper, Typography } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";

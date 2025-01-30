@@ -10,7 +10,7 @@ import { useAppDispatch } from "@/store/reducers/store";
 import {
   addBankCardThunk,
   editBankCardThunk,
-} from "@/store/reducers/user/bankDetailsSlice/thunks";
+} from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
@@ -57,30 +57,36 @@ export const AddCardModal: FC<IStepTwo> = ({
   });
 
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
-    dispatch(addBankCardThunk(data))
-      .unwrap()
-      .then(() => {
-        enqueueSnackbar(t("bank_card_added_success"), {
-          variant: "success",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-        fetchAuthUser?.();
-        handleClose();
-        reset();
-      })
-      .catch((error) => {
-        if (typeof error === "object") {
-          for (const key in error) {
-            setError(key as keyof FormData, {
-              type: "validate",
-              message: error[key as keyof FormData][0],
-            });
+    console.log(isEdit, 1);
+
+    if (!isEdit) {
+      dispatch(addBankCardThunk(data))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("bank_card_added_success"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          fetchAuthUser?.();
+          handleClose();
+          reset();
+        })
+        .catch((error) => {
+          if (typeof error === "object") {
+            for (const key in error) {
+              setError(key as keyof FormData, {
+                type: "validate",
+                message: error[key as keyof FormData][0],
+              });
+            }
           }
-        }
-      });
+        });
+    }
   };
 
   const onEditSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log(isEdit, 2);
+
     if (bankDetail) {
       dispatch(editBankCardThunk({ ...data, id: bankDetail }))
         .unwrap()

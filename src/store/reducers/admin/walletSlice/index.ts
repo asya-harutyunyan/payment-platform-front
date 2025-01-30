@@ -1,0 +1,39 @@
+import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import { createWalletsThunk, getWalletsThunk } from "./thunks";
+import { WalletState } from "./types";
+
+const initialState: WalletState = {
+  loading: false,
+  error: null,
+  wallet: [],
+  currentPage: null,
+  lastPage: null,
+  per_page: 5,
+  total: 0,
+};
+
+const WalletsSlice = createSlice({
+  name: "wallets",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(createWalletsThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(getWalletsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.wallet = action.payload;
+        state.lastPage = action.payload.last_page;
+        state.total = action.payload.total;
+      })
+      .addMatcher(isPending, (state) => {
+        state.loading = true;
+      })
+      .addMatcher(isRejected, (state) => {
+        state.loading = false;
+      });
+  },
+});
+
+export default WalletsSlice.reducer;

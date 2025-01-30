@@ -1,7 +1,7 @@
 import { z } from "@/common/validation";
 import { deposit_id_schema } from "@/schema/price.schema";
 import { useAppDispatch } from "@/store/reducers/store";
-import { processingAmountThunk } from "@/store/reducers/user/depositSlice/thunks";
+import { processingAmountThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

@@ -34,7 +34,7 @@ const useSignIn = () => {
               setUser(data);
               localStorage.setItem("user_role", data.role ?? "");
               navigate({
-                to: data.role === "admin" ? "/user-list" : "/user-task-list",
+                to: data.role === "admin" ? "/user-list" : "/my-information",
               });
             }
           });
@@ -42,11 +42,11 @@ const useSignIn = () => {
       .catch((error) => {
         if (typeof error === "string") {
           setError("email", {
-            type: "manual", // Specify the type of error
-            message: error, // Error message to display
+            type: "manual",
+            message: error,
           });
           setError("password", {
-            type: "manual", // Specify the type of error
+            type: "manual",
             message: error,
           });
         }

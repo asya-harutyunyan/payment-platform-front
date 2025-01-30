@@ -2,7 +2,7 @@ import { BankDetail } from "@/common/types/user";
 import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store/reducers/store";
-import { deleteBankCardThunk } from "@/store/reducers/user/bankDetailsSlice/thunks";
+import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { H5 } from "@/styles/typography";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
@@ -148,7 +148,7 @@ const BankCard: FC<IBankCard> = ({
         cardNumber={cardNumber}
         phoneNumber={phoneNumber}
         bankDetail={bankDetail}
-        // isEdit
+        isEdit
       />
     </Box>
   );

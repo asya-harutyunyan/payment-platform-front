@@ -18,13 +18,14 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as AuthUserImport } from './routes/_auth/_user'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
 import { Route as AuthUserUserTaskListIndexImport } from './routes/_auth/_user/user-task-list/index'
-import { Route as AuthUserOrderListIndexImport } from './routes/_auth/_user/order-list/index'
-import { Route as AuthUserInfoIndexImport } from './routes/_auth/_user/info/index'
+import { Route as AuthUserOrderListUserIndexImport } from './routes/_auth/_user/order-list-user/index'
+import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
-import { Route as AuthAdminWaletListIndexImport } from './routes/_auth/_admin/walet-list/index'
+import { Route as AuthAdminWalletListIndexImport } from './routes/_auth/_admin/wallet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
 import { Route as AuthAdminTransactionListIndexImport } from './routes/_auth/_admin/transaction-list/index'
-import { Route as AuthAdminOrdersIndexImport } from './routes/_auth/_admin/orders/index'
+import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
+import { Route as AuthAdminDepositListIndexImport } from './routes/_auth/_admin/deposit-list/index'
 import { Route as AuthAdminUserListIdImport } from './routes/_auth/_admin/user-list/$id'
 
 // Create Virtual Routes
@@ -138,17 +139,21 @@ const AuthUserUserTaskListIndexRoute = AuthUserUserTaskListIndexImport.update({
   getParentRoute: () => AuthUserRoute,
 } as any)
 
-const AuthUserOrderListIndexRoute = AuthUserOrderListIndexImport.update({
-  id: '/order-list/',
-  path: '/order-list/',
-  getParentRoute: () => AuthUserRoute,
-} as any)
+const AuthUserOrderListUserIndexRoute = AuthUserOrderListUserIndexImport.update(
+  {
+    id: '/order-list-user/',
+    path: '/order-list-user/',
+    getParentRoute: () => AuthUserRoute,
+  } as any,
+)
 
-const AuthUserInfoIndexRoute = AuthUserInfoIndexImport.update({
-  id: '/info/',
-  path: '/info/',
-  getParentRoute: () => AuthUserRoute,
-} as any)
+const AuthUserMyInformationIndexRoute = AuthUserMyInformationIndexImport.update(
+  {
+    id: '/my-information/',
+    path: '/my-information/',
+    getParentRoute: () => AuthUserRoute,
+  } as any,
+)
 
 const AuthUserDepositInfoIndexRoute = AuthUserDepositInfoIndexImport.update({
   id: '/deposit-info/',
@@ -156,9 +161,9 @@ const AuthUserDepositInfoIndexRoute = AuthUserDepositInfoIndexImport.update({
   getParentRoute: () => AuthUserRoute,
 } as any)
 
-const AuthAdminWaletListIndexRoute = AuthAdminWaletListIndexImport.update({
-  id: '/walet-list/',
-  path: '/walet-list/',
+const AuthAdminWalletListIndexRoute = AuthAdminWalletListIndexImport.update({
+  id: '/wallet-list/',
+  path: '/wallet-list/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
@@ -175,9 +180,15 @@ const AuthAdminTransactionListIndexRoute =
     getParentRoute: () => AuthAdminRoute,
   } as any)
 
-const AuthAdminOrdersIndexRoute = AuthAdminOrdersIndexImport.update({
-  id: '/orders/',
-  path: '/orders/',
+const AuthAdminOrderListIndexRoute = AuthAdminOrderListIndexImport.update({
+  id: '/order-list/',
+  path: '/order-list/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+
+const AuthAdminDepositListIndexRoute = AuthAdminDepositListIndexImport.update({
+  id: '/deposit-list/',
+  path: '/deposit-list/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
@@ -240,11 +251,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminUserListIdImport
       parentRoute: typeof AuthAdminImport
     }
-    '/_auth/_admin/orders/': {
-      id: '/_auth/_admin/orders/'
-      path: '/orders'
-      fullPath: '/orders'
-      preLoaderRoute: typeof AuthAdminOrdersIndexImport
+    '/_auth/_admin/deposit-list/': {
+      id: '/_auth/_admin/deposit-list/'
+      path: '/deposit-list'
+      fullPath: '/deposit-list'
+      preLoaderRoute: typeof AuthAdminDepositListIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
+    '/_auth/_admin/order-list/': {
+      id: '/_auth/_admin/order-list/'
+      path: '/order-list'
+      fullPath: '/order-list'
+      preLoaderRoute: typeof AuthAdminOrderListIndexImport
       parentRoute: typeof AuthAdminImport
     }
     '/_auth/_admin/transaction-list/': {
@@ -261,11 +279,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminUserListIndexImport
       parentRoute: typeof AuthAdminImport
     }
-    '/_auth/_admin/walet-list/': {
-      id: '/_auth/_admin/walet-list/'
-      path: '/walet-list'
-      fullPath: '/walet-list'
-      preLoaderRoute: typeof AuthAdminWaletListIndexImport
+    '/_auth/_admin/wallet-list/': {
+      id: '/_auth/_admin/wallet-list/'
+      path: '/wallet-list'
+      fullPath: '/wallet-list'
+      preLoaderRoute: typeof AuthAdminWalletListIndexImport
       parentRoute: typeof AuthAdminImport
     }
     '/_auth/_user/deposit-info/': {
@@ -275,18 +293,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserDepositInfoIndexImport
       parentRoute: typeof AuthUserImport
     }
-    '/_auth/_user/info/': {
-      id: '/_auth/_user/info/'
-      path: '/info'
-      fullPath: '/info'
-      preLoaderRoute: typeof AuthUserInfoIndexImport
+    '/_auth/_user/my-information/': {
+      id: '/_auth/_user/my-information/'
+      path: '/my-information'
+      fullPath: '/my-information'
+      preLoaderRoute: typeof AuthUserMyInformationIndexImport
       parentRoute: typeof AuthUserImport
     }
-    '/_auth/_user/order-list/': {
-      id: '/_auth/_user/order-list/'
-      path: '/order-list'
-      fullPath: '/order-list'
-      preLoaderRoute: typeof AuthUserOrderListIndexImport
+    '/_auth/_user/order-list-user/': {
+      id: '/_auth/_user/order-list-user/'
+      path: '/order-list-user'
+      fullPath: '/order-list-user'
+      preLoaderRoute: typeof AuthUserOrderListUserIndexImport
       parentRoute: typeof AuthUserImport
     }
     '/_auth/_user/user-task-list/': {
@@ -338,18 +356,20 @@ declare module '@tanstack/react-router' {
 
 interface AuthAdminRouteChildren {
   AuthAdminUserListIdRoute: typeof AuthAdminUserListIdRoute
-  AuthAdminOrdersIndexRoute: typeof AuthAdminOrdersIndexRoute
+  AuthAdminDepositListIndexRoute: typeof AuthAdminDepositListIndexRoute
+  AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
   AuthAdminTransactionListIndexRoute: typeof AuthAdminTransactionListIndexRoute
   AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
-  AuthAdminWaletListIndexRoute: typeof AuthAdminWaletListIndexRoute
+  AuthAdminWalletListIndexRoute: typeof AuthAdminWalletListIndexRoute
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminUserListIdRoute: AuthAdminUserListIdRoute,
-  AuthAdminOrdersIndexRoute: AuthAdminOrdersIndexRoute,
+  AuthAdminDepositListIndexRoute: AuthAdminDepositListIndexRoute,
+  AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
   AuthAdminTransactionListIndexRoute: AuthAdminTransactionListIndexRoute,
   AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
-  AuthAdminWaletListIndexRoute: AuthAdminWaletListIndexRoute,
+  AuthAdminWalletListIndexRoute: AuthAdminWalletListIndexRoute,
 }
 
 const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
@@ -358,15 +378,15 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 
 interface AuthUserRouteChildren {
   AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
-  AuthUserInfoIndexRoute: typeof AuthUserInfoIndexRoute
-  AuthUserOrderListIndexRoute: typeof AuthUserOrderListIndexRoute
+  AuthUserMyInformationIndexRoute: typeof AuthUserMyInformationIndexRoute
+  AuthUserOrderListUserIndexRoute: typeof AuthUserOrderListUserIndexRoute
   AuthUserUserTaskListIndexRoute: typeof AuthUserUserTaskListIndexRoute
 }
 
 const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
-  AuthUserInfoIndexRoute: AuthUserInfoIndexRoute,
-  AuthUserOrderListIndexRoute: AuthUserOrderListIndexRoute,
+  AuthUserMyInformationIndexRoute: AuthUserMyInformationIndexRoute,
+  AuthUserOrderListUserIndexRoute: AuthUserOrderListUserIndexRoute,
   AuthUserUserTaskListIndexRoute: AuthUserUserTaskListIndexRoute,
 }
 
@@ -413,13 +433,14 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
   '/user-list/$id': typeof AuthAdminUserListIdRoute
-  '/orders': typeof AuthAdminOrdersIndexRoute
+  '/deposit-list': typeof AuthAdminDepositListIndexRoute
+  '/order-list': typeof AuthAdminOrderListIndexRoute
   '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
-  '/walet-list': typeof AuthAdminWaletListIndexRoute
+  '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
-  '/info': typeof AuthUserInfoIndexRoute
-  '/order-list': typeof AuthUserOrderListIndexRoute
+  '/my-information': typeof AuthUserMyInformationIndexRoute
+  '/order-list-user': typeof AuthUserOrderListUserIndexRoute
   '/user-task-list': typeof AuthUserUserTaskListIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
@@ -433,13 +454,14 @@ export interface FileRoutesByTo {
   '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
   '/user-list/$id': typeof AuthAdminUserListIdRoute
-  '/orders': typeof AuthAdminOrdersIndexRoute
+  '/deposit-list': typeof AuthAdminDepositListIndexRoute
+  '/order-list': typeof AuthAdminOrderListIndexRoute
   '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
-  '/walet-list': typeof AuthAdminWaletListIndexRoute
+  '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
-  '/info': typeof AuthUserInfoIndexRoute
-  '/order-list': typeof AuthUserOrderListIndexRoute
+  '/my-information': typeof AuthUserMyInformationIndexRoute
+  '/order-list-user': typeof AuthUserOrderListUserIndexRoute
   '/user-task-list': typeof AuthUserUserTaskListIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
@@ -457,13 +479,14 @@ export interface FileRoutesById {
   '/_auth/': typeof AuthIndexLazyRoute
   '/not_found/': typeof NotfoundIndexLazyRoute
   '/_auth/_admin/user-list/$id': typeof AuthAdminUserListIdRoute
-  '/_auth/_admin/orders/': typeof AuthAdminOrdersIndexRoute
+  '/_auth/_admin/deposit-list/': typeof AuthAdminDepositListIndexRoute
+  '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
   '/_auth/_admin/transaction-list/': typeof AuthAdminTransactionListIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
-  '/_auth/_admin/walet-list/': typeof AuthAdminWaletListIndexRoute
+  '/_auth/_admin/wallet-list/': typeof AuthAdminWalletListIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
-  '/_auth/_user/info/': typeof AuthUserInfoIndexRoute
-  '/_auth/_user/order-list/': typeof AuthUserOrderListIndexRoute
+  '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
+  '/_auth/_user/order-list-user/': typeof AuthUserOrderListUserIndexRoute
   '/_auth/_user/user-task-list/': typeof AuthUserUserTaskListIndexRoute
   '/_no_auth/auth/change-password/': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/_no_auth/auth/confirm-email/': typeof NoauthAuthConfirmEmailIndexLazyRoute
@@ -479,13 +502,14 @@ export interface FileRouteTypes {
     | '/'
     | '/not_found'
     | '/user-list/$id'
-    | '/orders'
+    | '/deposit-list'
+    | '/order-list'
     | '/transaction-list'
     | '/user-list'
-    | '/walet-list'
+    | '/wallet-list'
     | '/deposit-info'
-    | '/info'
-    | '/order-list'
+    | '/my-information'
+    | '/order-list-user'
     | '/user-task-list'
     | '/auth/change-password'
     | '/auth/confirm-email'
@@ -498,13 +522,14 @@ export interface FileRouteTypes {
     | '/'
     | '/not_found'
     | '/user-list/$id'
-    | '/orders'
+    | '/deposit-list'
+    | '/order-list'
     | '/transaction-list'
     | '/user-list'
-    | '/walet-list'
+    | '/wallet-list'
     | '/deposit-info'
-    | '/info'
-    | '/order-list'
+    | '/my-information'
+    | '/order-list-user'
     | '/user-task-list'
     | '/auth/change-password'
     | '/auth/confirm-email'
@@ -520,13 +545,14 @@ export interface FileRouteTypes {
     | '/_auth/'
     | '/not_found/'
     | '/_auth/_admin/user-list/$id'
-    | '/_auth/_admin/orders/'
+    | '/_auth/_admin/deposit-list/'
+    | '/_auth/_admin/order-list/'
     | '/_auth/_admin/transaction-list/'
     | '/_auth/_admin/user-list/'
-    | '/_auth/_admin/walet-list/'
+    | '/_auth/_admin/wallet-list/'
     | '/_auth/_user/deposit-info/'
-    | '/_auth/_user/info/'
-    | '/_auth/_user/order-list/'
+    | '/_auth/_user/my-information/'
+    | '/_auth/_user/order-list-user/'
     | '/_auth/_user/user-task-list/'
     | '/_no_auth/auth/change-password/'
     | '/_no_auth/auth/confirm-email/'
@@ -586,10 +612,11 @@ export const routeTree = rootRoute
       "parent": "/_auth",
       "children": [
         "/_auth/_admin/user-list/$id",
-        "/_auth/_admin/orders/",
+        "/_auth/_admin/deposit-list/",
+        "/_auth/_admin/order-list/",
         "/_auth/_admin/transaction-list/",
         "/_auth/_admin/user-list/",
-        "/_auth/_admin/walet-list/"
+        "/_auth/_admin/wallet-list/"
       ]
     },
     "/_auth/_user": {
@@ -597,8 +624,8 @@ export const routeTree = rootRoute
       "parent": "/_auth",
       "children": [
         "/_auth/_user/deposit-info/",
-        "/_auth/_user/info/",
-        "/_auth/_user/order-list/",
+        "/_auth/_user/my-information/",
+        "/_auth/_user/order-list-user/",
         "/_auth/_user/user-task-list/"
       ]
     },
@@ -613,8 +640,12 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin/user-list/$id.tsx",
       "parent": "/_auth/_admin"
     },
-    "/_auth/_admin/orders/": {
-      "filePath": "_auth/_admin/orders/index.tsx",
+    "/_auth/_admin/deposit-list/": {
+      "filePath": "_auth/_admin/deposit-list/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/order-list/": {
+      "filePath": "_auth/_admin/order-list/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/transaction-list/": {
@@ -625,20 +656,20 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin/user-list/index.tsx",
       "parent": "/_auth/_admin"
     },
-    "/_auth/_admin/walet-list/": {
-      "filePath": "_auth/_admin/walet-list/index.tsx",
+    "/_auth/_admin/wallet-list/": {
+      "filePath": "_auth/_admin/wallet-list/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_user/deposit-info/": {
       "filePath": "_auth/_user/deposit-info/index.tsx",
       "parent": "/_auth/_user"
     },
-    "/_auth/_user/info/": {
-      "filePath": "_auth/_user/info/index.tsx",
+    "/_auth/_user/my-information/": {
+      "filePath": "_auth/_user/my-information/index.tsx",
       "parent": "/_auth/_user"
     },
-    "/_auth/_user/order-list/": {
-      "filePath": "_auth/_user/order-list/index.tsx",
+    "/_auth/_user/order-list-user/": {
+      "filePath": "_auth/_user/order-list-user/index.tsx",
       "parent": "/_auth/_user"
     },
     "/_auth/_user/user-task-list/": {

@@ -2,16 +2,16 @@ import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppState } from "../../store";
-import { GetUsersRequest, UsersList } from "./types";
+import { CreateWallet, GetWalletRequest } from "./types";
 
-export const getUsersThunk = createAsyncThunk(
-  "users/getUsers",
-  async (data: GetUsersRequest, { rejectWithValue, getState }) => {
+export const getWalletsThunk = createAsyncThunk(
+  "Wallets/getWalletsThunk",
+  async (data: GetWalletRequest, { rejectWithValue, getState }) => {
     try {
       const {
         users: { per_page },
       } = getState() as AppState;
-      const response = await httpClient.get<UsersList>("/users", {
+      const response = await httpClient.get("/wallets", {
         params: {
           page: data.page,
           per_page,
@@ -29,11 +29,14 @@ export const getUsersThunk = createAsyncThunk(
   }
 );
 
-export const getUserThunk = createAsyncThunk(
-  "users/getUser",
-  async (id: number, { rejectWithValue }) => {
+export const createWalletsThunk = createAsyncThunk(
+  "Wallets/createWalletsThunk",
+  async (data: CreateWallet, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get(`/users/${id}`);
+      const response = await httpClient.post<CreateWallet>(
+        "/wallets/create",
+        data
+      );
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

@@ -4,7 +4,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { CopyButton } from "@/components/atoms/copy-btn";
 import { FormTextInput } from "@/components/atoms/input";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
-import { resetDeposit } from "@/store/reducers/user/depositSlice";
+import { resetDeposit } from "@/store/reducers/user-info/depositSlice";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
