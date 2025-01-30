@@ -20,6 +20,8 @@ export const Wallet: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getWalletsThunk({ page }));
+    console.log(event);
+    
   };
 
   const titles = ["network", "currency", "address"];

@@ -20,6 +20,7 @@ export const UserListComponent: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getUsersThunk({ page }));
+    console.log(event)
   };
 
   const title = ["name", "surname", "email", "role"];
