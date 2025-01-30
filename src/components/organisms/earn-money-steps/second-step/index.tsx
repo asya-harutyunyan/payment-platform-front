@@ -11,7 +11,6 @@ import { updateDeposit } from "@/store/reducers/user/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-import AddCardIcon from "@mui/icons-material/AddCard";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -58,10 +57,10 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   };
   useEffect(() => {
     if (deposit?.payment_method_id) {
-      //@ts-expect-error TODO::fix
-      setValue("payment_method_id", `${deposit.payment_method_id}`);
+      setValue("payment_method_id", deposit.payment_method_id);
     }
   }, [deposit]);
+
   const submitForm = async (e?: BaseSyntheticEvent) => {
     await handleSubmit(onSubmit)(e);
   };
@@ -81,6 +80,11 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
         fetchAuthUser?.();
       });
   };
+  // useEffect(() => {
+  //   if (user?.bank_details[0]?.id) {
+  //     setValue("payment_method_id", user?.bank_details[0]?.id);
+  //   }
+  // }, []);
   return (
     <Box>
       <Box
@@ -120,7 +124,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
                 onClick={() => handleOpen()}
               >
                 {t("add_bank_card")}
-                <AddCardIcon />
               </P>
             </Box>
           )}

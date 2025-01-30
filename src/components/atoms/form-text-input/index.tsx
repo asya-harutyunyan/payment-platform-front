@@ -66,6 +66,9 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         ref={ref}
         id={id}
         sx={{
+          ":-internal-autofill-selected": {
+            backgroundColor: "red !important",
+          },
           width: "100%",
           border: "#B5BBC6",
           ".MuiOutlinedInput-notchedOutline": {
@@ -80,12 +83,19 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
           ".MuiInputBase-input": {
             color: whiteVariant ? "tertiary.main" : "primary.main",
           },
+          "&:input:-internal-autofill-selected": {
+            backgroundColor: !whiteVariant ? "tertiary.main" : "primary.main",
+          },
+
           "& .MuiOutlinedInput-root": {
-            "&.Mui-focused fieldset": {
-              borderColor: whiteVariant ? "tertiary.main" : "primary.main", // Change to your desired color
+            "& fieldset": {
+              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
             },
             "&:hover fieldset": {
-              borderColor: "primary.main", // Change this to your desired hover color
+              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
             },
           },
           ...style,
@@ -94,7 +104,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         onChange={(e) => onChange?.(e.target.value)}
         onBlur={onBlur}
         error={error}
-        helperText={helperText}
+        helperText={error ? helperText : ""}
         InputProps={{
           endAdornment: type === "password" && (
             <InputAdornment position="end">

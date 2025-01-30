@@ -1,5 +1,6 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
+import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -56,15 +57,18 @@ export const BankCardDetalis: FC = () => {
         name="bank_name"
         placeholder={t("bank_info")}
       />
-      <FormTextInput
+      <FormPhoneInput
         control={control}
         name="phone_number"
         placeholder={t("phone_number")}
       />
+
       <FormTextInput
         control={control}
         name="card_number"
         placeholder={t("card_number")}
+        whiteVariant={false}
+        mask
       />
       <Box sx={{ display: "flex" }}>
         <Button

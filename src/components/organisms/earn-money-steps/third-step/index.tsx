@@ -1,6 +1,7 @@
 import third_step from "@/assets/images/step_3.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
+import { CopyButton } from "@/components/atoms/copy-btn";
 import { FormTextInput } from "@/components/atoms/input";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { resetDeposit } from "@/store/reducers/user/depositSlice";
@@ -11,6 +12,7 @@ import { t } from "i18next";
 import { BaseSyntheticEvent, Dispatch, FC, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import useBankDetalis from "./_services/useDeposit";
+
 interface IStepThree {
   handleNext?: () => void;
   setActiveStep?: Dispatch<number>;
@@ -60,6 +62,7 @@ export const StepThree: FC<IStepThree> = ({
     await handleSubmit(onSubmit)(e);
     handleNext?.();
   };
+
   return (
     <Box
       component="form"
@@ -82,19 +85,30 @@ export const StepThree: FC<IStepThree> = ({
             display: "flex",
             flexDirection: "column",
             border: "1p solid red",
-            width: "40%",
+            width: "70%",
           }}
         >
           <Box sx={{ display: "flex" }}>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <P
-                fontSize={"15px"}
-                color="tertiary.main"
-                paddingBottom={"10px"}
-                paddingTop={"20px"}
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "70%",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
               >
-                {t("address")}: {deposit?.wallet.address}
-              </P>
+                <P fontSize={"15px"} color="tertiary.main">
+                  {t("address")}:{deposit?.wallet.address}
+                </P>
+                {deposit?.wallet.address && (
+                  <CopyButton text={deposit.wallet.address} />
+                )}
+              </Box>
               <P fontSize={"15px"} color="tertiary.main" paddingBottom={"10px"}>
                 {t("currency")}: {deposit?.wallet.currency}
               </P>
@@ -104,15 +118,14 @@ export const StepThree: FC<IStepThree> = ({
             </Box>{" "}
             <Box
               sx={{
-                width: "60%",
-                marginLeft: "80px",
+                width: "30%",
               }}
             >
               <img src={deposit?.wallet.qr_code} style={{ width: "119px" }} />
             </Box>
           </Box>
 
-          <Box sx={{ width: "100%" }}>
+          <Box sx={{ width: "60%" }}>
             <FormTextInput
               control={control}
               name="transaction_id"
@@ -122,7 +135,7 @@ export const StepThree: FC<IStepThree> = ({
           </Box>
           <Box
             sx={{
-              width: "100%",
+              width: "60%",
               display: "flex",
               justifyContent: "space-between",
               margin: "10px 0",

@@ -7,7 +7,7 @@
 
   "deposit_list": "Список депозитов",
   "walet_list": "Список кошельков",
-  "bank_info": "Банковская информация",
+  "bank_info": "Название банка",
   "add_bank_card": "Добавить Банковская карта",
   "name_cards_member": "Имя Фамилия",
   "card_number": "Цифры карта",
@@ -17,7 +17,7 @@
   "step_c": "Вот адрес для перевода",
   "bank_name": "Имя банка",
   "phone_number": "Номер телефона",
-  "how_much_money": "Сколько денег вы хотите заработать?",
+  "how_much_money": "На какую сумму хотите сделать депозит?",
   "about_me": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
   "profit": "Ваша прибыль составит",
   "profit_B": " Это вас устраивает?",

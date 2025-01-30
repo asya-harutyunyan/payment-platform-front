@@ -3,6 +3,7 @@ import { z } from "@/common/validation";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { BasicModal } from "@/components/atoms/modal";
+import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -15,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { useSnackbar } from "notistack";
-import { BaseSyntheticEvent, Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof add_card_schema>;
@@ -45,7 +46,7 @@ export const AddCardModal: FC<IStepTwo> = ({
   const { fetchAuthUser } = useAuth();
 
   const handleClose = () => setOpen(false);
-  const { control, handleSubmit, setError } = useForm<FormData>({
+  const { control, handleSubmit, setError, reset } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
       bank_name: bankName ?? "",
@@ -65,6 +66,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         });
         fetchAuthUser?.();
         handleClose();
+        reset();
       })
       .catch((error) => {
         if (typeof error === "object") {
@@ -77,6 +79,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         }
       });
   };
+
   const onEditSubmit: SubmitHandler<FormData> = async (data) => {
     if (bankDetail) {
       dispatch(editBankCardThunk({ ...data, id: bankDetail }))
@@ -102,20 +105,11 @@ export const AddCardModal: FC<IStepTwo> = ({
     }
   };
 
-  const submitForm = async (e?: BaseSyntheticEvent) => {
-    e?.preventDefault();
-
-    if (isEdit) {
-      handleSubmit(onAddSubmit)(e);
-    } else {
-      handleSubmit(onEditSubmit)(e);
-    }
-  };
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>
       <Box
         component="form"
-        onSubmit={submitForm}
+        onSubmit={handleSubmit(isEdit ? onEditSubmit : onAddSubmit)}
         sx={{
           width: "40%",
         }}
@@ -132,10 +126,11 @@ export const AddCardModal: FC<IStepTwo> = ({
           placeholder={t("bank_info")}
           whiteVariant
         />
-        <FormTextInput
+        <FormPhoneInput
           control={control}
           name="phone_number"
           placeholder={t("phone_number")}
+          style={{}}
           whiteVariant
         />
         <FormTextInput
@@ -143,7 +138,7 @@ export const AddCardModal: FC<IStepTwo> = ({
           name="card_number"
           mask
           placeholder={t("card_number")}
-          whiteVariant
+          whiteVariant={true}
         />
         <Box
           sx={{

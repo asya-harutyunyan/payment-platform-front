@@ -1,6 +1,6 @@
 import { z } from "@/common/validation";
 export const deposit_id_schema = z.object({
-  processing_amount: z.string(),
+  processing_amount: z.number().min(1).nonnegative(),
 });
 
 export const wallet_details_schema = z.object({

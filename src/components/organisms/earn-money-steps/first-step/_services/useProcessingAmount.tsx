@@ -8,14 +8,21 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof deposit_id_schema>;
 
-const useProcessingAmount = () => {
+const useProcessingAmount = (handeNext?: () => void) => {
   const dispatch = useAppDispatch();
 
-  const { control, handleSubmit, reset, watch } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    watch,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(deposit_id_schema),
     defaultValues: {
-      processing_amount: "",
+      processing_amount: 0,
     },
+    mode: "all",
   });
   const processingAmountValue = watch("processing_amount");
 
@@ -23,6 +30,7 @@ const useProcessingAmount = () => {
     return dispatch(processingAmountThunk(data))
       .unwrap()
       .then(() => {
+        handeNext?.();
         reset();
       });
   };
@@ -37,10 +45,11 @@ const useProcessingAmount = () => {
 
   return {
     processingAmountValue,
-    handleSubmit,
+    handleSubmit: handleSubmit(onSubmit),
     onSubmit,
     reset,
     control,
+    errors,
   };
 };
 

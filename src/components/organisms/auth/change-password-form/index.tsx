@@ -40,7 +40,12 @@ const ChangePasswordComponent = () => {
     dispatch(changePassword(data))
       .then((response) => {
         console.log("Registration successful, token:", response);
-        navigate({ to: "/" });
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-expect-error
+        //change
+        if (!response.error) {
+          navigate({ to: "/auth/sign-in" });
+        }
         setEmail("");
       })
       .catch((error) => {

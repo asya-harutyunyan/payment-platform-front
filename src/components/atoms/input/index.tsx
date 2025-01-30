@@ -61,16 +61,13 @@ export const FormTextInput = <T extends FieldValues>({
       {!mask ? (
         <BasicTextFields
           style={style}
+          {...field}
           placeholder={placeholder || ""}
           leftIcon={leftIcon}
           rightIcon={rightIcon}
-          value={field.value}
-          onChange={field.onChange}
-          onBlur={field.onBlur}
-          error={!!helperText}
-          whiteVariant={whiteVariant}
-          // error={!!fieldState.error?.message}
           helperText={helperText}
+          whiteVariant={whiteVariant}
+          error={!!helperText}
           type={type}
         />
       ) : (
@@ -81,6 +78,7 @@ export const FormTextInput = <T extends FieldValues>({
           placeholder={placeholder}
           error={!!helperText}
           helperText={helperText}
+          whiteVariant={whiteVariant}
         />
       )}
     </Box>

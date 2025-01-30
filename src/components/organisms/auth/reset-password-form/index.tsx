@@ -28,7 +28,6 @@ const ResetPasswordComponent = () => {
   });
 
   const onSubmit: SubmitHandler<ResetPasswordschema> = async (data) => {
-    console.log("Form Data:", data);
     dispatch(setEmail(data.email));
 
     dispatch(resetPassword(data))

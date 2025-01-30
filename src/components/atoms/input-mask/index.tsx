@@ -45,7 +45,10 @@ const CreditCardInput = ({
       };
     }
   }, []);
-
+  console.log(whiteVariant);
+  useEffect(() => {
+    console.log(whiteVariant);
+  }, [whiteVariant]);
   return (
     <div>
       <input
@@ -58,13 +61,14 @@ const CreditCardInput = ({
           width: "95%",
           height: "35px",
           padding: "8px",
+          margin: "10px 0",
           background: "transparent",
-          color: !whiteVariant ? "#D9D9D9" : "#0E1D40",
+          color: whiteVariant ? "#D9D9D9" : "#0E1D40",
           borderRadius: "4px",
-          borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
-          border: error ? "1px solid red" : "1px solid #D9D9D9",
-          letterSpacing: "4px",
+          border: whiteVariant ? "1px solid #D9D9D9" : "1px solid #0E1D40",
+          letterSpacing: "2px",
           fontSize: "16px",
+          fontFamily: "Poppins, sans-serif",
         }}
       />
       {helperText && error && <p style={{ color: "red" }}>{helperText}</p>}
