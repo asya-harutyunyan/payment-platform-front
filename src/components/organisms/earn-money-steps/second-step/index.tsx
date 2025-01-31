@@ -97,7 +97,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
             width: "100%",
             marginTop: "20px",
             padding: "0",
-            height: "330px",
+            height: "350px",
           }}
           bg={second_step}
           title={t("profit")}
@@ -139,7 +139,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           <Button
             sx={{
               marginTop: "20px",
-              width: "40%",
+              width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
               height: "50px",
               fontSize: "17px",
             }}

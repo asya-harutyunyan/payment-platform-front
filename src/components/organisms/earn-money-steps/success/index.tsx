@@ -2,10 +2,10 @@ import success from "@/assets/images/step_4.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { P } from "@/styles/typography";
+import DoneOutlineIcon from "@mui/icons-material/DoneOutline";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-
 interface ISuccess {
   handleReset?: () => void;
 }
@@ -30,11 +30,37 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             height: "230px",
             display: "flex",
             justifyContent: "space-between",
+
             alignItems: "center",
             flexDirection: "column",
           }}
         >
-          <P color="tertiary.main">{t("success_step")}</P>
+          <P
+            color="tertiary.main"
+            sx={{
+              textAlign: {
+                lg: "start",
+                md: "start",
+                xs: "center",
+                sm: "center",
+              },
+            }}
+          >
+            {t("success_step")}
+          </P>
+          <Box
+            sx={{
+              display: { lg: "none", md: "none", xs: "flex", sm: "flex" },
+              width: "70px",
+              height: "70px",
+              borderRadius: "50%",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "secondary.main",
+            }}
+          >
+            <DoneOutlineIcon sx={{ fontSize: "50px", color: "white" }} />
+          </Box>
           <Button
             variant={"gradient"}
             sx={{ width: "230px", margin: "0 auto" }}

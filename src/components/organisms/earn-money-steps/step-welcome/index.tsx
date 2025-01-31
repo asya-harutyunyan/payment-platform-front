@@ -12,7 +12,7 @@ export const StepWelcome = () => {
     <Box
       sx={{
         width: "100%",
-        height: "80vh",
+        height: { lg: "8vh", md: "8vh", xs: "max-content", sm: "max-content" },
         display: "flex",
         alignItems: "start",
         flexDirection: "column",
@@ -32,15 +32,16 @@ export const StepWelcome = () => {
         paddingBottom={4}
         sx={{
           fontSize: "16px",
-          width: { lg: "80%", md: "80%", sx: "100%", sm: "100%" },
+          width: { lg: "80%", md: "80%", xs: "100%", sm: "100%" },
         }}
       >
         {t("about_me")}
       </P>
       <Box
         sx={{
-          width: { lg: "80%", md: "80%", sx: "100%", sm: "100%" },
+          width: { lg: "80%", md: "80%", xs: "100%", sm: "100%" },
           borderRadius: "20px",
+          height: { lg: "380px", md: "380px", xs: "280px", sm: "280px" },
           overflow: "hidden",
         }}
       >
@@ -48,7 +49,7 @@ export const StepWelcome = () => {
           url="https://www.youtube.com/watch?v=NR5IFPoRqmo"
           controls={true}
           width="100%"
-          height="380px"
+          height="100%"
           borderRadius={"10px"}
         />
       </Box>

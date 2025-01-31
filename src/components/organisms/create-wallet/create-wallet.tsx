@@ -70,13 +70,30 @@ export const CreateWallet: FC = () => {
         name="currency"
         placeholder={t("currency")}
       />
-      <Box sx={{ display: "flex", justifyContent: "end" }}>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          marginTop: "10px",
+          justifyContent: {
+            lg: "end",
+            md: "end",
+            sm: "center",
+            xs: "space-evenly",
+          },
+        }}
+      >
         <Button
           text={t("cancel")}
           variant={"text"}
-          sx={{ marginRight: "20px" }}
+          sx={{ marginRight: "20px", width: "120px" }}
         />
-        <Button type="submit" text={t("confirm")} variant={"text"} />
+        <Button
+          type="submit"
+          text={t("confirm")}
+          variant={"text"}
+          sx={{ width: "120px" }}
+        />
       </Box>
     </Box>
   );

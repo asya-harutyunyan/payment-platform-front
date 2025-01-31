@@ -44,11 +44,11 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40%",
+            width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
             marginTop: "20px",
           }}
         >
-          <Box sx={{ width: "60%" }}>
+          <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
             <FormTextInput
               control={control}
               name="processing_amount"
@@ -63,7 +63,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
             disabled={!processingAmountValue}
             sx={{
               height: "50px",
-              width: "90%",
+              width: { lg: "90%", md: "90%", xs: "100%", sm: "100%" },
               marginTop: "30px",
               fontSize: "18px",
             }}

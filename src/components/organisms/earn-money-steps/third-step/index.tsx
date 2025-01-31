@@ -74,7 +74,7 @@ export const StepThree: FC<IStepThree> = ({
           width: "100%",
           marginTop: "20px",
           padding: "0",
-          height: "350px",
+          height: { lg: "350px", md: "350px", xs: "400", sm: "400px" },
           display: "flex",
         }}
         bg={third_step}
@@ -84,11 +84,20 @@ export const StepThree: FC<IStepThree> = ({
           sx={{
             display: "flex",
             flexDirection: "column",
-            border: "1p solid red",
-            width: "70%",
+            width: { lg: "70&", md: "70%", xs: "100%", sm: "100%" },
           }}
         >
-          <Box sx={{ display: "flex" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: {
+                lg: "row",
+                md: "row",
+                xs: "column",
+                sm: "column",
+              },
+            }}
+          >
             <Box
               sx={{
                 display: "flex",
@@ -103,7 +112,14 @@ export const StepThree: FC<IStepThree> = ({
                 }}
               >
                 <P fontSize={"15px"} color="tertiary.main">
-                  {t("address")}:{deposit?.wallet.address}
+                  {t("address")}:
+                </P>
+                <P
+                  fontSize={{ lg: "15px", md: "15px", xs: "10px", sm: "10px" }}
+                  color="tertiary.main"
+                  paddingLeft={"5px"}
+                >
+                  {deposit?.wallet.address}
                 </P>
                 {deposit?.wallet.address && (
                   <CopyButton text={deposit.wallet.address} />
@@ -118,14 +134,20 @@ export const StepThree: FC<IStepThree> = ({
             </Box>{" "}
             <Box
               sx={{
-                width: "30%",
+                width: {
+                  lg: "30%",
+                  md: "30%",
+                  xs: "max-content",
+                  sm: "max-content",
+                },
+                margin: { lg: "0", md: "0", xs: "20px auto", sm: "20px auto" },
               }}
             >
               <img src={deposit?.wallet.qr_code} style={{ width: "119px" }} />
             </Box>
           </Box>
 
-          <Box sx={{ width: "60%" }}>
+          <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
             <FormTextInput
               control={control}
               name="transaction_id"
@@ -135,7 +157,7 @@ export const StepThree: FC<IStepThree> = ({
           </Box>
           <Box
             sx={{
-              width: "60%",
+              width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" },
               display: "flex",
               justifyContent: "space-between",
               margin: "10px 0",
@@ -161,6 +183,7 @@ export const StepThree: FC<IStepThree> = ({
               textDecoration: "underline",
               paddingTop: "10px",
               fontWeight: "700",
+              margin: { lg: "0", md: "0", xs: "0 auto", sm: "0 auto" },
               backgroundColor:
                 "linear-gradient(to right,#041F44,#0A4DAA,#041F44)",
             }}

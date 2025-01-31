@@ -70,7 +70,17 @@ export const BankCardDetalis: FC = () => {
         whiteVariant={false}
         mask
       />
-      <Box sx={{ display: "flex" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: {
+            lg: "start",
+            md: "start",
+            sm: "center",
+            xs: "center",
+          },
+        }}
+      >
         <Button
           text={t("add_card")}
           variant={"contained"}
@@ -78,7 +88,7 @@ export const BankCardDetalis: FC = () => {
           sx={{
             marginTop: "20px",
             fontSize: "13px",
-            width: "150px",
+            width: "100%",
             height: "50px",
           }}
         />

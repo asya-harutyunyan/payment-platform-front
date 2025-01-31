@@ -44,21 +44,54 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper
+        nonLinear
+        activeStep={activeStep}
+        sx={{
+          display: "flex!important",
+          width: "100%",
+          flexDirection: {
+            lg: "row",
+            md: "row",
+            xs: "column",
+            sm: "column",
+          },
+        }}
+      >
         {steps.map((step, index) => (
           <Step
             key={step.label}
             completed={completed[index]}
-            sx={{ color: theme.palette.primary.main }}
+            sx={{
+              color: theme.palette.primary.main,
+              width: "100%",
+              margin: "13px 0",
+            }}
           >
             <StepButton
               color="inherit"
-              // onClick={() => handleStep(index)}
               aria-label={`Step ${index + 1}`}
+              sx={{
+                cursor: "pointer",
+                width: "100%",
+                justifyContent: "start",
+                padding: {
+                  lg: "20px 10px",
+                  md: "20px 10px",
+                  xs: "5px 0",
+                  sm: "5px 0",
+                },
+              }}
             >
               <P
                 sx={{
                   color: theme.palette.primary.main,
+                  width: {
+                    lg: "max-content",
+                    md: "max-content",
+                    xs: "100%",
+                    sm: "100%",
+                  },
                 }}
               >
                 {t(step.label)}

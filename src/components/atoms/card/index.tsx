@@ -26,9 +26,19 @@ export const BasicCard: React.FC<IBasicCard> = ({
     <Box
       sx={{
         ...sx,
-        backgroundColor: bgColor ? "#f5f5f5" : "inherit",
+        backgroundColor: {
+          lg: bgColor ? "#f5f5f5" : "inherit",
+          md: bgColor ? "#f5f5f5" : "inherit",
+          xs: "primary.main",
+          sm: "primary.main",
+        },
         backgroundSize: "100% 100%",
-        backgroundImage: `url(${bg})`,
+        backgroundImage: {
+          lg: `url(${bg})`,
+          md: `url(${bg})`,
+          xs: "none",
+          sm: "none",
+        },
         minHeight: "280px",
         borderRadius: "5px",
         display: "flex",
@@ -43,7 +53,13 @@ export const BasicCard: React.FC<IBasicCard> = ({
       }}
     >
       <span style={{ display: "flex" }}>
-        <H4 sx={{ color: "text.secondary", paddingRight: "10px" }}>
+        <H4
+          sx={{
+            color: "text.secondary",
+            paddingRight: "10px",
+            textAlign: { lg: "start", md: "start", xs: "center", sm: "center" },
+          }}
+        >
           {title ?? ""}
         </H4>
         {sub_title && (
@@ -58,12 +74,31 @@ export const BasicCard: React.FC<IBasicCard> = ({
               alignItems: "center",
             }}
           >
-            <H4 sx={{ color: theme.palette.primary.main }}>{sub_title}</H4>
+            <H4
+              sx={{
+                color: theme.palette.primary.main,
+                textAlign: {
+                  lg: "start",
+                  md: "start",
+                  xs: "center",
+                  sm: "center",
+                },
+              }}
+            >
+              {sub_title}
+            </H4>
           </Box>
         )}
       </span>
       {title_B ? (
-        <H5 sx={{ color: "text.secondary" }}>{title_B ?? ""}</H5>
+        <H5
+          sx={{
+            color: "text.secondary",
+            textAlign: { lg: "start", md: "start", xs: "center", sm: "center" },
+          }}
+        >
+          {title_B ?? ""}
+        </H5>
       ) : undefined}
       <Box>{children}</Box>
     </Box>

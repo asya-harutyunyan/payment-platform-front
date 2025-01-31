@@ -54,7 +54,6 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
               sx={{
                 border: "1px solid white",
                 height: "50px",
-                width: "100%",
                 marginTop: "20px",
                 borderRadius: "10px",
                 display: "flex",
