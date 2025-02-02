@@ -122,7 +122,7 @@ const ConfirmEmailForm = () => {
         <TextWithDivider>
           <P>
             <Link
-              to="/"
+              to="/auth/sign-in"
               style={{
                 color: theme.palette.primary.main,
                 fontWeight: 300,

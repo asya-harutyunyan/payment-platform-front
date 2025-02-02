@@ -12,7 +12,12 @@ export const StepWelcome = () => {
     <Box
       sx={{
         width: "100%",
-        height: { lg: "8vh", md: "8vh", xs: "max-content", sm: "max-content" },
+        height: {
+          lg: "80vh",
+          md: "80vh",
+          xs: "max-content",
+          sm: "max-content",
+        },
         display: "flex",
         alignItems: "start",
         flexDirection: "column",

@@ -30,8 +30,8 @@ import { Route as AuthAdminUserListIdImport } from './routes/_auth/_admin/user-l
 
 // Create Virtual Routes
 
+const IndexLazyImport = createFileRoute('/')()
 const NotfoundIndexLazyImport = createFileRoute('/not_found/')()
-const AuthIndexLazyImport = createFileRoute('/_auth/')()
 const NoauthAuthSignUpIndexLazyImport = createFileRoute(
   '/_no_auth/auth/sign-up/',
 )()
@@ -60,6 +60,12 @@ const AuthRoute = AuthImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const IndexLazyRoute = IndexLazyImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
 const NotfoundIndexLazyRoute = NotfoundIndexLazyImport.update({
   id: '/not_found/',
   path: '/not_found/',
@@ -67,12 +73,6 @@ const NotfoundIndexLazyRoute = NotfoundIndexLazyImport.update({
 } as any).lazy(() =>
   import('./routes/not_found/index.lazy').then((d) => d.Route),
 )
-
-const AuthIndexLazyRoute = AuthIndexLazyImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AuthRoute,
-} as any).lazy(() => import('./routes/_auth/index.lazy').then((d) => d.Route))
 
 const AuthUserRoute = AuthUserImport.update({
   id: '/_user',
@@ -202,6 +202,13 @@ const AuthAdminUserListIdRoute = AuthAdminUserListIdImport.update({
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -228,13 +235,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof AuthUserImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/': {
-      id: '/_auth/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof AuthIndexLazyImport
       parentRoute: typeof AuthImport
     }
     '/not_found/': {
@@ -397,13 +397,11 @@ const AuthUserRouteWithChildren = AuthUserRoute._addFileChildren(
 interface AuthRouteChildren {
   AuthAdminRoute: typeof AuthAdminRouteWithChildren
   AuthUserRoute: typeof AuthUserRouteWithChildren
-  AuthIndexLazyRoute: typeof AuthIndexLazyRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthAdminRoute: AuthAdminRouteWithChildren,
   AuthUserRoute: AuthUserRouteWithChildren,
-  AuthIndexLazyRoute: AuthIndexLazyRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -429,8 +427,8 @@ const NoauthRouteWithChildren =
   NoauthRoute._addFileChildren(NoauthRouteChildren)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexLazyRoute
   '': typeof AuthUserRouteWithChildren
-  '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
   '/user-list/$id': typeof AuthAdminUserListIdRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
@@ -450,8 +448,8 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
+  '/': typeof IndexLazyRoute
   '': typeof AuthUserRouteWithChildren
-  '/': typeof AuthIndexLazyRoute
   '/not_found': typeof NotfoundIndexLazyRoute
   '/user-list/$id': typeof AuthAdminUserListIdRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
@@ -472,11 +470,11 @@ export interface FileRoutesByTo {
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
+  '/': typeof IndexLazyRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_no_auth': typeof NoauthRouteWithChildren
   '/_auth/_admin': typeof AuthAdminRouteWithChildren
   '/_auth/_user': typeof AuthUserRouteWithChildren
-  '/_auth/': typeof AuthIndexLazyRoute
   '/not_found/': typeof NotfoundIndexLazyRoute
   '/_auth/_admin/user-list/$id': typeof AuthAdminUserListIdRoute
   '/_auth/_admin/deposit-list/': typeof AuthAdminDepositListIndexRoute
@@ -498,8 +496,8 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | ''
     | '/'
+    | ''
     | '/not_found'
     | '/user-list/$id'
     | '/deposit-list'
@@ -518,8 +516,8 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | ''
     | '/'
+    | ''
     | '/not_found'
     | '/user-list/$id'
     | '/deposit-list'
@@ -538,11 +536,11 @@ export interface FileRouteTypes {
     | '/auth/sign-up'
   id:
     | '__root__'
+    | '/'
     | '/_auth'
     | '/_no_auth'
     | '/_auth/_admin'
     | '/_auth/_user'
-    | '/_auth/'
     | '/not_found/'
     | '/_auth/_admin/user-list/$id'
     | '/_auth/_admin/deposit-list/'
@@ -563,12 +561,14 @@ export interface FileRouteTypes {
 }
 
 export interface RootRouteChildren {
+  IndexLazyRoute: typeof IndexLazyRoute
   AuthRoute: typeof AuthRouteWithChildren
   NoauthRoute: typeof NoauthRouteWithChildren
   NotfoundIndexLazyRoute: typeof NotfoundIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexLazyRoute: IndexLazyRoute,
   AuthRoute: AuthRouteWithChildren,
   NoauthRoute: NoauthRouteWithChildren,
   NotfoundIndexLazyRoute: NotfoundIndexLazyRoute,
@@ -584,17 +584,20 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/",
         "/_auth",
         "/_no_auth",
         "/not_found/"
       ]
     },
+    "/": {
+      "filePath": "index.lazy.tsx"
+    },
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
         "/_auth/_admin",
-        "/_auth/_user",
-        "/_auth/"
+        "/_auth/_user"
       ]
     },
     "/_no_auth": {
@@ -628,10 +631,6 @@ export const routeTree = rootRoute
         "/_auth/_user/order-list-user/",
         "/_auth/_user/user-task-list/"
       ]
-    },
-    "/_auth/": {
-      "filePath": "_auth/index.lazy.tsx",
-      "parent": "/_auth"
     },
     "/not_found/": {
       "filePath": "not_found/index.lazy.tsx"

@@ -2,7 +2,7 @@ import second_step from "@/assets/images/step_2.png";
 import { BankDetail } from "@/common/types/user";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
-import { RadioButtonsGroup } from "@/components/atoms/radio_button";
+import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import { useAuth } from "@/context/auth.context";
 import { choose_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";

@@ -124,7 +124,7 @@ const SignUpForm: FC = () => {
         <TextWithDivider>
           <P padding={"0 0 10px 0"}>
             <Link
-              to="/"
+              to="/auth/sign-in"
               style={{
                 color: theme.palette.primary.main,
                 fontWeight: 300,
