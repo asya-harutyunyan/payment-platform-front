@@ -17,11 +17,11 @@ export const Wallet: FC = () => {
   useEffect(() => {
     dispatch(getWalletsThunk({ page: page }));
   }, []);
+
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getWalletsThunk({ page }));
     console.log(event);
-    
   };
 
   const titles = ["network", "currency", "address"];
@@ -38,7 +38,7 @@ export const Wallet: FC = () => {
           marginTop: "20px",
         }}
       >
-        <DynamicTable columns={titles} data={wallet} />
+        {wallet && <DynamicTable columns={titles} data={wallet} />}
         <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
           {" "}
           <PaginationOutlined onPageChange={onChangePage} count={total} />

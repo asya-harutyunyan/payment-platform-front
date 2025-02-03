@@ -64,7 +64,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     const resultAction = await dispatch(logoutUser());
 
     if (logoutUser.fulfilled.match(resultAction)) {
-      navigate({ to: "/" });
+      navigate({ to: "/auth/sign-in" });
     } else {
       console.error("Logout failed:", resultAction.payload);
     }

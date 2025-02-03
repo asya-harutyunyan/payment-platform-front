@@ -2,18 +2,10 @@ import { z } from "zod";
 import { password_regex } from "./password.regex";
 
 export const auth_schema = z.object({
-  name: z.string().min(3, "Name must be at least 6 characters"),
-  surname: z.string().min(3, "Surname must be at least 6 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .regex(
-      password_regex,
-      "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character"
-    ),
-  password_confirmation: z
-    .string()
-    .min(6, "Password must be at least 6 characters"),
+  name: z.string().min(3),
+  surname: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(6).regex(password_regex),
+  password_confirmation: z.string().min(6),
   checkbox: z.boolean(),
 });

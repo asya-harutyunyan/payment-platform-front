@@ -1,15 +1,15 @@
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PersonIcon from "@mui/icons-material/Person";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
-import FilterFramesIcon from "@mui/icons-material/FilterFrames";
 
 export const userItems = [
   {
     text: "task_list",
     icon: <FormatListBulletedIcon />,
-    link: "/user-task-list",
+    link: "/wallet",
   },
   {
     text: "bank_info",
@@ -19,7 +19,12 @@ export const userItems = [
   {
     text: "order_list",
     icon: <ImportExportIcon />,
-    link: "/order-list",
+    link: "/orders",
+  },
+  {
+    text: "order_list",
+    icon: <FormatListBulletedIcon />,
+    link: "/deposit-info",
   },
 ];
 
@@ -31,11 +36,6 @@ export const adminItems = [
     link: "/deposit-list",
   },
   { text: "order_list", icon: <FilterFramesIcon />, link: "/order-list" },
-  {
-    text: "transaction_list",
-    icon: <ImportExportIcon />,
-    link: "/transaction-list",
-  },
   {
     text: "wallet_list",
     icon: <AccountBalanceWalletIcon />,

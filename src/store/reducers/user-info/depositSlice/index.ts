@@ -1,11 +1,22 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { processingAmountThunk, updateDeposit } from "./thunks";
+import {
+  getDepositsThunk,
+  getOrdersThunk,
+  processingAmountThunk,
+  updateDeposit,
+} from "./thunks";
 import { DepositState } from "./types";
 
 const initialState: DepositState = {
   loading: false,
   error: null,
   deposit: null,
+  deposits: [],
+  orders: [],
+  currentPage: null,
+  lastPage: null,
+  per_page: 5,
+  total: 0,
 };
 
 const depositSlice = createSlice({
@@ -23,6 +34,16 @@ const depositSlice = createSlice({
       .addCase(updateDeposit.fulfilled, (state, action) => {
         state.loading = false;
         state.deposit = action.payload;
+      })
+      .addCase(getDepositsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.deposits = action.payload;
+        state.lastPage = action.payload.last_page;
+        state.total = action.payload.total;
+      })
+      .addCase(getOrdersThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

@@ -3,56 +3,19 @@ import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import { change_password_schema } from "@/schema/change_password.schema";
-import { setEmail } from "@/store/reducers/auth/authSlice";
-import { changePassword } from "@/store/reducers/auth/authSlice/thunks";
-import { RootState, useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
 import { z } from "zod";
-import bg from "../../../../assets/images/bg.jpeg";
+import bg from "../../../../assets/images/bg.jpg";
+import useChangePassword from "./_services/useChangePassword";
 
 export type ConfirmEmailFormData = z.infer<typeof change_password_schema>;
 
 const ChangePasswordComponent = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const email = useSelector((state: RootState) => state.auth.email);
-
-  const { control, handleSubmit, register } = useForm<ConfirmEmailFormData>({
-    resolver: zodResolver(change_password_schema),
-    defaultValues: {
-      email: email,
-      two_factor_code: "",
-      password: "",
-      password_confirmation: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<ConfirmEmailFormData> = async (data) => {
-    console.log("Form Data:", data);
-
-    dispatch(changePassword(data))
-      .then((response) => {
-        console.log("Registration successful, token:", response);
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-expect-error
-        //change
-        if (!response.error) {
-          navigate({ to: "/auth/sign-in" });
-        }
-        setEmail("");
-      })
-      .catch((error) => {
-        console.error("Registration failed:", error);
-      });
-  };
-
+  const { handleSubmit, onSubmit, register, control } = useChangePassword();
   return (
     <Box
       component="form"

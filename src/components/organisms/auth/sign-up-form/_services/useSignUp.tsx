@@ -34,8 +34,6 @@ const useSignUp = () => {
           setIsAuthenticated(true);
         }
         navigate({ to: "/auth/confirm-email" });
-
-        console.log("Registration successful, token:", response.token);
       })
       .catch((error) => {
         if (typeof error === "string") {

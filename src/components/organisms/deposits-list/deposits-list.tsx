@@ -3,40 +3,41 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
-import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
+import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
+import { EmptyComponent } from "../empty-component";
 
-export const UserListComponent: FC = () => {
+export const DepositLists: FC = () => {
   const dispatch = useAppDispatch();
-  const { users, total } = useAppSelector((state) => state.users);
-
+  const { deposits, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
+
   useEffect(() => {
-    dispatch(getUsersThunk({ page: page }));
+    dispatch(getDepositsThunk({ page: page }));
   }, []);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getUsersThunk({ page }));
-    console.log(event);
+    dispatch(getDepositsThunk({ page: page }));
+    console.log(event, page);
   };
 
   const title = ["name", "surname", "email", "role"];
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />
-      {!users ? (
+      {!deposits ? (
         <CircularIndeterminate />
-      ) : (
+      ) : deposits.length > 0 ? (
         <Box
           sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
         >
           <DynamicTable
             isUser
             columns={title}
-            data={users as unknown as Record<string, ReactNode>[]}
+            data={deposits as unknown as Record<string, ReactNode>[]}
             onChangePage={onChangePage}
           />
 
@@ -47,6 +48,8 @@ export const UserListComponent: FC = () => {
             <PaginationOutlined onPageChange={onChangePage} count={total} />
           </Box>
         </Box>
+      ) : (
+        <EmptyComponent />
       )}
     </Box>
   );

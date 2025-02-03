@@ -57,8 +57,6 @@ export const AddCardModal: FC<IStepTwo> = ({
   });
 
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(isEdit, 1);
-
     if (!isEdit) {
       dispatch(addBankCardThunk(data))
         .unwrap()
@@ -85,8 +83,6 @@ export const AddCardModal: FC<IStepTwo> = ({
   };
 
   const onEditSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(isEdit, 2);
-
     if (bankDetail) {
       dispatch(editBankCardThunk({ ...data, id: bankDetail }))
         .unwrap()

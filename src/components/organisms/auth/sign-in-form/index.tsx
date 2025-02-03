@@ -7,7 +7,7 @@ import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
-import bg from "../../../../assets/images/bg.jpeg";
+import bg from "../../../../assets/images/bg.jpg";
 import useSignIn from "./_services/useSignIn";
 
 const LoginForm = () => {
@@ -50,7 +50,7 @@ const LoginForm = () => {
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: { lg: "60%", md: "60%", sx: "55%", xs: "55%" },
+          height: { lg: "63%", md: "63%", sx: "55%", xs: "55%" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >

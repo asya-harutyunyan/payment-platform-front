@@ -1,6 +1,7 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { GetWalletRequest } from "../../admin/walletSlice/types";
 import { AppState } from "../../store";
 import { AmountType, Deposit, WalletDetalisType } from "./types";
 //first step
@@ -77,6 +78,55 @@ export const updateDeposit = createAsyncThunk(
         `/deposits/update/${deposit?.id}`,
         data
       );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const getDepositsThunk = createAsyncThunk(
+  "deposit/getDepositsThunk",
+  async (data: GetWalletRequest, { rejectWithValue, getState }) => {
+    try {
+      const {
+        users: { per_page },
+      } = getState() as AppState;
+      const response = await httpClient.get("/deposits", {
+        params: {
+          page: data.page,
+          per_page,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getOrdersThunk = createAsyncThunk(
+  "deposit/getOrdersThunk",
+  async (data: GetWalletRequest, { rejectWithValue, getState }) => {
+    const {
+      users: { per_page },
+    } = getState() as AppState;
+    try {
+      const response = await httpClient.get("/orders", {
+        params: {
+          page: data.page,
+          per_page,
+        },
+      });
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

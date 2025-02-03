@@ -5,6 +5,7 @@ import { H1, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import ReactPlayer from "react-player";
 import Button from "../../button";
+import { t } from "i18next";
 export const AboutSection = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", margin: "50px 0" }}>
@@ -165,7 +166,7 @@ export const AboutSection = () => {
           </P>
           <Button
             variant={"gradient"}
-            text={"get_start"}
+            text={t("get_start")}
             sx={{ margin: "30px 0", width: "160px" }}
           />
         </Box>

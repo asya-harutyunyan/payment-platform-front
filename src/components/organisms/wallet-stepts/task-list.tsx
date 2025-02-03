@@ -15,11 +15,11 @@ export const TaskListComponent: FC = () => {
       component: (props: () => void) => <StepOne {...props} />,
     },
     {
-      label: "it_will_be",
+      label: "add_card",
       component: (props: () => void) => <StepTwo {...props} />,
     },
     {
-      label: "success",
+      label: "it_will_be",
       component: (props: () => void) => <StepThree {...props} />,
     },
     {

@@ -29,8 +29,8 @@ export const BasicCard: React.FC<IBasicCard> = ({
         backgroundColor: {
           lg: bgColor ? "#f5f5f5" : "inherit",
           md: bgColor ? "#f5f5f5" : "inherit",
-          xs: "primary.main",
-          sm: "primary.main",
+          xs: bgColor ? "#f5f5f5" : "inherit",
+          sm: bgColor ? "#f5f5f5" : "inherit",
         },
         backgroundSize: "100% 100%",
         backgroundImage: {
