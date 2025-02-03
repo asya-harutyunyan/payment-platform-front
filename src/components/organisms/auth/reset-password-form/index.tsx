@@ -2,50 +2,16 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import { reset_schema } from "@/schema/change_password.schema";
-import { setEmail } from "@/store/reducers/auth/authSlice";
-import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
-import { useAppDispatch } from "@/store/reducers/store";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { z } from "zod";
-import bg from "../../../../assets/images/bg.jpeg";
-export type ResetPasswordschema = z.infer<typeof reset_schema>;
+import bg from "../../../../assets/images/bg.jpg";
+import useResetPassword from "./_services/useLogin";
 
 const ResetPasswordComponent = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { control, handleSubmit, setError } = useForm<ResetPasswordschema>({
-    resolver: zodResolver(reset_schema),
-    defaultValues: {
-      email: "",
-    },
-  });
-
-  const onSubmit: SubmitHandler<ResetPasswordschema> = async (data) => {
-    dispatch(setEmail(data.email));
-
-    dispatch(resetPassword(data))
-      .unwrap()
-      .then((response) => {
-        console.log("Registration successful, token:", response);
-        navigate({ to: "/auth/change-password" });
-      })
-      .catch((error) => {
-        if (typeof error === "string") {
-          setError("email", {
-            message: error,
-          });
-        }
-        console.error("Registration failed:", error);
-      });
-  };
-
+  const { onSubmit, handleSubmit, control } = useResetPassword();
   return (
     <Box
       component="form"

@@ -1,38 +1,47 @@
 import { z } from "@/common/validation";
-import { login_schema } from "@/schema/login.schema";
+import { reset_schema } from "@/schema/change_password.schema";
+import { setEmail } from "@/store/reducers/auth/authSlice";
+import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
+import { useAppDispatch } from "@/store/reducers/store";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useNavigate } from "@tanstack/react-router";
+import { SubmitHandler, useForm } from "react-hook-form";
 
-type TLoginType = z.infer<typeof login_schema>;
-const useLogin = () => {
-  const [showWrongRole, setShowWrongRole] = useState<boolean>(false);
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<TLoginType>({
-    mode: "onSubmit",
+export type ResetPasswordschema = z.infer<typeof reset_schema>;
 
-    resolver: zodResolver(login_schema),
+const useResetPassword = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { control, handleSubmit, setError } = useForm<ResetPasswordschema>({
+    resolver: zodResolver(reset_schema),
+    defaultValues: {
+      email: "",
+    },
   });
 
-  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const onSubmit: SubmitHandler<ResetPasswordschema> = async (data) => {
+    dispatch(setEmail(data.email));
 
-  const handleFormSubmit = async () => {};
-
-  const handleRememberMe = () => setRememberMe(!rememberMe);
-
+    dispatch(resetPassword(data))
+      .unwrap()
+      .then((response) => {
+        console.log("Registration successful, token:", response);
+        navigate({ to: "/auth/change-password" });
+      })
+      .catch((error) => {
+        if (typeof error === "string") {
+          setError("email", {
+            message: error,
+          });
+        }
+        console.error("Registration failed:", error);
+      });
+  };
   return {
     handleSubmit,
-    errors,
+    onSubmit,
     control,
-    handleFormSubmit,
-    handleRememberMe,
-    rememberMe,
-    showWrongRole,
-    setShowWrongRole,
   };
 };
 
-export default useLogin;
+export default useResetPassword;

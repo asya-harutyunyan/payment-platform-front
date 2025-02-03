@@ -6,6 +6,7 @@
   "order_list": "Список заказов",
   "wallet_list": "Кошелек",
   "cancel": "Отменить",
+  "get_start": "Начать",
   "add_wallet": "Добавить новый кошелек",
   "wallet_added_success": "Кошелек успешно создано",
   "deposit_list": "Список депозитов",

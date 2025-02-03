@@ -19,9 +19,7 @@ export const edit_card_schema = z.object({
   card_number: z
     .string()
     .transform((val) => val.replace(/\s+/g, ""))
-    .refine((val) => /^\d{16}$/.test(val), {
-      message: "Card number must be 16 digits",
-    }),
+    .refine((val) => /^\d{16}$/.test(val)),
 });
 export const choose_card_schema = z.object({
   payment_method_id: z.string().min(1),

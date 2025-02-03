@@ -9,7 +9,7 @@ import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
-import bg from "../../../../assets/images/bg.jpeg";
+import bg from "../../../../assets/images/bg.jpg";
 import useSignUp from "./_services/useSignUp";
 
 const SignUpForm: FC = () => {

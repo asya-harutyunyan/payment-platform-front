@@ -5,6 +5,6 @@ const TaskList = () => {
   return <StepWelcome />;
 };
 
-export const Route = createFileRoute("/_auth/_user/user-task-list/")({
+export const Route = createFileRoute("/_auth/_user/wallet/")({
   component: TaskList,
 });

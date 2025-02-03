@@ -1,3 +1,4 @@
+import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
@@ -20,25 +21,34 @@ export const UserListComponent: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getUsersThunk({ page }));
-    console.log(event)
+    console.log(event);
   };
 
   const title = ["name", "surname", "email", "role"];
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />
-      <Box sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}>
-        <DynamicTable
-          isUser
-          columns={title}
-          data={users as unknown as Record<string, ReactNode>[]}
-          onChangePage={onChangePage}
-        />
-        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
-          {" "}
-          <PaginationOutlined onPageChange={onChangePage} count={total} />
+      {!users ? (
+        <CircularIndeterminate />
+      ) : (
+        <Box
+          sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
+        >
+          <DynamicTable
+            isUser
+            columns={title}
+            data={users as unknown as Record<string, ReactNode>[]}
+            onChangePage={onChangePage}
+          />
+
+          <Box
+            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            {" "}
+            <PaginationOutlined onPageChange={onChangePage} count={total} />
+          </Box>
         </Box>
-      </Box>
+      )}
     </Box>
   );
 };

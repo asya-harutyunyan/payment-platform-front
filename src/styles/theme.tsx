@@ -43,10 +43,10 @@ const theme = createTheme({
         {
           props: { variant: "gradient" },
           style: {
-            backgroundImage: "linear-gradient(to right, #0967eb, #6ea8f9)",
+            backgroundImage: "linear-gradient(to right, #002559, #0151C1)",
             color: "#fff",
             "&:hover": {
-              backgroundImage: "linear-gradient(to right, #6ea8f9, #0151C1)",
+              backgroundImage: "linear-gradient(to right, #0151C1, #002559)",
             },
           },
         },

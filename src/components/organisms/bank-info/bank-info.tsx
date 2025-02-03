@@ -11,11 +11,8 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useMemo } from "react";
+import { tabNames } from "./__mocks_";
 
-const tabNames = [
-  { id: 1, name: "bank_info" },
-  { id: 2, name: "add_bank_card" },
-];
 export const BankInfoComponent: FC = () => {
   const { user } = useAuth();
 

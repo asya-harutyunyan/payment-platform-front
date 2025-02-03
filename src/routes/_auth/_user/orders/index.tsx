@@ -10,6 +10,6 @@ const HistoryTransaktions = () => {
   )
 }
 
-export const Route = createFileRoute('/_auth/_user/order-list-user/')({
+export const Route = createFileRoute('/_auth/_user/orders/')({
   component: HistoryTransaktions,
 })
