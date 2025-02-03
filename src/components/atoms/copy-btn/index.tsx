@@ -1,7 +1,7 @@
 import { P } from "@/styles/typography";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Box } from "@mui/material";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 interface ICopyButton {
   text: string;
