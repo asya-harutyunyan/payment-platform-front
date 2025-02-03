@@ -50,9 +50,6 @@ export const ResponsiveAppBar = () => {
   const drawerItemStyles = {
     color: theme.palette.secondary.contrastText,
   };
-  const onNavigate = () => {
-    navigate({ to: "/auth/sign-in" });
-  };
 
   return (
     <AppBar position="static">
@@ -145,7 +142,7 @@ export const ResponsiveAppBar = () => {
             <Button
               text={t("sign_in")}
               variant={"gradient"}
-              onClick={onNavigate}
+              onClick={() => navigate({ to: "/auth/sign-in", replace: true })}
             />
           </Box>
         </Toolbar>
