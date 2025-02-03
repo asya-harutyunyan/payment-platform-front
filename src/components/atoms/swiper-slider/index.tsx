@@ -2,7 +2,6 @@ import { BankDetail } from "@/common/types/user";
 import { formatCardNumber } from "@/common/utils";
 import BankCard from "@/components/molecules/bankCard";
 import { Box } from "@mui/material";
-import "pure-react-carousel/dist/react-carousel.es.css";
 import { FC } from "react";
 
 interface ICardsMobile {
