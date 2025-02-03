@@ -21,6 +21,11 @@ export const userItems = [
     icon: <ImportExportIcon />,
     link: "/orders",
   },
+  {
+    text: "order_list",
+    icon: <FormatListBulletedIcon />,
+    link: "/deposit-info",
+  },
 ];
 
 export const adminItems = [

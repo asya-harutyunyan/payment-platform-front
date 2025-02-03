@@ -17,7 +17,7 @@ export const getWalletsThunk = createAsyncThunk(
           per_page,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(

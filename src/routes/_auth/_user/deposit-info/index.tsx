@@ -1,8 +1,8 @@
-import { TaskListComponent } from "@/components/organisms/wallet-stepts";
+import { DepositLists } from "@/components/organisms/deposits-list";
 import { createFileRoute } from "@tanstack/react-router";
 
 const DepositInfo = () => {
-  return <TaskListComponent />;
+  return <DepositLists />;
 };
 
 export const Route = createFileRoute("/_auth/_user/deposit-info/")({

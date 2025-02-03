@@ -9,9 +9,9 @@ import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
-export const OrderListComponent: FC = () => {
+export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const { orders, total } = useAppSelector((state) => state.deposit);
+  const { orders } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -19,6 +19,7 @@ export const OrderListComponent: FC = () => {
   }, []);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+    //TODO:Pagination after backend
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
     console.log(event, page);
@@ -51,7 +52,7 @@ export const OrderListComponent: FC = () => {
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
             >
               {" "}
-              <PaginationOutlined onPageChange={onChangePage} count={total} />
+              <PaginationOutlined onPageChange={onChangePage} />
             </Box>
           </Box>
         ) : (

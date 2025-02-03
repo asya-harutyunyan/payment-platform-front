@@ -8,6 +8,12 @@ export interface DepositState {
   loading: boolean;
   error: string | null;
   deposit: Deposit | null;
+  deposits: DataDeposits[];
+  orders: Orders[];
+  per_page: number;
+  currentPage: number | null;
+  lastPage: number | null;
+  total: number;
 }
 export type AmountType = z.infer<typeof deposit_id_schema>;
 export type WalletDetalisType = z.infer<typeof wallet_details_schema>;
@@ -47,4 +53,33 @@ export interface PaymentMethod {
   card_number: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Orders {
+  data: string[];
+}
+export interface DataDeposits {
+  data: unknown;
+}
+//TODO:must be change
+export interface Deposits {
+  current_page: number;
+  data: DataDeposits[];
+  first_page_url: string;
+  from: unknown;
+  last_page: number;
+  last_page_url: string;
+  links: Link[];
+  next_page_url: unknown;
+  path: string;
+  per_page: number;
+  prev_page_url: unknown;
+  to: unknown;
+  total: number;
+}
+
+export interface Link {
+  url?: string;
+  label: string;
+  active: boolean;
 }
