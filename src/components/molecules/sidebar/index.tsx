@@ -97,7 +97,18 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             paddingBottom: "20px",
           }}
         >
-          <Logo />
+          <Box
+            sx={{
+              display: {
+                lg: "inline",
+                md: "inline",
+                sx: "none",
+                xs: "none",
+              },
+            }}
+          >
+            <Logo />
+          </Box>
           <H2
             sx={{
               display: {
@@ -230,7 +241,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <Box
             sx={{
               width: "100%",
-              height: "100%",
               display: "flex",
               justifyContent: "center",
             }}

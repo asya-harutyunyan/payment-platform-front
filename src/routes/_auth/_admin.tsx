@@ -17,6 +17,31 @@ const AdminLayout = () => {
         wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
         wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
         forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "https") === "https",
+        authorizer: (channel, options) => {
+          return {
+            authorize: (socketId, callback) => {
+              fetch(import.meta.env.VITE_BASE_API_URL + "/broadcasting/auth", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization:
+                    "Bearer " + localStorage.getItem("accessToken"),
+                },
+                body: JSON.stringify({
+                  socket_id: socketId,
+                  channel_name: channel.name,
+                }),
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  callback(false, data);
+                })
+                .catch((error) => {
+                  callback(true, error);
+                });
+            },
+          };
+        },
         enabledTransports: ["ws", "wss"],
       });
       window.Echo.private(`App.User.${user.id}`).notification(
