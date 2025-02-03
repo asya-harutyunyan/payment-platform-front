@@ -44,6 +44,11 @@ const UserLayout = () => {
         },
         enabledTransports: ["ws", "wss"],
       });
+      window.Echo.private(`App.User.${user.id}`).notification(
+        (notification) => {
+          console.log(notification);
+        }
+      );
     }
   }, []);
   return (
