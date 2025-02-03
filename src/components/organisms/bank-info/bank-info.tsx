@@ -1,4 +1,5 @@
 import { formatCardNumber } from "@/common/utils";
+import { MobileCards } from "@/components/atoms/swiper-slider";
 import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
 import Carroussel from "@/components/molecules/carousel-3d";
@@ -64,7 +65,13 @@ export const BankInfoComponent: FC = () => {
                 showArrows={false}
               />
             </Box>
-            <Box>{/* <SimpleSlider slider={cards}></SimpleSlider> */}</Box>
+            <Box
+              sx={{
+                display: { lg: "none", md: "none", sx: "block", xs: "block" },
+              }}
+            >
+              <MobileCards cards={user?.bank_details} />
+            </Box>
           </Box>
         ),
       },
@@ -154,6 +161,7 @@ export const BankInfoComponent: FC = () => {
           <Box
             sx={{
               width: { lg: "50%", md: "50%", sx: "100%", xs: "100%" },
+              marginBottom: "200px",
             }}
           >
             <TabsComponent tabPanel={tabContent} tabNames={tabNames} />
