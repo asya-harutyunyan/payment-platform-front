@@ -1,0 +1,193 @@
+import imgArrow from "@/assets/images/arrow.png";
+import img from "@/assets/images/Isolation.png";
+import imgUsers from "@/assets/images/users.png";
+import { H1, H6, P } from "@/styles/typography";
+import { Box } from "@mui/material";
+import ReactPlayer from "react-player";
+import Button from "../../button";
+export const AboutSection = () => {
+  return (
+    <Box sx={{ display: "flex", flexDirection: "column", margin: "50px 0" }}>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          alignItems: { lg: "end", md: "end", xs: "start", sm: "start" },
+          justifyContent: "start",
+          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          height: {
+            lg: "320px",
+            md: "320px",
+            xs: "max-content",
+            sm: "max-content",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: { lg: "50%", md: "50%", xs: "100%", sm: "100%" },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: { lg: "end", md: "end", xs: "start", sm: "start" },
+            justifyContent: "start",
+          }}
+        >
+          <Box width={"100%"}>
+            <H1
+              color="primary.main"
+              fontSize={{ lg: "45px", md: "45px", xs: "30px", sm: "30px" }}
+            >
+              Welcome to PayHub-Grow
+            </H1>
+          </Box>
+          <img
+            src={img}
+            style={{ width: "220px", height: "30px", marginRight: "100px" }}
+          />
+          <Box width={"100%"}>
+            <H1
+              color="primary.main"
+              fontSize={{ lg: "45px", md: "45px", xs: "30px", sm: "30px" }}
+            >
+              Your Money the Smart Way
+            </H1>
+          </Box>
+          <P
+            sx={{
+              padding: "20px 0 0 10px",
+              width: { lg: "100%", md: "100%", xs: "100%", sm: "100%" },
+            }}
+          >
+            Grow Your Money the Smart Way! At PayHub, we believe that saving
+            money should be easy, secure, and rewarding.
+          </P>
+        </Box>
+        <Box
+          sx={{
+            width: { lg: "50%", md: "50%", xs: "100%", sm: "100%" },
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "start",
+              width: "100%",
+              height: "80%",
+            }}
+          >
+            <img
+              src={imgUsers}
+              style={{
+                width: "120px",
+                height: "60px",
+              }}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <H6 sx={{ padding: "0" }} color="primary.main">
+                1.3 M+{" "}
+              </H6>
+              <P> Active users across the world</P>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              withd: "100%",
+              height: "20%",
+              justifyContent: "end",
+              marginRight: "100px",
+            }}
+          >
+            <img
+              src={imgArrow}
+              style={{
+                width: "120px",
+                height: "60px",
+              }}
+            />
+            <P>
+              Watch Video
+              <br />
+              For More!
+            </P>
+          </Box>
+        </Box>
+      </Box>
+
+      <Box
+        sx={{
+          marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+          display: "flex",
+          justifyContent: {
+            lg: "space-between",
+            md: "space-between",
+            xs: "center",
+            sm: "center",
+          },
+          alignItems: {
+            lg: "inherit",
+            md: "inherit",
+            xs: "center",
+            sm: "center",
+          },
+          width: "100%",
+          height: {
+            lg: "320px",
+            md: "320px",
+            xs: "max-content",
+            sm: "max-content",
+          },
+          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+        }}
+      >
+        <Box
+          sx={{
+            backgroundColor: "primary.main",
+            width: { lg: "35%", md: "35%", xs: "80%", sm: "80%" },
+            borderRadius: "20px",
+            padding: "30px",
+          }}
+        >
+          <P color="text.secondary" width={"70%"} fontSize={"16px"}>
+            When you deposit with us, not only do you get your original amount
+            back, but we also return it with added interest — giving you extra
+            rewards for trusting us with your money.
+          </P>
+          <Button
+            variant={"gradient"}
+            text={"get_start"}
+            sx={{ margin: "30px 0", width: "160px" }}
+          />
+        </Box>
+        <Box
+          sx={{
+            width: { lg: "58%", md: "58%", xs: "90%", sm: "90%" },
+            marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+            borderRadius: "20px",
+            backgroundColor: "primary.main",
+            height: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <ReactPlayer
+            url="https://www.youtube.com/watch?v=NR5IFPoRqmo"
+            controls={true}
+            width="100%"
+            height="100%"
+            borderRadius={"10px"}
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
+};

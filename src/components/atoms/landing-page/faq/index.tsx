@@ -33,7 +33,7 @@ const FAQs = () => {
   return (
     <Grid
       container
-      spacing={3}
+      spacing={{ lg: 3, md: 3, xs: 0, sm: 0 }}
       sx={{
         margin: "50px 0",
         width: "100%",
@@ -49,6 +49,7 @@ const FAQs = () => {
             flexDirection: "column",
             height: "100%",
             gap: 2,
+            padding: "0",
           }}
         >
           {faqData.slice(0, 2).map((faq, index) => (

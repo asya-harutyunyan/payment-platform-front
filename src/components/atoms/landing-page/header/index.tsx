@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { H3, P } from "@/styles/typography";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -8,7 +9,7 @@ import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Button from "../../button";
 import { Logo } from "../../logo";
 const pages = ["Why Choose Us", "How It Works", "About Us", "Contact"];
@@ -50,6 +51,26 @@ export const ResponsiveAppBar = () => {
   const drawerItemStyles = {
     color: theme.palette.secondary.contrastText,
   };
+
+  const { user } = useAuth();
+
+  const onBtnClick = useCallback(() => {
+    let to = "/auth/sign-in";
+    switch (user?.role) {
+      case "client":
+        to = "/my-information";
+        break;
+      case "admin":
+        to = "order-list-user";
+        break;
+      default:
+        break;
+    }
+    navigate({
+      to: to,
+      replace: true,
+    });
+  }, [user]);
 
   return (
     <AppBar position="static">
@@ -140,9 +161,9 @@ export const ResponsiveAppBar = () => {
             }}
           >
             <Button
-              text={t("sign_in")}
+              text={t(user ? "home" : "sign_in")}
               variant={"gradient"}
-              onClick={() => navigate({ to: "/auth/sign-in", replace: true })}
+              onClick={onBtnClick}
             />
           </Box>
         </Toolbar>

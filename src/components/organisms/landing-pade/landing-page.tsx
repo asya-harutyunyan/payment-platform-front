@@ -1,6 +1,7 @@
 import firstCard from "@/assets/images/first-card.png";
 import secondCard from "@/assets/images/middle.png";
 import thirdCard from "@/assets/images/third-card.png";
+import { AboutSection } from "@/components/atoms/landing-page/about";
 import { MediaCard } from "@/components/atoms/landing-page/cards";
 import FAQs from "@/components/atoms/landing-page/faq";
 import { Footer } from "@/components/atoms/landing-page/footer";
@@ -18,9 +19,11 @@ export const LandingPage = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          margin: { lg: "50px 70px", md: "150px 70px", xs: "20px", sm: "20px" },
+          margin: { lg: "0 100px", md: "0 100px", xs: "20px", sm: "20px" },
         }}
       >
+        <AboutSection />
+
         <H2 color="primary.main" align="center">
           How It Works ??
         </H2>
