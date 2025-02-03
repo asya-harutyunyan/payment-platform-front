@@ -52,7 +52,7 @@ export const LandingPage = () => {
           <MediaCard img={thirdCard} />
         </Box>
         <Features />
-        <H2 color="primary.main" align="center">
+        <H2 color="primary.main" align="center" sx={{ paddingBottom: "50px" }}>
           Frequently Asked Questions
         </H2>
         <FAQs />

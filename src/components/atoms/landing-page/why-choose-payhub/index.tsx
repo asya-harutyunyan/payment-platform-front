@@ -29,7 +29,7 @@ const Features = () => {
     <Box
       sx={{
         width: "100%",
-        margin: "50px 0 70px 0",
+        margin: "50px 0 50px 0",
         height: { lg: "600px", md: "600px", xs: "unset", sm: "unset" },
         display: "flex",
         alignItems: {
