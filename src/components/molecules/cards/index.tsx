@@ -1,14 +1,14 @@
 import Button from "@/components/atoms/button";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { ITaskTable } from "./types";
-import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 
 const CardsContainer = {
   display: "flex",
@@ -39,10 +39,6 @@ const TaskTable: FC<ITaskTable> = ({ data, setPage }) => {
     dispatch(getUsersThunk({ page }));
     console.log(event);
   };
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
   const handleUserInformation = (id: number) => {
     navigate({ to: `/user-list/${id}` });
   };

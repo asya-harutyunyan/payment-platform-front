@@ -45,10 +45,7 @@ const CreditCardInput = ({
       };
     }
   }, []);
-  console.log(whiteVariant);
-  useEffect(() => {
-    console.log(whiteVariant);
-  }, [whiteVariant]);
+
   return (
     <div>
       <input

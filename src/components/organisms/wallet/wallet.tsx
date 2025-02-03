@@ -18,9 +18,6 @@ export const Wallet: FC = () => {
     dispatch(getWalletsThunk({ page: page }));
   }, []);
 
-  useEffect(() => {
-    console.log(wallet);
-  }, [wallet]);
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getWalletsThunk({ page }));

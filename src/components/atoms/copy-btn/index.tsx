@@ -18,9 +18,7 @@ export const CopyButton: FC<ICopyButton> = ({ text }) => {
       console.error("Failed to copy:", error);
     }
   };
-  useEffect(() => {
-    console.log(copied);
-  }, [copied]);
+
   return (
     <Box
       onClick={handleCopy}

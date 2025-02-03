@@ -19,7 +19,6 @@ export const UserOrdersComponent: FC = () => {
   }, []);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
-    //TODO:Pagination after backend
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
     console.log(event, page);
