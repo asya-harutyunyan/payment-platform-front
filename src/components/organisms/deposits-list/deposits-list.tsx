@@ -11,7 +11,7 @@ import { EmptyComponent } from "../empty-component";
 
 export const DepositLists: FC = () => {
   const dispatch = useAppDispatch();
-  const { deposits, total } = useAppSelector((state) => state.deposit);
+  const { deposits, total, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -50,8 +50,8 @@ export const DepositLists: FC = () => {
   );
   return (
     <Box>
-      <TaskHeader title={t("user_list_title")} />
-      {!deposits ? (
+      <TaskHeader title={t("deposit_lists")} />
+      {loading ? (
         <CircularIndeterminate />
       ) : deposits.length > 0 ? (
         <Box

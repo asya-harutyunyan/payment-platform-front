@@ -1,17 +1,17 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable from "@/components/molecules/table";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const OrderListComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const { orders, total } = useAppSelector((state) => state.deposit);
+  const { orders, total, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -23,8 +23,27 @@ export const OrderListComponent: FC = () => {
     dispatch(getOrdersThunk({ page }));
     console.log(event, page);
   };
-  const title = ["name", "surname", "email", "role"];
-
+  const columns = useMemo<IColumn[]>(
+    () => [
+      {
+        column: "name",
+        valueKey: "name",
+      },
+      {
+        column: "surname",
+        valueKey: "surname",
+      },
+      {
+        column: "email",
+        valueKey: "email",
+      },
+      {
+        column: "role",
+        valueKey: "role",
+      },
+    ],
+    []
+  );
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("order_list")} />
@@ -34,7 +53,7 @@ export const OrderListComponent: FC = () => {
           overflowX: "auto",
         }}
       >
-        {!orders ? (
+        {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
           <Box
@@ -42,7 +61,7 @@ export const OrderListComponent: FC = () => {
           >
             <DynamicTable
               isUser
-              columns={title}
+              columns={columns}
               data={orders as unknown as Record<string, ReactNode>[]}
               onChangePage={onChangePage}
             />

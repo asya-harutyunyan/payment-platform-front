@@ -48,7 +48,7 @@ function DynamicTable<T extends { id?: number }>({
         <Table>
           <TableHead>
             <TableRow sx={{ borderBottom: "3px solid #041F44" }}>
-              {columns.map((column, index) => (
+              {columns?.map((column, index) => (
                 <TableCell
                   key={index}
                   sx={{ fontWeight: "bold", color: "primary.main" }}
@@ -59,15 +59,22 @@ function DynamicTable<T extends { id?: number }>({
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((row, rowIndex) => (
+            {data?.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
                 onClick={() => handleUserInformation(row)}
               >
-                {columns.map((column, colIndex) => (
+                {columns?.map((column, colIndex) => (
                   <TableCell
                     key={colIndex}
-                    sx={{ color: "#7D7D7D", fontSize: "15px" }}
+                    sx={{
+                      color: "#7D7D7D",
+                      fontSize: "15px",
+                      maxWidth: "200px",
+                      textOverflow: "ellipsis",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                    }}
                   >
                     {column.column === "Action" ? (
                       <Button variant={"text"} text={"Status of tast"} />

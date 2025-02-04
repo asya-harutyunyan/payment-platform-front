@@ -1,16 +1,16 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable from "@/components/molecules/table";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 
 export const UserListComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const { users, total } = useAppSelector((state) => state.users);
+  const { users, total, loading } = useAppSelector((state) => state.users);
 
   const [page, setPage] = useState(1);
   useEffect(() => {
@@ -23,11 +23,31 @@ export const UserListComponent: FC = () => {
     console.log(event);
   };
 
-  const title = ["name", "surname", "email", "role"];
+  const columns = useMemo<IColumn[]>(
+    () => [
+      {
+        column: "name",
+        valueKey: "name",
+      },
+      {
+        column: "surname",
+        valueKey: "surname",
+      },
+      {
+        column: "email",
+        valueKey: "email",
+      },
+      {
+        column: "role",
+        valueKey: "role",
+      },
+    ],
+    []
+  );
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />
-      {!users ? (
+      {loading ? (
         <CircularIndeterminate />
       ) : (
         <Box
@@ -35,7 +55,7 @@ export const UserListComponent: FC = () => {
         >
           <DynamicTable
             isUser
-            columns={title}
+            columns={columns}
             data={users as unknown as Record<string, ReactNode>[]}
             onChangePage={onChangePage}
           />

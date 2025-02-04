@@ -11,7 +11,7 @@ import { EmptyComponent } from "../empty-component";
 
 export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const { orders } = useAppSelector((state) => state.deposit);
+  const { orders, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -43,14 +43,14 @@ export const UserOrdersComponent: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("order_list")} />
+      <TaskHeader title={t("orders")} />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
           overflowX: "auto",
         }}
       >
-        {!orders ? (
+        {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
           <Box
