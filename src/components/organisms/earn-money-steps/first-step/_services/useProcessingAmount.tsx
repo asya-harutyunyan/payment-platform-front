@@ -1,6 +1,7 @@
 import { z } from "@/common/validation";
 import { deposit_id_schema } from "@/schema/price.schema";
 import { useAppDispatch } from "@/store/reducers/store";
+import { setPrice } from "@/store/reducers/user-info/depositSlice";
 import { processingAmountThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
@@ -28,6 +29,7 @@ const useProcessingAmount = (handeNext?: () => void) => {
   const processingAmountValue = watch("processing_amount");
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    dispatch(setPrice(data.processing_amount));
     return dispatch(processingAmountThunk(data))
       .unwrap()
       .then(() => {

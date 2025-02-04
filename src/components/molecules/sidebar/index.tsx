@@ -1,13 +1,16 @@
+import bg from "@/assets/images/modal.png";
 import theme from "@/styles/theme";
 import { H2, H3, H6, P } from "@/styles/typography";
 
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
+import { BasicModal } from "@/components/atoms/modal";
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import {
   AppBar,
   Box,
@@ -30,6 +33,9 @@ interface DashboardPageProps {
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
+
   const data = useAuth();
   // const changeLanguage = (lang: string | undefined) => {
   //   i18n.changeLanguage(lang);
@@ -125,13 +131,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               sx={{
                 width: "75px",
                 height: "75px",
-                color: theme.palette.tertiary.contrastText,
+                color: "tertiary.contrastText",
               }}
             />
           </Box>
           <H6
             align="center"
-            color={theme.palette.tertiary.contrastText}
+            color={"tertiary.contrastText"}
             paddingLeft={"10px"}
           >
             {data?.user?.surname}
@@ -139,10 +145,22 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <H6
             align="center"
             paddingLeft={"10px"}
-            color={theme.palette.tertiary.contrastText}
+            color={"tertiary.contrastText"}
           >
             {data?.user?.name}
           </H6>
+          <Box
+            sx={{
+              marginLeft: "4px",
+              marginTop: "3px",
+              color: "tertiary.main",
+              cursor: "pointer",
+            }}
+            onClick={() => setOpen(true)}
+          >
+            {" "}
+            <NotificationsActiveIcon />
+          </Box>
         </Box>
 
         <List>{renderSidebarItems()}</List>
@@ -262,6 +280,39 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       >
         {children}
       </Box>
+      <BasicModal handleClose={handleClose} open={open} bg={bg}>
+        <Box
+          sx={{
+            width: "50px",
+            height: "50px",
+            borderRadius: "50%",
+            backgroundColor: "#093169",
+            color: "tertiary.main",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={() => setOpen(true)}
+        >
+          {" "}
+          <NotificationsActiveIcon />
+        </Box>
+        <H3 align="center" padding={"10px 0"}>
+          Подтвердите, что сумма{" "}
+        </H3>
+        <H3 padding={"10px 0"}>
+          <span style={{ textDecoration: "underline" }}>2 384 934</span> успешно
+          получена.
+        </H3>
+        <Button
+          variant={"gradient"}
+          text={t("confirm")}
+          sx={{ margin: "20px 0" }}
+        />
+        <H6 sx={{ textDecoration: "underline", color: "tertiary.main" }}>
+          Keep going for 00:34
+        </H6>
+      </BasicModal>
     </Box>
   );
 };

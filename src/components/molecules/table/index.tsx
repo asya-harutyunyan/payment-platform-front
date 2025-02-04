@@ -9,7 +9,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import React from "react";
 // @ts-expect-error no types for this lib
@@ -41,6 +41,7 @@ function DynamicTable<T extends { id?: number }>({
   const handleUserInformation = (row: T) => {
     navigate({ to: `/user-list/${row.id}` });
   };
+  const pathname = useLocation();
 
   return (
     <>
@@ -62,7 +63,17 @@ function DynamicTable<T extends { id?: number }>({
             {data?.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
-                onClick={() => handleUserInformation(row)}
+                onClick={() =>
+                  pathname.pathname === "/user-list"
+                    ? handleUserInformation(row)
+                    : {}
+                }
+                sx={{
+                  "&:hover": {
+                    backgroundColor: "#e0e0e0",
+                  },
+                  cursor: "pointer",
+                }}
               >
                 {columns?.map((column, colIndex) => (
                   <TableCell

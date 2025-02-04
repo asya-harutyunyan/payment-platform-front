@@ -17,6 +17,7 @@ const initialState: DepositState = {
   lastPage: null,
   per_page: 5,
   total: 0,
+  price: 0,
 };
 
 const depositSlice = createSlice({
@@ -24,6 +25,9 @@ const depositSlice = createSlice({
   initialState,
   reducers: {
     resetDeposit: () => initialState,
+    setPrice: (state, action) => {
+      state.price = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -54,6 +58,6 @@ const depositSlice = createSlice({
   },
 });
 
-export const { resetDeposit } = depositSlice.actions;
+export const { resetDeposit, setPrice } = depositSlice.actions;
 
 export default depositSlice.reducer;

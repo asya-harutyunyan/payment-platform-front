@@ -6,6 +6,7 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { BaseSyntheticEvent, FC } from "react";
 import useProcessingAmount from "./_services/useProcessingAmount";
+
 interface IStepOne {
   handleNext?: () => void;
 }

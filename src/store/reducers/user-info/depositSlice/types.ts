@@ -14,6 +14,7 @@ export interface DepositState {
   currentPage: number | null;
   lastPage: number | null;
   total: number;
+  price: number;
 }
 export type AmountType = z.infer<typeof deposit_id_schema>;
 export type WalletDetalisType = z.infer<typeof wallet_details_schema>;

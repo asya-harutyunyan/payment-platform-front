@@ -11,7 +11,7 @@ interface IBasicCard {
   bg?: string;
   bgColor?: boolean;
   title_B?: string;
-  sub_title?: string;
+  sub_title?: string | number;
 }
 export const BasicCard: React.FC<IBasicCard> = ({
   title,
@@ -65,8 +65,8 @@ export const BasicCard: React.FC<IBasicCard> = ({
         {sub_title && (
           <Box
             sx={{
-              width: "50px",
-              height: "50px",
+              width: "75px",
+              height: "75px",
               borderRadius: "50%",
               backgroundColor: theme.palette.tertiary.main,
               display: "flex",
