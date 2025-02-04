@@ -26,20 +26,16 @@ export const OrderListComponent: FC = () => {
   const columns = useMemo<IColumn[]>(
     () => [
       {
-        column: "name",
-        valueKey: "name",
+        column: "amount",
+        valueKey: "amount",
       },
       {
-        column: "surname",
-        valueKey: "surname",
+        column: "status_by_admin",
+        valueKey: "status_by_admin",
       },
       {
-        column: "email",
-        valueKey: "email",
-      },
-      {
-        column: "role",
-        valueKey: "role",
+        column: "status_by_client",
+        valueKey: "status_by_client",
       },
     ],
     []
