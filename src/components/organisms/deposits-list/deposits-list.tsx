@@ -17,6 +17,9 @@ export const DepositLists: FC = () => {
   useEffect(() => {
     dispatch(getDepositsThunk({ page: page }));
   }, []);
+  useEffect(() => {
+    console.log(deposits);
+  }, [deposits]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -24,7 +27,7 @@ export const DepositLists: FC = () => {
     console.log(event, page);
   };
 
-  const title = ["name", "surname", "email", "role"];
+  const title = ["address", "currency", "network", "qr_code"];
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />

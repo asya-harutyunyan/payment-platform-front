@@ -11,7 +11,7 @@ interface IStepOne {
 }
 
 export const StepOne: FC<IStepOne> = ({ handleNext }) => {
-  const { handleSubmit, control, processingAmountValue } =
+  const { handleSubmit, control, processingAmountValue, register } =
     useProcessingAmount(handleNext);
 
   // const { deposit } = useAppSelector((state) => state.deposit);
@@ -51,10 +51,11 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
             <FormTextInput
               control={control}
-              name="processing_amount"
               placeholder="Price"
               type="number"
               whiteVariant={true}
+              {...register("processing_amount")}
+              name="processing_amount"
             />
           </Box>
           <Button

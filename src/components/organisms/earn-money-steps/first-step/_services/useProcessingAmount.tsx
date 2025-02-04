@@ -15,12 +15,13 @@ const useProcessingAmount = (handeNext?: () => void) => {
     control,
     handleSubmit,
     reset,
+    register,
     watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(deposit_id_schema),
     defaultValues: {
-      processing_amount: 0,
+      processing_amount: undefined,
     },
     mode: "all",
   });
@@ -47,6 +48,7 @@ const useProcessingAmount = (handeNext?: () => void) => {
     processingAmountValue,
     handleSubmit: handleSubmit(onSubmit),
     onSubmit,
+    register,
     reset,
     control,
     errors,

@@ -23,7 +23,7 @@ export const UserOrdersComponent: FC = () => {
     dispatch(getOrdersThunk({ page }));
     console.log(event, page);
   };
-  const title = ["name", "surname", "email", "role"];
+  const title = ["amount", "status_by_admin", "status_by_client"];
 
   return (
     <Box sx={{ width: "100%" }}>

@@ -2,10 +2,15 @@ import { z } from "@/common/validation";
 
 export const deposit_id_schema = z.object({
   processing_amount: z.preprocess((a) => {
-    if (!a) {
-      return 0;
+    if (typeof a !== "string" && typeof a !== "number") {
+      return NaN;
     }
-    return parseFloat(a as string);
+    const strValue = String(a).trim();
+    if (/^0\d+/.test(strValue)) {
+      return NaN;
+    }
+    const num = parseFloat(strValue);
+    return isNaN(num) ? NaN : num;
   }, z.number().positive().min(1)),
 });
 

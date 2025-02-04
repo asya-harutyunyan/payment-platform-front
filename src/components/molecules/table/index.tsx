@@ -26,6 +26,8 @@ const DynamicTable: React.FC<TableProps> = ({ columns, data }) => {
   const handleUserInformation = (row: Record<string, React.ReactNode>) => {
     navigate({ to: `/user-list/${row.id}` });
   };
+  console.log(columns, data);
+
   return (
     <>
       <TableContainer component={Paper}>

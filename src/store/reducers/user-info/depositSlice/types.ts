@@ -59,7 +59,10 @@ export interface Orders {
   data: string[];
 }
 export interface DataDeposits {
-  data: unknown;
+  address: string;
+  currency: string;
+  network: string;
+  qr_code: string;
 }
 //TODO:must be change
 export interface Deposits {

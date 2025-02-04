@@ -103,7 +103,7 @@ export const getDepositsThunk = createAsyncThunk(
           per_page,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
@@ -127,7 +127,7 @@ export const getOrdersThunk = createAsyncThunk(
           per_page,
         },
       });
-      return response.data;
+      return response.data.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
