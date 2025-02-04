@@ -3370,7 +3370,7 @@ typescript@~5.6.2:
 
 underscore-contrib@^0.3.0:
   version "0.3.0"
-  resolved "https://registry.npmjs.org/underscore-contrib/-/underscore-contrib-0.3.0.tgz#665b66c24783f8fa2b18c9f8cbb0e2c7d48c26c7"
+  resolved "https://registry.yarnpkg.com/underscore-contrib/-/underscore-contrib-0.3.0.tgz#665b66c24783f8fa2b18c9f8cbb0e2c7d48c26c7"
   integrity sha512-OT7lal0sQBw7Kz18uC6wkbHqBBuJYFgdehJ+W1Z9+9Jyip38rBtdQ9tITaXbJjmws3uDOkzT7+I6V5oNhH2lrw==
   dependencies:
     underscore "1.6.0"
