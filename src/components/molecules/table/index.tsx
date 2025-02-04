@@ -12,21 +12,35 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import React from "react";
+// @ts-expect-error no types for this lib
+import _ from "underscore-contrib";
 
-interface TableProps {
-  columns: string[];
-  data: Record<string, string | number | React.ReactNode>[];
+export interface IColumn {
+  column: string;
+  valueKey: string;
+}
+
+interface TableProps<T extends { id?: number }> {
+  columns: IColumn[];
+  data: T[];
   onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
+  onItemClick?: (row: T) => void;
   total?: number;
   isUser?: boolean;
 }
 
-const DynamicTable: React.FC<TableProps> = ({ columns, data }) => {
+function DynamicTable<T extends { id?: number }>({
+  columns,
+  data,
+  // onChangePage,
+  // onItemClick,
+  // total,
+  // isUser,
+}: TableProps<T>) {
   const navigate = useNavigate();
-  const handleUserInformation = (row: Record<string, React.ReactNode>) => {
+  const handleUserInformation = (row: T) => {
     navigate({ to: `/user-list/${row.id}` });
   };
-  console.log(columns, data);
 
   return (
     <>
@@ -39,7 +53,7 @@ const DynamicTable: React.FC<TableProps> = ({ columns, data }) => {
                   key={index}
                   sx={{ fontWeight: "bold", color: "primary.main" }}
                 >
-                  {t(column)}
+                  {t(column.column)}
                 </TableCell>
               ))}
             </TableRow>
@@ -55,10 +69,10 @@ const DynamicTable: React.FC<TableProps> = ({ columns, data }) => {
                     key={colIndex}
                     sx={{ color: "#7D7D7D", fontSize: "15px" }}
                   >
-                    {column === "Action" ? (
+                    {column.column === "Action" ? (
                       <Button variant={"text"} text={"Status of tast"} />
                     ) : (
-                      String(row[column]) || "-"
+                      String(_.getPath(row, column.valueKey)) || "-"
                     )}
                   </TableCell>
                 ))}
@@ -84,6 +98,6 @@ const DynamicTable: React.FC<TableProps> = ({ columns, data }) => {
       ></Box>
     </>
   );
-};
+}
 
 export default DynamicTable;

@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const UserOrdersComponent: FC = () => {
@@ -21,9 +21,25 @@ export const UserOrdersComponent: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
-    console.log(event, page);
   };
-  const title = ["amount", "status_by_admin", "status_by_client"];
+  const columns = useMemo(
+    () => [
+      {
+        column: "amount",
+        valueKey: "amount",
+      },
+      {
+        column: "status_by_admin",
+        valueKey: "status_by_admin",
+      },
+      {
+        column: "status_by_client",
+        valueKey: "status_by_client",
+      },
+    ],
+
+    []
+  );
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -42,8 +58,8 @@ export const UserOrdersComponent: FC = () => {
           >
             <DynamicTable
               isUser
-              columns={title}
-              data={orders as unknown as Record<string, ReactNode>[]}
+              columns={columns}
+              data={orders}
               onChangePage={onChangePage}
             />
 

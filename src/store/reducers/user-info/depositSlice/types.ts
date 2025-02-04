@@ -9,7 +9,7 @@ export interface DepositState {
   error: string | null;
   deposit: Deposit | null;
   deposits: DataDeposits[];
-  orders: Orders[];
+  orders: Order[];
   per_page: number;
   currentPage: number | null;
   lastPage: number | null;
@@ -55,8 +55,16 @@ export interface PaymentMethod {
   updated_at: string;
 }
 
-export interface Orders {
-  data: string[];
+export interface Order {
+  id: number;
+  wallet_id: number;
+  user_id: number;
+  deposit_id: number;
+  amount: string;
+  status_by_client: string;
+  status_by_admin: string;
+  created_at: string;
+  updated_at: string;
 }
 export interface DataDeposits {
   address: string;

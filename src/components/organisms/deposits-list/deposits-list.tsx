@@ -1,12 +1,12 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable from "@/components/molecules/table";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const DepositLists: FC = () => {
@@ -27,7 +27,27 @@ export const DepositLists: FC = () => {
     console.log(event, page);
   };
 
-  const title = ["address", "currency", "network", "qr_code"];
+  const columns = useMemo<IColumn[]>(
+    () => [
+      {
+        column: "address",
+        valueKey: "wallet.address",
+      },
+      {
+        column: "currency",
+        valueKey: "wallet.currency",
+      },
+      {
+        column: "network",
+        valueKey: "wallet.network",
+      },
+      {
+        column: "qr_code",
+        valueKey: "wallet.qr_code",
+      },
+    ],
+    []
+  );
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />
@@ -39,7 +59,7 @@ export const DepositLists: FC = () => {
         >
           <DynamicTable
             isUser
-            columns={title}
+            columns={columns}
             data={deposits as unknown as Record<string, ReactNode>[]}
             onChangePage={onChangePage}
           />
