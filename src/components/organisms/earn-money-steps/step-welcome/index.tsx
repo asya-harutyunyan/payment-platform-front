@@ -71,7 +71,7 @@ export const StepWelcome = () => {
           sx={{ width: "350px", height: "55px" }}
           variant={"gradient"}
           onClick={() => {
-            navigate({ to: "/deposit-info" });
+            navigate({ to: "/steps" });
           }}
         />
       </Box>

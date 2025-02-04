@@ -18,6 +18,7 @@ import { Route as AuthImport } from './routes/_auth'
 import { Route as AuthUserImport } from './routes/_auth/_user'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
 import { Route as AuthUserWalletIndexImport } from './routes/_auth/_user/wallet/index'
+import { Route as AuthUserStepsIndexImport } from './routes/_auth/_user/steps/index'
 import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/index'
 import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
@@ -149,6 +150,12 @@ const NoauthAuthChangePasswordIndexLazyRoute =
 const AuthUserWalletIndexRoute = AuthUserWalletIndexImport.update({
   id: '/wallet/',
   path: '/wallet/',
+  getParentRoute: () => AuthUserRoute,
+} as any)
+
+const AuthUserStepsIndexRoute = AuthUserStepsIndexImport.update({
+  id: '/steps/',
+  path: '/steps/',
   getParentRoute: () => AuthUserRoute,
 } as any)
 
@@ -325,6 +332,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserOrdersIndexImport
       parentRoute: typeof AuthUserImport
     }
+    '/_auth/_user/steps/': {
+      id: '/_auth/_user/steps/'
+      path: '/steps'
+      fullPath: '/steps'
+      preLoaderRoute: typeof AuthUserStepsIndexImport
+      parentRoute: typeof AuthUserImport
+    }
     '/_auth/_user/wallet/': {
       id: '/_auth/_user/wallet/'
       path: '/wallet'
@@ -398,6 +412,7 @@ interface AuthUserRouteChildren {
   AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
   AuthUserMyInformationIndexRoute: typeof AuthUserMyInformationIndexRoute
   AuthUserOrdersIndexRoute: typeof AuthUserOrdersIndexRoute
+  AuthUserStepsIndexRoute: typeof AuthUserStepsIndexRoute
   AuthUserWalletIndexRoute: typeof AuthUserWalletIndexRoute
 }
 
@@ -405,6 +420,7 @@ const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
   AuthUserMyInformationIndexRoute: AuthUserMyInformationIndexRoute,
   AuthUserOrdersIndexRoute: AuthUserOrdersIndexRoute,
+  AuthUserStepsIndexRoute: AuthUserStepsIndexRoute,
   AuthUserWalletIndexRoute: AuthUserWalletIndexRoute,
 }
 
@@ -460,6 +476,7 @@ export interface FileRoutesByFullPath {
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
+  '/steps': typeof AuthUserStepsIndexRoute
   '/wallet': typeof AuthUserWalletIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
@@ -482,6 +499,7 @@ export interface FileRoutesByTo {
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
+  '/steps': typeof AuthUserStepsIndexRoute
   '/wallet': typeof AuthUserWalletIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/auth/confirm-email': typeof NoauthAuthConfirmEmailIndexLazyRoute
@@ -508,6 +526,7 @@ export interface FileRoutesById {
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
   '/_auth/_user/orders/': typeof AuthUserOrdersIndexRoute
+  '/_auth/_user/steps/': typeof AuthUserStepsIndexRoute
   '/_auth/_user/wallet/': typeof AuthUserWalletIndexRoute
   '/_no_auth/auth/change-password/': typeof NoauthAuthChangePasswordIndexLazyRoute
   '/_no_auth/auth/confirm-email/': typeof NoauthAuthConfirmEmailIndexLazyRoute
@@ -532,6 +551,7 @@ export interface FileRouteTypes {
     | '/deposit-info'
     | '/my-information'
     | '/orders'
+    | '/steps'
     | '/wallet'
     | '/auth/change-password'
     | '/auth/confirm-email'
@@ -553,6 +573,7 @@ export interface FileRouteTypes {
     | '/deposit-info'
     | '/my-information'
     | '/orders'
+    | '/steps'
     | '/wallet'
     | '/auth/change-password'
     | '/auth/confirm-email'
@@ -577,6 +598,7 @@ export interface FileRouteTypes {
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/my-information/'
     | '/_auth/_user/orders/'
+    | '/_auth/_user/steps/'
     | '/_auth/_user/wallet/'
     | '/_no_auth/auth/change-password/'
     | '/_no_auth/auth/confirm-email/'
@@ -656,6 +678,7 @@ export const routeTree = rootRoute
         "/_auth/_user/deposit-info/",
         "/_auth/_user/my-information/",
         "/_auth/_user/orders/",
+        "/_auth/_user/steps/",
         "/_auth/_user/wallet/"
       ]
     },
@@ -700,6 +723,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_user/orders/": {
       "filePath": "_auth/_user/orders/index.tsx",
+      "parent": "/_auth/_user"
+    },
+    "/_auth/_user/steps/": {
+      "filePath": "_auth/_user/steps/index.tsx",
       "parent": "/_auth/_user"
     },
     "/_auth/_user/wallet/": {
