@@ -41,7 +41,9 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
-      payment_method_id: deposit?.payment_method_id,
+      payment_method_id: user?.bank_details[0].id
+        ? String(user?.bank_details[0].id)
+        : deposit?.payment_method_id,
     },
   });
 
@@ -87,12 +89,10 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
         fetchAuthUser?.();
       });
   };
-  // useEffect(() => {
-  //   if (user?.bank_details[0]?.id) {
-  //     setValue("payment_method_id", user?.bank_details[0]?.id);
-  //   }
-  // }, []);
 
+  useEffect(() => {
+    console.log(payment_method_id);
+  }, [payment_method_id]);
   return (
     <Box>
       <Box
@@ -151,7 +151,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
               height: "50px",
               fontSize: "17px",
             }}
-            disabled={!payment_method_id}
             text={t("confirm")}
             variant={"gradient"}
             type="submit"

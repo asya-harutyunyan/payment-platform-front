@@ -37,7 +37,12 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <BasicCard
-        sx={{ width: "100%", marginTop: "20px", padding: "0", height: "330px" }}
+        sx={{
+          width: "100%",
+          marginTop: "20px",
+          padding: "0",
+          height: "330px",
+        }}
         bg={first_step}
         title={t("how_much_money")}
       >
@@ -60,7 +65,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
             />
           </Box>
           <Button
-            variant={"text"}
+            variant={"gradient"}
             type="submit"
             disabled={!processingAmountValue}
             sx={{

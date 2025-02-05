@@ -18,7 +18,7 @@
   "wallet_added_success": "Кошелек успешно создано",
   "deposit_list": "Список депозитов",
   "walet_list": "Список кошельков",
-  "bank_info": "Название банка",
+  "bank_info": "Информация о банке",
   "add_bank_card": "Добавить Банковская карта",
   "name_cards_member": "Имя Фамилия",
   "card_number": "Цифры карта",
@@ -33,6 +33,7 @@
   "profit": "Ваша прибыль составит",
   "profit_B": " Это вас устраивает?",
   "success": "Платёж успешно выполнен",
+  "confirm_text_second_step": "Как только транзакция будет завершена, введите ID транзакции и нажмите «Подтвердить».",
   "confirm": "Подтверждать",
   "your_action_success": "Your actions successfully done!",
   "lorem_short": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -74,6 +75,7 @@
   "third_step": "Как только транзакция будет завершена, введите ID транзакции и нажмите «Подтвердить».",
   "role": "Роль",
   "user_list_title": "Список зарегистрированных пользователей",
+  "my_information": "Персональные данные",
   "user_info": "Подробная информация о пользователе",
   "transaction_list": "Список транзакций"
 }

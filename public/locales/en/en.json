@@ -8,6 +8,8 @@
   "wallet_list": "Walet list",
   "bank_info": "Bank info",
   "cancel": "Cancel",
+  "my_information": "Personal information",
+  "confirm_text_second_step": "Once the transaction is completed, enter the transaction ID and click Confirm.",
   "get_start": "Get start",
   "qr_code": "QR code",
   "amount": "Amount",

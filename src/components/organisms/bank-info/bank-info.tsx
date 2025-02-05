@@ -81,7 +81,7 @@ export const BankInfoComponent: FC = () => {
   );
   return (
     <Box>
-      <TaskHeader title={t("order_list")} />
+      <TaskHeader title={t("my_information")} />
       <Box sx={{ display: "flex", width: "100%" }}>
         <Box
           sx={{

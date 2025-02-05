@@ -1,7 +1,5 @@
-import {
-  deposit_id_schema,
-  wallet_details_schema,
-} from "@/schema/wallet_details.schema";
+import { deposit_id_schema } from "@/schema/price.schema";
+import { wallet_details_schema } from "@/schema/wallet_details.schema";
 import { z } from "zod";
 
 export interface DepositState {
@@ -29,7 +27,7 @@ export type Deposit = {
   final_status: string;
   created_at: string;
   updated_at: string;
-  payment_method_id?: number;
+  payment_method_id?: number | string;
   transaction_id?: string;
   wallet: Wallet;
   payment_method?: PaymentMethod;

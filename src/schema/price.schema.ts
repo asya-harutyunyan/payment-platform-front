@@ -11,7 +11,7 @@ export const deposit_id_schema = z.object({
     }
     const num = parseFloat(strValue);
     return isNaN(num) ? NaN : num;
-  }, z.number().positive().min(1)),
+  }, z.number().positive().min(50)),
 });
 
 export const deposit_id_confirm_schema = z.object({

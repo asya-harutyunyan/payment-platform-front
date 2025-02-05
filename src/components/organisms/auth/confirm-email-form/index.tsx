@@ -50,7 +50,7 @@ const ConfirmEmailForm = () => {
       <BasicCard
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: { lg: "60%", md: "60%", sx: "60%", xs: "50%" },
+          height: { lg: "330px", md: "330px", xs: "390px", sm: "390px" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
