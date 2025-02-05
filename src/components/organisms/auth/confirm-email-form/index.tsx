@@ -48,6 +48,7 @@ const ConfirmEmailForm = () => {
         </P>
       </Box>
       <BasicCard
+        bgColor
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: { lg: "330px", md: "330px", xs: "390px", sm: "390px" },

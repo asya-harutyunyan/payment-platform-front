@@ -48,6 +48,7 @@ const ResetPasswordComponent = () => {
         </P>
       </Box>
       <BasicCard
+        bgColor
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: "60%",

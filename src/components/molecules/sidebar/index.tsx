@@ -22,7 +22,7 @@ import {
   ListItemIcon,
   Toolbar,
 } from "@mui/material";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
 import { adminItems, userItems } from "./__item_list__";
@@ -35,11 +35,10 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
+  const location = useLocation();
 
   const data = useAuth();
-  // const changeLanguage = (lang: string | undefined) => {
-  //   i18n.changeLanguage(lang);
-  // };
+
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -59,9 +58,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     },
   };
 
-  const drawerItemStyles = {
-    color: theme.palette.secondary.contrastText,
-  };
   useEffect(() => {
     setSidebarItems(user?.role === "admin" ? adminItems : userItems);
   }, [user?.role]);
@@ -77,20 +73,40 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   };
 
   const renderSidebarItems = () =>
-    sidebarItems.map((item, index) => (
-      <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>
-        <Link
-          to={item.link}
-          onClick={isDrawerOpen ? toggleDrawer : undefined}
-          style={{ textDecoration: "none", width: "100%", padding: "0" }}
-        >
-          <ListItemButton sx={{ width: "100%", padding: "20px 0" }}>
-            <ListItemIcon sx={drawerItemStyles}>{item.icon}</ListItemIcon>
-            <P sx={drawerItemStyles}> {t(item.text)}</P>
-          </ListItemButton>
-        </Link>
-      </ListItem>
-    ));
+    sidebarItems.map((item, index) => {
+      const isActive = location.pathname === item.link;
+
+      return (
+        <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>
+          <Link
+            to={item.link}
+            onClick={isDrawerOpen ? toggleDrawer : undefined}
+            style={{ textDecoration: "none", width: "100%", padding: "0" }}
+          >
+            <ListItemButton sx={{ width: "100%", padding: "20px 0" }}>
+              <ListItemIcon
+                sx={{
+                  color: isActive
+                    ? "white"
+                    : theme.palette.secondary.contrastText,
+                }}
+              >
+                {item.icon}
+              </ListItemIcon>
+              <P
+                sx={{
+                  color: isActive
+                    ? "white"
+                    : theme.palette.secondary.contrastText,
+                }}
+              >
+                {t(item.text)}
+              </P>
+            </ListItemButton>
+          </Link>
+        </ListItem>
+      );
+    });
   const renderGeneralInfo = () => {
     return (
       <Box>

@@ -48,6 +48,7 @@ const LoginForm = () => {
         </P>
       </Box>
       <BasicCard
+        bgColor
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: { lg: "63%", md: "63%", sx: "55%", xs: "55%" },
