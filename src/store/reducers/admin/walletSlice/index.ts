@@ -25,7 +25,9 @@ const WalletsSlice = createSlice({
         state.loading = false;
         state.wallet = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = action.payload.total / action.payload.per_page;
+        state.total = parseFloat(
+          (action.payload.total / action.payload.per_page).toFixed()
+        );
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;
