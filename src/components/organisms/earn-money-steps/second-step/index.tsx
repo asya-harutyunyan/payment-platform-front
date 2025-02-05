@@ -109,7 +109,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           }}
           bg={second_step}
           title={t("profit")}
-          sub_title={`$${updatedPrice.toFixed(2)}`}
+          sub_title={`+${updatedPrice.toFixed(2)}`}
         >
           {showAddCard && (
             <Box
