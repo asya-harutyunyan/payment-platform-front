@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const DepositLists: FC = () => {
@@ -60,15 +60,18 @@ export const DepositLists: FC = () => {
           <DynamicTable
             isUser
             columns={columns}
-            data={deposits as unknown as Record<string, ReactNode>[]}
+            data={deposits}
             onChangePage={onChangePage}
           />
 
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-            {" "}
-            <PaginationOutlined onPageChange={onChangePage} count={total} />
+            <PaginationOutlined
+              page={page}
+              onPageChange={onChangePage}
+              count={total}
+            />
           </Box>
         </Box>
       ) : (

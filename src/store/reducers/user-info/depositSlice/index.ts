@@ -41,13 +41,15 @@ const depositSlice = createSlice({
       })
       .addCase(getDepositsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.deposits = action.payload;
+        state.deposits = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = action.payload.total;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload;
+        state.orders = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

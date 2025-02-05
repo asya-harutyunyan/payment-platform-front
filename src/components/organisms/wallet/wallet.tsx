@@ -63,7 +63,11 @@ export const Wallet: FC = () => {
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
             {" "}
-            <PaginationOutlined onPageChange={onChangePage} count={total} />
+            <PaginationOutlined
+              onPageChange={onChangePage}
+              count={total}
+              page={page}
+            />
           </Box>
         </Box>
       )}

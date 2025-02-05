@@ -66,6 +66,7 @@ export interface Order {
   updated_at: string;
 }
 export interface DataDeposits {
+  id?: number;
   address: string;
   currency: string;
   network: string;

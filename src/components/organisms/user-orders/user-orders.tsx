@@ -11,7 +11,7 @@ import { EmptyComponent } from "../empty-component";
 
 export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const { orders, loading } = useAppSelector((state) => state.deposit);
+  const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
@@ -21,7 +21,6 @@ export const UserOrdersComponent: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
-    console.log(event)
   };
   const columns = useMemo(
     () => [
@@ -68,7 +67,11 @@ export const UserOrdersComponent: FC = () => {
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
             >
               {" "}
-              <PaginationOutlined onPageChange={onChangePage} />
+              <PaginationOutlined
+                page={page}
+                onPageChange={onChangePage}
+                count={total}
+              />
             </Box>
           </Box>
         ) : (
