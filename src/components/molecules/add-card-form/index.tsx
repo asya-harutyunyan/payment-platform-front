@@ -39,6 +39,13 @@ export const BankCardDetalis: FC = () => {
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
         fetchAuthUser?.();
+      })
+      .catch(() => {
+        enqueueSnackbar(t("bank_card_added_success"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        reset();
       });
   };
   return (

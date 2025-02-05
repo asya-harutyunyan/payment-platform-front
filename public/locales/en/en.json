@@ -11,6 +11,7 @@
   "my_information": "Personal information",
   "confirm_text_second_step": "Once the transaction is completed, enter the transaction ID and click Confirm.",
   "get_start": "Get start",
+  "bank_card_added_error": "You can add only three cards",
   "qr_code": "QR code",
   "amount": "Amount",
   "status_by_admin": "Status by admin",
