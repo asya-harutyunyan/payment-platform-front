@@ -146,6 +146,7 @@ export const StepThree: FC<IStepThree> = ({
               <img src={deposit?.wallet.qr_code} style={{ width: "119px" }} />
             </Box>
           </Box>
+          <P color="text.secondary">{t("confirm_text_second_step")}</P>
 
           <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
             <FormTextInput
@@ -155,7 +156,6 @@ export const StepThree: FC<IStepThree> = ({
               whiteVariant={true}
             />
           </Box>
-          <P color="text.secondary">{t("confirm_text_second_step")}</P>
           <Box
             sx={{
               width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" },
