@@ -4,7 +4,6 @@ import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
 import Carroussel from "@/components/molecules/carousel-3d";
 import { TabsComponent } from "@/components/molecules/tabs";
-import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { H2, P } from "@/styles/typography";
@@ -81,7 +80,6 @@ export const BankInfoComponent: FC = () => {
   );
   return (
     <Box>
-      <TaskHeader title={t("my_information")} />
       <Box sx={{ display: "flex", width: "100%" }}>
         <Box
           sx={{
