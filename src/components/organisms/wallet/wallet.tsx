@@ -9,6 +9,7 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { CreateWallet } from "../create-wallet";
+import { EmptyComponent } from "../empty-component";
 
 export const Wallet: FC = () => {
   const { wallet, total, loading } = useAppSelector((state) => state.wallet);
@@ -17,7 +18,7 @@ export const Wallet: FC = () => {
 
   useEffect(() => {
     dispatch(getWalletsThunk({ page: page }));
-  }, []);
+  }, [dispatch, page]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -46,11 +47,11 @@ export const Wallet: FC = () => {
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("wallet_list")} />
       <AccordionUsage title={"add_wallet"}>
-        <CreateWallet />
+        <CreateWallet page={page} />
       </AccordionUsage>
       {loading ? (
         <CircularIndeterminate />
-      ) : (
+      ) : wallet.length > 0 ? (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -70,6 +71,8 @@ export const Wallet: FC = () => {
             />
           </Box>
         </Box>
+      ) : (
+        <EmptyComponent />
       )}
     </Box>
   );

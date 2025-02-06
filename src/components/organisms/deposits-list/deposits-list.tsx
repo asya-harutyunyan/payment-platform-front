@@ -17,9 +17,6 @@ export const DepositLists: FC = () => {
   useEffect(() => {
     dispatch(getDepositsThunk({ page: page }));
   }, []);
-  useEffect(() => {
-    console.log(deposits);
-  }, [deposits]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);

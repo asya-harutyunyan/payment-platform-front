@@ -47,12 +47,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   };
   const drawerStyles = {
     paddingTop: "70px",
-    width: 240,
+    width: 300,
     height: "100vh",
     boxSizing: "border-box",
+    padding: "50px 20px 20px 20px",
     backgroundColor: theme.palette.primary.main,
     "& .MuiDrawer-paper": {
-      width: 240,
+      width: 300,
       boxSizing: "border-box",
       backgroundColor: theme.palette.primary.main,
     },
@@ -119,7 +120,14 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             paddingBottom: "20px",
           }}
         >
-          <Logo />
+          <Box
+            sx={{
+              display: { lg: "block", md: "block", xs: "none", sm: "none" },
+            }}
+          >
+            {" "}
+            <Logo />
+          </Box>
           <H2
             sx={{
               display: {
@@ -225,7 +233,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         <Box
           sx={{
             width: "100%",
-            height: "100%",
             display: "flex",
             justifyContent: "center",
           }}
@@ -253,7 +260,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         sx={{
           display: { xs: "block", sm: "none" },
           "& .MuiDrawer-paper": {
-            width: 240,
+            width: 300,
             boxSizing: "border-box",
             backgroundColor: theme.palette.primary.main,
           },
@@ -264,7 +271,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <Box
             sx={{
               width: "100%",
-              height: "100%",
+              // height: "100%",
               display: "flex",
               justifyContent: "center",
             }}
