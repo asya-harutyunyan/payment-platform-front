@@ -119,6 +119,7 @@ const LoginForm = () => {
               >
                 {t("already")}
                 <span style={{ textDecoration: "underline" }}>
+                  {" "}
                   {t("sign_up")}
                 </span>
               </Link>
