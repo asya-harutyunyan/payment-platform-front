@@ -2,6 +2,8 @@ import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   getDepositsThunk,
   getOrdersThunk,
+  getSingleDepositThunk,
+  getSingleOrderThunk,
   processingAmountThunk,
   updateDeposit,
 } from "./thunks";
@@ -18,6 +20,8 @@ const initialState: DepositState = {
   per_page: 5,
   total: 0,
   price: 0,
+  singleDeposit: [],
+  singleOrder: [],
 };
 
 const depositSlice = createSlice({
@@ -46,6 +50,14 @@ const depositSlice = createSlice({
         state.total = parseFloat(
           (action.payload.total / action.payload.per_page).toFixed()
         );
+      })
+      .addCase(getSingleDepositThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleDeposit = action.payload;
+      })
+      .addCase(getSingleOrderThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleOrder = action.payload;
       })
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.loading = false;

@@ -6,6 +6,8 @@ export interface DepositState {
   loading: boolean;
   error: string | null;
   deposit: Deposit | null;
+  singleDeposit: any;
+  singleOrder: any;
   deposits: DataDeposits[];
   orders: Order[];
   per_page: number;

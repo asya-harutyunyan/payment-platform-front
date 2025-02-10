@@ -27,21 +27,27 @@ interface TableProps<T extends { id?: number }> {
   onItemClick?: (row: T) => void;
   total?: number;
   isUser?: boolean;
+  isNeedBtn?: boolean;
 }
 
 function DynamicTable<T extends { id?: number }>({
   columns,
   data,
-  // onChangePage,
-  // onItemClick,
-  // total,
-  // isUser,
+  isNeedBtn,
 }: TableProps<T>) {
   const navigate = useNavigate();
+  const route = useLocation();
   const handleUserInformation = (row: T) => {
-    navigate({ to: `/user-list/${row.id}` });
+    if (route.pathname === "/user-list") {
+      navigate({ to: `/user-list/${row.id}` });
+    } else if (route.pathname === "/deposit-list") {
+      navigate({ to: `/deposit-list/${row.id}` });
+    } else if (route.pathname === "/order-list") {
+      navigate({ to: `/order-list/${row.id}` });
+    } else if (route.pathname === "/deposit-info") {
+      navigate({ to: `/deposit-info/${row.id}` });
+    }
   };
-  const pathname = useLocation();
 
   return (
     <>
@@ -64,7 +70,10 @@ function DynamicTable<T extends { id?: number }>({
               <TableRow
                 key={rowIndex}
                 onClick={() =>
-                  pathname.pathname === "/user-list"
+                  route.pathname === "/user-list" ||
+                  route.pathname === "/order-list" ||
+                  route.pathname === "/deposit-info" ||
+                  route.pathname === "/deposit-list"
                     ? handleUserInformation(row)
                     : {}
                 }
@@ -94,13 +103,15 @@ function DynamicTable<T extends { id?: number }>({
                     )}
                   </TableCell>
                 ))}
-                <TableCell>
-                  <Button
-                    variant={"contained"}
-                    text={"confirm"}
-                    sx={{ width: "120px" }}
-                  />
-                </TableCell>
+                {isNeedBtn && (
+                  <TableCell>
+                    <Button
+                      variant={"contained"}
+                      text={"confirm"}
+                      sx={{ width: "120px" }}
+                    />
+                  </TableCell>
+                )}
               </TableRow>
             ))}
           </TableBody>

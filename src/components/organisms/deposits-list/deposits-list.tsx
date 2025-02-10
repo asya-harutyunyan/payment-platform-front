@@ -28,7 +28,7 @@ export const DepositLists: FC = () => {
     () => [
       {
         column: "address",
-        valueKey: "wallet.address",
+        valueKey: "processing_amount",
       },
       {
         column: "currency",
@@ -40,7 +40,7 @@ export const DepositLists: FC = () => {
       },
       {
         column: "qr_code",
-        valueKey: "wallet.qr_code",
+        valueKey: "final_status",
       },
     ],
     []

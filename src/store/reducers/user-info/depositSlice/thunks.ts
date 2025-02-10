@@ -97,12 +97,28 @@ export const getDepositsThunk = createAsyncThunk(
       const {
         users: { per_page },
       } = getState() as AppState;
-      const response = await httpClient.get("/deposits", {
+      const response = await httpClient.get(`/deposits`, {
         params: {
           page: data.page,
           per_page,
         },
       });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getSingleDepositThunk = createAsyncThunk(
+  "deposit/getSingleDepositThunk",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/deposits/${id}`);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -127,6 +143,22 @@ export const getOrdersThunk = createAsyncThunk(
           per_page,
         },
       });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getSingleOrderThunk = createAsyncThunk(
+  "deposit/getSingleOrderThunk",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/orders/${id}`);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
