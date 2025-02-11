@@ -32,6 +32,7 @@ export const BankInfoComponent: FC = () => {
           bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
           textColor="#FFFFFF"
           bankDetail={user?.bank_details[index]?.id ?? 0}
+          currency={(user?.bank_details[index]?.currency as string) ?? 0}
         />
       ),
     }));

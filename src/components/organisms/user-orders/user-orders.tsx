@@ -1,9 +1,10 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable from "@/components/molecules/table";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -23,7 +24,7 @@ export const UserOrdersComponent: FC = () => {
     dispatch(getOrdersThunk({ page }));
     console.log(event);
   };
-  const columns = useMemo(
+  const columns = useMemo<IColumn<Order>[]>(
     () => [
       {
         column: "amount",

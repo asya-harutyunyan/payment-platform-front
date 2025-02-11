@@ -4,6 +4,7 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -24,7 +25,7 @@ export const DepositLists: FC = () => {
     console.log(event, page);
   };
 
-  const columns = useMemo<IColumn[]>(
+  const columns = useMemo<IColumn<DataDeposits>[]>(
     () => [
       {
         column: "name",

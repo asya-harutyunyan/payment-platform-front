@@ -7,8 +7,8 @@ export interface DepositState {
   error: string | null;
   deposit: Deposit | null;
   //todo
-  singleDeposit: Deposit;
-  singleOrder: Order;
+  singleDeposit: Deposit | [];
+  singleOrder: Order | [];
   deposits: DataDeposits[];
   orders: Order[];
   per_page: number;
@@ -67,6 +67,9 @@ export interface Order {
   status_by_admin: string;
   created_at: string;
   updated_at: string;
+  name: string;
+  surname: string;
+  initial_ammount: number;
 }
 export interface DataDeposits {
   id?: number;
@@ -74,6 +77,11 @@ export interface DataDeposits {
   currency: string;
   network: string;
   qr_code: string;
+  name: string;
+  surname: string;
+  email: string;
+  processing_amount: number;
+  status: string;
 }
 //TODO:must be change
 export interface Deposits {

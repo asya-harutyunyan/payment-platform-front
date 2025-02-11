@@ -4,9 +4,10 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const OrderListComponent: FC = () => {
@@ -23,7 +24,7 @@ export const OrderListComponent: FC = () => {
     dispatch(getOrdersThunk({ page }));
     console.log(event, page);
   };
-  const columns = useMemo<IColumn[]>(
+  const columns = useMemo<IColumn<Order>[]>(
     () => [
       {
         column: "name",
@@ -60,7 +61,7 @@ export const OrderListComponent: FC = () => {
               isUser
               isNeedBtn
               columns={columns}
-              data={orders as unknown as Record<string, ReactNode>[]}
+              data={orders}
               onChangePage={onChangePage}
             />
 

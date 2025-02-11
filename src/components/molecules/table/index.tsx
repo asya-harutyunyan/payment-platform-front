@@ -16,8 +16,9 @@ import React from "react";
 import _ from "underscore-contrib";
 
 export interface IColumn<T> {
-  column: string;
-  valueKey: keyof T;
+  column: keyof T;
+  label?: string;
+  valueKey: string;
 }
 
 interface TableProps<T extends { id?: number }> {
@@ -54,23 +55,23 @@ function DynamicTable<T extends { id?: number }>({
     }
   };
 
-  const getStatusColor = <T extends Record<string, unknown>>(
-    row: T,
-    column: { valueKey: keyof T }
-  ): string => {
-    const value = String(_.getPath(row, column.valueKey));
+  // const getStatusColor = <T extends Record<string, unknown>>(
+  //   row: T,
+  //   column: { valueKey: keyof T }
+  // ): string => {
+  //   const value = String(_.getPath(row, column.valueKey));
 
-    switch (value) {
-      case "pending":
-        return "#e3b427";
-      case "approved":
-        return "#3faf4e";
-      case "rejected":
-        return "#af3f3f";
-      default:
-        return "#7d7d7d";
-    }
-  };
+  //   switch (value) {
+  //     case "pending":
+  //       return "#e3b427";
+  //     case "approved":
+  //       return "#3faf4e";
+  //     case "rejected":
+  //       return "#af3f3f";
+  //     default:
+  //       return "#7d7d7d";
+  //   }
+  // };
 
   return (
     <>
@@ -83,7 +84,7 @@ function DynamicTable<T extends { id?: number }>({
                   key={index}
                   sx={{ fontWeight: "bold", color: "primary.main" }}
                 >
-                  {t(column.column)}
+                  {t(column.column as string)}
                 </TableCell>
               ))}
             </TableRow>
@@ -108,7 +109,7 @@ function DynamicTable<T extends { id?: number }>({
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
-                      color: getStatusColor(row, column),
+                      color: "#7d7d7d",
                     }}
                   >
                     {column.column === "Action" ? (

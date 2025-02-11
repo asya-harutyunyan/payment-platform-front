@@ -1,3 +1,4 @@
+import { User } from "@/common/types";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
@@ -6,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useMemo, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 
 export const UserListComponent: FC = () => {
   const dispatch = useAppDispatch();
@@ -23,7 +24,7 @@ export const UserListComponent: FC = () => {
     console.log(event);
   };
 
-  const columns = useMemo<IColumn[]>(
+  const columns = useMemo<IColumn<User>[]>(
     () => [
       {
         column: "name",
@@ -57,7 +58,7 @@ export const UserListComponent: FC = () => {
             isUser
             isNeedBtn
             columns={columns}
-            data={users as unknown as Record<string, ReactNode>[]}
+            data={users}
             onChangePage={onChangePage}
           />
 

@@ -10,6 +10,7 @@ import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { CreateWallet } from "../create-wallet";
 import { EmptyComponent } from "../empty-component";
+import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
 
 export const Wallet: FC = () => {
   const { wallet, total, loading } = useAppSelector((state) => state.wallet);
@@ -26,7 +27,7 @@ export const Wallet: FC = () => {
     console.log(event);
   };
 
-  const columns = useMemo<IColumn[]>(
+  const columns = useMemo<IColumn<WalletType>[]>(
     () => [
       {
         column: "network",

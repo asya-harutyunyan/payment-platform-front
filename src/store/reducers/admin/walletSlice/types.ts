@@ -1,9 +1,10 @@
 import { User } from "@/common/types";
+import { Wallet } from "../../user-info/depositSlice/types";
 
 export interface WalletState {
   loading: boolean;
   error: string | null;
-  wallet: [];
+  wallet: Wallet[];
   per_page: number;
   currentPage: number | null;
   lastPage: number | null;
