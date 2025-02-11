@@ -1,4 +1,4 @@
-import { OrderInfoUser } from "@/components/organisms/oder-info-user";
+import { OrderInfoUser } from "@/components/organisms/order-info-user";
 import { createFileRoute } from "@tanstack/react-router";
 
 const UserDetail = () => {

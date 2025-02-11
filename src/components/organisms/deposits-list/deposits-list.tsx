@@ -27,19 +27,19 @@ export const DepositLists: FC = () => {
   const columns = useMemo<IColumn[]>(
     () => [
       {
-        column: "address",
+        column: "name",
+        valueKey: "user.name",
+      },
+      {
+        column: "surname",
+        valueKey: "user.surname",
+      },
+      {
+        column: "processing_amount",
         valueKey: "processing_amount",
       },
       {
-        column: "currency",
-        valueKey: "wallet.currency",
-      },
-      {
-        column: "network",
-        valueKey: "wallet.network",
-      },
-      {
-        column: "qr_code",
+        column: "status",
         valueKey: "final_status",
       },
     ],
@@ -56,6 +56,7 @@ export const DepositLists: FC = () => {
         >
           <DynamicTable
             isUser
+            isNeedBtn
             columns={columns}
             data={deposits}
             onChangePage={onChangePage}

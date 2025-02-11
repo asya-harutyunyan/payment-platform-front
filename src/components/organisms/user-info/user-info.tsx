@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
-import { Paper } from "../paper/user-info";
+import { Paper } from "../paper/paper";
 export const UserInfo: FC = () => {
   const { user } = useAppSelector((state) => state.users);
   const { id } = useParams({ from: "/_auth/_admin/user-list/$id" });
@@ -18,7 +18,7 @@ export const UserInfo: FC = () => {
 
   useEffect(() => {
     dispatch(getUserThunk(Number(id)));
-  }, []);
+  }, [dispatch, id]);
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
@@ -42,8 +42,37 @@ export const UserInfo: FC = () => {
       ) : (
         <Box>
           <Paper
-            user={user}
-            fields={["name", "surname", "email"]}
+            data={user}
+            fields={[
+              {
+                column: "name",
+                valueKey: "name",
+              },
+              {
+                column: "surname",
+                valueKey: "surname",
+              },
+              {
+                column: "email",
+                valueKey: "email",
+              },
+              {
+                column: "bank_name",
+                valueKey: "bank_details.bank_name",
+              },
+              {
+                column: "card_holder",
+                valueKey: "bank_details.card_holder",
+              },
+              {
+                column: "currency",
+                valueKey: "bank_details.currency",
+              },
+              {
+                column: "phone_number",
+                valueKey: "bank_details.phone_number",
+              },
+            ]}
             title={"User Information"}
           />
         </Box>

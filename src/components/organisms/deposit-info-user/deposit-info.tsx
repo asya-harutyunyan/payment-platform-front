@@ -8,8 +8,48 @@ import { Box } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
-import { Paper } from "../paper/user-info";
+import { Paper } from "../paper/paper";
 
+const fields = [
+  {
+    column: "processing_amount",
+    valueKey: "processing_amount",
+  },
+  {
+    column: "profit",
+    valueKey: "profit",
+  },
+  {
+    column: "bank_name",
+    label: "payment_details",
+    valueKey: "payment_method.bank_name",
+  },
+  {
+    column: "card_holder",
+    valueKey: "payment_method.card_holder",
+  },
+  {
+    column: "card_number",
+    valueKey: "payment_method.card_number",
+  },
+  {
+    column: "currency",
+    valueKey: "payment_method.currency",
+  },
+  {
+    column: "phone_number",
+    valueKey: "payment_method.phone_number",
+  },
+  {
+    column: "final_status",
+    label: "status",
+    valueKey: "final_status",
+  },
+  {
+    column: "processing_amount",
+    valueKey: "processing_amount",
+  },
+];
 export const DepositInfoUser: FC = () => {
   const { singleDeposit } = useAppSelector((state) => state.deposit);
   const { id } = useParams({ from: "/_auth/_user/deposit-info/$id" });
@@ -18,8 +58,8 @@ export const DepositInfoUser: FC = () => {
   const canGoBack = useCanGoBack();
 
   useEffect(() => {
-    dispatch(getSingleDepositThunk(Number(id)));
-  }, []);
+    dispatch(getSingleDepositThunk(id));
+  }, [dispatch, id]);
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
@@ -43,9 +83,9 @@ export const DepositInfoUser: FC = () => {
       ) : (
         <Box>
           <Paper
-            user={singleDeposit}
-            fields={["name", "surname", "processing_amount"]}
-            title={"Deposit Information"}
+            data={singleDeposit}
+            fields={fields}
+            title={"deposit_information"}
           />
         </Box>
       )}

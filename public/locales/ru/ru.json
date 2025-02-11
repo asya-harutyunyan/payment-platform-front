@@ -78,5 +78,13 @@
   "user_list_title": "Список зарегистрированных пользователей",
   "my_information": "Персональные данные",
   "user_info": "Подробная информация о пользователе",
-  "transaction_list": "Список транзакций"
+  "transaction_list": "Список транзакций",
+  "processing_amount": "Сумма обработки",
+  "payment_details": "Детали платежа",
+  "card_holder": "Имя владельца карты",
+  "final_status": "Статус",
+  "deposit_information": "Информация о депозите",
+  "orders_information": "Информация о заказах",
+  "initial_ammount": "Начальная сумма",
+  "see_more": "Подробности"
 }

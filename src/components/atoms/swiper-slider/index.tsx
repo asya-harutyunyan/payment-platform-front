@@ -30,6 +30,7 @@ export const MobileCards: FC<ICardsMobile> = ({ cards }) => {
               bgColor={item ? "#4CAF50" : "silver"}
               textColor="#FFFFFF"
               bankDetail={item?.id}
+              currency={item?.currency}
             />
           </Box>
         ))}

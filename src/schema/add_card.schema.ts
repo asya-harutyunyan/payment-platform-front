@@ -15,6 +15,7 @@ export const add_card_schema = z.object({
     .refine((val) => /^\d{16}$/.test(val), {
       message: "Card number must be 16 digits",
     }),
+  currency: z.string().min(3).max(50),
 });
 export const edit_card_schema = z.object({
   id: z.number(),
@@ -30,14 +31,8 @@ export const edit_card_schema = z.object({
     .string()
     .transform((val) => val.replace(/\s+/g, ""))
     .refine((val) => /^\d{16}$/.test(val)),
+  currency: z.string().min(3).max(50),
 });
 export const choose_card_schema = z.object({
   payment_method_id: z.string().min(1),
-
-  // z.preprocess((a) => {
-  //   if (!a) {
-  //     return -1;
-  //   }
-  //   return parseFloat(a as string);
-  // }, z.number().positive().min(1)),
 });

@@ -8,8 +8,44 @@ import { Box } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
-import { Paper } from "../paper/user-info";
+import { Paper } from "../paper/paper";
 
+const fields = [
+  {
+    column: "processing_amount",
+    valueKey: "processing_amount",
+  },
+  {
+    column: "bank_name",
+    label: "payment_details",
+    valueKey: "user.bank_details.bank_name",
+  },
+  {
+    column: "card_holder",
+    valueKey: "user.bank_details.card_holder",
+  },
+  {
+    column: "card_number",
+    valueKey: "user.bank_details.card_number",
+  },
+  {
+    column: "currency",
+    valueKey: "user.bank_details.currency",
+  },
+  {
+    column: "phone_number",
+    valueKey: "user.bank_details.phone_number",
+  },
+  {
+    column: "final_status",
+    label: "status",
+    valueKey: "final_status",
+  },
+  {
+    column: "processing_amount",
+    valueKey: "processing_amount",
+  },
+];
 export const OrderInfoUser: FC = () => {
   const { singleOrder } = useAppSelector((state) => state.deposit);
   const { id } = useParams({ from: "/_auth/_user/orders/$id" });
@@ -18,8 +54,9 @@ export const OrderInfoUser: FC = () => {
   const canGoBack = useCanGoBack();
 
   useEffect(() => {
-    dispatch(getSingleOrderThunk(Number(id)));
-  }, []);
+    dispatch(getSingleOrderThunk(id));
+  }, [dispatch, id]);
+
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
@@ -43,9 +80,9 @@ export const OrderInfoUser: FC = () => {
       ) : (
         <Box>
           <Paper
-            user={singleOrder}
-            fields={["name", "surname", "processing_amount"]}
-            title={"Deposit Information"}
+            data={singleOrder}
+            fields={fields}
+            title={"orders_information"}
           />
         </Box>
       )}

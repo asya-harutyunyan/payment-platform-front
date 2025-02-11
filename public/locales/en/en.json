@@ -77,5 +77,13 @@
   "role": "Role",
   "user_list_title": "List of Registered Users",
   "user_info": "Detailed Information of Registered User",
-  "transaction_list": "Transaction list"
+  "transaction_list": "Transaction list",
+  "processing_amount": "Processing amount",
+  "payment_details": "Payment details",
+  "card_holder": "Card holder",
+  "final_status": "Status",
+  "deposit_information": "Deposit Information",
+  "orders_information": "Orders information",
+  "initial_ammount": "Initial ammount",
+  "see_more": "Details"
 }

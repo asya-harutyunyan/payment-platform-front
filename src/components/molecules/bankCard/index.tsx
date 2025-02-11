@@ -16,6 +16,7 @@ interface IBankCard {
   phoneNumber: string;
   bgColor: string;
   textColor: string;
+  currency: string;
   onClick?: (card: BankDetail) => void;
   bankDetail?: number;
   setChangeTab?: Dispatch<SetStateAction<number>>;
@@ -26,6 +27,7 @@ const BankCard: FC<IBankCard> = ({
   bankName = "Bank",
   textColor = "#FFFFFF",
   bankDetail,
+  currency,
   phoneNumber,
 }) => {
   const { fetchAuthUser } = useAuth();
@@ -150,6 +152,7 @@ const BankCard: FC<IBankCard> = ({
         cardNumber={cardNumber}
         phoneNumber={phoneNumber}
         bankDetail={bankDetail}
+        currency={currency}
         isEdit
       />
     </Box>

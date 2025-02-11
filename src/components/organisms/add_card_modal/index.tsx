@@ -28,6 +28,7 @@ interface IStepTwo {
   cardNumber?: string;
   phoneNumber?: string;
   bankDetail?: number;
+  currency?: string;
   isEdit?: boolean;
 }
 
@@ -39,6 +40,7 @@ export const AddCardModal: FC<IStepTwo> = ({
   bankName,
   phoneNumber,
   cardNumber,
+  currency,
   isEdit,
 }) => {
   const dispatch = useAppDispatch();
@@ -53,6 +55,7 @@ export const AddCardModal: FC<IStepTwo> = ({
       card_holder: cardHolder ?? "",
       phone_number: phoneNumber ?? "",
       card_number: cardNumber ?? "",
+      currency: currency ?? "",
     },
   });
 
@@ -146,6 +149,12 @@ export const AddCardModal: FC<IStepTwo> = ({
           mask
           placeholder={t("card_number")}
           whiteVariant={true}
+        />
+        <FormTextInput
+          control={control}
+          name="currency"
+          placeholder={t("currency")}
+          whiteVariant
         />
         <Box
           sx={{

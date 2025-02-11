@@ -15,28 +15,31 @@ import React from "react";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
 
-export interface IColumn {
+export interface IColumn<T> {
   column: string;
-  valueKey: string;
+  valueKey: keyof T;
 }
 
 interface TableProps<T extends { id?: number }> {
-  columns: IColumn[];
+  columns: IColumn<T>[];
   data: T[];
   onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
   onItemClick?: (row: T) => void;
   total?: number;
   isUser?: boolean;
   isNeedBtn?: boolean;
+  text?: string;
 }
 
 function DynamicTable<T extends { id?: number }>({
   columns,
   data,
   isNeedBtn,
+  text,
 }: TableProps<T>) {
   const navigate = useNavigate();
   const route = useLocation();
+
   const handleUserInformation = (row: T) => {
     if (route.pathname === "/user-list") {
       navigate({ to: `/user-list/${row.id}` });
@@ -46,6 +49,26 @@ function DynamicTable<T extends { id?: number }>({
       navigate({ to: `/order-list/${row.id}` });
     } else if (route.pathname === "/deposit-info") {
       navigate({ to: `/deposit-info/${row.id}` });
+    } else if (route.pathname === "/orders") {
+      navigate({ to: `/orders/${row.id}` });
+    }
+  };
+
+  const getStatusColor = <T extends Record<string, unknown>>(
+    row: T,
+    column: { valueKey: keyof T }
+  ): string => {
+    const value = String(_.getPath(row, column.valueKey));
+
+    switch (value) {
+      case "pending":
+        return "#e3b427";
+      case "approved":
+        return "#3faf4e";
+      case "rejected":
+        return "#af3f3f";
+      default:
+        return "#7d7d7d";
     }
   };
 
@@ -69,14 +92,6 @@ function DynamicTable<T extends { id?: number }>({
             {data?.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
-                onClick={() =>
-                  route.pathname === "/user-list" ||
-                  route.pathname === "/order-list" ||
-                  route.pathname === "/deposit-info" ||
-                  route.pathname === "/deposit-list"
-                    ? handleUserInformation(row)
-                    : {}
-                }
                 sx={{
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
@@ -88,16 +103,19 @@ function DynamicTable<T extends { id?: number }>({
                   <TableCell
                     key={colIndex}
                     sx={{
-                      color: "#7D7D7D",
                       fontSize: "15px",
                       maxWidth: "200px",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
+                      color: getStatusColor(row, column),
                     }}
                   >
                     {column.column === "Action" ? (
-                      <Button variant={"text"} text={"Status of tast"} />
+                      <Button
+                        variant={"text"}
+                        text={text ?? "Status of task"}
+                      />
                     ) : (
                       String(_.getPath(row, column.valueKey)) || "-"
                     )}
@@ -107,8 +125,17 @@ function DynamicTable<T extends { id?: number }>({
                   <TableCell>
                     <Button
                       variant={"contained"}
-                      text={"confirm"}
+                      text={t("see_more")}
                       sx={{ width: "120px" }}
+                      onClick={() =>
+                        route.pathname === "/user-list" ||
+                        route.pathname === "/order-list" ||
+                        route.pathname === "/deposit-info" ||
+                        route.pathname === "/orders" ||
+                        route.pathname === "/deposit-list"
+                          ? handleUserInformation(row)
+                          : {}
+                      }
                     />
                   </TableCell>
                 )}

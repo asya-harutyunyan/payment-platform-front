@@ -116,7 +116,7 @@ export const getDepositsThunk = createAsyncThunk(
 );
 export const getSingleDepositThunk = createAsyncThunk(
   "deposit/getSingleDepositThunk",
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await httpClient.get(`/deposits/${id}`);
       return response.data;
@@ -156,7 +156,7 @@ export const getOrdersThunk = createAsyncThunk(
 );
 export const getSingleOrderThunk = createAsyncThunk(
   "deposit/getSingleOrderThunk",
-  async (id: number, { rejectWithValue }) => {
+  async (id: string, { rejectWithValue }) => {
     try {
       const response = await httpClient.get(`/orders/${id}`);
       return response.data;

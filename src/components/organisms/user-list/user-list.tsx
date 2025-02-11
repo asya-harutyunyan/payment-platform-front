@@ -55,6 +55,7 @@ export const UserListComponent: FC = () => {
         >
           <DynamicTable
             isUser
+            isNeedBtn
             columns={columns}
             data={users as unknown as Record<string, ReactNode>[]}
             onChangePage={onChangePage}

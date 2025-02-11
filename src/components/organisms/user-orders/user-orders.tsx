@@ -21,7 +21,7 @@ export const UserOrdersComponent: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
-    console.log(event)
+    console.log(event);
   };
   const columns = useMemo(
     () => [
@@ -59,6 +59,7 @@ export const UserOrdersComponent: FC = () => {
           >
             <DynamicTable
               isUser
+              isNeedBtn
               columns={columns}
               data={orders}
               onChangePage={onChangePage}

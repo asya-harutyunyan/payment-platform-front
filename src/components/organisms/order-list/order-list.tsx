@@ -16,7 +16,7 @@ export const OrderListComponent: FC = () => {
 
   useEffect(() => {
     dispatch(getOrdersThunk({ page: page }));
-  }, []);
+  }, [dispatch, page]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -26,16 +26,17 @@ export const OrderListComponent: FC = () => {
   const columns = useMemo<IColumn[]>(
     () => [
       {
-        column: "amount",
-        valueKey: "amount",
+        column: "name",
+        valueKey: "user.name",
       },
       {
-        column: "status_by_admin",
-        valueKey: "status_by_admin",
+        column: "surname",
+        valueKey: "user.surname",
       },
       {
-        column: "status_by_client",
-        valueKey: "status_by_client",
+        column: "initial_ammount",
+        valueKey: "user.email",
+        //status todo
       },
     ],
     []
@@ -57,6 +58,7 @@ export const OrderListComponent: FC = () => {
           >
             <DynamicTable
               isUser
+              isNeedBtn
               columns={columns}
               data={orders as unknown as Record<string, ReactNode>[]}
               onChangePage={onChangePage}

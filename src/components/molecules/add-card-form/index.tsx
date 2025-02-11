@@ -23,6 +23,7 @@ export const BankCardDetalis: FC = () => {
       card_holder: "",
       phone_number: "",
       card_number: "",
+      currency: "",
     },
   });
   const { enqueueSnackbar } = useSnackbar();
@@ -41,7 +42,7 @@ export const BankCardDetalis: FC = () => {
         fetchAuthUser?.();
       })
       .catch(() => {
-        enqueueSnackbar(t("bank_card_added_success"), {
+        enqueueSnackbar(t("bank_card_added_error"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
@@ -77,6 +78,12 @@ export const BankCardDetalis: FC = () => {
         whiteVariant={false}
         mask
       />
+      <FormTextInput
+        control={control}
+        name="currency"
+        placeholder={t("currency")}
+      />
+
       <Box
         sx={{
           display: "flex",
