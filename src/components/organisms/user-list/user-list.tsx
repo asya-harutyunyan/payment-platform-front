@@ -38,10 +38,6 @@ export const UserListComponent: FC = () => {
         column: "email",
         valueKey: "email",
       },
-      {
-        column: "role",
-        valueKey: "role",
-      },
     ],
     []
   );

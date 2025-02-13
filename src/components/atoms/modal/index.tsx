@@ -9,9 +9,11 @@ interface IBasicModal {
   open: boolean;
   children: ReactNode;
   bg?: string;
+  width?: string;
 }
 export const BasicModal: FC<IBasicModal> = ({
   open,
+  width,
   handleClose,
   children,
   bg,
@@ -29,7 +31,7 @@ export const BasicModal: FC<IBasicModal> = ({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: "60%",
+          width: width ? width : "60%",
           // height: "60%",
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",

@@ -77,7 +77,7 @@ export const BankInfoComponent: FC = () => {
       },
       { id: 2, component: <BankCardDetalis /> },
     ],
-    [cards]
+    [cards, user?.bank_details]
   );
   return (
     <Box>

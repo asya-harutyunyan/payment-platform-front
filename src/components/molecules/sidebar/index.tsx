@@ -1,31 +1,25 @@
 import bg from "@/assets/images/modal.png";
-import theme from "@/styles/theme";
-import { H2, H3, H6, P } from "@/styles/typography";
-
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
 import { useAuth } from "@/context/auth.context";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
+import theme from "@/styles/theme";
+import { H3, H6 } from "@/styles/typography";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import {
-  AppBar,
-  Box,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  Toolbar,
-} from "@mui/material";
-import { Link, useLocation, useNavigate } from "@tanstack/react-router";
+import { AppBar, Box, Drawer, IconButton, Toolbar } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
+import ChatWidget from "../chat-widget";
 import { adminItems, userItems } from "./__item_list__";
+import drawerStyles from "./drawer_styles";
+import GeneralInfo from "./GeneralInfo";
+import LogoutButton from "./logout_button";
+import MessageButton from "./message";
+import Sidebar from "./sidebar_general";
 interface DashboardPageProps {
   children?: ReactNode;
 }
@@ -34,162 +28,29 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
-  const handleClose = () => setOpen(false);
-  const location = useLocation();
-
-  const data = useAuth();
+  const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-  const drawerStyles = {
-    paddingTop: "70px",
-    width: 300,
-    height: "100vh",
-    boxSizing: "border-box",
-    padding: "50px 20px 20px 20px",
-    backgroundColor: theme.palette.primary.main,
-    "& .MuiDrawer-paper": {
-      width: 300,
-      boxSizing: "border-box",
-      backgroundColor: theme.palette.primary.main,
-    },
-  };
 
   useEffect(() => {
     setSidebarItems(user?.role === "admin" ? adminItems : userItems);
   }, [user?.role]);
 
+  const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
-
     if (logoutUser.fulfilled.match(resultAction)) {
       navigate({ to: "/auth/sign-in" });
     } else {
       console.error("Logout failed:", resultAction.payload);
     }
   };
-
-  const renderSidebarItems = () =>
-    sidebarItems.map((item, index) => {
-      const isActive = location.pathname === item.link;
-
-      return (
-        <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>
-          <Link
-            to={item.link}
-            onClick={isDrawerOpen ? toggleDrawer : undefined}
-            style={{ textDecoration: "none", width: "100%", padding: "0" }}
-          >
-            <ListItemButton sx={{ width: "100%", padding: "20px 0" }}>
-              <ListItemIcon
-                sx={{
-                  color: isActive
-                    ? "white"
-                    : theme.palette.secondary.contrastText,
-                }}
-              >
-                {item.icon}
-              </ListItemIcon>
-              <P
-                sx={{
-                  color: isActive
-                    ? "white"
-                    : theme.palette.secondary.contrastText,
-                }}
-              >
-                {t(item.text)}
-              </P>
-            </ListItemButton>
-          </Link>
-        </ListItem>
-      );
-    });
-  const renderGeneralInfo = () => {
-    return (
-      <Box>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            justifyContent: "start",
-            alignItems: "center",
-            paddingBottom: "20px",
-          }}
-        >
-          <Box
-            sx={{
-              display: { lg: "block", md: "block", xs: "none", sm: "none" },
-            }}
-          >
-            {" "}
-            <Logo />
-          </Box>
-          <H2
-            sx={{
-              display: {
-                lg: "inline",
-                md: "inline",
-                sx: "none",
-                xs: "none",
-              },
-              paddingLeft: "15px",
-            }}
-          >
-            {t("payhub")}
-          </H2>
-        </Box>
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "30px",
-          }}
-        >
-          <Box>
-            <AccountCircleIcon
-              sx={{
-                width: "75px",
-                height: "75px",
-                color: "tertiary.contrastText",
-              }}
-            />
-          </Box>
-          <H6
-            align="center"
-            color={"tertiary.contrastText"}
-            paddingLeft={"10px"}
-          >
-            {data?.user?.surname}
-          </H6>
-          <H6
-            align="center"
-            paddingLeft={"10px"}
-            color={"tertiary.contrastText"}
-          >
-            {data?.user?.name}
-          </H6>
-          <Box
-            sx={{
-              marginLeft: "4px",
-              marginTop: "3px",
-              color: "tertiary.main",
-              cursor: "pointer",
-            }}
-            onClick={() => setOpen(true)}
-          >
-            {" "}
-            <NotificationsActiveIcon />
-          </Box>
-        </Box>
-
-        <List>{renderSidebarItems()}</List>
-      </Box>
-    );
+  const handleOpenChat = () => {
+    setIsOpen(true);
+    toggleDrawer();
   };
   return (
     <Box sx={{ display: "flex" }}>
@@ -208,11 +69,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             onClick={toggleDrawer}
             sx={{ mr: 2 }}
           >
+            <MoreVertIcon sx={{ paddingRight: "10px" }} />
             <Logo />
           </IconButton>
           <H3 noWrap> {t("payhub")}</H3>
         </Toolbar>
       </AppBar>
+
       <Drawer
         variant="permanent"
         anchor="left"
@@ -229,29 +92,25 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           },
         }}
       >
-        {renderGeneralInfo()}
+        <Box sx={{ height: "85%" }}>
+          <GeneralInfo setOpen={setOpen} />
+          <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
+        </Box>
         <Box
           sx={{
-            width: "100%",
+            height: "15%",
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "space-between",
+            flexDirection: "column",
           }}
         >
-          <Button
-            onClick={handleLogout}
-            sx={{
-              width: "70%",
-              textAlign: "center",
-              position: "absolute",
-              bottom: "50px",
-              cursor: "pointer",
-            }}
-            icon={LogoutIcon}
-            text={t("log_out")}
-            variant={"text"}
-          />
+          {user?.role === "client" && (
+            <MessageButton handleOpen={handleOpenChat} />
+          )}
+          <LogoutButton handleLogout={handleLogout} />
         </Box>
       </Drawer>
+
       <Drawer
         variant="temporary"
         anchor="left"
@@ -259,6 +118,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         onClose={toggleDrawer}
         sx={{
           display: { xs: "block", sm: "none" },
+
           "& .MuiDrawer-paper": {
             width: 300,
             boxSizing: "border-box",
@@ -267,31 +127,26 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         }}
       >
         <Box sx={drawerStyles}>
-          <List>{renderGeneralInfo()}</List>
+          <Box sx={{ height: "85%" }}>
+            <GeneralInfo setOpen={setOpen} />
+            <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
+          </Box>
           <Box
             sx={{
-              width: "100%",
-              // height: "100%",
+              height: "15%",
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
+              flexDirection: "column",
             }}
           >
-            <Button
-              onClick={handleLogout}
-              sx={{
-                width: "70%",
-                textAlign: "center",
-                position: "absolute",
-                bottom: "50px",
-                cursor: "pointer",
-              }}
-              icon={LogoutIcon}
-              text={t("log_out")}
-              variant={"text"}
-            />
+            {user?.role === "client" && (
+              <MessageButton handleOpen={handleOpenChat} />
+            )}
+            <LogoutButton handleLogout={handleLogout} />
           </Box>
         </Box>
       </Drawer>
+
       <Box
         component="main"
         sx={{
@@ -303,7 +158,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       >
         {children}
       </Box>
-      <BasicModal handleClose={handleClose} open={open} bg={bg}>
+
+      <BasicModal
+        handleClose={() => setOpen(false)}
+        open={open}
+        bg={bg}
+        width="50%"
+      >
         <Box
           sx={{
             width: "50px",
@@ -317,15 +178,14 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           }}
           onClick={() => setOpen(true)}
         >
-          {" "}
           <NotificationsActiveIcon />
         </Box>
         <H3 align="center" padding={"10px 0"}>
-          Подтвердите, что сумма{" "}
+          {t("confirm_amount")}
         </H3>
         <H3 padding={"10px 0"}>
-          <span style={{ textDecoration: "underline" }}>2 384 934</span> успешно
-          получена.
+          <span style={{ textDecoration: "underline" }}>2 384 934</span>{" "}
+          {t("received")}
         </H3>
         <Button
           variant={"gradient"}
@@ -333,9 +193,11 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           sx={{ margin: "20px 0" }}
         />
         <H6 sx={{ textDecoration: "underline", color: "tertiary.main" }}>
-          Keep going for 00:34
+          {t("countdown")}
         </H6>
       </BasicModal>
+
+      {isOpen && <ChatWidget onClose={() => setIsOpen(false)} />}
     </Box>
   );
 };
