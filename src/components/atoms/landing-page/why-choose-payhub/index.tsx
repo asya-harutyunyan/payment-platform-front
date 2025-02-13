@@ -4,24 +4,24 @@ import { Box, Typography } from "@mui/material";
 const Features = () => {
   const features = [
     {
-      title: "Safe and Secure",
+      title: "Система выстроена по принципу р2р",
       description:
-        "Your money is in good hands. We use top-tier security measures to ensure your funds are protected at all times. Enjoy peace of mind knowing your investment is safe.",
+        "PayHUB - международная процесинговая Компанией. Наша задача - это принимать денежные средства наших Клиентов. Для этого мы используем метод межкарточных переводов (р2р).",
     },
     {
-      title: "Flexible Deposits",
+      title: "В чем заработок PayHUB?",
       description:
-        "Start small, or go big! We offer flexible deposit options to accommodate various budgets and financial goals.",
+        "За каждый перевод Клиент платит нам процент с суммы перевода. Мы получаем денежные средства и в данный момент имеем большое количество желающих стать нашими Клиентами.",
     },
     {
-      title: "Attractive Returns",
+      title: "Почему мы делимся прибылью с Вами?",
       description:
-        "We offer competitive returns on your deposit — more than what you'd typically find in a savings account or traditional investment vehicle.",
+        "Рынок р2р переводов растет, растут и цены за наши услуги для Клиентов. Мы решили масштабировать наш ресурс за счет выхода на массовый рынок, через платформу PayHUB. Вы получаете прибыль от нас, мы получаем прибыль от Клиента.",
     },
     {
-      title: "Simple and Transparent",
+      title: "Какие риски?",
       description:
-        "No hidden fees. No complicated terms. Just a simple, easy-to-understand process with clear and transparent terms.",
+        "Мы не преследуем цели, забрать Ваш депозит. Мы зарабатываем в момент поступления денег на Ваши карты, поэтому нам нужно, чтобы Вы получили деньги на карту. Все абсолютно прозрачно. Наш заработок при работе в долгую - это наш приоритет. Для того, чтобы себя обезопасить, можете стартануть с маленькой суммы депозита и убедиться, что система абсолютно рабочая.",
     },
   ];
 
@@ -30,7 +30,7 @@ const Features = () => {
       sx={{
         width: "100%",
         margin: "50px 0 50px 0",
-        height: { lg: "600px", md: "600px", xs: "unset", sm: "unset" },
+        height: { lg: "640px", md: "640px", xs: "unset", sm: "unset" },
         display: "flex",
         alignItems: {
           lg: "start",
@@ -63,7 +63,11 @@ const Features = () => {
               }}
             >
               <H5 padding={"10px 0"}>{feature.title}</H5>
-              <Typography variant="body1" color="primary.contrastText">
+              <Typography
+                variant="body1"
+                fontSize={"15px"}
+                color="primary.contrastText"
+              >
                 {feature.description}
               </Typography>
             </Box>

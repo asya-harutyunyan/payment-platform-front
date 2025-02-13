@@ -11,11 +11,13 @@ interface IBasicCard {
   bgColor?: boolean;
   title_B?: string;
   sub_title?: string | number;
+  align?: string;
 }
 export const BasicCard: React.FC<IBasicCard> = ({
   title,
   title_B,
   sub_title,
+  align,
   children,
   sx,
   bg,
@@ -47,7 +49,7 @@ export const BasicCard: React.FC<IBasicCard> = ({
         "> div": {
           display: "flex",
           flexDirection: "column",
-          alignItems: "start",
+          alignItems: align ? align : "start",
         },
       }}
     >

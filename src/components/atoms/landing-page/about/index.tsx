@@ -160,9 +160,7 @@ export const AboutSection = () => {
           }}
         >
           <P color="text.secondary" width={"70%"} fontSize={"16px"}>
-            When you deposit with us, not only do you get your original amount
-            back, but we also return it with added interest — giving you extra
-            rewards for trusting us with your money.
+            {t("welcome_first_part")}
           </P>
           <Button
             variant={"gradient"}

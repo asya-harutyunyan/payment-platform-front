@@ -45,14 +45,16 @@ const ChangePasswordComponent = () => {
           width={"75%"}
           paddingBottom={"20px"}
         >
-          {t("lorem_short")}
+          {" "}
+          {t("reset_long")}
         </P>
         <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
-          {t("lorem_short")}
+          {t("reset_short")}
         </P>
       </Box>
       <BasicCard
         bgColor
+        align="center"
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: "80%",
@@ -66,7 +68,7 @@ const ChangePasswordComponent = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          {t("lorem_short")}
+          {t("reset_password")}
         </P>
         <FormTextInput
           control={control}

@@ -8,6 +8,7 @@ import { Footer } from "@/components/atoms/landing-page/footer";
 import ResponsiveAppBar from "@/components/atoms/landing-page/header";
 import { H2 } from "@/styles/typography";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import Features from "../../atoms/landing-page/why-choose-payhub";
 
 export const LandingPage = () => {
@@ -25,7 +26,7 @@ export const LandingPage = () => {
         <AboutSection />
 
         <H2 color="primary.main" align="center">
-          How It Works ??
+          {t("how_it_works")}
         </H2>
 
         <Box
@@ -47,13 +48,30 @@ export const LandingPage = () => {
             flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
           }}
         >
-          <MediaCard img={firstCard} />
-          <MediaCard img={secondCard} />
-          <MediaCard img={thirdCard} />
+          <MediaCard
+            img={firstCard}
+            title={"work_first"}
+            description={"word_desc_first"}
+          />
+          <MediaCard
+            img={secondCard}
+            title={"work_second"}
+            description={"word_desc_second"}
+          />
+          <MediaCard
+            img={thirdCard}
+            title={"work_third"}
+            description={"word_desc_third"}
+          />
         </Box>
+        <H2 color="primary.main" align="center">
+          {" "}
+          {t("work_schema")}
+        </H2>
         <Features />
-        <H2 color="primary.main" align="center" sx={{ paddingBottom: "50px" }}>
-          Frequently Asked Questions
+        <H2 color="primary.main" align="center" paddingBottom={"30px"}>
+          {" "}
+          {t("faq")}
         </H2>
         <FAQs />
       </Box>

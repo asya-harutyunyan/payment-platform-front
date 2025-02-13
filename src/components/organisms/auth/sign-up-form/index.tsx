@@ -50,14 +50,15 @@ const SignUpForm: FC = () => {
           width={"75%"}
           paddingBottom={"20px"}
         >
-          {t("lorem_short")}
+          {t("sign_up_long")}
         </P>
         <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
-          {t("lorem_short")}
+          {t("sign_up_short")}
         </P>
       </Box>
       <BasicCard
         bgColor
+        align="center"
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: { lg: "85%", md: "85%", sx: "75%", xs: "75%" },
@@ -72,7 +73,7 @@ const SignUpForm: FC = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          {t("lorem_short")}
+          {t("create_account")}
         </P>
 
         <FormTextInput

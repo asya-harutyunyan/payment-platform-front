@@ -41,14 +41,15 @@ const ConfirmEmailForm = () => {
           width={"75%"}
           paddingBottom={"20px"}
         >
-          {t("lorem_short")}
+          {t("confirm_short")}
         </P>
         <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
-          {t("lorem_short")}
+          {t("confirm_long")}
         </P>
       </Box>
       <BasicCard
         bgColor
+        align="center"
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
           height: { lg: "330px", md: "330px", xs: "390px", sm: "390px" },
@@ -62,7 +63,7 @@ const ConfirmEmailForm = () => {
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          {t("lorem_short")}
+          {t("confirm_email_form")}
         </P>
         <FormTextInput
           control={control}

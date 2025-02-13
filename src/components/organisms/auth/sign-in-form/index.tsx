@@ -41,10 +41,10 @@ const LoginForm = () => {
           width={"75%"}
           paddingBottom={"20px"}
         >
-          {t("lorem_short")}
+          {t("sign_in_long")}
         </P>
         <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
-          {t("lorem_short")}
+          {t("sign_in_short")}
         </P>
       </Box>
       <BasicCard
@@ -54,15 +54,15 @@ const LoginForm = () => {
           height: { lg: "63%", md: "63%", sx: "55%", xs: "55%" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
+        align="center"
       >
         <P
           fontSize={"21px"}
           paddingBottom={"20px"}
-          align="center"
           fontWeight={500}
           color={theme.palette.primary.main}
         >
-          {t("lorem_short")}
+          {t("welcome_sign_in")}
         </P>
         <FormTextInput
           control={control}
