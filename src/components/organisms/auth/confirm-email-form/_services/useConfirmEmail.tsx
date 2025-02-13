@@ -17,7 +17,7 @@ const useConfirmEmail = () => {
 
   const navigate = useNavigate();
   const { setUser } = useAuth();
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, setError } = useForm<FormData>({
     resolver: zodResolver(comfirm_email_schema),
     defaultValues: {
       two_factor_code: "",
@@ -41,7 +41,18 @@ const useConfirmEmail = () => {
           });
       })
       .catch((error) => {
-        console.error("Registration failed:", error);
+        if (error.errors) {
+          Object.entries(error.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages) && messages.length > 0) {
+              setError(field as keyof FormData, {
+                type: "manual",
+                message: messages[0],
+              });
+            }
+          });
+        } else {
+          console.warn("Неизвестный формат ошибки:", error);
+        }
       });
   };
   return {

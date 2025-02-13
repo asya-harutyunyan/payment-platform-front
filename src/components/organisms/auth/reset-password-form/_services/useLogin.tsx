@@ -29,10 +29,17 @@ const useResetPassword = () => {
         navigate({ to: "/auth/change-password" });
       })
       .catch((error) => {
-        if (typeof error === "string") {
-          setError("email", {
-            message: error,
+        if (error.errors) {
+          Object.entries(error.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages) && messages.length > 0) {
+              setError(field as keyof ResetPasswordschema, {
+                type: "manual",
+                message: messages[0],
+              });
+            }
           });
+        } else {
+          console.warn("Неизвестный формат ошибки:", error);
         }
         console.error("Registration failed:", error);
       });
