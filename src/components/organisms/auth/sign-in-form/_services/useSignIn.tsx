@@ -42,10 +42,7 @@ const useSignIn = () => {
       .catch((error) => {
         console.log(error);
 
-        if (error === "Email not confirmed") {
-          navigate({ to: "/auth/confirm-email" });
-        }
-        if (error.errors) {
+        if (error.errors && error.message !== "not_verified") {
           Object.entries(error.errors).forEach(([field, messages]) => {
             if (Array.isArray(messages) && messages.length > 0) {
               setError(field as keyof FormData, {
@@ -54,7 +51,8 @@ const useSignIn = () => {
               });
             }
           });
-        } else {
+        } else if (error.message === "not_verified") {
+          navigate({ to: "/auth/confirm-email" });
           console.warn("Неизвестный формат ошибки:", error);
         }
       });

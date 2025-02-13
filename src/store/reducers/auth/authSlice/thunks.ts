@@ -19,9 +19,7 @@ export const registerUser = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        return rejectWithValue(
-          error.response?.data?.message || "Something went wrong"
-        );
+        return rejectWithValue(error.response?.data || "Something went wrong");
       }
       return rejectWithValue("An unexpected error occurred");
     }
@@ -41,7 +39,7 @@ export const loginUser = createAsyncThunk(
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
-          error.response?.data?.message || "Invalid login credentials"
+          error.response?.data || "Invalid login credentials"
         );
       }
       return rejectWithValue("An unexpected error occurred");
@@ -58,7 +56,7 @@ export const confirmEmailRequest = createAsyncThunk(
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
-          error.response?.data?.message || "Invalid email credentials"
+          error.response?.data || "Invalid email credentials"
         );
       }
       return rejectWithValue("An unexpected error occurred");
@@ -77,7 +75,7 @@ export const confirmEmail = createAsyncThunk(
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(
-          error.response?.data?.message || "Invalid email credentials"
+          error.response?.data || "Invalid email credentials"
         );
       }
       return rejectWithValue("An unexpected error occurred");
@@ -129,9 +127,7 @@ export const resetPassword = createAsyncThunk<User, ResetPasswordschema>(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
-        return rejectWithValue(
-          error.response?.data?.message || "Reset password failed"
-        );
+        return rejectWithValue(error.response?.data || "Reset password failed");
       }
       return rejectWithValue("An unexpected error occurred");
     }
