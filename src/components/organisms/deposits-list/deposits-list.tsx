@@ -63,15 +63,17 @@ export const DepositLists: FC = () => {
             onChangePage={onChangePage}
           />
 
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <PaginationOutlined
-              page={page}
-              onPageChange={onChangePage}
-              count={total}
-            />
-          </Box>
+          {deposits.length > 4 && (
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                page={page}
+                onPageChange={onChangePage}
+                count={total}
+              />
+            </Box>
+          )}
         </Box>
       ) : (
         <EmptyComponent />

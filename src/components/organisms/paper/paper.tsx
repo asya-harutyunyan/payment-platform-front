@@ -1,3 +1,4 @@
+import { CircularIndeterminate } from "@/components/atoms/loader";
 import { H4 } from "@/styles/typography";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
@@ -12,9 +13,10 @@ interface PaperProps<T> {
     valueKey: string;
   }[];
   title?: string;
+  loading?: boolean;
 }
 
-export const Paper = <T,>({ data, fields, title }: PaperProps<T>) => {
+export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
   return (
     <Box
       sx={{
@@ -40,52 +42,58 @@ export const Paper = <T,>({ data, fields, title }: PaperProps<T>) => {
         {title && t(title)}
       </H4>
 
-      {fields.map((field, index) => (
-        <Box
-          key={index}
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: "100%",
-          }}
-        >
-          {field.label && (
-            <H4
-              sx={{
-                fontWeight: 600,
-                color: "primary.main",
-                textAlign: "start",
-                marginBottom: 3,
-              }}
-            >
-              {t(field.label)}
-            </H4>
-          )}
+      {loading ? (
+        <CircularIndeterminate />
+      ) : (
+        fields.map((field, index) => (
           <Box
+            key={index}
             sx={{
               display: "flex",
-              alignItems: "center",
+              flexDirection: "column",
+              width: "100%",
             }}
           >
-            {" "}
-            <Box sx={{ width: "50%" }}>
-              {" "}
-              <Typography sx={{ fontWeight: 500 }}>
-                {t(field.column)}
-              </Typography>
-            </Box>
-            <Box sx={{ width: "50%" }}>
-              <Typography
+            {field.label && (
+              <H4
                 sx={{
+                  fontWeight: 600,
                   color: "primary.main",
+                  textAlign: "start",
+                  marginBottom: 3,
                 }}
               >
-                {data ? String(_.getPath?.(data, field.valueKey) ?? "-") : "-"}
-              </Typography>
+                {t(field.label)}
+              </H4>
+            )}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {" "}
+              <Box sx={{ width: "50%" }}>
+                {" "}
+                <Typography sx={{ fontWeight: 500 }}>
+                  {t(field.column)}
+                </Typography>
+              </Box>
+              <Box sx={{ width: "50%" }}>
+                <Typography
+                  sx={{
+                    color: "primary.main",
+                  }}
+                >
+                  {data
+                    ? String(_.getPath?.(data, field.valueKey) ?? "-")
+                    : "-"}
+                </Typography>
+              </Box>
             </Box>
           </Box>
-        </Box>
-      ))}
+        ))
+      )}
     </Box>
   );
 };

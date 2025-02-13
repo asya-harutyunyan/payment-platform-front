@@ -27,19 +27,18 @@ export const UserOrdersComponent: FC = () => {
   const columns = useMemo<IColumn<Order>[]>(
     () => [
       {
-        column: "amount",
-        valueKey: "amount",
+        column: "name",
+        valueKey: "user.name",
       },
       {
-        column: "status_by_admin",
-        valueKey: "status_by_admin",
+        column: "surname",
+        valueKey: "user.surname",
       },
       {
-        column: "status_by_client",
-        valueKey: "status_by_client",
+        column: "initial_ammount",
+        valueKey: "user.email",
       },
     ],
-
     []
   );
 
@@ -66,16 +65,22 @@ export const UserOrdersComponent: FC = () => {
               onChangePage={onChangePage}
             />
 
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              {" "}
-              <PaginationOutlined
-                page={page}
-                onPageChange={onChangePage}
-                count={total}
-              />
-            </Box>
+            {orders.length > 4 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                {" "}
+                <PaginationOutlined
+                  page={page}
+                  onPageChange={onChangePage}
+                  count={total}
+                />
+              </Box>
+            )}
           </Box>
         ) : (
           <EmptyComponent />

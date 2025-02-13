@@ -9,8 +9,10 @@ import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
 import { Paper } from "../paper/paper";
+import { fields } from "./columns";
+
 export const UserInfo: FC = () => {
-  const { user } = useAppSelector((state) => state.users);
+  const { user, loading } = useAppSelector((state) => state.users);
   const { id } = useParams({ from: "/_auth/_admin/user-list/$id" });
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -43,36 +45,8 @@ export const UserInfo: FC = () => {
         <Box>
           <Paper
             data={user}
-            fields={[
-              {
-                column: "name",
-                valueKey: "name",
-              },
-              {
-                column: "surname",
-                valueKey: "surname",
-              },
-              {
-                column: "email",
-                valueKey: "email",
-              },
-              {
-                column: "bank_name",
-                valueKey: "bank_details.bank_name",
-              },
-              {
-                column: "card_holder",
-                valueKey: "bank_details.card_holder",
-              },
-              {
-                column: "currency",
-                valueKey: "bank_details.currency",
-              },
-              {
-                column: "phone_number",
-                valueKey: "bank_details.phone_number",
-              },
-            ]}
+            loading={loading}
+            fields={fields}
             title={"User Information"}
           />
         </Box>

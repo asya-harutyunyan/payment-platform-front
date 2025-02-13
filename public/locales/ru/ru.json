@@ -86,5 +86,7 @@
   "deposit_information": "Информация о депозите",
   "orders_information": "Информация о заказах",
   "initial_ammount": "Начальная сумма",
-  "see_more": "Подробности"
+  "see_more": "Подробности",
+  "left_amount": "Оставшаяся сумма",
+  "transaction_amount": "Сумма транзакции"
 }

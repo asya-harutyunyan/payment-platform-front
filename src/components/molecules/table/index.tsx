@@ -55,24 +55,6 @@ function DynamicTable<T extends { id?: number }>({
     }
   };
 
-  // const getStatusColor = <T extends Record<string, unknown>>(
-  //   row: T,
-  //   column: { valueKey: keyof T }
-  // ): string => {
-  //   const value = String(_.getPath(row, column.valueKey));
-
-  //   switch (value) {
-  //     case "pending":
-  //       return "#e3b427";
-  //     case "approved":
-  //       return "#3faf4e";
-  //     case "rejected":
-  //       return "#af3f3f";
-  //     default:
-  //       return "#7d7d7d";
-  //   }
-  // };
-
   return (
     <>
       <TableContainer component={Paper}>

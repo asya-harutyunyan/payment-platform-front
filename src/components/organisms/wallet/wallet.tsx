@@ -5,12 +5,12 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { getWalletsThunk } from "@/store/reducers/admin/walletSlice/thunks";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { CreateWallet } from "../create-wallet";
 import { EmptyComponent } from "../empty-component";
-import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
 
 export const Wallet: FC = () => {
   const { wallet, total, loading } = useAppSelector((state) => state.wallet);
@@ -61,16 +61,17 @@ export const Wallet: FC = () => {
           }}
         >
           <DynamicTable columns={columns} data={wallet} />
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            {" "}
-            <PaginationOutlined
-              onPageChange={onChangePage}
-              count={total}
-              page={page}
-            />
-          </Box>
+          {wallet.length > 4 && (
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>
+          )}
         </Box>
       ) : (
         <EmptyComponent />

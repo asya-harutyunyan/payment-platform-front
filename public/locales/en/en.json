@@ -85,5 +85,7 @@
   "deposit_information": "Deposit Information",
   "orders_information": "Orders information",
   "initial_ammount": "Initial ammount",
-  "see_more": "Details"
+  "see_more": "Details",
+  "left_amount": "Left amount",
+  "transaction_amount": "Transaction amount"
 }
