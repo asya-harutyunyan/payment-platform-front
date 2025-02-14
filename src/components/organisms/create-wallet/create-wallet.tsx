@@ -2,7 +2,10 @@ import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { useAuth } from "@/context/auth.context";
 import { add_wallet_schema } from "@/schema/add_wallet.schema";
-import { createWalletsThunk } from "@/store/reducers/admin/walletSlice/thunks";
+import {
+  createWalletsThunk,
+  getWalletsThunk,
+} from "@/store/reducers/admin/walletSlice/thunks";
 import { useAppDispatch } from "@/store/reducers/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
@@ -13,8 +16,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 type FormData = z.infer<typeof add_wallet_schema>;
-
-export const CreateWallet: FC = () => {
+interface ICreateWallet {
+  page: number;
+}
+export const CreateWallet: FC<ICreateWallet> = ({ page }) => {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
@@ -32,6 +37,8 @@ export const CreateWallet: FC = () => {
     dispatch(createWalletsThunk(data))
       .unwrap()
       .then(() => {
+        getWalletsThunk({ page });
+        dispatch(getWalletsThunk({ page: page }));
         enqueueSnackbar(t("wallet_added_success"), {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },

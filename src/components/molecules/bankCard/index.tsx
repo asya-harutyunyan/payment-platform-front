@@ -1,3 +1,4 @@
+import img from "@/assets/images/Card.png";
 import { BankDetail } from "@/common/types/user";
 import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { useAuth } from "@/context/auth.context";
@@ -8,7 +9,6 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
 import { Dispatch, FC, SetStateAction, useState } from "react";
-
 interface IBankCard {
   cardHolder: string;
   cardNumber: string;
@@ -16,17 +16,18 @@ interface IBankCard {
   phoneNumber: string;
   bgColor: string;
   textColor: string;
+  currency: string;
   onClick?: (card: BankDetail) => void;
-  bankDetail: number;
+  bankDetail?: number;
   setChangeTab?: Dispatch<SetStateAction<number>>;
 }
 const BankCard: FC<IBankCard> = ({
   cardHolder = "Name Surname",
   cardNumber = "1234 5678 1234 5678",
   bankName = "Bank",
-  bgColor = "#2D9CDB",
   textColor = "#FFFFFF",
   bankDetail,
+  currency,
   phoneNumber,
 }) => {
   const { fetchAuthUser } = useAuth();
@@ -48,10 +49,13 @@ const BankCard: FC<IBankCard> = ({
     <Box component="form">
       <Box
         sx={{
-          width: { md: 300, xs: 200, sm: 100 },
-          height: { md: 160, xs: 120, sm: 80 },
+          width: { md: 300, xs: 230, sm: 230 },
+          height: { md: 160, xs: 140, sm: 140 },
           borderRadius: 2,
-          backgroundColor: bgColor,
+          backgroundImage: bankDetail ? `url(${img})` : "none",
+          backgroundColor: bankDetail ? "none" : "#989494",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "100% 100%",
           color: textColor,
           p: 3,
           display: "flex",
@@ -148,6 +152,7 @@ const BankCard: FC<IBankCard> = ({
         cardNumber={cardNumber}
         phoneNumber={phoneNumber}
         bankDetail={bankDetail}
+        currency={currency}
         isEdit
       />
     </Box>

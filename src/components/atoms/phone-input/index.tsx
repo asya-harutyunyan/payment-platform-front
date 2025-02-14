@@ -55,6 +55,7 @@ export const FormPhoneInput = <T extends FieldValues>({
         value={field.value}
         onChange={field.onChange}
         onBlur={field.onBlur}
+        country={"us"}
         inputStyle={{
           ...style,
           width: "100%",

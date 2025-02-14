@@ -3,17 +3,20 @@ import { Box } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import { t } from "i18next";
 import { FC } from "react";
 
 interface IMediaCard {
   img?: string;
+  title: string;
+  description: string;
 }
-export const MediaCard: FC<IMediaCard> = ({ img }) => {
+export const MediaCard: FC<IMediaCard> = ({ img, title, description }) => {
   return (
     <Card
       sx={{
         maxWidth: 345,
-        height: "380px",
+        height: "420px",
         backgroundImage: "linear-gradient(to right, #2982FF,  #041F44)",
         display: "flex",
         alignItems: "center",
@@ -37,19 +40,17 @@ export const MediaCard: FC<IMediaCard> = ({ img }) => {
       <CardContent
         sx={{
           width: "82%",
-          height: "40%",
+          height: "50%",
           background: "white",
           borderRadius: "17px",
           marginBottom: "15px",
         }}
       >
         <H6 color="primary.main" sx={{ padding: "0 0 5px 0" }}>
-          Make Your Deposit
+          {t(title)}
         </H6>
         <P color="primary.main" fontSize={"14px"}>
-          Get started by depositing your funds into a safe, trusted account.
-          Whether it's a small amount or a larger sum, we offer flexible deposit
-          options to suit your financial goals.
+          {t(description)}
         </P>
       </CardContent>
     </Card>

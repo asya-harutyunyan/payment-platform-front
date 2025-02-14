@@ -6,11 +6,13 @@ import { FC } from "react";
 interface IPaginationOutlined {
   onPageChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
   count?: number;
+  page?: number;
 }
 
 export const PaginationOutlined: FC<IPaginationOutlined> = ({
   onPageChange,
   count,
+  page = 1,
 }) => {
   return (
     <Stack spacing={2}>
@@ -18,6 +20,7 @@ export const PaginationOutlined: FC<IPaginationOutlined> = ({
         onChange={onPageChange}
         variant="outlined"
         count={count}
+        page={page}
         color="secondary"
         sx={{
           "& .MuiPaginationItem-root:not(.Mui-selected)": {

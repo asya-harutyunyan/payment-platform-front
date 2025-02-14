@@ -2,6 +2,8 @@ import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   getDepositsThunk,
   getOrdersThunk,
+  getSingleDepositThunk,
+  getSingleOrderThunk,
   processingAmountThunk,
   updateDeposit,
 } from "./thunks";
@@ -17,6 +19,9 @@ const initialState: DepositState = {
   lastPage: null,
   per_page: 5,
   total: 0,
+  price: 0,
+  singleDeposit: [],
+  singleOrder: [],
 };
 
 const depositSlice = createSlice({
@@ -24,6 +29,9 @@ const depositSlice = createSlice({
   initialState,
   reducers: {
     resetDeposit: () => initialState,
+    setPrice: (state, action) => {
+      state.price = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -37,13 +45,27 @@ const depositSlice = createSlice({
       })
       .addCase(getDepositsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.deposits = action.payload;
+        state.deposits = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = action.payload.total;
+        state.total = parseFloat(
+          (action.payload.total / action.payload.per_page).toFixed()
+        );
+      })
+      .addCase(getSingleDepositThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleDeposit = action.payload;
+      })
+      .addCase(getSingleOrderThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.singleOrder = action.payload;
       })
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload;
+        state.orders = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = parseFloat(
+          (action.payload.total / action.payload.per_page).toFixed()
+        );
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;
@@ -54,6 +76,6 @@ const depositSlice = createSlice({
   },
 });
 
-export const { resetDeposit } = depositSlice.actions;
+export const { resetDeposit, setPrice } = depositSlice.actions;
 
 export default depositSlice.reducer;

@@ -40,18 +40,21 @@ const useSignIn = () => {
           });
       })
       .catch((error) => {
-        if (typeof error === "string") {
-          setError("email", {
-            type: "manual",
-            message: error,
-          });
-          setError("password", {
-            type: "manual",
-            message: error,
-          });
-        }
+        console.log(error);
 
-        console.error("Sign in failed:", error);
+        if (error.errors && error.message !== "not_verified") {
+          Object.entries(error.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages) && messages.length > 0) {
+              setError(field as keyof FormData, {
+                type: "manual",
+                message: messages[0],
+              });
+            }
+          });
+        } else if (error.message === "not_verified") {
+          navigate({ to: "/auth/confirm-email" });
+          console.warn("Неизвестный формат ошибки:", error);
+        }
       });
   };
   return {

@@ -22,7 +22,7 @@ export const userItems = [
     link: "/orders",
   },
   {
-    text: "order_list",
+    text: "deposit_list",
     icon: <FormatListBulletedIcon />,
     link: "/deposit-info",
   },

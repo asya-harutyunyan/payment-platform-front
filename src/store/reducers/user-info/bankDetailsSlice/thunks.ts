@@ -1,7 +1,7 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AddCardType, EditCardType } from "./addCard/types";
+import { AddCardType, EditCardType } from "../addCard/types";
 
 export const addBankCardThunk = createAsyncThunk(
   "bankDetails/addBankCard",

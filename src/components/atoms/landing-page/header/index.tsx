@@ -61,7 +61,7 @@ export const ResponsiveAppBar = () => {
         to = "/my-information";
         break;
       case "admin":
-        to = "/user-list";
+        to = "/deposit-list";
         break;
       default:
         break;

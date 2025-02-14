@@ -1,30 +1,47 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable from "@/components/molecules/table";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const OrderListComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const { orders, total } = useAppSelector((state) => state.deposit);
+  const { orders, total, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
 
   useEffect(() => {
     dispatch(getOrdersThunk({ page: page }));
-  }, []);
+  }, [dispatch, page]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
     console.log(event, page);
   };
-  const title = ["name", "surname", "email", "role"];
-
+  const columns = useMemo<IColumn<Order>[]>(
+    () => [
+      {
+        column: "name",
+        valueKey: "user.name",
+      },
+      {
+        column: "surname",
+        valueKey: "user.surname",
+      },
+      {
+        column: "initial_ammount",
+        valueKey: "user.email",
+        //status todo
+      },
+    ],
+    []
+  );
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("order_list")} />
@@ -34,7 +51,7 @@ export const OrderListComponent: FC = () => {
           overflowX: "auto",
         }}
       >
-        {!orders ? (
+        {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
           <Box
@@ -42,17 +59,26 @@ export const OrderListComponent: FC = () => {
           >
             <DynamicTable
               isUser
-              columns={title}
-              data={orders as unknown as Record<string, ReactNode>[]}
+              isNeedBtn
+              columns={columns}
+              data={orders}
               onChangePage={onChangePage}
             />
-
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              {" "}
-              <PaginationOutlined onPageChange={onChangePage} count={total} />
-            </Box>
+            {orders.length > 4 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
+                <PaginationOutlined
+                  onPageChange={onChangePage}
+                  count={total}
+                  page={page}
+                />
+              </Box>
+            )}
           </Box>
         ) : (
           <EmptyComponent />

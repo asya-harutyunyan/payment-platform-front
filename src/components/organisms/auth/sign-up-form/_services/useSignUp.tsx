@@ -36,13 +36,18 @@ const useSignUp = () => {
         navigate({ to: "/auth/confirm-email" });
       })
       .catch((error) => {
-        if (typeof error === "string") {
-          setError("email", {
-            type: "manual",
-            message: error,
+        if (error.errors) {
+          Object.entries(error.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages) && messages.length > 0) {
+              setError(field as keyof FormData, {
+                type: "manual",
+                message: messages[0],
+              });
+            }
           });
+        } else {
+          console.warn("Неизвестный формат ошибки:", error);
         }
-        console.error("Registration failed:", error);
       });
   };
 

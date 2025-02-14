@@ -23,9 +23,11 @@ const WalletsSlice = createSlice({
       })
       .addCase(getWalletsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.wallet = action.payload;
+        state.wallet = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = action.payload.total;
+        state.total = parseFloat(
+          (action.payload.total / action.payload.per_page).toFixed()
+        );
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

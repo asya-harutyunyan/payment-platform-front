@@ -1,9 +1,9 @@
 import { formatCardNumber } from "@/common/utils";
+import { MobileCards } from "@/components/atoms/swiper-slider";
 import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
 import Carroussel from "@/components/molecules/carousel-3d";
 import { TabsComponent } from "@/components/molecules/tabs";
-import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { H2, P } from "@/styles/typography";
@@ -32,6 +32,7 @@ export const BankInfoComponent: FC = () => {
           bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
           textColor="#FFFFFF"
           bankDetail={user?.bank_details[index]?.id ?? 0}
+          currency={(user?.bank_details[index]?.currency as string) ?? 0}
         />
       ),
     }));
@@ -64,17 +65,22 @@ export const BankInfoComponent: FC = () => {
                 showArrows={false}
               />
             </Box>
-            <Box>{/* <SimpleSlider slider={cards}></SimpleSlider> */}</Box>
+            <Box
+              sx={{
+                display: { lg: "none", md: "none", sx: "block", xs: "block" },
+              }}
+            >
+              <MobileCards cards={user?.bank_details} />
+            </Box>
           </Box>
         ),
       },
       { id: 2, component: <BankCardDetalis /> },
     ],
-    [cards]
+    [cards, user?.bank_details]
   );
   return (
     <Box>
-      <TaskHeader title={t("order_list")} />
       <Box sx={{ display: "flex", width: "100%" }}>
         <Box
           sx={{
@@ -154,6 +160,7 @@ export const BankInfoComponent: FC = () => {
           <Box
             sx={{
               width: { lg: "50%", md: "50%", sx: "100%", xs: "100%" },
+              marginBottom: "200px",
             }}
           >
             <TabsComponent tabPanel={tabContent} tabNames={tabNames} />

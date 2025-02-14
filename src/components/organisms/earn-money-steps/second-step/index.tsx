@@ -5,11 +5,16 @@ import { BasicCard } from "@/components/atoms/card";
 import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import { useAuth } from "@/context/auth.context";
 import { choose_card_schema } from "@/schema/add_card.schema";
-import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import {
+  RootState,
+  useAppDispatch,
+  useAppSelector,
+} from "@/store/reducers/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
+import { addFivePercent } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
@@ -27,6 +32,8 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
   const { user, fetchAuthUser } = useAuth();
+  const price = useAppSelector((state: RootState) => state.deposit.price); // Получаем price из Redux
+  const updatedPrice = addFivePercent(price);
 
   const handleOpen = () => setOpen(true);
   const { control, handleSubmit, watch, setError, setValue } = useForm<
@@ -34,7 +41,9 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
-      payment_method_id: deposit?.payment_method_id,
+      payment_method_id: user?.bank_details[0].id
+        ? String(user?.bank_details[0].id)
+        : deposit?.payment_method_id,
     },
   });
 
@@ -80,11 +89,10 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
         fetchAuthUser?.();
       });
   };
-  // useEffect(() => {
-  //   if (user?.bank_details[0]?.id) {
-  //     setValue("payment_method_id", user?.bank_details[0]?.id);
-  //   }
-  // }, []);
+
+  useEffect(() => {
+    console.log(payment_method_id);
+  }, [payment_method_id]);
   return (
     <Box>
       <Box
@@ -101,7 +109,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           }}
           bg={second_step}
           title={t("profit")}
-          sub_title="+5"
+          sub_title={`+${updatedPrice.toFixed(2)}`}
         >
           {showAddCard && (
             <Box
@@ -143,7 +151,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
               height: "50px",
               fontSize: "17px",
             }}
-            disabled={!payment_method_id}
             text={t("confirm")}
             variant={"gradient"}
             type="submit"

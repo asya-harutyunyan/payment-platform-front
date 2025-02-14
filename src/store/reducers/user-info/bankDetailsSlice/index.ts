@@ -1,11 +1,11 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import { DepositState } from "../addCard/types";
 import {
   addBankCardThunk,
   deleteBankCardThunk,
   editBankCardThunk,
   getCardsThunk,
 } from "./thunks";
-import { DepositState } from "./addCard/types";
 
 const initialState: DepositState = {
   loading: false,

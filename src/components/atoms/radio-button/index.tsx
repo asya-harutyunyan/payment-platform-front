@@ -39,13 +39,21 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   const hasErrors = useMemo(() => {
     return fieldState.isTouched && fieldState.invalid;
   }, [fieldState.invalid, fieldState.isTouched]);
-  useEffect(() => {});
+
+  useEffect(() => {
+    // Set default value if none is selected
+    if (!field.value && data.length > 0) {
+      const defaultValue = valueKey ? data[0][valueKey as keyof U] : data[0];
+      field.onChange(defaultValue);
+    }
+  }, [data, valueKey, field]);
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
       <FormControl error={hasErrors}>
         <RadioGroup
-          aria-labelledby="demo-radio-buttons-group-label"
-          {...field} // Bind RadioGroup to React Hook Form field state
+          {...field}
+          defaultValue={valueKey ? data[0][valueKey as keyof U] : data[0]} // Set defaultValue here
           name={name}
         >
           {data.map((item, index) => (

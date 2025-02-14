@@ -6,12 +6,13 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { BaseSyntheticEvent, FC } from "react";
 import useProcessingAmount from "./_services/useProcessingAmount";
+
 interface IStepOne {
   handleNext?: () => void;
 }
 
 export const StepOne: FC<IStepOne> = ({ handleNext }) => {
-  const { handleSubmit, control, processingAmountValue } =
+  const { handleSubmit, control, processingAmountValue, register } =
     useProcessingAmount(handleNext);
 
   // const { deposit } = useAppSelector((state) => state.deposit);
@@ -36,7 +37,12 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
       sx={{ display: "flex", justifyContent: "center" }}
     >
       <BasicCard
-        sx={{ width: "100%", marginTop: "20px", padding: "0", height: "330px" }}
+        sx={{
+          width: "100%",
+          marginTop: "20px",
+          padding: "0",
+          height: "330px",
+        }}
         bg={first_step}
         title={t("how_much_money")}
       >
@@ -51,14 +57,15 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
             <FormTextInput
               control={control}
-              name="processing_amount"
               placeholder="Price"
               type="number"
               whiteVariant={true}
+              {...register("processing_amount")}
+              name="processing_amount"
             />
           </Box>
           <Button
-            variant={"text"}
+            variant={"gradient"}
             type="submit"
             disabled={!processingAmountValue}
             sx={{

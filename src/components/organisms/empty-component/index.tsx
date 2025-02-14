@@ -14,7 +14,7 @@ export const EmptyComponent: FC = () => {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          width: "100%",
+          width: { lg: "100%", md: "100%", xs: "80%", sm: "80%" },
           height: "100%",
         }}
       >

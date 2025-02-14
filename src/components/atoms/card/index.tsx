@@ -1,4 +1,3 @@
-import theme from "@/styles/theme";
 import { H4, H5 } from "@/styles/typography";
 import { SxProps, Theme } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -11,26 +10,28 @@ interface IBasicCard {
   bg?: string;
   bgColor?: boolean;
   title_B?: string;
-  sub_title?: string;
+  sub_title?: string | number;
+  align?: string;
 }
 export const BasicCard: React.FC<IBasicCard> = ({
   title,
   title_B,
   sub_title,
+  align,
   children,
   sx,
   bg,
-  bgColor = "true",
+  bgColor,
 }) => {
   return (
     <Box
       sx={{
         ...sx,
         backgroundColor: {
-          lg: bgColor ? "#f5f5f5" : "inherit",
-          md: bgColor ? "#f5f5f5" : "inherit",
-          xs: bgColor ? "#f5f5f5" : "inherit",
-          sm: bgColor ? "#f5f5f5" : "inherit",
+          lg: bgColor ? "#f5f5f5" : "primary.main",
+          md: bgColor ? "#f5f5f5" : "primary.main",
+          xs: bgColor ? "#f5f5f5" : "primary.main",
+          sm: bgColor ? "#f5f5f5" : "primary.main",
         },
         backgroundSize: "100% 100%",
         backgroundImage: {
@@ -48,7 +49,7 @@ export const BasicCard: React.FC<IBasicCard> = ({
         "> div": {
           display: "flex",
           flexDirection: "column",
-          alignItems: "start",
+          alignItems: align ? align : "start",
         },
       }}
     >
@@ -63,31 +64,19 @@ export const BasicCard: React.FC<IBasicCard> = ({
           {title ?? ""}
         </H4>
         {sub_title && (
-          <Box
+          <H4
             sx={{
-              width: "50px",
-              height: "50px",
-              borderRadius: "50%",
-              backgroundColor: theme.palette.tertiary.main,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
+              color: "text.secondary",
+              textAlign: {
+                lg: "start",
+                md: "start",
+                xs: "center",
+                sm: "center",
+              },
             }}
           >
-            <H4
-              sx={{
-                color: theme.palette.primary.main,
-                textAlign: {
-                  lg: "start",
-                  md: "start",
-                  xs: "center",
-                  sm: "center",
-                },
-              }}
-            >
-              {sub_title}
-            </H4>
-          </Box>
+            {sub_title}
+          </H4>
         )}
       </span>
       {title_B ? (
