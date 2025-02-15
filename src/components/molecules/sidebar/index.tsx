@@ -1,4 +1,5 @@
 import bg from "@/assets/images/modal.png";
+import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
@@ -13,7 +14,6 @@ import { AppBar, Box, Drawer, IconButton, Toolbar } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
-import ChatWidget from "../chat-widget";
 import { adminItems, userItems } from "./__item_list__";
 import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
@@ -197,7 +197,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
 
-      {isOpen && <ChatWidget onClose={() => setIsOpen(false)} />}
+      {isOpen && <JivoChat />}
     </Box>
   );
 };

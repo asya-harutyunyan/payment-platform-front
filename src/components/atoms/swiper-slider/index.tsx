@@ -10,8 +10,6 @@ interface ICardsMobile {
 }
 
 export const MobileCards: FC<ICardsMobile> = ({ cards }) => {
-  console.log(cards);
-
   return (
     <Box>
       {cards?.length ? (
