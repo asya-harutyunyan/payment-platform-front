@@ -3,7 +3,7 @@ import { useEffect } from "react";
 const JivoChat = () => {
   useEffect(() => {
     const script = document.createElement("script");
-    script.src = "//code.jivo.ru/widget/ZSTJ1v4oXb";
+    script.src = `//code.jivo.ru/widget/${import.meta.env.VITE_JIVO_SITE}`;
 
     script.async = true;
     document.body.appendChild(script);
