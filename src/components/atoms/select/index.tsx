@@ -1,3 +1,4 @@
+import theme from "@/styles/theme";
 import {
   FormControl,
   FormHelperText,
@@ -46,7 +47,17 @@ export const SelectField = <T extends FieldValues>({
 }: ISelectField<T>) => {
   return (
     <FormControl sx={{ ...sx, width: "100%" }} error={error}>
-      <InputLabel id={id}>{placeholder}</InputLabel>
+      <InputLabel
+        id={id}
+        sx={{
+          color: whiteVariant ? "tertiary.main" : "primary.main",
+          "&.MuiFormLabel-root": {
+            color: whiteVariant ? "tertiary.main" : "primary.main",
+          },
+        }}
+      >
+        {placeholder}
+      </InputLabel>
       <Select
         labelId={id}
         value={value || ""}
@@ -61,6 +72,11 @@ export const SelectField = <T extends FieldValues>({
             color: whiteVariant ? "tertiary.main" : "primary.main",
           },
           ...style,
+          fieldset: {
+            borderColor: whiteVariant
+              ? `${theme.palette.tertiary.main}!important`
+              : `${theme.palette.primary.main}!important`,
+          },
         }}
       >
         {options.map((option) => (
@@ -81,12 +97,14 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   placeholder: string;
   error?: boolean;
   helperText?: string | ReactNode;
+  whiteVariant?: boolean;
 }
 
-export const SelectFieldWithHookForm = <T extends FieldValues>({
+export const SelectFieldWith = <T extends FieldValues>({
   name,
   control,
   options,
+  whiteVariant,
   placeholder,
   error,
   helperText,
@@ -98,6 +116,7 @@ export const SelectFieldWithHookForm = <T extends FieldValues>({
       render={({ field }) => (
         <SelectField
           {...field}
+          whiteVariant={whiteVariant}
           placeholder={placeholder}
           options={options}
           error={error}

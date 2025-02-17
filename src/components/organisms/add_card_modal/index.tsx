@@ -4,7 +4,7 @@ import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { BasicModal } from "@/components/atoms/modal";
 import { FormPhoneInput } from "@/components/atoms/phone-input";
-import { SelectFieldWithHookForm } from "@/components/atoms/select";
+import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -132,7 +132,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         component="form"
         onSubmit={handleSubmit(isEdit ? onEditSubmit : onAddSubmit)}
         sx={{
-          width: "40%",
+          width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
         }}
       >
         <FormTextInput
@@ -161,10 +161,11 @@ export const AddCardModal: FC<IStepTwo> = ({
           placeholder={t("card_number")}
           whiteVariant={true}
         />
-        <SelectFieldWithHookForm
+        <SelectFieldWith
           name="currency"
           control={control}
           options={options}
+          whiteVariant
           placeholder={t("select_currency")}
           error={!!errors.currency}
           helperText={errors.currency?.message}

@@ -63,7 +63,7 @@ const CreditCardInput = ({
         label="Credit Card Number"
         variant="outlined"
         InputProps={{
-          endAdornment: <InputAdornment position="end">💳</InputAdornment>, // optional card icon
+          endAdornment: <InputAdornment position="end">💳</InputAdornment>,
         }}
         sx={{
           backgroundColor: "transparent",
@@ -85,6 +85,9 @@ const CreditCardInput = ({
             "& .MuiInputBase-input": {
               color: whiteVariant ? "#D9D9D9!important" : "#0E1D40!important",
             },
+          },
+          label: {
+            color: whiteVariant ? "#D9D9D9!important" : "#0E1D40!important",
           },
         }}
       />

@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { FormPhoneInput } from "@/components/atoms/phone-input";
-import { SelectFieldWithHookForm } from "@/components/atoms/select";
+import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -89,7 +89,7 @@ export const BankCardDetalis: FC = () => {
         mask
       />
 
-      <SelectFieldWithHookForm
+      <SelectFieldWith
         name="currency"
         control={control}
         options={options}
