@@ -4,6 +4,7 @@ import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { BasicModal } from "@/components/atoms/modal";
 import { FormPhoneInput } from "@/components/atoms/phone-input";
+import { SelectFieldWithHookForm } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -48,7 +49,13 @@ export const AddCardModal: FC<IStepTwo> = ({
   const { fetchAuthUser } = useAuth();
 
   const handleClose = () => setOpen(false);
-  const { control, handleSubmit, setError, reset } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    setError,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
       bank_name: bankName ?? "",
@@ -114,7 +121,11 @@ export const AddCardModal: FC<IStepTwo> = ({
         });
     }
   };
-
+  const options = [
+    { value: "USD", label: "USD ($)" },
+    { value: "RUB", label: "RUB (₽)" },
+    { value: "EUR", label: "EUR (€)" },
+  ];
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>
       <Box
@@ -150,11 +161,13 @@ export const AddCardModal: FC<IStepTwo> = ({
           placeholder={t("card_number")}
           whiteVariant={true}
         />
-        <FormTextInput
-          control={control}
+        <SelectFieldWithHookForm
           name="currency"
-          placeholder={t("currency")}
-          whiteVariant
+          control={control}
+          options={options}
+          placeholder={t("select_currency")}
+          error={!!errors.currency}
+          helperText={errors.currency?.message}
         />
         <Box
           sx={{

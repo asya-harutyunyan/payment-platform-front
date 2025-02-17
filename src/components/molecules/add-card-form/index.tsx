@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { FormPhoneInput } from "@/components/atoms/phone-input";
+import { SelectFieldWithHookForm } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch } from "@/store/reducers/store";
@@ -16,7 +17,12 @@ import { z } from "zod";
 type FormData = z.infer<typeof add_card_schema>;
 
 export const BankCardDetalis: FC = () => {
-  const { control, handleSubmit, reset } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
       bank_name: "",
@@ -29,7 +35,11 @@ export const BankCardDetalis: FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
   const dispatch = useAppDispatch();
-
+  const options = [
+    { value: "USD", label: "USD ($)" },
+    { value: "RUB", label: "RUB (₽)" },
+    { value: "EUR", label: "EUR (€)" },
+  ];
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(addBankCardThunk(data))
       .unwrap()
@@ -78,12 +88,15 @@ export const BankCardDetalis: FC = () => {
         whiteVariant={false}
         mask
       />
-      <FormTextInput
-        control={control}
-        name="currency"
-        placeholder={t("currency")}
-      />
 
+      <SelectFieldWithHookForm
+        name="currency"
+        control={control}
+        options={options}
+        placeholder={t("select_currency")}
+        error={!!errors.currency}
+        helperText={errors.currency?.message}
+      />
       <Box
         sx={{
           display: "flex",

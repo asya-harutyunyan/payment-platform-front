@@ -1,3 +1,9 @@
+import {
+  FormControl,
+  FormHelperText,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
 import IMask from "imask";
 import { useEffect, useRef } from "react";
 
@@ -47,29 +53,43 @@ const CreditCardInput = ({
   }, []);
 
   return (
-    <div>
-      <input
-        ref={inputRef}
+    <FormControl fullWidth error={error} sx={{ mb: 2 }}>
+      <TextField
+        inputRef={inputRef}
         value={value}
-        onChange={(e) => onChange(e)}
+        onChange={onChange}
         onBlur={onBlur}
         placeholder={placeholder || "1234 1234 1234 1234"}
-        style={{
-          width: "95%",
-          height: "35px",
-          padding: "8px",
-          margin: "10px 0",
-          background: "transparent",
-          color: whiteVariant ? "#D9D9D9" : "#0E1D40",
+        label="Credit Card Number"
+        variant="outlined"
+        InputProps={{
+          endAdornment: <InputAdornment position="end">💳</InputAdornment>, // optional card icon
+        }}
+        sx={{
+          backgroundColor: "transparent",
+          color: whiteVariant ? "#D9D9D9!important" : "#0E1D40!important",
           borderRadius: "4px",
-          border: whiteVariant ? "1px solid #D9D9D9" : "1px solid #0E1D40",
           letterSpacing: "2px",
           fontSize: "16px",
           fontFamily: "Poppins, sans-serif",
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+            },
+            "&:hover fieldset": {
+              borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+            },
+            "& .MuiInputBase-input": {
+              color: whiteVariant ? "#D9D9D9!important" : "#0E1D40!important",
+            },
+          },
         }}
       />
-      {helperText && error && <p style={{ color: "red" }}>{helperText}</p>}
-    </div>
+      {helperText && error && <FormHelperText>{helperText}</FormHelperText>}
+    </FormControl>
   );
 };
 
