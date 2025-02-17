@@ -40,7 +40,7 @@ export const MediaCard: FC<IMediaCard> = ({ img, title, description }) => {
       <CardContent
         sx={{
           width: "82%",
-          height: "50%",
+          height: "80%",
           background: "white",
           borderRadius: "17px",
           marginBottom: "15px",

@@ -21,11 +21,6 @@ export const faqDataSecond = [
     answer:
       "Вы зарабатываете 5% от суммы страхового депозита. После внесения депозита, в течение 3-4 часов на Вашу карту поступает вся сумма депозита  и 5% сверху - это и есть Ваш заработок.",
   },
-  {
-    question: "Is my deposit insured?",
-    answer:
-      "We use top-tier security and financial safeguards to protect your deposit.While we prioritize security.",
-  },
 ];
 export const faqDataThird = [
   {

@@ -56,10 +56,8 @@ const Features = () => {
             <Box
               key={index}
               sx={{
-                borderBottom:
-                  index < features.length - 1 ? "1px solid #fff" : "none",
-                pb: index < features.length - 1 ? 2 : 0,
-                mb: index < features.length - 1 ? 2 : 0,
+                borderBottom: "1px solid #fff",
+                padding: "10px 0",
               }}
             >
               <H5 padding={"10px 0"}>{feature.title}</H5>
