@@ -14,22 +14,22 @@ export const fields = [
   {
     column: "bank_name",
     label: "payment_details",
-    valueKey: "user.bank_details.bank_name",
+    valueKey: "bank_details.bank_name",
   },
   {
     column: "card_holder",
-    valueKey: "user.bank_details.card_holder",
+    valueKey: "bank_details.card_holder",
   },
   {
     column: "card_number",
-    valueKey: "user.bank_details.card_number",
+    valueKey: "bank_details.card_number",
   },
   {
     column: "currency",
-    valueKey: "user.bank_details.currency",
+    valueKey: "bank_details.currency",
   },
   {
     column: "phone_number",
-    valueKey: "user.bank_details.phone_number",
+    valueKey: "bank_details.phone_number",
   },
 ];

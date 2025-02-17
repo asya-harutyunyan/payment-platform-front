@@ -23,9 +23,7 @@ const usersSlice = createSlice({
         state.loading = false;
         state.users = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = parseFloat(
-          (action.payload.total / action.payload.per_page).toFixed()
-        );
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.loading = false;

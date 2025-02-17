@@ -47,9 +47,7 @@ const depositSlice = createSlice({
         state.loading = false;
         state.deposits = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = parseFloat(
-          (action.payload.total / action.payload.per_page).toFixed()
-        );
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getSingleDepositThunk.fulfilled, (state, action) => {
         state.loading = false;
@@ -63,9 +61,7 @@ const depositSlice = createSlice({
         state.loading = false;
         state.orders = action.payload.data;
         state.lastPage = action.payload.last_page;
-        state.total = parseFloat(
-          (action.payload.total / action.payload.per_page).toFixed()
-        );
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;
