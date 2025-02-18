@@ -31,21 +31,21 @@ const useProcessingAmount = (handeNext?: () => void) => {
   const processingAmountValue = watch("processing_amount");
   const { user } = useAuth();
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (user?.bank_details.length) {
-      dispatch(setPrice(data.processing_amount));
-      return dispatch(processingAmountThunk(data))
-        .unwrap()
-        .then(() => {
-          handeNext?.();
+    // if (user?.bank_details.length) {
+    dispatch(setPrice(data.processing_amount));
+    return dispatch(processingAmountThunk(data))
+      .unwrap()
+      .then(() => {
+        handeNext?.();
 
-          reset();
-        });
-    } else {
-      enqueueSnackbar(t("for_deposit_add_your_card"), {
-        variant: "error",
-        anchorOrigin: { vertical: "top", horizontal: "right" },
+        reset();
       });
-    }
+    // } else {
+    //   enqueueSnackbar(t("for_deposit_add_your_card"), {
+    //     variant: "error",
+    //     anchorOrigin: { vertical: "top", horizontal: "right" },
+    //   });
+    // }
   };
 
   useEffect(() => {

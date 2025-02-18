@@ -41,7 +41,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
-      payment_method_id: user?.bank_details[0].id
+      payment_method_id: user?.bank_details[0]?.id
         ? String(user?.bank_details[0].id)
         : deposit?.payment_method_id,
     },

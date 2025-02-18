@@ -43,7 +43,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   useEffect(() => {
     // Set default value if none is selected
     if (!field.value && data.length > 0) {
-      const defaultValue = valueKey ? data[0][valueKey as keyof U] : data[0];
+      const defaultValue = valueKey ? data[0]?.[valueKey as keyof U] : data[0];
       field.onChange(defaultValue);
     }
   }, [data, valueKey, field]);
@@ -53,7 +53,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
       <FormControl error={hasErrors}>
         <RadioGroup
           {...field}
-          defaultValue={valueKey ? data[0][valueKey as keyof U] : data[0]} // Set defaultValue here
+          defaultValue={valueKey ? data[0]?.[valueKey as keyof U] : data[0]}
           name={name}
         >
           {data.map((item, index) => (
