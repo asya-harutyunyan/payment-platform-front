@@ -22,23 +22,23 @@ export const fields = [
   {
     column: "bank_name",
     label: "payment_details",
-    valueKey: "user.bank_details.bank_name",
+    valueKey: "payment_method.bank_name",
   },
   {
     column: "card_holder",
-    valueKey: "user.bank_details.card_holder",
+    valueKey: "payment_method.card_holder",
   },
   {
     column: "card_number",
-    valueKey: "user.bank_details.card_number",
+    valueKey: "payment_method..card_number",
   },
   {
     column: "currency",
-    valueKey: "user.bank_details.currency",
+    valueKey: "payment_method.currency",
   },
   {
     column: "phone_number",
-    valueKey: "user.bank_details.phone_number",
+    valueKey: "payment_method.phone_number",
   },
   {
     column: "final_status",
