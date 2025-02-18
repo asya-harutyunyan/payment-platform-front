@@ -61,7 +61,7 @@ export const Wallet: FC = () => {
           }}
         >
           <DynamicTable columns={columns} data={wallet} />
-          {wallet.length > 4 && (
+          {total > 4 && (
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
             >

@@ -51,7 +51,7 @@ export const DepositLists: FC = () => {
       <TaskHeader title={t("deposit_lists")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : deposits.length > 0 ? (
+      ) : total > 0 ? (
         <Box
           sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
         >
@@ -63,7 +63,7 @@ export const DepositLists: FC = () => {
             onChangePage={onChangePage}
           />
 
-          {deposits.length > 4 && (
+          {total > 4 && (
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
             >

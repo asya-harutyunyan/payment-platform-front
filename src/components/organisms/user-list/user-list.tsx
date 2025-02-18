@@ -58,7 +58,7 @@ export const UserListComponent: FC = () => {
             onChangePage={onChangePage}
           />
 
-          {users.length > 4 && (
+          {total > 4 && (
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
             >

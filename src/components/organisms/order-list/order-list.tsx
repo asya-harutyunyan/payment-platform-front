@@ -64,7 +64,7 @@ export const OrderListComponent: FC = () => {
               data={orders}
               onChangePage={onChangePage}
             />
-            {orders.length > 4 && (
+            {total > 4 && (
               <Box
                 sx={{
                   display: "flex",

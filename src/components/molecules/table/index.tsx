@@ -77,9 +77,13 @@ function DynamicTable<T extends { id?: number }>({
                 key={rowIndex}
                 sx={{
                   "&:hover": {
-                    backgroundColor: "#e0e0e0",
+                    backgroundColor:
+                      route.pathname === "/wallet-list"
+                        ? "transparent"
+                        : "#e0e0e0",
                   },
-                  cursor: "pointer",
+                  cursor:
+                    route.pathname === "/wallet-list" ? "auto" : "pointer",
                 }}
               >
                 {columns?.map((column, colIndex) => (

@@ -66,6 +66,13 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         ref={ref}
         id={id}
         sx={{
+          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+            {
+              display: "none",
+            },
+          "& input[type=number]": {
+            MozAppearance: "textfield",
+          },
           ":-internal-autofill-selected": {
             backgroundColor: "red !important",
           },

@@ -65,7 +65,7 @@ export const UserOrdersComponent: FC = () => {
               onChangePage={onChangePage}
             />
 
-            {orders.length > 4 && (
+            {total > 4 && (
               <Box
                 sx={{
                   display: "flex",
