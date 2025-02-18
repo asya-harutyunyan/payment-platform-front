@@ -1,13 +1,5 @@
 export const fields = [
   {
-    column: "amount",
-    valueKey: "amount",
-  },
-  {
-    column: "left_amount",
-    valueKey: "left_amount",
-  },
-  {
     column: "transaction_amount",
     valueKey: "trans_amount",
   },
@@ -34,7 +26,6 @@ export const fields = [
   },
   {
     column: "final_status",
-    label: "status",
     valueKey: "final_status",
   },
 ];

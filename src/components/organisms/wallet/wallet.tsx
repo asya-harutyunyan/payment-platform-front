@@ -30,16 +30,16 @@ export const Wallet: FC = () => {
   const columns = useMemo<IColumn<WalletType>[]>(
     () => [
       {
-        column: "network",
-        valueKey: "address",
+        column: "address",
+        valueKey: "network",
       },
       {
         column: "currency",
         valueKey: "currency",
       },
       {
-        column: "address",
-        valueKey: "network",
+        column: "network",
+        valueKey: "address",
       },
     ],
     []

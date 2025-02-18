@@ -30,7 +30,6 @@ export const fields = [
   },
   {
     column: "final_status",
-    label: "status",
     valueKey: "final_status",
   },
 ];

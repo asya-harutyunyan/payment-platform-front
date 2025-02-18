@@ -42,9 +42,10 @@ function DynamicTable<T extends { id?: number }>({
   const route = useLocation();
 
   const handleUserInformation = (row: T) => {
-    if (route.pathname === "/user-list") {
-      navigate({ to: `/user-list/${row.id}` });
-    } else if (route.pathname === "/deposit-list") {
+    // if (route.pathname === "/user-list") {
+    //   navigate({ to: `/user-list/${row.id}` });
+    // } else
+    if (route.pathname === "/deposit-list") {
       navigate({ to: `/deposit-list/${row.id}` });
     } else if (route.pathname === "/order-list") {
       navigate({ to: `/order-list/${row.id}` });
@@ -78,12 +79,16 @@ function DynamicTable<T extends { id?: number }>({
                 sx={{
                   "&:hover": {
                     backgroundColor:
-                      route.pathname === "/wallet-list"
+                      route.pathname === "/wallet-list" ||
+                      route.pathname === "/user-list"
                         ? "transparent"
                         : "#e0e0e0",
                   },
                   cursor:
-                    route.pathname === "/wallet-list" ? "auto" : "pointer",
+                    route.pathname === "/wallet-list" ||
+                    route.pathname === "/user-list"
+                      ? "auto"
+                      : "pointer",
                 }}
               >
                 {columns?.map((column, colIndex) => (
@@ -115,7 +120,7 @@ function DynamicTable<T extends { id?: number }>({
                       text={t("see_more")}
                       sx={{ width: "120px" }}
                       onClick={() =>
-                        route.pathname === "/user-list" ||
+                        // route.pathname === "/user-list" ||
                         route.pathname === "/order-list" ||
                         route.pathname === "/deposit-info" ||
                         route.pathname === "/orders" ||

@@ -12,8 +12,8 @@ export const fields = [
     valueKey: "user.email",
   },
   {
-    column: "processing_amount",
-    valueKey: "processing_amount",
+    column: "transaction_amount",
+    valueKey: "transaction_amount",
   },
   {
     column: "bank_name",
@@ -38,11 +38,6 @@ export const fields = [
   },
   {
     column: "final_status",
-    label: "status",
     valueKey: "final_status",
-  },
-  {
-    column: "processing_amount",
-    valueKey: "processing_amount",
   },
 ];

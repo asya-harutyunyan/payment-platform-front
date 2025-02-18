@@ -30,7 +30,7 @@ export const fields = [
   },
   {
     column: "card_number",
-    valueKey: "payment_method..card_number",
+    valueKey: "payment_method.card_number",
   },
   {
     column: "currency",
@@ -42,11 +42,6 @@ export const fields = [
   },
   {
     column: "final_status",
-    label: "",
     valueKey: "final_status",
-  },
-  {
-    column: "processing_amount",
-    valueKey: "processing_amount",
   },
 ];

@@ -17,6 +17,8 @@ interface PaperProps<T> {
 }
 
 export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
+  console.log(data);
+
   return (
     <Box
       sx={{
