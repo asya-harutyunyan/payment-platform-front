@@ -36,7 +36,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   const updatedPrice = addFivePercent(price);
 
   const handleOpen = () => setOpen(true);
-  const { control, handleSubmit, watch, setError, setValue } = useForm<
+  const { control, handleSubmit, setError, setValue } = useForm<
     Partial<Deposit>
   >({
     resolver: zodResolver(choose_card_schema),
@@ -81,7 +81,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
     return true;
   }, [user]);
 
-  const payment_method_id = watch("payment_method_id");
   const onCardDelete = (card: BankDetail) => {
     dispatch(deleteBankCardThunk(card.id))
       .unwrap()
@@ -90,9 +89,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
       });
   };
 
-  useEffect(() => {
-    console.log(payment_method_id);
-  }, [payment_method_id]);
   return (
     <Box>
       <Box

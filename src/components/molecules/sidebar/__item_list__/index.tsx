@@ -17,14 +17,14 @@ export const userItems = [
     link: "/my-information",
   },
   {
-    text: "order_list",
-    icon: <ImportExportIcon />,
-    link: "/orders",
-  },
-  {
     text: "deposit_list",
     icon: <FormatListBulletedIcon />,
     link: "/deposit-info",
+  },
+  {
+    text: "order_list",
+    icon: <ImportExportIcon />,
+    link: "/orders",
   },
 ];
 
