@@ -15,7 +15,7 @@ const MessageButton = ({ handleOpen }: { handleOpen: () => void }) => (
       }}
       icon={Message}
       text={t("message")}
-      variant={"outlined"}
+      variant={"outlinedWhite"}
     />
   </Box>
 );

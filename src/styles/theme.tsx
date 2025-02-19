@@ -15,6 +15,7 @@ declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     gradient: true;
     outlinedBlue: true;
+    outlinedWhite: true;
   }
 }
 
@@ -65,6 +66,13 @@ const theme = createTheme({
           style: {
             border: "2px solid #495c88",
             color: "#495c88",
+          },
+        },
+        {
+          props: { variant: "outlinedWhite" },
+          style: {
+            border: "2px solid #c7cee0",
+            color: "#c7cee0",
           },
         },
         {
@@ -125,7 +133,7 @@ const theme = createTheme({
     },
     body1: {
       fontSize: "1rem",
-      fontWeight: 300, // Use a numeric value for "light"
+      fontWeight: 300,
       color: "#0E1D40",
       fontFamily: "Poppins, sans-serif",
     },

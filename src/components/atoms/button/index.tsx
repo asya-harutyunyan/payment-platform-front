@@ -7,6 +7,7 @@ type ButtonVariant =
   | "contained"
   | "outlined"
   | "gradient"
+  | "outlinedWhite"
   | "outlinedBlue";
 type Sizes = "small" | "medium" | "large";
 type Colors =
