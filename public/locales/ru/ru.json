@@ -5,6 +5,7 @@
   "task_list": "Этапы оплаты",
   "order_list": "Список заказов",
   "wallet_list": "Кошелек",
+  "processing_amount_name": "Первоначальная сумма",
   "cancel": "Отменить",
   "get_start": "Начать",
   "amount": "Сумма",
@@ -123,5 +124,5 @@
   "message": "Сообщение",
   "initial_amount": "Сумма депозита",
   "profit_amount": "Сумма выплоты",
-  "left_amount": "Остаток сумма выплоты"
+  "left_amount": "Остаток сумма выплаты"
 }

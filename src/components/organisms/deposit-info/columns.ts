@@ -20,10 +20,6 @@ export const fields = [
     valueKey: "profit",
   },
   {
-    column: "initial_amount",
-    valueKey: "initial_amount",
-  },
-  {
     column: "left_amount",
     valueKey: "left_amount",
   },
