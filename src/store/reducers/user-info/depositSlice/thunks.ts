@@ -170,3 +170,22 @@ export const getSingleOrderThunk = createAsyncThunk(
     }
   }
 );
+
+export const confirmDepositThunk = createAsyncThunk(
+  "deposit/confirmDeposit",
+  async (deposit_id: string, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post(
+        `/deposits/confirm/client/${deposit_id}`
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);

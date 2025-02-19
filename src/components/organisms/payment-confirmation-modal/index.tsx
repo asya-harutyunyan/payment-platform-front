@@ -1,6 +1,8 @@
 import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
+import { useAppDispatch } from "@/store";
+import { confirmDepositThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import theme from "@/styles/theme";
 import { H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
@@ -12,6 +14,7 @@ import { usePaymentConfirmationModal } from "./usePaymentConfirmationModal";
 
 export const PaymentPlatformModal: FC = () => {
   const { opened, close, data } = usePaymentConfirmationModal();
+  const dispatch = useAppDispatch();
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
       return <span>Your time is end</span>;
@@ -37,7 +40,11 @@ export const PaymentPlatformModal: FC = () => {
         .format()
     );
   }, [data?.order]);
-  // console.log(timer);
+  const handleConfirmDeposit = (deposit_id: string) => {
+    if (deposit_id) {
+      dispatch(confirmDepositThunk(deposit_id));
+    }
+  };
 
   return (
     <BasicModal open={opened} handleClose={close} width="50%" bg={bg}>
@@ -50,7 +57,6 @@ export const PaymentPlatformModal: FC = () => {
       >
         <P
           fontSize={"30px"}
-          // align="center"
           padding={"20px 0"}
           sx={{ color: theme.palette.text.primary }}
         >
@@ -94,6 +100,7 @@ export const PaymentPlatformModal: FC = () => {
           variant={"gradient"}
           text={t("confirm")}
           sx={{ margin: "20px 0" }}
+          onClick={() => handleConfirmDeposit(String(data?.order?.order_id))}
         />
         <H6 sx={{ textDecoration: "underline", color: "tertiary.main" }}>
           {t("countdown")}{" "}

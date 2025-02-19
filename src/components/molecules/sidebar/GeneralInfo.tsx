@@ -2,7 +2,6 @@ import { Logo } from "@/components/atoms/logo";
 import { useAuth } from "@/context/auth.context";
 import { H2, H6 } from "@/styles/typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { Dispatch, FC, SetStateAction } from "react";
@@ -42,17 +41,6 @@ const GeneralInfo: FC<IGeneralInfo> = ({ setOpen }) => {
         <H6 align="center" color={"tertiary.contrastText"} paddingRight={"5px"}>
           {data?.user?.name}
         </H6>
-        <Box
-          sx={{
-            marginLeft: "4px",
-            marginTop: "3px",
-            color: "tertiary.main",
-            cursor: "pointer",
-          }}
-          onClick={() => setOpen(true)}
-        >
-          <NotificationsActiveIcon />
-        </Box>
       </Box>
     </Box>
   );
