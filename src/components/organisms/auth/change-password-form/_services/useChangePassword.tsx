@@ -28,9 +28,9 @@ const useChangePassword = () => {
   const onSubmit: SubmitHandler<ConfirmEmailFormData> = async (data) => {
     dispatch(changePassword(data))
       .then((response) => {
-        if (!response) {
-          navigate({ to: "/auth/sign-in" });
-        }
+        console.log(response);
+
+        navigate({ to: "/auth/sign-in" });
         setEmail("");
       })
       .catch((error) => {

@@ -161,7 +161,7 @@ export const ResponsiveAppBar = () => {
             }}
           >
             <Button
-              text={t(user ? "home" : "sign_in")}
+              text={t(user ? "Главная" : "sign_in")}
               variant={"gradient"}
               onClick={onBtnClick}
             />

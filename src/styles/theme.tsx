@@ -63,8 +63,8 @@ const theme = createTheme({
         {
           props: { variant: "outlined" },
           style: {
-            borderColor: "#E9F2FC",
-            color: "#E9F2FC",
+            border: "2px solid #495c88",
+            color: "#495c88",
           },
         },
         {

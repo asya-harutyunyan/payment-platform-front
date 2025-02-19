@@ -4,14 +4,55 @@ import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
+import { useState } from "react";
+import Countdown, { CountdownRenderProps } from "react-countdown";
 import bg from "../../../../assets/images/bg.jpg";
 import useConfirmEmail from "./_services/useConfirmEmail";
 
 const ConfirmEmailForm = () => {
   const { onSubmit, handleSubmit, control } = useConfirmEmail();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [timerEnd, setTimerEnd] = useState(Date.now() + 10000);
+  const [timerKey, setTimerKey] = useState(0);
+
+  const handleSendReset = async () => {
+    await handleSubmit(onSubmit)();
+    setIsResendDisabled(true);
+    const newEndTime = Date.now() + 1000;
+    setTimerEnd(newEndTime);
+    setTimerKey((prevKey) => prevKey + 1);
+  };
+
+  const onTimerComplete = () => {
+    setIsResendDisabled(false);
+  };
+
+  const countDownRenderer = ({
+    minutes,
+    seconds,
+    completed,
+  }: CountdownRenderProps) => {
+    if (completed) {
+      return (
+        <Typography sx={{ marginBottom: 2 }}>
+          {t(
+            "Время истекло. Вы можете запросить новую ссылку для сброса прямо сейчас."
+          )}
+        </Typography>
+      );
+    } else {
+      return (
+        <Typography sx={{ marginBottom: 2 }}>
+          {t("Осталось времени, чтобы запросить новый код:")}{" "}
+          {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+        </Typography>
+      );
+    }
+  };
+
   return (
     <Box
       component="form"
@@ -36,14 +77,14 @@ const ConfirmEmailForm = () => {
         }}
       >
         <P
-          fontSize={"30px"}
+          fontSize="30px"
           color="primary.contrastText"
-          width={"75%"}
-          paddingBottom={"20px"}
+          width="75%"
+          paddingBottom="20px"
         >
           {t("confirm_short")}
         </P>
-        <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
+        <P fontSize="17px" color="primary.contrastText" width="75%">
           {t("confirm_long")}
         </P>
       </Box>
@@ -52,13 +93,13 @@ const ConfirmEmailForm = () => {
         align="center"
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: { lg: "330px", md: "330px", xs: "390px", sm: "390px" },
+          height: { lg: "450px", md: "450px", xs: "390px", sm: "390px" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >
         <P
-          fontSize={"21px"}
-          paddingBottom={"20px"}
+          fontSize="21px"
+          paddingBottom="20px"
           align="center"
           fontWeight={500}
           color={theme.palette.primary.main}
@@ -72,12 +113,28 @@ const ConfirmEmailForm = () => {
         />
 
         <Button
-          variant={"gradient"}
+          variant="gradient"
           color="secondary"
           text={t("confirm_email")}
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
+
+        <Button
+          variant="outlined"
+          text={t("resend")}
+          onClick={handleSendReset}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+          disabled={isResendDisabled}
+        />
+
+        <Countdown
+          key={timerKey} // Перезапуск таймера при изменении
+          date={timerEnd}
+          renderer={countDownRenderer}
+          onComplete={onTimerComplete}
+        />
+
         <TextWithDivider>
           <P>
             <Link

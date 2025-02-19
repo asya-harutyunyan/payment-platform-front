@@ -16,7 +16,13 @@ export interface DepositState {
   lastPage: number | null;
   total: number;
   price: number;
-  notificationData?: Record<string, unknown>;
+  notificationData?: {
+    order: {
+      order_id: number | string;
+      created_at: string;
+      user_id: number | string;
+    };
+  };
 }
 export type AmountType = z.infer<typeof deposit_id_schema>;
 export type WalletDetalisType = z.infer<typeof wallet_details_schema>;

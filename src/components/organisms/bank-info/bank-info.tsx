@@ -154,7 +154,18 @@ export const BankInfoComponent: FC = () => {
               fontSize={"18px"}
               color="tertiary.contrastText"
             >
-              {t("about_me")}
+              Вы можете добавить до{" "}
+              <span
+                style={{
+                  textDecoration: "underline",
+                  color: theme.palette.primary.main,
+                }}
+              >
+                трёх банковских карт
+              </span>
+              {"  "}
+              для оплаты. Легко переключайтесь между ними, удаляйте или
+              добавляйте новые в любое время.
             </P>
           </Box>
           <Box
