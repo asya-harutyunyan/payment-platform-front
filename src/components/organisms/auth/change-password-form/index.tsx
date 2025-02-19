@@ -3,11 +3,15 @@ import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import { change_password_schema } from "@/schema/change_password.schema";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
+import { useState } from "react";
+import Countdown, { CountdownRenderProps } from "react-countdown";
 import { z } from "zod";
 import bg from "../../../../assets/images/bg.jpg";
 import useChangePassword from "./_services/useChangePassword";
@@ -16,6 +20,50 @@ export type ConfirmEmailFormData = z.infer<typeof change_password_schema>;
 
 const ChangePasswordComponent = () => {
   const { handleSubmit, onSubmit, register, control } = useChangePassword();
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const [timerEnd, setTimerEnd] = useState(Date.now() + 10000);
+  const [timerKey, setTimerKey] = useState(0);
+  const { email } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
+
+  const handleSendReset = async () => {
+    dispatch(resetPassword({ email }))
+      .unwrap()
+      .then(() => {
+        const newEndTime = Date.now() + 600000;
+        setTimerEnd(newEndTime);
+        setTimerKey((prevKey) => prevKey + 1);
+      })
+      .finally(() => {
+        setIsResendDisabled(true);
+      });
+  };
+
+  const onTimerComplete = () => {
+    setIsResendDisabled(false);
+  };
+  const countDownRenderer = ({
+    minutes,
+    seconds,
+    completed,
+  }: CountdownRenderProps) => {
+    if (completed) {
+      return (
+        <Typography sx={{ marginBottom: 2 }}>
+          {t(
+            "Время истекло. Вы можете запросить новую ссылку для сброса прямо сейчас."
+          )}
+        </Typography>
+      );
+    } else {
+      return (
+        <Typography sx={{ marginBottom: 2 }}>
+          {t("Осталось времени, чтобы запросить новый код:")}{" "}
+          {`${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`}
+        </Typography>
+      );
+    }
+  };
   return (
     <Box
       component="form"
@@ -100,6 +148,20 @@ const ChangePasswordComponent = () => {
           sx={{ width: "100%", margin: "20px 0", height: "50px" }}
           type="submit"
         />
+        <Button
+          variant="outlined"
+          text={t("resend")}
+          onClick={handleSendReset}
+          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+          disabled={isResendDisabled}
+        />
+        <Countdown
+          key={timerKey}
+          date={timerEnd}
+          renderer={countDownRenderer}
+          onComplete={onTimerComplete}
+        />
+
         <TextWithDivider>
           <P>
             <Link
