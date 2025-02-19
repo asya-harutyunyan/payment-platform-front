@@ -2,6 +2,8 @@ import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
+import { useAppDispatch } from "@/store";
+import { confirmEmailRequest } from "@/store/reducers/auth/authSlice/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box, Typography } from "@mui/material";
@@ -14,16 +16,22 @@ import useConfirmEmail from "./_services/useConfirmEmail";
 
 const ConfirmEmailForm = () => {
   const { onSubmit, handleSubmit, control } = useConfirmEmail();
+  const dispatch = useAppDispatch();
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   const [timerEnd, setTimerEnd] = useState(Date.now() + 10000);
   const [timerKey, setTimerKey] = useState(0);
 
   const handleSendReset = async () => {
-    await handleSubmit(onSubmit)();
-    setIsResendDisabled(true);
-    const newEndTime = Date.now() + 1000;
-    setTimerEnd(newEndTime);
-    setTimerKey((prevKey) => prevKey + 1);
+    dispatch(confirmEmailRequest())
+      .unwrap()
+      .then(() => {
+        const newEndTime = Date.now() + 1000;
+        setTimerEnd(newEndTime);
+        setTimerKey((prevKey) => prevKey + 1);
+      })
+      .finally(() => {
+        setIsResendDisabled(true);
+      });
   };
 
   const onTimerComplete = () => {

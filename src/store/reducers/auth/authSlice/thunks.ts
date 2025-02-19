@@ -63,6 +63,7 @@ export const confirmEmailRequest = createAsyncThunk(
     }
   }
 );
+
 export const confirmEmail = createAsyncThunk(
   "auth/comfirmEmail",
   async (confirmation_code: ConfirmEmailType, { rejectWithValue }) => {
