@@ -18,7 +18,7 @@ const ConfirmEmailForm = () => {
   const { onSubmit, handleSubmit, control } = useConfirmEmail();
   const dispatch = useAppDispatch();
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [timerEnd, setTimerEnd] = useState(Date.now() + 1000);
+  const [timerEnd, setTimerEnd] = useState(Date.now() + 60000);
   const [timerKey, setTimerKey] = useState(0);
 
   const handleSendReset = async () => {

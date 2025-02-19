@@ -21,7 +21,7 @@ export type ConfirmEmailFormData = z.infer<typeof change_password_schema>;
 const ChangePasswordComponent = () => {
   const { handleSubmit, onSubmit, register, control } = useChangePassword();
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  const [timerEnd, setTimerEnd] = useState(Date.now() + 10000);
+  const [timerEnd, setTimerEnd] = useState(Date.now() + 600000);
   const [timerKey, setTimerKey] = useState(0);
   const { email } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
