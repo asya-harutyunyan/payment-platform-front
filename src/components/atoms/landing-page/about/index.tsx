@@ -3,10 +3,12 @@ import img from "@/assets/images/Isolation.png";
 import imgUsers from "@/assets/images/users.png";
 import { H1, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import ReactPlayer from "react-player";
 import Button from "../../button";
 export const AboutSection = () => {
+  const navigate = useNavigate();
   return (
     <Box sx={{ display: "flex", flexDirection: "column", margin: "50px 0" }}>
       <Box
@@ -165,6 +167,7 @@ export const AboutSection = () => {
           <Button
             variant={"gradient"}
             text={t("get_start")}
+            onClick={() => navigate({ to: "/auth/sign-in" })}
             sx={{ margin: "30px 0", width: "160px" }}
           />
         </Box>

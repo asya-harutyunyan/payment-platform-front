@@ -18,7 +18,12 @@ export const Footer: FC<IMediaCard> = () => {
         height: "180px",
         background: theme.palette.primary.main,
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: {
+          lg: "space-between",
+          md: "space-between",
+          xs: "center",
+          sm: "center",
+        },
         alignItems: "center",
         marginTop: "50px",
         flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
@@ -33,12 +38,13 @@ export const Footer: FC<IMediaCard> = () => {
           display: "flex",
           justifyContent: "space-between",
           paddingRight: "50px",
+          padding: { lg: "0", md: "", xs: "10px", sm: "10px" },
         }}
       >
         <LinkedInIcon sx={{ color: "text.secondary" }} />
         <InstagramIcon sx={{ color: "text.secondary" }} />
         <FacebookIcon sx={{ color: "text.secondary" }} />
-        <TelegramIcon sx={{ color: "text.secondary" }} />
+        <TelegramIcon sx={{ color: "text.secondary", marginRight: "20px" }} />
       </Box>
     </Box>
   );
