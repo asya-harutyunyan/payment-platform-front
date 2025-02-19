@@ -57,7 +57,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
             <FormTextInput
               control={control}
-              placeholder="Price"
+              placeholder=""
               type="number"
               whiteVariant={true}
               {...register("processing_amount")}

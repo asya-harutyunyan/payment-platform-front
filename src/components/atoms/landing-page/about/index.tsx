@@ -3,9 +3,9 @@ import img from "@/assets/images/Isolation.png";
 import imgUsers from "@/assets/images/users.png";
 import { H1, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
+import { t } from "i18next";
 import ReactPlayer from "react-player";
 import Button from "../../button";
-import { t } from "i18next";
 export const AboutSection = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", margin: "50px 0" }}>
@@ -37,9 +37,9 @@ export const AboutSection = () => {
           <Box width={"100%"}>
             <H1
               color="primary.main"
-              fontSize={{ lg: "45px", md: "45px", xs: "30px", sm: "30px" }}
+              fontSize={{ lg: "40px", md: "40px", xs: "30px", sm: "30px" }}
             >
-              Welcome to PayHub-Grow
+              Добро пожаловать в PayHub
             </H1>
           </Box>
           <img
@@ -49,9 +49,9 @@ export const AboutSection = () => {
           <Box width={"100%"}>
             <H1
               color="primary.main"
-              fontSize={{ lg: "45px", md: "45px", xs: "30px", sm: "30px" }}
+              fontSize={{ lg: "40px", md: "40px", xs: "30px", sm: "30px" }}
             >
-              Your Money the Smart Way
+              Ваши деньги разумным способом
             </H1>
           </Box>
           <P
@@ -60,8 +60,8 @@ export const AboutSection = () => {
               width: { lg: "100%", md: "100%", xs: "100%", sm: "100%" },
             }}
           >
-            Grow Your Money the Smart Way! At PayHub, we believe that saving
-            money should be easy, secure, and rewarding.
+            Увеличьте свои деньги разумным способом! В PayHub мы считаем, что
+            экономия денег должна быть простой, безопасной и полезной.
           </P>
         </Box>
         <Box
@@ -97,7 +97,7 @@ export const AboutSection = () => {
               <H6 sx={{ padding: "0" }} color="primary.main">
                 1.3 M+{" "}
               </H6>
-              <P> Active users across the world</P>
+              <P> Активные пользователи по всему миру</P>
             </Box>
           </Box>
           <Box
@@ -117,9 +117,9 @@ export const AboutSection = () => {
               }}
             />
             <P>
-              Watch Video
+              Посмотреть видео
               <br />
-              For More!
+              Больше!{" "}
             </P>
           </Box>
         </Box>

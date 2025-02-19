@@ -12,7 +12,7 @@ import { t } from "i18next";
 import { useCallback, useState } from "react";
 import Button from "../../button";
 import { Logo } from "../../logo";
-const pages = ["Why Choose Us", "How It Works", "About Us", "Contact"];
+const pages = ["Почему выбирают нас", "Как это работает", "О нас", "Контакт"];
 
 export const ResponsiveAppBar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
