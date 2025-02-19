@@ -5,11 +5,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import { useAuth } from "@/context/auth.context";
 import { choose_card_schema } from "@/schema/add_card.schema";
-import {
-  RootState,
-  useAppDispatch,
-  useAppSelector,
-} from "@/store/reducers/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";

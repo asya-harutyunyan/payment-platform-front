@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { App } from "./app";
 import { AuthProvider } from "./context/auth.context";
 import i18n from "./i18n/i18n";
-import { store } from "./store/reducers/store";
+import { store } from "./store";
 import theme from "./styles/theme";
 dayjs.extend(utc);
 

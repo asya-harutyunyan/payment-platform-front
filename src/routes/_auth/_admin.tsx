@@ -1,18 +1,16 @@
-import { socketConnection } from "@/common/socket";
 import { useAuth } from "@/context/auth.context";
+import { useAppDispatch } from "@/store";
+import { connect } from "@/store/reducers/websocket";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 const AdminLayout = () => {
   const { user } = useAuth();
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (user) {
-      socketConnection.ws.connect();
-      socketConnection.ws
-        .private(`App.User.${user.id}`)
-        .notification((notification: unknown) => {
-          console.log(notification);
-        });
+      dispatch(connect(user.id));
     }
   }, []);
   return (

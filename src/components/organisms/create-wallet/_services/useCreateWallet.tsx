@@ -1,7 +1,7 @@
 import { useAuth } from "@/context/auth.context";
 import { add_wallet_schema } from "@/schema/add_wallet.schema";
+import { useAppDispatch } from "@/store";
 import { createWalletsThunk } from "@/store/reducers/admin/walletSlice/thunks";
-import { useAppDispatch } from "@/store/reducers/store";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "i18next";
 import { register } from "module";

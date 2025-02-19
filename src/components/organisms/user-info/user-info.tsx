@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
-import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { getUserThunk } from "@/store/reducers/usersSlice/thunks";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { Box } from "@mui/material";

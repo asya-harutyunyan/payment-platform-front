@@ -3,7 +3,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
-import { useAppDispatch, useAppSelector } from "@/store/reducers/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";

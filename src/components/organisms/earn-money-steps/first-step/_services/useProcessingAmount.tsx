@@ -1,6 +1,6 @@
 import { z } from "@/common/validation";
 import { deposit_id_schema } from "@/schema/price.schema";
-import { useAppDispatch } from "@/store/reducers/store";
+import { useAppDispatch } from "@/store";
 import { setPrice } from "@/store/reducers/user-info/depositSlice";
 import { processingAmountThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";

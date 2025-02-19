@@ -32,6 +32,9 @@ const depositSlice = createSlice({
     setPrice: (state, action) => {
       state.price = action.payload;
     },
+    setNotificationData: (state, action) => {
+      state.notificationData = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -72,6 +75,7 @@ const depositSlice = createSlice({
   },
 });
 
-export const { resetDeposit, setPrice } = depositSlice.actions;
+export const { resetDeposit, setPrice, setNotificationData } =
+  depositSlice.actions;
 
 export default depositSlice.reducer;

@@ -1,6 +1,6 @@
 import { User } from "@/common/types";
+import { useAppDispatch } from "@/store";
 import { fetchUser } from "@/store/reducers/auth/authSlice/thunks";
-import { useAppDispatch } from "@/store/reducers/store";
 import * as React from "react";
 import {
   createContext,

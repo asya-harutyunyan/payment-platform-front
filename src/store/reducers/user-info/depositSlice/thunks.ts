@@ -1,8 +1,8 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { AppState } from "../../..";
 import { GetWalletRequest } from "../../admin/walletSlice/types";
-import { AppState } from "../../store";
 import { AmountType, Deposit, WalletDetalisType } from "./types";
 //first step
 export const processingAmountThunk = createAsyncThunk(
