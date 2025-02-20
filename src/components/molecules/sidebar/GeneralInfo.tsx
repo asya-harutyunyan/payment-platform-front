@@ -4,11 +4,9 @@ import { H2, H6 } from "@/styles/typography";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, FC, SetStateAction } from "react";
+import { FC } from "react";
 
-interface IGeneralInfo {
-  setOpen: Dispatch<SetStateAction<boolean>>;
-}
+
 const GeneralInfo: FC = () => {
   const data = useAuth();
   return (
