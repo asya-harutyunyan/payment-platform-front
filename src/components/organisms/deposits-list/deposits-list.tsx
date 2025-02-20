@@ -46,6 +46,8 @@ export const DepositLists: FC = () => {
     ],
     []
   );
+  console.log(total);
+
   return (
     <Box>
       <TaskHeader title={t("deposit_lists")} />
@@ -63,17 +65,15 @@ export const DepositLists: FC = () => {
             onChangePage={onChangePage}
           />
 
-          {total > 4 && (
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <PaginationOutlined
-                page={page}
-                onPageChange={onChangePage}
-                count={total}
-              />
-            </Box>
-          )}
+          <Box
+            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            <PaginationOutlined
+              page={page}
+              onPageChange={onChangePage}
+              count={total}
+            />
+          </Box>
         </Box>
       ) : (
         <EmptyComponent />

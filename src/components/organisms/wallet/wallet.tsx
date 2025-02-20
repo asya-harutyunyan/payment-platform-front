@@ -61,17 +61,15 @@ export const Wallet: FC = () => {
           }}
         >
           <DynamicTable columns={columns} data={wallet} />
-          {total > 4 && (
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <PaginationOutlined
-                onPageChange={onChangePage}
-                count={total}
-                page={page}
-              />
-            </Box>
-          )}
+          <Box
+            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            <PaginationOutlined
+              onPageChange={onChangePage}
+              count={total}
+              page={page}
+            />
+          </Box>
         </Box>
       ) : (
         <EmptyComponent />

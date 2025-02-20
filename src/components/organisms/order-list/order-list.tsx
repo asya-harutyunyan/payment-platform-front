@@ -64,21 +64,19 @@ export const OrderListComponent: FC = () => {
               data={orders}
               onChangePage={onChangePage}
             />
-            {total > 4 && (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  width: "100%",
-                }}
-              >
-                <PaginationOutlined
-                  onPageChange={onChangePage}
-                  count={total}
-                  page={page}
-                />
-              </Box>
-            )}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+              }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>
           </Box>
         ) : (
           <EmptyComponent />
