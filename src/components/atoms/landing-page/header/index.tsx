@@ -12,26 +12,35 @@ import { t } from "i18next";
 import { useCallback, useState } from "react";
 import Button from "../../button";
 import { Logo } from "../../logo";
-const pages = ["Почему выбирают нас", "Как это работает", "О нас", "Контакт"];
+const pages = ["why_choose_us", "about_earn_money", "about_us", "contact"];
 
 export const ResponsiveAppBar = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    console.log(element);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const renderGeneralInfo = () => {
     return pages.map((item, index) => (
       <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>
         <Box
-          onClick={isDrawerOpen ? toggleDrawer : undefined}
+          onClick={() => handleScroll(item)}
           style={{ textDecoration: "none", width: "100%", padding: "0" }}
         >
           <ListItemButton sx={{ width: "100%", padding: "20px 0" }}>
-            <P sx={drawerItemStyles}> {t(item)}</P>
+            <P sx={drawerItemStyles}>{t(item)}</P>
           </ListItemButton>
         </Box>
       </ListItem>
     ));
   };
+
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
   };
@@ -119,8 +128,17 @@ export const ResponsiveAppBar = () => {
             }}
           >
             {pages.map((page) => (
-              <Box key={page} sx={{ my: 2, color: "white", display: "block" }}>
-                <P color="primary.contrastText">{page}</P>
+              <Box
+                key={page}
+                sx={{
+                  my: 2,
+                  color: "white",
+                  display: "block",
+                  cursor: "pointer",
+                }}
+                onClick={() => handleScroll(page)}
+              >
+                <P color="primary.contrastText">{t(page)}</P>
               </Box>
             ))}
           </Box>

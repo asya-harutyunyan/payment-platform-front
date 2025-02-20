@@ -41,7 +41,7 @@ export const AboutSection = () => {
               color="primary.main"
               fontSize={{ lg: "40px", md: "40px", xs: "30px", sm: "30px" }}
             >
-              Добро пожаловать в PayHub
+              {t("welcome_landing")}
             </H1>
           </Box>
           <img
@@ -53,7 +53,7 @@ export const AboutSection = () => {
               color="primary.main"
               fontSize={{ lg: "40px", md: "40px", xs: "30px", sm: "30px" }}
             >
-              Ваши деньги разумным способом
+              {t("welcome_landing_second")}
             </H1>
           </Box>
           <P
@@ -62,8 +62,7 @@ export const AboutSection = () => {
               width: { lg: "100%", md: "100%", xs: "100%", sm: "100%" },
             }}
           >
-            Увеличьте свои деньги разумным способом! В PayHub мы считаем, что
-            экономия денег должна быть простой, безопасной и полезной.
+            {t("welcome_text")}
           </P>
         </Box>
         <Box
@@ -97,9 +96,9 @@ export const AboutSection = () => {
               }}
             >
               <H6 sx={{ padding: "0" }} color="primary.main">
-                1.3 M+{" "}
+                140.000+{" "}
               </H6>
-              <P> Активные пользователи по всему миру</P>
+              <P> {t("welcome_people_count")}</P>
             </Box>
           </Box>
           <Box
@@ -119,9 +118,10 @@ export const AboutSection = () => {
               }}
             />
             <P>
-              Посмотреть видео
+              {t("watch_video")}
               <br />
-              Больше!{" "}
+              {t("watch_video_second")}
+              {t(" ")}
             </P>
           </Box>
         </Box>
@@ -167,7 +167,7 @@ export const AboutSection = () => {
           <Button
             variant={"gradient"}
             text={t("get_start")}
-            onClick={() => navigate({ to: "/auth/sign-in" })}
+            onClick={() => navigate({ to: "/auth/sign-up" })}
             sx={{ margin: "30px 0", width: "160px" }}
           />
         </Box>

@@ -37,7 +37,6 @@ export const OrderListComponent: FC = () => {
       {
         column: "initial_ammount",
         valueKey: "user.email",
-        //status todo
       },
     ],
     []

@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { useSnackbar } from "notistack";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -21,6 +21,7 @@ export const BankCardDetalis: FC = () => {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
@@ -29,17 +30,22 @@ export const BankCardDetalis: FC = () => {
       card_holder: "",
       phone_number: "",
       card_number: "",
-      currency: "",
+      currency: "RUB",
     },
   });
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
   const dispatch = useAppDispatch();
   const options = [
-    { value: "USD", label: "USD ($)" },
     { value: "RUB", label: "RUB (₽)" },
+    { value: "USD", label: "USD ($)" },
     { value: "EUR", label: "EUR (€)" },
   ];
+
+  useEffect(() => {
+    setValue("currency", "RUB", { shouldValidate: false });
+  }, [setValue]);
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(addBankCardThunk(data))
       .unwrap()

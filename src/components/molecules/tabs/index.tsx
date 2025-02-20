@@ -1,7 +1,8 @@
+import { useAuth } from "@/context/auth.context";
 import { Box, Tab, Tabs } from "@mui/material";
 import { ReactNode } from "@tanstack/react-router";
 import { t } from "i18next";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -44,11 +45,17 @@ interface ITabsComponent {
 }
 export const TabsComponent: FC<ITabsComponent> = ({ tabPanel, tabNames }) => {
   const [value, setValue] = useState(0);
+  const { user } = useAuth();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    console.log(event);
   };
+
+  useEffect(() => {
+    if (user?.bank_details.length === 0) {
+      setValue(1);
+    }
+  }, [user?.bank_details]);
   return (
     <Box sx={{ width: "100%" }}>
       <Tabs

@@ -12,7 +12,7 @@ export const websocketSlice = createSlice({
   reducers: {
     connect: (state, action: PayloadAction<number>) => {
       const { ws } = socketConnection;
-      console.log(ws,state,action)
+      console.log(ws, state, action);
     },
     disconnect: (state) => {
       state.connect = typeConnect.Disconnected;

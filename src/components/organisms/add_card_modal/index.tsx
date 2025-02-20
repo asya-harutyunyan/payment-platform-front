@@ -17,7 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { useSnackbar } from "notistack";
-import { Dispatch, FC, SetStateAction } from "react";
+import { Dispatch, FC, SetStateAction, useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof add_card_schema>;
@@ -54,6 +54,7 @@ export const AddCardModal: FC<IStepTwo> = ({
     handleSubmit,
     setError,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
@@ -62,9 +63,12 @@ export const AddCardModal: FC<IStepTwo> = ({
       card_holder: cardHolder ?? "",
       phone_number: phoneNumber ?? "",
       card_number: cardNumber ?? "",
-      currency: currency ?? "",
+      currency: currency ?? "RUB",
     },
   });
+  useEffect(() => {
+    setValue("currency", "RUB", { shouldValidate: false });
+  }, [setValue]);
 
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
     if (!isEdit) {
@@ -122,8 +126,8 @@ export const AddCardModal: FC<IStepTwo> = ({
     }
   };
   const options = [
-    { value: "USD", label: "USD ($)" },
     { value: "RUB", label: "RUB (₽)" },
+    { value: "USD", label: "USD ($)" },
     { value: "EUR", label: "EUR (€)" },
   ];
   return (
