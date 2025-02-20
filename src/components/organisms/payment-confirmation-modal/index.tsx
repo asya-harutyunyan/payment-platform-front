@@ -27,8 +27,6 @@ export const PaymentPlatformModal: FC = () => {
     }
   };
   const timer = useMemo(() => {
-    console.log(dayjs.utc(data?.order?.created_at), data?.order?.created_at);
-
     return new Date(
       dayjs()
         .add(

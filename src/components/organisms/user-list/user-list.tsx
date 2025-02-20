@@ -52,7 +52,6 @@ export const UserListComponent: FC = () => {
         >
           <DynamicTable
             isUser
-            isNeedBtn
             columns={columns}
             data={users}
             onChangePage={onChangePage}
