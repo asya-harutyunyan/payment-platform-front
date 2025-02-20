@@ -93,7 +93,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         }}
       >
         <Box sx={{ height: "85%" }}>
-          <GeneralInfo setOpen={setOpen} />
+          <GeneralInfo />
           <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
         </Box>
         <Box
@@ -128,7 +128,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       >
         <Box sx={drawerStyles}>
           <Box sx={{ height: "85%" }}>
-            <GeneralInfo setOpen={setOpen} />
+            <GeneralInfo />
             <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
           </Box>
           <Box
