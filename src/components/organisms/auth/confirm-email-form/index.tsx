@@ -101,7 +101,7 @@ const ConfirmEmailForm = () => {
         align="center"
         sx={{
           width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: { lg: "450px", md: "450px", xs: "390px", sm: "390px" },
+          height: { lg: "450px", md: "450px", xs: "450px", sm: "450px" },
           marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
         }}
       >

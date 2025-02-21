@@ -29,6 +29,7 @@ interface IBasicTextFields {
   whiteVariant?: boolean;
   ref?: Ref<HTMLDivElement>;
   id?: string;
+  autofocus?: boolean;
 }
 
 export const BasicTextFields: FC<IBasicTextFields> = ({
@@ -42,6 +43,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   error = false,
   helperText,
   whiteVariant,
+  autofocus,
   id,
   ref,
 }) => {
@@ -65,6 +67,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         type={inputType}
         ref={ref}
         id={id}
+        autoFocus={autofocus}
         sx={{
           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
             {

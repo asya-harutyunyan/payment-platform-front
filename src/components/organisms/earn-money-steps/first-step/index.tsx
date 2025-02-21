@@ -6,7 +6,6 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { BaseSyntheticEvent, FC } from "react";
 import useProcessingAmount from "./_services/useProcessingAmount";
-
 interface IStepOne {
   handleNext?: () => void;
 }
@@ -54,10 +53,15 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
             marginTop: "20px",
           }}
         >
-          <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
+          <Box
+            sx={{
+              width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" },
+            }}
+          >
             <FormTextInput
               control={control}
               placeholder=""
+              autofocus={true}
               type="number"
               whiteVariant={true}
               {...register("processing_amount")}

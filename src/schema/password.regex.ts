@@ -1,2 +1,1 @@
-export const password_regex =
-  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[+!@?#$%*&._-])/;
+export const password_regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/;

@@ -23,10 +23,12 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   isPassword?: boolean;
   whiteVariant?: boolean;
   mask?: boolean;
+  autofocus?: boolean;
 }
 
 export const FormTextInput = <T extends FieldValues>({
   control,
+  autofocus,
   name,
   defaultValue,
   placeholder,
@@ -64,6 +66,7 @@ export const FormTextInput = <T extends FieldValues>({
           {...field}
           placeholder={placeholder || ""}
           leftIcon={leftIcon}
+          autofocus={autofocus}
           rightIcon={rightIcon}
           helperText={helperText}
           whiteVariant={whiteVariant}

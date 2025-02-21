@@ -10,7 +10,13 @@ import Button from "../../button";
 export const AboutSection = () => {
   const navigate = useNavigate();
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", margin: "50px 0" }}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        margin: { lg: "50px 0", md: "50px 0", xs: "0", sm: "0" },
+      }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -93,12 +99,16 @@ export const AboutSection = () => {
               sx={{
                 display: "flex",
                 flexDirection: "column",
+                paddingTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
               }}
             >
               <H6 sx={{ padding: "0" }} color="primary.main">
                 140.000+{" "}
               </H6>
-              <P> {t("welcome_people_count")}</P>
+              <P paddingBottom={{ ls: "0", md: "0", xs: "20px", sm: "20px" }}>
+                {" "}
+                {t("welcome_people_count")}
+              </P>
             </Box>
           </Box>
           <Box
@@ -107,7 +117,7 @@ export const AboutSection = () => {
               withd: "100%",
               height: "20%",
               justifyContent: "end",
-              marginRight: "100px",
+              marginRight: { lg: "100px", md: "100px", xs: "30px", sm: "30px" },
             }}
           >
             <img
@@ -150,7 +160,12 @@ export const AboutSection = () => {
             xs: "max-content",
             sm: "max-content",
           },
-          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          flexDirection: {
+            lg: "row",
+            md: "row",
+            xs: "column-reverse",
+            sm: "column-reverse",
+          },
         }}
       >
         <Box
@@ -173,8 +188,8 @@ export const AboutSection = () => {
         </Box>
         <Box
           sx={{
-            width: { lg: "58%", md: "58%", xs: "90%", sm: "90%" },
-            marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+            width: { lg: "58%", md: "58%", xs: "95%", sm: "95%" },
+            marginBottom: { lg: "0", md: "0", xs: "20px", sm: "20px" },
             borderRadius: "20px",
             backgroundColor: "primary.main",
             height: "100%",

@@ -6,12 +6,13 @@ import { FormTextInput } from "@/components/atoms/input";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { resetDeposit } from "@/store/reducers/user-info/depositSlice";
 import { P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
 import { BaseSyntheticEvent, Dispatch, FC, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import useBankDetalis from "./_services/useDeposit";
+import InfoIcon from "@mui/icons-material/Info";
 
 interface IStepThree {
   handleNext?: () => void;
@@ -148,13 +149,23 @@ export const StepThree: FC<IStepThree> = ({
           </Box>
           <P color="text.secondary">{t("confirm_text_second_step")}</P>
 
-          <Box sx={{ width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" } }}>
+          <Box
+            sx={{
+              width: { lg: "60%", md: "60%", xs: "100%", sm: "100%" },
+              display: "flex",
+            }}
+          >
             <FormTextInput
               control={control}
               name="transaction_id"
-              placeholder="Transaction ID"
+              placeholder={t("hash")}
               whiteVariant={true}
             />
+            <Tooltip title={t("hash_tooltip")}>
+              <IconButton>
+                <InfoIcon sx={{ color: "text.secondary" }} />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box
             sx={{
