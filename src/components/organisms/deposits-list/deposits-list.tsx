@@ -37,7 +37,7 @@ export const DepositLists: FC = () => {
       },
       {
         column: "processing_amount",
-        valueKey: "processing_amount",
+        valueKey: "amount",
       },
       {
         column: "status",

@@ -13,7 +13,7 @@ export const fields = [
   },
   {
     column: "processing_amount",
-    valueKey: "processing_amount",
+    valueKey: "amount",
   },
   {
     column: "profit",
@@ -21,7 +21,7 @@ export const fields = [
   },
   {
     column: "left_amount",
-    valueKey: "left_amount",
+    valueKey: "processing_amount",
   },
   {
     column: "bank_name",

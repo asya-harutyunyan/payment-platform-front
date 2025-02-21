@@ -21,13 +21,13 @@ const useProcessingAmount = (handeNext?: () => void) => {
   } = useForm<FormData>({
     resolver: zodResolver(deposit_id_schema),
     defaultValues: {
-      processing_amount: undefined,
+      amount: undefined,
     },
     mode: "all",
   });
-  const processingAmountValue = watch("processing_amount");
+  const processingAmountValue = watch("amount");
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    dispatch(setPrice(data.processing_amount));
+    dispatch(setPrice(data.amount));
     return dispatch(processingAmountThunk(data))
       .unwrap()
       .then(() => {

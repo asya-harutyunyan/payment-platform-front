@@ -1,7 +1,7 @@
 export const fields = [
   {
     column: "transaction_amount",
-    valueKey: "trans_amount",
+    valueKey: "amount",
   },
   {
     column: "bank_name",

@@ -13,21 +13,10 @@ interface IStepOne {
 export const StepOne: FC<IStepOne> = ({ handleNext }) => {
   const { handleSubmit, control, processingAmountValue, register } =
     useProcessingAmount(handleNext);
-
-  // const { deposit } = useAppSelector((state) => state.deposit);
-
   const sumitForm = async (e?: BaseSyntheticEvent) => {
     e?.preventDefault();
     await handleSubmit(e);
-    // console.log(errors);
   };
-
-  // useEffect(() => {
-  //   if (deposit?.id) {
-  //     // handleNext?.();
-  //     // setActiveStep?.(2);
-  //   }
-  // }, [deposit]);
 
   return (
     <Box
@@ -64,8 +53,8 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
               autofocus={true}
               type="number"
               whiteVariant={true}
-              {...register("processing_amount")}
-              name="processing_amount"
+              {...register("amount")}
+              name="amount"
             />
           </Box>
           <Button
