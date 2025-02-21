@@ -30,7 +30,11 @@ export const LandingPage = () => {
           <AboutSection />
         </Box>
         <Box
-          sx={{ display: "flex", flexDirection: "column", marginTop: "20px" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+          }}
           id={"about_earn_money"}
         >
           <H2 color="primary.main" align="center">
@@ -87,12 +91,15 @@ export const LandingPage = () => {
           <H2 color="primary.main" align="center">
             {" "}
             {t("work_schema")}
-          </H2>{" "}
+          </H2>
           <Features />
         </Box>{" "}
         <Box id={"contact"} sx={{ display: "flex", flexDirection: "column" }}>
-          <H2 color="primary.main" align="center">
-            {" "}
+          <H2
+            color="primary.main"
+            align="center"
+            paddingTop={{ lg: "30px", md: "30", xs: "0", sm: "0" }}
+          >
             {t("faq")}
           </H2>
 

@@ -32,8 +32,8 @@ const Features = () => {
         margin: {
           lg: "50px 0 50px 0",
           md: "50px 0 50px 0",
-          xs: "20px 0",
-          sm: "20px 0",
+          xs: "30px 0",
+          sm: "30px 0",
         },
         height: { lg: "640px", md: "640px", xs: "unset", sm: "unset" },
         display: "flex",

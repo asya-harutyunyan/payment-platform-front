@@ -1,6 +1,12 @@
 import { H5, P } from "@/styles/typography";
 import { Box, Card, CardContent, Grid } from "@mui/material";
-import { faqData, faqDataForth, faqDataSecond, faqDataThird } from "./texts";
+import {
+  faqData,
+  faqDataFifth,
+  faqDataForth,
+  faqDataSecond,
+  faqDataThird,
+} from "./texts";
 
 const FAQs = () => {
   return (
@@ -21,6 +27,7 @@ const FAQs = () => {
             display: "flex",
             flexDirection: "column",
             height: "100%",
+            minHeight: "100vh",
             gap: 2,
             padding: "0",
           }}
@@ -34,8 +41,12 @@ const FAQs = () => {
           >
             {faqData.map((faq, index) => (
               <CardContent key={index}>
-                <H5 color="primary.main">{faq.question}</H5>
-                <P color="primary.main">{faq.answer}</P>
+                <H5 color="primary.main" paddingBottom={"20px"}>
+                  {faq.question}
+                </H5>
+                <P color="primary.main" fontSize={"1.1rem"}>
+                  {faq.answer}
+                </P>
               </CardContent>
             ))}
           </Card>
@@ -48,8 +59,12 @@ const FAQs = () => {
           >
             {faqDataSecond.map((faq, index) => (
               <CardContent key={index}>
-                <H5 color="primary.main">{faq.question}</H5>
-                <P color="primary.main">{faq.answer}</P>
+                <H5 color="primary.main" paddingBottom={"20px"}>
+                  {faq.question}
+                </H5>
+                <P color="primary.main" fontSize={"1.1rem"}>
+                  {faq.answer}
+                </P>
               </CardContent>
             ))}
           </Card>
@@ -60,6 +75,7 @@ const FAQs = () => {
         <Box
           sx={{
             height: "100%",
+            minHeight: "100vh",
           }}
         >
           <Card
@@ -71,8 +87,12 @@ const FAQs = () => {
           >
             {faqDataThird.map((faq, index) => (
               <CardContent key={index}>
-                <H5 color="primary.main">{faq.question}</H5>
-                <P color="primary.main">{faq.answer}</P>
+                <H5 color="primary.main" paddingBottom={"20px"}>
+                  {faq.question}
+                </H5>
+                <P color="primary.main" fontSize={"1.1rem"}>
+                  {faq.answer}
+                </P>
               </CardContent>
             ))}
           </Card>
@@ -85,6 +105,8 @@ const FAQs = () => {
             display: "flex",
             flexDirection: "column",
             height: "100%",
+            minHeight: "100vh",
+
             gap: 2,
           }}
         >
@@ -97,8 +119,30 @@ const FAQs = () => {
           >
             {faqDataForth.map((faq, index) => (
               <CardContent key={index}>
-                <H5 color="primary.main">{faq.question}</H5>
-                <P color="primary.main">{faq.answer}</P>
+                <H5 color="primary.main" paddingBottom={"20px"}>
+                  {faq.question}
+                </H5>
+                <P color="primary.main" fontSize={"1.1rem"}>
+                  {faq.answer}
+                </P>
+              </CardContent>
+            ))}
+          </Card>
+          <Card
+            sx={{
+              flex: 1,
+              borderRadius: 3,
+              boxShadow: 3,
+            }}
+          >
+            {faqDataFifth.map((faq, index) => (
+              <CardContent key={index}>
+                <H5 color="primary.main" paddingBottom={"20px"}>
+                  {faq.question}
+                </H5>
+                <P color="primary.main" fontSize={"1.1rem"}>
+                  {faq.answer}
+                </P>
               </CardContent>
             ))}
           </Card>
