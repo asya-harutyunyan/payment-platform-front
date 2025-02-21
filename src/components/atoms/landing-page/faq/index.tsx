@@ -8,7 +8,7 @@ const FAQs = () => {
       container
       spacing={{ lg: 3, md: 3, xs: 0, sm: 0 }}
       sx={{
-        margin: "50px 0",
+        margin: { lg: "50px 0", md: "50px 0", xs: "20px 0", sm: "20px 0" },
         width: "100%",
         display: "flex",
         justifyContent: "center",

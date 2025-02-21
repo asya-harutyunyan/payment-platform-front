@@ -29,7 +29,12 @@ const Features = () => {
     <Box
       sx={{
         width: "100%",
-        margin: "50px 0 50px 0",
+        margin: {
+          lg: "50px 0 50px 0",
+          md: "50px 0 50px 0",
+          xs: "20px 0",
+          sm: "20px 0",
+        },
         height: { lg: "640px", md: "640px", xs: "unset", sm: "unset" },
         display: "flex",
         alignItems: {
@@ -48,7 +53,7 @@ const Features = () => {
           borderRadius: 2,
           boxShadow: 3,
           height: "100%",
-          width: { lg: "50%", md: "50%", xs: "70%", sm: "70%" },
+          width: { lg: "50%", md: "50%", xs: "100%", sm: "100%" },
         }}
       >
         <Box padding={2}>

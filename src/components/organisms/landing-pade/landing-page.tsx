@@ -30,7 +30,7 @@ export const LandingPage = () => {
           <AboutSection />
         </Box>
         <Box
-          sx={{ display: "flex", flexDirection: "column" }}
+          sx={{ display: "flex", flexDirection: "column", marginTop: "20px" }}
           id={"about_earn_money"}
         >
           <H2 color="primary.main" align="center">
@@ -40,7 +40,12 @@ export const LandingPage = () => {
           <Box
             sx={{
               display: "flex",
-              margin: "50px 0",
+              margin: {
+                lg: "50px 0",
+                md: "50px 0",
+                xs: " 0",
+                sm: "0",
+              },
               justifyContent: {
                 lg: "space-between",
                 md: "space-between",
@@ -86,7 +91,7 @@ export const LandingPage = () => {
           <Features />
         </Box>{" "}
         <Box id={"contact"} sx={{ display: "flex", flexDirection: "column" }}>
-          <H2 color="primary.main" align="center" paddingBottom={"30px"}>
+          <H2 color="primary.main" align="center">
             {" "}
             {t("faq")}
           </H2>
