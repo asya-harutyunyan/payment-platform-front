@@ -1,10 +1,13 @@
+import bg from "@/assets/images/modal.png";
+import { H3 } from "@/styles/typography";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Box } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import { useEffect, useMemo } from "react";
+import { t } from "i18next";
+import { useEffect, useMemo, useState } from "react";
 import {
   Control,
   FieldPath,
@@ -12,6 +15,9 @@ import {
   useController,
   UseControllerProps,
 } from "react-hook-form";
+import Button from "../button";
+import { BasicModal } from "../modal";
+
 interface IFormTextInput<T extends FieldValues, U extends object>
   extends UseControllerProps<T> {
   control: Control<T>;
@@ -47,6 +53,9 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
       field.onChange(defaultValue);
     }
   }, [data, valueKey, field]);
+
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<U | null>(null);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
@@ -101,13 +110,50 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
               {onItemDelete && (
                 <DeleteIcon
                   sx={{ marginRight: "10px", cursor: "pointer" }}
-                  onClick={() => onItemDelete?.(item)}
+                  onClick={() => {
+                    setSelectedItem(item);
+                    setOpenDeleteModal(true);
+                  }}
                 />
               )}
             </Box>
           ))}
         </RadioGroup>
       </FormControl>
+
+      {/* Delete Confirmation Modal */}
+      <BasicModal
+        handleClose={() => setOpenDeleteModal(false)}
+        open={openDeleteModal}
+        bg={bg}
+        width="50%"
+      >
+        <H3 align="center">{t("delete_card")}</H3>
+        <Box
+          sx={{
+            display: "flex",
+            width: "30%",
+            justifyContent: "space-between",
+            marginTop: "30px",
+          }}
+        >
+          <Button
+            variant={"outlinedWhite"}
+            text={t("no")}
+            onClick={() => setOpenDeleteModal(false)}
+          />
+          <Button
+            variant={"text"}
+            text={t("yes")}
+            onClick={() => {
+              if (selectedItem) {
+                onItemDelete?.(selectedItem);
+                setOpenDeleteModal(false);
+              }
+            }}
+          />
+        </Box>
+      </BasicModal>
     </Box>
   );
 };

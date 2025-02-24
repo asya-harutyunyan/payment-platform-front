@@ -18,6 +18,7 @@ import { t } from "i18next";
 import { BaseSyntheticEvent, FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AddCardModal } from "../../add_card_modal";
+
 interface IStepTwo {
   handleNext?: () => void;
   handleBack?: () => void;

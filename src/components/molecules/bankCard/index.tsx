@@ -1,14 +1,19 @@
 import img from "@/assets/images/Card.png";
+import bg from "@/assets/images/modal.png";
 import { BankDetail } from "@/common/types/user";
+import Button from "@/components/atoms/button";
+import { BasicModal } from "@/components/atoms/modal";
 import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
-import { H5 } from "@/styles/typography";
+import { H3, H5 } from "@/styles/typography";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
+import { t } from "i18next";
 import { Dispatch, FC, SetStateAction, useState } from "react";
+
 interface IBankCard {
   cardHolder: string;
   cardNumber: string;
@@ -33,6 +38,7 @@ const BankCard: FC<IBankCard> = ({
   const { fetchAuthUser } = useAuth();
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const dispatch = useAppDispatch();
   const onItemDelete = (card?: number) => {
@@ -41,6 +47,7 @@ const BankCard: FC<IBankCard> = ({
         .unwrap()
         .then(() => {
           fetchAuthUser?.();
+          setOpenDeleteModal(false);
         });
     }
   };
@@ -88,7 +95,7 @@ const BankCard: FC<IBankCard> = ({
                   }}
                 />
               </Box>
-              <Box onClick={() => onItemDelete?.(bankDetail)}>
+              <Box onClick={() => setOpenDeleteModal(true)}>
                 <DeleteForeverIcon
                   sx={{
                     color: "#dc0e0e",
@@ -155,6 +162,29 @@ const BankCard: FC<IBankCard> = ({
         currency={currency}
         isEdit
       />
+      <BasicModal
+        handleClose={() => setOpenDeleteModal(false)}
+        open={openDeleteModal}
+        bg={bg}
+        width="50%"
+      >
+        <H3 align="center">{t("delete_card")}</H3>
+        <Box
+          sx={{
+            display: "flex",
+            width: "30%",
+            justifyContent: "space-between",
+            marginTop: "30px",
+          }}
+        >
+          <Button variant={"outlinedWhite"} text={t("no")} />
+          <Button
+            variant={"text"}
+            text={t("yes")}
+            onClick={() => onItemDelete?.(bankDetail)}
+          />
+        </Box>
+      </BasicModal>
     </Box>
   );
 };
