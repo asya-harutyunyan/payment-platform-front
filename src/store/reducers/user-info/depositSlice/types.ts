@@ -1,5 +1,6 @@
+import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-step/enums";
 import { deposit_id_schema } from "@/schema/price.schema";
-import { wallet_details_schema } from "@/schema/wallet_details.schema";
+import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
 import { z } from "zod";
 
 export interface DepositState {
@@ -25,7 +26,7 @@ export interface DepositState {
   };
 }
 export type AmountType = z.infer<typeof deposit_id_schema>;
-export type WalletDetalisType = z.infer<typeof wallet_details_schema>;
+export type WalletDetalisType = z.infer<typeof wallet_usdt_details_schema>;
 
 export type Deposit = {
   id: number;
@@ -40,6 +41,7 @@ export type Deposit = {
   payment_method_id?: number | string;
   transaction_id?: string;
   wallet: Wallet;
+  type?: DEPOSIT_TYPES;
   payment_method?: PaymentMethod;
 };
 

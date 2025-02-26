@@ -3,8 +3,9 @@ import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
+import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-step/enums";
 import { useAuth } from "@/context/auth.context";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import theme from "@/styles/theme";
 import { H3, H6 } from "@/styles/typography";
@@ -33,6 +34,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { deposit } = useAppSelector((state) => state.deposit);
 
   useEffect(() => {
     setSidebarItems(user?.role === "admin" ? adminItems : userItems);
@@ -52,6 +54,20 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     setIsOpen(true);
     toggleDrawer();
   };
+  useEffect(() => {
+    if (deposit?.type === DEPOSIT_TYPES.FIAT) {
+      setIsOpen(true);
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      if (typeof jivo_api !== "undefined") {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        jivo_api.open();
+      } else {
+        console.error("JivoChat script not loaded yet.");
+      }
+    }
+  }, [deposit, isOpen]);
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
