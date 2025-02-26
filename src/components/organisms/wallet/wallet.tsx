@@ -72,7 +72,7 @@ export const Wallet: FC = () => {
           </Box>
         </Box>
       ) : (
-        <EmptyComponent />
+        <EmptyComponent text={"no_data"} />
       )}
     </Box>
   );

@@ -37,7 +37,7 @@ export const MobileCards: FC<ICardsMobile> = ({ cards }) => {
           ))}
         </Box>
       ) : (
-        <EmptyComponent />
+        <EmptyComponent text={"no_data"} />
       )}
     </Box>
   );

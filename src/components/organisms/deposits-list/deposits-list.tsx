@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
@@ -14,7 +15,7 @@ export const DepositLists: FC = () => {
   const dispatch = useAppDispatch();
   const { deposits, total, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
-
+  const navigate = useNavigate();
   useEffect(() => {
     dispatch(getDepositsThunk({ page: page }));
   }, []);
@@ -53,7 +54,7 @@ export const DepositLists: FC = () => {
       <TaskHeader title={t("deposit_lists")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : total > 0 ? (
+      ) : total < 0 ? (
         <Box
           sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
         >
@@ -76,7 +77,13 @@ export const DepositLists: FC = () => {
           </Box>
         </Box>
       ) : (
-        <EmptyComponent />
+        <EmptyComponent
+          text={"empty_deposit"}
+          isButtonNeeded
+          textBtn={"create_deposit"}
+          isTextNeeded={"order_empty_text"}
+          handleClick={() => navigate({ to: "/steps" })}
+        />
       )}
     </Box>
   );

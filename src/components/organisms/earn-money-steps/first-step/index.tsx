@@ -55,6 +55,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
               whiteVariant={true}
               {...register("amount")}
               name="amount"
+              numeric
             />
           </Box>
           <Button

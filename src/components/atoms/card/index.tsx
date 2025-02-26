@@ -1,5 +1,5 @@
 import { H4, H5 } from "@/styles/typography";
-import { SxProps, Theme } from "@mui/material";
+import { SxProps, Theme, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import * as React from "react";
 
@@ -53,7 +53,17 @@ export const BasicCard: React.FC<IBasicCard> = ({
         },
       }}
     >
-      <span style={{ display: "flex" }}>
+      <Typography
+        sx={{
+          display: "flex",
+          textAlign: {
+            lg: "start",
+            md: "start",
+            xs: "center",
+            sm: "center",
+          },
+        }}
+      >
         <H4
           sx={{
             color: "text.secondary",
@@ -67,18 +77,31 @@ export const BasicCard: React.FC<IBasicCard> = ({
           <H4
             sx={{
               color: "text.secondary",
+
               textAlign: {
                 lg: "start",
                 md: "start",
                 xs: "center",
                 sm: "center",
               },
+              fontSize: {
+                lg: "1.5rem",
+                md: "1.5rem",
+                xs: "1.2rem",
+                sm: "1.2rem",
+              },
+              paddingTop: {
+                lg: "0",
+                md: "0",
+                xs: "13px",
+                sm: "13px",
+              },
             }}
           >
             {sub_title}
           </H4>
         )}
-      </span>
+      </Typography>
       {title_B ? (
         <H5
           sx={{

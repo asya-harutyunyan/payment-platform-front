@@ -29,7 +29,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
   const { user, fetchAuthUser } = useAuth();
-  const price = useAppSelector((state: RootState) => state.deposit.price); // Получаем price из Redux
+  const price = useAppSelector((state: RootState) => state.deposit.price);
   const updatedPrice = addFivePercent(price);
 
   const handleOpen = () => setOpen(true);

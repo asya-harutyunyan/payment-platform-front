@@ -24,6 +24,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   whiteVariant?: boolean;
   mask?: boolean;
   autofocus?: boolean;
+  numeric?: boolean;
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -38,12 +39,14 @@ export const FormTextInput = <T extends FieldValues>({
   type,
   whiteVariant,
   mask,
+  numeric,
   ...props
 }: IFormTextInput<T>) => {
   const { field, fieldState } = useController<T>({
     name,
     control,
     defaultValue,
+
     ...props,
   });
 
@@ -57,7 +60,13 @@ export const FormTextInput = <T extends FieldValues>({
     }
     return undefined;
   }, [fieldState]);
+  const formatNumericValue = (value: string) => {
+    if (!numeric) return value;
 
+    const numericValue = value ? value.replace(/\D/g, "") : "";
+    const formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return formattedValue;
+  };
   return (
     <Box width={"100%"}>
       {!mask ? (
@@ -72,6 +81,12 @@ export const FormTextInput = <T extends FieldValues>({
           whiteVariant={whiteVariant}
           error={!!helperText}
           type={type}
+          value={numeric ? formatNumericValue(field.value || "") : field.value}
+          onChange={(value: string) => {
+            const numericValue = numeric ? value.replace(/\D/g, "") : value;
+
+            field.onChange(numericValue);
+          }}
         />
       ) : (
         <CreditCardInput

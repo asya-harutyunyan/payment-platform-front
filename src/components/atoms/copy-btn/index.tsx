@@ -26,7 +26,7 @@ export const CopyButton: FC<ICopyButton> = ({ text }) => {
     >
       <ContentCopyIcon sx={{ color: "tertiary.main" }} />
       {copied ? (
-        <P sx={{ color: "tertiary.main", fontSize: "12px" }}>Copied!</P>
+        <P sx={{ color: "tertiary.main", fontSize: "12px" }}>Скопирован!</P>
       ) : (
         <></>
       )}

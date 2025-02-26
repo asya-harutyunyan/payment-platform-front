@@ -1,12 +1,26 @@
 import SadFolderIcon from "@/assets/svg/empty";
-import { H4 } from "@/styles/typography";
+import Button from "@/components/atoms/button";
+import { H4, P } from "@/styles/typography";
 import { Box, Divider } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 
-export const EmptyComponent: FC = () => {
+interface IEmptyComponent {
+  text: string;
+  isButtonNeeded?: boolean;
+  isTextNeeded?: string;
+  textBtn?: string;
+  handleClick?: () => void;
+}
+export const EmptyComponent: FC<IEmptyComponent> = ({
+  text,
+  isButtonNeeded,
+  isTextNeeded,
+  textBtn,
+  handleClick,
+}) => {
   return (
-    <Box sx={{ width: "100%", height: "40vh" }}>
+    <Box sx={{ width: "100%", mineight: "40vh" }}>
       <Divider />
       <Box
         sx={{
@@ -20,9 +34,25 @@ export const EmptyComponent: FC = () => {
       >
         {" "}
         <SadFolderIcon width={300} height={200} />
-        <H4 color="primary.main" sx={{ textDecoration: "underline" }}>
-          {t("no_data")}
+        <H4
+          color="primary.main"
+          sx={{ textDecoration: "underline" }}
+          paddingBottom={"50px"}
+        >
+          {t(text)}
         </H4>
+        {isButtonNeeded && textBtn && (
+          <Button
+            variant={"contained"}
+            text={t(textBtn)}
+            onClick={handleClick}
+          />
+        )}
+        {isTextNeeded && (
+          <P align="center" paddingTop={"30px"} fontSize={"15px"}>
+            {t(isTextNeeded)}
+          </P>
+        )}
       </Box>
     </Box>
   );

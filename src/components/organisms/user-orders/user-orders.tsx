@@ -81,7 +81,7 @@ export const UserOrdersComponent: FC = () => {
             </Box>
           </Box>
         ) : (
-          <EmptyComponent />
+          <EmptyComponent text={"empty_order"} />
         )}
       </Box>
     </Box>

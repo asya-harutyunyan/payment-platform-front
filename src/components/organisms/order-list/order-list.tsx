@@ -78,7 +78,7 @@ export const OrderListComponent: FC = () => {
             </Box>
           </Box>
         ) : (
-          <EmptyComponent />
+          <EmptyComponent text={"empty_order"} />
         )}
       </Box>
     </Box>
