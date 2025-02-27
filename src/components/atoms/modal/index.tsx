@@ -32,6 +32,7 @@ export const BasicModal: FC<IBasicModal> = ({
           left: "50%",
           transform: "translate(-50%, -50%)",
           width: width ? width : "60%",
+          minHeight: "300px",
           // height: "60%",
           backgroundImage: `url(${bg})`,
           backgroundSize: "cover",

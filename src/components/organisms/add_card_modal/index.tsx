@@ -141,6 +141,11 @@ export const AddCardModal: FC<IStepTwo> = ({
         onSubmit={handleSubmit(isEdit ? onEditSubmit : onAddSubmit)}
         sx={{
           width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
+          marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+          height: { lg: "auto", md: "auto", xs: "500px", sm: "500px" },
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
         }}
       >
         <FormTextInput

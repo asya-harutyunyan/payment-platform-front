@@ -20,7 +20,7 @@ function CustomTabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ pt: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -48,7 +48,7 @@ export const TabsComponent: FC<ITabsComponent> = ({ tabPanel, tabNames }) => {
   const { user } = useAuth();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(event)
+    console.log(event);
     setValue(newValue);
   };
 

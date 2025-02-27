@@ -56,8 +56,8 @@ const BankCard: FC<IBankCard> = ({
     <Box component="form">
       <Box
         sx={{
-          width: { md: 300, xs: 230, sm: 230 },
-          height: { md: 160, xs: 140, sm: 140 },
+          width: { md: 300, xs: 250, sm: 250 },
+          height: { md: 160, xs: 160, sm: 160 },
           borderRadius: 2,
           backgroundImage: bankDetail ? `url(${img})` : "none",
           backgroundColor: bankDetail ? "none" : "#989494",

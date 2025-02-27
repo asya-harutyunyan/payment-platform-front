@@ -1,7 +1,13 @@
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
+import { FC } from "react";
 
-export const CircularIndeterminate = () => {
+interface ICircularIndeterminate {
+  color?: string;
+}
+export const CircularIndeterminate: FC<ICircularIndeterminate> = ({
+  color,
+}) => {
   return (
     <Box
       sx={{
@@ -10,9 +16,10 @@ export const CircularIndeterminate = () => {
         alignItems: "center",
         width: "100%",
         height: "60vh",
+        color: "white",
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: color ?? "#primary.main" }} />
     </Box>
   );
 };

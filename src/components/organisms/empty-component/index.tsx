@@ -1,5 +1,6 @@
 import SadFolderIcon from "@/assets/svg/empty";
 import Button from "@/components/atoms/button";
+import { useAuth } from "@/context/auth.context";
 import { H4, P } from "@/styles/typography";
 import { Box, Divider } from "@mui/material";
 import { t } from "i18next";
@@ -19,6 +20,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
   textBtn,
   handleClick,
 }) => {
+  const { user } = useAuth();
   return (
     <Box sx={{ width: "100%", mineight: "40vh" }}>
       <Divider />
@@ -42,7 +44,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
         >
           {t(text)}
         </H4>
-        {isButtonNeeded && textBtn && (
+        {isButtonNeeded && textBtn && user?.role === "client" && (
           <Button
             variant={"contained"}
             text={t(textBtn)}

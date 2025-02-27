@@ -1,4 +1,9 @@
-import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  isPending,
+  isRejected,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import {
   getDepositsThunk,
   getOrdersThunk,
@@ -7,7 +12,7 @@ import {
   processingAmountThunk,
   updateDeposit,
 } from "./thunks";
-import { DepositState } from "./types";
+import { Deposit, DepositState } from "./types";
 
 const initialState: DepositState = {
   loading: false,
@@ -34,6 +39,12 @@ const depositSlice = createSlice({
     },
     setNotificationData: (state, action) => {
       state.notificationData = action.payload;
+    },
+    updateDepositAdminStatus: (state, action: PayloadAction<string>) => {
+      state.deposit = {
+        ...state.deposit,
+        status_by_admin: action.payload,
+      } as Deposit;
     },
   },
   extraReducers: (builder) => {
@@ -75,7 +86,11 @@ const depositSlice = createSlice({
   },
 });
 
-export const { resetDeposit, setPrice, setNotificationData } =
-  depositSlice.actions;
+export const {
+  resetDeposit,
+  setPrice,
+  setNotificationData,
+  updateDepositAdminStatus,
+} = depositSlice.actions;
 
 export default depositSlice.reducer;

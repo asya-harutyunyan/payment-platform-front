@@ -2,6 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
@@ -14,6 +15,7 @@ import { EmptyComponent } from "../empty-component";
 export const DepositLists: FC = () => {
   const dispatch = useAppDispatch();
   const { deposits, total, loading } = useAppSelector((state) => state.deposit);
+  const { user } = useAuth();
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   useEffect(() => {
@@ -78,7 +80,9 @@ export const DepositLists: FC = () => {
         </Box>
       ) : (
         <EmptyComponent
-          text={"empty_deposit"}
+          text={
+            user?.role === "admin" ? "empty_deposit_admin" : "empty_deposit"
+          }
           isButtonNeeded
           textBtn={"create_deposit"}
           handleClick={() => navigate({ to: "/steps" })}

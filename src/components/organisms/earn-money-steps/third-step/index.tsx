@@ -32,8 +32,6 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
           padding: "0",
           height: { lg: "390px", md: "390px", xs: "400px", sm: "400px" },
           display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
         }}
         bg={third_step}
         title={t("step_c")}

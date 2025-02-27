@@ -1,6 +1,10 @@
 import { socketConnection } from "@/common/socket";
 import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { setNotificationData } from "../reducers/user-info/depositSlice";
+import { RootState } from "..";
+import {
+  setNotificationData,
+  updateDepositAdminStatus,
+} from "../reducers/user-info/depositSlice";
 import { connect } from "../reducers/websocket";
 
 // let socket: Socket<ServerToClientListen, ClientToServerListen>;
@@ -29,6 +33,14 @@ webSocketMiddleware.startListening({
         .private(`App.User.${action.payload}`)
         .notification((notification: unknown) => {
           listenerApi.dispatch(setNotificationData(notification));
+        });
+      socketConnection.ws
+        .private(`Deposit.Confirmed.${action.payload}`)
+        .notification((notification: { id: number; status: string }) => {
+          const { deposit } = listenerApi.getState() as RootState;
+          if (deposit.deposit?.id === notification.id) {
+            listenerApi.dispatch(updateDepositAdminStatus(notification.status));
+          }
         });
     }
 

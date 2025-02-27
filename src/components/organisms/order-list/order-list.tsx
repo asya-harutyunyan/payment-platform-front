@@ -79,8 +79,8 @@ export const OrderListComponent: FC = () => {
           </Box>
         ) : (
           <EmptyComponent
-            text={"empty_order"}
-            isTextNeeded={"order_empty_text"}
+            text={"empty_order_admin"}
+            // isTextNeeded={"order_empty_text"}
           />
         )}
       </Box>
