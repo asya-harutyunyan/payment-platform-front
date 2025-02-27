@@ -79,7 +79,7 @@ export const ResponsiveAppBar = () => {
       to: to,
       replace: true,
     });
-  }, [user]);
+  }, [navigate, user?.role]);
 
   return (
     <AppBar position="static">

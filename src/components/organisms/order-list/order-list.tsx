@@ -41,6 +41,11 @@ export const OrderListComponent: FC = () => {
     ],
     []
   );
+  const handleConfirm = (num?: number) => {
+    console.log(num);
+
+    // dispatch(confirmOrderByAdminThunk())
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("order_list")} />
@@ -59,9 +64,11 @@ export const OrderListComponent: FC = () => {
             <DynamicTable
               isUser
               isNeedBtn
+              textBtn={"confirm"}
               columns={columns}
               data={orders}
               onChangePage={onChangePage}
+              handleClick={handleConfirm}
             />
             <Box
               sx={{
@@ -78,10 +85,7 @@ export const OrderListComponent: FC = () => {
             </Box>
           </Box>
         ) : (
-          <EmptyComponent
-            text={"empty_order_admin"}
-            // isTextNeeded={"order_empty_text"}
-          />
+          <EmptyComponent text={"empty_order_admin"} />
         )}
       </Box>
     </Box>

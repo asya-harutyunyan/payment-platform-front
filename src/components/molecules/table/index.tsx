@@ -30,21 +30,17 @@ interface TableProps<T extends { id?: number }> {
   isUser?: boolean;
   isNeedBtn?: boolean;
   text?: string;
+  textBtn?: string;
+  handleClick?: (value?: number) => void;
 }
 
-function DynamicTable<T extends { id?: number }>({
-  columns,
-  data,
-  isNeedBtn,
-  text,
-}: TableProps<T>) {
+function DynamicTable<
+  T extends { id?: number; textBtn?: string; handleClick?: () => void },
+>({ columns, handleClick, data, isNeedBtn, textBtn, text }: TableProps<T>) {
   const navigate = useNavigate();
   const route = useLocation();
 
   const handleUserInformation = (row: T) => {
-    // if (route.pathname === "/user-list") {
-    //   navigate({ to: `/user-list/${row.id}` });
-    // } else
     if (route.pathname === "/deposit-list") {
       navigate({ to: `/deposit-list/${row.id}` });
     } else if (route.pathname === "/order-list") {
@@ -104,10 +100,7 @@ function DynamicTable<T extends { id?: number }>({
                     }}
                   >
                     {column.column === "Action" ? (
-                      <Button
-                        variant={"text"}
-                        text={text ?? "Status of task"}
-                      />
+                      <Button variant={"text"} text={text ?? "text"} />
                     ) : (
                       String(_.getPath(row, column.valueKey)) || "-"
                     )}
@@ -117,17 +110,20 @@ function DynamicTable<T extends { id?: number }>({
                   <TableCell>
                     <Button
                       variant={"contained"}
-                      text={t("see_more")}
+                      text={t(textBtn ? textBtn : "see_more")}
                       sx={{ width: "120px" }}
-                      onClick={() =>
-                        // route.pathname === "/user-list" ||
-                        route.pathname === "/order-list" ||
-                        route.pathname === "/deposit-info" ||
-                        route.pathname === "/orders" ||
-                        route.pathname === "/deposit-list"
-                          ? handleUserInformation(row)
-                          : {}
-                      }
+                      onClick={() => {
+                        handleClick?.(row.id);
+
+                        if (
+                          route.pathname === "/order-list" ||
+                          route.pathname === "/deposit-info" ||
+                          route.pathname === "/orders" ||
+                          route.pathname === "/deposit-list"
+                        ) {
+                          handleUserInformation(row);
+                        }
+                      }}
                     />
                   </TableCell>
                 )}

@@ -73,7 +73,7 @@ export const SelectField = <T extends FieldValues>({
       </InputLabel>
       <Select
         labelId={id}
-        value={value} // ✅ Always has a valid value
+        value={value}
         onChange={handleChange}
         label={placeholder}
         id={id}

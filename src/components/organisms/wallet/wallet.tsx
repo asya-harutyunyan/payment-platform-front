@@ -30,7 +30,7 @@ export const Wallet: FC = () => {
   const columns = useMemo<IColumn<WalletType>[]>(
     () => [
       {
-        column: "address",
+        column: "network",
         valueKey: "network",
       },
       {
@@ -38,12 +38,13 @@ export const Wallet: FC = () => {
         valueKey: "currency",
       },
       {
-        column: "network",
+        column: "address",
         valueKey: "address",
       },
     ],
     []
   );
+
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("wallet_list")} />

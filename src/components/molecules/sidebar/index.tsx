@@ -204,7 +204,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
 
-      {isOpen && <JivoChat />}
+      {isOpen ? <JivoChat /> : ""}
     </Box>
   );
 };
