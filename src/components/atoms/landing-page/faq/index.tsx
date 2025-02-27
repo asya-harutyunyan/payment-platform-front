@@ -44,7 +44,7 @@ const FAQs = () => {
                 <H5 color="primary.main" paddingBottom={"20px"}>
                   {faq.question}
                 </H5>
-                <P color="primary.main" fontSize={"1.1rem"}>
+                <P color="primary.main" fontSize={"1.1rem"} fontWeight={400}>
                   {faq.answer}
                 </P>
               </CardContent>
@@ -62,7 +62,7 @@ const FAQs = () => {
                 <H5 color="primary.main" paddingBottom={"20px"}>
                   {faq.question}
                 </H5>
-                <P color="primary.main" fontSize={"1.1rem"}>
+                <P color="primary.main" fontSize={"1.1rem"} fontWeight={400}>
                   {faq.answer}
                 </P>
               </CardContent>
@@ -90,7 +90,7 @@ const FAQs = () => {
                 <H5 color="primary.main" paddingBottom={"20px"}>
                   {faq.question}
                 </H5>
-                <P color="primary.main" fontSize={"1.1rem"}>
+                <P color="primary.main" fontSize={"1.1rem"} fontWeight={400}>
                   {faq.answer}
                 </P>
               </CardContent>
@@ -122,7 +122,7 @@ const FAQs = () => {
                 <H5 color="primary.main" paddingBottom={"20px"}>
                   {faq.question}
                 </H5>
-                <P color="primary.main" fontSize={"1.1rem"}>
+                <P color="primary.main" fontSize={"1.1rem"} fontWeight={400}>
                   {faq.answer}
                 </P>
               </CardContent>
@@ -140,7 +140,7 @@ const FAQs = () => {
                 <H5 color="primary.main" paddingBottom={"20px"}>
                   {faq.question}
                 </H5>
-                <P color="primary.main" fontSize={"1.1rem"}>
+                <P color="primary.main" fontSize={"1.1rem"} fontWeight={400}>
                   {faq.answer}
                 </P>
               </CardContent>

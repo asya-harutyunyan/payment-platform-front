@@ -102,7 +102,6 @@ export const LandingPage = () => {
           >
             {t("faq")}
           </H2>
-
           <FAQs />
         </Box>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
