@@ -1,5 +1,5 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { getUsersThunk, getUserThunk } from "./thunks";
+import { getBankNamesThunk, getUsersThunk, getUserThunk } from "./thunks";
 import { UserState } from "./types";
 
 const initialState: UserState = {
@@ -11,6 +11,7 @@ const initialState: UserState = {
   lastPage: null,
   per_page: 5,
   total: 0,
+  banks: [],
 };
 
 const usersSlice = createSlice({
@@ -24,6 +25,10 @@ const usersSlice = createSlice({
         state.users = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getBankNamesThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.banks = action.payload;
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.loading = false;

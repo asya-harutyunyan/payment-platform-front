@@ -9,7 +9,12 @@ export interface UserState {
   currentPage: number | null;
   lastPage: number | null;
   total: number;
+  banks: BankNames[];
 }
+type BankNames = {
+  id: number | string;
+  name: string;
+};
 
 export interface UsersList {
   current_page: number;

@@ -7,11 +7,12 @@ import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import {
   addBankCardThunk,
   editBankCardThunk,
 } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
+import { getBankNamesThunk } from "@/store/reducers/usersSlice/thunks";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
@@ -47,6 +48,7 @@ export const AddCardModal: FC<IStepTwo> = ({
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
+  const { banks } = useAppSelector((state) => state.users);
 
   const handleClose = () => setOpen(false);
   const {
@@ -66,9 +68,11 @@ export const AddCardModal: FC<IStepTwo> = ({
       currency: currency ?? "RUB",
     },
   });
+
   useEffect(() => {
     setValue("currency", "RUB", { shouldValidate: false });
-  }, [setValue]);
+    dispatch(getBankNamesThunk());
+  }, [dispatch, setValue]);
 
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
     if (!isEdit) {
@@ -126,9 +130,9 @@ export const AddCardModal: FC<IStepTwo> = ({
     }
   };
   const options = [
-    { value: "RUB", label: "RUB (₽)" },
-    { value: "USD", label: "USD ($)" },
-    { value: "EUR", label: "EUR (€)" },
+    { id: 1, name: "RUB (₽)" },
+    { id: 2, name: "USD ($)" },
+    { id: 3, name: "EUR (€)" },
   ];
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>
@@ -145,11 +149,15 @@ export const AddCardModal: FC<IStepTwo> = ({
           placeholder={t("name_cards_member")}
           whiteVariant
         />
-        <FormTextInput
-          control={control}
+        <SelectFieldWith
           name="bank_name"
-          placeholder={t("bank_info")}
+          control={control}
+          options={banks}
           whiteVariant
+          defaultValueFirst
+          placeholder={t("bank_name")}
+          error={!!errors.currency}
+          helperText={errors.currency?.message}
         />
         <FormPhoneInput
           control={control}
@@ -170,6 +178,7 @@ export const AddCardModal: FC<IStepTwo> = ({
           control={control}
           options={options}
           whiteVariant
+          defaultValueFirst
           placeholder={t("select_currency")}
           error={!!errors.currency}
           helperText={errors.currency?.message}

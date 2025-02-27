@@ -9,14 +9,14 @@ import {
   SxProps,
   Theme,
 } from "@mui/material";
-import { ReactNode, Ref, useEffect, useState } from "react";
+import { ReactNode, Ref, useState } from "react";
 import { FieldValues, UseControllerProps } from "react-hook-form";
 
 interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
   sx?: SxProps<Theme>;
   style?: SxProps<Theme>;
   placeholder: string;
-  options: { label: string; value: string | number }[];
+  options: { id: string | number; name: string }[];
   value?: string | number;
   onChange?: (value: string | number) => void;
   error?: boolean;
@@ -25,6 +25,7 @@ interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
   whiteVariant?: boolean;
   ref?: Ref<HTMLDivElement>;
   id?: string;
+  defaultValueFirst?: boolean;
 }
 export const SelectField = <T extends FieldValues>({
   sx,
@@ -36,23 +37,20 @@ export const SelectField = <T extends FieldValues>({
   error = false,
   helperText,
   whiteVariant,
+  defaultValueFirst,
   id,
   ref,
 }: ISelectField<T>) => {
-  // Ensure a valid default value
-  const defaultValue = options.length > 0 ? options[0].value : "";
-
   const [value, setValue] = useState<string | number>(
-    propValue ?? defaultValue
+    defaultValueFirst ? (options[0]?.name ?? propValue) : ""
   );
 
-  // Ensure the default value is selected if no value is provided
-  useEffect(() => {
-    if (propValue === undefined || propValue === "") {
-      setValue(defaultValue);
-      onChange?.(defaultValue); // Notify parent about the default selection
-    }
-  }, [propValue, options, defaultValue, onChange]);
+  // useEffect(() => {
+  //   if (propValue === undefined || propValue === "") {
+  //     setValue(defaultValue);
+  //     onChange?.(defaultValue);
+  //   }
+  // }, [propValue, options, defaultValue, onChange]);
 
   const handleChange = (event: SelectChangeEvent<string | number>) => {
     const newValue = event.target.value as string | number;
@@ -95,8 +93,8 @@ export const SelectField = <T extends FieldValues>({
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+          <MenuItem key={option.id} value={option.name}>
+            {option.name}
           </MenuItem>
         ))}
       </Select>

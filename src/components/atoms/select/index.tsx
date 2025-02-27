@@ -5,11 +5,12 @@ import { SelectField } from "./select_component";
 interface SelectFieldWithHookFormProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
-  options: { label: string; value: string | number }[];
+  options: { id: string | number; name: string }[];
   placeholder: string;
   error?: boolean;
   helperText?: string | ReactNode;
   whiteVariant?: boolean;
+  defaultValueFirst?: boolean;
 }
 
 export const SelectFieldWith = <T extends FieldValues>({
@@ -18,6 +19,7 @@ export const SelectFieldWith = <T extends FieldValues>({
   options,
   whiteVariant,
   placeholder,
+  defaultValueFirst,
   error,
   helperText,
 }: SelectFieldWithHookFormProps<T>) => {
@@ -30,6 +32,7 @@ export const SelectFieldWith = <T extends FieldValues>({
           {...field}
           whiteVariant={whiteVariant}
           placeholder={placeholder}
+          defaultValueFirst={defaultValueFirst}
           options={options}
           error={error}
           helperText={helperText}

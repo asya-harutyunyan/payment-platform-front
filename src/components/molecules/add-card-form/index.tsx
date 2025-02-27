@@ -4,8 +4,9 @@ import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { addBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
+import { getBankNamesThunk } from "@/store/reducers/usersSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -36,15 +37,17 @@ export const BankCardDetalis: FC = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
   const dispatch = useAppDispatch();
+  const { banks } = useAppSelector((state) => state.users);
   const options = [
-    { value: "RUB", label: "RUB (₽)" },
-    { value: "USD", label: "USD ($)" },
-    { value: "EUR", label: "EUR (€)" },
+    { id: 1, name: "RUB (₽)" },
+    { id: 2, name: "USD ($)" },
+    { id: 3, name: "EUR (€)" },
   ];
 
   useEffect(() => {
     setValue("currency", "RUB", { shouldValidate: false });
-  }, [setValue]);
+    dispatch(getBankNamesThunk());
+  }, [dispatch, setValue]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(addBankCardThunk(data))
@@ -76,10 +79,14 @@ export const BankCardDetalis: FC = () => {
         name="card_holder"
         placeholder={t("name_cards_member")}
       />
-      <FormTextInput
-        control={control}
+
+      <SelectFieldWith
         name="bank_name"
-        placeholder={t("bank_info")}
+        control={control}
+        options={banks}
+        placeholder={t("bank_name")}
+        error={!!errors.currency}
+        helperText={errors.currency?.message}
       />
       <FormPhoneInput
         control={control}
@@ -99,6 +106,7 @@ export const BankCardDetalis: FC = () => {
         name="currency"
         control={control}
         options={options}
+        defaultValueFirst
         placeholder={t("select_currency")}
         error={!!errors.currency}
         helperText={errors.currency?.message}

@@ -31,7 +31,7 @@ export const getCardsThunk = createAsyncThunk(
   "bankDetails/getCardsThunk",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await httpClient.post("/users/get-bank-details");
+      const response = await httpClient.get("/users/get-bank-details");
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -48,6 +48,7 @@ export const getCardsThunk = createAsyncThunk(
     }
   }
 );
+
 export const deleteBankCardThunk = createAsyncThunk(
   "bankDetails/deleteBankCardThunk",
   async (id: number, { rejectWithValue }) => {
