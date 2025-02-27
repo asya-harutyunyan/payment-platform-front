@@ -57,15 +57,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   useEffect(() => {
     if (deposit?.type === DEPOSIT_TYPES.FIAT) {
       setIsOpen(true);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      if (typeof jivo_api !== "undefined") {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        jivo_api.open();
-      } else {
-        console.error("JivoChat script not loaded yet.");
-      }
     }
   }, [deposit, isOpen]);
   return (

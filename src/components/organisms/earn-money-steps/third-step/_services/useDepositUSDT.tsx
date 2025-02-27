@@ -1,7 +1,6 @@
 import { z } from "@/common/validation";
 import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { resetDeposit } from "@/store/reducers/user-info/depositSlice";
 import { confirmDepositByUserThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -24,7 +23,7 @@ const useDepositUsdt = () => {
       .unwrap()
       .then(() => {
         reset();
-        dispatch(resetDeposit());
+        // dispatch(resetDeposit());
       });
   };
   return {

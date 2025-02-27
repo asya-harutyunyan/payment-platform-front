@@ -3,7 +3,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { useAppSelector } from "@/store";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, FC, useEffect } from "react";
+import { Dispatch, FC } from "react";
 import { DEPOSIT_TYPES } from "./enums";
 import { TYPEComponent } from "./feat_component";
 import { USDTComponent } from "./usdt_component";
@@ -13,35 +13,39 @@ interface IStepThree {
   setActiveStep?: Dispatch<number>;
   handleBack?: () => void;
 }
+
 export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
   const { deposit } = useAppSelector((state) => state.deposit);
-  useEffect(() => {
-    // deposit?.type === DEPOSIT_TYPES.CRYPTO
-  }, [deposit]);
+
   return (
     <Box
       sx={{
         display: "flex",
         justifyContent: "center",
+        width: "100%",
+        height: "100%",
       }}
     >
       <BasicCard
         sx={{
           width: "100%",
           padding: "0",
-          height: { lg: "390px", md: "390px", xs: "400", sm: "400px" },
+          height: { lg: "390px", md: "390px", xs: "400px", sm: "400px" },
           display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
         }}
         bg={third_step}
         title={t("step_c")}
       >
-        {deposit?.type === DEPOSIT_TYPES.CRYPTO && (
+        {deposit?.type === DEPOSIT_TYPES.CRYPTO ? (
           <USDTComponent
             handleNext={handleNext}
             setActiveStep={setActiveStep}
           />
-        )}
-        {!deposit?.type && <TYPEComponent handleNext={handleNext} />}
+        ) : deposit?.type === undefined || deposit?.type === null ? (
+          <TYPEComponent handleNext={handleNext} />
+        ) : null}
       </BasicCard>
     </Box>
   );

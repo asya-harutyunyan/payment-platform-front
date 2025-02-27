@@ -38,6 +38,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
           color="primary.main"
           sx={{ textDecoration: "underline" }}
           paddingBottom={"50px"}
+          align="center"
         >
           {t(text)}
         </H4>

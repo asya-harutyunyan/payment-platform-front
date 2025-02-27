@@ -69,6 +69,12 @@ export const BasicCard: React.FC<IBasicCard> = ({
             color: "text.secondary",
             paddingRight: "10px",
             textAlign: { lg: "start", md: "start", xs: "center", sm: "center" },
+            fontSize: {
+              lg: "1.5rem",
+              md: "1.5rem",
+              xs: "1.2rem",
+              sm: "1.2rem",
+            },
           }}
         >
           {title ?? ""}
@@ -84,17 +90,12 @@ export const BasicCard: React.FC<IBasicCard> = ({
                 xs: "center",
                 sm: "center",
               },
+
               fontSize: {
                 lg: "1.5rem",
                 md: "1.5rem",
                 xs: "1.2rem",
                 sm: "1.2rem",
-              },
-              paddingTop: {
-                lg: "0",
-                md: "0",
-                xs: "13px",
-                sm: "13px",
               },
             }}
           >

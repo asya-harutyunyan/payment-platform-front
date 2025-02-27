@@ -23,7 +23,20 @@ const useDepositFeat = (handleNext?: () => void) => {
       .unwrap()
       .then(() => {
         reset();
-        handleNext?.();
+        if (data.type === DEPOSIT_TYPES.FIAT) {
+          setTimeout(() => {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            if (typeof jivo_api !== "undefined") {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              jivo_api.open();
+            } else {
+              console.error("JivoChat script not loaded yet.");
+            }
+          }, 500);
+          handleNext?.();
+        }
       });
   };
   return {

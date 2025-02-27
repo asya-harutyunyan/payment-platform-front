@@ -81,7 +81,6 @@ export const DepositLists: FC = () => {
           text={"empty_deposit"}
           isButtonNeeded
           textBtn={"create_deposit"}
-          isTextNeeded={"order_empty_text"}
           handleClick={() => navigate({ to: "/steps" })}
         />
       )}
