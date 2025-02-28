@@ -40,6 +40,7 @@ export const UserOrdersComponent: FC = () => {
       },
       {
         column: "amount",
+        currency: "₽",
         valueKey: "amount",
       },
       {

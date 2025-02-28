@@ -36,7 +36,8 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "initial_ammount",
-        valueKey: "user.email",
+        currency: "₽ ",
+        valueKey: "amount",
       },
     ],
     []
@@ -59,6 +60,7 @@ export const OrderListComponent: FC = () => {
           >
             <DynamicTable
               isUser
+              isNeedBtn
               columns={columns}
               data={orders}
               onChangePage={onChangePage}

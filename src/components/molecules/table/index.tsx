@@ -22,6 +22,7 @@ export interface IColumn<T> {
   column: keyof T;
   label?: string;
   valueKey: string;
+  currency?: string;
 }
 
 interface TableProps<T extends { id?: number; created_at?: string }> {
@@ -175,7 +176,8 @@ function DynamicTable<
                         <Button variant={"text"} text={text ?? "text"} />
                       ) : (
                         String(_.getPath(row, column.valueKey)) || "-"
-                      )}
+                      )}{" "}
+                      {column.currency ? column.currency : ""}
                     </TableCell>
                   )
                 )}
