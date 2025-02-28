@@ -49,7 +49,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           >
             <FormTextInput
               control={control}
-              placeholder=""
+              placeholder="Сумма (руб)"
               autofocus={true}
               type="number"
               whiteVariant={true}
