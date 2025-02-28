@@ -58,6 +58,7 @@ export const UserOrdersComponent: FC = () => {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
+          dispatch(getOrdersThunk({ page }));
         })
         .catch(() => {
           enqueueSnackbar(t("bank_card_added_error"), {

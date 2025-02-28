@@ -1,5 +1,5 @@
 import Button from "@/components/atoms/button";
-import { H4 } from "@/styles/typography";
+import { P } from "@/styles/typography";
 import {
   Box,
   Paper,
@@ -139,18 +139,24 @@ function DynamicTable<
                   row.status_by_admin === "pending" &&
                   isNeedBtnConfirm ? (
                     <TableCell>
-                      <H4
-                        sx={{ width: "120px", border: "1px solid gray" }}
+                      <P
+                        sx={{
+                          width: "120px",
+                          border: "1px solid gray",
+                          fontSize: "12px",
+                          padding: "5px",
+                          borderRadius: "5px",
+                        }}
                         onClick={() => {
                           handleClick?.(row.id);
                         }}
                       >
-                        {t(isNeedBtnConfirmText ?? "see_more")}
+                        {t(isNeedBtnConfirmText ?? "see_more")}{" "}
                         <Countdown
                           date={getTimer(row.created_at as string)}
                           renderer={countDownrenderer}
                         />
-                      </H4>
+                      </P>
                     </TableCell>
                   ) : (
                     <TableCell
