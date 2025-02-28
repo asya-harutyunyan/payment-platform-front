@@ -107,7 +107,7 @@ function DynamicTable<
               >
                 {columns?.map((column, colIndex) =>
                   column.valueKey === "status_by_admin" &&
-                  row.status_by_admin === "done" &&
+                  row.status_by_admin === "pending" &&
                   isNeedBtnConfirm ? (
                     <TableCell>
                       <Button
