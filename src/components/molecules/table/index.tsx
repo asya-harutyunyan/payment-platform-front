@@ -38,6 +38,7 @@ interface TableProps<T extends { id?: number }> {
 
 function DynamicTable<
   T extends {
+    status_by_admin?: string;
     id?: number;
     textBtn?: string;
     handleClick?: () => void;
@@ -104,25 +105,40 @@ function DynamicTable<
                       : "pointer",
                 }}
               >
-                {columns?.map((column, colIndex) => (
-                  <TableCell
-                    key={colIndex}
-                    sx={{
-                      fontSize: "15px",
-                      maxWidth: "200px",
-                      textOverflow: "ellipsis",
-                      overflow: "hidden",
-                      whiteSpace: "nowrap",
-                      color: "#7d7d7d",
-                    }}
-                  >
-                    {column.column === "Action" ? (
-                      <Button variant={"text"} text={text ?? "text"} />
-                    ) : (
-                      String(_.getPath(row, column.valueKey)) || "-"
-                    )}
-                  </TableCell>
-                ))}
+                {columns?.map((column, colIndex) =>
+                  column.valueKey === "status_by_admin" &&
+                  row.status_by_admin === "done" &&
+                  isNeedBtnConfirm ? (
+                    <TableCell>
+                      <Button
+                        variant={"text"}
+                        text={t(isNeedBtnConfirmText ?? "see_more")}
+                        sx={{ width: "120px" }}
+                        onClick={() => {
+                          handleClick?.(row.id);
+                        }}
+                      />
+                    </TableCell>
+                  ) : (
+                    <TableCell
+                      key={colIndex}
+                      sx={{
+                        fontSize: "15px",
+                        maxWidth: "200px",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                        whiteSpace: "nowrap",
+                        color: "#7d7d7d",
+                      }}
+                    >
+                      {column.column === "Action" ? (
+                        <Button variant={"text"} text={text ?? "text"} />
+                      ) : (
+                        String(_.getPath(row, column.valueKey)) || "-"
+                      )}
+                    </TableCell>
+                  )
+                )}
                 {isNeedBtn && (
                   <TableCell>
                     <Button
@@ -142,18 +158,7 @@ function DynamicTable<
                     />
                   </TableCell>
                 )}
-                {isNeedBtnConfirm && (
-                  <TableCell>
-                    <Button
-                      variant={"contained"}
-                      text={t(isNeedBtnConfirmText ?? "see_more")}
-                      sx={{ width: "120px" }}
-                      onClick={() => {
-                        handleClick?.(row.id);
-                      }}
-                    />
-                  </TableCell>
-                )}
+                {}
               </TableRow>
             ))}
           </TableBody>

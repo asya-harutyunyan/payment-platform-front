@@ -1,5 +1,6 @@
 import {
   createSlice,
+  isFulfilled,
   isPending,
   isRejected,
   PayloadAction,
@@ -50,29 +51,23 @@ const depositSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(processingAmountThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.deposit = action.payload;
       })
       .addCase(updateDeposit.fulfilled, (state, action) => {
-        state.loading = false;
         state.deposit = action.payload;
       })
       .addCase(getDepositsThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.deposits = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getSingleDepositThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.singleDeposit = action.payload;
       })
       .addCase(getSingleOrderThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.singleOrder = action.payload;
       })
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.orders = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
@@ -81,6 +76,9 @@ const depositSlice = createSlice({
         state.loading = true;
       })
       .addMatcher(isRejected, (state) => {
+        state.loading = false;
+      })
+      .addMatcher(isFulfilled, (state) => {
         state.loading = false;
       });
   },

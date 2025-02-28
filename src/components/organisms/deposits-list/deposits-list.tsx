@@ -42,10 +42,6 @@ export const DepositLists: FC = () => {
         column: "processing_amount",
         valueKey: "amount",
       },
-      {
-        column: "status",
-        valueKey: "final_status",
-      },
     ],
     []
   );
@@ -56,7 +52,7 @@ export const DepositLists: FC = () => {
       <TaskHeader title={t("deposit_lists")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : total < 0 ? (
+      ) : total > 0 ? (
         <Box
           sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
         >

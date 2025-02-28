@@ -39,8 +39,12 @@ export const UserOrdersComponent: FC = () => {
         valueKey: "user.surname",
       },
       {
-        column: "email",
-        valueKey: "user.email",
+        column: "amount",
+        valueKey: "amount",
+      },
+      {
+        column: "status_by_admin",
+        valueKey: "status_by_admin",
       },
     ],
     []
@@ -80,6 +84,7 @@ export const UserOrdersComponent: FC = () => {
           >
             <DynamicTable
               isUser
+              isNeedBtn
               isNeedBtnConfirm
               isNeedBtnConfirmText="confirm"
               columns={columns}
