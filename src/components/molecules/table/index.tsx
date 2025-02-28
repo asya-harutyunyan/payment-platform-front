@@ -32,11 +32,28 @@ interface TableProps<T extends { id?: number }> {
   text?: string;
   textBtn?: string;
   handleClick?: (value?: number) => void;
+  isNeedBtnConfirmText?: string;
+  isNeedBtnConfirm?: boolean;
 }
 
 function DynamicTable<
-  T extends { id?: number; textBtn?: string; handleClick?: () => void },
->({ columns, handleClick, data, isNeedBtn, textBtn, text }: TableProps<T>) {
+  T extends {
+    id?: number;
+    textBtn?: string;
+    handleClick?: () => void;
+    isNeedBtnConfirmText?: string;
+    isNeedBtnConfirm?: boolean;
+  },
+>({
+  columns,
+  handleClick,
+  data,
+  isNeedBtn,
+  textBtn,
+  text,
+  isNeedBtnConfirmText,
+  isNeedBtnConfirm,
+}: TableProps<T>) {
   const navigate = useNavigate();
   const route = useLocation();
 
@@ -110,11 +127,9 @@ function DynamicTable<
                   <TableCell>
                     <Button
                       variant={"contained"}
-                      text={t(textBtn ? textBtn : "see_more")}
+                      text={t(textBtn ?? "see_more")}
                       sx={{ width: "120px" }}
                       onClick={() => {
-                        handleClick?.(row.id);
-
                         if (
                           route.pathname === "/order-list" ||
                           route.pathname === "/deposit-info" ||
@@ -123,6 +138,18 @@ function DynamicTable<
                         ) {
                           handleUserInformation(row);
                         }
+                      }}
+                    />
+                  </TableCell>
+                )}
+                {isNeedBtnConfirm && (
+                  <TableCell>
+                    <Button
+                      variant={"contained"}
+                      text={t(isNeedBtnConfirmText ?? "see_more")}
+                      sx={{ width: "120px" }}
+                      onClick={() => {
+                        handleClick?.(row.id);
                       }}
                     />
                   </TableCell>

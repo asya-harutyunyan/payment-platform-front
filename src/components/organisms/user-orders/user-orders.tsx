@@ -3,10 +3,14 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import {
+  confirmOrderByAdminThunk,
+  getOrdersThunk,
+} from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
@@ -35,13 +39,30 @@ export const UserOrdersComponent: FC = () => {
         valueKey: "user.surname",
       },
       {
-        column: "initial_ammount",
+        column: "email",
         valueKey: "user.email",
       },
     ],
     []
   );
-
+  const handleConfirm = (num?: number) => {
+    if (num) {
+      dispatch(confirmOrderByAdminThunk(num))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("confirm_success"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        })
+        .catch(() => {
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
+    }
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("orders")} />
@@ -59,9 +80,11 @@ export const UserOrdersComponent: FC = () => {
           >
             <DynamicTable
               isUser
-              isNeedBtn
+              isNeedBtnConfirm
+              isNeedBtnConfirmText="confirm"
               columns={columns}
               data={orders}
+              handleClick={handleConfirm}
               onChangePage={onChangePage}
             />
 

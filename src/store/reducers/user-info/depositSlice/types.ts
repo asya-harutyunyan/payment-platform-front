@@ -69,6 +69,7 @@ export interface PaymentMethod {
 export interface Order {
   id: number;
   wallet_id: number;
+  email?: string;
   user_id: number;
   deposit_id: number;
   amount: string;

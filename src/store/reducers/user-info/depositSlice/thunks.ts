@@ -174,7 +174,7 @@ export const getSingleOrderThunk = createAsyncThunk(
 
 export const confirmOrderByAdminThunk = createAsyncThunk(
   "deposit/confirmDeposit",
-  async (order_id: string, { rejectWithValue }) => {
+  async (order_id: string | number, { rejectWithValue }) => {
     try {
       const response = await httpClient.post(
         `/orders/confirm/admin/${order_id}`
