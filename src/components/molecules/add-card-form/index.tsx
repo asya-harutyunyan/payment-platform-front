@@ -1,3 +1,4 @@
+import { Autocomplite } from "@/components/atoms/autocomplite";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { FormPhoneInput } from "@/components/atoms/phone-input";
@@ -76,7 +77,7 @@ export const BankCardDetalis: FC = () => {
         placeholder={t("name_cards_member")}
       />
 
-      <SelectFieldWith
+      <Autocomplite
         name="bank_name"
         control={control}
         options={banks}

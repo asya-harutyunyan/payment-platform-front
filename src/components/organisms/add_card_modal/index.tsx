@@ -1,5 +1,6 @@
 import bg from "@/assets/images/modal.png";
 import { z } from "@/common/validation";
+import { Autocomplite } from "@/components/atoms/autocomplite";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { BasicModal } from "@/components/atoms/modal";
@@ -150,7 +151,7 @@ export const AddCardModal: FC<IStepTwo> = ({
           placeholder={t("name_cards_member")}
           whiteVariant
         />
-        <SelectFieldWith
+        <Autocomplite
           name="bank_name"
           control={control}
           options={banks}
