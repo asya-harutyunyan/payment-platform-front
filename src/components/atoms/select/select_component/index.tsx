@@ -78,6 +78,9 @@ export const SelectField = <T extends FieldValues>({
           "& .MuiInputBase-input": {
             color: whiteVariant ? "tertiary.main" : "primary.main",
           },
+          svg: {
+            color: "white",
+          },
           ...style,
           fieldset: {
             borderColor: whiteVariant

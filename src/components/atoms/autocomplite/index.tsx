@@ -32,11 +32,31 @@ export const Autocomplite = <T extends FieldValues>({
           options={options.map((option) => option.name)}
           sx={{
             width: "100%",
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+              },
+              "&.Mui-focused fieldset": {
+                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+              },
+            },
+            "& .MuiFormLabel-root": {
+              color: whiteVariant ? "tertiary.main" : "primary.main",
+            },
             "& .MuiInputBase-input": {
               color: whiteVariant ? "tertiary.main" : "primary.main",
             },
+            color: whiteVariant ? "tertiary.main" : "primary.main",
+
             fieldset: {
               borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+            },
+            label: { color: whiteVariant ? "tertiary.main" : "primary.main" },
+            svg: {
+              color: "white",
             },
           }}
           renderInput={(params) => (
@@ -47,6 +67,24 @@ export const Autocomplite = <T extends FieldValues>({
               helperText={helperText}
               sx={{
                 borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+                color: whiteVariant ? "tertiary.main" : "primary.main",
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: whiteVariant
+                      ? "tertiary.main"
+                      : "primary.main",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: whiteVariant
+                      ? "tertiary.main"
+                      : "primary.main",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: whiteVariant
+                      ? "tertiary.main"
+                      : "primary.main",
+                  },
+                },
               }}
             />
           )}
