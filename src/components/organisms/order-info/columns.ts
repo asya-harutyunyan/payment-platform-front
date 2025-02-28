@@ -13,6 +13,7 @@ export const fields = [
   },
   {
     column: "transaction_amount",
+    currency: "₽",
     valueKey: "amount",
   },
   {

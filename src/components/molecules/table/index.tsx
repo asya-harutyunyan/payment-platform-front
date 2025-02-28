@@ -80,7 +80,8 @@ function DynamicTable<
     } else {
       return (
         <span>
-          {formatted.minutes}:{formatted.seconds}
+          {t(isNeedBtnConfirmText ?? "")} {formatted.minutes}:
+          {formatted.seconds}
         </span>
       );
     }
@@ -151,7 +152,7 @@ function DynamicTable<
                           handleClick?.(row.id);
                         }}
                       >
-                        {t(isNeedBtnConfirmText ?? "see_more")}{" "}
+                        {t(!isNeedBtnConfirmText ? "see_more" : "")}{" "}
                         <Countdown
                           date={getTimer(row.created_at as string)}
                           renderer={countDownrenderer}

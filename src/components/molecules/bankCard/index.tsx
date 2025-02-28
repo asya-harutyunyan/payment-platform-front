@@ -12,6 +12,7 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { Dispatch, FC, SetStateAction, useState } from "react";
 
 interface IBankCard {
@@ -48,6 +49,13 @@ const BankCard: FC<IBankCard> = ({
         .then(() => {
           fetchAuthUser?.();
           setOpenDeleteModal(false);
+        })
+        .catch(() => {
+          setOpenDeleteModal(false);
+          enqueueSnackbar(t("delete_error_card"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
         });
     }
   };

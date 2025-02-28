@@ -15,6 +15,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { BaseSyntheticEvent, FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AddCardModal } from "../../add_card_modal";
@@ -83,6 +84,13 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
       .unwrap()
       .then(() => {
         fetchAuthUser?.();
+      })
+      .catch(() => {
+        setOpen(false);
+        enqueueSnackbar(t("delete_error_card"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
       });
   };
 

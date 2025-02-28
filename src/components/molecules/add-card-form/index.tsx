@@ -38,11 +38,7 @@ export const BankCardDetalis: FC = () => {
   const { fetchAuthUser } = useAuth();
   const dispatch = useAppDispatch();
   const { banks } = useAppSelector((state) => state.users);
-  const options = [
-    { id: 1, name: "RUB" },
-    { id: 2, name: "USD" },
-    { id: 3, name: "EUR" },
-  ];
+  const options = [{ id: 1, name: "RUB" }];
 
   useEffect(() => {
     setValue("currency", "RUB", { shouldValidate: false });

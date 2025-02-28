@@ -8,9 +8,11 @@ import _ from "underscore-contrib";
 interface PaperProps<T> {
   data: T;
   fields: {
+    currency?: string;
     column: string;
     label?: string;
     valueKey: string;
+    field?: string;
   }[];
   title?: string;
   loading?: boolean;
@@ -87,7 +89,8 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                 >
                   {data
                     ? String(_.getPath?.(data, field.valueKey) ?? "-")
-                    : "-"}
+                    : "-"}{" "}
+                  {field.currency ? field.currency : ""}
                 </Typography>
               </Box>
             </Box>
