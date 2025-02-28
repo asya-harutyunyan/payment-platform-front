@@ -16,7 +16,7 @@ export const fields = [
     valueKey: "amount",
   },
   {
-    column: "profit",
+    column: "profit_2",
     valueKey: "profit",
   },
   {
