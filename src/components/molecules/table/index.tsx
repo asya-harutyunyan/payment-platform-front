@@ -90,7 +90,7 @@ function DynamicTable<
     return new Date(
       dayjs()
         .add(
-          (dayjs.utc(created_at).add(30, "minutes").unix() -
+          (dayjs.utc(created_at).add(20, "minutes").unix() -
             dayjs().utc().unix()) *
             1000,
           "milliseconds"
