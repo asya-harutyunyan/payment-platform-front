@@ -130,9 +130,9 @@ export const AddCardModal: FC<IStepTwo> = ({
     }
   };
   const options = [
-    { id: 1, name: "RUB (₽)" },
-    { id: 2, name: "USD ($)" },
-    { id: 3, name: "EUR (€)" },
+    { id: 1, name: "RUB" },
+    { id: 2, name: "USD" },
+    { id: 3, name: "EUR" },
   ];
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>

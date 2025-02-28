@@ -9,6 +9,7 @@ import {
   SxProps,
   Theme,
 } from "@mui/material";
+import { t } from "i18next";
 import { ReactNode, Ref, useState } from "react";
 import { FieldValues, UseControllerProps } from "react-hook-form";
 
@@ -44,13 +45,6 @@ export const SelectField = <T extends FieldValues>({
   const [value, setValue] = useState<string | number>(
     defaultValueFirst ? (options[0]?.name ?? propValue) : ""
   );
-
-  // useEffect(() => {
-  //   if (propValue === undefined || propValue === "") {
-  //     setValue(defaultValue);
-  //     onChange?.(defaultValue);
-  //   }
-  // }, [propValue, options, defaultValue, onChange]);
 
   const handleChange = (event: SelectChangeEvent<string | number>) => {
     const newValue = event.target.value as string | number;
@@ -94,7 +88,7 @@ export const SelectField = <T extends FieldValues>({
       >
         {options.map((option) => (
           <MenuItem key={option.id} value={option.name}>
-            {option.name}
+            {t(option.name)}
           </MenuItem>
         ))}
       </Select>
