@@ -1,4 +1,5 @@
 import Button from "@/components/atoms/button";
+import { H4 } from "@/styles/typography";
 import {
   Box,
   Paper,
@@ -10,8 +11,10 @@ import {
   TableRow,
 } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import React from "react";
+import Countdown, { CountdownRendererFn } from "react-countdown";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
 
@@ -21,7 +24,7 @@ export interface IColumn<T> {
   valueKey: string;
 }
 
-interface TableProps<T extends { id?: number }> {
+interface TableProps<T extends { id?: number; created_at?: string }> {
   columns: IColumn<T>[];
   data: T[];
   onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
@@ -38,6 +41,7 @@ interface TableProps<T extends { id?: number }> {
 
 function DynamicTable<
   T extends {
+    created_at?: string;
     status_by_admin?: string;
     id?: number;
     textBtn?: string;
@@ -68,6 +72,31 @@ function DynamicTable<
     } else if (route.pathname === "/orders") {
       navigate({ to: `/orders/${row.id}` });
     }
+  };
+
+  const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
+    if (completed) {
+      return <span>Your time is end</span>;
+    } else {
+      return (
+        <span>
+          {formatted.minutes}:{formatted.seconds}
+        </span>
+      );
+    }
+  };
+
+  const getTimer = (created_at: string) => {
+    return new Date(
+      dayjs()
+        .add(
+          (dayjs.utc(created_at).add(30, "minutes").unix() -
+            dayjs().utc().unix()) *
+            1000,
+          "milliseconds"
+        )
+        .format()
+    );
   };
 
   return (
@@ -110,14 +139,18 @@ function DynamicTable<
                   row.status_by_admin === "pending" &&
                   isNeedBtnConfirm ? (
                     <TableCell>
-                      <Button
-                        variant={"text"}
-                        text={t(isNeedBtnConfirmText ?? "see_more")}
-                        sx={{ width: "120px" }}
+                      <H4
+                        sx={{ width: "120px", border: "1px solid gray" }}
                         onClick={() => {
                           handleClick?.(row.id);
                         }}
-                      />
+                      >
+                        {t(isNeedBtnConfirmText ?? "see_more")}
+                        <Countdown
+                          date={getTimer(row.created_at as string)}
+                          renderer={countDownrenderer}
+                        />
+                      </H4>
                     </TableCell>
                   ) : (
                     <TableCell
