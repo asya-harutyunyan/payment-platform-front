@@ -53,6 +53,10 @@ export const DepositLists: FC = () => {
         valueKey: "final_status",
       },
       {
+        column: "type",
+        valueKey: "type",
+      },
+      {
         column: "key",
         button: "statuses",
       },
@@ -78,8 +82,6 @@ export const DepositLists: FC = () => {
           sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
         >
           <DynamicTable
-            isUser
-            isNeedBtn
             columns={columns}
             data={deposits}
             handleClickBtn={handleSingleOrder}

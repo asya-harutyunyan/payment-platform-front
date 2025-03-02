@@ -8,6 +8,7 @@ declare module "@mui/material/styles" {
   interface PaletteOptions {
     tertiary?: PaletteOptions["primary"];
     quaternary?: PaletteOptions["primary"];
+    error?: PaletteOptions["error"];
   }
 }
 
@@ -16,6 +17,7 @@ declare module "@mui/material/Button" {
     gradient: true;
     outlinedBlue: true;
     outlinedWhite: true;
+    error: true;
   }
 }
 
@@ -58,6 +60,16 @@ const theme = createTheme({
             color: "#0E1D40",
             "&:hover": {
               backgroundImage: "linear-gradient(to right, #c5cdd5, #E9F2FC)",
+            },
+          },
+        },
+        {
+          props: { variant: "error" },
+          style: {
+            border: "2px solid  #b72d2d",
+            color: "#b72d2d",
+            "&:hover": {
+              backgroundImage: "linear-gradient(to right, #fcf9f9, #f8f0f0)",
             },
           },
         },

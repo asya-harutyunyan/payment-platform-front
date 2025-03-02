@@ -48,8 +48,12 @@ export const UserOrdersComponent: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "status_by_admin",
-        valueKey: "status_by_admin",
+        column: "status_by_client",
+        valueKey: "status_by_client",
+      },
+      {
+        column: "type",
+        valueKey: "type",
       },
       {
         column: "key",

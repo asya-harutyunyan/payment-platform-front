@@ -4,10 +4,14 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getWalletsThunk } from "@/store/reducers/admin/walletSlice/thunks";
+import {
+  deleteWalletsThunk,
+  getWalletsThunk,
+} from "@/store/reducers/admin/walletSlice/thunks";
 import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
 import { CreateWallet } from "../create-wallet";
 import { EmptyComponent } from "../empty-component";
@@ -26,7 +30,25 @@ export const Wallet: FC = () => {
     dispatch(getWalletsThunk({ page }));
     console.log(event);
   };
-
+  const handleDelete = (id?: number) => {
+    if (id) {
+      dispatch(deleteWalletsThunk(id))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("success_delete_wallet"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          dispatch(getWalletsThunk({ page: page }));
+        })
+        .catch(() => {
+          enqueueSnackbar(t("error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
+    }
+  };
   const columns = useMemo<IColumn<WalletType>[]>(
     () => [
       {
@@ -40,6 +62,10 @@ export const Wallet: FC = () => {
       {
         column: "address",
         valueKey: "address",
+      },
+      {
+        column: "key",
+        button: "statuses",
       },
     ],
     []
@@ -61,7 +87,13 @@ export const Wallet: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={wallet} />
+          <DynamicTable
+            columns={columns}
+            data={wallet}
+            textBtn={"delete_wallet"}
+            variant="error"
+            handleClickBtn={handleDelete}
+          />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

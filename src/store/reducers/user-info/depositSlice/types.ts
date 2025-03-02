@@ -47,6 +47,7 @@ export type Deposit = {
 
 export interface Wallet {
   id: number;
+  key?: string;
   address: string;
   currency: string;
   network: string;
@@ -70,6 +71,7 @@ export interface Order {
   id: number;
   wallet_id: number;
   key?: string;
+  type?: string;
   email?: string;
   user_id: number;
   final_status?: string;
@@ -91,6 +93,7 @@ export interface DataDeposits {
   final_status?: string;
   address: string;
   currency: string;
+  type?: string;
   key?: string;
   network: string;
   qr_code: string;

@@ -26,6 +26,14 @@ export interface IColumn<T> {
   currency?: string;
   button?: string;
 }
+type ButtonVariant =
+  | "text"
+  | "contained"
+  | "outlined"
+  | "gradient"
+  | "outlinedWhite"
+  | "outlinedBlue"
+  | "error";
 
 interface TableProps<T extends { id?: number; created_at?: string }> {
   columns: IColumn<T>[];
@@ -40,6 +48,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   handleClickBtn?: (id?: number) => void;
   isNeedBtnConfirmText?: string;
   isNeedBtnConfirm?: boolean;
+  variant?: ButtonVariant;
 }
 
 function DynamicTable<
@@ -52,11 +61,13 @@ function DynamicTable<
     isNeedBtnConfirmText?: string;
     isNeedBtnConfirm?: boolean;
     handleClickBtn?: (id?: number) => void;
+    variant?: ButtonVariant;
   },
 >({
   columns,
   data,
   textBtn,
+  variant,
   isNeedBtnConfirmText,
   handleClick,
   handleClickBtn,
@@ -151,7 +162,7 @@ function DynamicTable<
                   >
                     {column.button ? (
                       <Button
-                        variant={"contained"}
+                        variant={variant ?? "contained"}
                         text={t(textBtn ?? "see_more")}
                         sx={{ width: "120px" }}
                         onClick={() => handleClickBtn?.(row.id)}
@@ -176,8 +187,15 @@ function DynamicTable<
                         />
                       </P>
                     ) : (
-                      String(_.getPath(row, column.valueKey)) || "-"
-                    )}{" "}
+                      t(
+                        String(
+                          _.getPath(row, column.valueKey) === null
+                            ? "-"
+                            : String(_.getPath(row, column.valueKey))
+                        ) || "-"
+                      )
+                    )}
+
                     {column.currency ? column.currency : ""}
                   </TableCell>
                 ))}

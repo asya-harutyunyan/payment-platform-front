@@ -8,7 +8,8 @@ type ButtonVariant =
   | "outlined"
   | "gradient"
   | "outlinedWhite"
-  | "outlinedBlue";
+  | "outlinedBlue"
+  | "error";
 type Sizes = "small" | "medium" | "large";
 type Colors =
   | "inherit"

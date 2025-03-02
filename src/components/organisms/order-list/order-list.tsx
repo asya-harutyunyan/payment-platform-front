@@ -44,8 +44,8 @@ export const OrderListComponent: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "final_status",
-        valueKey: "status_by_admin",
+        column: "status_by_client",
+        valueKey: "status_by_client",
       },
       {
         column: "id",
@@ -55,6 +55,7 @@ export const OrderListComponent: FC = () => {
         column: "card_number",
         valueKey: "user.bank_details.card_number",
       },
+
       {
         column: "key",
         button: "statuses",
