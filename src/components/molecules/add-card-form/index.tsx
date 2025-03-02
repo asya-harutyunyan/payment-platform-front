@@ -23,7 +23,9 @@ export const BankCardDetalis: FC = () => {
     control,
     handleSubmit,
     reset,
+    register,
     setValue,
+    setError,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
@@ -57,7 +59,17 @@ export const BankCardDetalis: FC = () => {
         });
         fetchAuthUser?.();
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error.errors && error.message) {
+          Object.entries(error.errors).forEach(([field, messages]) => {
+            if (Array.isArray(messages) && messages.length > 0) {
+              setError(field as keyof FormData, {
+                type: "manual",
+                message: messages[0],
+              });
+            }
+          });
+        }
         enqueueSnackbar(t("bank_card_added_error"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
@@ -73,11 +85,14 @@ export const BankCardDetalis: FC = () => {
     >
       <FormTextInput
         control={control}
+        {...register("card_holder")}
         name="card_holder"
+        type="text"
         placeholder={t("name_cards_member")}
       />
 
       <Autocomplite
+        {...register("bank_name")}
         name="bank_name"
         control={control}
         options={banks}
@@ -87,12 +102,14 @@ export const BankCardDetalis: FC = () => {
       />
       <FormPhoneInput
         control={control}
+        {...register("phone_number")}
         name="phone_number"
         placeholder={t("phone_number")}
       />
 
       <FormTextInput
         control={control}
+        {...register("card_number")}
         name="card_number"
         placeholder={t("card_number")}
         whiteVariant={false}

@@ -1,20 +1,16 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppState } from "../..";
 import { GetUsersRequest, UsersList } from "./types";
 
 export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
-  async (data: GetUsersRequest, { rejectWithValue, getState }) => {
+  async (data: GetUsersRequest, { rejectWithValue }) => {
     try {
-      const {
-        users: { per_page },
-      } = getState() as AppState;
       const response = await httpClient.get<UsersList>("/users", {
         params: {
           page: data.page,
-          per_page,
+          per_page: data.per_page,
         },
       });
       return response.data;

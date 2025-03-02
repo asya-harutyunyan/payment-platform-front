@@ -2,6 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByAdminThunk,
@@ -18,9 +19,11 @@ export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
   const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
-
+  const { user } = useAuth();
   useEffect(() => {
-    dispatch(getOrdersThunk({ page: page }));
+    dispatch(
+      getOrdersThunk({ page: page, per_page: user?.role === "admin" ? 50 : 5 })
+    );
   }, []);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {

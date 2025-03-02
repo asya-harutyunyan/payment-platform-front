@@ -22,6 +22,10 @@ export const fields = [
     valueKey: "profit",
   },
   {
+    column: "final_status",
+    valueKey: "final_status",
+  },
+  {
     column: "left_amount",
     currency: "₽",
     valueKey: "processing_amount",

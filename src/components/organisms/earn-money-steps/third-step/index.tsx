@@ -34,7 +34,7 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
           display: "flex",
         }}
         bg={third_step}
-        title={t("step_c")}
+        title={t(deposit?.type === DEPOSIT_TYPES.CRYPTO ? "step_d" : "step_c")}
       >
         {deposit?.type === DEPOSIT_TYPES.CRYPTO ? (
           <USDTComponent

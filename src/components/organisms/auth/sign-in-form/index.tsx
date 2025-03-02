@@ -67,7 +67,7 @@ const LoginForm = () => {
         <FormTextInput
           control={control}
           {...register("email")}
-          type="test"
+          type="text"
           name="email"
           placeholder={t("email")}
         />

@@ -21,13 +21,14 @@ interface IFormPhoneInput<T extends FieldValues> extends UseControllerProps<T> {
   style?: CSSProperties;
   whiteVariant?: boolean;
 }
+
 export const FormPhoneInput = <T extends FieldValues>({
   control,
   name,
   defaultValue,
   placeholder,
   style,
-  whiteVariant, // Add the backgroundColor prop here
+  whiteVariant,
   ...props
 }: IFormPhoneInput<T> & { backgroundColor?: string }) => {
   const { field, fieldState } = useController<T>({
@@ -48,6 +49,17 @@ export const FormPhoneInput = <T extends FieldValues>({
     return undefined;
   }, [fieldState]);
 
+  const borderColor = fieldState.invalid
+    ? "red"
+    : whiteVariant
+      ? "#D9D9D9"
+      : "#0E1D40";
+  const inputTextColor = fieldState.invalid
+    ? "red"
+    : whiteVariant
+      ? "#D9D9D9"
+      : "#0E1D40";
+
   return (
     <Box sx={{ margin: "10px 0" }}>
       <PhoneInput
@@ -60,17 +72,21 @@ export const FormPhoneInput = <T extends FieldValues>({
           ...style,
           width: "100%",
           minHeight: "55px",
-          color: whiteVariant ? "#D9D9D9" : "#0E1D40",
-          borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+          color: inputTextColor,
+          borderColor: borderColor,
           fontFamily: "Poppins, sans-serif",
-          backgroundColor: !whiteVariant ? "#fff" : "#0E1D40", // Use the backgroundColor prop
+          backgroundColor: !whiteVariant ? "#fff" : "#0E1D40",
         }}
         buttonStyle={{
-          borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
-          backgroundColor: !whiteVariant ? "#fff" : "#0E1D40", // Change the flag's background
+          borderColor: borderColor,
+          backgroundColor: !whiteVariant ? "#fff" : "#0E1D40",
         }}
       />
-      {helperText && <div>{helperText}</div>}
+      {helperText && (
+        <div style={{ color: "red", fontSize: "12px", marginTop: "5px" }}>
+          {helperText}
+        </div>
+      )}
     </Box>
   );
 };

@@ -93,15 +93,12 @@ export const updateDeposit = createAsyncThunk(
 
 export const getDepositsThunk = createAsyncThunk(
   "deposit/getDepositsThunk",
-  async (data: GetWalletRequest, { rejectWithValue, getState }) => {
+  async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
-      const {
-        users: { per_page },
-      } = getState() as AppState;
       const response = await httpClient.get(`/deposits`, {
         params: {
           page: data.page,
-          per_page,
+          per_page: data.per_page,
         },
       });
       return response.data;
@@ -133,15 +130,12 @@ export const getSingleDepositThunk = createAsyncThunk(
 );
 export const getOrdersThunk = createAsyncThunk(
   "deposit/getOrdersThunk",
-  async (data: GetWalletRequest, { rejectWithValue, getState }) => {
-    const {
-      users: { per_page },
-    } = getState() as AppState;
+  async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/orders", {
         params: {
           page: data.page,
-          per_page,
+          per_page: data.per_page,
         },
       });
       return response.data;

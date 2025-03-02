@@ -1,6 +1,13 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { ReactNode } from "react";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { ReactNode, useMemo } from "react";
+import {
+  Control,
+  Controller,
+  FieldPath,
+  FieldValues,
+  Path,
+  useController,
+} from "react-hook-form";
 
 interface SelectFieldWithHookFormProps<T extends FieldValues> {
   name: Path<T>;
@@ -9,6 +16,8 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   placeholder: string;
   error?: boolean;
   helperText?: string | ReactNode;
+  defaultValue?: T[FieldPath<T>];
+
   whiteVariant?: boolean;
   defaultValueFirst?: boolean;
 }
@@ -19,9 +28,31 @@ export const Autocomplite = <T extends FieldValues>({
   options,
   whiteVariant,
   placeholder,
+  defaultValue,
   error,
-  helperText,
+  ...props
 }: SelectFieldWithHookFormProps<T>) => {
+  const { fieldState } = useController<T>({
+    name,
+    control,
+    defaultValue,
+    ...props,
+  });
+  const helperText = useMemo(() => {
+    if (fieldState.invalid && fieldState.error?.message) {
+      return fieldState.error.message;
+    }
+    return undefined;
+  }, [fieldState.error?.message, fieldState.invalid]);
+
+  const borderColor =
+    error || fieldState.invalid
+      ? "#d32f2f"
+      : whiteVariant
+        ? "tertiary.main"
+        : "primary.main";
+  const helperTextColor = error || fieldState.invalid ? "#d32f2f" : "inherit";
+
   return (
     <Controller
       name={name}
@@ -34,25 +65,24 @@ export const Autocomplite = <T extends FieldValues>({
             width: "100%",
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
-                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+                borderColor,
               },
               "&:hover fieldset": {
-                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+                borderColor,
               },
               "&.Mui-focused fieldset": {
-                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+                borderColor,
               },
             },
             "& .MuiFormLabel-root": {
-              color: whiteVariant ? "tertiary.main" : "primary.main",
+              color: whiteVariant ? "tertiary.main" : "primary.main", // Keep label color unchanged
             },
             "& .MuiInputBase-input": {
-              color: whiteVariant ? "tertiary.main" : "primary.main",
+              color: whiteVariant ? "tertiary.main" : "primary.main", // Keep input text color unchanged
             },
             color: whiteVariant ? "tertiary.main" : "primary.main",
-
             fieldset: {
-              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+              borderColor,
             },
             label: { color: whiteVariant ? "tertiary.main" : "primary.main" },
             svg: {
@@ -66,24 +96,20 @@ export const Autocomplite = <T extends FieldValues>({
               error={error}
               helperText={helperText}
               sx={{
-                borderColor: whiteVariant ? "tertiary.main" : "primary.main",
-                color: whiteVariant ? "tertiary.main" : "primary.main",
+                borderColor,
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: whiteVariant
-                      ? "tertiary.main"
-                      : "primary.main",
+                    borderColor,
                   },
                   "&:hover fieldset": {
-                    borderColor: whiteVariant
-                      ? "tertiary.main"
-                      : "primary.main",
+                    borderColor,
                   },
                   "&.Mui-focused fieldset": {
-                    borderColor: whiteVariant
-                      ? "tertiary.main"
-                      : "primary.main",
+                    borderColor,
                   },
+                },
+                "& .MuiFormHelperText-root": {
+                  color: helperTextColor, // Red color for helper text on error
                 },
               }}
             />

@@ -158,8 +158,8 @@ export const AddCardModal: FC<IStepTwo> = ({
           whiteVariant
           defaultValueFirst
           placeholder={t("bank_name")}
-          error={!!errors.currency}
-          helperText={errors.currency?.message}
+          error={!!errors.bank_name}
+          helperText={errors.bank_name?.message}
         />
         <FormPhoneInput
           control={control}

@@ -66,7 +66,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
     if (deposit?.payment_method_id) {
       setValue("payment_method_id", deposit.payment_method_id);
     }
-  }, [deposit]);
+  }, [deposit, setValue]);
 
   const submitForm = async (e?: BaseSyntheticEvent) => {
     await handleSubmit(onSubmit)(e);
@@ -110,7 +110,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           }}
           bg={second_step}
           title={t("profit")}
-          sub_title={`+${updatedPrice.toFixed(2)}`}
+          sub_title={`${updatedPrice.toFixed(2).replace(".", ",")} ₽`}
         >
           {showAddCard && (
             <Box

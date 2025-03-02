@@ -71,6 +71,10 @@ export interface Order {
   wallet_id: number;
   email?: string;
   user_id: number;
+  final_status?: string;
+  transaction_id?: string;
+  card_number?: string;
+  amount_order?: string;
   deposit_id: number;
   amount: string;
   status_by_client: string;
@@ -83,6 +87,7 @@ export interface Order {
 }
 export interface DataDeposits {
   id?: number;
+  final_status?: string;
   address: string;
   currency: string;
   network: string;

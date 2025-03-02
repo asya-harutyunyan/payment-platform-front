@@ -5,7 +5,7 @@ export const add_card_schema = z.object({
   card_holder: z.string().min(3).max(50),
   phone_number: z
     .string()
-    .optional()
+    // .optional()
     .refine((val) => !val || val.length >= 3, {
       message: "Must be at least 3 characters if provided",
     }),

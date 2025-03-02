@@ -4,7 +4,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppSelector } from "@/store";
-import { H4, P } from "@/styles/typography";
+import { H4, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useMemo } from "react";
@@ -19,10 +19,24 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
       case DEPOSIT_STATUSES.PENDING:
         return (
           <Box
-            sx={{ display: "flex", flexDirection: "column", height: "200px" }}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              height: "200px",
+              width: "100%",
+            }}
           >
-            <H4>Загрузка</H4>
+            <H6 align="center" color="tertiary.main">
+              Загрузка..
+            </H6>
             <CircularIndeterminate color="white" />
+            <P color="primary.contrastText" padding={"20px 0"} align="center">
+              Для совершения депозита в Вашей карты, пожалуйста, обратитесь в
+              чат Вам будет выдан номер карты, на который необходимо перевести
+              Ваш депозит Пожалуйста, отправляйте среда ва для депозита только с
+              той карты, на которую будут возвращаться средства депозита и
+              Вашего заработка. Использование иных карт для депозита запрещено.
+            </P>
           </Box>
         );
       case DEPOSIT_STATUSES.DONE:
@@ -85,36 +99,21 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             flexDirection: "column",
           }}
         >
-          {/* <Box
-            sx={{
-              display: { lg: "none", md: "none", xs: "flex", sm: "flex" },
-              width: "70px",
-              height: "70px",
-              borderRadius: "50%",
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "secondary.main",
-            }}
-          >
-            <DoneOutlineIcon sx={{ fontSize: "50px", color: "white" }} />
-          </Box> */}
           <Box
             sx={{
               display: { lg: "flex", md: "flex", xs: "flex", sm: "flex" },
-              width: "200px",
+              width: "90%",
               height: "200px",
               borderRadius: "50%",
               alignItems: "center",
               justifyContent: "center",
             }}
           >
-            {/* {deposit?.status_by_admin === 'pending' && }
-            <img src={success} style={{ width: "100%" }} /> */}
             {renderStatus}
           </Box>
           <Button
             variant={"gradient"}
-            sx={{ width: "230px", margin: "0 auto" }}
+            sx={{ width: "230px", margin: "30px auto" }}
             text={t("start_again")}
             onClick={() => handleReset?.()}
           />

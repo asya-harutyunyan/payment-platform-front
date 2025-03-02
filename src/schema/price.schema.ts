@@ -19,7 +19,7 @@ export const deposit_id_schema = z.object({
     z
       .number({ required_error: "Обязательное поле" })
       .positive("Ожидается положительное число")
-      .min(50, "Минимальная сумма — 50")
+      .min(5000, "Минимальная сумма — 5000")
   ),
 });
 

@@ -1,4 +1,5 @@
 import Button from "@/components/atoms/button";
+import { useAuth } from "@/context/auth.context";
 import { P } from "@/styles/typography";
 import {
   Box,
@@ -61,8 +62,9 @@ function DynamicTable<
   isNeedBtnConfirm,
 }: TableProps<T>) {
   const navigate = useNavigate();
+  const location = useLocation();
   const route = useLocation();
-
+  const { user } = useAuth();
   const handleUserInformation = (row: T) => {
     if (route.pathname === "/deposit-list") {
       navigate({ to: `/deposit-list/${row.id}` });
@@ -104,7 +106,18 @@ function DynamicTable<
   return (
     <>
       <TableContainer component={Paper}>
-        <Table>
+        <Table
+          sx={{
+            "& td": {
+              padding:
+                user?.role === "admin" &&
+                location.pathname !== "/wallet-list" &&
+                location.pathname !== "/user-list"
+                  ? "8px"
+                  : "16px",
+            },
+          }}
+        >
           <TableHead>
             <TableRow sx={{ borderBottom: "3px solid #041F44" }}>
               {columns?.map((column, index) => (
@@ -140,7 +153,7 @@ function DynamicTable<
                   column.valueKey === "status_by_admin" &&
                   row.status_by_admin === "pending" &&
                   isNeedBtnConfirm ? (
-                    <TableCell>
+                    <TableCell sx={{}}>
                       <P
                         sx={{
                           width: "120px",

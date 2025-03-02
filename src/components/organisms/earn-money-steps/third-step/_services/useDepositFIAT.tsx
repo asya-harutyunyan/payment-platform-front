@@ -4,6 +4,8 @@ import { useAppDispatch } from "@/store";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { DEPOSIT_TYPES } from "../enums";
 
@@ -37,6 +39,12 @@ const useDepositFeat = (handleNext?: () => void) => {
           }, 500);
           handleNext?.();
         }
+      })
+      .catch(() => {
+        enqueueSnackbar(t("usdt_error"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
       });
   };
   return {

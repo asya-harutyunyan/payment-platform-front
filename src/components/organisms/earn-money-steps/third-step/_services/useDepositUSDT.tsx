@@ -3,6 +3,8 @@ import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { confirmDepositByUserThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof wallet_usdt_details_schema>;
@@ -24,6 +26,12 @@ const useDepositUsdt = () => {
       .then(() => {
         reset();
         // dispatch(resetDeposit());
+      })
+      .catch(() => {
+        enqueueSnackbar(t("usdt_error"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
       });
   };
   return {

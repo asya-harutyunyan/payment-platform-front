@@ -28,6 +28,7 @@ interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
   id?: string;
   defaultValueFirst?: boolean;
 }
+
 export const SelectField = <T extends FieldValues>({
   sx,
   style,
@@ -74,7 +75,11 @@ export const SelectField = <T extends FieldValues>({
         ref={ref}
         sx={{
           width: "100%",
-          borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+          borderColor: error
+            ? "red"
+            : whiteVariant
+              ? "tertiary.main"
+              : "primary.main",
           "& .MuiInputBase-input": {
             color: whiteVariant ? "tertiary.main" : "primary.main",
           },
@@ -83,9 +88,11 @@ export const SelectField = <T extends FieldValues>({
           },
           ...style,
           fieldset: {
-            borderColor: whiteVariant
-              ? `${theme.palette.tertiary.main}!important`
-              : `${theme.palette.primary.main}!important`,
+            borderColor: error
+              ? "red"
+              : whiteVariant
+                ? `${theme.palette.tertiary.main}!important`
+                : `${theme.palette.primary.main}!important`,
           },
         }}
       >

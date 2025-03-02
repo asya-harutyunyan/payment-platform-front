@@ -15,7 +15,7 @@ export const UserListComponent: FC = () => {
 
   const [page, setPage] = useState(1);
   useEffect(() => {
-    dispatch(getUsersThunk({ page: page }));
+    dispatch(getUsersThunk({ page: page, per_page: 20 }));
   }, []);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {

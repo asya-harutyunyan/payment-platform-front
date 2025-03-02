@@ -19,8 +19,13 @@ export const DepositLists: FC = () => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(getDepositsThunk({ page: page }));
-  }, []);
+    dispatch(
+      getDepositsThunk({
+        page: page,
+        per_page: user?.role === "admin" ? 50 : 5,
+      })
+    );
+  }, [dispatch, page, user?.role]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -42,6 +47,10 @@ export const DepositLists: FC = () => {
         column: "processing_amount",
         currency: "₽",
         valueKey: "amount",
+      },
+      {
+        column: "final_status",
+        valueKey: "final_status",
       },
     ],
     []

@@ -46,20 +46,16 @@ export const FormTextInput = <T extends FieldValues>({
     name,
     control,
     defaultValue,
-
     ...props,
   });
 
   const helperText = useMemo(() => {
-    if (
-      fieldState.isTouched &&
-      fieldState.invalid &&
-      fieldState.error?.message
-    ) {
+    if (fieldState.invalid && fieldState.error?.message) {
       return fieldState.error.message;
     }
     return undefined;
-  }, [fieldState]);
+  }, [fieldState.error?.message, fieldState.invalid]);
+
   const formatNumericValue = (value: string) => {
     if (!numeric) return value;
 

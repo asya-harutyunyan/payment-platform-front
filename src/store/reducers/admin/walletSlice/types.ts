@@ -22,4 +22,5 @@ export interface CreateWallet {
 }
 export interface GetWalletRequest {
   page: number;
+  per_page?: number;
 }

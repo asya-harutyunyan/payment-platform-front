@@ -74,13 +74,25 @@ const CreditCardInput = ({
           fontFamily: "Poppins, sans-serif",
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+              borderColor: error
+                ? "#d32f2f"
+                : whiteVariant
+                  ? "#D9D9D9"
+                  : "#0E1D40",
             },
             "&:hover fieldset": {
-              borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+              borderColor: error
+                ? "#d32f2f"
+                : whiteVariant
+                  ? "#D9D9D9"
+                  : "#0E1D40",
             },
             "&.Mui-focused fieldset": {
-              borderColor: whiteVariant ? "#D9D9D9" : "#0E1D40",
+              borderColor: error
+                ? "#d32f2f"
+                : whiteVariant
+                  ? "#D9D9D9"
+                  : "#0E1D40",
             },
             "& .MuiInputBase-input": {
               color: whiteVariant ? "#D9D9D9!important" : "#0E1D40!important",

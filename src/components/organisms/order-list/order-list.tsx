@@ -2,6 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
@@ -14,10 +15,12 @@ export const OrderListComponent: FC = () => {
   const dispatch = useAppDispatch();
   const { orders, total, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
-
+  const { user } = useAuth();
   useEffect(() => {
-    dispatch(getOrdersThunk({ page: page }));
-  }, [dispatch, page]);
+    dispatch(
+      getOrdersThunk({ page: page, per_page: user?.role === "admin" ? 50 : 5 })
+    );
+  }, [dispatch, page, user?.role]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -35,9 +38,21 @@ export const OrderListComponent: FC = () => {
         valueKey: "user.surname",
       },
       {
-        column: "initial_ammount",
+        column: "amount_order",
         currency: "₽ ",
         valueKey: "amount",
+      },
+      {
+        column: "final_status",
+        valueKey: "status_by_admin",
+      },
+      {
+        column: "id",
+        valueKey: "transaction_id",
+      },
+      {
+        column: "card_number",
+        valueKey: "user.bank_details.card_number",
       },
     ],
     []

@@ -50,6 +50,7 @@ export interface BankDetail {
 }
 export interface GetUsersRequest {
   page: number;
+  per_page?: number;
 }
 export interface PaginatedUsersResponse {
   data: UsersList[];
