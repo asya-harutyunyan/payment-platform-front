@@ -9,9 +9,9 @@ interface PaperProps<T> {
   data: T;
   fields: {
     currency?: string;
-    column: string;
+    column?: string;
     label?: string;
-    valueKey: string;
+    valueKey?: string;
     field?: string;
   }[];
   title?: string;
@@ -78,7 +78,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
               <Box sx={{ width: "50%" }}>
                 {" "}
                 <Typography sx={{ fontWeight: 500 }}>
-                  {t(field.column)}
+                  {t(field?.column ?? "")}
                 </Typography>
               </Box>
               <Box sx={{ width: "50%" }}>

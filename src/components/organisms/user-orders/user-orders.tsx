@@ -10,6 +10,7 @@ import {
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
@@ -50,6 +51,10 @@ export const UserOrdersComponent: FC = () => {
         column: "status_by_admin",
         valueKey: "status_by_admin",
       },
+      {
+        column: "key",
+        button: "statuses",
+      },
     ],
     []
   );
@@ -72,6 +77,14 @@ export const UserOrdersComponent: FC = () => {
         });
     }
   };
+  const navigate = useNavigate();
+  const route = useLocation();
+
+  const handleSingleOrder = (row?: number) => {
+    if (route.pathname === "/orders") {
+      navigate({ to: `/orders/${row}` });
+    }
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("orders")} />
@@ -88,14 +101,11 @@ export const UserOrdersComponent: FC = () => {
             sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
           >
             <DynamicTable
-              isUser
-              isNeedBtn
-              isNeedBtnConfirm
-              isNeedBtnConfirmText="confirm"
               columns={columns}
               data={orders}
               handleClick={handleConfirm}
               onChangePage={onChangePage}
+              handleClickBtn={handleSingleOrder}
             />
 
             <Box

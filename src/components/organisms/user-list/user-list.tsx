@@ -41,6 +41,7 @@ export const UserListComponent: FC = () => {
     ],
     []
   );
+
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />

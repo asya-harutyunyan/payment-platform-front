@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
@@ -54,10 +55,21 @@ export const OrderListComponent: FC = () => {
         column: "card_number",
         valueKey: "user.bank_details.card_number",
       },
+      {
+        column: "key",
+        button: "statuses",
+      },
     ],
     []
   );
+  const navigate = useNavigate();
+  const route = useLocation();
 
+  const handleSingleOrder = (row?: number) => {
+    if (route.pathname === "/order-list") {
+      navigate({ to: `/order-list/${row}` });
+    }
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("order_list")} />
@@ -74,11 +86,10 @@ export const OrderListComponent: FC = () => {
             sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
           >
             <DynamicTable
-              isUser
-              isNeedBtn
               columns={columns}
               data={orders}
               onChangePage={onChangePage}
+              handleClickBtn={handleSingleOrder}
             />
             <Box
               sx={{

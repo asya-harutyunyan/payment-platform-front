@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
@@ -52,11 +52,22 @@ export const DepositLists: FC = () => {
         column: "final_status",
         valueKey: "final_status",
       },
+      {
+        column: "key",
+        button: "statuses",
+      },
     ],
     []
   );
-  console.log(total);
+  const route = useLocation();
 
+  const handleSingleOrder = (row?: number) => {
+    if (route.pathname === "/deposit-list") {
+      navigate({ to: `/deposit-list/${row}` });
+    } else if (route.pathname === "/deposit-info") {
+      navigate({ to: `/deposit-info/${row}` });
+    }
+  };
   return (
     <Box>
       <TaskHeader title={t("deposit_lists")} />
@@ -71,6 +82,7 @@ export const DepositLists: FC = () => {
             isNeedBtn
             columns={columns}
             data={deposits}
+            handleClickBtn={handleSingleOrder}
             onChangePage={onChangePage}
           />
 
