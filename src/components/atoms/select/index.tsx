@@ -12,6 +12,7 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   whiteVariant?: boolean;
   defaultValueFirst?: boolean;
   valueKey?: keyof ISelectOption;
+  nameKey?: string;
 }
 
 export const SelectFieldWith = <T extends FieldValues>({
@@ -24,6 +25,7 @@ export const SelectFieldWith = <T extends FieldValues>({
   error,
   helperText,
   valueKey,
+  nameKey,
 }: SelectFieldWithHookFormProps<T>) => {
   return (
     <Controller
@@ -37,6 +39,7 @@ export const SelectFieldWith = <T extends FieldValues>({
           defaultValueFirst={defaultValueFirst}
           options={options}
           valueKey={valueKey}
+          nameKey={nameKey}
           error={error}
           helperText={helperText}
         />

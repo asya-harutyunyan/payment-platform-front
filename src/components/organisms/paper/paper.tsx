@@ -1,6 +1,7 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
+import { getStatusColor } from "@/components/utils/status-color";
 import { H4 } from "@/styles/typography";
-import { Box, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { t } from "i18next";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -19,6 +20,8 @@ interface PaperProps<T> {
 }
 
 export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
+  console.log(data, "data");
+
   return (
     <Box
       sx={{
@@ -87,9 +90,41 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                     color: "primary.main",
                   }}
                 >
-                  {data
-                    ? String(_.getPath?.(data, field.valueKey) ?? "-")
-                    : "-"}{" "}
+                  {data ? (
+                    field.valueKey === "status" ||
+                    field.valueKey === "final_status" ||
+                    field.valueKey === "status_by_client" ||
+                    field.valueKey === "status_by_admin" ? (
+                      <span
+                        style={{
+                          color: getStatusColor(
+                            String(_.getPath?.(data, field.valueKey))
+                          ),
+                          fontWeight: 400,
+                          textTransform: "uppercase",
+                          display: "flex",
+                        }}
+                      >
+                        {String(_.getPath?.(data, field.valueKey))}
+                        {String(_.getPath?.(data, field.valueKey)) ===
+                          "pending" && (
+                          <Box sx={{ marginLeft: "10px" }}>
+                            <CircularProgress
+                              size="20px"
+                              sx={{
+                                color: "#d8971d",
+                              }}
+                            />
+                          </Box>
+                        )}
+                      </span>
+                    ) : (
+                      String(_.getPath?.(data, field.valueKey) ?? "-")
+                    )
+                  ) : (
+                    "-"
+                  )}
+
                   {field.currency ? field.currency : ""}
                 </Typography>
               </Box>

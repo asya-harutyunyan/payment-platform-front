@@ -1,4 +1,5 @@
 import Button from "@/components/atoms/button";
+import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { P } from "@/styles/typography";
 import {
@@ -186,13 +187,28 @@ function DynamicTable<
                           renderer={countDownrenderer}
                         />
                       </P>
+                    ) : column.column === "status" ||
+                      column.column === "final_status" ||
+                      column.column === "status_by_client" ||
+                      column.column === "status_by_admin" ? (
+                      <span
+                        style={{
+                          color: getStatusColor(
+                            String(_.getPath?.(row, column.valueKey) || "-")
+                          ),
+                          fontWeight: 400,
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {String(_.getPath?.(row, column.valueKey) || "-")}
+                      </span>
                     ) : (
                       t(
                         String(
                           _.getPath(row, column.valueKey) === null
                             ? "-"
-                            : String(_.getPath(row, column.valueKey))
-                        ) || "-"
+                            : _.getPath(row, column.valueKey) || "-"
+                        )
                       )
                     )}
 

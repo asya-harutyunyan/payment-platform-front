@@ -16,7 +16,7 @@ import { FieldValues, UseControllerProps } from "react-hook-form";
 export interface ISelectOption {
   id: string | number;
   name: string;
-  key?: string;
+  nameKey?: string;
 }
 
 interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
@@ -34,6 +34,7 @@ interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
   id?: string;
   defaultValueFirst?: boolean;
   valueKey?: keyof ISelectOption;
+  nameKey?: string;
 }
 
 export const SelectField = <T extends FieldValues>({
@@ -50,6 +51,7 @@ export const SelectField = <T extends FieldValues>({
   id,
   ref,
   valueKey,
+  nameKey,
 }: ISelectField<T>) => {
   const [value, setValue] = useState<string | number>(
     defaultValueFirst ? (options[0]?.name ?? propValue) : ""
@@ -109,7 +111,7 @@ export const SelectField = <T extends FieldValues>({
             key={option.id}
             value={valueKey ? option[valueKey] : option.name}
           >
-            {t(option.name)}
+            {nameKey ? option[nameKey as keyof ISelectOption] : t(option.name)}{" "}
           </MenuItem>
         ))}
       </Select>

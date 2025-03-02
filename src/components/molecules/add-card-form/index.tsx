@@ -59,6 +59,8 @@ export const BankCardDetalis: FC = () => {
         fetchAuthUser?.();
       })
       .catch((error) => {
+        console.log(error);
+
         if (error.errors && error.message) {
           Object.entries(error.errors).forEach(([field, messages]) => {
             if (Array.isArray(messages) && messages.length > 0) {
@@ -69,10 +71,24 @@ export const BankCardDetalis: FC = () => {
             }
           });
         }
-        enqueueSnackbar(t("bank_card_added_error"), {
-          variant: "error",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
+        if (
+          error.bank_details[0] ===
+          "Вы можете добавить не более 3 банковских реквизитов."
+        ) {
+          enqueueSnackbar(
+            "Вы можете добавить не более 3 банковских реквизитов.",
+            {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            }
+          );
+        } else {
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        }
+
         reset();
       });
   };
@@ -95,7 +111,6 @@ export const BankCardDetalis: FC = () => {
         name="bank_name"
         control={control}
         options={banks}
-        valueKey="key"
         placeholder={t("bank_name")}
         error={!!errors.currency}
         helperText={errors.currency?.message}

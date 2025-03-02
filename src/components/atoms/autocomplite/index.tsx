@@ -30,7 +30,6 @@ export const Autocomplite = <T extends FieldValues>({
   placeholder,
   defaultValue,
   error,
-  valueKey,
   ...props
 }: SelectFieldWithHookFormProps<T>) => {
   const { field, fieldState } = useController<T>({
@@ -54,15 +53,11 @@ export const Autocomplite = <T extends FieldValues>({
         : "primary.main";
   const helperTextColor = error || fieldState.invalid ? "#d32f2f" : "inherit";
 
-  const onItemSelect = (event: React.SyntheticEvent, value: any) => {
+  const onItemSelect = (event: React.SyntheticEvent, value: unknown) => {
     field.onChange(value);
   };
 
   return (
-    // <Controller
-    //   name={name}
-    //   control={control}
-    //   render={({ field }) => (
     <Autocomplete
       disablePortal
       options={options}
@@ -123,7 +118,7 @@ export const Autocomplite = <T extends FieldValues>({
               },
             },
             "& .MuiFormHelperText-root": {
-              color: helperTextColor, // Red color for helper text on error
+              color: helperTextColor,
             },
           }}
         />
@@ -131,7 +126,5 @@ export const Autocomplite = <T extends FieldValues>({
       onChange={onItemSelect}
       value={field.value}
     />
-    // )}
-    // />
   );
 };

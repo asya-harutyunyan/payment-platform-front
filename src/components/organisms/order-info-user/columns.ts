@@ -26,7 +26,7 @@ export const fields = [
     valueKey: "user.bank_details.phone_number",
   },
   {
-    column: "final_status",
-    valueKey: "final_status",
+    column: "status_by_client",
+    valueKey: "status_by_client",
   },
 ];

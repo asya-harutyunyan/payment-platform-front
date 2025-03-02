@@ -13,8 +13,8 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
   const { handleSubmit, control, setValue } = useDepositFeat(handleNext);
 
   const options = [
-    { id: 1, name: "FIAT" },
-    { id: 2, name: "CRYPTO" },
+    { id: 1, name: "FIAT", currency: "Картой" },
+    { id: 2, name: "CRYPTO", currency: "Криптовалютой" },
   ];
   useEffect(() => {
     setValue("type", DEPOSIT_TYPES.FIAT, { shouldValidate: false });
@@ -36,6 +36,7 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
         control={control}
         options={options}
         whiteVariant
+        nameKey="currency"
         placeholder={t("select_currency")}
       />
       <Button

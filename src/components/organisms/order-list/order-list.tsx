@@ -55,7 +55,6 @@ export const OrderListComponent: FC = () => {
         column: "card_number",
         valueKey: "user.bank_details.card_number",
       },
-
       {
         column: "key",
         button: "statuses",

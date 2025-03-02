@@ -120,8 +120,6 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
           ))}
         </RadioGroup>
       </FormControl>
-
-      {/* Delete Confirmation Modal */}
       <BasicModal
         handleClose={() => setOpenDeleteModal(false)}
         open={openDeleteModal}

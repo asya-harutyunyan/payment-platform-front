@@ -76,6 +76,7 @@ export interface Order {
   key?: string;
   type?: string;
   email?: string;
+  status?: string;
   user_id: number;
   final_status?: string;
   transaction_id?: string;

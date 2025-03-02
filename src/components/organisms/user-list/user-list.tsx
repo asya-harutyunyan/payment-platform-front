@@ -52,7 +52,6 @@ export const UserListComponent: FC = () => {
           sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
         >
           <DynamicTable
-            isUser
             columns={columns}
             data={users}
             onChangePage={onChangePage}
