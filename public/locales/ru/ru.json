@@ -161,5 +161,6 @@
   "CRYPTO": "Криптовалюта",
   "confirm_success": "Ваш депозит успешно подтвержден.",
   "delete_wallet": "Удалить",
-  "success_delete_wallet": "Кошелек успешно удален"
+  "success_delete_wallet": "Кошелек успешно удален",
+  "rate_text": "{{converted_amount}} ({{deposit_amount}}, по курсу {{rate}} за 1 {{convert_currency}})"
 }
