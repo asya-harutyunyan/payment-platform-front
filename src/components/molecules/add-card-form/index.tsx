@@ -30,7 +30,6 @@ export const BankCardDetalis: FC = () => {
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
-      bank_name: "",
       card_holder: "",
       phone_number: "",
       card_number: "",
@@ -96,6 +95,7 @@ export const BankCardDetalis: FC = () => {
         name="bank_name"
         control={control}
         options={banks}
+        valueKey="key"
         placeholder={t("bank_name")}
         error={!!errors.currency}
         helperText={errors.currency?.message}

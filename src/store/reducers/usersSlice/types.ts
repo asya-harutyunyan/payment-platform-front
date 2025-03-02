@@ -11,9 +11,10 @@ export interface UserState {
   total: number;
   banks: BankNames[];
 }
-type BankNames = {
+export type BankNames = {
   id: number | string;
   name: string;
+  key: string;
 };
 
 export interface UsersList {

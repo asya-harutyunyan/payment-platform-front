@@ -26,19 +26,23 @@ const useConfirmEmail = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(confirmEmail(data))
+      .unwrap()
       .then((response) => {
         console.log("Registration successful, token:", response);
-        dispatch(fetchUser())
-          .unwrap()
-          .then((data) => {
-            if (data.id) {
-              setUser(data);
-              localStorage.setItem("user_role", data.role ?? "");
-              navigate({
-                to: data.role === "admin" ? "/user-list" : "/wallet",
-              });
-            }
-          });
+        if (response.token) {
+          localStorage.setItem("accessToken", response.token);
+          dispatch(fetchUser())
+            .unwrap()
+            .then((data) => {
+              if (data.id) {
+                setUser(data);
+                localStorage.setItem("user_role", data.role ?? "");
+                navigate({
+                  to: data.role === "admin" ? "/user-list" : "/wallet",
+                });
+              }
+            });
+        }
       })
       .catch((error) => {
         if (error.errors) {

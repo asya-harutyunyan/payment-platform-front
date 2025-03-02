@@ -1,16 +1,17 @@
 import { ReactNode } from "react";
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import { SelectField } from "./select_component";
+import { ISelectOption, SelectField } from "./select_component";
 
 interface SelectFieldWithHookFormProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
-  options: { id: string | number; name: string }[];
+  options: ISelectOption[];
   placeholder: string;
   error?: boolean;
   helperText?: string | ReactNode;
   whiteVariant?: boolean;
   defaultValueFirst?: boolean;
+  valueKey?: keyof ISelectOption;
 }
 
 export const SelectFieldWith = <T extends FieldValues>({
@@ -22,6 +23,7 @@ export const SelectFieldWith = <T extends FieldValues>({
   defaultValueFirst,
   error,
   helperText,
+  valueKey,
 }: SelectFieldWithHookFormProps<T>) => {
   return (
     <Controller
@@ -34,6 +36,7 @@ export const SelectFieldWith = <T extends FieldValues>({
           placeholder={placeholder}
           defaultValueFirst={defaultValueFirst}
           options={options}
+          valueKey={valueKey}
           error={error}
           helperText={helperText}
         />

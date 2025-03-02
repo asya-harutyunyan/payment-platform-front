@@ -7,10 +7,10 @@ export const addBankCardThunk = createAsyncThunk(
   "bankDetails/addBankCard",
   async (add_cards: AddCardType, { rejectWithValue }) => {
     try {
-      const response = await httpClient.post(
-        "/users/add-bank-details",
-        add_cards
-      );
+      const response = await httpClient.post("/users/add-bank-details", {
+        ...add_cards,
+        bank_name: add_cards.bank_name.key,
+      });
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

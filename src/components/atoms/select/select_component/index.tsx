@@ -13,11 +13,17 @@ import { t } from "i18next";
 import { ReactNode, Ref, useState } from "react";
 import { FieldValues, UseControllerProps } from "react-hook-form";
 
+export interface ISelectOption {
+  id: string | number;
+  name: string;
+  key?: string;
+}
+
 interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
   sx?: SxProps<Theme>;
   style?: SxProps<Theme>;
   placeholder: string;
-  options: { id: string | number; name: string }[];
+  options: ISelectOption[];
   value?: string | number;
   onChange?: (value: string | number) => void;
   error?: boolean;
@@ -27,6 +33,7 @@ interface ISelectField<T extends FieldValues> extends UseControllerProps<T> {
   ref?: Ref<HTMLDivElement>;
   id?: string;
   defaultValueFirst?: boolean;
+  valueKey?: keyof ISelectOption;
 }
 
 export const SelectField = <T extends FieldValues>({
@@ -42,6 +49,7 @@ export const SelectField = <T extends FieldValues>({
   defaultValueFirst,
   id,
   ref,
+  valueKey,
 }: ISelectField<T>) => {
   const [value, setValue] = useState<string | number>(
     defaultValueFirst ? (options[0]?.name ?? propValue) : ""
@@ -97,7 +105,10 @@ export const SelectField = <T extends FieldValues>({
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option.id} value={option.name}>
+          <MenuItem
+            key={option.id}
+            value={valueKey ? option[valueKey] : option.name}
+          >
             {t(option.name)}
           </MenuItem>
         ))}

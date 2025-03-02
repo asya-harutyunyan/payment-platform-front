@@ -1,5 +1,4 @@
 import { z } from "@/common/validation";
-import { useAuth } from "@/context/auth.context";
 import { auth_schema } from "@/schema/sign_up.schema";
 import { useAppDispatch } from "@/store";
 import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
@@ -12,7 +11,6 @@ type FormData = z.infer<typeof auth_schema>;
 const useSignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { setIsAuthenticated } = useAuth();
   const { control, handleSubmit, watch, register, setError } =
     useForm<FormData>({
       resolver: zodResolver(auth_schema),
@@ -30,10 +28,12 @@ const useSignUp = () => {
     dispatch(registerUser(data))
       .unwrap()
       .then((response) => {
-        if (response.status === 200 && response.data.token) {
-          setIsAuthenticated(true);
+        console.log(response);
+        if (response.status === 201) {
+          navigate({
+            to: "/auth/confirm-email",
+          });
         }
-        navigate({ to: "/auth/confirm-email" });
       })
       .catch((error) => {
         if (error.errors) {
