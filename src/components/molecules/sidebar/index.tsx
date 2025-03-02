@@ -3,7 +3,6 @@ import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
-import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-step/enums";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
@@ -51,14 +50,22 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     }
   };
   const handleOpenChat = () => {
-    setIsOpen(true);
+    // setIsOpen(true);
     toggleDrawer();
-  };
-  useEffect(() => {
-    if (deposit?.type === DEPOSIT_TYPES.FIAT) {
-      setIsOpen(true);
+    //@ts-expect-error script added global value
+    if (typeof jivo_api !== "undefined") {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      jivo_api.open();
+    } else {
+      console.error("JivoChat script not loaded yet.");
     }
-  }, [deposit, isOpen]);
+  };
+  // useEffect(() => {
+  //   if (deposit?.type === DEPOSIT_TYPES.FIAT) {
+  //     setIsOpen(true);
+  //   }
+  // }, [deposit, isOpen]);
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -204,7 +211,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
 
-      {isOpen ? <JivoChat /> : ""}
+      <JivoChat />
     </Box>
   );
 };
