@@ -4,7 +4,7 @@ import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
 import { useAuth } from "@/context/auth.context";
-import { useAppDispatch, useAppSelector } from "@/store";
+import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import theme from "@/styles/theme";
 import { H3, H6 } from "@/styles/typography";
@@ -28,12 +28,12 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  // const [isOpen, setIsOpen] = useState(false);
 
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { deposit } = useAppSelector((state) => state.deposit);
+  // const { deposit } = useAppSelector((state) => state.deposit);
 
   useEffect(() => {
     setSidebarItems(user?.role === "admin" ? adminItems : userItems);
