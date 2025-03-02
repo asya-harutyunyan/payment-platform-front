@@ -32,9 +32,11 @@ export type Deposit = {
   id: number;
   user_id: number;
   wallet_id: number;
-  processing_amount: string;
   status_by_client: string;
   status_by_admin: string;
+  amount: number;
+  processing_amount: string;
+  converted_amount: number;
   final_status: string;
   created_at: string;
   updated_at: string;
@@ -43,6 +45,7 @@ export type Deposit = {
   wallet: Wallet;
   type?: DEPOSIT_TYPES;
   payment_method?: PaymentMethod;
+  deposit_currency?: string;
 };
 
 export interface Wallet {
