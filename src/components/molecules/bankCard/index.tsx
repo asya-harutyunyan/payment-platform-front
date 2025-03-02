@@ -166,7 +166,7 @@ const BankCard: FC<IBankCard> = ({
         bankName={bankName}
         cardNumber={cardNumber}
         phoneNumber={phoneNumber}
-        bankDetail={bankDetailID}
+        bankDetailID={bankDetailID}
         currency={currency}
         isEdit
       />

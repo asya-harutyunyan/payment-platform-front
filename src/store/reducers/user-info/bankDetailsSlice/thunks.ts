@@ -76,12 +76,14 @@ export const deleteBankCardThunk = createAsyncThunk(
 
 export const editBankCardThunk = createAsyncThunk(
   "bankDetails/editBankCard",
-  async (edit_card: EditCardType, { rejectWithValue }) => {
+  async (edit_cards: EditCardType, { rejectWithValue }) => {
     try {
-      const { bank_name: bank, ...data } = edit_card;
       const response = await httpClient.post(
-        `/users/update-bank-details/${edit_card.id}`,
-        { ...data, bank_name: bank.key }
+        `/users/update-bank-details/${edit_cards.id}`,
+        {
+          ...edit_cards,
+          bank_name: edit_cards.bank_name.key,
+        }
       );
       return response.data;
     } catch (error: unknown) {

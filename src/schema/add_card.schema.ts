@@ -45,6 +45,7 @@ export const edit_card_schema = z.object({
     .refine((val) => /^\d{16}$/.test(val)),
   currency: z.string().min(3).max(50),
 });
+
 export const choose_card_schema = z.object({
   payment_method_id: z.string().min(1),
 });

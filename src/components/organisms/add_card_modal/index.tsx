@@ -30,7 +30,7 @@ interface IStepTwo {
   bankName?: string;
   cardNumber?: string;
   phoneNumber?: string;
-  bankDetail?: number;
+  bankDetailID?: number;
   currency?: string;
   isEdit?: boolean;
 }
@@ -39,7 +39,7 @@ export const AddCardModal: FC<IStepTwo> = ({
   open,
   setOpen,
   cardHolder,
-  bankDetail,
+  bankDetailID,
   bankName,
   phoneNumber,
   cardNumber,
@@ -58,13 +58,15 @@ export const AddCardModal: FC<IStepTwo> = ({
     setError,
     reset,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
-      bank_name: bankName
-        ? banks.find((item) => item.key === bankName)
-        : undefined,
+      bank_name:
+        isEdit && bankName
+          ? { name: bankName, id: bankDetailID, key: bankName }
+          : undefined,
       card_holder: cardHolder ?? "",
       phone_number: phoneNumber ?? "",
       card_number: cardNumber ?? "",
@@ -74,7 +76,19 @@ export const AddCardModal: FC<IStepTwo> = ({
 
   useEffect(() => {
     setValue("currency", "RUB", { shouldValidate: false });
+    if (isEdit) {
+      console.log(bankDetailID);
+
+      if (bankName && bankDetailID) {
+        setValue(
+          "bank_name",
+          { name: bankName, id: bankDetailID, key: bankName },
+          { shouldValidate: false }
+        );
+      }
+    }
     dispatch(getBankNamesThunk());
+    console.log(watch());
   }, [dispatch, setValue]);
 
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
@@ -109,8 +123,8 @@ export const AddCardModal: FC<IStepTwo> = ({
   };
 
   const onEditSubmit: SubmitHandler<FormData> = async (data) => {
-    if (bankDetail) {
-      dispatch(editBankCardThunk({ ...data, id: bankDetail }))
+    if (bankDetailID) {
+      dispatch(editBankCardThunk({ ...data, id: bankDetailID }))
         .unwrap()
         .then(() => {
           enqueueSnackbar(t("bank_card_added_success"), {
@@ -132,6 +146,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         });
     }
   };
+
   const options = [{ id: 1, name: "RUB" }];
 
   useEffect(() => {
@@ -170,6 +185,11 @@ export const AddCardModal: FC<IStepTwo> = ({
           options={banks}
           whiteVariant
           defaultValueFirst
+          defaultValue={
+            isEdit && bankName
+              ? { name: bankName, id: bankDetailID, key: bankName }
+              : undefined
+          }
           placeholder={t("bank_name")}
           error={!!errors.bank_name}
           helperText={errors.bank_name?.message}
