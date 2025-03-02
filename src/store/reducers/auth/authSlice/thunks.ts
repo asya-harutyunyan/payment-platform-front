@@ -16,7 +16,7 @@ export const registerUser = createAsyncThunk(
       if (token) {
         localStorage.setItem("accessToken", token);
       }
-      return response.data;
+      return response;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(error.response?.data || "Something went wrong");

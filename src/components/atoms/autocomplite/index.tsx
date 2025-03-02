@@ -2,22 +2,22 @@ import { Autocomplete, TextField } from "@mui/material";
 import { ReactNode, useMemo } from "react";
 import {
   Control,
-  Controller,
   FieldPath,
   FieldValues,
   Path,
   useController,
 } from "react-hook-form";
+import { ISelectOption } from "../select/select_component";
 
 interface SelectFieldWithHookFormProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
-  options: { id: string | number; name: string }[];
+  options: ISelectOption[];
   placeholder: string;
   error?: boolean;
   helperText?: string | ReactNode;
   defaultValue?: T[FieldPath<T>];
-
+  valueKey?: keyof ISelectOption;
   whiteVariant?: boolean;
   defaultValueFirst?: boolean;
 }
@@ -30,9 +30,10 @@ export const Autocomplite = <T extends FieldValues>({
   placeholder,
   defaultValue,
   error,
+  valueKey,
   ...props
 }: SelectFieldWithHookFormProps<T>) => {
-  const { fieldState } = useController<T>({
+  const { field, fieldState } = useController<T>({
     name,
     control,
     defaultValue,
@@ -53,16 +54,63 @@ export const Autocomplite = <T extends FieldValues>({
         : "primary.main";
   const helperTextColor = error || fieldState.invalid ? "#d32f2f" : "inherit";
 
+  const onItemSelect = (event: React.SyntheticEvent, value: any) => {
+    field.onChange(value);
+  };
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <Autocomplete
-          disablePortal
-          options={options.map((option) => option.name)}
+    // <Controller
+    //   name={name}
+    //   control={control}
+    //   render={({ field }) => (
+    <Autocomplete
+      disablePortal
+      options={options}
+      {...field}
+      renderOption={(props, option) => {
+        return (
+          <li {...props} key={option.id}>
+            {option.name}
+          </li>
+        );
+      }}
+      getOptionLabel={(option) => option.name ?? ""}
+      sx={{
+        width: "100%",
+        "& .MuiOutlinedInput-root": {
+          "& fieldset": {
+            borderColor,
+          },
+          "&:hover fieldset": {
+            borderColor,
+          },
+          "&.Mui-focused fieldset": {
+            borderColor,
+          },
+        },
+        "& .MuiFormLabel-root": {
+          color: whiteVariant ? "tertiary.main" : "primary.main", // Keep label color unchanged
+        },
+        "& .MuiInputBase-input": {
+          color: whiteVariant ? "tertiary.main" : "primary.main", // Keep input text color unchanged
+        },
+        color: whiteVariant ? "tertiary.main" : "primary.main",
+        fieldset: {
+          borderColor,
+        },
+        label: { color: whiteVariant ? "tertiary.main" : "primary.main" },
+        svg: {
+          color: "white",
+        },
+      }}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label={placeholder}
+          error={error}
+          helperText={helperText}
           sx={{
-            width: "100%",
+            borderColor,
             "& .MuiOutlinedInput-root": {
               "& fieldset": {
                 borderColor,
@@ -74,50 +122,16 @@ export const Autocomplite = <T extends FieldValues>({
                 borderColor,
               },
             },
-            "& .MuiFormLabel-root": {
-              color: whiteVariant ? "tertiary.main" : "primary.main", // Keep label color unchanged
-            },
-            "& .MuiInputBase-input": {
-              color: whiteVariant ? "tertiary.main" : "primary.main", // Keep input text color unchanged
-            },
-            color: whiteVariant ? "tertiary.main" : "primary.main",
-            fieldset: {
-              borderColor,
-            },
-            label: { color: whiteVariant ? "tertiary.main" : "primary.main" },
-            svg: {
-              color: "white",
+            "& .MuiFormHelperText-root": {
+              color: helperTextColor, // Red color for helper text on error
             },
           }}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={placeholder}
-              error={error}
-              helperText={helperText}
-              sx={{
-                borderColor,
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor,
-                  },
-                  "&:hover fieldset": {
-                    borderColor,
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor,
-                  },
-                },
-                "& .MuiFormHelperText-root": {
-                  color: helperTextColor, // Red color for helper text on error
-                },
-              }}
-            />
-          )}
-          onChange={(_, newValue) => field.onChange(newValue)}
-          value={field.value}
         />
       )}
+      onChange={onItemSelect}
+      value={field.value}
     />
+    // )}
+    // />
   );
 };
