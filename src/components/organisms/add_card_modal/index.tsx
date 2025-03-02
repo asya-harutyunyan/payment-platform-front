@@ -62,7 +62,9 @@ export const AddCardModal: FC<IStepTwo> = ({
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
-      bank_name: bankName ?? "",
+      bank_name: bankName
+        ? banks.find((item) => item.key === bankName)
+        : undefined,
       card_holder: cardHolder ?? "",
       phone_number: phoneNumber ?? "",
       card_number: cardNumber ?? "",
@@ -131,6 +133,17 @@ export const AddCardModal: FC<IStepTwo> = ({
     }
   };
   const options = [{ id: 1, name: "RUB" }];
+
+  useEffect(() => {
+    if (bankName) {
+      const bank = banks.find((bank) => bank.key === bankName);
+      if (bank) {
+        setValue("bank_name", bank);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [bankName, banks]);
+
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>
       <Box

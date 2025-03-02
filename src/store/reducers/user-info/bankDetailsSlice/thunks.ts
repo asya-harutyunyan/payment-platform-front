@@ -7,9 +7,10 @@ export const addBankCardThunk = createAsyncThunk(
   "bankDetails/addBankCard",
   async (add_cards: AddCardType, { rejectWithValue }) => {
     try {
+      const { bank_name: bank, ...data } = add_cards;
       const response = await httpClient.post("/users/add-bank-details", {
-        ...add_cards,
-        bank_name: add_cards.bank_name.key,
+        ...data,
+        bank_name: bank.key,
       });
       return response.data;
     } catch (error: unknown) {
@@ -77,9 +78,10 @@ export const editBankCardThunk = createAsyncThunk(
   "bankDetails/editBankCard",
   async (edit_card: EditCardType, { rejectWithValue }) => {
     try {
+      const { bank_name: bank, ...data } = edit_card;
       const response = await httpClient.post(
         `/users/update-bank-details/${edit_card.id}`,
-        edit_card
+        { ...data, bank_name: bank.key }
       );
       return response.data;
     } catch (error: unknown) {

@@ -12,7 +12,7 @@ export interface UserState {
   banks: BankNames[];
 }
 export type BankNames = {
-  id: number | string;
+  id: number;
   name: string;
   key: string;
 };

@@ -59,9 +59,9 @@ export const Autocomplite = <T extends FieldValues>({
 
   return (
     <Autocomplete
+      {...field}
       disablePortal
       options={options}
-      {...field}
       renderOption={(props, option) => {
         return (
           <li {...props} key={option.id}>

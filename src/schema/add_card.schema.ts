@@ -25,7 +25,13 @@ export const add_card_schema = z.object({
 });
 export const edit_card_schema = z.object({
   id: z.number(),
-  bank_name: z.string().min(3).max(50),
+  bank_name: z
+    .object({
+      name: z.string(),
+      id: z.number(),
+      key: z.string(),
+    })
+    .required(),
   card_holder: z.string().min(3).max(50),
   phone_number: z
     .string()
