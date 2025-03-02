@@ -1,19 +1,58 @@
 import success from "@/assets/images/success.png";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
-import { CircularIndeterminate } from "@/components/atoms/loader";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppSelector } from "@/store";
 import { H4, H6, P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { Box, CircularProgress } from "@mui/material";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { FC, useMemo } from "react";
+import Countdown, { CountdownRendererFn } from "react-countdown";
 interface ISuccess {
   handleReset?: () => void;
 }
 export const Success: FC<ISuccess> = ({ handleReset }) => {
   const { deposit } = useAppSelector((state) => state.deposit);
+  const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
+    if (completed) {
+      return (
+        <H6 align="center" sx={{ textDecoration: "underline" }}>
+          Ваше время истекло, пожалуйста, свяжитесь с поддержкой.
+        </H6>
+      );
+    } else {
+      return (
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <H4>Загрузка..</H4>
+          <CircularProgress sx={{ color: "white" }} />
+          <P color="text.secondary" padding={"10px 0"}>
+            {formatted.minutes}:{formatted.seconds}
+          </P>
+        </Box>
+      );
+    }
+  };
 
+  const getTimer = (created_at: string) => {
+    return new Date(
+      dayjs()
+        .add(
+          (dayjs.utc(created_at).add(5, "minutes").unix() -
+            dayjs().utc().unix()) *
+            1000,
+          "milliseconds"
+        )
+        .format()
+    );
+  };
   const renderStatus = useMemo(() => {
     switch (deposit?.status_by_admin) {
       case DEPOSIT_STATUSES.PENDING:
@@ -22,14 +61,14 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              height: "200px",
               width: "100%",
+              alignItems: "center",
             }}
           >
-            <H6 align="center" color="tertiary.main">
-              Загрузка..
-            </H6>
-            <CircularIndeterminate color="white" />
+            <Countdown
+              date={getTimer(deposit.created_at as string)}
+              renderer={countDownrenderer}
+            />
             <P color="primary.contrastText" padding={"20px 0"} align="center">
               Для совершения депозита в Вашей карты, пожалуйста, обратитесь в
               чат Вам будет выдан номер карты, на который необходимо перевести
@@ -37,6 +76,12 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               той карты, на которую будут возвращаться средства депозита и
               Вашего заработка. Использование иных карт для депозита запрещено.
             </P>
+            <Button
+              variant={"gradient"}
+              sx={{ width: "230px" }}
+              text={t("start_again")}
+              onClick={() => handleReset?.()}
+            />
           </Box>
         );
       case DEPOSIT_STATUSES.DONE:
@@ -45,7 +90,8 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: { lg: "200px", md: "200px", xs: "140px", sm: "140px" },
+              width: "100%",
+              alignItems: "center",
             }}
           >
             <P
@@ -62,13 +108,49 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               {t("success_step")}
             </P>
             <img src={success} style={{ width: "100%" }} />
+            <Button
+              variant={"gradient"}
+              sx={{ width: "230px" }}
+              text={t("start_again")}
+              onClick={() => handleReset?.()}
+            />
           </Box>
         );
       case DEPOSIT_STATUSES.CANCELED:
       case DEPOSIT_STATUSES.FAILED:
-        return <H4 align="center">Платеж отклонен или отменен</H4>;
+        return (
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
+            <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
+            <H4 align="center">Платеж отклонен или отменен</H4>
+
+            <Button
+              variant={"gradient"}
+              sx={{ width: "230px" }}
+              text={t("start_again")}
+              onClick={() => handleReset?.()}
+            />
+          </Box>
+        );
       case DEPOSIT_STATUSES.EXPRIED:
-        return <H4 align="center">Срок платежа истек</H4>;
+        return (
+          <Box>
+            <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
+            <H4 align="center">Срок платежа истек</H4>
+            <Button
+              variant={"gradient"}
+              sx={{ width: "230px" }}
+              text={t("start_again")}
+              onClick={() => handleReset?.()}
+            />
+          </Box>
+        );
       default:
         <></>;
         break;
@@ -82,41 +164,28 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           width: "100%",
           marginTop: "20px",
           padding: "0",
-          height: "330px",
+          height: {
+            lg: "370px",
+            md: "370px",
+            xs: "max-content",
+            sm: "max-content",
+          },
           display: "flex",
           alignItems: "center",
+          justifyContent: "space-between",
         }}
         title={t("success")}
       >
         <Box
           sx={{
-            width: "100%",
-            height: "230px",
-            display: "flex",
-            justifyContent: "space-between",
-
+            display: { lg: "flex", md: "flex", xs: "flex", sm: "flex" },
+            width: "90%",
+            borderRadius: "50%",
             alignItems: "center",
-            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          <Box
-            sx={{
-              display: { lg: "flex", md: "flex", xs: "flex", sm: "flex" },
-              width: "90%",
-              height: "200px",
-              borderRadius: "50%",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            {renderStatus}
-          </Box>
-          <Button
-            variant={"gradient"}
-            sx={{ width: "230px", margin: "30px auto" }}
-            text={t("start_again")}
-            onClick={() => handleReset?.()}
-          />
+          {renderStatus}
         </Box>
       </BasicCard>
     </Box>
