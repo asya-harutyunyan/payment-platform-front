@@ -35,7 +35,7 @@ webSocketMiddleware.startListening({
           listenerApi.dispatch(setNotificationData(notification));
         });
       socketConnection.ws
-        .private(`Deposit.Confirmed.${action.payload}`)
+        .channel(`Deposit.Confirmed.${action.payload}`)
         .notification((notification: { id: number; status: string }) => {
           const { deposit } = listenerApi.getState() as RootState;
           if (deposit.deposit?.id === notification.id) {
