@@ -55,6 +55,7 @@ export const Autocomplite = <T extends FieldValues>({
 
   const onItemSelect = (event: React.SyntheticEvent, value: unknown) => {
     field.onChange(value);
+    console.log(event);
   };
 
   return (

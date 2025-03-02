@@ -24,15 +24,15 @@ interface IBankCard {
   textColor: string;
   currency: string;
   onClick?: (card: BankDetail) => void;
-  bankDetail?: number;
+  bankDetailID?: number;
   setChangeTab?: Dispatch<SetStateAction<number>>;
 }
 const BankCard: FC<IBankCard> = ({
   cardHolder = "Name Surname",
   cardNumber = "1234 5678 1234 5678",
-  bankName = "Bank",
+  bankName,
   textColor = "#FFFFFF",
-  bankDetail,
+  bankDetailID,
   currency,
   phoneNumber,
 }) => {
@@ -67,8 +67,8 @@ const BankCard: FC<IBankCard> = ({
           width: { md: 300, xs: 250, sm: 250 },
           height: { md: 160, xs: 160, sm: 160 },
           borderRadius: 2,
-          backgroundImage: bankDetail ? `url(${img})` : "none",
-          backgroundColor: bankDetail ? "none" : "#989494",
+          backgroundImage: bankDetailID ? `url(${img})` : "none",
+          backgroundColor: bankDetailID ? "none" : "#989494",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
           color: textColor,
@@ -89,7 +89,7 @@ const BankCard: FC<IBankCard> = ({
           }}
         >
           <H5>{bankName}</H5>
-          {bankDetail ? (
+          {bankDetailID ? (
             <Box sx={{ display: "flex" }}>
               <Box onClick={() => handleOpen()}>
                 <EditIcon
@@ -166,7 +166,7 @@ const BankCard: FC<IBankCard> = ({
         bankName={bankName}
         cardNumber={cardNumber}
         phoneNumber={phoneNumber}
-        bankDetail={bankDetail}
+        bankDetail={bankDetailID}
         currency={currency}
         isEdit
       />
@@ -189,7 +189,7 @@ const BankCard: FC<IBankCard> = ({
           <Button
             variant={"text"}
             text={t("yes")}
-            onClick={() => onItemDelete?.(bankDetail)}
+            onClick={() => onItemDelete?.(bankDetailID)}
           />
         </Box>
       </BasicModal>
