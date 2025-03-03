@@ -182,18 +182,18 @@ export const USDTComponent: FC<IUSDTComponent> = ({
             margin: "10px 0",
           }}
         >
-          <Button
+          {/* <Button
             variant={"outlinedBlue"}
             text={t("back")}
             onClick={() => handleBack?.()}
             sx={{ marginRight: "20px", width: "48%", height: "50px" }}
-          />
+          /> */}
           <Button
             variant={"gradient"}
             disabled={!transactionId}
             text={t("confirm")}
             type="submit"
-            sx={{ width: "48%", height: "50px" }}
+            sx={{ width: "98%", height: "50px" }}
           />
         </Box>
         <P

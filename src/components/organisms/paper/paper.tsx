@@ -2,7 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
 import { H4 } from "@/styles/typography";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -107,17 +107,6 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                         }}
                       >
                         {String(_.getPath?.(data, field.valueKey))}
-                        {String(_.getPath?.(data, field.valueKey)) ===
-                          "pending" && (
-                          <Box sx={{ marginLeft: "10px" }}>
-                            <CircularProgress
-                              size="20px"
-                              sx={{
-                                color: "#d8971d",
-                              }}
-                            />
-                          </Box>
-                        )}
                       </span>
                     ) : (
                       String(_.getPath?.(data, field.valueKey) ?? "-")

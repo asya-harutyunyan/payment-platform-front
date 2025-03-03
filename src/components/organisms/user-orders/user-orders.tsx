@@ -30,7 +30,6 @@ export const UserOrdersComponent: FC = () => {
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
-    console.log(event);
   };
   const columns = useMemo<IColumn<Order>[]>(
     () => [

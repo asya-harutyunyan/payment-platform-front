@@ -30,7 +30,12 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
         sx={{
           width: "100%",
           padding: "0",
-          height: { lg: "390px", md: "390px", xs: "400px", sm: "400px" },
+          height: {
+            lg: "390px",
+            md: "390px",
+            xs: "max-content",
+            sm: "max-content",
+          },
           display: "flex",
         }}
         bg={third_step}
