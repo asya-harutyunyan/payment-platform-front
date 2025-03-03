@@ -62,7 +62,7 @@ const BankCard: FC<IBankCard> = ({
   };
 
   const bankNameFormatted = useMemo(() => {
-    return banks.find((bank) => bank.key === bankName)?.["name"] ?? "";
+    return banks.find((bank) => bank.key === bankName)?.["name"] ?? bankName;
   }, [bankName, banks]);
 
   return (
