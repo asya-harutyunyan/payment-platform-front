@@ -57,6 +57,7 @@ function DynamicTable<
   T extends {
     created_at?: string;
     status_by_admin?: string;
+    final_status?: string;
     id?: number;
     textBtn?: string;
     handleClick?: () => void;
@@ -169,8 +170,8 @@ function DynamicTable<
                         sx={{ width: "120px" }}
                         onClick={() => handleClickBtn?.(row.id)}
                       />
-                    ) : column.valueKey === "status_by_admin" &&
-                      row.status_by_admin === "pending" ? (
+                    ) : column.valueKey === "final_status" &&
+                      row.final_status === "pending" ? (
                       <P
                         sx={{
                           width: "120px",
