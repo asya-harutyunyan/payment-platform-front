@@ -27,7 +27,7 @@ export const UserOrdersComponent: FC = () => {
     );
   }, []);
 
-  const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getOrdersThunk({ page }));
   };
