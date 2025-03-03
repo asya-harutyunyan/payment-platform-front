@@ -164,5 +164,7 @@
   "delete_wallet": "Удалить",
   "delete_wallet_modal": "Вы уверены, что хотите удалить этот кошелек?",
   "success_delete_wallet": "Кошелек успешно удален",
-  "rate_text": "{{converted_amount}} ({{deposit_amount}}, по курсу {{rate}} за 1 {{convert_currency}})"
+  "rate_text": "{{converted_amount}} ({{deposit_amount}}, по курсу {{rate}} за 1 {{convert_currency}})",
+  "id:": "ID",
+  "type": "Способ депозита"
 }

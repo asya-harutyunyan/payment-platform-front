@@ -45,7 +45,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
     return new Date(
       dayjs()
         .add(
-          (dayjs.utc(created_at).add(5, "minutes").unix() -
+          (dayjs.utc(created_at).add(10, "minutes").unix() -
             dayjs().utc().unix()) *
             1000,
           "milliseconds"
