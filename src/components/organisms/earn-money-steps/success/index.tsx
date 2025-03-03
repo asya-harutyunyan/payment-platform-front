@@ -140,7 +140,14 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
         );
       case DEPOSIT_STATUSES.EXPRIED:
         return (
-          <Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "100%",
+              alignItems: "center",
+            }}
+          >
             <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
             <H4 align="center">Срок платежа истек</H4>
             <Button
@@ -179,7 +186,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
         <Box
           sx={{
             display: { lg: "flex", md: "flex", xs: "flex", sm: "flex" },
-            width: "90%",
+            width: "100%",
             borderRadius: "50%",
             alignItems: "center",
             justifyContent: "center",
