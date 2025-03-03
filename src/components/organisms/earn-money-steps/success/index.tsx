@@ -76,12 +76,6 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               той карты, на которую будут возвращаться средства депозита и
               Вашего заработка. Использование иных карт для депозита запрещено.
             </P>
-            <Button
-              variant={"gradient"}
-              sx={{ width: "230px" }}
-              text={t("start_again")}
-              onClick={() => handleReset?.()}
-            />
           </Box>
         );
       case DEPOSIT_STATUSES.DONE:
@@ -129,13 +123,6 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           >
             <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
             <H4 align="center">Платеж отклонен или отменен</H4>
-
-            <Button
-              variant={"gradient"}
-              sx={{ width: "230px" }}
-              text={t("start_again")}
-              onClick={() => handleReset?.()}
-            />
           </Box>
         );
       case DEPOSIT_STATUSES.EXPRIED:
@@ -150,12 +137,6 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           >
             <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
             <H4 align="center">Срок платежа истек</H4>
-            <Button
-              variant={"gradient"}
-              sx={{ width: "230px" }}
-              text={t("start_again")}
-              onClick={() => handleReset?.()}
-            />
           </Box>
         );
       default:

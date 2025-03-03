@@ -59,10 +59,6 @@ export const UserOrdersComponent: FC = () => {
         valueKey: "user.bank_details.card_number",
       },
       {
-        column: "type",
-        valueKey: "type",
-      },
-      {
         column: "key",
         button: "statuses",
       },
