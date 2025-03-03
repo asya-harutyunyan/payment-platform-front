@@ -1,5 +1,6 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
+import { CURRENCY } from "@/enum/currencies.enum";
 import { H4 } from "@/styles/typography";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { t } from "i18next";
@@ -125,7 +126,16 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                     "-"
                   )}
 
-                  {field.currency ? field.currency : ""}
+                  {field.currency
+                    ? ` ${
+                        CURRENCY[
+                          _.getPath?.(
+                            data,
+                            field.currency
+                          ) as keyof typeof CURRENCY
+                        ] ?? "-"
+                      }`
+                    : ""}
                 </Typography>
               </Box>
             </Box>
