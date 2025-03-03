@@ -40,11 +40,11 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "amount_order",
-        currency: "₽ ",
+        currency: "wallet_deposit.order_currency",
         valueKey: "amount",
       },
       {
-        column: "status_by_client",
+        column: "order_status",
         valueKey: "status_by_client",
       },
       {
@@ -54,6 +54,10 @@ export const OrderListComponent: FC = () => {
       {
         column: "card_number",
         valueKey: "user.bank_details.card_number",
+      },
+      {
+        column: "type",
+        valueKey: "type",
       },
       {
         column: "key",

@@ -72,6 +72,7 @@ export interface PaymentMethod {
 
 export interface Order {
   id: number;
+  order_status?: string;
   wallet_id: number;
   key?: string;
   type?: string;

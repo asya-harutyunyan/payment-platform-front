@@ -166,5 +166,6 @@
   "success_delete_wallet": "Кошелек успешно удален",
   "rate_text": "{{converted_amount}} ({{deposit_amount}}, по курсу {{rate}} за 1 {{convert_currency}})",
   "id:": "ID",
-  "type": "Способ депозита"
+  "type": "Способ депозита",
+  "order_status": "Статус заказа"
 }

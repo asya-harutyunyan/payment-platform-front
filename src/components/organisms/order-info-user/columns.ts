@@ -1,7 +1,7 @@
 export const fields = [
   {
     column: "transaction_amount",
-    currency: "₽",
+    currency: "wallet_deposit.order_currency",
     valueKey: "amount",
   },
   {

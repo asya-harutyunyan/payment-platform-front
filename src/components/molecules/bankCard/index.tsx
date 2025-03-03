@@ -5,7 +5,7 @@ import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
 import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { useAuth } from "@/context/auth.context";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { H3, H5 } from "@/styles/typography";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
-import { Dispatch, FC, SetStateAction, useState } from "react";
+import { Dispatch, FC, SetStateAction, useMemo, useState } from "react";
 
 interface IBankCard {
   cardHolder: string;
@@ -37,6 +37,7 @@ const BankCard: FC<IBankCard> = ({
   phoneNumber,
 }) => {
   const { fetchAuthUser } = useAuth();
+  const { banks } = useAppSelector((state) => state.users);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -59,6 +60,10 @@ const BankCard: FC<IBankCard> = ({
         });
     }
   };
+
+  const bankNameFormatted = useMemo(() => {
+    return banks.find((bank) => bank.key === bankName)?.["name"] ?? "";
+  }, [bankName, banks]);
 
   return (
     <Box component="form">
@@ -88,7 +93,7 @@ const BankCard: FC<IBankCard> = ({
             alignItems: "center",
           }}
         >
-          <H5>{bankName}</H5>
+          <H5>{bankNameFormatted}</H5>
           {bankDetailID ? (
             <Box sx={{ display: "flex" }}>
               <Box onClick={() => handleOpen()}>

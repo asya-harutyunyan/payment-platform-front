@@ -45,7 +45,7 @@ export const DepositLists: FC = () => {
       },
       {
         column: "processing_amount",
-        currency: "₽",
+        currency: "deposit_currency",
         valueKey: "amount",
       },
       {

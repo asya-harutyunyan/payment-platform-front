@@ -44,12 +44,20 @@ export const UserOrdersComponent: FC = () => {
       },
       {
         column: "amount",
-        currency: "₽",
+        currency: "wallet_deposit.order_currency",
         valueKey: "amount",
       },
       {
-        column: "status",
+        column: "order_status",
         valueKey: "status_by_client",
+      },
+      {
+        column: "id",
+        valueKey: "transaction_id",
+      },
+      {
+        column: "card_number",
+        valueKey: "user.bank_details.card_number",
       },
       {
         column: "type",

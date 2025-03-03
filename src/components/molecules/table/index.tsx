@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
+import { CURRENCY } from "@/enum/currencies.enum";
 import { P } from "@/styles/typography";
 import {
   Box,
@@ -212,7 +213,16 @@ function DynamicTable<
                       )
                     )}
 
-                    {column.currency ? column.currency : ""}
+                    {column.currency
+                      ? ` ${
+                          CURRENCY[
+                            _.getPath?.(
+                              row,
+                              column.currency
+                            ) as keyof typeof CURRENCY
+                          ] ?? "-"
+                        }`
+                      : ""}
                   </TableCell>
                 ))}
 
