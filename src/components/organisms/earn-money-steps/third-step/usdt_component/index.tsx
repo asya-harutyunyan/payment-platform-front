@@ -20,7 +20,6 @@ interface IUSDTComponent {
 export const USDTComponent: FC<IUSDTComponent> = ({
   handleNext,
   setActiveStep,
-  handleBack,
 }) => {
   const { handleSubmit, onSubmit, control, watch } = useDepositUsdt();
   const dispatch = useAppDispatch();
