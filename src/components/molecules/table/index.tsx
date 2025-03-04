@@ -76,7 +76,6 @@ function DynamicTable<
   isNeedBtnConfirmText,
   handleClick,
   handleClickBtn,
-  refetchData,
 }: TableProps<T>) {
   const location = useLocation();
   const route = useLocation();
