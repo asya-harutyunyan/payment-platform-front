@@ -6,6 +6,7 @@ import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   deleteWalletsThunk,
@@ -25,17 +26,26 @@ export const Wallet: FC = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
+  const { user } = useAuth();
   const [selectedItem, setSelectedItem] = useState<string | number | null>(
     null
   );
 
   useEffect(() => {
-    dispatch(getWalletsThunk({ page: page }));
-  }, [dispatch, page]);
+    if (user?.role === "admin") {
+      dispatch(getWalletsThunk({ page: page, per_page: 20 }));
+    } else {
+      dispatch(getWalletsThunk({ page: page, per_page: 5 }));
+    }
+  }, [dispatch, page, user?.role]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getWalletsThunk({ page }));
+    if (user?.role === "admin") {
+      dispatch(getWalletsThunk({ page: page, per_page: 20 }));
+    } else {
+      dispatch(getWalletsThunk({ page: page, per_page: 5 }));
+    }
     console.log(event);
   };
   const handleDeleteModal = (id?: number) => {
@@ -50,7 +60,7 @@ export const Wallet: FC = () => {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-        dispatch(getWalletsThunk({ page: page }));
+        dispatch(getWalletsThunk({ page: page, per_page: 5 }));
         setOpen(false);
       })
       .catch(() => {
@@ -94,7 +104,7 @@ export const Wallet: FC = () => {
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            overflowX: "auto",
+            height: "100vh",
             marginTop: "20px",
           }}
         >

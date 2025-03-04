@@ -12,7 +12,6 @@ export interface DepositState {
   singleOrder: Order | [];
   deposits: DataDeposits[];
   orders: Order[];
-  per_page: number;
   currentPage: number | null;
   lastPage: number | null;
   total: number;

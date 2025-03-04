@@ -23,7 +23,6 @@ const initialState: DepositState = {
   orders: [],
   currentPage: null,
   lastPage: null,
-  per_page: 5,
   total: 0,
   price: 0,
   singleDeposit: [],

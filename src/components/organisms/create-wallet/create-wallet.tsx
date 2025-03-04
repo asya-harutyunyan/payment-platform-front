@@ -37,8 +37,7 @@ export const CreateWallet: FC<ICreateWallet> = ({ page }) => {
     dispatch(createWalletsThunk(data))
       .unwrap()
       .then(() => {
-        getWalletsThunk({ page });
-        dispatch(getWalletsThunk({ page: page }));
+        dispatch(getWalletsThunk({ page: page, per_page: 20 }));
         enqueueSnackbar(t("wallet_added_success"), {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },

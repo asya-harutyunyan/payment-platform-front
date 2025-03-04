@@ -1,20 +1,16 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AppState } from "../../..";
 import { CreateWallet, GetWalletRequest } from "./types";
 
 export const getWalletsThunk = createAsyncThunk(
   "Wallets/getWalletsThunk",
-  async (data: GetWalletRequest, { rejectWithValue, getState }) => {
+  async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
-      const {
-        users: { per_page },
-      } = getState() as AppState;
       const response = await httpClient.get("/wallets", {
         params: {
           page: data.page,
-          per_page,
+          per_page: data.per_page,
         },
       });
       return response.data;

@@ -8,7 +8,6 @@ const initialState: WalletState = {
   wallet: [],
   currentPage: null,
   lastPage: null,
-  per_page: 5,
   total: 0,
 };
 

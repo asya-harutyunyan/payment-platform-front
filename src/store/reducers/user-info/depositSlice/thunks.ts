@@ -167,11 +167,29 @@ export const getSingleOrderThunk = createAsyncThunk(
 );
 
 export const confirmOrderByAdminThunk = createAsyncThunk(
-  "deposit/confirmDeposit",
+  "order/confirmOrderByAdminThunk",
   async (order_id: string | number, { rejectWithValue }) => {
     try {
       const response = await httpClient.post(
         `/orders/confirm/admin/${order_id}`
+      );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const confirmOrderByClientThunk = createAsyncThunk(
+  "order/confirmOrderByClientThunk",
+  async (order_id: string | number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post(
+        `/orders/confirm/client/${order_id}`
       );
       return response.data;
     } catch (error: unknown) {

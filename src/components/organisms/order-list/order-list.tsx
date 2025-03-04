@@ -4,11 +4,15 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getOrdersThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import {
+  confirmOrderByAdminThunk,
+  getOrdersThunk,
+} from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
@@ -18,14 +22,20 @@ export const OrderListComponent: FC = () => {
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   useEffect(() => {
-    dispatch(
-      getOrdersThunk({ page: page, per_page: user?.role === "admin" ? 50 : 5 })
-    );
+    if (user?.role === "admin") {
+      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+    } else {
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+    }
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getOrdersThunk({ page }));
+    if (user?.role === "admin") {
+      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+    } else {
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+    }
     console.log(event, page);
   };
   const columns = useMemo<IColumn<Order>[]>(
@@ -70,25 +80,58 @@ export const OrderListComponent: FC = () => {
       navigate({ to: `/order-list/${row}` });
     }
   };
+
+  const handleConfirm = (num?: number) => {
+    if (num) {
+      dispatch(confirmOrderByAdminThunk(num))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("confirm_success"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          dispatch(getOrdersThunk({ page }));
+        })
+        .catch(() => {
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
+    }
+  };
+
+  const refetch = () => {
+    if (user?.role === "admin") {
+      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+    } else {
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+    }
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("order_list")} />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-          overflowX: "auto",
         }}
       >
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
           <Box
-            sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
+            sx={{
+              width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+              height: "100vh",
+              overflowY: "auto",
+            }}
           >
             <DynamicTable
               columns={columns}
               data={orders}
+              handleClick={handleConfirm}
               onChangePage={onChangePage}
+              refetchData={refetch}
               handleClickBtn={handleSingleOrder}
             />
             <Box

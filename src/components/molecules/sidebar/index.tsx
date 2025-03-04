@@ -10,7 +10,14 @@ import theme from "@/styles/theme";
 import { H3, H6 } from "@/styles/typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
-import { AppBar, Box, Drawer, IconButton, Toolbar } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Drawer,
+  IconButton,
+  Toolbar,
+  useMediaQuery,
+} from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
@@ -28,18 +35,21 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
-  // const [isOpen, setIsOpen] = useState(false);
+  const matches = useMediaQuery("(min-width:600px)");
 
   const { user } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const { deposit } = useAppSelector((state) => state.deposit);
 
   useEffect(() => {
     setSidebarItems(user?.role === "admin" ? adminItems : userItems);
   }, [user?.role]);
 
-  const toggleDrawer = () => setIsDrawerOpen(!isDrawerOpen);
+  const toggleDrawer = () => {
+    if (!matches) {
+      setIsDrawerOpen(!isDrawerOpen);
+    }
+  };
 
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
@@ -50,7 +60,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     }
   };
   const handleOpenChat = () => {
-    // setIsOpen(true);
     toggleDrawer();
     //@ts-expect-error script added global value
     if (typeof jivo_api !== "undefined") {
@@ -61,11 +70,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("JivoChat script not loaded yet.");
     }
   };
-  // useEffect(() => {
-  //   if (deposit?.type === DEPOSIT_TYPES.FIAT) {
-  //     setIsOpen(true);
-  //   }
-  // }, [deposit, isOpen]);
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -132,7 +137,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         onClose={toggleDrawer}
         sx={{
           display: { xs: "block", sm: "none" },
-
           "& .MuiDrawer-paper": {
             width: 300,
             boxSizing: "border-box",

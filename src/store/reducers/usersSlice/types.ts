@@ -5,7 +5,6 @@ export interface UserState {
   error: string | null;
   users: User[];
   user: User | null;
-  per_page: number;
   currentPage: number | null;
   lastPage: number | null;
   total: number;

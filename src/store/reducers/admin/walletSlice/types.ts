@@ -5,7 +5,6 @@ export interface WalletState {
   loading: boolean;
   error: string | null;
   wallet: Wallet[];
-  per_page: number;
   currentPage: number | null;
   lastPage: number | null;
   total: number;

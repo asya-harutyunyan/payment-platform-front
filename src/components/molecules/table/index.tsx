@@ -16,7 +16,7 @@ import {
 import { useLocation } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -51,6 +51,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   isNeedBtnConfirmText?: string;
   isNeedBtnConfirm?: boolean;
   variant?: ButtonVariant;
+  refetchData?: () => void;
 }
 
 function DynamicTable<
@@ -58,6 +59,7 @@ function DynamicTable<
     created_at?: string;
     status_by_admin?: string;
     final_status?: string;
+    status_by_client?: string;
     id?: number;
     textBtn?: string;
     handleClick?: () => void;
@@ -74,14 +76,16 @@ function DynamicTable<
   isNeedBtnConfirmText,
   handleClick,
   handleClickBtn,
+  refetchData,
 }: TableProps<T>) {
   const location = useLocation();
   const route = useLocation();
   const { user } = useAuth();
-
+  const [isEndedTimer, setIsEndedTimer] = useState<boolean>(true);
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
-      return <span>Ваше время истекло.</span>;
+      console.log(12);
+      setIsEndedTimer(false);
     } else {
       return (
         <span>
@@ -91,14 +95,19 @@ function DynamicTable<
       );
     }
   };
+  useEffect(() => {
+    // if (isEndedTimer && refetchData) {
+    //   // refetchData();
+    //   setIsEndedTimer(false);
+    // }
+    console.log(isEndedTimer);
+  }, [isEndedTimer]);
 
   const getTimer = (created_at: string) => {
     return new Date(
       dayjs()
         .add(
-          (dayjs.utc(created_at).add(20, "minutes").unix() -
-            dayjs().utc().unix()) *
-            1000,
+          (dayjs(created_at).add(20, "minutes").unix() - dayjs().unix()) * 1000,
           "milliseconds"
         )
         .format()
@@ -170,8 +179,8 @@ function DynamicTable<
                         sx={{ width: "120px" }}
                         onClick={() => handleClickBtn?.(row.id)}
                       />
-                    ) : column.valueKey === "final_status" &&
-                      row.final_status === "pending" ? (
+                    ) : column.valueKey === "status_by_client" &&
+                      row.status_by_client === "pending" ? (
                       <P
                         sx={{
                           width: "120px",
@@ -179,6 +188,7 @@ function DynamicTable<
                           fontSize: "12px",
                           padding: "5px",
                           borderRadius: "5px",
+                          textAlign: "center",
                         }}
                         onClick={() => {
                           handleClick?.(row.id);

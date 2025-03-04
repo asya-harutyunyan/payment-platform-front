@@ -9,7 +9,6 @@ const initialState: UserState = {
   user: null,
   currentPage: null,
   lastPage: null,
-  per_page: 5,
   total: 0,
   banks: [],
 };

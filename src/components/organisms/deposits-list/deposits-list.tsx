@@ -19,17 +19,40 @@ export const DepositLists: FC = () => {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   useEffect(() => {
-    dispatch(
-      getDepositsThunk({
-        page: page,
-        per_page: user?.role === "admin" ? 50 : 5,
-      })
-    );
+    if (user?.role === "admin") {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 50,
+        })
+      );
+    } else {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 5,
+        })
+      );
+    }
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getDepositsThunk({ page: page }));
+    if (user?.role === "admin") {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 50,
+        })
+      );
+    } else {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 5,
+        })
+      );
+    }
     console.log(event, page);
   };
 
@@ -72,6 +95,25 @@ export const DepositLists: FC = () => {
       navigate({ to: `/deposit-info/${row}` });
     }
   };
+
+  const refetchData = () => {
+    if (user?.role === "admin") {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 50,
+        })
+      );
+    } else {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 5,
+        })
+      );
+    }
+  };
+
   return (
     <Box>
       <TaskHeader title={t("deposit_lists")} />
@@ -79,13 +121,18 @@ export const DepositLists: FC = () => {
         <CircularIndeterminate />
       ) : total > 0 ? (
         <Box
-          sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}
+          sx={{
+            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+            height: "100vh",
+            overflowY: "auto",
+          }}
         >
           <DynamicTable
             columns={columns}
             data={deposits}
             handleClickBtn={handleSingleOrder}
             onChangePage={onChangePage}
+            refetchData={refetchData}
           />
 
           <Box
