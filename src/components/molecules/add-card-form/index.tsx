@@ -219,6 +219,7 @@ export const BankCardDetalis: FC = () => {
         placeholder={t("bank_name")}
         error={!!errors.bank_name}
         helperText={errors.bank_name?.message}
+        disabled={!!bankNameManual}
       />
       {bankName?.name === "Другое" && (
         <FormTextInput

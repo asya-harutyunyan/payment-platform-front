@@ -20,7 +20,7 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { useSnackbar } from "notistack";
 import { Dispatch, FC, SetStateAction, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 
 type FormData = z.infer<typeof add_card_schema>;
 interface IStepTwo {
@@ -59,6 +59,7 @@ export const AddCardModal: FC<IStepTwo> = ({
     reset,
     setValue,
     watch,
+    register,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
@@ -91,34 +92,140 @@ export const AddCardModal: FC<IStepTwo> = ({
     console.log(watch());
   }, [dispatch, setValue]);
 
+  const bankNameManual = useWatch({
+    control,
+    name: "bank_name_manual",
+  });
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
     if (!isEdit) {
-      dispatch(addBankCardThunk(data))
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar(t("bank_card_added_success"), {
-            variant: "success",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-          fetchAuthUser?.();
-          handleClose();
-          reset();
-        })
-        .catch((error) => {
-          if (typeof error === "object") {
-            for (const key in error) {
-              setError(key as keyof FormData, {
-                type: "validate",
-                message: error[key as keyof FormData][0],
+      if (bankNameManual) {
+        dispatch(
+          addBankCardThunk({
+            ...data,
+            bank_name: {
+              name: bankNameManual,
+              key: bankNameManual,
+              id: Math.random(),
+            },
+          })
+        )
+          .unwrap()
+          .then(() => {
+            reset();
+            setValue(
+              "bank_name",
+              {
+                name: "",
+                key: "",
+                id: 0,
+              },
+              { shouldValidate: false }
+            );
+            enqueueSnackbar(t("bank_card_added_success"), {
+              variant: "success",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+            fetchAuthUser?.();
+          })
+          .catch((error) => {
+            reset();
+            setValue(
+              "bank_name",
+              {
+                name: "",
+                key: "",
+                id: 0,
+              },
+              { shouldValidate: false }
+            );
+            if (error.errors && error.message) {
+              Object.entries(error.errors).forEach(([field, messages]) => {
+                if (Array.isArray(messages) && messages.length > 0) {
+                  setError(field as keyof FormData, {
+                    type: "manual",
+                    message: messages[0],
+                  });
+                }
               });
             }
-          }
-          enqueueSnackbar(t("bank_card_added_error"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
+            if (
+              error.bank_details[0] ===
+              "Вы можете добавить не более 3 банковских реквизитов."
+            ) {
+              enqueueSnackbar(
+                "Вы можете добавить не более 3 банковских реквизитов.",
+                {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                }
+              );
+            } else {
+              enqueueSnackbar(t("bank_card_added_error"), {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              });
+            }
           });
-          reset();
-        });
+      } else {
+        dispatch(addBankCardThunk(data))
+          .unwrap()
+          .then(() => {
+            reset();
+            setValue(
+              "bank_name",
+              {
+                name: "",
+                key: "",
+                id: 0,
+              },
+              { shouldValidate: false }
+            );
+            enqueueSnackbar(t("bank_card_added_success"), {
+              variant: "success",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+            fetchAuthUser?.();
+          })
+          .catch((error) => {
+            reset();
+            setValue(
+              "bank_name",
+              {
+                name: "",
+                key: "",
+                id: 0,
+              },
+              { shouldValidate: false }
+            );
+            if (error.errors && error.message) {
+              Object.entries(error.errors).forEach(([field, messages]) => {
+                if (Array.isArray(messages) && messages.length > 0) {
+                  setError(field as keyof FormData, {
+                    type: "manual",
+                    message: messages[0],
+                  });
+                }
+              });
+            }
+            if (
+              error.bank_details[0] ===
+              "Вы можете добавить не более 3 банковских реквизитов."
+            ) {
+              enqueueSnackbar(
+                "Вы можете добавить не более 3 банковских реквизитов.",
+                {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                }
+              );
+            } else {
+              enqueueSnackbar(t("bank_card_added_error"), {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              });
+            }
+          });
+      }
     }
   };
 
@@ -156,8 +263,12 @@ export const AddCardModal: FC<IStepTwo> = ({
         setValue("bank_name", bank);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bankName, banks]);
+  }, [bankName, banks, setValue]);
+
+  const bankNameInput = useWatch({
+    control,
+    name: "bank_name",
+  });
 
   return (
     <BasicModal handleClose={handleClose} open={open} bg={bg}>
@@ -193,7 +304,18 @@ export const AddCardModal: FC<IStepTwo> = ({
           placeholder={t("bank_name")}
           error={!!errors.bank_name}
           helperText={errors.bank_name?.message}
+          disabled={!!bankNameManual}
         />
+        {bankNameInput?.name === "Другое" && (
+          <FormTextInput
+            control={control}
+            {...register("bank_name_manual")}
+            name="bank_name_manual"
+            type="text"
+            whiteVariant
+            placeholder={t("bank_name")}
+          />
+        )}
         <FormPhoneInput
           control={control}
           name="phone_number"

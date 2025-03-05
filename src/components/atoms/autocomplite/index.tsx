@@ -20,9 +20,11 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   valueKey?: keyof ISelectOption;
   whiteVariant?: boolean;
   defaultValueFirst?: boolean;
+  disabled?: boolean;
 }
 
 export const Autocomplite = <T extends FieldValues>({
+  disabled,
   name,
   control,
   options,
@@ -63,6 +65,7 @@ export const Autocomplite = <T extends FieldValues>({
       {...field}
       disablePortal
       options={options}
+      disabled={disabled}
       value={field.value || null}
       renderOption={(props, option) => {
         return (
@@ -74,6 +77,9 @@ export const Autocomplite = <T extends FieldValues>({
       getOptionLabel={(option) => option.name ?? ""}
       sx={{
         width: "100%",
+        ".Mui-disabled": {
+          color: whiteVariant ? "tertiary.main" : "primary.main",
+        },
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
             borderColor,
