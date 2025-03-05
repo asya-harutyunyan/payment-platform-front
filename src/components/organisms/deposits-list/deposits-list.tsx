@@ -86,6 +86,28 @@ export const DepositLists: FC = () => {
     ],
     []
   );
+  const columnsUser = useMemo<IColumn<DataDeposits>[]>(
+    () => [
+      {
+        column: "processing_amount",
+        currency: "deposit_currency",
+        valueKey: "amount",
+      },
+      {
+        column: "final_status",
+        valueKey: "final_status",
+      },
+      {
+        column: "type",
+        valueKey: "type",
+      },
+      {
+        column: "key",
+        button: "statuses",
+      },
+    ],
+    []
+  );
   const route = useLocation();
 
   const handleSingleOrder = (row?: number) => {
@@ -128,7 +150,7 @@ export const DepositLists: FC = () => {
           }}
         >
           <DynamicTable
-            columns={columns}
+            columns={user?.role === "client" ? columnsUser : columns}
             data={deposits}
             handleClickBtn={handleSingleOrder}
             onChangePage={onChangePage}

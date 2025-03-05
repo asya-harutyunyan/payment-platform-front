@@ -40,14 +40,6 @@ export const UserOrdersComponent: FC = () => {
   const columns = useMemo<IColumn<Order>[]>(
     () => [
       {
-        column: "name",
-        valueKey: "user.name",
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
-      },
-      {
         column: "amount",
         currency: "wallet_deposit.order_currency",
         valueKey: "amount",
