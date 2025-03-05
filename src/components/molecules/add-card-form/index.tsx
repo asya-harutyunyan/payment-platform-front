@@ -13,7 +13,7 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { useSnackbar } from "notistack";
 import { FC, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, useWatch } from "react-hook-form";
 import { z } from "zod";
 
 type FormData = z.infer<typeof add_card_schema>;
@@ -30,6 +30,7 @@ export const BankCardDetalis: FC = () => {
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
     defaultValues: {
+      bank_name_manual: "",
       card_holder: "",
       phone_number: "",
       card_number: "",
@@ -43,55 +44,159 @@ export const BankCardDetalis: FC = () => {
   const options = [{ id: 1, name: "RUB" }];
 
   useEffect(() => {
+    setValue(
+      "bank_name",
+      {
+        name: "",
+        key: "",
+        id: 0,
+      },
+      { shouldValidate: false }
+    );
+
     setValue("currency", "RUB", { shouldValidate: false });
     dispatch(getBankNamesThunk());
   }, [dispatch, setValue]);
-
+  const bankNameManual = useWatch({
+    control,
+    name: "bank_name_manual",
+  });
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    dispatch(addBankCardThunk(data))
-      .unwrap()
-      .then(() => {
-        reset();
-        enqueueSnackbar(t("bank_card_added_success"), {
-          variant: "success",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-        fetchAuthUser?.();
-      })
-      .catch((error) => {
-        console.log(error);
-
-        if (error.errors && error.message) {
-          Object.entries(error.errors).forEach(([field, messages]) => {
-            if (Array.isArray(messages) && messages.length > 0) {
-              setError(field as keyof FormData, {
-                type: "manual",
-                message: messages[0],
-              });
-            }
-          });
-        }
-        if (
-          error.bank_details[0] ===
-          "Вы можете добавить не более 3 банковских реквизитов."
-        ) {
-          enqueueSnackbar(
-            "Вы можете добавить не более 3 банковских реквизитов.",
+    if (bankNameManual) {
+      dispatch(
+        addBankCardThunk({
+          ...data,
+          bank_name: {
+            name: bankNameManual,
+            key: bankNameManual,
+            id: Math.random(),
+          },
+        })
+      )
+        .unwrap()
+        .then(() => {
+          reset();
+          setValue(
+            "bank_name",
             {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            }
+              name: "",
+              key: "",
+              id: 0,
+            },
+            { shouldValidate: false }
           );
-        } else {
-          enqueueSnackbar(t("bank_card_added_error"), {
-            variant: "error",
+          enqueueSnackbar(t("bank_card_added_success"), {
+            variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
-        }
-
-        reset();
-      });
+          fetchAuthUser?.();
+        })
+        .catch((error) => {
+          reset();
+          setValue(
+            "bank_name",
+            {
+              name: "",
+              key: "",
+              id: 0,
+            },
+            { shouldValidate: false }
+          );
+          if (error.errors && error.message) {
+            Object.entries(error.errors).forEach(([field, messages]) => {
+              if (Array.isArray(messages) && messages.length > 0) {
+                setError(field as keyof FormData, {
+                  type: "manual",
+                  message: messages[0],
+                });
+              }
+            });
+          }
+          if (
+            error.bank_details[0] ===
+            "Вы можете добавить не более 3 банковских реквизитов."
+          ) {
+            enqueueSnackbar(
+              "Вы можете добавить не более 3 банковских реквизитов.",
+              {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              }
+            );
+          } else {
+            enqueueSnackbar(t("bank_card_added_error"), {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
+        });
+    } else {
+      dispatch(addBankCardThunk(data))
+        .unwrap()
+        .then(() => {
+          reset();
+          setValue(
+            "bank_name",
+            {
+              name: "",
+              key: "",
+              id: 0,
+            },
+            { shouldValidate: false }
+          );
+          enqueueSnackbar(t("bank_card_added_success"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          fetchAuthUser?.();
+        })
+        .catch((error) => {
+          reset();
+          setValue(
+            "bank_name",
+            {
+              name: "",
+              key: "",
+              id: 0,
+            },
+            { shouldValidate: false }
+          );
+          if (error.errors && error.message) {
+            Object.entries(error.errors).forEach(([field, messages]) => {
+              if (Array.isArray(messages) && messages.length > 0) {
+                setError(field as keyof FormData, {
+                  type: "manual",
+                  message: messages[0],
+                });
+              }
+            });
+          }
+          if (
+            error.bank_details[0] ===
+            "Вы можете добавить не более 3 банковских реквизитов."
+          ) {
+            enqueueSnackbar(
+              "Вы можете добавить не более 3 банковских реквизитов.",
+              {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              }
+            );
+          } else {
+            enqueueSnackbar(t("bank_card_added_error"), {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
+        });
+    }
   };
+
+  const bankName = useWatch({
+    control,
+    name: "bank_name",
+  });
+
   return (
     <Box
       component="form"
@@ -112,9 +217,19 @@ export const BankCardDetalis: FC = () => {
         control={control}
         options={banks}
         placeholder={t("bank_name")}
-        error={!!errors.currency}
-        helperText={errors.currency?.message}
+        error={!!errors.bank_name}
+        helperText={errors.bank_name?.message}
       />
+      {bankName?.name === "Другое" && (
+        <FormTextInput
+          control={control}
+          {...register("bank_name_manual")}
+          name="bank_name_manual"
+          type="text"
+          placeholder={t("bank_name")}
+        />
+      )}
+
       <FormPhoneInput
         control={control}
         {...register("phone_number")}

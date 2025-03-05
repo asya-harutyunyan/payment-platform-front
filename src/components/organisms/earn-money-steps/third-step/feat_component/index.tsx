@@ -11,7 +11,7 @@ interface ITYPEComponent {
   handleNext?: () => void;
 }
 export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
-  const { handleSubmit, control, setValue } = useDepositFeat(handleNext);
+  const { handleSubmit, control, setValue, watch } = useDepositFeat(handleNext);
 
   const options = [
     { id: 1, name: "FIAT", currency: "Картой" },
@@ -20,6 +20,8 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
   useEffect(() => {
     setValue("type", DEPOSIT_TYPES.FIAT, { shouldValidate: false });
   }, [setValue]);
+  const type = watch("type");
+
   return (
     <Box
       component="form"
@@ -31,13 +33,15 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
         width: { lg: "100%" },
       }}
     >
-      <P color="primary.contrastText" width={"70%"}>
-        Для совершения депозита с Вашей карты, пожалуйста, обратитесь в чат -
-        Вам будет выдан номер карты, на который необходимо перевести Ваш
-        депозит. Пожалуйста, отправляйте средства для депозита только с той
-        карты, на которую будут возвращаться сумма депозита и Вашего заработка.
-        Использование иных карт для депозита запрещено.
-      </P>
+      {type === "КАРТА" && (
+        <P color="primary.contrastText" width={"70%"}>
+          Для совершения депозита с Вашей карты, пожалуйста, обратитесь в чат -
+          Вам будет выдан номер карты, на который необходимо перевести Ваш
+          депозит. Пожалуйста, отправляйте средства для депозита только с той
+          карты, на которую будут возвращаться сумма депозита и Вашего
+          заработка. Использование иных карт для депозита запрещено.
+        </P>
+      )}
       <Box
         sx={{
           display: "flex",

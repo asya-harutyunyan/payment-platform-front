@@ -85,7 +85,7 @@ function DynamicTable<
       return <span>Ваше время истекло.</span>;
     } else {
       return (
-        <span>
+        <span style={{ textTransform: "uppercase" }}>
           {t(isNeedBtnConfirmText ?? "")} {formatted.minutes}:
           {formatted.seconds}
         </span>
@@ -169,7 +169,7 @@ function DynamicTable<
                         sx={{ width: "120px" }}
                         onClick={() => handleClickBtn?.(row.id)}
                       />
-                    ) : column.valueKey === "status_by_client" &&
+                    ) : column.column === "order_status" &&
                       row.status_by_client === "pending" ? (
                       <P
                         sx={{
@@ -194,7 +194,8 @@ function DynamicTable<
                     ) : column.column === "status" ||
                       column.column === "final_status" ||
                       column.column === "status_by_client" ||
-                      column.column === "status_by_admin" ? (
+                      column.column === "status_by_admin" ||
+                      column.column === "order_status" ? (
                       <span
                         style={{
                           color: getStatusColor(
@@ -207,13 +208,15 @@ function DynamicTable<
                         {String(_.getPath?.(row, column.valueKey) || "-")}
                       </span>
                     ) : (
-                      t(
-                        String(
-                          _.getPath(row, column.valueKey) === null
-                            ? "-"
-                            : _.getPath(row, column.valueKey) || "-"
-                        )
-                      )
+                      <span>
+                        {t(
+                          String(
+                            _.getPath(row, column.valueKey) === null
+                              ? "-"
+                              : _.getPath(row, column.valueKey) || "-"
+                          )
+                        )}
+                      </span>
                     )}
 
                     {column.currency

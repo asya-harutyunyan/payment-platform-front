@@ -63,6 +63,7 @@ export const Autocomplite = <T extends FieldValues>({
       {...field}
       disablePortal
       options={options}
+      value={field.value || null}
       renderOption={(props, option) => {
         return (
           <li {...props} key={option.id}>
@@ -85,10 +86,10 @@ export const Autocomplite = <T extends FieldValues>({
           },
         },
         "& .MuiFormLabel-root": {
-          color: whiteVariant ? "tertiary.main" : "primary.main", // Keep label color unchanged
+          color: whiteVariant ? "tertiary.main" : "primary.main",
         },
         "& .MuiInputBase-input": {
-          color: whiteVariant ? "tertiary.main" : "primary.main", // Keep input text color unchanged
+          color: whiteVariant ? "tertiary.main" : "primary.main",
         },
         color: whiteVariant ? "tertiary.main" : "primary.main",
         fieldset: {
@@ -125,7 +126,6 @@ export const Autocomplite = <T extends FieldValues>({
         />
       )}
       onChange={onItemSelect}
-      value={field.value}
     />
   );
 };
