@@ -77,9 +77,6 @@ export const Autocomplite = <T extends FieldValues>({
       getOptionLabel={(option) => option.name ?? ""}
       sx={{
         width: "100%",
-        ".Mui-disabled": {
-          color: whiteVariant ? "tertiary.main" : "primary.main",
-        },
         "& .MuiOutlinedInput-root": {
           "& fieldset": {
             borderColor,
