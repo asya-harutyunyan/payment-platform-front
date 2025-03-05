@@ -80,7 +80,11 @@ export const UserOrdersComponent: FC = () => {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
-          dispatch(getOrdersThunk({ page }));
+          if (user?.role === "client") {
+            dispatch(getOrdersThunk({ page, per_page: 5 }));
+          } else {
+            dispatch(getOrdersThunk({ page, per_page: 20 }));
+          }
         })
         .catch(() => {
           enqueueSnackbar(t("bank_card_added_error"), {
@@ -100,9 +104,11 @@ export const UserOrdersComponent: FC = () => {
   };
 
   const refetch = () => {
-    dispatch(
-      getOrdersThunk({ page: page, per_page: user?.role === "admin" ? 50 : 5 })
-    );
+    if (user?.role === "admin") {
+      dispatch(getOrdersThunk({ page: page, per_page: 20 }));
+    } else {
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+    }
   };
 
   return (

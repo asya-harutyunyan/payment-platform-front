@@ -16,7 +16,7 @@ import {
 import { useLocation } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -80,11 +80,9 @@ function DynamicTable<
   const location = useLocation();
   const route = useLocation();
   const { user } = useAuth();
-  const [isEndedTimer, setIsEndedTimer] = useState<boolean>(true);
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
-      console.log(12);
-      setIsEndedTimer(false);
+      return <span>Ваше время истекло.</span>;
     } else {
       return (
         <span>
@@ -94,13 +92,6 @@ function DynamicTable<
       );
     }
   };
-  useEffect(() => {
-    // if (isEndedTimer && refetchData) {
-    //   // refetchData();
-    //   setIsEndedTimer(false);
-    // }
-    console.log(isEndedTimer);
-  }, [isEndedTimer]);
 
   const getTimer = (created_at: string) => {
     return new Date(
@@ -190,7 +181,9 @@ function DynamicTable<
                           textAlign: "center",
                         }}
                         onClick={() => {
-                          handleClick?.(row.id);
+                          if (row.status_by_client === "pending") {
+                            handleClick?.(row.id);
+                          }
                         }}
                       >
                         <Countdown
