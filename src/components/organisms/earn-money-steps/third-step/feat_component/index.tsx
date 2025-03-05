@@ -22,6 +22,9 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
   }, [setValue]);
   const type = watch("type");
 
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
   return (
     <Box
       component="form"
@@ -33,7 +36,7 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
         width: { lg: "100%" },
       }}
     >
-      {type === "КАРТА" && (
+      {type === "FIAT" && (
         <P color="primary.contrastText" width={"70%"}>
           Для совершения депозита с Вашей карты, пожалуйста, обратитесь в чат -
           Вам будет выдан номер карты, на который необходимо перевести Ваш
