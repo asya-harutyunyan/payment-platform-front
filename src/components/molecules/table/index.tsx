@@ -201,7 +201,7 @@ function DynamicTable<
                           textTransform: "uppercase",
                         }}
                       >
-                        {String(_.getPath?.(row, column.valueKey) || "-")}
+                        {t(String(_.getPath?.(row, column.valueKey)) || "-")}
                       </span>
                     ) : (
                       <span>

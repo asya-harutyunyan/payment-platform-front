@@ -1,7 +1,7 @@
 export function getStatusColor(status: string) {
   switch (status) {
     case "pending":
-      return "#d8971d";
+      return "rgb(216, 151, 29)";
     case "canceled":
       return "#bd591f";
     case "in_progress":
@@ -9,7 +9,7 @@ export function getStatusColor(status: string) {
     case "done":
       return "#008000";
     case "expired":
-      return "#ac9999";
+      return "#B22222";
     case "failed":
       return "#B22222";
     default:
