@@ -165,7 +165,7 @@ function DynamicTable<
                   >
                     {column.button ? (
                       <Button
-                        variant={variant ?? "contained"}
+                        variant={variant ?? "outlined"}
                         text={t(textBtn ?? "see_more")}
                         sx={{ width: "120px" }}
                         onClick={() => handleClickBtn?.(row.id)}
