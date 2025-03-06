@@ -82,13 +82,14 @@ function DynamicTable<
   const { user } = useAuth();
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
-      return <span>Ваше время истекло.</span>;
+      return <Button text="Ваше время истекло." variant={"contained"}></Button>;
     } else {
       return (
-        <span style={{ textTransform: "uppercase" }}>
-          {t(isNeedBtnConfirmText ?? "")} {formatted.minutes}:
-          {formatted.seconds}
-        </span>
+        <Button
+          variant={"contained"}
+          text={`Подтвердить - ${t(isNeedBtnConfirmText ?? "")} ${formatted.minutes}:
+          ${formatted.seconds}`}
+        ></Button>
       );
     }
   };
@@ -174,11 +175,6 @@ function DynamicTable<
                       <P
                         sx={{
                           width: "120px",
-                          border: "1px solid gray",
-                          fontSize: "12px",
-                          padding: "5px",
-                          borderRadius: "5px",
-                          textAlign: "center",
                         }}
                         onClick={() => {
                           if (row.status_by_client === "pending") {
