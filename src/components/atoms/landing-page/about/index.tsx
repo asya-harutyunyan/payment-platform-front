@@ -139,7 +139,7 @@ export const AboutSection = () => {
 
       <Box
         sx={{
-          marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+          marginTop: { lg: "20px", md: "20px", xs: "20px", sm: "20px" },
           display: "flex",
           justifyContent: {
             lg: "space-between",
