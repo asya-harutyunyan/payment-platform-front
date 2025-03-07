@@ -16,7 +16,7 @@ export const MediaCard: FC<IMediaCard> = ({ img, title, description }) => {
     <Card
       sx={{
         maxWidth: 345,
-        width: "28%",
+        width: { lg: "28%", md: "28%", xs: "90%", sm: "90%" },
         height: "420px",
         backgroundImage: "linear-gradient(to right, #2982FF,  #041F44)",
         display: "flex",
