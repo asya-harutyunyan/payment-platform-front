@@ -21,6 +21,16 @@ export default ({ mode }: ResolvedConfig) => {
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ""),
         },
+        "/broadcasting/auth": {
+          target: process.env.VITE_BASE_API_URL ?? "https://test.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+        "/app": {
+          target: "ws://localhost:8080",
+          ws: true,
+          rewriteWsOrigin: true,
+        },
       },
     },
   });

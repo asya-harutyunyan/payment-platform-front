@@ -20,7 +20,7 @@ class SocketConnection {
             socketId: string,
             callback: (authorized: boolean, response: string) => void
           ) => {
-            fetch(`${import.meta.env.VITE_BASE_API_URL}/broadcasting/auth`, {
+            fetch(`/broadcasting/auth`, {
               method: "POST",
               mode: "cors",
               headers: {
