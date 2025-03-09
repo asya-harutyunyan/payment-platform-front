@@ -3,7 +3,7 @@ import axios from "axios";
 import i18n from "@/i18n/i18n";
 
 export const httpClient = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API_URL ?? "https://test.com",
+  baseURL: "/api",
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",

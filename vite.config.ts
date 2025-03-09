@@ -1,15 +1,27 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
-import path from 'path';
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
+import react from "@vitejs/plugin-react-swc";
+import path from "path";
+import { defineConfig, loadEnv, ResolvedConfig } from "vite";
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [react(),TanStackRouterVite(),],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
+export default ({ mode }: ResolvedConfig) => {
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
+  return defineConfig({
+    plugins: [react(), TanStackRouterVite()],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src"),
+      },
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
     },
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
-  }
-})
+    server: {
+      proxy: {
+        "/api": {
+          target: process.env.VITE_BASE_API_URL ?? "https://test.com",
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ""),
+        },
+      },
+    },
+  });
+};
