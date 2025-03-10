@@ -16,7 +16,7 @@ before_script:
   - chmod +x ./kubectl
   - mv ./kubectl /usr/local/bin/kubectl
   - echo "$KUBE_CONFIG" > kubeconfig.yaml
-  - echo "$KUBE_CONFIG_MAP" > configmap.yaml
+  - echo "$KUBE_CONFIG_MAP" | base64 -d > configmap.yaml
   - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
 
 # build:
