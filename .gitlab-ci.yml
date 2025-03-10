@@ -1,0 +1,26 @@
+stages:
+  - build
+  - deploy
+
+variables:
+  IMAGE: registry.gitlab.com/rocket2019/payment-platform-frontend
+
+before_script:
+  - echo "$KUBE_CONFIG" > kubeconfig.yaml
+  - echo "$KUBE_CONFIG_MAP" > secrets.yaml
+
+build:
+  stage: build
+  script:
+    echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker build -t $IMAGE:latest .
+    - docker push $IMAGE:latest
+
+deploy:
+  stage: deploy
+  script:
+    - export KUBECONFIG=$(pwd)/kubeconfig.yaml
+    - kuberctl apply -f secrets.yaml
+    - kubectl apply -f k8s-deployment.yaml
+  only:
+    - develop

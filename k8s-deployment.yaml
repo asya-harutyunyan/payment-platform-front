@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vite-app
+spec:
+  replicas: 2 # Start with 2 replicas
+  selector:
+    matchLabels:
+      app: payhub-frontend
+  template:
+    metadata:
+      labels:
+        app: payhub-frontend
+    spec:
+      containers:
+        - name: payhub-frontend
+          image: registry.gitlab.com/rocket2019/payment-platform-frontend:latest
+          ports:
+            - containerPort: 80
+          env:
+            - name: VITE_BASE_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: payhub-app-config
+                  key: VITE_BASE_API_URL
+            - name: VITE_REVERB_APP_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: payhub-app-config
+                  key: VITE_REVERB_APP_KEY
+            - name: VITE_REVERB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: payhub-app-config
+                  key: VITE_REVERB_HOST
+            - name: VITE_REVERB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: payhub-app-config
+                  key: VITE_REVERB_PORT
+            - name: VITE_REVERB_SCHEME
+              valueFrom:
+                configMapKeyRef:
+                  name: payhub-app-config
+                  key: VITE_REVERB_SCHEME
+            - name: VITE_JIVO_SITE
+              valueFrom:
+                configMapKeyRef:
+                  name: payhub-app-config
+                  key: VITE_JIVO_SITE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payhub-frontend-service
+spec:
+  selector:
+    app: payhub-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer # Expose externally
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: payhub-frontend-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: vite-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
