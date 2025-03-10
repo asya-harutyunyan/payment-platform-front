@@ -25,7 +25,7 @@ deploy:
   stage: deploy
   script:
     - export KUBECONFIG=$(pwd)/kubeconfig.yaml
-    - kuberctl apply -f secrets.yaml
+    - kubectl apply -f secrets.yaml
     - kubectl apply -f k8s-deployment.yaml
   only:
     - develop
