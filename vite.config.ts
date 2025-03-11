@@ -32,6 +32,7 @@ export default ({ mode }: ResolvedConfig) => {
           rewriteWsOrigin: true,
         },
       },
+      allowedHosts: ["ru.payhub.finance"],
     },
   });
 };
