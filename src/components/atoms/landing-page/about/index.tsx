@@ -197,7 +197,7 @@ export const AboutSection = () => {
           }}
         >
           <ReactPlayer
-            url="https://www.youtube.com/watch?v=NR5IFPoRqmo"
+            url="https://www.youtube.com/watch?v=etz00cgQAzM"
             controls={true}
             width="100%"
             height="100%"

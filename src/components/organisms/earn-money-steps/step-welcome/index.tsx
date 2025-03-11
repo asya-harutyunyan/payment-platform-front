@@ -53,7 +53,7 @@ export const StepWelcome = () => {
         }}
       >
         <ReactPlayer
-          url="https://www.youtube.com/watch?v=NR5IFPoRqmo"
+          url="https://youtu.be/etz00cgQAzM"
           controls={true}
           width="100%"
           height="100%"
