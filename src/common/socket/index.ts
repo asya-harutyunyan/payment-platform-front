@@ -42,7 +42,7 @@ class SocketConnection {
           },
         };
       },
-      enabledTransports: ["ws", "wss"],
+      enabledTransports: ["ws"],
     });
   }
 }
