@@ -53,7 +53,6 @@ export const DepositLists: FC = () => {
         })
       );
     }
-    console.log(event, page);
   };
 
   const columns = useMemo<IColumn<DataDeposits>[]>(

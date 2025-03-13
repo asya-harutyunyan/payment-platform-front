@@ -36,7 +36,6 @@ export const OrderListComponent: FC = () => {
     } else {
       dispatch(getOrdersThunk({ page: page, per_page: 5 }));
     }
-    console.log(event, page);
   };
   const columns = useMemo<IColumn<Order>[]>(
     () => [

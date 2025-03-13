@@ -28,7 +28,6 @@ const useSignUp = () => {
     dispatch(registerUser(data))
       .unwrap()
       .then((response) => {
-        console.log(response);
         if (response.status === 201) {
           navigate({
             to: "/auth/confirm-email",

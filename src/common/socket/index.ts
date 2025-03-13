@@ -9,7 +9,7 @@ class SocketConnection {
       broadcaster: "reverb",
       Pusher,
       key: import.meta.env.VITE_REVERB_APP_KEY,
-      wsHost: import.meta.env.VITE_REVERB_HOST,
+      wsHost: import.meta.env.VITE_REVERB_SERVER_HOST,
       wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
       wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
       forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "https") === "https",
@@ -20,7 +20,7 @@ class SocketConnection {
             socketId: string,
             callback: (authorized: boolean, response: string) => void
           ) => {
-            fetch(`/broadcasting/auth`, {
+            fetch(`/api/broadcasting/auth`, {
               method: "POST",
               mode: "cors",
               headers: {
@@ -42,7 +42,7 @@ class SocketConnection {
           },
         };
       },
-      enabledTransports: ["ws"],
+      enabledTransports: ["ws", "wss"],
     });
   }
 }

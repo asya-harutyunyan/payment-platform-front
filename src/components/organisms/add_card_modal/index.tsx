@@ -78,7 +78,6 @@ export const AddCardModal: FC<IStepTwo> = ({
   useEffect(() => {
     setValue("currency", "RUB", { shouldValidate: false });
     if (isEdit) {
-      console.log(bankDetailID);
 
       if (bankName && bankDetailID) {
         setValue(
@@ -89,7 +88,6 @@ export const AddCardModal: FC<IStepTwo> = ({
       }
     }
     dispatch(getBankNamesThunk());
-    console.log(watch());
   }, [dispatch, setValue]);
 
   const bankNameManual = useWatch({

@@ -74,7 +74,6 @@ export const updateDeposit = createAsyncThunk(
       const {
         deposit: { deposit },
       } = getState() as AppState;
-      console.log(deposit);
       const response = await httpClient.post<Deposit>(
         `/deposits/update/${deposit?.id}`,
         data

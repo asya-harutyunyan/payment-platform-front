@@ -28,7 +28,6 @@ const useConfirmEmail = () => {
     dispatch(confirmEmail(data))
       .unwrap()
       .then((response) => {
-        console.log("Registration successful, token:", response);
         if (response.token) {
           localStorage.setItem("accessToken", response.token);
           dispatch(fetchUser())

@@ -46,7 +46,6 @@ export const Wallet: FC = () => {
     } else {
       dispatch(getWalletsThunk({ page: page, per_page: 5 }));
     }
-    console.log(event);
   };
   const handleDeleteModal = (id?: number) => {
     setOpen(true);

@@ -26,7 +26,6 @@ const useSignIn = () => {
     dispatch(loginUser(data))
       .unwrap()
       .then((response) => {
-        console.log("Registration successful, token:", response);
         dispatch(fetchUser())
           .unwrap()
           .then((data) => {

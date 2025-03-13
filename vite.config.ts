@@ -26,11 +26,11 @@ export default ({ mode }: ResolvedConfig) => {
           changeOrigin: true,
           // rewrite: (path) => path.replace(/^\/api/, ""),
         },
-        // "/app": {
-        //   target: "ws://localhost:8080",
-        //   ws: true,
-        //   rewriteWsOrigin: true,
-        // },
+        "/app": {
+          target: process.env.VITE_REVERB_SERVER_HOST ?? "wss://test.com:9000",
+          ws: true,
+          rewriteWsOrigin: true,
+        },
       },
       allowedHosts: ["ru.payhub.finance"],
     },

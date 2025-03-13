@@ -25,7 +25,6 @@ const useResetPassword = () => {
     dispatch(resetPassword(data))
       .unwrap()
       .then((response) => {
-        console.log("Registration successful, token:", response);
         navigate({ to: "/auth/change-password" });
       })
       .catch((error) => {

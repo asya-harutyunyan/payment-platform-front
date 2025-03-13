@@ -22,9 +22,6 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
   }, [setValue]);
   const type = watch("type");
 
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
   return (
     <Box
       component="form"

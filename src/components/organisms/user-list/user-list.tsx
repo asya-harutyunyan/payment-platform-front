@@ -30,7 +30,6 @@ export const UserListComponent: FC = () => {
     } else {
       dispatch(getUsersThunk({ page: page, per_page: 5 }));
     }
-    console.log(event);
   };
 
   const columns = useMemo<IColumn<User>[]>(
