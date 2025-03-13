@@ -47,7 +47,7 @@ export const TabsComponent: FC<ITabsComponent> = ({ tabPanel, tabNames }) => {
   const [value, setValue] = useState(0);
   const { user } = useAuth();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 

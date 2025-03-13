@@ -55,7 +55,7 @@ export const Autocomplite = <T extends FieldValues>({
         : "primary.main";
   const helperTextColor = error || fieldState.invalid ? "#d32f2f" : "inherit";
 
-  const onItemSelect = (event: React.SyntheticEvent, value: unknown) => {
+  const onItemSelect = (_event: React.SyntheticEvent, value: unknown) => {
     field.onChange(value);
   };
 

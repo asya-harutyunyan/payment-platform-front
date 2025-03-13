@@ -25,7 +25,7 @@ const useSignIn = () => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(loginUser(data))
       .unwrap()
-      .then((response) => {
+      .then(() => {
         dispatch(fetchUser())
           .unwrap()
           .then((data) => {

@@ -24,7 +24,7 @@ const useResetPassword = () => {
 
     dispatch(resetPassword(data))
       .unwrap()
-      .then((response) => {
+      .then(() => {
         navigate({ to: "/auth/change-password" });
       })
       .catch((error) => {

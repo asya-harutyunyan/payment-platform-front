@@ -58,7 +58,6 @@ export const AddCardModal: FC<IStepTwo> = ({
     setError,
     reset,
     setValue,
-    watch,
     register,
     formState: { errors },
   } = useForm<FormData>({

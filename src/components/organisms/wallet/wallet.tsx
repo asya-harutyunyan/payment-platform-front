@@ -39,7 +39,7 @@ export const Wallet: FC = () => {
     }
   }, [dispatch, page, user?.role]);
 
-  const onChangePage = (event: React.ChangeEvent<unknown>, page: number) => {
+  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     if (user?.role === "admin") {
       dispatch(getWalletsThunk({ page: page, per_page: 20 }));
