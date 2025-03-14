@@ -1,4 +1,6 @@
 import bg from "@/assets/images/modal.png";
+import { AndroidIcon } from "@/assets/svg/android";
+import { IOSIcon } from "@/assets/svg/ios";
 import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
@@ -7,7 +9,7 @@ import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
 import theme from "@/styles/theme";
-import { H3, H6 } from "@/styles/typography";
+import { H3, H6, P } from "@/styles/typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import {
@@ -70,7 +72,17 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("JivoChat script not loaded yet.");
     }
   };
-
+  const downloadAPK = async () => {
+    const response = await fetch("/my-app.apk");
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "my-app.apk";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -169,12 +181,37 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         component="main"
         sx={{
           width: "78%",
+          height: "88vh",
           flexGrow: 1,
           padding: "50px",
+          display: "flex",
+          flexDirection: "column",
           mt: { xs: "64px", sm: 0 },
         }}
       >
-        {children}
+        <Box sx={{ height: "90%" }}>{children}</Box>
+        <Box
+          sx={{
+            width: "100%",
+            height: "10%",
+            display: "flex",
+            justifyContent: "end",
+          }}
+        >
+          <Box
+            sx={{ display: "flex", width: "max-content", alignItems: "center" }}
+          >
+            <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
+              Скачать приложение
+            </P>
+            <Box sx={{ paddingRight: "5px", cursor: "pointer" }}>
+              <IOSIcon />
+            </Box>
+            <Box sx={{ cursor: "pointer" }} onClick={() => downloadAPK()}>
+              <AndroidIcon />
+            </Box>
+          </Box>
+        </Box>
       </Box>
 
       <BasicModal
@@ -214,7 +251,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {t("countdown")}
         </H6>
       </BasicModal>
-
       <JivoChat />
     </Box>
   );
