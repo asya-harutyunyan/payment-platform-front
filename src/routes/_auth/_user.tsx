@@ -1,17 +1,13 @@
-import { useAuth } from "@/context/auth.context";
-import { useAppDispatch } from "@/store";
-import { connect } from "@/store/reducers/websocket";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { useEffect } from "react";
 
 const UserLayout = () => {
-  const { user } = useAuth();
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    if (user) {
-      dispatch(connect(user.id));
-    }
-  }, []);
+  // const { user } = useAuth();
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(connect(user.id));
+  //   }
+  // }, []);
   return (
     <>
       <Outlet />

@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { webSocketMiddleware } from "./middleware/websocket.middleware";
+// import { webSocketMiddleware } from "./middleware/websocket.middleware";
 import walletSlice from "./reducers/admin/walletSlice";
 import authSlice from "./reducers/auth/authSlice";
 import depositSlice from "./reducers/user-info/depositSlice";
@@ -18,8 +18,8 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: rootReducer,
   devTools: true,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(webSocketMiddleware.middleware),
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware().prepend(webSocketMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
