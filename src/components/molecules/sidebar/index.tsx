@@ -201,7 +201,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <Box
             sx={{ display: "flex", width: "max-content", alignItems: "center" }}
           >
-            <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
+            {/* <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
               Скачать приложение
             </P>
             <Box sx={{ paddingRight: "5px", cursor: "pointer" }}>
@@ -209,7 +209,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             </Box>
             <Box sx={{ cursor: "pointer" }} onClick={() => downloadAPK()}>
               <AndroidIcon />
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </Box>
