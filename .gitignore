@@ -42,3 +42,5 @@ next-env.d.ts
 .idea/
 
 dist
+
+public/environment.js
