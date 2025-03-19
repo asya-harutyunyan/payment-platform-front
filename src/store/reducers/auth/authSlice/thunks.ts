@@ -87,15 +87,17 @@ export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
   async (_, { rejectWithValue }) => {
     try {
-      const notification_token = localStorage.getItem('notification_token')
-      httpClient.post('/remove-fcm-token', {
-        fcm_token: notification_token
-      }).then(() => {
-        localStorage.removeItem('notification_token')
-      })
+      const notification_token = localStorage.getItem("notification_token");
+      httpClient
+        .post("/remove-fcm-token", {
+          fcm_token: notification_token,
+        })
+        .then(() => {
+          localStorage.removeItem("notification_token");
+        });
       const response = await httpClient.post("/auth/logout");
       localStorage.removeItem("user_role");
-
+      localStorage.removeItem("accessToken");
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
