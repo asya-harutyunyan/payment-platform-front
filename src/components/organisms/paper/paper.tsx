@@ -107,7 +107,19 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                         {String(_.getPath?.(data, field.valueKey))}
                       </span>
                     ) : (
-                      String(_.getPath?.(data, field.valueKey) ?? "-")
+                      <Typography
+                        sx={{
+                          fontSize: {
+                            lg: "1rem",
+                            md: "1rem",
+                            xs: "0.8rem",
+                            sm: "0.8rem",
+                          },
+                        }}
+                      >
+                        {" "}
+                        {String(_.getPath?.(data, field.valueKey) ?? "-")}
+                      </Typography>
                     )
                   ) : (
                     "-"

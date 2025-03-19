@@ -126,9 +126,9 @@ export const USDTComponent: FC<IUSDTComponent> = ({
               </P> */}
               <P fontSize={"15px"} color="tertiary.main" paddingBottom={"10px"}>
                 {`${t("amount")}: ${t("rate_text", {
-                  converted_amount: `${deposit?.converted_amount} ${deposit?.wallet.currency}`,
+                  converted_amount: `${deposit?.converted_amount.toFixed(2)} ${deposit?.wallet.currency}`,
                   deposit_amount: `${deposit.amount} ${deposit.deposit_currency}`,
-                  rate: `${(deposit.amount / deposit.converted_amount).toFixed(3)} ${deposit.deposit_currency}`,
+                  rate: `${(deposit.amount / deposit.converted_amount).toFixed(2)} ${deposit.deposit_currency}`,
                   convert_currency: deposit.wallet.currency,
                 })}`}
               </P>

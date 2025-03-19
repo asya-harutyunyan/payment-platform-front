@@ -181,11 +181,23 @@ const BankCard: FC<IBankCard> = ({
         bg={bg}
         width="50%"
       >
-        <H3 align="center">{t("delete_card")}</H3>
+        <H3
+          align="center"
+          sx={{
+            fontSize: {
+              lg: "1.5rem",
+              md: "1.5rem",
+              xs: "1.1rem",
+              sm: "1.1rem",
+            },
+          }}
+        >
+          {t("delete_card")}
+        </H3>
         <Box
           sx={{
             display: "flex",
-            width: "30%",
+            width: { lg: "30%", md: "30%", xs: "100%", sm: "100%" },
             justifyContent: "space-between",
             marginTop: "30px",
           }}

@@ -67,7 +67,9 @@ export const BankInfoComponent: FC = () => {
             </Box>
             <Box
               sx={{
-                display: { lg: "none", md: "none", sx: "block", xs: "block" },
+                display: { lg: "none", md: "none", sx: "flex", xs: "flex" },
+                justifyContent: "center",
+                width: "100%",
               }}
             >
               <MobileCards cards={user?.bank_details} />
