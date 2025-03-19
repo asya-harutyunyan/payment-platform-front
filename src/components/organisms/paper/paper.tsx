@@ -25,7 +25,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
     <Box
       sx={{
         padding: 3,
-        width: "100%",
+        width: { lg: "100%", md: "100%", xs: "88%", sm: "88%" },
         maxWidth: 800,
         borderRadius: 2,
         boxShadow: 3,

@@ -183,7 +183,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           width: "78%",
           height: "88vh",
           flexGrow: 1,
-          padding: "50px",
+          padding: { ld: "50px", md: "50px", xs: "20px", sm: "20px" },
           display: "flex",
           flexDirection: "column",
           mt: { xs: "64px", sm: 0 },

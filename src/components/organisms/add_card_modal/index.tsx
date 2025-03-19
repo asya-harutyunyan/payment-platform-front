@@ -77,7 +77,6 @@ export const AddCardModal: FC<IStepTwo> = ({
   useEffect(() => {
     setValue("currency", "RUB", { shouldValidate: false });
     if (isEdit) {
-
       if (bankName && bankDetailID) {
         setValue(
           "bank_name",
@@ -93,6 +92,9 @@ export const AddCardModal: FC<IStepTwo> = ({
     control,
     name: "bank_name_manual",
   });
+  useEffect(() => {
+    console.log(open);
+  }, [open]);
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
     if (!isEdit) {
       if (bankNameManual) {
@@ -123,6 +125,7 @@ export const AddCardModal: FC<IStepTwo> = ({
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
             fetchAuthUser?.();
+            handleClose();
           })
           .catch((error) => {
             reset();
@@ -182,6 +185,7 @@ export const AddCardModal: FC<IStepTwo> = ({
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
             fetchAuthUser?.();
+            handleClose();
           })
           .catch((error) => {
             reset();
