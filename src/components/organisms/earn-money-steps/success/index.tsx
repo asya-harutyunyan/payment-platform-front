@@ -1,23 +1,25 @@
 import success from "@/assets/images/success.png";
+import { httpClient } from "@/common/api";
 // import { httpClient } from "@/common/api";
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import { useAppSelector } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
 // import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
 import { H4, H6, P } from "@/styles/typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Box, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 interface ISuccess {
   handleReset?: () => void;
 }
 export const Success: FC<ISuccess> = ({ handleReset }) => {
   const { deposit } = useAppSelector((state) => state.deposit);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
       return (
@@ -43,6 +45,19 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
       );
     }
   };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      httpClient
+        .get(`/deposits/check-deposit-status/${deposit?.id}`)
+        .then(({ data }) => {
+          dispatch(updateDepositAdminStatus(data.status));
+        });
+    }, 10000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
 
   const getTimer = (created_at: string) => {
     return new Date(
