@@ -87,6 +87,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                 <Typography
                   sx={{
                     color: "primary.main",
+                    display: "flex",
                   }}
                 >
                   {data ? (
