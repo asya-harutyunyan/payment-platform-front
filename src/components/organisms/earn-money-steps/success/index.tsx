@@ -11,6 +11,7 @@ import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlic
 import { H4, H5, H6, P } from "@/styles/typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Box, CircularProgress } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
 import { FC, useEffect, useMemo } from "react";
@@ -21,6 +22,7 @@ interface ISuccess {
 export const Success: FC<ISuccess> = ({ handleReset }) => {
   const { deposit } = useAppSelector((state) => state.deposit);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
       return (
@@ -74,7 +76,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
   };
   const renderStatus = useMemo(() => {
     switch (deposit?.status_by_admin) {
-      case DEPOSIT_STATUSES.PENDING:
+      case DEPOSIT_STATUSES.DONE:
         return (
           <Box
             sx={{
@@ -96,7 +98,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             </P>
           </Box>
         );
-      case DEPOSIT_STATUSES.DONE:
+      case DEPOSIT_STATUSES.PENDING:
         return (
           <Box
             sx={{
@@ -104,6 +106,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               flexDirection: "column",
               width: "100%",
               alignItems: "center",
+              marginBottom: "90px",
             }}
           >
             <P
@@ -123,8 +126,11 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             <Button
               variant={"gradient"}
               sx={{ width: "230px" }}
-              text={t("start_again")}
-              onClick={() => handleReset?.()}
+              text={"В список заказов"}
+              onClick={() => {
+                handleReset?.();
+                navigate({ to: "/orders" });
+              }}
             />
           </Box>
         );
