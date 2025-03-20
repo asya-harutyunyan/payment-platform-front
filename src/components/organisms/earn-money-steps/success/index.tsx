@@ -76,7 +76,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
   };
   const renderStatus = useMemo(() => {
     switch (deposit?.status_by_admin) {
-      case DEPOSIT_STATUSES.DONE:
+      case DEPOSIT_STATUSES.PENDING:
         return (
           <Box
             sx={{
@@ -98,7 +98,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             </P>
           </Box>
         );
-      case DEPOSIT_STATUSES.PENDING:
+      case DEPOSIT_STATUSES.DONE:
         return (
           <Box
             sx={{
