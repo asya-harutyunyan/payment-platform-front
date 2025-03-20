@@ -82,11 +82,18 @@ function DynamicTable<
   const { user } = useAuth();
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
-      return <Button text="Ваше время истекло." variant={"contained"}></Button>;
+      return (
+        <Button
+          text="время истекло."
+          sx={{ fontSize: "0.7rem" }}
+          variant={"contained"}
+        ></Button>
+      );
     } else {
       return (
         <Button
           variant={"contained"}
+          sx={{ fontSize: "0.7rem" }}
           text={`Подтвердить - ${t(isNeedBtnConfirmText ?? "")} ${formatted.minutes}:
           ${formatted.seconds}`}
         ></Button>
@@ -187,10 +194,28 @@ function DynamicTable<
                           renderer={countDownrenderer}
                         />
                       </P>
+                    ) : column.column === "status_by_admin_row" &&
+                      row.status_by_admin === "pending" &&
+                      user?.role === "admin" ? (
+                      <P
+                        sx={{
+                          width: "120px",
+                        }}
+                        onClick={() => {
+                          if (row.status_by_admin === "pending") {
+                            handleClick?.(row.id);
+                          }
+                        }}
+                      >
+                        <Countdown
+                          date={getTimer(row.created_at as string)}
+                          renderer={countDownrenderer}
+                        />
+                      </P>
                     ) : column.column === "status" ||
                       column.column === "final_status" ||
                       column.column === "status_by_client" ||
-                      column.column === "status_by_admin" ||
+                      column.column === "status_by_admin_row" ||
                       column.column === "order_status" ? (
                       <span
                         style={{

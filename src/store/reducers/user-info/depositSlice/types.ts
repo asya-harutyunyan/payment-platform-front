@@ -94,6 +94,8 @@ export interface Order {
 }
 export interface DataDeposits {
   id?: number;
+  status_by_admin?: string;
+  status_by_admin_row?: string;
   final_status?: string;
   address: string;
   currency: string;

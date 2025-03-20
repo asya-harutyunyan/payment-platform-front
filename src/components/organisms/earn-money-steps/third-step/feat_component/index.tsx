@@ -5,23 +5,22 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
 import useDepositFeat from "../_services/useDepositFIAT";
-import { DEPOSIT_TYPES } from "../enums";
 
 interface ITYPEComponent {
   handleNext?: () => void;
 }
 export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
-  const { handleSubmit, control, setValue, watch } = useDepositFeat(handleNext);
+  const { handleSubmit, control, watch } = useDepositFeat(handleNext);
 
   const options = [
     { id: 1, name: "FIAT", currency: "Картой" },
     { id: 2, name: "CRYPTO", currency: "Криптовалютой" },
   ];
-  useEffect(() => {
-    setValue("type", DEPOSIT_TYPES.FIAT, { shouldValidate: false });
-  }, [setValue]);
-  const type = watch("type");
 
+  const type = watch("type");
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
   return (
     <Box
       component="form"

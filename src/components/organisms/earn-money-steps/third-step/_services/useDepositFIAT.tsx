@@ -16,7 +16,7 @@ const useDepositFeat = (handleNext?: () => void) => {
   const { control, handleSubmit, reset, watch, setValue } = useForm<FormData>({
     resolver: zodResolver(wallet_type_schema),
     defaultValues: {
-      type: DEPOSIT_TYPES.FIAT,
+      type: "",
     },
   });
 

@@ -4,11 +4,15 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import {
+  confirmDepositAdminThunk,
+  getDepositsThunk,
+} from "@/store/reducers/user-info/depositSlice/thunks";
 import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
@@ -71,8 +75,8 @@ export const DepositLists: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "final_status",
-        valueKey: "final_status",
+        column: "status_by_admin_row",
+        valueKey: "status_by_admin",
       },
       {
         column: "type",
@@ -93,8 +97,8 @@ export const DepositLists: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "final_status",
-        valueKey: "final_status",
+        column: "status_by_admin_row",
+        valueKey: "status_by_admin",
       },
       {
         column: "type",
@@ -134,7 +138,25 @@ export const DepositLists: FC = () => {
       );
     }
   };
-
+  const handleConfirm = (num?: number) => {
+    if (num) {
+      dispatch(confirmDepositAdminThunk(num))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("confirm_success"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          dispatch(getDepositsThunk({ page }));
+        })
+        .catch(() => {
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
+    }
+  };
   return (
     <Box>
       <TaskHeader title={t("deposit_lists")} />
@@ -154,6 +176,7 @@ export const DepositLists: FC = () => {
             handleClickBtn={handleSingleOrder}
             onChangePage={onChangePage}
             refetchData={refetchData}
+            handleClick={handleConfirm}
           />
 
           <Box

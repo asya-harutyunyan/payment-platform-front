@@ -1,4 +1,5 @@
 import success from "@/assets/images/success.png";
+import { FailedIcon } from "@/assets/svg/failed";
 import { httpClient } from "@/common/api";
 // import { httpClient } from "@/common/api";
 import Button from "@/components/atoms/button";
@@ -63,7 +64,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
     return new Date(
       dayjs()
         .add(
-          (dayjs.utc(created_at).add(15, "minutes").unix() -
+          (dayjs.utc(created_at).add(20, "minutes").unix() -
             dayjs().utc().unix()) *
             1000,
           "milliseconds"
@@ -88,7 +89,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               renderer={countDownrenderer}
             />
             <P color="primary.contrastText" padding={"20px 0"} align="center">
-              Ваш депозит обрабатывается, это обычно занимает до 15 минут.
+              Ваш депозит обрабатывается, это обычно занимает до 20 минут.
               Пожалуйста ожидайте подтверждения поступления депозита. После
               этого перейдите в раздел Список запросов и подтверждайте
               исключительно те заказы, которые были получены Вами на карту.
@@ -136,10 +137,31 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               flexDirection: "column",
               width: "100%",
               alignItems: "center",
+              marginBottom: "170px",
             }}
           >
-            <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
-            <H4 align="center">Платеж отклонен или отменен</H4>
+            <Box
+              sx={{
+                display: { lg: "block", md: "block", xs: "none", sm: "none" },
+              }}
+            >
+              <FailedIcon />
+            </Box>
+            <ErrorOutlineIcon
+              sx={{
+                color: "white",
+                display: { lg: "none", md: "none", xs: "block", sm: "block" },
+              }}
+              fontSize="large"
+            />
+            <P
+              fontSize={"1.1rem"}
+              align="center"
+              color="tertiary.main"
+              paddingTop={"10px"}
+            >
+              Платеж отклонен или отменен, попробуйте еще раз.
+            </P>
           </Box>
         );
       case DEPOSIT_STATUSES.EXPRIED:
@@ -162,19 +184,6 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
     }
   }, [deposit?.status_by_admin]);
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     httpClient
-  //       .get(`/deposits/check-deposit-status/${deposit?.id}`)
-  //       .then(({ data }) => {
-  //         dispatch(updateDepositAdminStatus(data.status));
-  //       });
-  //   }, 10000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, []);
-
   return (
     <Box sx={{ display: "flex", justifyContent: "center" }}>
       <BasicCard
@@ -192,7 +201,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           alignItems: "center",
           justifyContent: "space-between",
         }}
-        title={t("success")}
+        title={DEPOSIT_STATUSES.FAILED ? "Ошибка" : t("success")}
       >
         <Box
           sx={{

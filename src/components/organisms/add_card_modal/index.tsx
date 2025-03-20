@@ -188,6 +188,10 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
+            enqueueSnackbar(t("bank_card_added_error"), {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
             reset();
             setValue(
               "bank_name",
@@ -243,6 +247,10 @@ export const AddCardModal: FC<IStepTwo> = ({
           handleClose();
         })
         .catch((error) => {
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
           if (typeof error === "object") {
             for (const key in error) {
               setError(key as keyof FormData, {
