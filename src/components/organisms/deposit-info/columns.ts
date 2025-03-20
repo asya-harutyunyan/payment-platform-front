@@ -23,7 +23,7 @@ export const fields = [
   },
   {
     column: "final_status_deposit",
-    valueKey: "final_status",
+    valueKey: "status_by_admin",
   },
   {
     column: "left_amount",
