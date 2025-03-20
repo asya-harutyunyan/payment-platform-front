@@ -123,12 +123,17 @@ export const BankCardDetalis: FC = () => {
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               }
             );
-          } else {
-            enqueueSnackbar(t("bank_card_added_error"), {
+          }
+          if (error.card_number[0] === "Поле номер карты уже занято.") {
+            enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
           }
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
         });
     } else {
       dispatch(addBankCardThunk(data))
@@ -182,12 +187,17 @@ export const BankCardDetalis: FC = () => {
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               }
             );
-          } else {
-            enqueueSnackbar(t("bank_card_added_error"), {
+          }
+          if (error.card_number[0] === "Поле номер карты уже занято.") {
+            enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
           }
+          enqueueSnackbar(t("bank_card_added_error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
         });
     }
   };
