@@ -8,7 +8,7 @@ import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
 // import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
-import { H4, H6, P } from "@/styles/typography";
+import { H4, H5, H6, P } from "@/styles/typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Box, CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
@@ -119,7 +119,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             >
               {t("success_step")}
             </P>
-            <img src={success} style={{ width: "100%" }} />
+            <img src={success} style={{ width: "150px" }} />
             <Button
               variant={"gradient"}
               sx={{ width: "230px" }}
@@ -140,6 +140,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               marginBottom: "170px",
             }}
           >
+            <H5>Ошибка</H5>
             <Box
               sx={{
                 display: { lg: "block", md: "block", xs: "none", sm: "none" },
@@ -201,7 +202,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           alignItems: "center",
           justifyContent: "space-between",
         }}
-        title={DEPOSIT_STATUSES.FAILED ? "Ошибка" : t("success")}
+        title={t("success")}
       >
         <Box
           sx={{
