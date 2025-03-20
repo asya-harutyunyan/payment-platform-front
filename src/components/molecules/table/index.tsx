@@ -111,6 +111,9 @@ function DynamicTable<
         .format()
     );
   };
+  const handleConfirm = (id?: number) => {
+    handleClick?.(id);
+  };
 
   return (
     <>
@@ -185,7 +188,7 @@ function DynamicTable<
                         }}
                         onClick={() => {
                           if (row.status_by_client === "pending") {
-                            handleClick?.(row.id);
+                            handleConfirm?.(row.id);
                           }
                         }}
                       >
@@ -195,15 +198,14 @@ function DynamicTable<
                         />
                       </P>
                     ) : column.column === "status_by_admin_row" &&
-                      row.status_by_admin === "pending" &&
-                      user?.role === "admin" ? (
+                      row.status_by_admin === "pending" ? (
                       <P
                         sx={{
                           width: "120px",
                         }}
                         onClick={() => {
-                          if (row.status_by_admin === "pending") {
-                            handleClick?.(row.id);
+                          if (row.status_by_client === "pending") {
+                            handleConfirm?.(row.id);
                           }
                         }}
                       >
