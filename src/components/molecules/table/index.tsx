@@ -16,7 +16,7 @@ import {
 import { useLocation } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import React from "react";
+import React, { useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -80,6 +80,8 @@ function DynamicTable<
   const location = useLocation();
   const route = useLocation();
   const { user } = useAuth();
+  const [timerId, setTimerId] = useState<number | null>(null);
+
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
       return (
@@ -94,6 +96,12 @@ function DynamicTable<
         <Button
           variant={"contained"}
           sx={{ fontSize: "0.7rem" }}
+          onClick={() => {
+            if (timerId) {
+              handleClick?.(timerId);
+              setTimerId(null);
+            }
+          }}
           text={`Подтвердить - ${t(isNeedBtnConfirmText ?? "")} ${formatted.minutes}:
           ${formatted.seconds}`}
         ></Button>
@@ -110,9 +118,6 @@ function DynamicTable<
         )
         .format()
     );
-  };
-  const handleConfirm = (id?: number) => {
-    handleClick?.(id);
   };
 
   return (
@@ -186,32 +191,39 @@ function DynamicTable<
                         sx={{
                           width: "120px",
                         }}
-                        onClick={() => {
-                          if (row.status_by_client === "pending") {
-                            handleConfirm?.(row.id);
-                          }
-                        }}
                       >
                         <Countdown
                           date={getTimer(row.created_at as string)}
-                          renderer={countDownrenderer}
+                          renderer={(props) => {
+                            if (
+                              row.id !== undefined &&
+                              row.status_by_client === "pending"
+                            ) {
+                              setTimerId(row.id);
+                            }
+                            return countDownrenderer(props);
+                          }}
                         />
                       </P>
                     ) : column.column === "status_by_admin_row" &&
-                      row.status_by_admin === "pending" ? (
+                      row.status_by_admin === "pending" &&
+                      user?.role === "admin" ? (
                       <P
                         sx={{
                           width: "120px",
                         }}
-                        onClick={() => {
-                          if (row.status_by_client === "pending") {
-                            handleConfirm?.(row.id);
-                          }
-                        }}
                       >
                         <Countdown
                           date={getTimer(row.created_at as string)}
-                          renderer={countDownrenderer}
+                          renderer={(props) => {
+                            if (
+                              row.id !== undefined &&
+                              row.status_by_client === "pending"
+                            ) {
+                              setTimerId(row.id);
+                            }
+                            return countDownrenderer(props);
+                          }}
                         />
                       </P>
                     ) : column.column === "status" ||
