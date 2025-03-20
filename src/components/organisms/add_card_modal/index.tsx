@@ -128,6 +128,12 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
+            if (error.card_number[0] === "Поле номер карты уже занято.") {
+              enqueueSnackbar("Карта с этим номером уже существует.", {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              });
+            }
             reset();
             setValue(
               "bank_name",
@@ -160,12 +166,7 @@ export const AddCardModal: FC<IStepTwo> = ({
                 }
               );
             }
-            if (error.card_number[0] === "Поле номер карты уже занято.") {
-              enqueueSnackbar("Карта с этим номером уже существует.", {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
-              });
-            }
+
             enqueueSnackbar(t("bank_card_added_error"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
@@ -193,6 +194,12 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
+            if (error.card_number[0] === "Поле номер карты уже занято.") {
+              enqueueSnackbar("Карта с этим номером уже существует.", {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              });
+            }
             reset();
             setValue(
               "bank_name",
@@ -213,12 +220,7 @@ export const AddCardModal: FC<IStepTwo> = ({
                 }
               });
             }
-            if (error.card_number[0] === "Поле номер карты уже занято.") {
-              enqueueSnackbar("Карта с этим номером уже существует.", {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
-              });
-            }
+
             if (
               error.bank_details[0] ===
               "Вы можете добавить не более 3 банковских реквизитов."

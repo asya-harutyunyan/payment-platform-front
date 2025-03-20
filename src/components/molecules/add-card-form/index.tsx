@@ -92,6 +92,12 @@ export const BankCardDetalis: FC = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
+          if (error.card_number[0] === "Поле номер карты уже занято.") {
+            enqueueSnackbar("Карта с этим номером уже существует.", {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
           reset();
           setValue(
             "bank_name",
@@ -123,12 +129,6 @@ export const BankCardDetalis: FC = () => {
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               }
             );
-          }
-          if (error.card_number[0] === "Поле номер карты уже занято.") {
-            enqueueSnackbar("Карта с этим номером уже существует.", {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            });
           }
           enqueueSnackbar(t("bank_card_added_error"), {
             variant: "error",
@@ -156,6 +156,12 @@ export const BankCardDetalis: FC = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
+          if (error.card_number[0] === "Поле номер карты уже занято.") {
+            enqueueSnackbar("Карта с этим номером уже существует.", {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
           reset();
           setValue(
             "bank_name",
@@ -188,12 +194,7 @@ export const BankCardDetalis: FC = () => {
               }
             );
           }
-          if (error.card_number[0] === "Поле номер карты уже занято.") {
-            enqueueSnackbar("Карта с этим номером уже существует.", {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            });
-          }
+
           enqueueSnackbar(t("bank_card_added_error"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
