@@ -21,7 +21,7 @@ export const LandingPage = () => {
   const { user } = useAuth();
 
   const onBtnClick = useCallback(() => {
-    let to = "/auth/sign-in";
+    let to = "/auth/sign-up";
     switch (user?.role) {
       case "client":
         to = "/my-information";
