@@ -60,6 +60,7 @@ export const PaymentPlatformModal: FC = () => {
         >
           Реквизиты платежа
         </P>
+
         <P style={{ color: "#fff" }}>
           <span
             style={{
@@ -67,33 +68,11 @@ export const PaymentPlatformModal: FC = () => {
               paddingRight: "10px",
             }}
           >
-            {" "}
-            Order ID:{" "}
+            Сумма:{" "}
           </span>
-          {data?.order?.order_id}
+          {data?.order?.amount}
         </P>
-        <P style={{ color: "#fff" }}>
-          <span
-            style={{
-              color: theme.palette.secondary.contrastText,
-              paddingRight: "10px",
-            }}
-          >
-            Order Create At:{" "}
-          </span>
-          {data?.order?.created_at}
-        </P>
-        <P style={{ color: "#fff" }}>
-          <span
-            style={{
-              color: theme.palette.secondary.contrastText,
-              paddingRight: "10px",
-            }}
-          >
-            Order User ID:{" "}
-          </span>
-          {data?.order?.user_id}
-        </P>
+
         <Button
           variant={"gradient"}
           text={t("confirm")}

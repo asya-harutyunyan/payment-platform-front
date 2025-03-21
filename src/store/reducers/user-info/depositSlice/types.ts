@@ -21,6 +21,7 @@ export interface DepositState {
       order_id: number | string;
       created_at: string;
       user_id: number | string;
+      amount: number;
     };
   };
 }
