@@ -105,7 +105,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                           display: "flex",
                         }}
                       >
-                        {String(_.getPath?.(data, field.valueKey))}
+                        {t(String(_.getPath?.(data, field.valueKey)) || "-")}
                       </span>
                     ) : (
                       <Typography

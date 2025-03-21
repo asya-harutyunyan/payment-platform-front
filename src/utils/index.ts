@@ -1,3 +1,4 @@
 export function addFivePercent(value: number): number {
-  return value * 1.05;
+  const updatedPrice = value * 1.05;
+  return Math.ceil(updatedPrice / 50) * 50;
 }
