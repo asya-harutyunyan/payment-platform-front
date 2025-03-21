@@ -53,8 +53,8 @@ export const OrderListComponent: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "order_status",
-        valueKey: "status_by_client",
+        column: "order_status_admin",
+        valueKey: "status_by_admin",
       },
       {
         column: "id",

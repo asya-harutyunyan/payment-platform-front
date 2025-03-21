@@ -120,6 +120,96 @@ function DynamicTable<
     );
   };
 
+  const renderStatusColumn = (column: IColumn<T>, row: T) => {
+    if (column.button) {
+      return (
+        <Button
+          variant={variant ?? "outlined"}
+          text={t(textBtn ?? "see_more")}
+          sx={{ width: "120px" }}
+          onClick={() => handleClickBtn?.(row.id)}
+        />
+      );
+    } else if (
+      column.column === "order_status_user" &&
+      row.status_by_client === "pending"
+    ) {
+      return (
+        <P
+          sx={{
+            width: "120px",
+          }}
+        >
+          <Countdown
+            date={getTimer(row.created_at as string)}
+            renderer={(props) => {
+              if (row.id !== undefined && row.status_by_client === "pending") {
+                setTimerId(row.id);
+              }
+              return countDownrenderer(props);
+            }}
+          />
+        </P>
+      );
+    } else if (
+      (column.column === "order_status_admin" ||
+        column.column === "status_by_admin_row") &&
+      row.status_by_admin === "pending"
+    ) {
+      return (
+        <P
+          sx={{
+            width: "120px",
+          }}
+        >
+          <Countdown
+            date={getTimer(row.created_at as string)}
+            renderer={(props) => {
+              if (row.id !== undefined && row.status_by_admin === "pending") {
+                setTimerId(row.id);
+              }
+              return countDownrenderer(props);
+            }}
+          />
+        </P>
+      );
+    }
+    switch (column.column) {
+      case "status":
+      case "final_status":
+      case "status_by_client":
+      case "status_by_admin_row":
+      case "status_by_user_row":
+      case "order_status_user":
+      case "order_status_admin":
+        return (
+          <span
+            style={{
+              color: getStatusColor(
+                String(_.getPath?.(row, column.valueKey) || "-")
+              ),
+              fontWeight: 400,
+              textTransform: "uppercase",
+            }}
+          >
+            {t(String(_.getPath?.(row, column.valueKey)) || "-")}
+          </span>
+        );
+      default:
+        return (
+          <span>
+            {t(
+              String(
+                _.getPath(row, column.valueKey) === null
+                  ? "-"
+                  : _.getPath(row, column.valueKey) || "-"
+              )
+            )}
+          </span>
+        );
+    }
+  };
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -178,82 +268,7 @@ function DynamicTable<
                       color: "#7d7d7d",
                     }}
                   >
-                    {column.button ? (
-                      <Button
-                        variant={variant ?? "outlined"}
-                        text={t(textBtn ?? "see_more")}
-                        sx={{ width: "120px" }}
-                        onClick={() => handleClickBtn?.(row.id)}
-                      />
-                    ) : column.column === "order_status" &&
-                      row.status_by_client === "pending" ? (
-                      <P
-                        sx={{
-                          width: "120px",
-                        }}
-                      >
-                        <Countdown
-                          date={getTimer(row.created_at as string)}
-                          renderer={(props) => {
-                            if (
-                              row.id !== undefined &&
-                              row.status_by_client === "pending"
-                            ) {
-                              setTimerId(row.id);
-                            }
-                            return countDownrenderer(props);
-                          }}
-                        />
-                      </P>
-                    ) : column.column === "status_by_admin_row" &&
-                      row.status_by_admin === "pending" &&
-                      user?.role === "admin" ? (
-                      <P
-                        sx={{
-                          width: "120px",
-                        }}
-                      >
-                        <Countdown
-                          date={getTimer(row.created_at as string)}
-                          renderer={(props) => {
-                            if (
-                              row.id !== undefined &&
-                              row.status_by_client === "pending"
-                            ) {
-                              setTimerId(row.id);
-                            }
-                            return countDownrenderer(props);
-                          }}
-                        />
-                      </P>
-                    ) : column.column === "status" ||
-                      column.column === "final_status" ||
-                      column.column === "status_by_client" ||
-                      column.column === "status_by_admin_row" ||
-                      column.column === "order_status" ? (
-                      <span
-                        style={{
-                          color: getStatusColor(
-                            String(_.getPath?.(row, column.valueKey) || "-")
-                          ),
-                          fontWeight: 400,
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {t(String(_.getPath?.(row, column.valueKey)) || "-")}
-                      </span>
-                    ) : (
-                      <span>
-                        {t(
-                          String(
-                            _.getPath(row, column.valueKey) === null
-                              ? "-"
-                              : _.getPath(row, column.valueKey) || "-"
-                          )
-                        )}
-                      </span>
-                    )}
-
+                    {renderStatusColumn(column, row)}
                     {column.currency
                       ? ` ${
                           CURRENCY[

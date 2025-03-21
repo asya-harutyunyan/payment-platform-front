@@ -71,7 +71,8 @@ export interface PaymentMethod {
 
 export interface Order {
   id: number;
-  order_status?: string;
+  order_status_admin?: string;
+  order_status_user?: string;
   wallet_id: number;
   key?: string;
   type?: string;
@@ -96,6 +97,7 @@ export interface DataDeposits {
   id?: number;
   status_by_admin?: string;
   status_by_admin_row?: string;
+  status_by_user_row?: string;
   final_status?: string;
   address: string;
   currency: string;

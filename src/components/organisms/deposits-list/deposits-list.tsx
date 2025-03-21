@@ -97,7 +97,7 @@ export const DepositLists: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "status_by_admin_row",
+        column: "status_by_user_row",
         valueKey: "status_by_admin",
       },
       {
