@@ -1,14 +1,35 @@
 import imgArrow from "@/assets/images/arrow.png";
 import img from "@/assets/images/Isolation.png";
 import imgUsers from "@/assets/images/users.png";
+import { useAuth } from "@/context/auth.context";
 import { H1, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
+import { useCallback } from "react";
 import ReactPlayer from "react-player";
 import Button from "../../button";
+
 export const AboutSection = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const onBtnClick = useCallback(() => {
+    let to = "/auth/sign-in";
+    switch (user?.role) {
+      case "client":
+        to = "/my-information";
+        break;
+      case "admin":
+        to = "/deposit-list";
+        break;
+      default:
+        break;
+    }
+    navigate({
+      to: to,
+      replace: true,
+    });
+  }, [navigate, user?.role]);
   return (
     <Box
       sx={{
@@ -182,7 +203,7 @@ export const AboutSection = () => {
           <Button
             variant={"gradient"}
             text={t("get_start")}
-            onClick={() => navigate({ to: "/auth/sign-up" })}
+            onClick={() => onBtnClick()}
             sx={{ margin: "30px 0", width: "160px" }}
           />
         </Box>
