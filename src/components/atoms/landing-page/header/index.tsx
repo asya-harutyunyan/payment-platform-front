@@ -63,7 +63,7 @@ export const ResponsiveAppBar = () => {
   const { user } = useAuth();
 
   const onBtnClick = useCallback(() => {
-    let to = "/auth/sign-up";
+    let to = "/auth/sign-in";
     switch (user?.role) {
       case "client":
         to = "/my-information";
