@@ -156,30 +156,31 @@ function DynamicTable<
           />
         </P>
       );
-    } else if (
-      (column.column === "order_status_admin" ||
-        column.column === "status_by_admin_row") &&
-      row.status_by_admin === "pending"
-    ) {
-      return (
-        <P
-          sx={{
-            width: "120px",
-          }}
-        >
-          <Countdown
-            date={getTimer(row.created_at as string)}
-            renderer={(props) => {
-              // if (row.id !== undefined && row.status_by_admin === "pending") {
-              //   setTimerId(row.id);
-              // }
-              //@ts-expect-error need to fix types
-              return countDownrenderer(props, row.id);
-            }}
-          />
-        </P>
-      );
     }
+    // else if (
+    //   (column.column === "order_status_admin" ||
+    //     column.column === "status_by_admin_row") &&
+    //   row.status_by_admin === "pending"
+    // ) {
+    //   return (
+    //     <P
+    //       sx={{
+    //         width: "120px",
+    //       }}
+    //     >
+    //       <Countdown
+    //         date={getTimer(row.created_at as string)}
+    //         renderer={(props) => {
+    //           // if (row.id !== undefined && row.status_by_admin === "pending") {
+    //           //   setTimerId(row.id);
+    //           // }
+    //           //@ts-expect-error need to fix types
+    //           return countDownrenderer(props, row.id);
+    //         }}
+    //       />
+    //     </P>
+    //   );
+    // }
     switch (column.column) {
       case "status":
       case "final_status":
