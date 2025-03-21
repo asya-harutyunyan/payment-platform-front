@@ -35,7 +35,7 @@ export const DepositInfoUser: FC = () => {
           />
         )}
         <TaskHeader
-          title={t("user_info")}
+          title={t("deposit_information")}
           sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
         />
       </Box>
@@ -46,7 +46,7 @@ export const DepositInfoUser: FC = () => {
           <Paper
             data={singleDeposit}
             fields={fields}
-            title={"deposit_information"}
+            title={"deposit_information_single"}
             loading={loading}
           />
         </Box>

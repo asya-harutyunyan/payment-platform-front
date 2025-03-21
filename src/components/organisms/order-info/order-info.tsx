@@ -36,7 +36,7 @@ export const OrderInfo: FC = () => {
           />
         )}
         <TaskHeader
-          title={t("user_info")}
+          title={t("deposit_information")}
           sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
         />
       </Box>
@@ -47,7 +47,7 @@ export const OrderInfo: FC = () => {
           <Paper
             data={singleOrder}
             fields={fields}
-            title={"orders_information"}
+            title={"deposit_information_single"}
             loading={loading}
           />
         </Box>
