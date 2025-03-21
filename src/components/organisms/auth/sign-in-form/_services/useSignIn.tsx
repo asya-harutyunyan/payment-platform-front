@@ -50,9 +50,6 @@ const useSignIn = () => {
               });
             }
           });
-        } else if (error.message === "Ваша почта не подтверждена") {
-          navigate({ to: "/auth/confirm-email" });
-          console.warn("Неизвестный формат ошибки:", error);
         }
       });
   };

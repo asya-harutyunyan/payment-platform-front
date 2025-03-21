@@ -30,7 +30,7 @@ const useSignUp = () => {
       .then((response) => {
         if (response.status === 201) {
           navigate({
-            to: "/auth/confirm-email",
+            to: "/auth/sign-in",
           });
         }
       })
