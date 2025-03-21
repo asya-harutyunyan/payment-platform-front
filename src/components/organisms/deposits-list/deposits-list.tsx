@@ -138,9 +138,9 @@ export const DepositLists: FC = () => {
       );
     }
   };
-  const handleConfirm = (num?: number) => {
-    if (num) {
-      dispatch(confirmDepositAdminThunk(num))
+  const handleConfirm = (id?: number) => {
+    if (id) {
+      dispatch(confirmDepositAdminThunk(id))
         .unwrap()
         .then(() => {
           enqueueSnackbar(t("confirm_success"), {

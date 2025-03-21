@@ -16,7 +16,7 @@ import {
 import { useLocation } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import React, { useState } from "react";
+import React from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -80,9 +80,12 @@ function DynamicTable<
   const location = useLocation();
   const route = useLocation();
   const { user } = useAuth();
-  const [timerId, setTimerId] = useState<number | null>(null);
+  // const [timerId, setTimerId] = useState<number | null>(null);
 
-  const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
+  const countDownrenderer: CountdownRendererFn = (
+    { completed, formatted },
+    id?: number
+  ) => {
     if (completed) {
       return (
         <Button
@@ -97,10 +100,11 @@ function DynamicTable<
           variant={"contained"}
           sx={{ fontSize: "0.7rem" }}
           onClick={() => {
-            if (timerId) {
-              handleClick?.(timerId);
-              setTimerId(null);
-            }
+            handleClick?.(id);
+            // if (timerId) {
+            // handleClick?.(id);
+            // setTimerId(null);
+            // }
           }}
           text={`Подтвердить - ${t(isNeedBtnConfirmText ?? "")} ${formatted.minutes}:
           ${formatted.seconds}`}
@@ -143,10 +147,11 @@ function DynamicTable<
           <Countdown
             date={getTimer(row.created_at as string)}
             renderer={(props) => {
-              if (row.id !== undefined && row.status_by_client === "pending") {
-                setTimerId(row.id);
-              }
-              return countDownrenderer(props);
+              // if (row.id !== undefined && row.status_by_client === "pending") {
+              //   setTimerId(row.id);
+              // }
+              //@ts-expect-error need to fix types
+              return countDownrenderer(props, row.id);
             }}
           />
         </P>
@@ -165,10 +170,11 @@ function DynamicTable<
           <Countdown
             date={getTimer(row.created_at as string)}
             renderer={(props) => {
-              if (row.id !== undefined && row.status_by_admin === "pending") {
-                setTimerId(row.id);
-              }
-              return countDownrenderer(props);
+              // if (row.id !== undefined && row.status_by_admin === "pending") {
+              //   setTimerId(row.id);
+              // }
+              //@ts-expect-error need to fix types
+              return countDownrenderer(props, row.id);
             }}
           />
         </P>
