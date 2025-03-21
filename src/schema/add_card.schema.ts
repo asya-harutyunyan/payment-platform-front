@@ -9,7 +9,11 @@ export const add_card_schema = z
         key: z.string(),
       })
       .required(),
-    card_holder: z.string().min(3).max(50),
+    card_holder: z
+      .string()
+      .min(3)
+      .max(50)
+      .regex(/^[A-Za-z\s]+$/, "Разрешены только английские буквы и пробелы"),
     bank_name_manual: z.string().optional(),
     phone_number: z.string().refine((val) => !val || val.length >= 3, {
       message: "Если поле указано, должно быть не менее 3 символов.",
@@ -41,7 +45,11 @@ export const edit_card_schema = z.object({
       key: z.string(),
     })
     .required(),
-  card_holder: z.string().min(3).max(50),
+  card_holder: z
+    .string()
+    .min(3)
+    .max(50)
+    .regex(/^[A-Za-z\s]+$/, "Разрешены только английские буквы и пробелы"),
   phone_number: z
     .string()
     .optional()

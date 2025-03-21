@@ -93,7 +93,12 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
         });
       });
   };
-
+  function formatPrice(price: number) {
+    return price
+      .toFixed(2) // Округляем до 2 знаков
+      .replace(".", ",") // Меняем десятичную точку на запятую
+      .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Добавляем точку каждые три цифры
+  }
   return (
     <Box>
       <Box
@@ -110,7 +115,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           }}
           bg={second_step}
           title={t("profit")}
-          sub_title={`${updatedPrice.toFixed(2).replace(".", ",")} ₽`}
+          sub_title={`${formatPrice(updatedPrice)} ₽`}
         >
           {showAddCard && (
             <Box
