@@ -22,13 +22,14 @@ export const OrderListComponent: FC = () => {
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setInterval(() => {
       if (user?.role === "admin") {
         dispatch(getOrdersThunk({ page: page, per_page: 50 }));
       } else {
         dispatch(getOrdersThunk({ page: page, per_page: 5 }));
       }
     }, 20000);
+    return () => clearInterval(timer);
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
