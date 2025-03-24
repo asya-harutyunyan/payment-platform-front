@@ -145,9 +145,27 @@ function DynamicTable<
         />
       );
     } else if (
-      (column.column === "order_status_user" ||
-        column.column === "status_by_admin_row") &&
+      column.column === "order_status_user" &&
       row.status_by_client === "pending"
+    ) {
+      return (
+        <P
+          sx={{
+            width: "120px",
+          }}
+        >
+          <Countdown
+            date={getTimer(row.created_at as string)}
+            renderer={(props) => {
+              //@ts-expect-error need to fix types
+              return countDownrenderer(props, row.id);
+            }}
+          />
+        </P>
+      );
+    } else if (
+      column.column === "status_by_admin_row" &&
+      row.status_by_admin === "pending"
     ) {
       return (
         <P
