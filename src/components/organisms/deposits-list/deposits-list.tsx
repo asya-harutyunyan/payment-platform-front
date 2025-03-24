@@ -177,7 +177,7 @@ export const DepositLists: FC = () => {
             onChangePage={onChangePage}
             refetchData={refetchData}
             handleClick={handleConfirm}
-            confirmText={"order_confirm_text"}
+            confirmText={"deposit_confirm_text"}
           />
 
           <Box

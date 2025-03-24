@@ -128,7 +128,7 @@ export const UserOrdersComponent: FC = () => {
               onChangePage={onChangePage}
               refetchData={refetch}
               handleClickBtn={handleSingleOrder}
-              confirmText={"deposit_confirm_text"}
+              confirmText={"order_confirm_text"}
             />
 
             <Box
