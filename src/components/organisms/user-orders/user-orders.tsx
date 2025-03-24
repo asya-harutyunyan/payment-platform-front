@@ -22,11 +22,13 @@ export const UserOrdersComponent: FC = () => {
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   useEffect(() => {
-    if (user?.role === "admin") {
-      dispatch(getOrdersThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
-    }
+    setTimeout(() => {
+      if (user?.role === "admin") {
+        dispatch(getOrdersThunk({ page: page, per_page: 20 }));
+      } else {
+        dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+      }
+    }, 20000);
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
