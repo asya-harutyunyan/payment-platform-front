@@ -27,7 +27,7 @@ export const MobileCards: FC<ICardsMobile> = ({ cards }) => {
                   item?.card_number ?? "1234 5678 1234 5678"
                 )}
                 bankName={item?.bank_name}
-                phoneNumber={item?.phone_number ?? "+37400000000"}
+                // phoneNumber={item?.phone_number ?? "+37400000000"}
                 bgColor={item ? "#4CAF50" : "silver"}
                 textColor="#FFFFFF"
                 bankDetailID={item?.id}

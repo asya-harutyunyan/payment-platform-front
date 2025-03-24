@@ -145,8 +145,8 @@ function DynamicTable<
         />
       );
     } else if (
-      (column.column === "order_status_user" ||
-        column.column === "status_by_admin_row") &&
+      // (column.column === "order_status_user" ||
+      column.column === "status_by_admin_row" &&
       row.status_by_client === "pending"
     ) {
       return (
