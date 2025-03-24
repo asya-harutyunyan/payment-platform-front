@@ -1,7 +1,6 @@
 import { Autocomplite } from "@/components/atoms/autocomplite";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
-import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
@@ -32,7 +31,7 @@ export const BankCardDetalis: FC = () => {
     defaultValues: {
       bank_name_manual: "",
       card_holder: "",
-      phone_number: "",
+      // phone_number: "",
       card_number: "",
       currency: "RUB",
     },
@@ -231,6 +230,7 @@ export const BankCardDetalis: FC = () => {
         error={!!errors.bank_name}
         helperText={errors.bank_name?.message}
         disabled={!!bankNameManual}
+        style={{ marginBottom: "10px" }}
       />
       {bankName?.name === "Другое" && (
         <FormTextInput
@@ -239,15 +239,16 @@ export const BankCardDetalis: FC = () => {
           name="bank_name_manual"
           type="text"
           placeholder={t("bank_name")}
+          style={{ marginBottom: "20px" }}
         />
       )}
 
-      <FormPhoneInput
+      {/* <FormPhoneInput
         control={control}
         {...register("phone_number")}
         name="phone_number"
         placeholder={t("phone_number")}
-      />
+      /> */}
 
       <FormTextInput
         control={control}

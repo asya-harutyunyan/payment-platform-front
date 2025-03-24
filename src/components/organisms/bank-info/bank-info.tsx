@@ -26,9 +26,9 @@ export const BankInfoComponent: FC = () => {
             user?.bank_details[index]?.card_number ?? "1234 5678 1234 5678"
           )}
           bankName={user?.bank_details[index]?.bank_name ?? "Bank"}
-          phoneNumber={
-            user?.bank_details[index]?.phone_number ?? "+37400000000"
-          }
+          // phoneNumber={
+          //   user?.bank_details[index]?.phone_number ?? "+37400000000"
+          // }
           bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
           textColor="#FFFFFF"
           bankDetailID={user?.bank_details[index]?.id ?? 0}

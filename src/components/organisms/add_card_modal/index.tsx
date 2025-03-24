@@ -4,7 +4,6 @@ import { Autocomplite } from "@/components/atoms/autocomplite";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { BasicModal } from "@/components/atoms/modal";
-import { FormPhoneInput } from "@/components/atoms/phone-input";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
@@ -41,7 +40,7 @@ export const AddCardModal: FC<IStepTwo> = ({
   cardHolder,
   bankDetailID,
   bankName,
-  phoneNumber,
+  // phoneNumber,
   cardNumber,
   currency,
   isEdit,
@@ -68,7 +67,7 @@ export const AddCardModal: FC<IStepTwo> = ({
           ? { name: bankName, id: bankDetailID, key: bankName }
           : undefined,
       card_holder: cardHolder ?? "",
-      phone_number: phoneNumber ?? "",
+      // phone_number: phoneNumber ?? "",
       card_number: cardNumber ?? "",
       currency: currency ?? "RUB",
     },
@@ -322,6 +321,7 @@ export const AddCardModal: FC<IStepTwo> = ({
           error={!!errors.bank_name}
           helperText={errors.bank_name?.message}
           disabled={!!bankNameManual}
+          style={{ marginBottom: "10px" }}
         />
         {bankNameInput?.name === "Другое" && (
           <FormTextInput
@@ -333,13 +333,13 @@ export const AddCardModal: FC<IStepTwo> = ({
             placeholder={t("bank_name")}
           />
         )}
-        <FormPhoneInput
+        {/* <FormPhoneInput
           control={control}
           name="phone_number"
           placeholder={t("phone_number")}
           style={{}}
           whiteVariant
-        />
+        /> */}
         <FormTextInput
           control={control}
           name="card_number"

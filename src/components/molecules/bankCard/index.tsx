@@ -19,7 +19,7 @@ interface IBankCard {
   cardHolder: string;
   cardNumber: string;
   bankName: string;
-  phoneNumber: string;
+  // phoneNumber: string;
   bgColor: string;
   textColor: string;
   currency: string;
@@ -34,7 +34,7 @@ const BankCard: FC<IBankCard> = ({
   textColor = "#FFFFFF",
   bankDetailID,
   currency,
-  phoneNumber,
+  // phoneNumber,
 }) => {
   const { fetchAuthUser } = useAuth();
   const { banks } = useAppSelector((state) => state.users);
@@ -170,7 +170,7 @@ const BankCard: FC<IBankCard> = ({
         cardHolder={cardHolder}
         bankName={bankName}
         cardNumber={cardNumber}
-        phoneNumber={phoneNumber}
+        // phoneNumber={phoneNumber}
         bankDetailID={bankDetailID}
         currency={currency}
         isEdit

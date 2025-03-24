@@ -1,8 +1,10 @@
+import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
+import { BasicModal } from "@/components/atoms/modal";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { CURRENCY } from "@/enum/currencies.enum";
-import { P } from "@/styles/typography";
+import { H3, P } from "@/styles/typography";
 import {
   Box,
   Paper,
@@ -16,8 +18,9 @@ import {
 import { useLocation } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
-import React from "react";
+import React, { useState } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
+
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
 
@@ -51,6 +54,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   isNeedBtnConfirmText?: string;
   isNeedBtnConfirm?: boolean;
   variant?: ButtonVariant;
+  confirmText?: string;
   refetchData?: () => void;
 }
 
@@ -73,6 +77,7 @@ function DynamicTable<
   data,
   textBtn,
   variant,
+  confirmText,
   isNeedBtnConfirmText,
   handleClick,
   handleClickBtn,
@@ -80,7 +85,8 @@ function DynamicTable<
   const location = useLocation();
   const route = useLocation();
   const { user } = useAuth();
-  // const [timerId, setTimerId] = useState<number | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [addId, setAddId] = useState<number | null>(null);
 
   const countDownrenderer: CountdownRendererFn = (
     { completed, formatted },
@@ -100,11 +106,10 @@ function DynamicTable<
           variant={"contained"}
           sx={{ fontSize: "0.7rem" }}
           onClick={() => {
-            handleClick?.(id);
-            // if (timerId) {
-            // handleClick?.(id);
-            // setTimerId(null);
-            // }
+            handleOpen();
+            if (id) {
+              setAddId(id);
+            }
           }}
           text={`Подтвердить - ${t(isNeedBtnConfirmText ?? "")} ${formatted.minutes}:
           ${formatted.seconds}`}
@@ -112,7 +117,12 @@ function DynamicTable<
       );
     }
   };
+  const handleConfirmItem = (id?: number) => {
+    handleClick?.(id);
+    setAddId(null);
+  };
 
+  const handleOpen = () => setOpen(true);
   const getTimer = (created_at: string) => {
     return new Date(
       dayjs()
@@ -135,7 +145,8 @@ function DynamicTable<
         />
       );
     } else if (
-      column.column === "order_status_user" &&
+      (column.column === "order_status_user" ||
+        column.column === "status_by_admin_row") &&
       row.status_by_client === "pending"
     ) {
       return (
@@ -147,9 +158,6 @@ function DynamicTable<
           <Countdown
             date={getTimer(row.created_at as string)}
             renderer={(props) => {
-              // if (row.id !== undefined && row.status_by_client === "pending") {
-              //   setTimerId(row.id);
-              // }
               //@ts-expect-error need to fix types
               return countDownrenderer(props, row.id);
             }}
@@ -157,30 +165,6 @@ function DynamicTable<
         </P>
       );
     }
-    // else if (
-    //   (column.column === "order_status_admin" ||
-    //     column.column === "status_by_admin_row") &&
-    //   row.status_by_admin === "pending"
-    // ) {
-    //   return (
-    //     <P
-    //       sx={{
-    //         width: "120px",
-    //       }}
-    //     >
-    //       <Countdown
-    //         date={getTimer(row.created_at as string)}
-    //         renderer={(props) => {
-    //           // if (row.id !== undefined && row.status_by_admin === "pending") {
-    //           //   setTimerId(row.id);
-    //           // }
-    //           //@ts-expect-error need to fix types
-    //           return countDownrenderer(props, row.id);
-    //         }}
-    //       />
-    //     </P>
-    //   );
-    // }
     switch (column.column) {
       case "status":
       case "final_status":
@@ -303,6 +287,37 @@ function DynamicTable<
           marginTop: "20px",
         }}
       ></Box>
+      <BasicModal
+        handleClose={() => setOpen(false)}
+        open={open}
+        bg={bg}
+        width="50%"
+        minHeight="200px"
+      >
+        <H3
+          align="center"
+          sx={{
+            fontSize: {
+              lg: "1.5rem",
+              md: "1.5rem",
+              xs: "1.1rem",
+              sm: "1.1rem",
+            },
+          }}
+        >
+          {confirmText && t(confirmText)}
+        </H3>
+        <Button
+          variant={"outlinedWhite"}
+          sx={{ fontSize: "0.7rem", marginTop: "20px" }}
+          onClick={() => {
+            if (addId) {
+              handleConfirmItem(addId);
+            }
+          }}
+          text={t("confirm")}
+        />
+      </BasicModal>
     </>
   );
 }

@@ -33,10 +33,10 @@ export const fields = [
     column: "currency",
     valueKey: "user.bank_details.currency",
   },
-  {
-    column: "phone_number",
-    valueKey: "user.bank_details.phone_number",
-  },
+  // {
+  //   column: "phone_number",
+  //   valueKey: "user.bank_details.phone_number",
+  // },
   {
     column: "status_by_client",
     valueKey: "status_by_client",

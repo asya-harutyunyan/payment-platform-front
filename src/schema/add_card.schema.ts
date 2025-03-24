@@ -15,9 +15,9 @@ export const add_card_schema = z
       .max(50)
       .regex(/^[A-Za-z\s]+$/, "Разрешены только английские буквы и пробелы"),
     bank_name_manual: z.string().optional(),
-    phone_number: z.string().refine((val) => !val || val.length >= 3, {
-      message: "Если поле указано, должно быть не менее 3 символов.",
-    }),
+    // phone_number: z.string().refine((val) => !val || val.length >= 3, {
+    //   message: "Если поле указано, должно быть не менее 3 символов.",
+    // }),
     card_number: z
       .string()
       .transform((val) => val.replace(/\s+/g, ""))
@@ -50,12 +50,12 @@ export const edit_card_schema = z.object({
     .min(3)
     .max(50)
     .regex(/^[A-Za-z\s]+$/, "Разрешены только английские буквы и пробелы"),
-  phone_number: z
-    .string()
-    .optional()
-    .refine((val) => !val || val.length >= 3, {
-      message: "Если поле указано, должно быть не менее 3 символов.",
-    }),
+  // phone_number: z
+  //   .string()
+  //   .optional()
+  //   .refine((val) => !val || val.length >= 3, {
+  //     message: "Если поле указано, должно быть не менее 3 символов.",
+  //   }),
   card_number: z
     .string()
     .transform((val) => val.replace(/\s+/g, ""))

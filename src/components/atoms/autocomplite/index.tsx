@@ -1,5 +1,5 @@
 import { Autocomplete, TextField } from "@mui/material";
-import { ReactNode, useMemo } from "react";
+import { CSSProperties, ReactNode, useMemo } from "react";
 import {
   Control,
   FieldPath,
@@ -15,12 +15,14 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   options: ISelectOption[];
   placeholder: string;
   error?: boolean;
+
   helperText?: string | ReactNode;
   defaultValue?: T[FieldPath<T>];
   valueKey?: keyof ISelectOption;
   whiteVariant?: boolean;
   defaultValueFirst?: boolean;
   disabled?: boolean;
+  style?: CSSProperties;
 }
 
 export const Autocomplite = <T extends FieldValues>({
@@ -31,6 +33,7 @@ export const Autocomplite = <T extends FieldValues>({
   whiteVariant,
   placeholder,
   defaultValue,
+  style,
   error,
   ...props
 }: SelectFieldWithHookFormProps<T>) => {
@@ -101,6 +104,7 @@ export const Autocomplite = <T extends FieldValues>({
         svg: {
           color: "white",
         },
+        ...style,
       }}
       renderInput={(params) => (
         <TextField

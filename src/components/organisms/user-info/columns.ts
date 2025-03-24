@@ -28,8 +28,8 @@ export const fields = [
     column: "currency",
     valueKey: "bank_details.currency",
   },
-  {
-    column: "phone_number",
-    valueKey: "bank_details.phone_number",
-  },
+  // {
+  //   column: "phone_number",
+  //   valueKey: "bank_details.phone_number",
+  // },
 ];
