@@ -1,10 +1,12 @@
 import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
+import { CopyButton } from "@/components/atoms/copy-btn";
 import { BasicModal } from "@/components/atoms/modal";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { CURRENCY } from "@/enum/currencies.enum";
 import { H3, P } from "@/styles/typography";
+import DoneIcon from "@mui/icons-material/Done";
 import {
   Box,
   Paper,
@@ -65,6 +67,7 @@ function DynamicTable<
     final_status?: string;
     status_by_client?: string;
     id?: number;
+    processing_amount?: string;
     textBtn?: string;
     handleClick?: () => void;
     isNeedBtnConfirmText?: string;
@@ -96,7 +99,7 @@ function DynamicTable<
       return (
         <Button
           text="время истекло."
-          sx={{ fontSize: "0.7rem" }}
+          sx={{ fontSize: "0.7rem", width: "150px" }}
           variant={"contained"}
         ></Button>
       );
@@ -104,7 +107,7 @@ function DynamicTable<
       return (
         <Button
           variant={"contained"}
-          sx={{ fontSize: "0.7rem" }}
+          sx={{ fontSize: "0.7rem", width: "150px" }}
           onClick={() => {
             handleOpen();
             if (id) {
@@ -127,7 +130,7 @@ function DynamicTable<
     return new Date(
       dayjs()
         .add(
-          (dayjs(created_at).add(20, "minutes").unix() - dayjs().unix()) * 1000,
+          (dayjs(created_at).add(15, "minutes").unix() - dayjs().unix()) * 1000,
           "milliseconds"
         )
         .format()
@@ -270,24 +273,36 @@ function DynamicTable<
                     key={colIndex}
                     sx={{
                       fontSize: "15px",
-                      maxWidth: "200px",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       color: "#7d7d7d",
                     }}
                   >
-                    {renderStatusColumn(column, row)}
-                    {column.currency
-                      ? ` ${
-                          CURRENCY[
-                            _.getPath?.(
-                              row,
-                              column.currency
-                            ) as keyof typeof CURRENCY
-                          ] ?? "-"
-                        }`
-                      : ""}
+                    <span style={{ display: "flex", alignItems: "center" }}>
+                      {" "}
+                      {renderStatusColumn(column, row)}
+                      {column.currency
+                        ? ` ${
+                            CURRENCY[
+                              _.getPath?.(
+                                row,
+                                column.currency
+                              ) as keyof typeof CURRENCY
+                            ] ?? "-"
+                          }`
+                        : ""}
+                      {column.column === "id" && row.id && (
+                        <CopyButton
+                          text={_.getPath(row, column.valueKey)}
+                          color={"#7d7d7d"}
+                        />
+                      )}
+                      {column.column === "processing_amount" &&
+                        row.processing_amount === "0.00" && (
+                          <DoneIcon sx={{ color: "green" }} />
+                        )}
+                    </span>
                   </TableCell>
                 ))}
 

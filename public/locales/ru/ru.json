@@ -167,6 +167,7 @@
   "FIAT": "Карта",
   "CRYPTO": "Криптовалюта",
   "confirm_success": "Ваш депозит успешно подтвержден.",
+  "confirm_order_success": "Ваш депозит успешно подтвержден.",
   "delete_wallet": "Удалить",
   "delete_wallet_modal": "Вы уверены, что хотите удалить этот кошелек?",
   "success_delete_wallet": "Кошелек успешно удален",

@@ -22,14 +22,22 @@ export const UserOrdersComponent: FC = () => {
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   useEffect(() => {
-    const timer = setInterval(() => {
-      if (user?.role === "admin") {
-        dispatch(getOrdersThunk({ page: page, per_page: 20 }));
-      } else {
-        dispatch(getOrdersThunk({ page: page, per_page: 5 }));
-      }
-    }, 2000);
-    return () => clearInterval(timer);
+    if (!user?.role) return;
+
+    const fetchOrders = () => {
+      dispatch(
+        getOrdersThunk({
+          page: page,
+          per_page: user.role === "admin" ? 20 : 5,
+        })
+      );
+    };
+
+    fetchOrders();
+
+    const interval = setInterval(fetchOrders, 20000);
+
+    return () => clearInterval(interval);
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
@@ -71,7 +79,7 @@ export const UserOrdersComponent: FC = () => {
       dispatch(confirmOrderByClientThunk(num))
         .unwrap()
         .then(() => {
-          enqueueSnackbar(t("confirm_success"), {
+          enqueueSnackbar(t("confirm_order_success"), {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });

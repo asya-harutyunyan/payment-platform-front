@@ -5,8 +5,9 @@ import { FC, useState } from "react";
 
 interface ICopyButton {
   text: string;
+  color?: string;
 }
-export const CopyButton: FC<ICopyButton> = ({ text }) => {
+export const CopyButton: FC<ICopyButton> = ({ text, color }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -24,9 +25,11 @@ export const CopyButton: FC<ICopyButton> = ({ text }) => {
       onClick={handleCopy}
       sx={{ padding: "0 10px", height: "40px", marginTop: "10px" }}
     >
-      <ContentCopyIcon sx={{ color: "tertiary.main" }} />
+      <ContentCopyIcon sx={{ color: color ?? "tertiary.main" }} />
       {copied ? (
-        <P sx={{ color: "tertiary.main", fontSize: "12px" }}>Скопирован!</P>
+        <P sx={{ color: color ?? "tertiary.main", fontSize: "12px" }}>
+          Скопирован!
+        </P>
       ) : (
         <></>
       )}
