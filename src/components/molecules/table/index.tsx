@@ -73,6 +73,7 @@ function DynamicTable<
     handleClick?: () => void;
     isNeedBtnConfirmText?: string;
     isNeedBtnConfirm?: boolean;
+    done_arrow?: string;
     handleClickBtn?: (id?: number) => void;
     variant?: ButtonVariant;
   },

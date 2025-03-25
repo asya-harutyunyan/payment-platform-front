@@ -110,7 +110,7 @@ export interface DataDeposits {
   name: string;
   surname: string;
   email: string;
-  processing_amount: number;
+  processing_amount: string;
   status: string;
 }
 //TODO:must be change
