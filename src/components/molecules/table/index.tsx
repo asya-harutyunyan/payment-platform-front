@@ -302,7 +302,9 @@ function DynamicTable<
                         />
                       )}
                       {column.valueKey === "done_arrow" &&
-                        row.processing_amount === "0.00" && (
+                        row.processing_amount === "0.00" &&
+                        row.status_by_admin !== "failed" &&
+                        row.status_by_admin !== "expired" && (
                           <DoneIcon sx={{ color: "green" }} />
                         )}
                     </span>
