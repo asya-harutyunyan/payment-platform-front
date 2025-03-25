@@ -76,6 +76,7 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "left_amount",
+        currency: "wallet_deposit.order_currency",
         valueKey: "wallet_deposit.processing_amount",
       },
       {
