@@ -18,9 +18,16 @@ interface PaperProps<T> {
   }[];
   title?: string;
   loading?: boolean;
+  handleClick?: () => void;
 }
 
-export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
+export const Paper = <T,>({
+  data,
+  fields,
+  title,
+  loading,
+  handleClick,
+}: PaperProps<T>) => {
   return (
     <Box
       sx={{
@@ -116,10 +123,26 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                             xs: "0.8rem",
                             sm: "0.8rem",
                           },
+                          display: "flex",
                         }}
                       >
-                        {" "}
                         {String(_.getPath?.(data, field.valueKey) ?? "-")}
+                        {!String(_.getPath?.(data, field.valueKey)) &&
+                        field.column === "user_blocked_card" ? (
+                          <Typography
+                            onClick={() => handleClick?.()}
+                            sx={{
+                              marginLeft: "10px",
+                              color: "#e03232",
+                              cursor: "pointer",
+                              ":hover": {
+                                color: "#d38686",
+                              },
+                            }}
+                          >
+                            Разблокировать карту.
+                          </Typography>
+                        ) : null}
                       </Typography>
                     )
                   ) : (

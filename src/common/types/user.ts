@@ -15,6 +15,7 @@ export interface BankDetail {
   user_id: number;
   bank_name: string;
   card_holder: string;
+  is_blocked: number;
   // phone_number: string;
   card_number: string;
   created_at: string;

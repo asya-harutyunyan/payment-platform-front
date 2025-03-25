@@ -91,9 +91,7 @@ export const AddCardModal: FC<IStepTwo> = ({
     control,
     name: "bank_name_manual",
   });
-  useEffect(() => {
-    console.log(open);
-  }, [open]);
+
   const onAddSubmit: SubmitHandler<FormData> = async (data) => {
     if (!isEdit) {
       if (bankNameManual) {

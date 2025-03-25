@@ -47,8 +47,8 @@ export const fields = [
     column: "currency",
     valueKey: "payment_method.currency",
   },
-  // {
-  //   column: "phone_number",
-  //   valueKey: "payment_method.phone_number",
-  // },
+  {
+    column: "user_blocked_card",
+    valueKey: "user.bank_details.card_number",
+  },
 ];

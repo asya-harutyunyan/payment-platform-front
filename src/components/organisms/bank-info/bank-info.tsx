@@ -29,6 +29,7 @@ export const BankInfoComponent: FC = () => {
             user?.bank_details[index]?.card_number ?? "1234 5678 1234 5678"
           )}
           bankName={user?.bank_details[index]?.bank_name ?? "Bank"}
+          isBlocked={user?.bank_details[index]?.is_blocked}
           // phoneNumber={
           //   user?.bank_details[index]?.phone_number ?? "+37400000000"
           // }

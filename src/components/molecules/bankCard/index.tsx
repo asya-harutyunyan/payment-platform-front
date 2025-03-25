@@ -7,7 +7,7 @@ import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
-import { H3, H5 } from "@/styles/typography";
+import { H3, H5, P } from "@/styles/typography";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
@@ -18,6 +18,7 @@ import { Dispatch, FC, SetStateAction, useMemo, useState } from "react";
 interface IBankCard {
   cardHolder: string;
   cardNumber: string;
+  isBlocked?: number;
   bankName: string;
   // phoneNumber: string;
   bgColor: string;
@@ -33,6 +34,7 @@ const BankCard: FC<IBankCard> = ({
   bankName,
   textColor = "#FFFFFF",
   bankDetailID,
+  isBlocked,
   currency,
   // phoneNumber,
 }) => {
@@ -72,11 +74,15 @@ const BankCard: FC<IBankCard> = ({
           width: { md: 300, xs: 250, sm: 250 },
           height: { md: 160, xs: 160, sm: 160 },
           borderRadius: 2,
-          backgroundImage: bankDetailID ? `url(${img})` : "none",
-          backgroundColor: bankDetailID ? "none" : "#989494",
+          backgroundImage: bankDetailID && !isBlocked ? `url(${img})` : "none",
+          backgroundColor: isBlocked
+            ? "#686868"
+            : bankDetailID
+              ? "none"
+              : "#587b52",
           backgroundRepeat: "no-repeat",
           backgroundSize: "100% 100%",
-          color: textColor,
+          color: isBlocked ? "#b3b3b3" : textColor,
           p: 3,
           display: "flex",
           flexDirection: "column",
@@ -93,13 +99,15 @@ const BankCard: FC<IBankCard> = ({
             alignItems: "center",
           }}
         >
-          <H5>{bankNameFormatted}</H5>
+          <H5 sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}>
+            {bankNameFormatted}
+          </H5>
           {bankDetailID ? (
             <Box sx={{ display: "flex" }}>
-              <Box onClick={() => handleOpen()}>
+              <Box onClick={() => !isBlocked && handleOpen()}>
                 <EditIcon
                   sx={{
-                    color: "#ffffff",
+                    color: isBlocked ? "#b3b3b3" : "#ffffff",
                     marginRight: "5px",
                     fontSize: "27px",
                     ":hover": {
@@ -108,7 +116,7 @@ const BankCard: FC<IBankCard> = ({
                   }}
                 />
               </Box>
-              <Box onClick={() => setOpenDeleteModal(true)}>
+              <Box onClick={() => !isBlocked && setOpenDeleteModal(true)}>
                 <DeleteForeverIcon
                   sx={{
                     color: "#dc0e0e",
@@ -132,37 +140,60 @@ const BankCard: FC<IBankCard> = ({
               backgroundColor: "#D6D6D6",
             }}
           ></Box>
-          <Typography fontSize={"10px"} variant="body2">
+          <Typography
+            fontSize={"10px"}
+            variant="body2"
+            sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+          >
             Secure Chip
           </Typography>
         </Box>
 
-        <Typography variant="h5" letterSpacing={2} fontSize={"16px"}>
+        <Typography
+          variant="h5"
+          letterSpacing={2}
+          fontSize={"16px"}
+          sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+        >
           {cardNumber}
         </Typography>
 
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Box>
-            <Typography variant="caption" display="block" fontSize={"11px"}>
+            <Typography
+              variant="caption"
+              display="block"
+              fontSize={"11px"}
+              sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+            >
               Card Holder
             </Typography>
             <Typography
               variant="body1"
               fontSize={"14px"}
-              color="primary.contrastText"
+              sx={{ color: isBlocked ? "#b3b3b3" : "primary.contrastText" }}
             >
               {cardHolder}
             </Typography>
           </Box>
-          {/* <Box>
-          <Typography variant="caption" display="block" fontSize={"11px"}>
-            Expires
-          </Typography>
-          <Typography variant="body1" fontSize={"14px"}>
-            {expiryDate}
-          </Typography>
-        </Box> */}
         </Box>
+        {isBlocked ? (
+          <P
+            sx={{
+              padding: "0",
+              color: "#ffffff",
+              fontSize: "13px",
+              fontWeight: "700",
+              textAlign: "start",
+              paddingTop: "5px",
+              textDecoration: "underline",
+            }}
+          >
+            Ваша карта заблокирована.
+          </P>
+        ) : (
+          ""
+        )}
       </Box>
       <AddCardModal
         open={open}

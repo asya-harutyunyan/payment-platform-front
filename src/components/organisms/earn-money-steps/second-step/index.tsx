@@ -143,7 +143,9 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           )}
 
           <RadioButtonsGroup
-            data={user?.bank_details ?? []}
+            data={
+              user?.bank_details?.filter((item) => item.is_blocked !== 1) ?? []
+            }
             control={control}
             name="payment_method_id"
             labelKey="card_number"

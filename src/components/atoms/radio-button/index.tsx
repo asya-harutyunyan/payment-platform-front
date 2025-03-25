@@ -47,12 +47,13 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   }, [fieldState.invalid, fieldState.isTouched]);
 
   useEffect(() => {
-    // Set default value if none is selected
     if (!field.value && data.length > 0) {
       const defaultValue = valueKey ? data[0]?.[valueKey as keyof U] : data[0];
+      console.log("Setting default value:", defaultValue);
       field.onChange(defaultValue);
     }
   }, [data, valueKey, field]);
+  console.log(data);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<U | null>(null);
@@ -69,7 +70,10 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
             <Box
               key={index}
               sx={{
-                border: "1px solid white",
+                border: "1px solid",
+                borderColor: (item as { is_blocked?: boolean }).is_blocked
+                  ? "#b3b3b3"
+                  : "#fff",
                 height: "50px",
                 marginTop: "20px",
                 borderRadius: "10px",
@@ -92,6 +96,11 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                         color: "white !important",
                       },
                     }}
+                    disabled={
+                      "is_blocked" in item
+                        ? (item as { is_blocked?: boolean }).is_blocked
+                        : false
+                    }
                   />
                 }
                 label={
@@ -101,7 +110,16 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                 }
                 sx={{
                   span: {
-                    color: "white",
+                    color: (item as { is_blocked?: boolean }).is_blocked
+                      ? "#b3b3b3"
+                      : "white",
+                    fontSize: "17px",
+                    letterSpacing: "4px",
+                  },
+                  "& .MuiFormControlLabel-label.Mui-disabled": {
+                    color: (item as { is_blocked?: boolean }).is_blocked
+                      ? "#b3b3b3"
+                      : "white",
                     fontSize: "17px",
                     letterSpacing: "4px",
                   },
