@@ -86,6 +86,10 @@ export const DepositLists: FC = () => {
         column: "key",
         button: "statuses",
       },
+      {
+        column: "done_arrow",
+        valueKey: "done_arrow",
+      },
     ],
     []
   );
@@ -107,6 +111,10 @@ export const DepositLists: FC = () => {
       {
         column: "key",
         button: "statuses",
+      },
+      {
+        column: "done_arrow",
+        valueKey: "done_arrow",
       },
     ],
     []

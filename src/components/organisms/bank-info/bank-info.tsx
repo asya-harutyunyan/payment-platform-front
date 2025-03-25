@@ -1,4 +1,5 @@
 import { formatCardNumber } from "@/common/utils";
+import Button from "@/components/atoms/button";
 import { MobileCards } from "@/components/atoms/swiper-slider";
 import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
@@ -9,12 +10,14 @@ import theme from "@/styles/theme";
 import { H2, P } from "@/styles/typography";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Box } from "@mui/material";
+import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useMemo } from "react";
 import { tabNames } from "./__mocks_";
 
 export const BankInfoComponent: FC = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   const cards = useMemo(() => {
     return Array.from({ length: 3 }).map((_, index) => ({
@@ -88,6 +91,7 @@ export const BankInfoComponent: FC = () => {
           sx={{
             width: "100%",
             display: "flex",
+            height: "80vh",
             justifyContent: {
               lg: "space-between",
               md: "space-between",
@@ -179,6 +183,16 @@ export const BankInfoComponent: FC = () => {
             <TabsComponent tabPanel={tabContent} tabNames={tabNames} />
           </Box>
         </Box>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        <Button
+          variant={"gradient"}
+          sx={{ width: "230px" }}
+          text={"Начать Зарабатывать"}
+          onClick={() => {
+            navigate({ to: "/steps" });
+          }}
+        />
       </Box>
     </Box>
   );

@@ -51,7 +51,13 @@ const CreditCardInput = ({
       };
     }
   }, []);
-
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const pastedText = e.clipboardData.getData("text").replace(/\D/g, "");
+    onChange({
+      target: { value: pastedText },
+    } as React.ChangeEvent<HTMLInputElement>);
+  };
   return (
     <FormControl fullWidth error={error} sx={{ mb: 2 }}>
       <TextField
@@ -62,6 +68,7 @@ const CreditCardInput = ({
         placeholder={placeholder || "1234 1234 1234 1234"}
         label="Номер карты"
         variant="outlined"
+        onPaste={handlePaste}
         InputProps={{
           endAdornment: <InputAdornment position="end">💳</InputAdornment>,
         }}

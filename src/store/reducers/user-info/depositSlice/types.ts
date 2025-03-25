@@ -98,6 +98,7 @@ export interface DataDeposits {
   id?: number;
   status_by_admin?: string;
   status_by_admin_row?: string;
+  done_arrow?: string;
   status_by_user_row?: string;
   final_status?: string;
   address: string;

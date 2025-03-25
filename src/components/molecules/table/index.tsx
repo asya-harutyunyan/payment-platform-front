@@ -32,6 +32,7 @@ export interface IColumn<T> {
   valueKey?: string;
   currency?: string;
   button?: string;
+  done?: string;
 }
 type ButtonVariant =
   | "text"
@@ -244,7 +245,7 @@ function DynamicTable<
                   key={index}
                   sx={{ fontWeight: "bold", color: "primary.main" }}
                 >
-                  {t(column.column as string)}
+                  {column.column !== "done_arrow" && t(column.column as string)}
                 </TableCell>
               ))}
             </TableRow>
@@ -281,7 +282,8 @@ function DynamicTable<
                   >
                     <span style={{ display: "flex", alignItems: "center" }}>
                       {" "}
-                      {renderStatusColumn(column, row)}
+                      {column.column !== "done_arrow" &&
+                        renderStatusColumn(column, row)}
                       {column.currency
                         ? ` ${
                             CURRENCY[
@@ -298,7 +300,7 @@ function DynamicTable<
                           color={"#7d7d7d"}
                         />
                       )}
-                      {column.column === "processing_amount" &&
+                      {column.valueKey === "done_arrow" &&
                         row.processing_amount === "0.00" && (
                           <DoneIcon sx={{ color: "green" }} />
                         )}
