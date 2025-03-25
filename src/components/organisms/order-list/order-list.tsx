@@ -72,7 +72,11 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "card_number",
-        valueKey: "user.bank_details.card_number",
+        valueKey: "wallet_deposit.payment_method.card_number",
+      },
+      {
+        column: "left_amount",
+        valueKey: "wallet_deposit.processing_amount",
       },
       {
         column: "key",

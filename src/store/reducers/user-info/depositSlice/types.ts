@@ -80,6 +80,7 @@ export interface Order {
   email?: string;
   status?: string;
   user_id: number;
+  left_amount?: string;
   final_status?: string;
   transaction_id?: string;
   card_number?: string;

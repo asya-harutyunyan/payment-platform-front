@@ -101,7 +101,7 @@ function DynamicTable<
       return (
         <Button
           text="время истекло."
-          sx={{ fontSize: "0.7rem", width: "150px" }}
+          sx={{ fontSize: "0.7rem", width: "140px" }}
           variant={"contained"}
         ></Button>
       );
@@ -109,7 +109,7 @@ function DynamicTable<
       return (
         <Button
           variant={"contained"}
-          sx={{ fontSize: "0.7rem", width: "150px" }}
+          sx={{ fontSize: "0.7rem", width: "140px" }}
           onClick={() => {
             handleOpen();
             if (id) {
