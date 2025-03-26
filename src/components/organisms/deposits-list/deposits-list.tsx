@@ -83,13 +83,13 @@ export const DepositLists: FC = () => {
         valueKey: "type",
       },
       {
-        column: "key",
-        button: "statuses",
-      },
-      {
         column: "left_amount",
         currency: "deposit_currency",
         valueKey: "processing_amount",
+      },
+      {
+        column: "key",
+        button: "statuses",
       },
       {
         column: "done_arrow",
@@ -112,6 +112,11 @@ export const DepositLists: FC = () => {
       {
         column: "type",
         valueKey: "type",
+      },
+      {
+        column: "left_amount",
+        currency: "deposit_currency",
+        valueKey: "processing_amount",
       },
       {
         column: "key",
