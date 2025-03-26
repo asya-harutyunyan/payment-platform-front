@@ -75,11 +75,6 @@ export const OrderListComponent: FC = () => {
         valueKey: "wallet_deposit.payment_method.card_number",
       },
       {
-        column: "left_amount",
-        currency: "wallet_deposit.order_currency",
-        valueKey: "wallet_deposit.processing_amount",
-      },
-      {
         column: "key",
         button: "statuses",
       },
@@ -137,7 +132,7 @@ export const OrderListComponent: FC = () => {
             sx={{
               width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
               height: "100vh",
-              overflowY: "auto",
+              // overflowY: "auto",
             }}
           >
             <DynamicTable

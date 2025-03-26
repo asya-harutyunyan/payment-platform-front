@@ -27,6 +27,7 @@ import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/use
 import { Route as AuthAdminTransactionListIndexImport } from './routes/_auth/_admin/transaction-list/index'
 import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
 import { Route as AuthAdminDepositListIndexImport } from './routes/_auth/_admin/deposit-list/index'
+import { Route as AuthAdminBankCardListIndexImport } from './routes/_auth/_admin/bank-card-list/index'
 import { Route as AuthUserOrdersIdImport } from './routes/_auth/_user/orders/$id'
 import { Route as AuthUserDepositInfoIdImport } from './routes/_auth/_user/deposit-info/$id'
 import { Route as AuthAdminUserListIdImport } from './routes/_auth/_admin/user-list/$id'
@@ -214,6 +215,14 @@ const AuthAdminDepositListIndexRoute = AuthAdminDepositListIndexImport.update({
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
+const AuthAdminBankCardListIndexRoute = AuthAdminBankCardListIndexImport.update(
+  {
+    id: '/bank-card-list/',
+    path: '/bank-card-list/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any,
+)
+
 const AuthUserOrdersIdRoute = AuthUserOrdersIdImport.update({
   id: '/orders/$id',
   path: '/orders/$id',
@@ -332,6 +341,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserOrdersIdImport
       parentRoute: typeof AuthUserImport
     }
+    '/_auth/_admin/bank-card-list/': {
+      id: '/_auth/_admin/bank-card-list/'
+      path: '/bank-card-list'
+      fullPath: '/bank-card-list'
+      preLoaderRoute: typeof AuthAdminBankCardListIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/deposit-list/': {
       id: '/_auth/_admin/deposit-list/'
       path: '/deposit-list'
@@ -446,6 +462,7 @@ interface AuthAdminRouteChildren {
   AuthAdminDepositListIdRoute: typeof AuthAdminDepositListIdRoute
   AuthAdminOrderListIdRoute: typeof AuthAdminOrderListIdRoute
   AuthAdminUserListIdRoute: typeof AuthAdminUserListIdRoute
+  AuthAdminBankCardListIndexRoute: typeof AuthAdminBankCardListIndexRoute
   AuthAdminDepositListIndexRoute: typeof AuthAdminDepositListIndexRoute
   AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
   AuthAdminTransactionListIndexRoute: typeof AuthAdminTransactionListIndexRoute
@@ -457,6 +474,7 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminDepositListIdRoute: AuthAdminDepositListIdRoute,
   AuthAdminOrderListIdRoute: AuthAdminOrderListIdRoute,
   AuthAdminUserListIdRoute: AuthAdminUserListIdRoute,
+  AuthAdminBankCardListIndexRoute: AuthAdminBankCardListIndexRoute,
   AuthAdminDepositListIndexRoute: AuthAdminDepositListIndexRoute,
   AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
   AuthAdminTransactionListIndexRoute: AuthAdminTransactionListIndexRoute,
@@ -536,6 +554,7 @@ export interface FileRoutesByFullPath {
   '/user-list/$id': typeof AuthAdminUserListIdRoute
   '/deposit-info/$id': typeof AuthUserDepositInfoIdRoute
   '/orders/$id': typeof AuthUserOrdersIdRoute
+  '/bank-card-list': typeof AuthAdminBankCardListIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
   '/transaction-list': typeof AuthAdminTransactionListIndexRoute
@@ -563,6 +582,7 @@ export interface FileRoutesByTo {
   '/user-list/$id': typeof AuthAdminUserListIdRoute
   '/deposit-info/$id': typeof AuthUserDepositInfoIdRoute
   '/orders/$id': typeof AuthUserOrdersIdRoute
+  '/bank-card-list': typeof AuthAdminBankCardListIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
   '/transaction-list': typeof AuthAdminTransactionListIndexRoute
@@ -594,6 +614,7 @@ export interface FileRoutesById {
   '/_auth/_admin/user-list/$id': typeof AuthAdminUserListIdRoute
   '/_auth/_user/deposit-info/$id': typeof AuthUserDepositInfoIdRoute
   '/_auth/_user/orders/$id': typeof AuthUserOrdersIdRoute
+  '/_auth/_admin/bank-card-list/': typeof AuthAdminBankCardListIndexRoute
   '/_auth/_admin/deposit-list/': typeof AuthAdminDepositListIndexRoute
   '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
   '/_auth/_admin/transaction-list/': typeof AuthAdminTransactionListIndexRoute
@@ -623,6 +644,7 @@ export interface FileRouteTypes {
     | '/user-list/$id'
     | '/deposit-info/$id'
     | '/orders/$id'
+    | '/bank-card-list'
     | '/deposit-list'
     | '/order-list'
     | '/transaction-list'
@@ -649,6 +671,7 @@ export interface FileRouteTypes {
     | '/user-list/$id'
     | '/deposit-info/$id'
     | '/orders/$id'
+    | '/bank-card-list'
     | '/deposit-list'
     | '/order-list'
     | '/transaction-list'
@@ -678,6 +701,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/user-list/$id'
     | '/_auth/_user/deposit-info/$id'
     | '/_auth/_user/orders/$id'
+    | '/_auth/_admin/bank-card-list/'
     | '/_auth/_admin/deposit-list/'
     | '/_auth/_admin/order-list/'
     | '/_auth/_admin/transaction-list/'
@@ -754,6 +778,7 @@ export const routeTree = rootRoute
         "/_auth/_admin/deposit-list/$id",
         "/_auth/_admin/order-list/$id",
         "/_auth/_admin/user-list/$id",
+        "/_auth/_admin/bank-card-list/",
         "/_auth/_admin/deposit-list/",
         "/_auth/_admin/order-list/",
         "/_auth/_admin/transaction-list/",
@@ -800,6 +825,10 @@ export const routeTree = rootRoute
     "/_auth/_user/orders/$id": {
       "filePath": "_auth/_user/orders/$id.tsx",
       "parent": "/_auth/_user"
+    },
+    "/_auth/_admin/bank-card-list/": {
+      "filePath": "_auth/_admin/bank-card-list/index.tsx",
+      "parent": "/_auth/_admin"
     },
     "/_auth/_admin/deposit-list/": {
       "filePath": "_auth/_admin/deposit-list/index.tsx",

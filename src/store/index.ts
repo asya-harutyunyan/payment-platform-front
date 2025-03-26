@@ -6,6 +6,7 @@ import authSlice from "./reducers/auth/authSlice";
 import depositSlice from "./reducers/user-info/depositSlice";
 import usersSlice from "./reducers/usersSlice";
 import websocketSlice from "./reducers/websocket";
+import bankDetailsSlice from "./reducers/user-info/bankDetailsSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   users: usersSlice,
   wallet: walletSlice,
   websocket: websocketSlice,
+  bankDetails: bankDetailsSlice,
 });
 
 export const store = configureStore({

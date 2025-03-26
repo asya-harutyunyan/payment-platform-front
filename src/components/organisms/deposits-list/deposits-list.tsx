@@ -87,6 +87,11 @@ export const DepositLists: FC = () => {
         button: "statuses",
       },
       {
+        column: "left_amount",
+        currency: "deposit_currency",
+        valueKey: "processing_amount",
+      },
+      {
         column: "done_arrow",
         valueKey: "done_arrow",
       },
@@ -173,9 +178,8 @@ export const DepositLists: FC = () => {
       ) : total > 0 ? (
         <Box
           sx={{
-            minwidth: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
-            overflowY: "auto",
           }}
         >
           <DynamicTable

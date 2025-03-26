@@ -1,15 +1,18 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { DepositState } from "../addCard/types";
 import {
   addBankCardThunk,
   deleteBankCardThunk,
   editBankCardThunk,
+  getBankCardsThunk,
   getCardsThunk,
 } from "./thunks";
+import { DepositState } from "./types";
 
 const initialState: DepositState = {
   loading: false,
   error: null,
+  bankCards: [],
+  total: 0,
 };
 
 const bankDetailsSlice = createSlice({
@@ -24,13 +27,17 @@ const bankDetailsSlice = createSlice({
       .addCase(getCardsThunk.fulfilled, (state) => {
         state.loading = false;
       })
+      .addCase(getBankCardsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.bankCards = action.payload.data;
+        state.total = action.payload.last_page;
+      })
       .addCase(editBankCardThunk.fulfilled, (state) => {
         state.loading = false;
       })
       .addCase(deleteBankCardThunk.fulfilled, (state) => {
         state.loading = false;
       })
-
       .addMatcher(isPending, (state) => {
         state.loading = true;
       })

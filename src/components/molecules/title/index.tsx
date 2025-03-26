@@ -10,7 +10,7 @@ interface ITaskHeader {
 }
 const TaskHeader: FC<ITaskHeader> = ({ title, subTitle, sx }) => {
   return (
-    <Box sx={{ padding: "16px", width: "100%", ...sx }}>
+    <Box sx={{ padding: "16px", width: "90%", ...sx }}>
       <H3
         color={theme.palette.primary.main}
         sx={{

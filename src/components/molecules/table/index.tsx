@@ -5,7 +5,7 @@ import { BasicModal } from "@/components/atoms/modal";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { CURRENCY } from "@/enum/currencies.enum";
-import { H3, P } from "@/styles/typography";
+import { H3, H6, P } from "@/styles/typography";
 import DoneIcon from "@mui/icons-material/Done";
 import {
   Box,
@@ -66,6 +66,7 @@ function DynamicTable<
     created_at?: string;
     status_by_admin?: string;
     final_status?: string;
+    is_blocked?: number;
     status_by_client?: string;
     id?: number;
     processing_amount?: string;
@@ -103,7 +104,7 @@ function DynamicTable<
           text="время истекло."
           sx={{ fontSize: "0.7rem", width: "140px" }}
           variant={"contained"}
-        ></Button>
+        />
       );
     } else {
       return (
@@ -140,12 +141,23 @@ function DynamicTable<
   };
 
   const renderStatusColumn = (column: IColumn<T>, row: T) => {
-    if (column.button) {
+    if (column.button === "is_blocked") {
+      return row.is_blocked ? (
+        <Button
+          variant={variant ?? "outlined"}
+          text={t(textBtn ?? "see_more")}
+          sx={{ width: "130px" }}
+          onClick={() => handleClickBtn?.(row.id)}
+        />
+      ) : (
+        <H6 color="primary.main">Активен</H6>
+      );
+    } else if (column.button) {
       return (
         <Button
           variant={variant ?? "outlined"}
           text={t(textBtn ?? "see_more")}
-          sx={{ width: "120px" }}
+          sx={{ width: "130px" }}
           onClick={() => handleClickBtn?.(row.id)}
         />
       );
@@ -229,11 +241,13 @@ function DynamicTable<
       <TableContainer component={Paper}>
         <Table
           sx={{
+            overflow: "auto",
             "& td": {
               padding:
                 user?.role === "admin" &&
                 location.pathname !== "/wallet-list" &&
-                location.pathname !== "/user-list"
+                location.pathname !== "/user-list" &&
+                location.pathname !== "/bank-card-list"
                   ? "8px"
                   : "16px",
             },
@@ -274,6 +288,7 @@ function DynamicTable<
                   <TableCell
                     key={colIndex}
                     sx={{
+                      minWidth: "150px",
                       fontSize: "15px",
                       textOverflow: "ellipsis",
                       overflow: "hidden",

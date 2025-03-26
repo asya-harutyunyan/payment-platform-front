@@ -1,9 +1,7 @@
 import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { unblockCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { getSingleDepositThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { Box } from "@mui/material";
@@ -15,7 +13,6 @@ import { fields } from "./columns";
 
 export const DepositInfo: FC = () => {
   const { singleDeposit, loading } = useAppSelector((state) => state.deposit);
-  const { user } = useAuth();
   const { id } = useParams({ from: "/_auth/_admin/deposit-list/$id" });
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -24,15 +21,7 @@ export const DepositInfo: FC = () => {
   useEffect(() => {
     dispatch(getSingleDepositThunk(id));
   }, [dispatch, id]);
-  const handleUnblockCard = () => {
-    if (user?.id) {
-      dispatch(unblockCardThunk(user?.id))
-        .unwrap()
-        .then(() => {
-          dispatch(getSingleDepositThunk(id));
-        });
-    }
-  };
+
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
@@ -60,7 +49,6 @@ export const DepositInfo: FC = () => {
             fields={fields}
             title={"deposit_information"}
             loading={loading}
-            handleClick={handleUnblockCard}
           />
         </Box>
       )}

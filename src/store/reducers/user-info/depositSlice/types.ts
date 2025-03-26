@@ -59,6 +59,16 @@ export interface Wallet {
   qr_code: string;
 }
 
+export interface BankCardsDetalis {
+  bank_name: string;
+  card_holder: string;
+  card_number: string;
+  currency: string;
+  id: number;
+  is_blocked: number;
+  phone_number: string;
+}
+
 export interface PaymentMethod {
   id: number;
   user_id: number;
@@ -103,6 +113,7 @@ export interface DataDeposits {
   status_by_user_row?: string;
   final_status?: string;
   address: string;
+  left_amount?: string;
   currency: string;
   type?: string;
   key?: string;
