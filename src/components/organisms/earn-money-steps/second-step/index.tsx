@@ -23,9 +23,10 @@ import { AddCardModal } from "../../add_card_modal";
 interface IStepTwo {
   handleNext?: () => void;
   handleBack?: () => void;
+  cards?: BankDetail[];
 }
 
-export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
+export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
@@ -39,9 +40,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
-      payment_method_id: user?.bank_details[0]?.id
-        ? String(user?.bank_details[0].id)
-        : deposit?.payment_method_id,
+      payment_method_id: cards[0].id.toString() ?? deposit?.payment_method_id,
     },
   });
 
@@ -95,9 +94,9 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
   };
   function formatPrice(price: number) {
     return price
-      .toFixed(2) // Округляем до 2 знаков
-      .replace(".", ",") // Меняем десятичную точку на запятую
-      .replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Добавляем точку каждые три цифры
+      .toFixed(2)
+      .replace(".", ",")
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
   return (
     <Box>
@@ -143,9 +142,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext }) => {
           )}
 
           <RadioButtonsGroup
-            data={
-              user?.bank_details?.filter((item) => item.is_blocked !== 1) ?? []
-            }
+            data={cards}
             control={control}
             name="payment_method_id"
             labelKey="card_number"

@@ -173,7 +173,7 @@ export const DepositLists: FC = () => {
       ) : total > 0 ? (
         <Box
           sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+            minwidth: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
             overflowY: "auto",
           }}

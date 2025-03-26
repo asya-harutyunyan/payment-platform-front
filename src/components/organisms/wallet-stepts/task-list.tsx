@@ -4,11 +4,13 @@ import { StepOne } from "@/components/organisms/earn-money-steps/first-step";
 import { StepTwo } from "@/components/organisms/earn-money-steps/second-step";
 import { Success } from "@/components/organisms/earn-money-steps/success";
 import { StepThree } from "@/components/organisms/earn-money-steps/third-step";
+import { useAuth } from "@/context/auth.context";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 
 export const TaskListComponent: FC = () => {
+  const { user } = useAuth();
   const steps = [
     {
       label: "earn_money",
@@ -16,7 +18,12 @@ export const TaskListComponent: FC = () => {
     },
     {
       label: "add_card",
-      component: (props: () => void) => <StepTwo {...props} />,
+      component: (props: () => void) => (
+        <StepTwo
+          {...props}
+          cards={user?.bank_details.filter((card) => !card.is_blocked)}
+        />
+      ),
     },
     {
       label: "it_will_be",
