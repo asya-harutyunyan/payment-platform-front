@@ -52,7 +52,7 @@ const CreditCardInput = ({
     }
   }, []);
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
-    e.preventDefault();
+    // e.preventDefault();
     const pastedText = e.clipboardData.getData("text").replace(/\D/g, "");
     onChange({
       target: { value: pastedText },
