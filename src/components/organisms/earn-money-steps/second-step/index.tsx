@@ -40,7 +40,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
   >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
-      payment_method_id: cards[0].id.toString() ?? deposit?.payment_method_id,
+      payment_method_id: cards[0]?.id?.toString() ?? deposit?.payment_method_id,
     },
   });
 
