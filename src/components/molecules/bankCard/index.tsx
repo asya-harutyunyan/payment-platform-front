@@ -189,7 +189,7 @@ const BankCard: FC<IBankCard> = ({
               textDecoration: "underline",
             }}
           >
-            Ваша карта заблокирована.
+            Ваша карта заморожена системой, обратитесь в саппорт.
           </P>
         ) : (
           ""
