@@ -11,7 +11,7 @@
   "my_information": "Personal information",
   "confirm_text_second_step": "Once the transaction is completed, enter the transaction ID and click Confirm.",
   "get_start": "Get start",
-  "added_error": "Something went wrong",
+  "something_went_wrong": "Something went wrong",
   "qr_code": "QR code",
   "amount": "Amount",
   "status_by_admin": "Status by admin",

@@ -26,7 +26,7 @@
   "walet_list": "Список кошельков",
   "bank_info": "Информация о банке",
   "add_bank_card": "Добавить Банковскую карту",
-  "added_error": "Что-то пошло не так.",
+  "something_went_wrong": "Что-то пошло не так.",
   "name_cards_member": "Имя Фамилия",
   "card_number": "Номер карты",
   "name": "Имя",

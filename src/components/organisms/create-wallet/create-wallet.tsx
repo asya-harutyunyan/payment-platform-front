@@ -48,7 +48,7 @@ export const CreateWallet: FC<ICreateWallet> = ({ page, onClose }) => {
         onClose?.();
       })
       .catch((error) => {
-        enqueueSnackbar(t("added_error"), {
+        enqueueSnackbar(t("something_went_wrong"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });

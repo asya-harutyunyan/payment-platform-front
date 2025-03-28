@@ -129,7 +129,7 @@ export const BankCardDetalis: FC = () => {
               }
             );
           }
-          enqueueSnackbar(t("added_error"), {
+          enqueueSnackbar(t("something_went_wrong"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
@@ -194,7 +194,7 @@ export const BankCardDetalis: FC = () => {
             );
           }
 
-          enqueueSnackbar(t("added_error"), {
+          enqueueSnackbar(t("something_went_wrong"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });

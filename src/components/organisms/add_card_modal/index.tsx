@@ -164,7 +164,7 @@ export const AddCardModal: FC<IStepTwo> = ({
               );
             }
 
-            enqueueSnackbar(t("added_error"), {
+            enqueueSnackbar(t("something_went_wrong"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
@@ -230,7 +230,7 @@ export const AddCardModal: FC<IStepTwo> = ({
                 }
               );
             }
-            enqueueSnackbar(t("added_error"), {
+            enqueueSnackbar(t("something_went_wrong"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
@@ -252,7 +252,7 @@ export const AddCardModal: FC<IStepTwo> = ({
           handleClose();
         })
         .catch((error) => {
-          enqueueSnackbar(t("added_error"), {
+          enqueueSnackbar(t("something_went_wrong"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });

@@ -95,7 +95,7 @@ export const UserOrdersComponent: FC = () => {
           }
         })
         .catch(() => {
-          enqueueSnackbar(t("added_error"), {
+          enqueueSnackbar(t("something_went_wrong"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
