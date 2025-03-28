@@ -168,7 +168,7 @@ export const DepositLists: FC = () => {
           dispatch(getDepositsThunk({ page }));
         })
         .catch(() => {
-          enqueueSnackbar(t("bank_card_added_error"), {
+          enqueueSnackbar(t("added_error"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });

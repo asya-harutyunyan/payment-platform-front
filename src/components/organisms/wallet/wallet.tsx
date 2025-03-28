@@ -95,7 +95,7 @@ export const Wallet: FC = () => {
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("wallet_list")} />
       <AccordionUsage title={"add_wallet"}>
-        <CreateWallet page={page} />
+        {(onClose) => <CreateWallet page={page} onClose={onClose} />}
       </AccordionUsage>
       {loading ? (
         <CircularIndeterminate />

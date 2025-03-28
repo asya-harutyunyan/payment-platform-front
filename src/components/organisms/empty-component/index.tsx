@@ -22,7 +22,14 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
 }) => {
   const { user } = useAuth();
   return (
-    <Box sx={{ width: "100%", mineight: "40vh" }}>
+    <Box
+      sx={{
+        width: "100%",
+        mineight: "40vh",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
       <Divider />
       <Box
         sx={{

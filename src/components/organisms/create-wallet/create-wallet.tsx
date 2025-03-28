@@ -18,8 +18,9 @@ import { z } from "zod";
 type FormData = z.infer<typeof add_wallet_schema>;
 interface ICreateWallet {
   page: number;
+  onClose?: () => void;
 }
-export const CreateWallet: FC<ICreateWallet> = ({ page }) => {
+export const CreateWallet: FC<ICreateWallet> = ({ page, onClose }) => {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useSnackbar();
   const { fetchAuthUser } = useAuth();
@@ -44,8 +45,14 @@ export const CreateWallet: FC<ICreateWallet> = ({ page }) => {
         });
         fetchAuthUser?.();
         reset();
+        onClose?.();
       })
       .catch((error) => {
+        enqueueSnackbar(t("added_error"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        reset();
         if (typeof error === "object") {
           for (const key in error) {
             setError(key as keyof FormData, {
@@ -94,6 +101,10 @@ export const CreateWallet: FC<ICreateWallet> = ({ page }) => {
           text={t("cancel")}
           variant={"text"}
           sx={{ marginRight: "20px", width: "120px" }}
+          onClick={() => {
+            onClose?.();
+            reset();
+          }}
         />
         <Button
           type="submit"

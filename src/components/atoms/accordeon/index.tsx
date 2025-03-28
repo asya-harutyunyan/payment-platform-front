@@ -4,16 +4,25 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { t } from "i18next";
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useState } from "react";
 
 interface IAccordionUsage {
   title: string;
-  children: ReactNode;
+  children: (onClose: () => void) => ReactNode;
 }
 export const AccordionUsage: FC<IAccordionUsage> = ({ title, children }) => {
+  const [isOpen, setIsOpen] = useState(false); // Closed by default
+
+  const handleChange = (_: unknown, expanded: boolean) => {
+    setIsOpen(expanded); // Set the open/close state when toggled
+  };
   return (
     <div>
-      <Accordion>
+      <Accordion
+        expanded={isOpen}
+        // onChange={() => setIsOpen(!isOpen)}
+        onChange={handleChange}
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel3-content"
@@ -21,7 +30,7 @@ export const AccordionUsage: FC<IAccordionUsage> = ({ title, children }) => {
         >
           <H5 color="primary.main">{t(title)}</H5>
         </AccordionSummary>
-        <AccordionDetails>{children}</AccordionDetails>
+        <AccordionDetails>{children(() => setIsOpen(false))}</AccordionDetails>
       </Accordion>
     </div>
   );
