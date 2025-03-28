@@ -5,7 +5,7 @@ import { BasicModal } from "@/components/atoms/modal";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { CURRENCY } from "@/enum/currencies.enum";
-import { H3, H6, P } from "@/styles/typography";
+import { H3, H4, H6, P } from "@/styles/typography";
 import DoneIcon from "@mui/icons-material/Done";
 import {
   Box,
@@ -99,13 +99,7 @@ function DynamicTable<
     id?: number
   ) => {
     if (completed) {
-      return (
-        <Button
-          text="время истекло."
-          sx={{ fontSize: "0.7rem", width: "140px" }}
-          variant={"contained"}
-        />
-      );
+      return <H6 color="primary.main">Не оплачен</H6>;
     } else {
       return (
         <Button
