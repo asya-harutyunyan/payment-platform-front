@@ -1,14 +1,18 @@
+import bg from "@/assets/images/modal.png";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
+
+import { BasicModal } from "@/components/atoms/modal";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByClientThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
+import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
@@ -20,6 +24,8 @@ export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
   const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
+  const [open, setOpen] = useState<boolean>(false);
+
   const { user } = useAuth();
   useEffect(() => {
     if (!user?.role) return;
@@ -79,11 +85,15 @@ export const UserOrdersComponent: FC = () => {
     ],
     []
   );
+
   const handleConfirm = (num?: number) => {
     if (num) {
       dispatch(confirmOrderByClientThunk(num))
         .unwrap()
-        .then(() => {
+        .then((data) => {
+          if (data.is_final) {
+            setOpen(true);
+          }
           enqueueSnackbar(t("confirm_order_success"), {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
@@ -169,6 +179,27 @@ export const UserOrdersComponent: FC = () => {
           />
         )}
       </Box>
+      <BasicModal
+        handleClose={() => setOpen(false)}
+        open={open}
+        bg={bg}
+        width="50%"
+        minHeight="200px"
+      >
+        <H3
+          align="center"
+          sx={{
+            fontSize: {
+              lg: "1.5rem",
+              md: "1.5rem",
+              xs: "1.1rem",
+              sm: "1.1rem",
+            },
+          }}
+        >
+          {t("left_amount_done")}
+        </H3>
+      </BasicModal>
     </Box>
   );
 };
