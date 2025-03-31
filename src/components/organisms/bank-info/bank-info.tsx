@@ -92,7 +92,12 @@ export const BankInfoComponent: FC = () => {
           sx={{
             width: "100%",
             display: "flex",
-            height: "80vh",
+            height: {
+              lg: "80vh",
+              md: "80vh",
+              xs: "max-content",
+              sm: "max-content",
+            },
             justifyContent: {
               lg: "space-between",
               md: "space-between",
@@ -178,17 +183,28 @@ export const BankInfoComponent: FC = () => {
           <Box
             sx={{
               width: { lg: "50%", md: "50%", sx: "100%", xs: "100%" },
-              marginBottom: "200px",
+              marginBottom: {
+                lg: "200px",
+                md: "200px",
+                sx: "0",
+                xs: "0",
+              },
             }}
           >
             <TabsComponent tabPanel={tabContent} tabNames={tabNames} />
           </Box>
         </Box>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          width: "100%",
+        }}
+      >
         <Button
           variant={"gradient"}
-          sx={{ width: "230px" }}
+          sx={{ width: "230px", marginBottom: "20px" }}
           text={"Начать Зарабатывать"}
           onClick={() => {
             navigate({ to: "/steps" });
