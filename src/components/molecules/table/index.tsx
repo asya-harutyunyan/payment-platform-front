@@ -142,7 +142,7 @@ function DynamicTable<
       if (row.is_blocked === 0) {
         return (
           <Button
-            variant={"outlined"}
+            variant={"error"}
             text={t("block")}
             sx={{ width: "130px" }}
             onClick={() => handleSecondClickBtn?.(row.id)}
@@ -151,7 +151,7 @@ function DynamicTable<
       } else {
         return (
           <Button
-            variant={"error"}
+            variant={"outlined"}
             text={t("unblock")}
             sx={{ width: "130px" }}
             onClick={() => handleClickBtn?.(row.id)}
