@@ -9,7 +9,7 @@ import { RootState, useAppDispatch, useAppSelector } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
-import { H4, H5, P } from "@/styles/typography";
+import { H5, P } from "@/styles/typography";
 import { addFivePercent } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
