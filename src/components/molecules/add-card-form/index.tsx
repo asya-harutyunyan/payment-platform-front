@@ -155,8 +155,22 @@ export const BankCardDetalis: FC = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          if (error.card_number[0] === "Поле номер карты уже занято.") {
+          if (error.bank_details[0]) {
+            console.log(error.bank_details[0]);
+            enqueueSnackbar(
+              "Вы можете добавить не более 3 банковских реквизитов.",
+              {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              }
+            );
+          } else if (error.card_number[0] === "Поле номер карты уже занято.") {
             enqueueSnackbar("Карта с этим номером уже существует.", {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          } else {
+            enqueueSnackbar(t("something_went_wrong"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
@@ -181,23 +195,6 @@ export const BankCardDetalis: FC = () => {
               }
             });
           }
-          if (
-            error.bank_details[0] ===
-            "Вы можете добавить не более 3 банковских реквизитов."
-          ) {
-            enqueueSnackbar(
-              "Вы можете добавить не более 3 банковских реквизитов.",
-              {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
-              }
-            );
-          }
-
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
         });
     }
   };
