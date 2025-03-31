@@ -9,7 +9,7 @@ import { RootState, useAppDispatch, useAppSelector } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
-import { P } from "@/styles/typography";
+import { H4, H5, P } from "@/styles/typography";
 import { addFivePercent } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -98,6 +98,8 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
       .replace(".", ",")
       .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
+  console.log(cards, "cards");
+
   return (
     <Box>
       <Box
@@ -116,7 +118,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
           title={t("profit")}
           sub_title={`${formatPrice(updatedPrice)} ₽`}
         >
-          {showAddCard && (
+          {showAddCard ? (
             <Box
               sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}
               onClick={handleOpen}
@@ -139,6 +141,13 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
                 {t("add_bank_card")}
               </P>
             </Box>
+          ) : !showAddCard && !cards.length ? (
+            <H5>
+              Все ваши карты заблокированы,
+              <br /> свяжитесь со службой поддержки.
+            </H5>
+          ) : (
+            ""
           )}
 
           <RadioButtonsGroup
@@ -156,6 +165,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
               height: "50px",
               fontSize: "17px",
             }}
+            disabled={!showAddCard && !cards.length}
             text={t("confirm")}
             variant={"gradient"}
             type="submit"
