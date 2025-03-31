@@ -54,6 +54,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   textBtn?: string;
   handleClick?: (value?: number) => void;
   handleClickBtn?: (id?: number) => void;
+  handleSecondClickBtn?: (id?: number) => void;
   isNeedBtnConfirmText?: string;
   isNeedBtnConfirm?: boolean;
   variant?: ButtonVariant;
@@ -76,6 +77,7 @@ function DynamicTable<
     isNeedBtnConfirm?: boolean;
     done_arrow?: string;
     handleClickBtn?: (id?: number) => void;
+    handleSecondClickBtn?: (id?: number) => void;
     variant?: ButtonVariant;
   },
 >({
@@ -87,6 +89,7 @@ function DynamicTable<
   isNeedBtnConfirmText,
   handleClick,
   handleClickBtn,
+  handleSecondClickBtn,
 }: TableProps<T>) {
   const location = useLocation();
   const route = useLocation();
@@ -136,16 +139,25 @@ function DynamicTable<
 
   const renderStatusColumn = (column: IColumn<T>, row: T) => {
     if (column.button === "is_blocked") {
-      return row.is_blocked ? (
-        <Button
-          variant={variant ?? "outlined"}
-          text={t(textBtn ?? "see_more")}
-          sx={{ width: "130px" }}
-          onClick={() => handleClickBtn?.(row.id)}
-        />
-      ) : (
-        <H6 color="primary.main">Активен</H6>
-      );
+      if (row.is_blocked === 0) {
+        return (
+          <Button
+            variant={"outlined"}
+            text={t("block")}
+            sx={{ width: "130px" }}
+            onClick={() => handleSecondClickBtn?.(row.id)}
+          />
+        );
+      } else {
+        return (
+          <Button
+            variant={"error"}
+            text={t("unblock")}
+            sx={{ width: "130px" }}
+            onClick={() => handleClickBtn?.(row.id)}
+          />
+        );
+      }
     } else if (column.button) {
       return (
         <Button

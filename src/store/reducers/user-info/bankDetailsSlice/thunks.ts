@@ -117,6 +117,22 @@ export const unblockCardThunk = createAsyncThunk(
     }
   }
 );
+export const blockCardThunk = createAsyncThunk(
+  "bankDetails/blockCardThunk",
+  async (id: string | number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post(`/users/block-card/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 
 export const getBankCardsThunk = createAsyncThunk(
   "deposit/getBankDetailsThunk",

@@ -62,7 +62,16 @@ const BankCard: FC<IBankCard> = ({
         });
     }
   };
-
+  const handleOpenChat = () => {
+    //@ts-expect-error script added global value
+    if (typeof jivo_api !== "undefined") {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      jivo_api.open();
+    } else {
+      console.error("JivoChat script not loaded yet.");
+    }
+  };
   const bankNameFormatted = useMemo(() => {
     return banks.find((bank) => bank.key === bankName)?.["name"] ?? bankName;
   }, [bankName, banks]);
@@ -71,122 +80,139 @@ const BankCard: FC<IBankCard> = ({
     <Box component="form">
       <Box
         sx={{
-          width: { md: 300, xs: 250, sm: 250 },
-          height: { md: 160, xs: 160, sm: 160 },
-          borderRadius: 2,
-          backgroundImage: bankDetailID && !isBlocked ? `url(${img})` : "none",
-          backgroundColor: isBlocked
-            ? "#686868"
-            : bankDetailID
-              ? "none"
-              : "#587b52",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "100% 100%",
-          color: isBlocked ? "#b3b3b3" : textColor,
-          p: 3,
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          boxShadow: 4,
-          fontFamily: "Arial, sans-serif",
-          cursor: "pointer",
         }}
       >
         <Box
           sx={{
+            width: { md: 300, xs: 250, sm: 250 },
+            height: { md: 160, xs: 160, sm: 160 },
+            borderRadius: 2,
+            backgroundImage:
+              bankDetailID && !isBlocked ? `url(${img})` : "none",
+            backgroundColor: isBlocked
+              ? "#686868"
+              : bankDetailID
+                ? "none"
+                : "#587b52",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "100% 100%",
+            color: isBlocked ? "#b3b3b3" : textColor,
+            p: 3,
             display: "flex",
+            flexDirection: "column",
             justifyContent: "space-between",
-            alignItems: "center",
+            boxShadow: 4,
+            fontFamily: "Arial, sans-serif",
+            cursor: "pointer",
           }}
         >
-          <H5 sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}>
-            {bankNameFormatted}
-          </H5>
-          {bankDetailID ? (
-            <Box sx={{ display: "flex" }}>
-              <Box onClick={() => !isBlocked && handleOpen()}>
-                <EditIcon
-                  sx={{
-                    color: isBlocked ? "#b3b3b3" : "#ffffff",
-                    marginRight: "5px",
-                    fontSize: "27px",
-                    ":hover": {
-                      color: "#dad8d8",
-                    },
-                  }}
-                />
-              </Box>
-              <Box onClick={() => !isBlocked && setOpenDeleteModal(true)}>
-                <DeleteForeverIcon
-                  sx={{
-                    color: "#dc0e0e",
-                    fontSize: "27px",
-                    ":hover": {
-                      color: "#a01b1b",
-                    },
-                  }}
-                />
-              </Box>
-            </Box>
-          ) : undefined}
-        </Box>
-
-        <Box display="flex" alignItems="center" gap={2}>
           <Box
             sx={{
-              width: 30,
-              height: 18,
-              borderRadius: 1,
-              backgroundColor: "#D6D6D6",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-          ></Box>
-          <Typography
-            fontSize={"10px"}
-            variant="body2"
-            sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
           >
-            Secure Chip
-          </Typography>
-        </Box>
+            <H5 sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}>
+              {bankNameFormatted}
+            </H5>
+            {bankDetailID ? (
+              <Box sx={{ display: "flex" }}>
+                <Box onClick={() => !isBlocked && handleOpen()}>
+                  <EditIcon
+                    sx={{
+                      color: isBlocked ? "#b3b3b3" : "#ffffff",
+                      marginRight: "5px",
+                      fontSize: "27px",
+                      ":hover": {
+                        color: "#dad8d8",
+                      },
+                    }}
+                  />
+                </Box>
+                <Box onClick={() => !isBlocked && setOpenDeleteModal(true)}>
+                  <DeleteForeverIcon
+                    sx={{
+                      color: "#dc0e0e",
+                      fontSize: "27px",
+                      ":hover": {
+                        color: "#a01b1b",
+                      },
+                    }}
+                  />
+                </Box>
+              </Box>
+            ) : undefined}
+          </Box>
 
-        <Typography
-          variant="h5"
-          letterSpacing={2}
-          fontSize={"16px"}
-          sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
-        >
-          {cardNumber}
-        </Typography>
-
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <Box>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Box
+              sx={{
+                width: 30,
+                height: 18,
+                borderRadius: 1,
+                backgroundColor: "#D6D6D6",
+              }}
+            ></Box>
             <Typography
-              variant="caption"
-              display="block"
-              fontSize={"11px"}
+              fontSize={"10px"}
+              variant="body2"
               sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
             >
-              Card Holder
+              Secure Chip
             </Typography>
-            <Typography
-              variant="body1"
-              fontSize={"14px"}
-              sx={{ color: isBlocked ? "#b3b3b3" : "primary.contrastText" }}
-            >
-              {cardHolder}
-            </Typography>
+          </Box>
+
+          <Typography
+            variant="h5"
+            letterSpacing={2}
+            fontSize={"16px"}
+            sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+          >
+            {cardNumber}
+          </Typography>
+
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <Box>
+              <Typography
+                variant="caption"
+                display="block"
+                fontSize={"11px"}
+                sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+              >
+                Card Holder
+              </Typography>
+              <Typography
+                variant="body1"
+                fontSize={"14px"}
+                sx={{ color: isBlocked ? "#b3b3b3" : "primary.contrastText" }}
+              >
+                {cardHolder}
+              </Typography>
+            </Box>
           </Box>
         </Box>
         {isBlocked ? (
           <P
+            onClick={() => handleOpenChat()}
             sx={{
               padding: "0",
-              color: "#ffffff",
+              color: "#323232",
               fontSize: "13px",
               fontWeight: "700",
               textAlign: "start",
               paddingTop: "5px",
               textDecoration: "underline",
+              cursor: "pointer",
+              ":hover": {
+                color: "#656565",
+              },
             }}
           >
             Ваша карта заморожена системой, обратитесь в саппорт.
@@ -195,6 +221,7 @@ const BankCard: FC<IBankCard> = ({
           ""
         )}
       </Box>
+
       <AddCardModal
         open={open}
         setOpen={setOpen}

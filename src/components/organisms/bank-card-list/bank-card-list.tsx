@@ -5,6 +5,7 @@ import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
+  blockCardThunk,
   getBankCardsThunk,
   unblockCardThunk,
 } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
@@ -65,6 +66,15 @@ export const BankCardLists: FC = () => {
         });
     }
   };
+  const handleBlockCard = (id?: number) => {
+    if (user?.id && id) {
+      dispatch(blockCardThunk(id))
+        .unwrap()
+        .then(() => {
+          dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
+        });
+    }
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("bank_card_list")} />
@@ -84,6 +94,7 @@ export const BankCardLists: FC = () => {
             textBtn={"Разблокировать"}
             variant="error"
             handleClickBtn={handleUnblockCard}
+            handleSecondClickBtn={handleBlockCard}
           />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
