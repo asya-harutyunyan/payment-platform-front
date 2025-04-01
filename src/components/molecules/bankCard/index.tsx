@@ -82,6 +82,7 @@ const BankCard: FC<IBankCard> = ({
         sx={{
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
         }}
       >
         <Box
@@ -206,7 +207,12 @@ const BankCard: FC<IBankCard> = ({
               color: "#323232",
               fontSize: "13px",
               fontWeight: "700",
-              textAlign: "start",
+              textAlign: {
+                lg: "start",
+                md: "start",
+                xs: "center",
+                sm: "center",
+              },
               paddingTop: "5px",
               textDecoration: "underline",
               cursor: "pointer",

@@ -204,7 +204,7 @@ export const BankInfoComponent: FC = () => {
       >
         <Button
           variant={"gradient"}
-          sx={{ width: "230px", marginBottom: "20px" }}
+          sx={{ width: "230px", margin: "20px 0" }}
           text={"Начать Зарабатывать"}
           onClick={() => {
             navigate({ to: "/steps" });

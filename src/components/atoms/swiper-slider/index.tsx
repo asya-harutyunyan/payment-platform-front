@@ -14,10 +14,12 @@ export const MobileCards: FC<ICardsMobile> = ({ cards }) => {
     <Box>
       {cards?.length ? (
         <Box
-          display="flex"
-          flexDirection="column"
           width="100%"
-          sx={{ display: "flex", justifyContent: "center" }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+          }}
         >
           {cards?.map((item, index) => (
             <Box key={index} sx={{ marginBottom: "40px" }}>
