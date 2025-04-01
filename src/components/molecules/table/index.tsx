@@ -87,6 +87,7 @@ function DynamicTable<
     deleteOrder?: (id?: number) => void;
     handleDeleteOrder?: (id?: number) => void;
     handleDeleteWallet?: (id?: number) => void;
+    type?: "CRYPTO" | "FIAT";
   },
 >({
   columns,
@@ -137,7 +138,31 @@ function DynamicTable<
   };
 
   const handleOpen = () => setOpen(true);
-  const getTimer = (created_at: string) => {
+  const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
+    console.log(type, 11111);
+    if (type) {
+      if (type === "CRYPTO") {
+        return new Date(
+          dayjs()
+            .add(
+              (dayjs(created_at).add(15, "minutes").unix() - dayjs().unix()) *
+                1000,
+              "milliseconds"
+            )
+            .format()
+        );
+      }
+
+      return new Date(
+        dayjs()
+          .add(
+            (dayjs(created_at).add(40, "minutes").unix() - dayjs().unix()) *
+              1000,
+            "milliseconds"
+          )
+          .format()
+      );
+    }
     return new Date(
       dayjs()
         .add(
@@ -217,7 +242,8 @@ function DynamicTable<
       );
     } else if (
       column.column === "status_by_admin_row" &&
-      row.status_by_admin === "pending"
+      row.status_by_admin === "pending" &&
+      row.type === "FIAT"
     ) {
       return (
         <P
@@ -226,7 +252,7 @@ function DynamicTable<
           }}
         >
           <Countdown
-            date={getTimer(row.created_at as string)}
+            date={getTimer(row.created_at as string, "FIAT")}
             renderer={(props) => {
               //@ts-expect-error need to fix types
               return countDownrenderer(props, row.id);

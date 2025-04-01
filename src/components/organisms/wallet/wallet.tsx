@@ -48,7 +48,6 @@ export const Wallet: FC = () => {
     }
   };
   const handleDeleteModal = (id?: number) => {
-    console.log(id);
     setOpen(true);
     setSelectedItem(id as number);
   };
