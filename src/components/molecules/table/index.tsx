@@ -70,6 +70,7 @@ function DynamicTable<
   T extends {
     created_at?: string;
     status_by_admin?: string;
+    type?: string;
     final_status?: string;
     is_blocked?: number;
     status_by_client?: string;
@@ -87,7 +88,6 @@ function DynamicTable<
     deleteOrder?: (id?: number) => void;
     handleDeleteOrder?: (id?: number) => void;
     handleDeleteWallet?: (id?: number) => void;
-    type?: "CRYPTO" | "FIAT";
   },
 >({
   columns,
@@ -139,7 +139,6 @@ function DynamicTable<
 
   const handleOpen = () => setOpen(true);
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
-    console.log(type, 11111);
     if (type) {
       if (type === "CRYPTO") {
         return new Date(
