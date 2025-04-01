@@ -9,7 +9,6 @@ import { BasicModal } from "@/components/atoms/modal";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByClientThunk,
-  deleteOrderThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
@@ -129,25 +128,7 @@ export const UserOrdersComponent: FC = () => {
       dispatch(getOrdersThunk({ page: page, per_page: 5 }));
     }
   };
-  const handleDeleteOrder = (id?: number) => {
-    if (id) {
-      dispatch(deleteOrderThunk(id))
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar(t("success_delete_order"), {
-            variant: "success",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-          dispatch(getOrdersThunk({ page: page, per_page: 5 }));
-        })
-        .catch(() => {
-          enqueueSnackbar(t("error"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        });
-    }
-  };
+
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("orders")} />
@@ -172,7 +153,6 @@ export const UserOrdersComponent: FC = () => {
               handleClick={handleConfirm}
               onChangePage={onChangePage}
               refetchData={refetch}
-              handleDeleteOrder={handleDeleteOrder}
               handleSinglePage={handleSingleOrder}
               confirmText={"order_confirm_text"}
             />
