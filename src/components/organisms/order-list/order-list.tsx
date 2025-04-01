@@ -1,14 +1,20 @@
+import bg from "@/assets/images/modal.png";
 import { CircularIndeterminate } from "@/components/atoms/loader";
+import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
+
+import Button from "@/components/atoms/button";
 import {
   confirmOrderByAdminThunk,
+  deleteOrderThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
+import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
@@ -20,6 +26,8 @@ export const OrderListComponent: FC = () => {
   const dispatch = useAppDispatch();
   const { orders, total, loading } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [selectedOrder, setSelectedOrder] = useState<number>();
   const { user } = useAuth();
   useEffect(() => {
     if (!user?.role) return;
@@ -78,6 +86,10 @@ export const OrderListComponent: FC = () => {
         column: "key",
         button: "statuses",
       },
+      {
+        column: "key",
+        button: "delete_order",
+      },
     ],
     []
   );
@@ -99,7 +111,7 @@ export const OrderListComponent: FC = () => {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
-          dispatch(getOrdersThunk({ page }));
+          dispatch(getOrdersThunk({ page: page, per_page: 50 }));
         })
         .catch(() => {
           enqueueSnackbar(t("something_went_wrong"), {
@@ -115,6 +127,33 @@ export const OrderListComponent: FC = () => {
       dispatch(getOrdersThunk({ page: page, per_page: 50 }));
     } else {
       dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+    }
+  };
+  const handleDeleteModal = (id?: number) => {
+    setOpenDeleteModal(true);
+    setSelectedOrder(id);
+  };
+  const handleDeleteOrder = () => {
+    if (selectedOrder) {
+      dispatch(deleteOrderThunk(selectedOrder))
+        .unwrap()
+        .then(() => {
+          setSelectedOrder(undefined);
+          setOpenDeleteModal(false);
+          enqueueSnackbar(t("success_delete_order"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+        })
+        .catch(() => {
+          setSelectedOrder(undefined);
+          setOpenDeleteModal(false);
+          enqueueSnackbar(t("error"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
     }
   };
   return (
@@ -139,9 +178,10 @@ export const OrderListComponent: FC = () => {
               columns={columns}
               data={orders}
               handleClick={handleConfirm}
+              handleDeleteOrder={handleDeleteModal}
               onChangePage={onChangePage}
               refetchData={refetch}
-              handleClickBtn={handleSingleOrder}
+              handleSinglePage={handleSingleOrder}
             />
             <Box
               sx={{
@@ -161,6 +201,64 @@ export const OrderListComponent: FC = () => {
           <EmptyComponent text={"empty_order_admin"} />
         )}
       </Box>
+      <BasicModal
+        handleClose={() => setOpenDeleteModal(false)}
+        open={openDeleteModal}
+        bg={bg}
+        width="50%"
+      >
+        <H3
+          align="center"
+          sx={{
+            fontSize: {
+              lg: "1.5rem",
+              md: "1.5rem",
+              xs: "1.1rem",
+              sm: "1.1rem",
+            },
+          }}
+        >
+          {t("delete_wallet_modal")}
+        </H3>
+        <Box
+          sx={{
+            display: "flex",
+            width: {
+              lg: "30%",
+              md: "30%",
+              xs: "100%",
+              sm: "100%",
+            },
+            justifyContent: "space-between",
+            flexDirection: {
+              lg: "row",
+              md: "row",
+              xs: "column",
+              sm: "column",
+            },
+            marginTop: "30px",
+          }}
+        >
+          <Button
+            variant={"outlinedWhite"}
+            text={t("no")}
+            onClick={() => setOpenDeleteModal(false)}
+            sx={{
+              marginBottom: {
+                lg: "0",
+                md: "0",
+                xs: "10px",
+                sm: "10px",
+              },
+            }}
+          />
+          <Button
+            variant={"text"}
+            text={t("yes")}
+            onClick={() => handleDeleteOrder()}
+          />
+        </Box>
+      </BasicModal>
     </Box>
   );
 };

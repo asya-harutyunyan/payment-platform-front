@@ -85,6 +85,7 @@ export interface Order {
   order_status_admin?: string;
   order_status_user?: string;
   wallet_id: number;
+  order_delete?: string;
   key?: string;
   type?: string;
   email?: string;

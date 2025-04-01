@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { IWebsocketState, typeConnect } from "./entities";
 
 const initialState: IWebsocketState = {
@@ -9,9 +9,7 @@ export const websocketSlice = createSlice({
   name: "websocket",
   initialState,
   reducers: {
-    connect: (_state, _action: PayloadAction<number>) => {
-
-    },
+    connect: () => {},
     disconnect: (state) => {
       state.connect = typeConnect.Disconnected;
     },

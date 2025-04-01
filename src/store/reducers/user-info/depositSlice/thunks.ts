@@ -148,6 +148,23 @@ export const getOrdersThunk = createAsyncThunk(
     }
   }
 );
+export const deleteOrderThunk = createAsyncThunk(
+  "orders/deleteOrderThunk",
+  async (id: number | string, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.delete(`/orders/delete/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
 export const getSingleOrderThunk = createAsyncThunk(
   "deposit/getSingleOrderThunk",
   async (id: string, { rejectWithValue }) => {

@@ -48,6 +48,7 @@ export const Wallet: FC = () => {
     }
   };
   const handleDeleteModal = (id?: number) => {
+    console.log(id);
     setOpen(true);
     setSelectedItem(id as number);
   };
@@ -85,7 +86,7 @@ export const Wallet: FC = () => {
       },
       {
         column: "key",
-        button: "statuses",
+        button: "delete_wallet",
       },
     ],
     []
@@ -112,7 +113,7 @@ export const Wallet: FC = () => {
             data={wallet}
             textBtn={"delete_wallet"}
             variant="error"
-            handleClickBtn={handleDeleteModal}
+            handleDeleteWallet={handleDeleteModal}
           />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}

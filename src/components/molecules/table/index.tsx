@@ -60,6 +60,10 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   variant?: ButtonVariant;
   confirmText?: string;
   refetchData?: () => void;
+  handleSinglePage?: (id?: number) => void;
+  deleteOrder?: (id?: number) => void;
+  handleDeleteOrder?: (id?: number) => void;
+  handleDeleteWallet?: (id?: number) => void;
 }
 
 function DynamicTable<
@@ -78,7 +82,11 @@ function DynamicTable<
     done_arrow?: string;
     handleClickBtn?: (id?: number) => void;
     handleSecondClickBtn?: (id?: number) => void;
+    handleSinglePage?: (id?: number) => void;
     variant?: ButtonVariant;
+    deleteOrder?: (id?: number) => void;
+    handleDeleteOrder?: (id?: number) => void;
+    handleDeleteWallet?: (id?: number) => void;
   },
 >({
   columns,
@@ -90,6 +98,9 @@ function DynamicTable<
   handleClick,
   handleClickBtn,
   handleSecondClickBtn,
+  handleSinglePage,
+  handleDeleteOrder,
+  handleDeleteWallet,
 }: TableProps<T>) {
   const location = useLocation();
   const route = useLocation();
@@ -158,13 +169,31 @@ function DynamicTable<
           />
         );
       }
-    } else if (column.button) {
+    } else if (column.button === "delete_wallet") {
+      return (
+        <Button
+          variant={"error"}
+          text={"Удалить"}
+          sx={{ width: "130px" }}
+          onClick={() => handleDeleteWallet?.(row.id)}
+        />
+      );
+    } else if (column.button && column.button !== "delete_order") {
       return (
         <Button
           variant={variant ?? "outlined"}
           text={t(textBtn ?? "see_more")}
           sx={{ width: "130px" }}
-          onClick={() => handleClickBtn?.(row.id)}
+          onClick={() => handleSinglePage?.(row.id)}
+        />
+      );
+    } else if (column.button === "delete_order") {
+      return (
+        <Button
+          variant={"error"}
+          text={"Удалить"}
+          sx={{ width: "130px" }}
+          onClick={() => handleDeleteOrder?.(row.id)}
         />
       );
     } else if (

@@ -190,7 +190,7 @@ export const DepositLists: FC = () => {
           <DynamicTable
             columns={user?.role === "client" ? columnsUser : columns}
             data={deposits}
-            handleClickBtn={handleSingleOrder}
+            handleSinglePage={handleSingleOrder}
             onChangePage={onChangePage}
             refetchData={refetchData}
             handleClick={handleConfirm}
