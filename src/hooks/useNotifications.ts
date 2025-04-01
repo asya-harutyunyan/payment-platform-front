@@ -46,7 +46,18 @@ export const useNotifications = () => {
       dispatch(updateDepositAdminStatus(payload.data.status));
     }
     if (payload.data?.order && user?.role !== "admin") {
-      dispatch(setNotificationData(payload.data));
+      if (payload.data.order) {
+        try {
+          const data = JSON.parse(payload.data.order as unknown as string);
+          dispatch(
+            setNotificationData({
+              order: data,
+            })
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   };
 

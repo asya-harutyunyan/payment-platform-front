@@ -144,7 +144,6 @@ export const getBankCardsThunk = createAsyncThunk(
           per_page: data.per_page,
         },
       });
-      console.log(response);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

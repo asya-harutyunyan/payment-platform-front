@@ -218,7 +218,7 @@ export const OrderListComponent: FC = () => {
             },
           }}
         >
-          {t("delete_wallet_modal")}
+          {t("delete_order_modal")}
         </H3>
         <Box
           sx={{

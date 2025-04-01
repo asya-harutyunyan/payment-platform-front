@@ -49,11 +49,9 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   useEffect(() => {
     if (!field.value && data.length > 0) {
       const defaultValue = valueKey ? data[0]?.[valueKey as keyof U] : data[0];
-      console.log("Setting default value:", defaultValue);
       field.onChange(defaultValue);
     }
   }, [data, valueKey, field]);
-  console.log(data);
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState<U | null>(null);

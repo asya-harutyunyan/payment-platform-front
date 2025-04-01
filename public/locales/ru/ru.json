@@ -173,6 +173,8 @@
   "confirm_order_success": "Ваш депозит успешно подтвержден.",
   "delete_wallet": "Удалить",
   "delete_wallet_modal": "Вы уверены, что хотите удалить этот кошелек?",
+  "delete_order_modal": "Вы уверены, что хотите удалить этот Заказ?",
+
   "success_delete_wallet": "Кошелек успешно удален",
   "success_delete_order": "Заказ успешно удален",
   "rate_text": "{{converted_amount}} ({{deposit_amount}}, по курсу {{rate}} за 1 {{convert_currency}})",

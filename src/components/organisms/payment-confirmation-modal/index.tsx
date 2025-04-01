@@ -43,7 +43,6 @@ export const PaymentPlatformModal: FC = () => {
       dispatch(confirmDepositThunk(deposit_id));
     }
   };
-
   return (
     <BasicModal open={opened} handleClose={close} width="50%" bg={bg}>
       <Box
@@ -70,7 +69,7 @@ export const PaymentPlatformModal: FC = () => {
           >
             Сумма:{" "}
           </span>
-          {data?.order?.amount}
+          {data?.order?.amount} RUB
         </P>
 
         <Button

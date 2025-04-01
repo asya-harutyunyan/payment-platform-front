@@ -3,7 +3,7 @@ import { SelectFieldWith } from "@/components/atoms/select";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import useDepositFeat from "../_services/useDepositFIAT";
 
 interface ITYPEComponent {
@@ -18,9 +18,7 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
   ];
 
   const type = watch("type");
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
+
   return (
     <Box
       component="form"
