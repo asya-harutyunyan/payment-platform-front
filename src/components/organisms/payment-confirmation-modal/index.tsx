@@ -2,12 +2,13 @@ import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
 import { useAppDispatch } from "@/store";
-import { confirmDepositThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import { confirmOrderByClientThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import theme from "@/styles/theme";
 import { H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { FC, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import { usePaymentConfirmationModal } from "./usePaymentConfirmationModal";
@@ -38,9 +39,24 @@ export const PaymentPlatformModal: FC = () => {
         .format()
     );
   }, [data?.order]);
-  const handleConfirmDeposit = (deposit_id: string) => {
-    if (deposit_id) {
-      dispatch(confirmDepositThunk(deposit_id));
+  const handleConfirmDeposit = (id: string) => {
+    if (id) {
+      dispatch(confirmOrderByClientThunk(id))
+        .unwrap()
+        .then(() => {
+          close();
+          enqueueSnackbar("Заказ успешно подтвержден", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        })
+        .catch(() => {
+          enqueueSnackbar(t("something_went_wrong"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          close();
+        });
     }
   };
   return (
