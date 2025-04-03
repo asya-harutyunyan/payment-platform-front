@@ -18,7 +18,7 @@ export const PaymentPlatformModal: FC = () => {
   const dispatch = useAppDispatch();
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
-      return <span>Ваше время истекло.</span>;
+      return <span></span>;
     } else {
       return (
         <span>
