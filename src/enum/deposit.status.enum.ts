@@ -5,4 +5,5 @@ export enum DEPOSIT_STATUSES {
   DONE = "done",
   EXPRIED = "expired",
   FAILED = "failed",
+  ALL = "all",
 }

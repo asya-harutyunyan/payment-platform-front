@@ -1,4 +1,5 @@
 import { User } from "@/common/types";
+import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { Wallet } from "../../user-info/depositSlice/types";
 
 export interface WalletState {
@@ -22,4 +23,5 @@ export interface CreateWallet {
 export interface GetWalletRequest {
   page: number;
   per_page?: number;
+  status_by_client?: DEPOSIT_STATUSES;
 }

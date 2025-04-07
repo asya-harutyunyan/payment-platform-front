@@ -6,6 +6,7 @@ import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 
 import { BasicModal } from "@/components/atoms/modal";
+import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByClientThunk,
@@ -13,7 +14,7 @@ import {
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -22,6 +23,7 @@ import { EmptyComponent } from "../empty-component";
 
 export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
+  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
   const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState<boolean>(false);
@@ -35,6 +37,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: user.role === "admin" ? 20 : 5,
+          status_by_client: filter,
         })
       );
     };
@@ -123,9 +126,29 @@ export const UserOrdersComponent: FC = () => {
 
   const refetch = () => {
     if (user?.role === "admin") {
-      dispatch(getOrdersThunk({ page: page, per_page: 20 }));
+      dispatch(
+        getOrdersThunk({ page: page, per_page: 20, status_by_client: filter })
+      );
     } else {
-      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+      dispatch(
+        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+      );
+    }
+  };
+
+  const handleFilterChange = (
+    _: React.SyntheticEvent,
+    filter: DEPOSIT_STATUSES
+  ) => {
+    setFilter(filter);
+    if (user?.role === "admin") {
+      dispatch(
+        getOrdersThunk({ page: page, per_page: 20, status_by_client: filter })
+      );
+    } else {
+      dispatch(
+        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+      );
     }
   };
 
@@ -137,6 +160,32 @@ export const UserOrdersComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
+        <Tabs
+          value={filter}
+          onChange={handleFilterChange}
+          sx={{ color: "black", backgroundColor: "#f6f6f6" }}
+        >
+          <Tab
+            label="All"
+            value={DEPOSIT_STATUSES.ALL}
+            sx={{ color: "black" }}
+          />
+          <Tab
+            label="Pending"
+            value={DEPOSIT_STATUSES.PENDING}
+            sx={{ color: "black" }}
+          />
+          <Tab
+            label="Done"
+            value={DEPOSIT_STATUSES.DONE}
+            sx={{ color: "black" }}
+          />
+          <Tab
+            label="Expired"
+            value={DEPOSIT_STATUSES.EXPRIED}
+            sx={{ color: "black" }}
+          />
+        </Tabs>
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
@@ -144,7 +193,6 @@ export const UserOrdersComponent: FC = () => {
             sx={{
               width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
               height: "100vh",
-              // overflowY: "auto",
             }}
           >
             <DynamicTable
@@ -156,6 +204,7 @@ export const UserOrdersComponent: FC = () => {
               handleSinglePage={handleSingleOrder}
               confirmText={"order_confirm_text"}
             />
+            {/* <BasicTabs tabs={TabsLabels} content={TabsContent} /> */}
 
             <Box
               sx={{
