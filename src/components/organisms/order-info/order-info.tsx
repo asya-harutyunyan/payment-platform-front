@@ -17,7 +17,7 @@ import { getUserThunk } from "@/store/reducers/usersSlice/thunks";
 import { H4 } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -31,8 +31,9 @@ export const OrderInfo: FC = () => {
   const { id } = useParams({ from: "/_auth/_admin/order-list/$id" });
   const [openModal, setOpenModal] = useState<boolean>(false);
   const { deposit } = useAppSelector((state) => state.deposit);
-  const { user: currentUser } = useAppSelector((state) => state.users);
-
+  const { user: currentUser, loading: userLoading } = useAppSelector(
+    (state) => state.users
+  );
   const { control, handleSubmit, setValue } = useForm<Partial<Deposit>>({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
@@ -83,9 +84,6 @@ export const OrderInfo: FC = () => {
     }
   }, [deposit, setValue]);
 
-  // useEffect(() => {
-  //   dispatch(updateDepositAdminStatus(singleOrder.id));
-  // }, []);
   const onSubmit = (formData: Partial<Deposit>) => {
     dispatch(
       updateDeposit({
@@ -95,19 +93,20 @@ export const OrderInfo: FC = () => {
     )
       .unwrap()
       .then(() => {
-        enqueueSnackbar(t("delete_error_card"), {
+        enqueueSnackbar(t("card_changed"), {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
+        setOpenModal(false);
       })
       .catch(() => {
-        enqueueSnackbar(t("delete_error_card"), {
+        enqueueSnackbar(t("something_went_wrong"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
+        setOpenModal(false);
       });
   };
-  console.log(singleOrder);
 
   return (
     <Box>
@@ -147,14 +146,28 @@ export const OrderInfo: FC = () => {
       >
         <Box component="form" onSubmit={submitForm}>
           <H4 align="center">{t("change_card")}</H4>
-          <RadioButtonsGroup
-            data={cardsFilter}
-            control={control}
-            name="payment_method_id"
-            labelKey="card_number"
-            valueKey="id"
-            onItemDelete={onCardDelete}
-          />
+          {userLoading ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100px",
+              }}
+            >
+              {" "}
+              <CircularProgress sx={{ color: "#fff" }} />
+            </Box>
+          ) : (
+            <RadioButtonsGroup
+              data={cardsFilter}
+              control={control}
+              name="payment_method_id"
+              labelKey="card_number"
+              valueKey="id"
+              onItemDelete={onCardDelete}
+            />
+          )}
           <Button
             sx={{
               marginTop: "20px",

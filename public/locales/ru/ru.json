@@ -27,6 +27,7 @@
   "bank_info": "Информация о банке",
   "add_bank_card": "Добавить Банковскую карту",
   "something_went_wrong": "Что-то пошло не так.",
+  "card_changed": "Карта успешно изменена",
   "name_cards_member": "Имя Фамилия",
   "card_number": "Номер карты",
   "name": "Имя",
