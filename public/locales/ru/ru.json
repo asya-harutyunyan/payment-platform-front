@@ -107,6 +107,7 @@
   "orders_information": "Информация о заказе",
   "deposit_information_single": "Детали депозита",
   "orders_information_single": "Детали заказа",
+  "change_card": "Поменять карту",
   "initial_ammount": "Начальная сумма",
   "see_more": "Подробности",
   "amount_order": "Сумма заказа",
@@ -174,7 +175,7 @@
   "delete_wallet": "Удалить",
   "delete_wallet_modal": "Вы уверены, что хотите удалить этот кошелек?",
   "delete_order_modal": "Вы уверены, что хотите удалить этот Заказ?",
-
+  "blocked_card_list": "Заблокированные карты",
   "success_delete_wallet": "Кошелек успешно удален",
   "success_delete_order": "Заказ успешно удален",
   "rate_text": "{{converted_amount}} ({{deposit_amount}}, по курсу {{rate}} за 1 {{convert_currency}})",

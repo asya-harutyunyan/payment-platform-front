@@ -166,22 +166,22 @@ export const UserOrdersComponent: FC = () => {
           sx={{ color: "black", backgroundColor: "#f6f6f6" }}
         >
           <Tab
-            label="All"
+            label="Все"
             value={DEPOSIT_STATUSES.ALL}
             sx={{ color: "black" }}
           />
           <Tab
-            label="Pending"
+            label="Неподтвержденные"
             value={DEPOSIT_STATUSES.PENDING}
             sx={{ color: "black" }}
           />
           <Tab
-            label="Done"
+            label="Успешные"
             value={DEPOSIT_STATUSES.DONE}
             sx={{ color: "black" }}
           />
           <Tab
-            label="Expired"
+            label="Просроченные"
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />

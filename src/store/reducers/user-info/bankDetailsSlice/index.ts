@@ -4,6 +4,7 @@ import {
   deleteBankCardThunk,
   editBankCardThunk,
   getBankCardsThunk,
+  getBlockedCardsThunk,
   getCardsThunk,
 } from "./thunks";
 import { DepositState } from "./types";
@@ -12,6 +13,7 @@ const initialState: DepositState = {
   loading: false,
   error: null,
   bankCards: [],
+  blockedCards: [],
   total: 0,
 };
 
@@ -32,6 +34,12 @@ const bankDetailsSlice = createSlice({
         state.bankCards = action.payload.data;
         state.total = action.payload.last_page;
       })
+      .addCase(getBlockedCardsThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.blockedCards = action.payload.data;
+        state.total = action.payload.last_page;
+      })
+
       .addCase(editBankCardThunk.fulfilled, (state) => {
         state.loading = false;
       })

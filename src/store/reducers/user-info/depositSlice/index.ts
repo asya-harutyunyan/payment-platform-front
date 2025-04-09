@@ -26,7 +26,6 @@ const initialState: DepositState = {
   total: 0,
   price: 0,
   singleDeposit: [],
-  singleOrder: [],
 };
 
 const depositSlice = createSlice({

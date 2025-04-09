@@ -2,6 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
 import { H4 } from "@/styles/typography";
+import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 // @ts-expect-error no types for this lib
@@ -18,10 +19,16 @@ interface PaperProps<T> {
   }[];
   title?: string;
   loading?: boolean;
-  handleClick?: () => void;
+  handleClick?: () => void | boolean;
 }
 
-export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
+export const Paper = <T,>({
+  data,
+  fields,
+  title,
+  loading,
+  handleClick,
+}: PaperProps<T>) => {
   return (
     <Box
       sx={{
@@ -121,6 +128,14 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                         }}
                       >
                         {String(_.getPath?.(data, field.valueKey) ?? "-")}
+                        {field.column === "card_number" && (
+                          <span
+                            onClick={handleClick}
+                            style={{ paddingLeft: "10px", cursor: "pointer" }}
+                          >
+                            <EditIcon />
+                          </span>
+                        )}
                       </Typography>
                     )
                   ) : (

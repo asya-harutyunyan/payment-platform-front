@@ -123,13 +123,13 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           },
         }}
       >
-        <Box sx={{ height: "85%" }}>
+        <Box sx={{ height: "90%" }}>
           <GeneralInfo />
           <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
         </Box>
         <Box
           sx={{
-            height: "15%",
+            height: "10%",
             display: "flex",
             justifyContent: "space-between",
             flexDirection: "column",

@@ -5,6 +5,7 @@ export interface DepositState {
   loading: boolean;
   error: string | null;
   bankCards: BankCardsDetails[];
+  blockedCards: any;
   total: number;
 }
 export interface BankCardsDetails {

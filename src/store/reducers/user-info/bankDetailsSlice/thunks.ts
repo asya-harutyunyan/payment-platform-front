@@ -155,3 +155,24 @@ export const getBankCardsThunk = createAsyncThunk(
     }
   }
 );
+export const getBlockedCardsThunk = createAsyncThunk(
+  "deposit/getBlockedCardsThunk",
+  async (data: GetBankDetailsRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/users/blocked-cards", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);

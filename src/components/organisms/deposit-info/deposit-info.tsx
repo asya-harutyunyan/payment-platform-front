@@ -17,7 +17,6 @@ export const DepositInfo: FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const canGoBack = useCanGoBack();
-
   useEffect(() => {
     dispatch(getSingleDepositThunk(id));
   }, [dispatch, id]);

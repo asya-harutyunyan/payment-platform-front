@@ -72,12 +72,13 @@ export const updateDeposit = createAsyncThunk(
   "deposit/updateDeposit",
   async (data: Partial<Deposit>, { rejectWithValue, getState }) => {
     try {
+      const { id, ...formData } = data;
       const {
         deposit: { deposit },
       } = getState() as AppState;
       const response = await httpClient.post<Deposit>(
-        `/deposits/update/${deposit?.id}`,
-        data
+        `/deposits/update/${id ?? deposit?.id}`,
+        formData
       );
       return response.data;
     } catch (error: unknown) {

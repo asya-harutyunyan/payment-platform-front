@@ -9,7 +9,7 @@ export interface DepositState {
   deposit: Deposit | null;
   //todo
   singleDeposit: Deposit | [];
-  singleOrder: Order | [];
+  singleOrder?: Order;
   deposits: DataDeposits[];
   orders: Order[];
   currentPage: number | null;
@@ -34,6 +34,7 @@ export type Deposit = {
   wallet_id: number;
   status_by_client: string;
   status_by_admin: string;
+  deposit_id?: number;
   amount: number;
   processing_amount: string;
   converted_amount: number;

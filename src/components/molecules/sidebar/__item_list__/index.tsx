@@ -47,4 +47,9 @@ export const adminItems = [
     icon: <WalletIcon />,
     link: "/wallet-list",
   },
+  {
+    text: "blocked_card_list",
+    icon: <WalletIcon />,
+    link: "/blocked-card-list",
+  },
 ];
