@@ -186,8 +186,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           padding: { ld: "50px", md: "50px", xs: "20px", sm: "20px" },
           display: "flex",
           flexDirection: "column",
-          // mt: { xs: "64px", sm: 0 },
-          border: "1px solid red",
         }}
       >
         <Box sx={{ height: "90%" }}>{children}</Box>
