@@ -128,14 +128,14 @@ export const Paper = <T,>({
                         }}
                       >
                         {String(_.getPath?.(data, field.valueKey) ?? "-")}
-                        {field.column === "card_number" && (
+                        {/* {field.column === "card_number" && (
                           <span
                             onClick={handleClick}
                             style={{ paddingLeft: "10px", cursor: "pointer" }}
                           >
                             <EditIcon />
                           </span>
-                        )}
+                        )} */}
                       </Typography>
                     )
                   ) : (
