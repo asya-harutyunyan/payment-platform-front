@@ -13,7 +13,7 @@ import {
   updateDeposit,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
-import { getUserThunk } from "@/store/reducers/usersSlice/thunks";
+// import { getUserThunk } from "@/store/reducers/usersSlice/thunks";
 import { H4 } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
@@ -51,10 +51,10 @@ export const OrderInfo: FC = () => {
     dispatch(getSingleOrderThunk(id));
   }, [dispatch, id]);
 
-  const handleEditCard = () => {
-    setOpenModal(true);
-    dispatch(getUserThunk(Number(id)));
-  };
+  // const handleEditCard = () => {
+  //   setOpenModal(true);
+  //   dispatch(getUserThunk(Number(id)));
+  // };
   const cardsFilter = useMemo(() => {
     return (
       (currentUser &&
@@ -134,7 +134,7 @@ export const OrderInfo: FC = () => {
             fields={fields}
             title={"orders_information_single"}
             loading={loading}
-            handleClick={handleEditCard}
+            // handleClick={handleEditCard}
           />
         </Box>
       )}

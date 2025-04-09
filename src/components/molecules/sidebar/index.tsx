@@ -1,7 +1,8 @@
 import bg from "@/assets/images/modal.png";
 // import { AndroidIcon } from "@/assets/svg/android";
 // import { IOSIcon } from "@/assets/svg/ios";
-import JivoChat from "@/common/jivosite";
+// import JivoChat from "@/common/jivosite";
+import LiveChatWidget from "@/common/livechat";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
@@ -27,7 +28,6 @@ import { adminItems, userItems } from "./__item_list__";
 import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
-import MessageButton from "./message";
 import Sidebar from "./sidebar_general";
 interface DashboardPageProps {
   children?: ReactNode;
@@ -61,17 +61,17 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("Logout failed:", resultAction.payload);
     }
   };
-  const handleOpenChat = () => {
-    toggleDrawer();
-    //@ts-expect-error script added global value
-    if (typeof jivo_api !== "undefined") {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      jivo_api.open();
-    } else {
-      console.error("JivoChat script not loaded yet.");
-    }
-  };
+  // const handleOpenChat = () => {
+  //   toggleDrawer();
+  //   //@ts-expect-error script added global value
+  //   if (typeof jivo_api !== "undefined") {
+  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  //     // @ts-expect-error
+  //     jivo_api.open();
+  //   } else {
+  //     console.error("JivoChat script not loaded yet.");
+  //   }
+  // };
   // const downloadAPK = async () => {
   //   const response = await fetch("/my-app.apk");
   //   const blob = await response.blob();
@@ -135,9 +135,9 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             flexDirection: "column",
           }}
         >
-          {user?.role === "client" && (
+          {/* {user?.role === "client" && (
             <MessageButton handleOpen={handleOpenChat} />
-          )}
+          )} */}
           <LogoutButton handleLogout={handleLogout} />
         </Box>
       </Drawer>
@@ -169,9 +169,9 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               flexDirection: "column",
             }}
           >
-            {user?.role === "client" && (
+            {/* {user?.role === "client" && (
               <MessageButton handleOpen={handleOpenChat} />
-            )}
+            )} */}
             <LogoutButton handleLogout={handleLogout} />
           </Box>
         </Box>
@@ -250,7 +250,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {t("countdown")}
         </H6>
       </BasicModal>
-      <JivoChat />
+      <LiveChatWidget />
     </Box>
   );
 };

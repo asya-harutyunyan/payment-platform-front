@@ -2,7 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
 import { H4 } from "@/styles/typography";
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 // @ts-expect-error no types for this lib
@@ -27,7 +27,7 @@ export const Paper = <T,>({
   fields,
   title,
   loading,
-  handleClick,
+  // handleClick,
 }: PaperProps<T>) => {
   return (
     <Box

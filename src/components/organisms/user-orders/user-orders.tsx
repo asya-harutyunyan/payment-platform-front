@@ -14,7 +14,7 @@ import {
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -23,7 +23,7 @@ import { EmptyComponent } from "../empty-component";
 
 export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  // const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
   const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState<boolean>(false);
@@ -37,7 +37,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: user.role === "admin" ? 20 : 5,
-          status_by_client: filter,
+          status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
     };
@@ -127,30 +127,46 @@ export const UserOrdersComponent: FC = () => {
   const refetch = () => {
     if (user?.role === "admin") {
       dispatch(
-        getOrdersThunk({ page: page, per_page: 20, status_by_client: filter })
+        getOrdersThunk({
+          page: page,
+          per_page: 20,
+          status_by_client: DEPOSIT_STATUSES.ALL,
+        })
       );
     } else {
       dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+        getOrdersThunk({
+          page: page,
+          per_page: 5,
+          status_by_client: DEPOSIT_STATUSES.ALL,
+        })
       );
     }
   };
 
-  const handleFilterChange = (
-    _: React.SyntheticEvent,
-    filter: DEPOSIT_STATUSES
-  ) => {
-    setFilter(filter);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 20, status_by_client: filter })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
-    }
-  };
+  // const handleFilterChange = (
+  //   _: React.SyntheticEvent,
+  //   filter: DEPOSIT_STATUSES
+  // ) => {
+  //   setFilter(filter);
+  //   if (user?.role === "admin") {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 20,
+  //         status_by_client: DEPOSIT_STATUSES.ALL,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 5,
+  //         status_by_client: DEPOSIT_STATUSES.ALL,
+  //       })
+  //     );
+  //   }
+  // };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -160,7 +176,7 @@ export const UserOrdersComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
-        <Tabs
+        {/* <Tabs
           value={filter}
           onChange={handleFilterChange}
           sx={{ color: "black", backgroundColor: "#f6f6f6" }}
@@ -185,7 +201,7 @@ export const UserOrdersComponent: FC = () => {
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />
-        </Tabs>
+        </Tabs> */}
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
