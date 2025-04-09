@@ -298,7 +298,7 @@ function DynamicTable<
 
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ width: "90%" }}>
         <Table
           sx={{
             overflow: "auto",

@@ -61,7 +61,7 @@ export const OrderInfo: FC = () => {
         currentUser?.bank_details.filter((card) => !card.is_blocked)) ||
       []
     );
-  }, [currentUser?.bank_details]);
+  }, [currentUser]);
 
   const onCardDelete = (card: BankDetail) => {
     dispatch(deleteBankCardThunk(card.id))
