@@ -39,8 +39,6 @@ const useSignIn = () => {
           });
       })
       .catch((error) => {
-        console.log(error);
-
         if (error.errors && error.message !== "Ваша почта не подтверждена") {
           Object.entries(error.errors).forEach(([field, messages]) => {
             if (Array.isArray(messages) && messages.length > 0) {
