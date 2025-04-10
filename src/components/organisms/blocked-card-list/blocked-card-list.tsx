@@ -15,7 +15,7 @@ export const BlockedCardList: FC = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { user } = useAuth();
-  const { bankCards, loading, total } = useAppSelector(
+  const { blockedCards, loading, total } = useAppSelector(
     (state) => state.bankDetails
   );
   useEffect(() => {
@@ -30,20 +30,28 @@ export const BlockedCardList: FC = () => {
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
     () => [
       {
-        column: "card_holder",
-        valueKey: "card_holder",
-      },
-      {
         column: "bank_name",
         valueKey: "bank_name",
+      },
+      {
+        column: "card_holder",
+        valueKey: "card_holder",
       },
       {
         column: "card_number",
         valueKey: "card_number",
       },
       {
-        column: "currency",
+        currency: "currency",
         valueKey: "currency",
+      },
+      {
+        currency: "name",
+        valueKey: "user.name",
+      },
+      {
+        currency: "surname",
+        valueKey: "user.surname",
       },
     ],
     []
@@ -51,10 +59,10 @@ export const BlockedCardList: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("bank_card_list")} />
+      <TaskHeader title={t("blocked-bank_card_list")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : bankCards.length > 0 ? (
+      ) : blockedCards.length > 0 ? (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -62,7 +70,7 @@ export const BlockedCardList: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={bankCards} />
+          <DynamicTable columns={columns} data={blockedCards} />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

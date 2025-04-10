@@ -307,7 +307,8 @@ function DynamicTable<
                 user?.role === "admin" &&
                 location.pathname !== "/wallet-list" &&
                 location.pathname !== "/user-list" &&
-                location.pathname !== "/bank-card-list"
+                location.pathname !== "/bank-card-list" &&
+                location.pathname !== "/blocked-card-list"
                   ? "8px"
                   : "16px",
             },

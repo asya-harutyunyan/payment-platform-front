@@ -5,7 +5,7 @@ export interface DepositState {
   loading: boolean;
   error: string | null;
   bankCards: BankCardsDetails[];
-  blockedCards: any;
+  blockedCards: BankCardsDetails[];
   total: number;
 }
 export interface BankCardsDetails {
@@ -17,6 +17,8 @@ export interface BankCardsDetails {
   is_blocked: number;
   phone_number: string;
   user_id: number | string;
+  name?: string;
+  surname?: string;
 }
 export interface GetBankDetailsRequest {
   page: number;
