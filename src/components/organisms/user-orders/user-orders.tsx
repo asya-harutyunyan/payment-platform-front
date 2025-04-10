@@ -162,7 +162,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: 20,
-          status_by_client: DEPOSIT_STATUSES.ALL,
+          status_by_client: filter,
         })
       );
     } else {
@@ -170,7 +170,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: 5,
-          status_by_client: DEPOSIT_STATUSES.ALL,
+          status_by_client: filter,
         })
       );
     }
