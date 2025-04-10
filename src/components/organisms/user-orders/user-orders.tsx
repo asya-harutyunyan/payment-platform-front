@@ -6,7 +6,6 @@ import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 
 import { BasicModal } from "@/components/atoms/modal";
-import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByClientThunk,
@@ -37,7 +36,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: user.role === "admin" ? 20 : 5,
-          status_by_client: DEPOSIT_STATUSES.ALL,
+          // status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
     };
@@ -130,7 +129,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: 20,
-          status_by_client: DEPOSIT_STATUSES.ALL,
+          // status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
     } else {
@@ -138,7 +137,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: 5,
-          status_by_client: DEPOSIT_STATUSES.ALL,
+          // status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
     }

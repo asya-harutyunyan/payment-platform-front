@@ -1,5 +1,4 @@
 import { httpClient } from "@/common/api";
-import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppState } from "../../..";
@@ -133,14 +132,14 @@ export const getOrdersThunk = createAsyncThunk(
   "deposit/getOrdersThunk",
   async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get("/orders/status", {
+      const response = await httpClient.get("/orders", {
         params: {
           page: data.page,
           per_page: data.per_page,
-          status_by_client:
-            data.status_by_client === DEPOSIT_STATUSES.ALL
-              ? undefined
-              : data.status_by_client,
+          // status_by_client:
+          //   data.status_by_client === DEPOSIT_STATUSES.ALL
+          //     ? undefined
+          //     : data.status_by_client,
         },
       });
       return response.data;
