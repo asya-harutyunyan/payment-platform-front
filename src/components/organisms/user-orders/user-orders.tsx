@@ -14,10 +14,7 @@ import {
   confirmOrderByClientThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
-import {
-  DataDeposits,
-  Order,
-} from "@/store/reducers/user-info/depositSlice/types";
+import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
@@ -183,7 +180,7 @@ export const UserOrdersComponent: FC = () => {
       },
       {
         column: "key",
-        renderComponent: (row: DataDeposits) => {
+        renderComponent: (row: Order) => {
           return (
             <Button
               variant={"outlined"}

@@ -47,8 +47,6 @@ function DynamicTable<
     done_arrow?: string;
   },
 >({ columns, data }: TableProps<T>) {
-  console.log(columns);
-
   return (
     <>
       <TableContainer component={Paper}>
@@ -67,7 +65,7 @@ function DynamicTable<
                   key={index}
                   sx={{ fontWeight: "bold", color: "primary.main" }}
                 >
-                  {column.column !== "done_arrow" && t(column.column as string)}
+                  {t(column.column as string)}
                 </TableCell>
               ))}
             </TableRow>

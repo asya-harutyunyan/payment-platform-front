@@ -2,13 +2,14 @@ import bg from "@/assets/images/modal.png";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 
 import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
+import DynamicTable from "@/components/molecules/table-new";
 import {
   confirmOrderByAdminThunk,
   deleteOrderThunk,
@@ -87,11 +88,29 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "key",
-        button: "statuses",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"outlined"}
+              text={t("see_more")}
+              sx={{ width: "130px" }}
+              onClick={() => handleSingleOrder?.(row.id)}
+            />
+          );
+        },
       },
       {
         column: "key",
-        button: "delete_order",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"error"}
+              text={"Удалить"}
+              sx={{ width: "130px" }}
+              onClick={() => handleDeleteModal?.(row.id)}
+            />
+          );
+        },
       },
     ],
     []
@@ -235,11 +254,11 @@ export const OrderListComponent: FC = () => {
             <DynamicTable
               columns={columns}
               data={orders}
-              handleClick={handleConfirm}
-              handleDeleteOrder={handleDeleteModal}
-              onChangePage={onChangePage}
-              refetchData={refetch}
-              handleSinglePage={handleSingleOrder}
+              // handleClick={handleConfirm}
+              // handleDeleteOrder={handleDeleteModal}
+              // onChangePage={onChangePage}
+              // refetchData={refetch}
+              // handleSinglePage={handleSingleOrder}
             />
             <Box
               sx={{
