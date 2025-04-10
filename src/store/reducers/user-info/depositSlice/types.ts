@@ -110,6 +110,7 @@ export interface Order {
 export interface DataDeposits {
   id?: number;
   status_by_admin?: string;
+  created_at?: string;
   status_by_admin_row?: string;
   done_arrow?: string;
   status_by_user_row?: string;

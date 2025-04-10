@@ -1,3 +1,4 @@
+import { getStatusColor } from "@/components/utils/status-color";
 import {
   Box,
   Paper,
@@ -9,7 +10,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { t } from "i18next";
-import React from "react";
+import { ReactNode } from "react";
 
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -19,39 +20,14 @@ export interface IColumn<T> {
   label?: string;
   valueKey?: string;
   currency?: string;
-  button?: string;
-  done?: string;
+  renderComponent?: (row: T) => ReactNode;
 }
-type ButtonVariant =
-  | "text"
-  | "contained"
-  | "outlined"
-  | "gradient"
-  | "outlinedWhite"
-  | "outlinedBlue"
-  | "error";
 
 interface TableProps<T extends { id?: number; created_at?: string }> {
   columns: IColumn<T>[];
   data: T[];
-  onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
-  onItemClick?: (row: T) => void;
-  total?: number;
-  isNeedBtn?: boolean;
-  text?: string;
-  textBtn?: string;
-  handleClick?: (value?: number) => void;
-  handleClickBtn?: (id?: number) => void;
-  handleSecondClickBtn?: (id?: number) => void;
-  isNeedBtnConfirmText?: string;
-  isNeedBtnConfirm?: boolean;
-  variant?: ButtonVariant;
-  confirmText?: string;
   refetchData?: () => void;
-  handleSinglePage?: (id?: number) => void;
-  deleteOrder?: (id?: number) => void;
-  handleDeleteOrder?: (id?: number) => void;
-  handleDeleteWallet?: (id?: number) => void;
+  onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
 }
 
 function DynamicTable<
@@ -65,19 +41,13 @@ function DynamicTable<
     id?: number;
     processing_amount?: string;
     textBtn?: string;
-    handleClick?: () => void;
     isNeedBtnConfirmText?: string;
     isNeedBtnConfirm?: boolean;
     done_arrow?: string;
-    handleClickBtn?: (id?: number) => void;
-    handleSecondClickBtn?: (id?: number) => void;
-    handleSinglePage?: (id?: number) => void;
-    variant?: ButtonVariant;
-    deleteOrder?: (id?: number) => void;
-    handleDeleteOrder?: (id?: number) => void;
-    handleDeleteWallet?: (id?: number) => void;
   },
 >({ columns, data }: TableProps<T>) {
+  console.log(columns);
+
   return (
     <>
       <TableContainer component={Paper}>
@@ -124,8 +94,21 @@ function DynamicTable<
                       color: "#7d7d7d",
                     }}
                   >
-                    <span style={{ display: "flex", alignItems: "center" }}>
-                      {_.getPath(row, column.valueKey)}
+                    <span
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        color: column.valueKey
+                          ? getStatusColor(
+                              String(_.getPath?.(row, column.valueKey) || "-")
+                            )
+                          : "",
+                        fontWeight: 400,
+                        textTransform: "capitalize",
+                      }}
+                    >
+                      {column.renderComponent && column.renderComponent(row)}
+                      {column.valueKey && _.getPath(row, column.valueKey)}
                     </span>
                   </TableCell>
                 ))}
