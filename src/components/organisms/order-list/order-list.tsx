@@ -9,7 +9,6 @@ import { useAppDispatch, useAppSelector } from "@/store";
 
 import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import {
   confirmOrderByAdminThunk,
   deleteOrderThunk,
