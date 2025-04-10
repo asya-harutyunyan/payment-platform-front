@@ -250,7 +250,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {t("countdown")}
         </H6>
       </BasicModal>
-      <LiveChatWidget />
+    {user &&  <LiveChatWidget />}
     </Box>
   );
 };
