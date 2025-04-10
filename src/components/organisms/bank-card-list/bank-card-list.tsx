@@ -1,6 +1,8 @@
+import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table-new";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -51,8 +53,27 @@ export const BankCardLists: FC = () => {
       },
       {
         column: "is_blocked",
-        valueKey: "is_blocked",
-        button: "is_blocked",
+        renderComponent: (row: BankCardsDetalis) => {
+          if (row.is_blocked) {
+            return (
+              <Button
+                variant={"error"}
+                text={t("block")}
+                sx={{ width: "130px" }}
+                onClick={() => handleBlockCard?.(row.id)}
+              />
+            );
+          } else {
+            return (
+              <Button
+                variant={"outlined"}
+                text={t("unblock")}
+                sx={{ width: "130px" }}
+                onClick={() => handleUnblockCard?.(row.id)}
+              />
+            );
+          }
+        },
       },
     ],
     []
@@ -91,10 +112,10 @@ export const BankCardLists: FC = () => {
           <DynamicTable
             columns={columns}
             data={bankCards}
-            textBtn={"Разблокировать"}
-            variant="error"
-            handleClickBtn={handleUnblockCard}
-            handleSecondClickBtn={handleBlockCard}
+            // textBtn={"Разблокировать"}
+            // variant="error"
+            // handleClickBtn={handleUnblockCard}
+            // handleSecondClickBtn={handleBlockCard}
           />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}

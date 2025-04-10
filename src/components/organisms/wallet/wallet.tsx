@@ -4,7 +4,8 @@ import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table-new";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -12,7 +13,10 @@ import {
   deleteWalletsThunk,
   getWalletsThunk,
 } from "@/store/reducers/admin/walletSlice/thunks";
-import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
+import {
+  BankCardsDetalis,
+  Wallet as WalletType,
+} from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -59,7 +63,11 @@ export const Wallet: FC = () => {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-        dispatch(getWalletsThunk({ page: page, per_page: 5 }));
+        if (user?.role === "admin") {
+          dispatch(getWalletsThunk({ page: page, per_page: 20 }));
+        } else {
+          dispatch(getWalletsThunk({ page: page, per_page: 5 }));
+        }
         setOpen(false);
       })
       .catch(() => {
@@ -85,7 +93,16 @@ export const Wallet: FC = () => {
       },
       {
         column: "key",
-        button: "delete_wallet",
+        renderComponent: (row: BankCardsDetalis) => {
+          return (
+            <Button
+              variant={"error"}
+              text={"Удалить"}
+              sx={{ width: "130px" }}
+              onClick={() => handleDeleteModal?.(row.id)}
+            />
+          );
+        },
       },
     ],
     []
@@ -107,13 +124,7 @@ export const Wallet: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable
-            columns={columns}
-            data={wallet}
-            textBtn={"delete_wallet"}
-            variant="error"
-            handleDeleteWallet={handleDeleteModal}
-          />
+          <DynamicTable columns={columns} data={wallet} />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

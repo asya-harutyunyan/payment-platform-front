@@ -238,7 +238,6 @@ export const DepositLists: FC = () => {
       },
       {
         column: "key",
-
         renderComponent: (row: DataDeposits) => {
           return (
             <Button

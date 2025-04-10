@@ -11,7 +11,6 @@ import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import DynamicTable from "@/components/molecules/table-new";
 import {
-  confirmOrderByAdminThunk,
   deleteOrderThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
@@ -124,38 +123,38 @@ export const OrderListComponent: FC = () => {
     }
   };
 
-  const handleConfirm = (num?: number) => {
-    if (num) {
-      dispatch(confirmOrderByAdminThunk(num))
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar(t("confirm_order_success"), {
-            variant: "success",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-          dispatch(
-            getOrdersThunk({
-              page: page,
-              per_page: 50,
-            })
-          );
-        })
-        .catch(() => {
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        });
-    }
-  };
+  // const handleConfirm = (num?: number) => {
+  //   if (num) {
+  //     dispatch(confirmOrderByAdminThunk(num))
+  //       .unwrap()
+  //       .then(() => {
+  //         enqueueSnackbar(t("confirm_order_success"), {
+  //           variant: "success",
+  //           anchorOrigin: { vertical: "top", horizontal: "right" },
+  //         });
+  //         dispatch(
+  //           getOrdersThunk({
+  //             page: page,
+  //             per_page: 50,
+  //           })
+  //         );
+  //       })
+  //       .catch(() => {
+  //         enqueueSnackbar(t("something_went_wrong"), {
+  //           variant: "error",
+  //           anchorOrigin: { vertical: "top", horizontal: "right" },
+  //         });
+  //       });
+  //   }
+  // };
 
-  const refetch = () => {
-    if (user?.role === "admin") {
-      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
-    } else {
-      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
-    }
-  };
+  // const refetch = () => {
+  //   if (user?.role === "admin") {
+  //     dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+  //   } else {
+  //     dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+  //   }
+  // };
   const handleDeleteModal = (id?: number) => {
     setOpenDeleteModal(true);
     setSelectedOrder(id);
