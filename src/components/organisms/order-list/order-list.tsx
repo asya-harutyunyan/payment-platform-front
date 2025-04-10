@@ -17,7 +17,7 @@ import {
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -30,7 +30,7 @@ export const OrderListComponent: FC = () => {
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<number>();
-  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  // const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
 
   const { user } = useAuth();
   useEffect(() => {
@@ -41,7 +41,6 @@ export const OrderListComponent: FC = () => {
         getOrdersThunk({
           page,
           per_page: user.role === "admin" ? 50 : 5,
-          status_by_client: filter,
         })
       );
     };
@@ -55,13 +54,9 @@ export const OrderListComponent: FC = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
     } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
     }
   };
   const columns = useMemo<IColumn<Order>[]>(
@@ -124,7 +119,6 @@ export const OrderListComponent: FC = () => {
             getOrdersThunk({
               page: page,
               per_page: 50,
-              status_by_client: filter,
             })
           );
         })
@@ -139,13 +133,9 @@ export const OrderListComponent: FC = () => {
 
   const refetch = () => {
     if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
     } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
     }
   };
   const handleDeleteModal = (id?: number) => {
@@ -175,29 +165,29 @@ export const OrderListComponent: FC = () => {
         });
     }
   };
-  const handleFilterChange = (
-    _: React.SyntheticEvent,
-    filter: DEPOSIT_STATUSES
-  ) => {
-    setFilter(filter);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 20,
-          status_by_client: filter,
-        })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 5,
-          status_by_client: filter,
-        })
-      );
-    }
-  };
+  // const handleFilterChange = (
+  //   _: React.SyntheticEvent,
+  //   filter: DEPOSIT_STATUSES
+  // ) => {
+  //   setFilter(filter);
+  //   if (user?.role === "admin") {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 20,
+  //         // status_by_client: filter,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 5,
+  //         // status_by_client: filter,
+  //       })
+  //     );
+  //   }
+  // };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -207,7 +197,7 @@ export const OrderListComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
-        <Tabs
+        {/* <Tabs
           value={filter}
           onChange={handleFilterChange}
           sx={{ color: "black", backgroundColor: "#f6f6f6", width: "90%" }}
@@ -232,7 +222,7 @@ export const OrderListComponent: FC = () => {
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />
-        </Tabs>
+        </Tabs> */}
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
