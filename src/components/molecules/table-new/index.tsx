@@ -1,4 +1,5 @@
 import { getStatusColor } from "@/components/utils/status-color";
+import { CURRENCY } from "@/enum/currencies.enum";
 import {
   Box,
   Paper,
@@ -109,6 +110,16 @@ function DynamicTable<
                     >
                       {column.renderComponent && column.renderComponent(row)}
                       {column.valueKey && _.getPath(row, column.valueKey)}
+                      {column.currency
+                        ? ` ${
+                            CURRENCY[
+                              _.getPath?.(
+                                row,
+                                column.currency
+                              ) as keyof typeof CURRENCY
+                            ] ?? "-"
+                          }`
+                        : ""}
                     </span>
                   </TableCell>
                 ))}
