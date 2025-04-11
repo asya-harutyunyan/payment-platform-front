@@ -161,24 +161,6 @@ export const BankInfoComponent: FC = () => {
                 {user?.email}
               </span>
             </P>
-            <P
-              paddingTop={"30px"}
-              fontSize={"18px"}
-              color="tertiary.contrastText"
-            >
-              Вы можете добавить до{" "}
-              <span
-                style={{
-                  textDecoration: "underline",
-                  color: theme.palette.primary.main,
-                }}
-              >
-                трёх банковских карт
-              </span>
-              {"  "}
-              для оплаты. Легко переключайтесь между ними, удаляйте или
-              добавляйте новые в любое время.
-            </P>
           </Box>
           <Box
             sx={{

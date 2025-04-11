@@ -84,7 +84,7 @@ export const BankCardDetalis: FC = () => {
             },
             { shouldValidate: false }
           );
-          enqueueSnackbar(t("bank_card_added_success"), {
+          enqueueSnackbar(t("bank_card_edited_success"), {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
@@ -219,8 +219,8 @@ export const BankCardDetalis: FC = () => {
       />
 
       <Autocomplite
-        {...register("bank_name")}
-        name="bank_name"
+        {...register("bank_name.name")}
+        name="bank_name.name"
         control={control}
         options={banks}
         placeholder={t("bank_name")}

@@ -4,7 +4,7 @@ export const add_card_schema = z
   .object({
     bank_name: z
       .object({
-        name: z.string(),
+        name: z.string().min(2, "Имя банка требуется"),
         id: z.number(),
         key: z.string(),
       })

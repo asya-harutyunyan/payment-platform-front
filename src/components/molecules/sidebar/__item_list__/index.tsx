@@ -8,14 +8,14 @@ import WalletIcon from "@mui/icons-material/Wallet";
 
 export const userItems = [
   {
-    text: "bank_info",
-    icon: <MonetizationOnIcon />,
-    link: "/my-information",
-  },
-  {
     text: "task_list",
     icon: <FormatListBulletedIcon />,
     link: "/wallet",
+  },
+  {
+    text: "bank_info",
+    icon: <MonetizationOnIcon />,
+    link: "/my-information",
   },
   {
     text: "deposit_list",

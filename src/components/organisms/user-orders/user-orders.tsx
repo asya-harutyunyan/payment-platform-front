@@ -160,7 +160,7 @@ export const UserOrdersComponent: FC = () => {
                 textTransform: "capitalize",
               }}
             >
-              {row.status_by_client}
+              {row.status_by_client && t(row.status_by_client)}
             </span>
           );
         },

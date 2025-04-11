@@ -133,6 +133,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             display: "flex",
             justifyContent: "space-between",
             flexDirection: "column",
+            zIndex: 1,
           }}
         >
           {/* {user?.role === "client" && (
@@ -188,7 +189,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           flexDirection: "column",
         }}
       >
-        <Box sx={{ height: "90%" }}>{children}</Box>
+        <Box sx={{ height: "90%", zIndex: 2 }}>{children}</Box>
         <Box
           sx={{
             width: "100%",

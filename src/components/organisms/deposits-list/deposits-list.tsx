@@ -177,14 +177,27 @@ export const DepositLists: FC = () => {
                 textTransform: "capitalize",
               }}
             >
-              {row.status_by_admin}
+              {row.status_by_admin && t(row.status_by_admin)}
             </span>
           );
         },
       },
       {
         column: "type",
-        valueKey: "type",
+        renderComponent: (row: DataDeposits) => {
+          return (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontWeight: 400,
+                textTransform: "capitalize",
+              }}
+            >
+              {row.type && t(row.type)}
+            </span>
+          );
+        },
       },
       {
         column: "left_amount",
@@ -206,7 +219,6 @@ export const DepositLists: FC = () => {
       },
       {
         column: "key",
-        valueKey: "done_arrow",
         renderComponent: (row: DataDeposits) => {
           return row.processing_amount === "0.00" ? (
             <DoneIcon sx={{ color: "green" }} />
@@ -225,11 +237,38 @@ export const DepositLists: FC = () => {
       },
       {
         column: "status_by_user_row",
-        valueKey: "status_by_admin",
+        renderComponent: (row: DataDeposits) => {
+          return (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: getStatusColor(row.status_by_admin ?? "-"),
+                fontWeight: 400,
+                textTransform: "capitalize",
+              }}
+            >
+              {row.status_by_admin && t(row.status_by_admin)}
+            </span>
+          );
+        },
       },
       {
         column: "type",
-        valueKey: "type",
+        renderComponent: (row: DataDeposits) => {
+          return (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontWeight: 400,
+                textTransform: "capitalize",
+              }}
+            >
+              {row.type && t(row.type)}
+            </span>
+          );
+        },
       },
       {
         column: "left_amount",
@@ -250,8 +289,7 @@ export const DepositLists: FC = () => {
         },
       },
       {
-        column: "done_arrow",
-        valueKey: "done_arrow",
+        column: "key",
         renderComponent: (row: DataDeposits) => {
           return row.processing_amount === "0.00" ? (
             <DoneIcon sx={{ color: "green" }} />
@@ -298,12 +336,14 @@ export const DepositLists: FC = () => {
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
           dispatch(getDepositsThunk({ page }));
+          setOpen(false);
         })
         .catch(() => {
           enqueueSnackbar(t("something_went_wrong"), {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
+          setOpen(false);
         });
     }
   };

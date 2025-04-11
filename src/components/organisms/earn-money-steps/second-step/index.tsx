@@ -98,6 +98,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
       .replace(".", ",")
       .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
+  console.log(showAddCard);
 
   return (
     <Box>
@@ -117,7 +118,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
           title={t("profit")}
           sub_title={`${formatPrice(updatedPrice)} ₽`}
         >
-          {showAddCard ? (
+          {user?.bank_details.length ? (
             <Box
               sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}
               onClick={handleOpen}

@@ -59,7 +59,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
           />
         )}
         {isTextNeeded && (
-          <P align="center" paddingTop={"30px"} fontSize={"15px"}>
+          <P align="justify" paddingTop={"30px"} fontSize={"15px"}>
             {t(isTextNeeded)}
           </P>
         )}

@@ -11,6 +11,7 @@ import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { CopyButton } from "@/components/atoms/copy-btn";
 import DynamicTable from "@/components/molecules/table-new";
+import { getStatusColor } from "@/components/utils/status-color";
 import {
   deleteOrderThunk,
   getOrdersThunk,
@@ -76,7 +77,21 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "order_status_admin",
-        valueKey: "status_by_client",
+        renderComponent: (row: Order) => {
+          return (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: getStatusColor(row.status_by_client ?? "-"),
+                fontWeight: 400,
+                textTransform: "capitalize",
+              }}
+            >
+              {row.status_by_client && t(row.status_by_client)}
+            </span>
+          );
+        },
       },
       {
         column: "id",

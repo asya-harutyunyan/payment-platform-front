@@ -183,7 +183,7 @@ export const AddCardModal: FC<IStepTwo> = ({
               },
               { shouldValidate: false }
             );
-            enqueueSnackbar(t("bank_card_added_success"), {
+            enqueueSnackbar(t("bank_card_edited_success"), {
               variant: "success",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
@@ -243,7 +243,7 @@ export const AddCardModal: FC<IStepTwo> = ({
       dispatch(editBankCardThunk({ ...data, id: bankDetailID }))
         .unwrap()
         .then(() => {
-          enqueueSnackbar(t("bank_card_added_success"), {
+          enqueueSnackbar(t("bank_card_edited_success"), {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
