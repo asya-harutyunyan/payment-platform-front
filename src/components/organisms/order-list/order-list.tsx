@@ -9,6 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 
 import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
+import { CopyButton } from "@/components/atoms/copy-btn";
 import DynamicTable from "@/components/molecules/table-new";
 import {
   deleteOrderThunk,
@@ -80,6 +81,13 @@ export const OrderListComponent: FC = () => {
       {
         column: "id",
         valueKey: "transaction_id",
+        renderComponent: (row: Order) => {
+          return (
+            row.transaction_id && (
+              <CopyButton text={row.transaction_id} color={"#7d7d7d"} />
+            )
+          );
+        },
       },
       {
         column: "card_number",

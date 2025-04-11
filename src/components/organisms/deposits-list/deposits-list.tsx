@@ -205,7 +205,7 @@ export const DepositLists: FC = () => {
         },
       },
       {
-        column: "done_arrow",
+        column: "key",
         valueKey: "done_arrow",
         renderComponent: (row: DataDeposits) => {
           return row.processing_amount === "0.00" ? (

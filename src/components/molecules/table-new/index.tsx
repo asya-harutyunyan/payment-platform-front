@@ -53,9 +53,6 @@ function DynamicTable<
         <Table
           sx={{
             overflow: "auto",
-            "& td": {
-              padding: "16px",
-            },
           }}
         >
           <TableHead>
@@ -75,6 +72,7 @@ function DynamicTable<
               <TableRow
                 key={rowIndex}
                 sx={{
+                  height: "70px",
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
                   },
@@ -115,7 +113,7 @@ function DynamicTable<
                                 row,
                                 column.currency
                               ) as keyof typeof CURRENCY
-                            ] ?? "-"
+                            ] ?? ""
                           }`
                         : ""}
                     </span>

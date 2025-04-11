@@ -64,6 +64,8 @@ export interface BankCardsDetalis {
   bank_name: string;
   card_holder: string;
   card_number: string;
+  name?: string;
+  surname?: string;
   currency: string;
   id: number;
   is_blocked: number;

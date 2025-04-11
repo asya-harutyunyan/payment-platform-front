@@ -43,15 +43,15 @@ export const BlockedCardList: FC = () => {
         valueKey: "card_number",
       },
       {
-        currency: "currency",
+        column: "currency",
         valueKey: "currency",
       },
       {
-        currency: "name",
+        column: "name",
         valueKey: "user.name",
       },
       {
-        currency: "surname",
+        column: "surname",
         valueKey: "user.surname",
       },
     ],
