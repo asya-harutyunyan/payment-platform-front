@@ -6,6 +6,7 @@ import { BasicModal } from "@/components/atoms/modal";
 import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import TaskHeader from "@/components/molecules/title";
 import { choose_card_schema } from "@/schema/add_card.schema";
+import EditIcon from "@mui/icons-material/Edit";
 
 import { useAppDispatch, useAppSelector } from "@/store";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
@@ -26,7 +27,6 @@ import { enqueueSnackbar } from "notistack";
 import { BaseSyntheticEvent, FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Paper } from "../paper/paper";
-import { fields } from "./columns";
 
 export const DepositInfo: FC = () => {
   const { singleDeposit, loading, singleOrder } = useAppSelector(
@@ -115,6 +115,70 @@ export const DepositInfo: FC = () => {
     setOpenModal(true);
     dispatch(getUserThunk(Number(id)));
   };
+  const fields = [
+    {
+      column: "name",
+      valueKey: "user.name",
+    },
+    {
+      column: "surname",
+      valueKey: "user.surname",
+    },
+    {
+      column: "email",
+      valueKey: "user.email",
+    },
+    {
+      column: "processing_amount",
+      currency: "deposit_currency",
+      valueKey: "amount",
+    },
+    {
+      column: "profit_2",
+      currency: "order_currency",
+      valueKey: "profit",
+    },
+    {
+      column: "final_status_deposit",
+      valueKey: "status_by_admin",
+    },
+    {
+      column: "left_amount",
+      currency: "order_currency",
+      valueKey: "processing_amount",
+    },
+    {
+      column: "bank_name",
+      label: "payment_details",
+      valueKey: "payment_method.bank_name",
+    },
+    {
+      column: "card_holder",
+      valueKey: "payment_method.card_holder",
+    },
+    {
+      column: "card_number",
+      valueKey: "payment_method.card_number",
+      renderComponent: () => {
+        return (
+          <span
+            onClick={handleEditCard}
+            style={{ paddingLeft: "10px", cursor: "pointer" }}
+          >
+            <EditIcon />
+          </span>
+        );
+      },
+    },
+    {
+      column: "currency",
+      valueKey: "payment_method.currency",
+    },
+    {
+      column: "user_blocked_card",
+      valueKey: "user.bank_details.card_number",
+    },
+  ];
 
   return (
     <Box>
@@ -143,7 +207,6 @@ export const DepositInfo: FC = () => {
             fields={fields}
             title={"deposit_information"}
             loading={loading}
-            handleClick={handleEditCard}
           />
         </Box>
       )}
