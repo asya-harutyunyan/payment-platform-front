@@ -2,22 +2,22 @@ import bg from "@/assets/images/modal.png";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 
 import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
+import { CopyButton } from "@/components/atoms/copy-btn";
+import DynamicTable from "@/components/molecules/table-new";
 import {
-  confirmOrderByAdminThunk,
   deleteOrderThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
-import { Box, Tab, Tabs } from "@mui/material";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -30,7 +30,7 @@ export const OrderListComponent: FC = () => {
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<number>();
-  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  // const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
 
   const { user } = useAuth();
   useEffect(() => {
@@ -41,7 +41,6 @@ export const OrderListComponent: FC = () => {
         getOrdersThunk({
           page,
           per_page: user.role === "admin" ? 50 : 5,
-          status_by_client: filter,
         })
       );
     };
@@ -55,13 +54,9 @@ export const OrderListComponent: FC = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
     } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
     }
   };
   const columns = useMemo<IColumn<Order>[]>(
@@ -86,6 +81,13 @@ export const OrderListComponent: FC = () => {
       {
         column: "id",
         valueKey: "transaction_id",
+        renderComponent: (row: Order) => {
+          return (
+            row.transaction_id && (
+              <CopyButton text={row.transaction_id} color={"#7d7d7d"} />
+            )
+          );
+        },
       },
       {
         column: "card_number",
@@ -93,11 +95,29 @@ export const OrderListComponent: FC = () => {
       },
       {
         column: "key",
-        button: "statuses",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"outlined"}
+              text={t("see_more")}
+              sx={{ width: "130px" }}
+              onClick={() => handleSingleOrder?.(row.id)}
+            />
+          );
+        },
       },
       {
         column: "key",
-        button: "delete_order",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"error"}
+              text={"Удалить"}
+              sx={{ width: "130px" }}
+              onClick={() => handleDeleteModal?.(row.id)}
+            />
+          );
+        },
       },
     ],
     []
@@ -111,43 +131,38 @@ export const OrderListComponent: FC = () => {
     }
   };
 
-  const handleConfirm = (num?: number) => {
-    if (num) {
-      dispatch(confirmOrderByAdminThunk(num))
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar(t("confirm_order_success"), {
-            variant: "success",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-          dispatch(
-            getOrdersThunk({
-              page: page,
-              per_page: 50,
-              status_by_client: filter,
-            })
-          );
-        })
-        .catch(() => {
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        });
-    }
-  };
+  // const handleConfirm = (num?: number) => {
+  //   if (num) {
+  //     dispatch(confirmOrderByAdminThunk(num))
+  //       .unwrap()
+  //       .then(() => {
+  //         enqueueSnackbar(t("confirm_order_success"), {
+  //           variant: "success",
+  //           anchorOrigin: { vertical: "top", horizontal: "right" },
+  //         });
+  //         dispatch(
+  //           getOrdersThunk({
+  //             page: page,
+  //             per_page: 50,
+  //           })
+  //         );
+  //       })
+  //       .catch(() => {
+  //         enqueueSnackbar(t("something_went_wrong"), {
+  //           variant: "error",
+  //           anchorOrigin: { vertical: "top", horizontal: "right" },
+  //         });
+  //       });
+  //   }
+  // };
 
-  const refetch = () => {
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
-    }
-  };
+  // const refetch = () => {
+  //   if (user?.role === "admin") {
+  //     dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+  //   } else {
+  //     dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+  //   }
+  // };
   const handleDeleteModal = (id?: number) => {
     setOpenDeleteModal(true);
     setSelectedOrder(id);
@@ -175,29 +190,29 @@ export const OrderListComponent: FC = () => {
         });
     }
   };
-  const handleFilterChange = (
-    _: React.SyntheticEvent,
-    filter: DEPOSIT_STATUSES
-  ) => {
-    setFilter(filter);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 20,
-          status_by_client: filter,
-        })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 5,
-          status_by_client: filter,
-        })
-      );
-    }
-  };
+  // const handleFilterChange = (
+  //   _: React.SyntheticEvent,
+  //   filter: DEPOSIT_STATUSES
+  // ) => {
+  //   setFilter(filter);
+  //   if (user?.role === "admin") {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 20,
+  //         // status_by_client: filter,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 5,
+  //         // status_by_client: filter,
+  //       })
+  //     );
+  //   }
+  // };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -207,7 +222,7 @@ export const OrderListComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
-        <Tabs
+        {/* <Tabs
           value={filter}
           onChange={handleFilterChange}
           sx={{ color: "black", backgroundColor: "#f6f6f6", width: "90%" }}
@@ -232,7 +247,7 @@ export const OrderListComponent: FC = () => {
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />
-        </Tabs>
+        </Tabs> */}
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
@@ -246,11 +261,11 @@ export const OrderListComponent: FC = () => {
             <DynamicTable
               columns={columns}
               data={orders}
-              handleClick={handleConfirm}
-              handleDeleteOrder={handleDeleteModal}
-              onChangePage={onChangePage}
-              refetchData={refetch}
-              handleSinglePage={handleSingleOrder}
+              // handleClick={handleConfirm}
+              // handleDeleteOrder={handleDeleteModal}
+              // onChangePage={onChangePage}
+              // refetchData={refetch}
+              // handleSinglePage={handleSingleOrder}
             />
             <Box
               sx={{

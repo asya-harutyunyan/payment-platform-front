@@ -1,7 +1,8 @@
 import { User } from "@/common/types";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table-new";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";

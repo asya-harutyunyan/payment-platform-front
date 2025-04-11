@@ -1,32 +1,42 @@
 import bg from "@/assets/images/modal.png";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 
+import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
-import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
+import DynamicTable from "@/components/molecules/table-new";
+import { getStatusColor } from "@/components/utils/status-color";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByClientThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
-import { H3 } from "@/styles/typography";
-import { Box, Tab, Tabs } from "@mui/material";
+import { H3, H6, P } from "@/styles/typography";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
+import Countdown, { CountdownRenderProps } from "react-countdown";
 import { EmptyComponent } from "../empty-component";
+
+type ICountdownRendererFn = (
+  props: CountdownRenderProps,
+  id?: number
+) => React.ReactNode;
 
 export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
-  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  // const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
   const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState<boolean>(false);
+  const [addId, setAddId] = useState<number | null>(null);
 
   const { user } = useAuth();
   useEffect(() => {
@@ -37,7 +47,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: user.role === "admin" ? 20 : 5,
-          status_by_client: filter,
+          // status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
     };
@@ -52,12 +62,65 @@ export const UserOrdersComponent: FC = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 20, status_by_client: filter })
-      );
+      dispatch(getOrdersThunk({ page: page, per_page: 20 }));
     } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+    }
+  };
+  const handleOpen = () => setOpen(true);
+  const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
+    if (type) {
+      if (type === "CRYPTO") {
+        return new Date(
+          dayjs()
+            .add(
+              (dayjs(created_at).add(15, "minutes").unix() - dayjs().unix()) *
+                1000,
+              "milliseconds"
+            )
+            .format()
+        );
+      }
+
+      return new Date(
+        dayjs()
+          .add(
+            (dayjs(created_at).add(40, "minutes").unix() - dayjs().unix()) *
+              1000,
+            "milliseconds"
+          )
+          .format()
+      );
+    }
+    return new Date(
+      dayjs()
+        .add(
+          (dayjs(created_at).add(15, "minutes").unix() - dayjs().unix()) * 1000,
+          "milliseconds"
+        )
+        .format()
+    );
+  };
+  const countDownrenderer: ICountdownRendererFn = (
+    { completed, formatted },
+    id?: number
+  ) => {
+    if (completed) {
+      return <H6 color="primary.main">Не оплачен</H6>;
+    } else {
+      return (
+        <Button
+          variant={"contained"}
+          sx={{ fontSize: "0.7rem", width: "140px" }}
+          onClick={() => {
+            handleOpen();
+            if (id) {
+              setAddId(id);
+            }
+          }}
+          text={`Подтвердить- ${formatted.minutes}:
+          ${formatted.seconds}`}
+        ></Button>
       );
     }
   };
@@ -70,7 +133,37 @@ export const UserOrdersComponent: FC = () => {
       },
       {
         column: "order_status_user",
-        valueKey: "status_by_client",
+        renderComponent: (row: Order) => {
+          return row.status_by_client === "pending" ? (
+            <>
+              {" "}
+              <P
+                sx={{
+                  width: "120px",
+                }}
+              >
+                <Countdown
+                  date={getTimer(row.created_at as string, "FIAT")}
+                  renderer={(props) => {
+                    return countDownrenderer(props, row.id);
+                  }}
+                />
+              </P>
+            </>
+          ) : (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: getStatusColor(row.status_by_client ?? "-"),
+                fontWeight: 400,
+                textTransform: "capitalize",
+              }}
+            >
+              {row.status_by_client}
+            </span>
+          );
+        },
       },
       {
         column: "id",
@@ -87,7 +180,16 @@ export const UserOrdersComponent: FC = () => {
       },
       {
         column: "key",
-        button: "statuses",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"outlined"}
+              text={t("see_more")}
+              sx={{ width: "130px" }}
+              onClick={() => handleSingleOrder?.(row.id)}
+            />
+          );
+        },
       },
     ],
     []
@@ -106,13 +208,9 @@ export const UserOrdersComponent: FC = () => {
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
           if (user?.role === "client") {
-            dispatch(
-              getOrdersThunk({ page, per_page: 5, status_by_client: filter })
-            );
+            dispatch(getOrdersThunk({ page, per_page: 5 }));
           } else {
-            dispatch(
-              getOrdersThunk({ page, per_page: 20, status_by_client: filter })
-            );
+            dispatch(getOrdersThunk({ page, per_page: 20 }));
           }
         })
         .catch(() => {
@@ -132,49 +230,49 @@ export const UserOrdersComponent: FC = () => {
     }
   };
 
-  const refetch = () => {
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 20,
-          status_by_client: filter,
-        })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 5,
-          status_by_client: filter,
-        })
-      );
-    }
-  };
+  // const refetch = () => {
+  //   if (user?.role === "admin") {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 20,
+  //         // status_by_client: DEPOSIT_STATUSES.ALL,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 5,
+  //         // status_by_client: DEPOSIT_STATUSES.ALL,
+  //       })
+  //     );
+  //   }
+  // };
 
-  const handleFilterChange = (
-    _: React.SyntheticEvent,
-    filter: DEPOSIT_STATUSES
-  ) => {
-    setFilter(filter);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 20,
-          status_by_client: filter,
-        })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 5,
-          status_by_client: filter,
-        })
-      );
-    }
-  };
+  // const handleFilterChange = (
+  //   _: React.SyntheticEvent,
+  //   filter: DEPOSIT_STATUSES
+  // ) => {
+  //   setFilter(filter);
+  //   if (user?.role === "admin") {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 20,
+  //         status_by_client: filter,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       getOrdersThunk({
+  //         page: page,
+  //         per_page: 5,
+  //         status_by_client: filter,
+  //       })
+  //     );
+  //   }
+  // };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -184,7 +282,7 @@ export const UserOrdersComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
-        <Tabs
+        {/* <Tabs
           value={filter}
           onChange={handleFilterChange}
           sx={{ color: "black", backgroundColor: "#f6f6f6" }}
@@ -209,7 +307,7 @@ export const UserOrdersComponent: FC = () => {
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />
-        </Tabs>
+        </Tabs> */}
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
@@ -219,15 +317,7 @@ export const UserOrdersComponent: FC = () => {
               height: "100vh",
             }}
           >
-            <DynamicTable
-              columns={columns}
-              data={orders}
-              handleClick={handleConfirm}
-              onChangePage={onChangePage}
-              refetchData={refetch}
-              handleSinglePage={handleSingleOrder}
-              confirmText={"order_confirm_text"}
-            />
+            <DynamicTable columns={columns} data={orders} />
 
             <Box
               sx={{
@@ -271,6 +361,37 @@ export const UserOrdersComponent: FC = () => {
         >
           {t("left_amount_done")}
         </H3>
+      </BasicModal>
+      <BasicModal
+        handleClose={() => setOpen(false)}
+        open={open}
+        bg={bg}
+        width="50%"
+        minHeight="200px"
+      >
+        <H3
+          align="center"
+          sx={{
+            fontSize: {
+              lg: "1.5rem",
+              md: "1.5rem",
+              xs: "1.1rem",
+              sm: "1.1rem",
+            },
+          }}
+        >
+          {t("deposit_confirm_text")}
+        </H3>
+        <Button
+          variant={"outlinedWhite"}
+          sx={{ fontSize: "0.7rem", marginTop: "20px" }}
+          onClick={() => {
+            if (addId) {
+              handleConfirm(addId);
+            }
+          }}
+          text={t("confirm")}
+        />
       </BasicModal>
     </Box>
   );

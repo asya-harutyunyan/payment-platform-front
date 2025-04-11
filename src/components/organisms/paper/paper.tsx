@@ -2,9 +2,9 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
 import { H4 } from "@/styles/typography";
-import EditIcon from "@mui/icons-material/Edit";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
+import { ReactNode } from "react";
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
 
@@ -16,19 +16,13 @@ interface PaperProps<T> {
     label?: string;
     valueKey?: string;
     field?: string;
+    renderComponent?: (row: T) => ReactNode;
   }[];
   title?: string;
   loading?: boolean;
-  handleClick?: () => void | boolean;
 }
 
-export const Paper = <T,>({
-  data,
-  fields,
-  title,
-  loading,
-  handleClick,
-}: PaperProps<T>) => {
+export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
   return (
     <Box
       sx={{
@@ -84,9 +78,7 @@ export const Paper = <T,>({
                 alignItems: "center",
               }}
             >
-              {" "}
               <Box sx={{ width: "50%" }}>
-                {" "}
                 <Typography sx={{ fontWeight: 500 }}>
                   {t(field?.column ?? "")}
                 </Typography>
@@ -98,50 +90,19 @@ export const Paper = <T,>({
                     display: "flex",
                   }}
                 >
-                  {data ? (
-                    field.valueKey === "status" ||
-                    field.valueKey === "final_status" ||
-                    field.valueKey === "status_by_client" ||
-                    field.valueKey === "status_by_admin" ? (
-                      <span
-                        style={{
-                          color: getStatusColor(
-                            String(_.getPath?.(data, field.valueKey))
-                          ),
-                          fontWeight: 400,
-                          textTransform: "uppercase",
-                          display: "flex",
-                        }}
-                      >
-                        {t(String(_.getPath?.(data, field.valueKey)) || "-")}
-                      </span>
-                    ) : (
-                      <Typography
-                        sx={{
-                          fontSize: {
-                            lg: "1rem",
-                            md: "1rem",
-                            xs: "0.8rem",
-                            sm: "0.8rem",
-                          },
-                          display: "flex",
-                        }}
-                      >
-                        {String(_.getPath?.(data, field.valueKey) ?? "-")}
-                        {/* TODO:must be changed */}
-                        {field.column === "card_number" && (
-                          <span
-                            onClick={handleClick}
-                            style={{ paddingLeft: "10px", cursor: "pointer" }}
-                          >
-                            <EditIcon />
-                          </span>
-                        )}
-                      </Typography>
-                    )
-                  ) : (
-                    "-"
-                  )}
+                  <span
+                    style={{
+                      color: getStatusColor(
+                        String(_.getPath?.(data, field.valueKey))
+                      ),
+                      fontWeight: 400,
+                      textTransform: "capitalize",
+                      display: "flex",
+                    }}
+                  >
+                    {t(String(_.getPath?.(data, field.valueKey)) || "-")}
+                  </span>
+                  {field.renderComponent && field.renderComponent(data)}
 
                   {field.currency
                     ? ` ${

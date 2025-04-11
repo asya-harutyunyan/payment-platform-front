@@ -21,10 +21,7 @@ export const CopyButton: FC<ICopyButton> = ({ text, color }) => {
   };
 
   return (
-    <Box
-      onClick={handleCopy}
-      sx={{ padding: "0 10px", height: "40px", marginTop: "10px" }}
-    >
+    <Box onClick={handleCopy} sx={{ padding: "0 10px", marginTop: "10px" }}>
       <ContentCopyIcon sx={{ color: color ?? "tertiary.main" }} />
       {copied ? (
         <P sx={{ color: color ?? "tertiary.main", fontSize: "12px" }}>
