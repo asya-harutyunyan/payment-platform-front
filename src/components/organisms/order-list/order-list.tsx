@@ -47,7 +47,7 @@ export const OrderListComponent: FC = () => {
     };
 
     fetchOrders();
-    const interval = setInterval(fetchOrders, 20000);
+    const interval = setInterval(fetchOrders, 10000);
 
     return () => clearInterval(interval);
   }, [dispatch, page, user?.role]);
