@@ -5,10 +5,10 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GroupIcon from "@mui/icons-material/Group";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PersonIcon from "@mui/icons-material/Person";
 import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 import WalletIcon from "@mui/icons-material/Wallet";
-
 export const userItems = [
   {
     text: "task_list",
@@ -40,6 +40,11 @@ export const userItems = [
 export const adminItems = [
   { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
   {
+    text: "referred_users",
+    icon: <PeopleOutlineIcon />,
+    link: "/referred-users",
+  },
+  {
     text: "deposit_list",
     icon: <FormatListBulletedIcon />,
     link: "/deposit-list",
@@ -54,11 +59,6 @@ export const adminItems = [
     text: "reports",
     icon: <ChecklistRtlIcon />,
     link: "/reports",
-  },
-  {
-    text: "referred_users",
-    icon: <ChecklistRtlIcon />,
-    link: "/referred-users",
   },
   {
     text: "bank_card_list",
