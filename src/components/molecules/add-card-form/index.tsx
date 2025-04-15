@@ -31,6 +31,7 @@ export const BankCardDetalis: FC = () => {
     defaultValues: {
       bank_name_manual: "",
       card_holder: "",
+      bank_name: undefined,
       // phone_number: "",
       card_number: "",
       currency: "RUB",
@@ -43,15 +44,15 @@ export const BankCardDetalis: FC = () => {
   const options = [{ id: 1, name: "RUB" }];
 
   useEffect(() => {
-    setValue(
-      "bank_name",
-      {
-        name: "",
-        key: "",
-        id: 0,
-      },
-      { shouldValidate: false }
-    );
+    // setValue(
+    //   "bank_name",
+    //   {
+    //     name: "",
+    //     key: "",
+    //     id: 0,
+    //   },
+    //   { shouldValidate: false }
+    // );
 
     setValue("currency", "RUB", { shouldValidate: false });
     dispatch(getBankNamesThunk());
@@ -219,8 +220,8 @@ export const BankCardDetalis: FC = () => {
       />
 
       <Autocomplite
-        {...register("bank_name.name")}
-        name="bank_name.name"
+        {...register("bank_name")}
+        name="bank_name"
         control={control}
         options={banks}
         placeholder={t("bank_name")}
