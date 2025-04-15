@@ -18,6 +18,7 @@ const useSignUp = () => {
         name: "",
         surname: "",
         email: "",
+        referal_code: "",
         password: "",
         password_confirmation: "",
         checkbox: false,

@@ -1,9 +1,12 @@
 import ChecklistIcon from "@mui/icons-material/Checklist";
+import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
 import DvrIcon from "@mui/icons-material/Dvr";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
+import GroupIcon from "@mui/icons-material/Group";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PersonIcon from "@mui/icons-material/Person";
+import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 import WalletIcon from "@mui/icons-material/Wallet";
 
 export const userItems = [
@@ -27,6 +30,11 @@ export const userItems = [
     icon: <ImportExportIcon />,
     link: "/orders",
   },
+  {
+    text: "partner_program",
+    icon: <GroupIcon />,
+    link: "/partner-program",
+  },
 ];
 
 export const adminItems = [
@@ -38,18 +46,28 @@ export const adminItems = [
   },
   { text: "order_list", icon: <DvrIcon />, link: "/order-list" },
   {
-    text: "bank_card_list",
-    icon: <ChecklistIcon />,
-    link: "/bank-card-list",
-  },
-  {
     text: "wallet_list",
     icon: <WalletIcon />,
     link: "/wallet-list",
   },
   {
+    text: "reports",
+    icon: <ChecklistRtlIcon />,
+    link: "/reports",
+  },
+  {
+    text: "referred_users",
+    icon: <ChecklistRtlIcon />,
+    link: "/referred-users",
+  },
+  {
+    text: "bank_card_list",
+    icon: <ChecklistIcon />,
+    link: "/bank-card-list",
+  },
+  {
     text: "blocked_card_list",
-    icon: <WalletIcon />,
+    icon: <PlaylistRemoveIcon />,
     link: "/blocked-card-list",
   },
 ];

@@ -19,12 +19,15 @@ import { Route as AuthUserImport } from './routes/_auth/_user'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
 import { Route as AuthUserWalletIndexImport } from './routes/_auth/_user/wallet/index'
 import { Route as AuthUserStepsIndexImport } from './routes/_auth/_user/steps/index'
+import { Route as AuthUserPartnerProgramIndexImport } from './routes/_auth/_user/partner-program/index'
 import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/index'
 import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
 import { Route as AuthAdminWalletListIndexImport } from './routes/_auth/_admin/wallet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
 import { Route as AuthAdminTransactionListIndexImport } from './routes/_auth/_admin/transaction-list/index'
+import { Route as AuthAdminReportsIndexImport } from './routes/_auth/_admin/reports/index'
+import { Route as AuthAdminReferredUsersIndexImport } from './routes/_auth/_admin/referred-users/index'
 import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
 import { Route as AuthAdminDepositListIndexImport } from './routes/_auth/_admin/deposit-list/index'
 import { Route as AuthAdminBlockedCardListIndexImport } from './routes/_auth/_admin/blocked-card-list/index'
@@ -165,6 +168,13 @@ const AuthUserStepsIndexRoute = AuthUserStepsIndexImport.update({
   getParentRoute: () => AuthUserRoute,
 } as any)
 
+const AuthUserPartnerProgramIndexRoute =
+  AuthUserPartnerProgramIndexImport.update({
+    id: '/partner-program/',
+    path: '/partner-program/',
+    getParentRoute: () => AuthUserRoute,
+  } as any)
+
 const AuthUserOrdersIndexRoute = AuthUserOrdersIndexImport.update({
   id: '/orders/',
   path: '/orders/',
@@ -201,6 +211,19 @@ const AuthAdminTransactionListIndexRoute =
   AuthAdminTransactionListIndexImport.update({
     id: '/transaction-list/',
     path: '/transaction-list/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+
+const AuthAdminReportsIndexRoute = AuthAdminReportsIndexImport.update({
+  id: '/reports/',
+  path: '/reports/',
+  getParentRoute: () => AuthAdminRoute,
+} as any)
+
+const AuthAdminReferredUsersIndexRoute =
+  AuthAdminReferredUsersIndexImport.update({
+    id: '/referred-users/',
+    path: '/referred-users/',
     getParentRoute: () => AuthAdminRoute,
   } as any)
 
@@ -377,6 +400,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminOrderListIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/referred-users/': {
+      id: '/_auth/_admin/referred-users/'
+      path: '/referred-users'
+      fullPath: '/referred-users'
+      preLoaderRoute: typeof AuthAdminReferredUsersIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
+    '/_auth/_admin/reports/': {
+      id: '/_auth/_admin/reports/'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthAdminReportsIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/transaction-list/': {
       id: '/_auth/_admin/transaction-list/'
       path: '/transaction-list'
@@ -417,6 +454,13 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/orders'
       preLoaderRoute: typeof AuthUserOrdersIndexImport
+      parentRoute: typeof AuthUserImport
+    }
+    '/_auth/_user/partner-program/': {
+      id: '/_auth/_user/partner-program/'
+      path: '/partner-program'
+      fullPath: '/partner-program'
+      preLoaderRoute: typeof AuthUserPartnerProgramIndexImport
       parentRoute: typeof AuthUserImport
     }
     '/_auth/_user/steps/': {
@@ -481,6 +525,8 @@ interface AuthAdminRouteChildren {
   AuthAdminBlockedCardListIndexRoute: typeof AuthAdminBlockedCardListIndexRoute
   AuthAdminDepositListIndexRoute: typeof AuthAdminDepositListIndexRoute
   AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
+  AuthAdminReferredUsersIndexRoute: typeof AuthAdminReferredUsersIndexRoute
+  AuthAdminReportsIndexRoute: typeof AuthAdminReportsIndexRoute
   AuthAdminTransactionListIndexRoute: typeof AuthAdminTransactionListIndexRoute
   AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
   AuthAdminWalletListIndexRoute: typeof AuthAdminWalletListIndexRoute
@@ -494,6 +540,8 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminBlockedCardListIndexRoute: AuthAdminBlockedCardListIndexRoute,
   AuthAdminDepositListIndexRoute: AuthAdminDepositListIndexRoute,
   AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
+  AuthAdminReferredUsersIndexRoute: AuthAdminReferredUsersIndexRoute,
+  AuthAdminReportsIndexRoute: AuthAdminReportsIndexRoute,
   AuthAdminTransactionListIndexRoute: AuthAdminTransactionListIndexRoute,
   AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
   AuthAdminWalletListIndexRoute: AuthAdminWalletListIndexRoute,
@@ -509,6 +557,7 @@ interface AuthUserRouteChildren {
   AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
   AuthUserMyInformationIndexRoute: typeof AuthUserMyInformationIndexRoute
   AuthUserOrdersIndexRoute: typeof AuthUserOrdersIndexRoute
+  AuthUserPartnerProgramIndexRoute: typeof AuthUserPartnerProgramIndexRoute
   AuthUserStepsIndexRoute: typeof AuthUserStepsIndexRoute
   AuthUserWalletIndexRoute: typeof AuthUserWalletIndexRoute
 }
@@ -519,6 +568,7 @@ const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
   AuthUserMyInformationIndexRoute: AuthUserMyInformationIndexRoute,
   AuthUserOrdersIndexRoute: AuthUserOrdersIndexRoute,
+  AuthUserPartnerProgramIndexRoute: AuthUserPartnerProgramIndexRoute,
   AuthUserStepsIndexRoute: AuthUserStepsIndexRoute,
   AuthUserWalletIndexRoute: AuthUserWalletIndexRoute,
 }
@@ -575,12 +625,15 @@ export interface FileRoutesByFullPath {
   '/blocked-card-list': typeof AuthAdminBlockedCardListIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
+  '/referred-users': typeof AuthAdminReferredUsersIndexRoute
+  '/reports': typeof AuthAdminReportsIndexRoute
   '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
+  '/partner-program': typeof AuthUserPartnerProgramIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
   '/wallet': typeof AuthUserWalletIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
@@ -604,12 +657,15 @@ export interface FileRoutesByTo {
   '/blocked-card-list': typeof AuthAdminBlockedCardListIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
+  '/referred-users': typeof AuthAdminReferredUsersIndexRoute
+  '/reports': typeof AuthAdminReportsIndexRoute
   '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
+  '/partner-program': typeof AuthUserPartnerProgramIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
   '/wallet': typeof AuthUserWalletIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
@@ -637,12 +693,15 @@ export interface FileRoutesById {
   '/_auth/_admin/blocked-card-list/': typeof AuthAdminBlockedCardListIndexRoute
   '/_auth/_admin/deposit-list/': typeof AuthAdminDepositListIndexRoute
   '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
+  '/_auth/_admin/referred-users/': typeof AuthAdminReferredUsersIndexRoute
+  '/_auth/_admin/reports/': typeof AuthAdminReportsIndexRoute
   '/_auth/_admin/transaction-list/': typeof AuthAdminTransactionListIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
   '/_auth/_admin/wallet-list/': typeof AuthAdminWalletListIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
   '/_auth/_user/orders/': typeof AuthUserOrdersIndexRoute
+  '/_auth/_user/partner-program/': typeof AuthUserPartnerProgramIndexRoute
   '/_auth/_user/steps/': typeof AuthUserStepsIndexRoute
   '/_auth/_user/wallet/': typeof AuthUserWalletIndexRoute
   '/_no_auth/auth/change-password/': typeof NoauthAuthChangePasswordIndexLazyRoute
@@ -668,12 +727,15 @@ export interface FileRouteTypes {
     | '/blocked-card-list'
     | '/deposit-list'
     | '/order-list'
+    | '/referred-users'
+    | '/reports'
     | '/transaction-list'
     | '/user-list'
     | '/wallet-list'
     | '/deposit-info'
     | '/my-information'
     | '/orders'
+    | '/partner-program'
     | '/steps'
     | '/wallet'
     | '/auth/change-password'
@@ -696,12 +758,15 @@ export interface FileRouteTypes {
     | '/blocked-card-list'
     | '/deposit-list'
     | '/order-list'
+    | '/referred-users'
+    | '/reports'
     | '/transaction-list'
     | '/user-list'
     | '/wallet-list'
     | '/deposit-info'
     | '/my-information'
     | '/orders'
+    | '/partner-program'
     | '/steps'
     | '/wallet'
     | '/auth/change-password'
@@ -727,12 +792,15 @@ export interface FileRouteTypes {
     | '/_auth/_admin/blocked-card-list/'
     | '/_auth/_admin/deposit-list/'
     | '/_auth/_admin/order-list/'
+    | '/_auth/_admin/referred-users/'
+    | '/_auth/_admin/reports/'
     | '/_auth/_admin/transaction-list/'
     | '/_auth/_admin/user-list/'
     | '/_auth/_admin/wallet-list/'
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/my-information/'
     | '/_auth/_user/orders/'
+    | '/_auth/_user/partner-program/'
     | '/_auth/_user/steps/'
     | '/_auth/_user/wallet/'
     | '/_no_auth/auth/change-password/'
@@ -805,6 +873,8 @@ export const routeTree = rootRoute
         "/_auth/_admin/blocked-card-list/",
         "/_auth/_admin/deposit-list/",
         "/_auth/_admin/order-list/",
+        "/_auth/_admin/referred-users/",
+        "/_auth/_admin/reports/",
         "/_auth/_admin/transaction-list/",
         "/_auth/_admin/user-list/",
         "/_auth/_admin/wallet-list/"
@@ -819,6 +889,7 @@ export const routeTree = rootRoute
         "/_auth/_user/deposit-info/",
         "/_auth/_user/my-information/",
         "/_auth/_user/orders/",
+        "/_auth/_user/partner-program/",
         "/_auth/_user/steps/",
         "/_auth/_user/wallet/"
       ]
@@ -866,6 +937,14 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin/order-list/index.tsx",
       "parent": "/_auth/_admin"
     },
+    "/_auth/_admin/referred-users/": {
+      "filePath": "_auth/_admin/referred-users/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/reports/": {
+      "filePath": "_auth/_admin/reports/index.tsx",
+      "parent": "/_auth/_admin"
+    },
     "/_auth/_admin/transaction-list/": {
       "filePath": "_auth/_admin/transaction-list/index.tsx",
       "parent": "/_auth/_admin"
@@ -888,6 +967,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_user/orders/": {
       "filePath": "_auth/_user/orders/index.tsx",
+      "parent": "/_auth/_user"
+    },
+    "/_auth/_user/partner-program/": {
+      "filePath": "_auth/_user/partner-program/index.tsx",
       "parent": "/_auth/_user"
     },
     "/_auth/_user/steps/": {

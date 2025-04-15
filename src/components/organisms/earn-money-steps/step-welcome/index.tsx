@@ -97,11 +97,13 @@ export const StepWelcome = () => {
             },
           }}
         >
-          <img
-            src={telegram}
-            alt="telegram"
-            style={{ width: "30px", cursor: "pointer" }}
-          />
+          <a href="https://t.me/payhubofficial">
+            <img
+              src={telegram}
+              alt="telegram"
+              style={{ width: "30px", cursor: "pointer" }}
+            />
+          </a>
         </Box>
       </Box>
     </Box>

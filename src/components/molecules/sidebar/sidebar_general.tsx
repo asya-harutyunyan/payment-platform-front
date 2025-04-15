@@ -18,24 +18,38 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
       {items.map((item, index) => {
         const isActive = location.pathname === item.link;
         return (
-          <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px" }}>
+          <ListItem key={index} sx={{ width: "100%", padding: "0" }}>
             <Link
               to={item.link}
-              style={{ textDecoration: "none", width: "100%" }}
+              style={{
+                textDecoration: "none",
+                width: "100%",
+              }}
               onClick={onItemClick}
             >
-              <ListItemButton sx={{ width: "100%", padding: "20px 0" }}>
+              <ListItemButton
+                sx={{
+                  width: "100%",
+                  padding: "13px 0",
+                  ":hover": {
+                    backgroundColor: "#202a6083",
+                    borderRadius: "5px",
+                  },
+                }}
+              >
                 <ListItemIcon
                   sx={{
                     color: isActive
                       ? "white"
                       : theme.palette.secondary.contrastText,
+                    paddingLeft: "10px",
                   }}
                 >
                   {item.icon}
                 </ListItemIcon>
                 <P
                   sx={{
+                    fontSize: "0.9rem",
                     color: isActive
                       ? "white"
                       : theme.palette.secondary.contrastText,

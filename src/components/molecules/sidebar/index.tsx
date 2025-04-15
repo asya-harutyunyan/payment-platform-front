@@ -136,9 +136,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             zIndex: 1,
           }}
         >
-          {/* {user?.role === "client" && (
-            <MessageButton handleOpen={handleOpenChat} />
-          )} */}
           <LogoutButton handleLogout={handleLogout} />
         </Box>
       </Drawer>
@@ -170,9 +167,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               flexDirection: "column",
             }}
           >
-            {/* {user?.role === "client" && (
-              <MessageButton handleOpen={handleOpenChat} />
-            )} */}
             <LogoutButton handleLogout={handleLogout} />
           </Box>
         </Box>

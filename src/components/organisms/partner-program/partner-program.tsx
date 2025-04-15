@@ -1,0 +1,136 @@
+import Button from "@/components/atoms/button";
+import { CopyButton } from "@/components/atoms/copy-btn";
+import { CircularIndeterminate } from "@/components/atoms/loader";
+import { PaginationOutlined } from "@/components/atoms/pagination";
+import { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table-new";
+import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
+import {
+  getReferalsOfUserThunk,
+  getUserReferalThunk,
+} from "@/store/reducers/usersSlice/thunks";
+import { P } from "@/styles/typography";
+import { Box } from "@mui/material";
+import { t } from "i18next";
+import { FC, useEffect, useMemo, useState } from "react";
+import { EmptyComponent } from "../empty-component";
+
+export const PartnerProgramComponent: FC = () => {
+  const { referredUsers, total, loading } = useAppSelector(
+    (state) => state.users
+  );
+  const dispatch = useAppDispatch();
+  const [page, setPage] = useState(1);
+  const { user } = useAuth();
+
+  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
+    setPage?.(page);
+    dispatch(getReferalsOfUserThunk({ page: page, per_page: 5 }));
+  };
+
+  const columns = useMemo<IColumn<WalletType>[]>(
+    () => [
+      {
+        column: "network",
+        valueKey: "network",
+      },
+      {
+        column: "currency",
+        valueKey: "currency",
+      },
+      {
+        column: "address",
+        valueKey: "address",
+      },
+      {
+        column: "key",
+        renderComponent: () => {
+          return (
+            <Button
+              variant={"error"}
+              text={"Удалить"}
+              sx={{ width: "130px" }}
+            />
+          );
+        },
+      },
+    ],
+    []
+  );
+  const generateReferalCode = () => {
+    dispatch(getUserReferalThunk())
+      .unwrap()
+      .then(() => {
+        dispatch(getReferalsOfUserThunk({ page: page, per_page: 5 }));
+      });
+  };
+  useEffect(() => {
+    dispatch(getReferalsOfUserThunk({ page: page, per_page: 5 }));
+  }, []);
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <TaskHeader
+        title={t("partner_program")}
+        subTitle="Заработок 10% от дохода приведённых Вами пользователей"
+        renderComponent={
+          <Box sx={{ display: "flex", flexDirection: "column" }}>
+            <Button
+              variant={"gradient"}
+              text={t("generate")}
+              sx={{ width: "130px" }}
+              onClick={generateReferalCode}
+            />
+            {user?.referral_code ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "40px",
+                  padding: "10px 0",
+                }}
+              >
+                <CopyButton
+                  text={
+                    "https://loaTV9MAoJcuYtLIqN3K19/PayHub?node-id=1175-3730&t=MUWan3H3dJvKunUX-0"
+                  }
+                />
+                <P color="primary.main">{user?.referral_code}</P>
+              </Box>
+            ) : (
+              "not yet"
+            )}
+          </Box>
+        }
+      />
+
+      {loading ? (
+        <CircularIndeterminate />
+      ) : referredUsers.length > 0 ? (
+        <Box
+          sx={{
+            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+            height: "100vh",
+            marginTop: "20px",
+          }}
+        >
+          <DynamicTable columns={columns} data={referredUsers} />
+          <Box
+            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+          >
+            <PaginationOutlined
+              onPageChange={onChangePage}
+              count={total}
+              page={page}
+            />
+          </Box>
+        </Box>
+      ) : (
+        <EmptyComponent text={"no_data"} />
+      )}
+    </Box>
+  );
+};

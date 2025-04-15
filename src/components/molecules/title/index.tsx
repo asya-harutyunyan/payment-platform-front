@@ -1,14 +1,21 @@
 import theme from "@/styles/theme";
 import { H3, P } from "@/styles/typography";
 import { Box, Divider, SxProps } from "@mui/material";
+import { ReactNode } from "@tanstack/react-router";
 import { FC } from "react";
 
 interface ITaskHeader {
   title?: string;
   subTitle?: string;
   sx?: SxProps;
+  renderComponent?: ReactNode;
 }
-const TaskHeader: FC<ITaskHeader> = ({ title, subTitle, sx }) => {
+const TaskHeader: FC<ITaskHeader> = ({
+  title,
+  subTitle,
+  renderComponent,
+  sx,
+}) => {
   return (
     <Box sx={{ padding: "16px", width: "90%", ...sx }}>
       <H3
@@ -31,10 +38,10 @@ const TaskHeader: FC<ITaskHeader> = ({ title, subTitle, sx }) => {
           fontWeight: "500",
           padding: "10px 5px",
         }}
-        color={theme.palette.secondary.main}
       >
         {subTitle}
       </P>
+      <Box sx={{ margin: "20px 0" }}>{renderComponent}</Box>
       {subTitle && <Divider sx={{ marginTop: "8px", marginBottom: "30px" }} />}
     </Box>
   );

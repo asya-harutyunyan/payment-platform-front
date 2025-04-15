@@ -174,10 +174,6 @@ export const DepositInfo: FC = () => {
       column: "currency",
       valueKey: "payment_method.currency",
     },
-    {
-      column: "user_blocked_card",
-      valueKey: "user.bank_details.card_number",
-    },
   ];
 
   return (

@@ -96,11 +96,10 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                         String(_.getPath?.(data, field.valueKey))
                       ),
                       fontWeight: 400,
-                      // textTransform: "capitalize",
                       display: "flex",
                     }}
                   >
-                    {t(String(_.getPath?.(data, field.valueKey)) || "-")}
+                    {t(_.getPath?.(data, field.valueKey) ?? "-")}
                   </span>
                   {field.renderComponent && field.renderComponent(data)}
 

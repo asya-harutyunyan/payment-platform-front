@@ -26,8 +26,7 @@ const GeneralInfo: FC = () => {
         sx={{
           display: "flex",
           alignItems: "center",
-          marginBottom: "30px",
-          justifyContent: "center",
+          marginBottom: "15px",
         }}
       >
         <Box sx={{ marginRight: "10px" }}>

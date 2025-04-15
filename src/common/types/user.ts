@@ -5,6 +5,8 @@ export interface User {
   email: string;
   email_verified_at?: string;
   role: "admin" | "client";
+  referral_code: string;
+  key?: string;
   created_at: string;
   updated_at: string;
   bank_details: BankDetail[];
