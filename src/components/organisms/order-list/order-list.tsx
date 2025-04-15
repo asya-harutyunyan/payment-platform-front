@@ -71,6 +71,32 @@ export const OrderListComponent: FC = () => {
         valueKey: "user.surname",
       },
       {
+        column: "key",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"error"}
+              text={"Удалить"}
+              sx={{ width: "130px" }}
+              onClick={() => handleDeleteModal?.(row.id)}
+            />
+          );
+        },
+      },
+      {
+        column: "key",
+        renderComponent: (row: Order) => {
+          return (
+            <Button
+              variant={"outlined"}
+              text={t("see_more")}
+              sx={{ width: "130px" }}
+              onClick={() => handleSingleOrder?.(row.id)}
+            />
+          );
+        },
+      },
+      {
         column: "amount_order",
         currency: "wallet_deposit.order_currency",
         valueKey: "amount",
@@ -107,32 +133,6 @@ export const OrderListComponent: FC = () => {
       {
         column: "card_number",
         valueKey: "wallet_deposit.payment_method.card_number",
-      },
-      {
-        column: "key",
-        renderComponent: (row: Order) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleOrder?.(row.id)}
-            />
-          );
-        },
-      },
-      {
-        column: "key",
-        renderComponent: (row: Order) => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-              onClick={() => handleDeleteModal?.(row.id)}
-            />
-          );
-        },
       },
     ],
     []

@@ -31,6 +31,14 @@ export const BlockedCardList: FC = () => {
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
     () => [
       {
+        column: "name",
+        valueKey: "user.name",
+      },
+      {
+        column: "surname",
+        valueKey: "user.surname",
+      },
+      {
         column: "bank_name",
         valueKey: "bank_name",
       },
@@ -45,14 +53,6 @@ export const BlockedCardList: FC = () => {
       {
         column: "currency",
         valueKey: "currency",
-      },
-      {
-        column: "name",
-        valueKey: "user.name",
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
       },
     ],
     []

@@ -96,7 +96,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                         String(_.getPath?.(data, field.valueKey))
                       ),
                       fontWeight: 400,
-                      textTransform: "capitalize",
+                      // textTransform: "capitalize",
                       display: "flex",
                     }}
                   >

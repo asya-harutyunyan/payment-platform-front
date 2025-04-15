@@ -1,3 +1,4 @@
+import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
 import Button from "@/components/atoms/button";
 import theme from "@/styles/theme";
 import { H1, P } from "@/styles/typography";
@@ -5,19 +6,13 @@ import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import ReactPlayer from "react-player";
-
 export const StepWelcome = () => {
   const navigate = useNavigate();
   return (
     <Box
       sx={{
         width: "100%",
-        height: {
-          lg: "80vh",
-          md: "80vh",
-          xs: "max-content",
-          sm: "max-content",
-        },
+        height: "max-content",
         display: "flex",
         alignItems: "start",
         flexDirection: "column",
@@ -76,6 +71,38 @@ export const StepWelcome = () => {
             navigate({ to: "/steps" });
           }}
         />
+      </Box>
+      <Box
+        sx={{
+          width: { lg: "80%", md: "80%", sx: "100%", sm: "100%" },
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <P align="center" sx={{ paddingRight: "7px" }}>
+          {t("telegram")}
+        </P>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            padding: "3px",
+            ":hover": {
+              borderRadius: "3px",
+              backgroundColor: "#e8e8e8",
+              padding: "3px",
+              transition: "1s",
+            },
+          }}
+        >
+          <img
+            src={telegram}
+            alt="telegram"
+            style={{ width: "30px", cursor: "pointer" }}
+          />
+        </Box>
       </Box>
     </Box>
   );

@@ -41,7 +41,6 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
           height: "100%",
         }}
       >
-        {" "}
         <SadFolderIcon width={300} height={200} />
         <H4
           color="primary.main"

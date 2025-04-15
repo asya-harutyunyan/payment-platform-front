@@ -48,6 +48,38 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
           </ListItem>
         );
       })}
+      {/* <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <P
+          sx={{
+            color: theme.palette.secondary.contrastText,
+          }}
+        >
+          nkn
+        </P>
+        <P
+          sx={{
+            color: "white",
+          }}
+        >
+          334
+        </P>
+      </Box>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <P
+          sx={{
+            color: theme.palette.secondary.contrastText,
+          }}
+        >
+          gekm
+        </P>
+        <P
+          sx={{
+            color: "white",
+          }}
+        >
+          1222
+        </P>
+      </Box> */}
     </List>
   );
 };
