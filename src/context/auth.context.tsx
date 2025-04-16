@@ -1,4 +1,5 @@
 import { User } from "@/common/types";
+import { Wallet } from "@/common/types/user";
 import { useAppDispatch } from "@/store";
 import { fetchUser } from "@/store/reducers/auth/authSlice/thunks";
 import * as React from "react";
@@ -16,6 +17,8 @@ export interface AuthContext {
   setIsAuthenticated: Dispatch<SetStateAction<boolean>>;
   user?: User;
   setUser: Dispatch<SetStateAction<User | undefined>>;
+  wallet?: Wallet;
+  setWallet: Dispatch<SetStateAction<Wallet | undefined>>;
   fetchAuthUser?: () => void;
 }
 
@@ -26,8 +29,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     !!localStorage.getItem("accessToken")
   );
   const [user, setUser] = useState<User>();
+  const [wallet, setWallet] = useState<Wallet>();
+
   const dispatch = useAppDispatch();
-  console.log(user, "user");
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -36,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .then((user) => {
           if (user) {
             setUser(user.user);
+            setWallet(user.wallet);
           }
         });
     }
@@ -52,6 +57,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (localStorage.getItem("accessToken")) {
       const user = await dispatch(fetchUser()).unwrap();
       setUser(user.user);
+      setWallet(user.wallet);
     }
   };
 
@@ -61,6 +67,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated,
         setIsAuthenticated,
         user,
+        wallet,
+        setWallet,
         setUser,
         fetchAuthUser,
       }}

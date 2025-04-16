@@ -1,6 +1,13 @@
+import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { List, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+} from "@mui/material";
 import { Link, useLocation } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
@@ -12,7 +19,7 @@ interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
   const location = useLocation();
-
+  const { wallet } = useAuth();
   return (
     <List>
       {items.map((item, index) => {
@@ -62,38 +69,40 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
           </ListItem>
         );
       })}
-      {/* <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Box sx={{ display: "flex", padding: "25px 10px 10px 10px" }}>
         <P
           sx={{
             color: theme.palette.secondary.contrastText,
+            paddingRight: "10px",
           }}
         >
-          nkn
+          {t("earnings_amount")}:
         </P>
         <P
           sx={{
             color: "white",
           }}
         >
-          334
+          {wallet?.processing_amount} ₽
         </P>
       </Box>
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
+      <Box sx={{ display: "flex", padding: "10px" }}>
         <P
           sx={{
             color: theme.palette.secondary.contrastText,
+            paddingRight: "10px",
           }}
         >
-          gekm
+          {t("expected_profit")}:
         </P>
         <P
           sx={{
             color: "white",
           }}
         >
-          1222
+          {wallet?.profits} ₽
         </P>
-      </Box> */}
+      </Box>
     </List>
   );
 };

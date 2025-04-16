@@ -1,4 +1,5 @@
 import { User } from "@/common/types";
+import { Wallet } from "@/common/types/user";
 import { change_password_schema } from "@/schema/change_password.schema";
 import { comfirm_email_schema } from "@/schema/comfirm_email.schema";
 import { login_schema } from "@/schema/login.schema";
@@ -17,9 +18,5 @@ export type ChangePassword = z.infer<typeof change_password_schema>;
 
 export type FetchUserResponseType = {
   user: User;
-  wallet: {
-    profits: number;
-    processing_amount: number;
-    total: number;
-  };
+  wallet: Wallet;
 };

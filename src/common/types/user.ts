@@ -13,7 +13,11 @@ export interface User {
   updated_at: string;
   bank_details: BankDetail[];
 }
-
+export interface Wallet {
+  processing_amount: string;
+  profits: string;
+  total: number;
+}
 export interface BankDetail {
   id: number;
   user_id: number;
