@@ -27,6 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
   const [user, setUser] = useState<User>();
   const dispatch = useAppDispatch();
+  console.log(user, "user");
 
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
@@ -34,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .unwrap()
         .then((user) => {
           if (user) {
-            setUser(user);
+            setUser(user.user);
           }
         });
     }
@@ -50,7 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchAuthUser = async () => {
     if (localStorage.getItem("accessToken")) {
       const user = await dispatch(fetchUser()).unwrap();
-      setUser(user);
+      setUser(user.user);
     }
   };
 
