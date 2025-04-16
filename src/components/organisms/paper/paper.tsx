@@ -17,6 +17,7 @@ interface PaperProps<T> {
     valueKey?: string;
     field?: string;
     renderComponent?: (row: T) => ReactNode;
+    renderOptionalComponent?: (row: T) => ReactNode;
   }[];
   title?: string;
   loading?: boolean;
@@ -82,6 +83,11 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                 <Typography sx={{ fontWeight: 500 }}>
                   {t(field?.column ?? "")}
                 </Typography>
+                <Typography sx={{ fontWeight: 500 }}>
+                  {" "}
+                  {field.renderOptionalComponent &&
+                    field.renderOptionalComponent(data)}
+                </Typography>
               </Box>
               <Box sx={{ width: "50%" }}>
                 <Typography
@@ -92,14 +98,17 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                 >
                   <span
                     style={{
-                      color: getStatusColor(
-                        String(_.getPath?.(data, field.valueKey))
-                      ),
+                      color: field.valueKey
+                        ? getStatusColor(
+                            String(_.getPath?.(data, field.valueKey))
+                          )
+                        : "primary.main",
                       fontWeight: 400,
                       display: "flex",
                     }}
                   >
-                    {t(_.getPath?.(data, field.valueKey) ?? "-")}
+                    {field.valueKey &&
+                      t(_.getPath?.(data, field.valueKey) ?? "-")}
                   </span>
                   {field.renderComponent && field.renderComponent(data)}
 
