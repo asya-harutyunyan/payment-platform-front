@@ -116,7 +116,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           flexShrink: 0,
           height: "100vh",
           "& .MuiDrawer-paper": {
-            width: "22%",
+            width: "23%",
             padding: "30px",
             boxSizing: "border-box",
             backgroundColor: theme.palette.primary.main,

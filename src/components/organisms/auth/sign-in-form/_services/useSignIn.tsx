@@ -29,11 +29,12 @@ const useSignIn = () => {
         dispatch(fetchUser())
           .unwrap()
           .then((data) => {
-            if (data.id) {
-              setUser(data);
-              localStorage.setItem("user_role", data.role ?? "");
+            if (data.user) {
+              setUser(data.user);
+              localStorage.setItem("user_role", data.user.role ?? "");
               navigate({
-                to: data.role === "admin" ? "/user-list" : "/my-information",
+                to:
+                  data.user.role === "admin" ? "/user-list" : "/my-information",
               });
             }
           });

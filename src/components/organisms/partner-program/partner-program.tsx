@@ -2,15 +2,14 @@ import Button from "@/components/atoms/button";
 import { CopyButton } from "@/components/atoms/copy-btn";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import { IColumn } from "@/components/molecules/table";
-import DynamicTable from "@/components/molecules/table-new";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
+import { ReferralOfUser } from "@/store/reducers/user-info/depositSlice/types";
 import {
-  getReferalsOfUserThunk,
-  getUserReferalThunk,
+  generateCodeReferralThunk,
+  getReferalsUserThunk,
 } from "@/store/reducers/usersSlice/thunks";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
@@ -19,7 +18,7 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const PartnerProgramComponent: FC = () => {
-  const { referredUsers, total, loading } = useAppSelector(
+  const { referralUser, total, loading } = useAppSelector(
     (state) => state.users
   );
   const dispatch = useAppDispatch();
@@ -28,47 +27,39 @@ export const PartnerProgramComponent: FC = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getReferalsOfUserThunk({ page: page, per_page: 5 }));
+    dispatch(getReferalsUserThunk({ page: page, per_page: 5 }));
   };
 
-  const columns = useMemo<IColumn<WalletType>[]>(
+  const columns = useMemo<IColumn<ReferralOfUser>[]>(
     () => [
       {
-        column: "network",
-        valueKey: "network",
+        column: "name",
+        valueKey: "name",
       },
       {
-        column: "currency",
-        valueKey: "currency",
+        column: "surname",
+        valueKey: "surname",
       },
       {
-        column: "address",
-        valueKey: "address",
+        column: "amount",
+        valueKey: "amount",
       },
       {
-        column: "key",
-        renderComponent: () => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-            />
-          );
-        },
+        column: "email",
+        valueKey: "email",
       },
     ],
     []
   );
   const generateReferalCode = () => {
-    dispatch(getUserReferalThunk())
+    dispatch(generateCodeReferralThunk())
       .unwrap()
       .then(() => {
-        dispatch(getReferalsOfUserThunk({ page: page, per_page: 5 }));
+        dispatch(getReferalsUserThunk({ page: page, per_page: 5 }));
       });
   };
   useEffect(() => {
-    dispatch(getReferalsOfUserThunk({ page: page, per_page: 5 }));
+    dispatch(getReferalsUserThunk({ page: page, per_page: 5 }));
   }, []);
 
   return (
@@ -78,13 +69,15 @@ export const PartnerProgramComponent: FC = () => {
         subTitle="Заработок 10% от дохода приведённых Вами пользователей"
         renderComponent={
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Button
-              variant={"gradient"}
-              text={t("generate")}
-              sx={{ width: "130px" }}
-              onClick={generateReferalCode}
-            />
-            {user?.referral_code ? (
+            {!user?.referral?.referral_code && (
+              <Button
+                variant={"gradient"}
+                text={t("generate")}
+                sx={{ width: "130px" }}
+                onClick={generateReferalCode}
+              />
+            )}
+            {user?.referral?.referral_code && (
               <Box
                 sx={{
                   display: "flex",
@@ -98,10 +91,8 @@ export const PartnerProgramComponent: FC = () => {
                     "https://loaTV9MAoJcuYtLIqN3K19/PayHub?node-id=1175-3730&t=MUWan3H3dJvKunUX-0"
                   }
                 />
-                <P color="primary.main">{user?.referral_code}</P>
+                <P color="primary.main">{user?.referral?.referral_code}</P>
               </Box>
-            ) : (
-              "not yet"
             )}
           </Box>
         }
@@ -109,7 +100,7 @@ export const PartnerProgramComponent: FC = () => {
 
       {loading ? (
         <CircularIndeterminate />
-      ) : referredUsers.length > 0 ? (
+      ) : referralUser.length > 0 ? (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -117,7 +108,7 @@ export const PartnerProgramComponent: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={referredUsers} />
+          <DynamicTable columns={columns} data={referralUser} />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

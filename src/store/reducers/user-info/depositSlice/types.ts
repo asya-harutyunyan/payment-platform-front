@@ -59,7 +59,21 @@ export interface Wallet {
   updated_at: string;
   qr_code: string;
 }
-
+export interface RefferedUsersList {
+  name: string;
+  surname: string;
+  email: string;
+  referral_percentage: string;
+  total_amount: string;
+  ref_count: string;
+  referral_code: string;
+}
+export interface ReferralOfUser {
+  name: string;
+  surname: string;
+  email: string;
+  amount: string;
+}
 export interface BankCardsDetalis {
   bank_name: string;
   card_holder: string;

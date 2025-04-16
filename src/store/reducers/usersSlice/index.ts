@@ -1,8 +1,8 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   getBankNamesThunk,
-  getReferalsOfUserThunk,
-  getReferredUsersThunk,
+  getReferalsUserThunk,
+  getReferredUsersForAdminThunk,
   getUsersThunk,
   getUserThunk,
 } from "./thunks";
@@ -17,8 +17,8 @@ const initialState: UserState = {
   lastPage: null,
   total: 0,
   banks: [],
-  referralOfUsers: [],
-  referredUsers: [],
+  referralUser: [],
+  referralUsersForAdmin: [],
 };
 
 const usersSlice = createSlice({
@@ -37,15 +37,15 @@ const usersSlice = createSlice({
         state.loading = false;
         state.banks = action.payload;
       })
-      .addCase(getReferalsOfUserThunk.fulfilled, (state, action) => {
+      .addCase(getReferalsUserThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.referralOfUsers = action.payload;
+        state.referralUser = action.payload.referred_users;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
-      .addCase(getReferredUsersThunk.fulfilled, (state, action) => {
+      .addCase(getReferredUsersForAdminThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.referredUsers = action.payload;
+        state.referralUsersForAdmin = action.payload.referral_stats;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

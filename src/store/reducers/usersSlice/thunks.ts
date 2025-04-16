@@ -63,7 +63,7 @@ export const getUserThunk = createAsyncThunk(
   }
 );
 
-export const getUserReferalThunk = createAsyncThunk(
+export const generateCodeReferralThunk = createAsyncThunk(
   "users/getUserReferalThunk",
   async (_, { rejectWithValue }) => {
     try {
@@ -85,7 +85,7 @@ export const getUserReferalThunk = createAsyncThunk(
   }
 );
 
-export const getReferalsOfUserThunk = createAsyncThunk(
+export const getReferalsUserThunk = createAsyncThunk(
   "deposit/getReferalsOfUserThunk",
   async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
@@ -107,11 +107,11 @@ export const getReferalsOfUserThunk = createAsyncThunk(
   }
 );
 
-export const getReferredUsersThunk = createAsyncThunk(
-  "deposit/getReferredUsersThunk",
+export const getReferredUsersForAdminThunk = createAsyncThunk(
+  "deposit/getReferredUsersForAdminThunk",
   async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get("/referrals/referred-users", {
+      const response = await httpClient.get("/admin/referrals/stats", {
         params: {
           page: data.page,
           per_page: data.per_page,

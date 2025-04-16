@@ -1,14 +1,14 @@
 import bg from "@/assets/images/modal.png";
-import { CircularIndeterminate } from "@/components/atoms/loader";
-import { PaginationOutlined } from "@/components/atoms/pagination";
-import { IColumn } from "@/components/molecules/table";
-import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
-
+import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
 import Button from "@/components/atoms/button";
+import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
-import DynamicTable from "@/components/molecules/table-new";
+import { PaginationOutlined } from "@/components/atoms/pagination";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
+import TaskHeader from "@/components/molecules/title";
 import { getStatusColor } from "@/components/utils/status-color";
+import { useAuth } from "@/context/auth.context";
+import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   confirmOrderByClientThunk,
@@ -16,7 +16,7 @@ import {
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3, H6, P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
@@ -32,7 +32,7 @@ type ICountdownRendererFn = (
 
 export const UserOrdersComponent: FC = () => {
   const dispatch = useAppDispatch();
-  // const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
   const { orders, loading, total } = useAppSelector((state) => state.deposit);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState<boolean>(false);
@@ -47,7 +47,7 @@ export const UserOrdersComponent: FC = () => {
         getOrdersThunk({
           page: page,
           per_page: user.role === "admin" ? 20 : 5,
-          // status_by_client: DEPOSIT_STATUSES.ALL,
+          status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
     };
@@ -250,29 +250,29 @@ export const UserOrdersComponent: FC = () => {
   //   }
   // };
 
-  // const handleFilterChange = (
-  //   _: React.SyntheticEvent,
-  //   filter: DEPOSIT_STATUSES
-  // ) => {
-  //   setFilter(filter);
-  //   if (user?.role === "admin") {
-  //     dispatch(
-  //       getOrdersThunk({
-  //         page: page,
-  //         per_page: 20,
-  //         status_by_client: filter,
-  //       })
-  //     );
-  //   } else {
-  //     dispatch(
-  //       getOrdersThunk({
-  //         page: page,
-  //         per_page: 5,
-  //         status_by_client: filter,
-  //       })
-  //     );
-  //   }
-  // };
+  const handleFilterChange = (
+    _: React.SyntheticEvent,
+    filter: DEPOSIT_STATUSES
+  ) => {
+    setFilter(filter);
+    if (user?.role === "admin") {
+      dispatch(
+        getOrdersThunk({
+          page: page,
+          per_page: 20,
+          status_by_client: filter,
+        })
+      );
+    } else {
+      dispatch(
+        getOrdersThunk({
+          page: page,
+          per_page: 5,
+          status_by_client: filter,
+        })
+      );
+    }
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -282,7 +282,7 @@ export const UserOrdersComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
-        {/* <Tabs
+        <Tabs
           value={filter}
           onChange={handleFilterChange}
           sx={{ color: "black", backgroundColor: "#f6f6f6" }}
@@ -307,7 +307,7 @@ export const UserOrdersComponent: FC = () => {
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />
-        </Tabs> */}
+        </Tabs>
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
@@ -361,6 +361,40 @@ export const UserOrdersComponent: FC = () => {
         >
           {t("left_amount_done")}
         </H3>
+        <Box
+          sx={{
+            width: { lg: "80%", md: "80%", sx: "100%", sm: "100%" },
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <P align="center" sx={{ paddingRight: "7px" }} color="#e8e8e8">
+            {t("telegram")}
+          </P>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              padding: "3px",
+              ":hover": {
+                borderRadius: "3px",
+                backgroundColor: "#e8e8e8",
+                padding: "3px",
+                transition: "1s",
+              },
+            }}
+          >
+            <a href="https://t.me/payhubofficial">
+              <img
+                src={telegram}
+                alt="telegram"
+                style={{ width: "30px", cursor: "pointer" }}
+              />
+            </a>
+          </Box>
+        </Box>
       </BasicModal>
       <BasicModal
         handleClose={() => setOpen(false)}

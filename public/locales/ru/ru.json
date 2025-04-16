@@ -203,5 +203,9 @@
   "reports": "Отчёт платформы",
   "partner_program": "Партнерская Программа",
   "generate": "Сгенерировать",
-  "referred_users": "Приглашенные пользователи"
+  "referred_users": "Приглашенные пользователи",
+  "total_amount": "Общая сумма",
+  "referral_percentage": "Процент рефералов",
+  "ref_count": "Количество рефералов",
+  "referral_code": "Реферальный код"
 }

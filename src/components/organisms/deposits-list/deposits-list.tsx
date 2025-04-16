@@ -6,7 +6,7 @@ import DoneIcon from "@mui/icons-material/Done";
 
 import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
-import DynamicTable from "@/components/molecules/table-new";
+import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";

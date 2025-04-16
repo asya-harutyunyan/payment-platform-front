@@ -1,4 +1,5 @@
 import { httpClient } from "@/common/api";
+import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppState } from "../../..";
@@ -132,6 +133,32 @@ export const getOrdersThunk = createAsyncThunk(
   "deposit/getOrdersThunk",
   async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
+      const response = await httpClient.get("/orders/status", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          status_by_client:
+            data.status_by_client === DEPOSIT_STATUSES.ALL
+              ? undefined
+              : data.status_by_client,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const getOrdersStatusThunk = createAsyncThunk(
+  "deposit/getOrdersStatusThunk",
+  async (data: GetWalletRequest, { rejectWithValue }) => {
+    try {
       const response = await httpClient.get("/orders", {
         params: {
           page: data.page,
@@ -140,6 +167,31 @@ export const getOrdersThunk = createAsyncThunk(
           //   data.status_by_client === DEPOSIT_STATUSES.ALL
           //     ? undefined
           //     : data.status_by_client,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getOrdersWithStatusThunk = createAsyncThunk(
+  "deposit/getOrdersThunk",
+  async (data: GetWalletRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/orders/status", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          status_by_client:
+            data.status_by_client === DEPOSIT_STATUSES.ALL
+              ? undefined
+              : data.status_by_client,
         },
       });
       return response.data;

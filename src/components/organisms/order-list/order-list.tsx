@@ -10,15 +10,16 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import Button from "@/components/atoms/button";
 // import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { CopyButton } from "@/components/atoms/copy-btn";
-import DynamicTable from "@/components/molecules/table-new";
+import DynamicTable from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
+import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import {
   deleteOrderThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Tab, Tabs } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -31,7 +32,7 @@ export const OrderListComponent: FC = () => {
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<number>();
-  // const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
 
   const { user } = useAuth();
   useEffect(() => {
@@ -42,6 +43,7 @@ export const OrderListComponent: FC = () => {
         getOrdersThunk({
           page,
           per_page: user.role === "admin" ? 50 : 5,
+          status_by_client: filter,
         })
       );
     };
@@ -55,9 +57,13 @@ export const OrderListComponent: FC = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     if (user?.role === "admin") {
-      dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+      dispatch(
+        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
+      );
     } else {
-      dispatch(getOrdersThunk({ page: page, per_page: 5 }));
+      dispatch(
+        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+      );
     }
   };
   const columns = useMemo<IColumn<Order>[]>(
@@ -193,7 +199,13 @@ export const OrderListComponent: FC = () => {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
-          dispatch(getOrdersThunk({ page: page, per_page: 50 }));
+          dispatch(
+            getOrdersThunk({
+              page: page,
+              per_page: 50,
+              status_by_client: filter,
+            })
+          );
         })
         .catch(() => {
           setSelectedOrder(undefined);
@@ -205,29 +217,29 @@ export const OrderListComponent: FC = () => {
         });
     }
   };
-  // const handleFilterChange = (
-  //   _: React.SyntheticEvent,
-  //   filter: DEPOSIT_STATUSES
-  // ) => {
-  //   setFilter(filter);
-  //   if (user?.role === "admin") {
-  //     dispatch(
-  //       getOrdersThunk({
-  //         page: page,
-  //         per_page: 20,
-  //         // status_by_client: filter,
-  //       })
-  //     );
-  //   } else {
-  //     dispatch(
-  //       getOrdersThunk({
-  //         page: page,
-  //         per_page: 5,
-  //         // status_by_client: filter,
-  //       })
-  //     );
-  //   }
-  // };
+  const handleFilterChange = (
+    _: React.SyntheticEvent,
+    filter: DEPOSIT_STATUSES
+  ) => {
+    setFilter(filter);
+    if (user?.role === "admin") {
+      dispatch(
+        getOrdersThunk({
+          page: page,
+          per_page: 20,
+          status_by_client: filter,
+        })
+      );
+    } else {
+      dispatch(
+        getOrdersThunk({
+          page: page,
+          per_page: 5,
+          status_by_client: filter,
+        })
+      );
+    }
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -237,10 +249,10 @@ export const OrderListComponent: FC = () => {
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
         }}
       >
-        {/* <Tabs
+        <Tabs
           value={filter}
           onChange={handleFilterChange}
-          sx={{ color: "black", backgroundColor: "#f6f6f6", width: "90%" }}
+          sx={{ color: "black", backgroundColor: "#f6f6f6", width: "100%" }}
         >
           <Tab
             label="Все"
@@ -262,7 +274,7 @@ export const OrderListComponent: FC = () => {
             value={DEPOSIT_STATUSES.EXPRIED}
             sx={{ color: "black" }}
           />
-        </Tabs> */}
+        </Tabs>
         {loading ? (
           <CircularIndeterminate />
         ) : orders.length > 0 ? (
@@ -273,15 +285,7 @@ export const OrderListComponent: FC = () => {
               // overflowY: "auto",
             }}
           >
-            <DynamicTable
-              columns={columns}
-              data={orders}
-              // handleClick={handleConfirm}
-              // handleDeleteOrder={handleDeleteModal}
-              // onChangePage={onChangePage}
-              // refetchData={refetch}
-              // handleSinglePage={handleSingleOrder}
-            />
+            <DynamicTable columns={columns} data={orders} />
             <Box
               sx={{
                 display: "flex",

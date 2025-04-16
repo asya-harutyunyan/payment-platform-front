@@ -1,8 +1,7 @@
 import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import { IColumn } from "@/components/molecules/table";
-import DynamicTable from "@/components/molecules/table-new";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -24,21 +23,6 @@ export const Reports: FC = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-  // function CustomTabPanel(props: TabPanelProps) {
-  //   const { children, value, index, ...other } = props;
-
-  //   return (
-  //     <div
-  //       role="tabpanel"
-  //       hidden={value !== index}
-  //       id={`simple-tabpanel-${index}`}
-  //       aria-labelledby={`simple-tab-${index}`}
-  //       {...other}
-  //     >
-  //       {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
-  //     </div>
-  //   );
-  // }
 
   useEffect(() => {
     if (user?.role === "admin") {

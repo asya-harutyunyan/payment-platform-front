@@ -1,20 +1,18 @@
-import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import { IColumn } from "@/components/molecules/table";
-import DynamicTable from "@/components/molecules/table-new";
+import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
-import { getReferredUsersThunk } from "@/store/reducers/usersSlice/thunks";
+import { RefferedUsersList } from "@/store/reducers/user-info/depositSlice/types";
+import { getReferredUsersForAdminThunk } from "@/store/reducers/usersSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const ReferredUsers: FC = () => {
-  const { referredUsers, total, loading } = useAppSelector(
+  const { referralUsersForAdmin, total, loading } = useAppSelector(
     (state) => state.users
   );
   const dispatch = useAppDispatch();
@@ -22,39 +20,43 @@ export const ReferredUsers: FC = () => {
   const { user } = useAuth();
 
   useEffect(() => {
-    dispatch(getReferredUsersThunk({ page: page, per_page: 5 }));
+    dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 5 }));
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getReferredUsersThunk({ page: page, per_page: 20 }));
+    dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
   };
 
-  const columns = useMemo<IColumn<WalletType>[]>(
+  const columns = useMemo<IColumn<RefferedUsersList>[]>(
     () => [
       {
-        column: "network",
-        valueKey: "network",
+        column: "name",
+        valueKey: "name",
       },
       {
-        column: "currency",
-        valueKey: "currency",
+        column: "surname",
+        valueKey: "surname",
       },
       {
-        column: "address",
-        valueKey: "address",
+        column: "total_amount",
+        valueKey: "total_amount",
       },
       {
-        column: "key",
-        renderComponent: () => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-            />
-          );
-        },
+        column: "referral_percentage",
+        valueKey: "referral_percentage",
+      },
+      {
+        column: "ref_count",
+        valueKey: "ref_count",
+      },
+      {
+        column: "referral_code",
+        valueKey: "referral_code",
+      },
+      {
+        column: "email",
+        valueKey: "email",
       },
     ],
     []
@@ -65,7 +67,7 @@ export const ReferredUsers: FC = () => {
       <TaskHeader title={t("referred_users")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : referredUsers.length > 0 ? (
+      ) : referralUsersForAdmin.length > 0 ? (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -73,7 +75,7 @@ export const ReferredUsers: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={referredUsers} />
+          <DynamicTable columns={columns} data={referralUsersForAdmin} />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

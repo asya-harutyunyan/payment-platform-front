@@ -1,4 +1,8 @@
 import { User } from "@/common/types";
+import {
+  ReferralOfUser,
+  RefferedUsersList,
+} from "../user-info/depositSlice/types";
 
 export interface UserState {
   loading: boolean;
@@ -9,8 +13,8 @@ export interface UserState {
   lastPage: number | null;
   total: number;
   banks: BankNames[];
-  referredUsers: any;
-  referralOfUsers: any;
+  referralUsersForAdmin: RefferedUsersList[];
+  referralUser: ReferralOfUser[];
 }
 export type BankNames = {
   id: number;

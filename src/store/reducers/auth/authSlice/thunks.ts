@@ -4,7 +4,12 @@ import { ConfirmEmailFormData } from "@/components/organisms/auth/change-passwor
 import { ResetPasswordschema } from "@/components/organisms/auth/reset-password-form/_services/useLogin";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { ConfirmEmailType, LoginUserType, RegisterUserType } from "./types";
+import {
+  ConfirmEmailType,
+  FetchUserResponseType,
+  LoginUserType,
+  RegisterUserType,
+} from "./types";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -114,7 +119,8 @@ export const fetchUser = createAsyncThunk(
   "auth/fetchUser",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get<User>("/auth/user");
+      const response =
+        await httpClient.get<FetchUserResponseType>("/auth/user");
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
