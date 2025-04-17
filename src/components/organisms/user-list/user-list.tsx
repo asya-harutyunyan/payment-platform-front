@@ -1,93 +1,14 @@
-import { User } from "@/common/types";
-import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { blockUserThunk } from "@/store/reducers/auth/authSlice/thunks";
-import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 import { Box } from "@mui/material";
-import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
+import useUserList from "./_services/useUserList";
 
 export const UserListComponent: FC = () => {
-  const dispatch = useAppDispatch();
-  const route = useLocation();
-  const navigate = useNavigate();
-  const { users, total, loading } = useAppSelector((state) => state.users);
-  const { user } = useAuth();
-  const [page, setPage] = useState(1);
-  useEffect(() => {
-    if (user?.role === "admin") {
-      dispatch(getUsersThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getUsersThunk({ page: page, per_page: 5 }));
-    }
-  }, [dispatch, page, user?.role]);
-
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
-    setPage?.(page);
-    dispatch(getUsersThunk({ page: page, per_page: 20 }));
-  };
-  const handleSingleUser = (row?: number) => {
-    if (route.pathname === "/user-list") {
-      navigate({ to: `/user-list/${row}` });
-    }
-  };
-
-  const columns = useMemo<IColumn<User>[]>(
-    () => [
-      {
-        column: "name",
-        valueKey: "name",
-      },
-      {
-        column: "surname",
-        valueKey: "surname",
-      },
-      {
-        column: "email",
-        valueKey: "email",
-      },
-      {
-        column: "key",
-        renderComponent: (row: User) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleUser?.(row.id)}
-            />
-          );
-        },
-      },
-      {
-        column: "key",
-        renderComponent: (row: User) => {
-          return (
-            <Button
-              variant={"error"}
-              text={t("block")}
-              sx={{ width: "130px" }}
-              onClick={() => blockUser(row.id)}
-            />
-          );
-        },
-      },
-    ],
-    []
-  );
-  const blockUser = (id: number) => {
-    dispatch(blockUserThunk(id))
-      .unwrap()
-      .then(() => {
-        dispatch(getUsersThunk({ page: page, per_page: 20 }));
-      });
-  };
+  const { page, onChangePage, columns, users, total, loading } = useUserList();
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />

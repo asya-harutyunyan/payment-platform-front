@@ -1,4 +1,4 @@
-import { BankCardLists } from "@/components/organisms/bank-card-list/bank-card-list";
+import { BankCardLists } from "@/components/organisms/bank-card-list";
 import { createFileRoute } from "@tanstack/react-router";
 
 const BankCardList = () => {

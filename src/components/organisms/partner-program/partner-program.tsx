@@ -86,11 +86,7 @@ export const PartnerProgramComponent: FC = () => {
                   padding: "10px 0",
                 }}
               >
-                <CopyButton
-                  text={
-                    "https://loaTV9MAoJcuYtLIqN3K19/PayHub?node-id=1175-3730&t=MUWan3H3dJvKunUX-0"
-                  }
-                />
+                <CopyButton text={user?.referral?.referral_code} />
                 <P color="primary.main">{user?.referral?.referral_code}</P>
               </Box>
             )}

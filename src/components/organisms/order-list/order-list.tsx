@@ -1,245 +1,32 @@
 import bg from "@/assets/images/modal.png";
+import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import { IColumn } from "@/components/molecules/table";
-import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
-import { useAppDispatch, useAppSelector } from "@/store";
-
-import Button from "@/components/atoms/button";
-// import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import { CopyButton } from "@/components/atoms/copy-btn";
 import DynamicTable from "@/components/molecules/table";
-import { getStatusColor } from "@/components/utils/status-color";
+import TaskHeader from "@/components/molecules/title";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import {
-  deleteOrderThunk,
-  getOrdersThunk,
-} from "@/store/reducers/user-info/depositSlice/thunks";
-import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
 import { Box, Tab, Tabs } from "@mui/material";
-import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { enqueueSnackbar } from "notistack";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 import { EmptyComponent } from "../empty-component";
+import useAdminOrder from "./_services/useUserOrder";
 
 export const OrderListComponent: FC = () => {
-  const dispatch = useAppDispatch();
-  const { orders, total, loading } = useAppSelector((state) => state.deposit);
-  const [page, setPage] = useState(1);
-  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [selectedOrder, setSelectedOrder] = useState<number>();
-  const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
-
-  const { user } = useAuth();
-  useEffect(() => {
-    if (!user?.role) return;
-
-    const fetchOrders = () => {
-      dispatch(
-        getOrdersThunk({
-          page,
-          per_page: user.role === "admin" ? 50 : 5,
-          status_by_client: filter,
-        })
-      );
-    };
-
-    fetchOrders();
-    const interval = setInterval(fetchOrders, 10000);
-
-    return () => clearInterval(interval);
-  }, [dispatch, page, user?.role]);
-
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
-    setPage?.(page);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
-    }
-  };
-  const columns = useMemo<IColumn<Order>[]>(
-    () => [
-      {
-        column: "name",
-        valueKey: "user.name",
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
-      },
-      {
-        column: "key",
-        renderComponent: (row: Order) => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-              onClick={() => handleDeleteModal?.(row.id)}
-            />
-          );
-        },
-      },
-      {
-        column: "key",
-        renderComponent: (row: Order) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleOrder?.(row.id)}
-            />
-          );
-        },
-      },
-      {
-        column: "amount_order",
-        currency: "wallet_deposit.order_currency",
-        valueKey: "amount",
-      },
-      {
-        column: "order_status_admin",
-        renderComponent: (row: Order) => {
-          return (
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: getStatusColor(row.status_by_client ?? "-"),
-                fontWeight: 400,
-                textTransform: "capitalize",
-              }}
-            >
-              {row.status_by_client && t(row.status_by_client)}
-            </span>
-          );
-        },
-      },
-      {
-        column: "id",
-        valueKey: "transaction_id",
-        renderComponent: (row: Order) => {
-          return (
-            row.transaction_id && (
-              <CopyButton text={row.transaction_id} color={"#7d7d7d"} />
-            )
-          );
-        },
-      },
-      {
-        column: "card_number",
-        valueKey: "wallet_deposit.payment_method.card_number",
-      },
-    ],
-    []
-  );
-  const navigate = useNavigate();
-  const route = useLocation();
-
-  const handleSingleOrder = (row?: number) => {
-    if (route.pathname === "/order-list") {
-      navigate({ to: `/order-list/${row}` });
-    }
-  };
-
-  // const handleConfirm = (num?: number) => {
-  //   if (num) {
-  //     dispatch(confirmOrderByAdminThunk(num))
-  //       .unwrap()
-  //       .then(() => {
-  //         enqueueSnackbar(t("confirm_order_success"), {
-  //           variant: "success",
-  //           anchorOrigin: { vertical: "top", horizontal: "right" },
-  //         });
-  //         dispatch(
-  //           getOrdersThunk({
-  //             page: page,
-  //             per_page: 50,
-  //           })
-  //         );
-  //       })
-  //       .catch(() => {
-  //         enqueueSnackbar(t("something_went_wrong"), {
-  //           variant: "error",
-  //           anchorOrigin: { vertical: "top", horizontal: "right" },
-  //         });
-  //       });
-  //   }
-  // };
-
-  // const refetch = () => {
-  //   if (user?.role === "admin") {
-  //     dispatch(getOrdersThunk({ page: page, per_page: 50 }));
-  //   } else {
-  //     dispatch(getOrdersThunk({ page: page, per_page: 5 }));
-  //   }
-  // };
-  const handleDeleteModal = (id?: number) => {
-    setOpenDeleteModal(true);
-    setSelectedOrder(id);
-  };
-  const handleDeleteOrder = () => {
-    if (selectedOrder) {
-      dispatch(deleteOrderThunk(selectedOrder))
-        .unwrap()
-        .then(() => {
-          setSelectedOrder(undefined);
-          setOpenDeleteModal(false);
-          enqueueSnackbar(t("success_delete_order"), {
-            variant: "success",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-          dispatch(
-            getOrdersThunk({
-              page: page,
-              per_page: 50,
-              status_by_client: filter,
-            })
-          );
-        })
-        .catch(() => {
-          setSelectedOrder(undefined);
-          setOpenDeleteModal(false);
-          enqueueSnackbar(t("error"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        });
-    }
-  };
-  const handleFilterChange = (
-    _: React.SyntheticEvent,
-    filter: DEPOSIT_STATUSES
-  ) => {
-    setFilter(filter);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 20,
-          status_by_client: filter,
-        })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 5,
-          status_by_client: filter,
-        })
-      );
-    }
-  };
+  const {
+    orders,
+    total,
+    loading,
+    page,
+    openDeleteModal,
+    setOpenDeleteModal,
+    filter,
+    onChangePage,
+    columns,
+    handleDeleteOrder,
+    handleFilterChange,
+  } = useAdminOrder();
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -282,7 +69,6 @@ export const OrderListComponent: FC = () => {
             sx={{
               width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
               height: "100vh",
-              // overflowY: "auto",
             }}
           >
             <DynamicTable columns={columns} data={orders} />

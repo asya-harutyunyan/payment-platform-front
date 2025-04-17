@@ -90,9 +90,9 @@ const SignUpForm: FC = () => {
         />
         <FormTextInput
           control={control}
-          {...register("referal_code")}
-          name="referal_code"
-          placeholder={t("referal_code")}
+          {...register("referral_code")}
+          name="referral_code"
+          placeholder={t("referral_code")}
         />
         <FormTextInput
           control={control}

@@ -20,7 +20,11 @@ export const fields = [
     column: "key",
     renderOptionalComponent: (row: User) => (
       <>
-        <H5 color="primary.main">{t("user_cards")}</H5>
+        {row?.bank_details.length ? (
+          <H5 color="primary.main">{t("user_cards")}</H5>
+        ) : (
+          ""
+        )}
         {row?.bank_details.length
           ? row?.bank_details?.map(
               ({ id, bank_name, card_holder, card_number, currency }) => (
