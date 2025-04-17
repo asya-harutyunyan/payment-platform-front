@@ -210,5 +210,6 @@
   "total_amount": "Общая сумма",
   "referral_percentage": "Процент рефералов",
   "ref_count": "Количество рефералов",
-  "referral_code": "Реферальный код"
+  "referral_code": "Реферальный код",
+  "platipay": "Платформа PlatiPay"
 }

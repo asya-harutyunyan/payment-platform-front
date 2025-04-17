@@ -83,7 +83,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
             color: "white",
           }}
         >
-          {wallet?.processing_amount} ₽
+          {wallet?.processing_amount ?? "0"} ₽
         </P>
       </Box>
       <Box sx={{ display: "flex", padding: "10px" }}>
@@ -100,7 +100,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
             color: "white",
           }}
         >
-          {wallet?.profits} ₽
+          {wallet?.profits ?? "0"} ₽
         </P>
       </Box>
     </List>

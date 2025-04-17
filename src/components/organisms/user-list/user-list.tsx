@@ -6,6 +6,7 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
+import { blockUserThunk } from "@/store/reducers/auth/authSlice/thunks";
 import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
@@ -29,11 +30,7 @@ export const UserListComponent: FC = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    if (user?.role === "admin") {
-      dispatch(getUsersThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getUsersThunk({ page: page, per_page: 5 }));
-    }
+    dispatch(getUsersThunk({ page: page, per_page: 20 }));
   };
   const handleSingleUser = (row?: number) => {
     if (route.pathname === "/user-list") {
@@ -70,12 +67,13 @@ export const UserListComponent: FC = () => {
       },
       {
         column: "key",
-        renderComponent: () => {
+        renderComponent: (row: User) => {
           return (
             <Button
               variant={"error"}
               text={t("block")}
               sx={{ width: "130px" }}
+              onClick={() => blockUser(row.id)}
             />
           );
         },
@@ -83,7 +81,13 @@ export const UserListComponent: FC = () => {
     ],
     []
   );
-
+  const blockUser = (id: number) => {
+    dispatch(blockUserThunk(id))
+      .unwrap()
+      .then(() => {
+        dispatch(getUsersThunk({ page: page, per_page: 20 }));
+      });
+  };
   return (
     <Box>
       <TaskHeader title={t("user_list_title")} />

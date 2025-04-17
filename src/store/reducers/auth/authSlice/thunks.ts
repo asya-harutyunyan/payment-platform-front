@@ -168,3 +168,19 @@ export const changePassword = createAsyncThunk<User, ConfirmEmailFormData>(
     }
   }
 );
+export const blockUserThunk = createAsyncThunk(
+  "auth/blockUserThunk",
+  async (id: string | number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post(`/users/block/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
