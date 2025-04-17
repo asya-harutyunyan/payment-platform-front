@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
-import { Paper } from "../paper/paper";
+import { Paper } from "../../molecules/paper/paper";
 import { fields } from "./columns";
 
 export const UserInfo: FC = () => {

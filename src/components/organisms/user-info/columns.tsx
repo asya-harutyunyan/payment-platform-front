@@ -1,6 +1,6 @@
 import { User } from "@/common/types";
 import { H5, P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Divider } from "@mui/material";
 import { t } from "i18next";
 
 export const fields = [
@@ -20,6 +20,7 @@ export const fields = [
     column: "key",
     renderOptionalComponent: (row: User) => (
       <>
+        <H5 color="primary.main">{t("user_cards")}</H5>
         {row?.bank_details.length
           ? row?.bank_details?.map(
               ({ id, bank_name, card_holder, card_number, currency }) => (
@@ -31,7 +32,6 @@ export const fields = [
                     marginBottom: "10px",
                   }}
                 >
-                  <H5 color="primary.main">{t("user_cards")}</H5>
                   <P>
                     <span style={{ fontWeight: "500" }}>{t("bank_name")}</span>:{" "}
                     {bank_name}
@@ -53,6 +53,7 @@ export const fields = [
                     <span style={{ fontWeight: "500" }}>{t("currency")}</span>:{" "}
                     {currency}
                   </P>
+                  <Divider sx={{ paddingTop: "10px" }} />
                 </Box>
               )
             )

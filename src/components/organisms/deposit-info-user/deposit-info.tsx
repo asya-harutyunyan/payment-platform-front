@@ -1,26 +1,16 @@
 import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { getSingleDepositThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { Box } from "@mui/material";
-import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
-import { FC, useEffect } from "react";
-import { Paper } from "../paper/paper";
+import { FC } from "react";
+import { Paper } from "../../molecules/paper/paper";
+import useDepositInfo from "./_services/useDepositInfo";
 import { fields } from "./columns";
 
 export const DepositInfoUser: FC = () => {
-  const { singleDeposit, loading } = useAppSelector((state) => state.deposit);
-  const { id } = useParams({ from: "/_auth/_user/deposit-info/$id" });
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const canGoBack = useCanGoBack();
-
-  useEffect(() => {
-    dispatch(getSingleDepositThunk(id));
-  }, [dispatch, id]);
+  const { singleDeposit, loading, router, canGoBack } = useDepositInfo();
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>

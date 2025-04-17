@@ -1,1 +1,1 @@
-export * from "./bank-card-list";
+export * from "./blocked-card-list";
