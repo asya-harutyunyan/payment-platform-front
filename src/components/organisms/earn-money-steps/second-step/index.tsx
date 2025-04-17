@@ -118,7 +118,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
           title={t("profit")}
           sub_title={`${formatPrice(updatedPrice)} ₽`}
         >
-          {user?.bank_details.length ? (
+          {user?.bank_details.length && user?.bank_details.length < 3 ? (
             <Box
               sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}
               onClick={handleOpen}

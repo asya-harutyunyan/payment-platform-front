@@ -1,6 +1,7 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
 import {
   getBankNamesThunk,
+  getBlockedUsersThunk,
   getReferalsUserThunk,
   getReferredUsersForAdminThunk,
   getUsersThunk,
@@ -12,6 +13,7 @@ const initialState: UserState = {
   loading: false,
   error: null,
   users: [],
+  blockedUsers: [],
   user: null,
   currentPage: null,
   lastPage: null,
@@ -30,6 +32,12 @@ const usersSlice = createSlice({
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.users = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getBlockedUsersThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.blockedUsers = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

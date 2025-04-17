@@ -25,6 +25,27 @@ export const getUsersThunk = createAsyncThunk(
     }
   }
 );
+export const getBlockedUsersThunk = createAsyncThunk(
+  "users/getBlockedUsersThunk",
+  async (data: GetUsersRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get<UsersList>("/users/blocked", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 export const getBankNamesThunk = createAsyncThunk(
   "bankDetails/getBankNamesThunk",
   async (_, { rejectWithValue }) => {

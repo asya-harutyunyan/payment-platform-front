@@ -8,6 +8,7 @@ export interface UserState {
   loading: boolean;
   error: string | null;
   users: User[];
+  blockedUsers: User[];
   user: User | null;
   currentPage: number | null;
   lastPage: number | null;

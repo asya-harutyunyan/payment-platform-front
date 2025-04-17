@@ -4,7 +4,10 @@ import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { blockUserThunk } from "@/store/reducers/auth/authSlice/thunks";
-import { getUsersThunk } from "@/store/reducers/usersSlice/thunks";
+import {
+  getBlockedUsersThunk,
+  getUsersThunk,
+} from "@/store/reducers/usersSlice/thunks";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
@@ -13,20 +16,30 @@ const useUserList = () => {
   const dispatch = useAppDispatch();
   const route = useLocation();
   const navigate = useNavigate();
-  const { users, total, loading } = useAppSelector((state) => state.users);
+  const { users, blockedUsers, total, loading } = useAppSelector(
+    (state) => state.users
+  );
   const { user } = useAuth();
   const [page, setPage] = useState(1);
   useEffect(() => {
-    if (user?.role === "admin") {
-      dispatch(getUsersThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getUsersThunk({ page: page, per_page: 5 }));
-    }
+    dispatch(getUsersThunk({ page: page, per_page: 20 }));
+    dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
   }, [dispatch, page, user?.role]);
 
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
+  const onChangeUsersPage = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
     setPage?.(page);
     dispatch(getUsersThunk({ page: page, per_page: 20 }));
+  };
+
+  const onChangeBlockedUsersPage = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setPage?.(page);
+    dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
   };
   const handleSingleUser = (row?: number) => {
     if (route.pathname === "/user-list") {
@@ -34,7 +47,7 @@ const useUserList = () => {
     }
   };
 
-  const columns = useMemo<IColumn<User>[]>(
+  const columnsUsers = useMemo<IColumn<User>[]>(
     () => [
       {
         column: "name",
@@ -77,11 +90,29 @@ const useUserList = () => {
     ],
     []
   );
+  const columnsBlockedUsers = useMemo<IColumn<User>[]>(
+    () => [
+      {
+        column: "name",
+        valueKey: "name",
+      },
+      {
+        column: "surname",
+        valueKey: "surname",
+      },
+      {
+        column: "email",
+        valueKey: "email",
+      },
+    ],
+    []
+  );
   const blockUser = (id: number) => {
     dispatch(blockUserThunk(id))
       .unwrap()
       .then(() => {
         dispatch(getUsersThunk({ page: page, per_page: 20 }));
+        dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
       });
   };
 
@@ -92,11 +123,14 @@ const useUserList = () => {
     user,
     page,
     setPage,
-    onChangePage,
+    onChangeUsersPage,
+    onChangeBlockedUsersPage,
     handleSingleUser,
-    columns,
+    columnsUsers,
+    columnsBlockedUsers,
     blockUser,
     users,
+    blockedUsers,
     total,
     loading,
   };

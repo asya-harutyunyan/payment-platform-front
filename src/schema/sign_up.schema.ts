@@ -12,9 +12,7 @@ export const auth_schema = z
       .min(3, "Фамилия должна содержать минимум 3 символа")
       .max(15, "Фамилия не должна превышать 15 символов"),
     email: z.string().email().max(50, "Email не должен превышать 50 символов"),
-    referral_code: z
-      .string()
-      .min(3, "Фамилия должна содержать минимум 3 символа"),
+    referral_code: z.string(),
     password: z
       .string()
       .min(6, "Пароль должен содержать минимум 6 символов")
