@@ -184,3 +184,20 @@ export const blockUserThunk = createAsyncThunk(
     }
   }
 );
+
+export const unblockUserThunk = createAsyncThunk(
+  "auth/unblockUserThunk",
+  async (id: string | number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post(`/users/unblock/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);

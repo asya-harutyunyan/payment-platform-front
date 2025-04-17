@@ -98,7 +98,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
       .replace(".", ",")
       .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
-  console.log(showAddCard);
 
   return (
     <Box>

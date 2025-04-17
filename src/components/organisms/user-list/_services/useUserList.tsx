@@ -3,7 +3,10 @@ import Button from "@/components/atoms/button";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { blockUserThunk } from "@/store/reducers/auth/authSlice/thunks";
+import {
+  blockUserThunk,
+  unblockUserThunk,
+} from "@/store/reducers/auth/authSlice/thunks";
 import {
   getBlockedUsersThunk,
   getUsersThunk,
@@ -104,11 +107,45 @@ const useUserList = () => {
         column: "email",
         valueKey: "email",
       },
+      {
+        column: "key",
+        renderComponent: (row: User) => {
+          return (
+            <Button
+              variant={"outlined"}
+              text={t("see_more")}
+              sx={{ width: "130px" }}
+              onClick={() => handleSingleUser?.(row.id)}
+            />
+          );
+        },
+      },
+      {
+        column: "key",
+        renderComponent: (row: User) => {
+          return (
+            <Button
+              variant={"contained"}
+              text={t("unblock")}
+              sx={{ width: "130px" }}
+              onClick={() => unblockUser(row.id)}
+            />
+          );
+        },
+      },
     ],
     []
   );
   const blockUser = (id: number) => {
     dispatch(blockUserThunk(id))
+      .unwrap()
+      .then(() => {
+        dispatch(getUsersThunk({ page: page, per_page: 20 }));
+        dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
+      });
+  };
+  const unblockUser = (id: number) => {
+    dispatch(unblockUserThunk(id))
       .unwrap()
       .then(() => {
         dispatch(getUsersThunk({ page: page, per_page: 20 }));

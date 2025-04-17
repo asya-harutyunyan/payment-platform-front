@@ -25,6 +25,7 @@ export const getUsersThunk = createAsyncThunk(
     }
   }
 );
+
 export const getBlockedUsersThunk = createAsyncThunk(
   "users/getBlockedUsersThunk",
   async (data: GetUsersRequest, { rejectWithValue }) => {
@@ -46,6 +47,7 @@ export const getBlockedUsersThunk = createAsyncThunk(
     }
   }
 );
+
 export const getBankNamesThunk = createAsyncThunk(
   "bankDetails/getBankNamesThunk",
   async (_, { rejectWithValue }) => {
