@@ -24,6 +24,13 @@ export interface DepositState {
       amount: number;
     };
   };
+  orderSummary: OrderDeposit;
+}
+export interface OrderDeposit {
+  active_cards: number;
+  deposited_amounts: number;
+  not_deposited_yet_amount: number;
+  expiredAmount: number;
 }
 export type AmountType = z.infer<typeof deposit_id_schema>;
 export type WalletDetalisType = z.infer<typeof wallet_usdt_details_schema>;

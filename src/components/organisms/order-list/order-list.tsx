@@ -6,7 +6,7 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import { H3 } from "@/styles/typography";
+import { H3, P } from "@/styles/typography";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
@@ -26,11 +26,70 @@ export const OrderListComponent: FC = () => {
     columns,
     handleDeleteOrder,
     handleFilterChange,
+    orderSummary,
   } = useAdminOrder();
 
+  const OrderSummary = () => {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Количество активных карт:
+          </P>
+          <P>{orderSummary.active_cards}</P>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Сумма, залитая на карты:
+          </P>
+          <P>{orderSummary.deposited_amounts}₽</P>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Полученная сумма:
+          </P>
+          <P>{orderSummary.expiredAmount}₽</P>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Ожидаемая сумма:
+          </P>
+          <P>{orderSummary.not_deposited_yet_amount}₽</P>
+        </Box>
+      </Box>
+    );
+  };
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("order_list")} />
+      <TaskHeader title={t("order_list")} renderComponent={OrderSummary()} />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },

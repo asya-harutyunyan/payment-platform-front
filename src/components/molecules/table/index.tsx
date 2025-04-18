@@ -29,6 +29,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   data: T[];
   refetchData?: () => void;
   onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
+  renderSortComponent?: ReactNode;
 }
 
 function DynamicTable<
@@ -47,7 +48,7 @@ function DynamicTable<
     isNeedBtnConfirm?: boolean;
     done_arrow?: string;
   },
->({ columns, data }: TableProps<T>) {
+>({ columns, data, renderSortComponent }: TableProps<T>) {
   return (
     <>
       <TableContainer component={Paper}>
@@ -57,7 +58,12 @@ function DynamicTable<
           }}
         >
           <TableHead>
-            <TableRow sx={{ borderBottom: "3px solid #041F44" }}>
+            <TableRow
+              sx={{
+                borderBottom: "3px solid #041F44",
+                width: "100%",
+              }}
+            >
               {columns?.map((column, index) => (
                 <TableCell
                   key={index}
@@ -66,6 +72,7 @@ function DynamicTable<
                   {t(column.column as string)}
                 </TableCell>
               ))}
+              {renderSortComponent}
             </TableRow>
           </TableHead>
           <TableBody>

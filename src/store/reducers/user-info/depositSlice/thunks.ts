@@ -163,12 +163,24 @@ export const getOrdersStatusThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
-          // status_by_client:
-          //   data.status_by_client === DEPOSIT_STATUSES.ALL
-          //     ? undefined
-          //     : data.status_by_client,
         },
       });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getOrderSummaryThunk = createAsyncThunk(
+  "deposit/getOrderSummaryThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/orders/admin/orders-summary");
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

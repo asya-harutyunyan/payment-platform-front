@@ -8,6 +8,7 @@ import {
 import {
   getDepositsThunk,
   getOrdersThunk,
+  getOrderSummaryThunk,
   getSingleDepositThunk,
   getSingleOrderThunk,
   processingAmountThunk,
@@ -26,6 +27,12 @@ const initialState: DepositState = {
   total: 0,
   price: 0,
   singleDeposit: [],
+  orderSummary: {
+    active_cards: 0,
+    deposited_amounts: 0,
+    not_deposited_yet_amount: 0,
+    expiredAmount: 0,
+  },
 };
 
 const depositSlice = createSlice({
@@ -64,6 +71,10 @@ const depositSlice = createSlice({
       })
       .addCase(getSingleOrderThunk.fulfilled, (state, action) => {
         state.singleOrder = action.payload;
+      })
+      .addCase(getOrderSummaryThunk.fulfilled, (state, action) => {
+        state.singleOrder = action.payload;
+        state.orderSummary = action.payload;
       })
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.orders = action.payload.data;

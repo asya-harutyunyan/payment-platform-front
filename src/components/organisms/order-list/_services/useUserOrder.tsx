@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import {
   deleteOrderThunk,
   getOrdersThunk,
+  getOrderSummaryThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import { useLocation, useNavigate } from "@tanstack/react-router";
@@ -17,11 +18,16 @@ import { useEffect, useMemo, useState } from "react";
 
 const useAdminOrder = () => {
   const dispatch = useAppDispatch();
-  const { orders, total, loading } = useAppSelector((state) => state.deposit);
+  const { orders, total, loading, orderSummary } = useAppSelector(
+    (state) => state.deposit
+  );
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<number>();
   const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+  useEffect(() => {
+    dispatch(getOrderSummaryThunk());
+  }, [dispatch]);
 
   const { user } = useAuth();
   useEffect(() => {
@@ -31,7 +37,7 @@ const useAdminOrder = () => {
       dispatch(
         getOrdersThunk({
           page,
-          per_page: user.role === "admin" ? 50 : 5,
+          per_page: 5,
           status_by_client: filter,
         })
       );
@@ -41,19 +47,13 @@ const useAdminOrder = () => {
     const interval = setInterval(fetchOrders, 10000);
 
     return () => clearInterval(interval);
-  }, [dispatch, page, user?.role]);
+  }, [dispatch, filter, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
-      );
-    }
+    dispatch(
+      getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+    );
   };
   const columns = useMemo<IColumn<Order>[]>(
     () => [
@@ -163,13 +163,23 @@ const useAdminOrder = () => {
             })
           );
         })
-        .catch(() => {
+        .catch((error) => {
+          if (error === "Невозможно удалить заказ со статусом «Выполнено»") {
+            enqueueSnackbar(
+              "Невозможно удалить заказ со статусом «Выполнено»",
+              {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              }
+            );
+          } else {
+            enqueueSnackbar(t("error"), {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
           setSelectedOrder(undefined);
           setOpenDeleteModal(false);
-          enqueueSnackbar(t("error"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
         });
     }
   };
@@ -178,23 +188,13 @@ const useAdminOrder = () => {
     filter: DEPOSIT_STATUSES
   ) => {
     setFilter(filter);
-    if (user?.role === "admin") {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 20,
-          status_by_client: filter,
-        })
-      );
-    } else {
-      dispatch(
-        getOrdersThunk({
-          page: page,
-          per_page: 5,
-          status_by_client: filter,
-        })
-      );
-    }
+    dispatch(
+      getOrdersThunk({
+        page: page,
+        per_page: 5,
+        status_by_client: filter,
+      })
+    );
   };
   return {
     orders,
@@ -210,6 +210,7 @@ const useAdminOrder = () => {
     setFilter,
     onChangePage,
     columns,
+    orderSummary,
     navigate,
     route,
     handleDeleteOrder,

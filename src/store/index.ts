@@ -3,10 +3,11 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 // import { webSocketMiddleware } from "./middleware/websocket.middleware";
 import walletSlice from "./reducers/admin/walletSlice";
 import authSlice from "./reducers/auth/authSlice";
+import bankDetailsSlice from "./reducers/user-info/bankDetailsSlice";
 import depositSlice from "./reducers/user-info/depositSlice";
+import reportSlice from "./reducers/user-info/reportSlice";
 import usersSlice from "./reducers/usersSlice";
 import websocketSlice from "./reducers/websocket";
-import bankDetailsSlice from "./reducers/user-info/bankDetailsSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   wallet: walletSlice,
   websocket: websocketSlice,
   bankDetails: bankDetailsSlice,
+  reports: reportSlice,
 });
 
 export const store = configureStore({

@@ -1,88 +1,141 @@
-import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getWalletsThunk } from "@/store/reducers/admin/walletSlice/thunks";
-import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
+import { newRegisteredUsersThunk } from "@/store/reducers/user-info/reportSlice/thunks";
+import { NewUsers } from "@/store/reducers/user-info/reportSlice/types";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
+interface TabContentConfig {
+  label: string;
+  render: () => React.ReactNode;
+}
 
 export const Reports: FC = () => {
-  const { wallet, total, loading } = useAppSelector((state) => state.wallet);
+  const { newRegisteredUsers, total, loading } = useAppSelector(
+    (state) => state.reports
+  );
+
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
-  const { user } = useAuth();
 
   const [value, setValue] = useState(0);
-
+  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    if (user?.role === "admin") {
-      dispatch(getWalletsThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getWalletsThunk({ page: page, per_page: 5 }));
-    }
-  }, [dispatch, page, user?.role]);
-
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    if (user?.role === "admin") {
-      dispatch(getWalletsThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getWalletsThunk({ page: page, per_page: 5 }));
-    }
+    dispatch(newRegisteredUsersThunk({ page: page, per_page: 5, sort: sort }));
   };
 
-  const columns = useMemo<IColumn<WalletType>[]>(
+  const columns = useMemo<IColumn<NewUsers>[]>(
     () => [
       {
-        column: "network",
-        valueKey: "network",
+        column: "created_at",
+        valueKey: "created_at",
       },
       {
-        column: "currency",
-        valueKey: "currency",
+        column: "name",
+        valueKey: "name",
       },
       {
-        column: "address",
-        valueKey: "address",
+        column: "surname",
+        valueKey: "surname",
       },
       {
-        column: "key",
-        renderComponent: () => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-            />
-          );
-        },
+        column: "email",
+        valueKey: "email",
       },
     ],
     []
   );
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
 
+  useEffect(() => {
+    dispatch(newRegisteredUsersThunk({ page: page, per_page: 5, sort: sort }));
+  }, [dispatch, page, sort]);
+
+  const tabContents: TabContentConfig[] = [
+    {
+      label: "Отчёт по обработанным суммам",
+      render: () =>
+        newRegisteredUsers.length > 0 ? (
+          <>
+            <DynamicTable columns={columns} data={newRegisteredUsers} />
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>
+          </>
+        ) : (
+          <EmptyComponent text="no_data" />
+        ),
+    },
+    // ,
+    // {
+    //   label: "Отчёт по пользователям",
+    //   render: () => <DynamicTable columns={depositColumns} data={deposits} />,
+    // },
+    // {
+    //   label: "Отчет о новых регистрациях",
+    //   render: () => (
+    //     <DynamicTable columns={registrationColumns} data={newRegisteredUsers} />
+    //   ),
+    // },
+    // {
+    //   label: "Взаимодействие с платформой ",
+    //   render: () => <EmptyComponent text="No interaction data yet." />,
+    // },
+  ];
+  const sortComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: "7px",
+          width: "40px",
+          cursor: "pointer",
+        }}
+      >
+        <ExpandLessIcon
+          sx={{
+            color: "primary.main",
+            height: "20px",
+            ":hover": {
+              backgroundColor: "#f9f9f9",
+            },
+          }}
+          onClick={() => setSort("ASC")}
+        />
+        <ExpandMoreIcon
+          sx={{
+            color: "primary.main",
+            height: "20px",
+            ":hover": {
+              backgroundColor: "#f9f9f9",
+            },
+          }}
+          onClick={() => setSort("DESC")}
+        />
+      </Box>
+    );
+  };
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("reports_title")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : wallet.length > 0 ? (
+      ) : newRegisteredUsers.length > 0 ? (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -100,28 +153,21 @@ export const Reports: FC = () => {
               width: "100%",
             }}
           >
-            <Tab
-              label="Отчёт по обработанным суммам"
-              {...a11yProps(0)}
-              sx={{ color: "black", fontSize: "0.8rem" }}
-            />
-            <Tab
-              label="Отчёт по пользователям"
-              {...a11yProps(1)}
-              sx={{ color: "black", fontSize: "0.8rem" }}
-            />
-            <Tab
-              label="Отчет о новых регистрациях"
-              {...a11yProps(2)}
-              sx={{ color: "black", fontSize: "0.8rem" }}
-            />
-            <Tab
-              label="Взаимодействие с платформой "
-              {...a11yProps(2)}
-              sx={{ color: "black", fontSize: "0.8rem" }}
-            />
+            {tabContents.map((tab, index) => (
+              <Tab
+                key={index}
+                label={tab.label}
+                id={`tab-${index}`}
+                aria-controls={`tabpanel-${index}`}
+                sx={{ fontSize: "0.8rem", color: "black" }}
+              />
+            ))}
           </Tabs>
-          <DynamicTable columns={columns} data={wallet} />
+          <DynamicTable
+            columns={columns}
+            data={newRegisteredUsers}
+            renderSortComponent={sortComponent()}
+          />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
