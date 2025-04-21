@@ -37,7 +37,7 @@ const useAdminOrder = () => {
       dispatch(
         getOrdersThunk({
           page,
-          per_page: 5,
+          per_page: 50,
           status_by_client: filter,
         })
       );
@@ -52,7 +52,7 @@ const useAdminOrder = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(
-      getOrdersThunk({ page: page, per_page: 5, status_by_client: filter })
+      getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
     );
   };
   const columns = useMemo<IColumn<Order>[]>(
@@ -191,7 +191,7 @@ const useAdminOrder = () => {
     dispatch(
       getOrdersThunk({
         page: page,
-        per_page: 5,
+        per_page: 50,
         status_by_client: filter,
       })
     );
