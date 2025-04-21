@@ -3,7 +3,10 @@ import { FormTextInput } from "@/components/atoms/input";
 import { useAuth } from "@/context/auth.context";
 import { add_wallet_schema } from "@/schema/add_wallet.schema";
 import { useAppDispatch } from "@/store";
-import { getWalletsThunk } from "@/store/reducers/user-info/walletSlice/thunks";
+import {
+  createWalletsThunk,
+  getWalletsThunk,
+} from "@/store/reducers/user-info/walletSlice/thunks";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
