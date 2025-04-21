@@ -8,11 +8,11 @@ import { SelectFieldWith } from "@/components/atoms/select";
 import { useAuth } from "@/context/auth.context";
 import { add_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
+import { getBankNamesThunk } from "@/store/reducers/allUsersSlice/thunks";
 import {
   addBankCardThunk,
   editBankCardThunk,
 } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
-import { getBankNamesThunk } from "@/store/reducers/usersSlice/thunks";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";

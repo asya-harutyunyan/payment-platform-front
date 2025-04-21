@@ -1,14 +1,14 @@
 import { BankDetail } from "@/common/types/user";
 import { choose_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
+import { getUserThunk } from "@/store/reducers/allUsersSlice/thunks";
 import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import {
   getSingleDepositThunk,
-  getSingleOrderThunk,
   updateDeposit,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
-import { getUserThunk } from "@/store/reducers/usersSlice/thunks";
+import { getSingleOrderThunk } from "@/store/reducers/user-info/orderSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import EditIcon from "@mui/icons-material/Edit";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";

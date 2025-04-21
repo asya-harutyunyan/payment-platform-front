@@ -1,13 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 // import { webSocketMiddleware } from "./middleware/websocket.middleware";
-import walletSlice from "./reducers/admin/walletSlice";
-import authSlice from "./reducers/auth/authSlice";
+import usersSlice from "./reducers/allUsersSlice";
+import authSlice from "./reducers/authSlice";
 import bankDetailsSlice from "./reducers/user-info/bankDetailsSlice";
 import depositSlice from "./reducers/user-info/depositSlice";
+import orderSlice from "./reducers/user-info/orderSlice";
 import reportSlice from "./reducers/user-info/reportSlice";
-import usersSlice from "./reducers/usersSlice";
 import websocketSlice from "./reducers/websocket";
+import walletSlice from "./reducers/user-info/walletSlice";
 
 const rootReducer = combineReducers({
   auth: authSlice,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   websocket: websocketSlice,
   bankDetails: bankDetailsSlice,
   reports: reportSlice,
+  order: orderSlice,
 });
 
 export const store = configureStore({

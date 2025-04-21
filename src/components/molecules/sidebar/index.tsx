@@ -8,7 +8,7 @@ import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
-import { logoutUser } from "@/store/reducers/auth/authSlice/thunks";
+import { logoutUser } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
 import { H3, H6 } from "@/styles/typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";

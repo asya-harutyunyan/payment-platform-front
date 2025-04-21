@@ -4,13 +4,13 @@ import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
-  blockUserThunk,
-  unblockUserThunk,
-} from "@/store/reducers/auth/authSlice/thunks";
-import {
   getBlockedUsersThunk,
   getUsersThunk,
-} from "@/store/reducers/usersSlice/thunks";
+} from "@/store/reducers/allUsersSlice/thunks";
+import {
+  blockUserThunk,
+  unblockUserThunk,
+} from "@/store/reducers/authSlice/thunks";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
@@ -24,9 +24,11 @@ const useUserList = () => {
   );
   const { user } = useAuth();
   const [page, setPage] = useState(1);
+  const [pageBlockedUsers, setPageBlockedUsers] = useState(1);
+
   useEffect(() => {
     dispatch(getUsersThunk({ page: page, per_page: 20 }));
-    dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
+    dispatch(getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 }));
   }, [dispatch, page, user?.role]);
 
   const onChangeUsersPage = (
@@ -41,8 +43,8 @@ const useUserList = () => {
     _event: React.ChangeEvent<unknown>,
     page: number
   ) => {
-    setPage?.(page);
-    dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
+    setPageBlockedUsers?.(page);
+    dispatch(getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 }));
   };
   const handleSingleUser = (row?: number) => {
     if (route.pathname === "/user-list") {
@@ -141,7 +143,9 @@ const useUserList = () => {
       .unwrap()
       .then(() => {
         dispatch(getUsersThunk({ page: page, per_page: 20 }));
-        dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
+        dispatch(
+          getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
+        );
       });
   };
   const unblockUser = (id: number) => {
@@ -149,7 +153,9 @@ const useUserList = () => {
       .unwrap()
       .then(() => {
         dispatch(getUsersThunk({ page: page, per_page: 20 }));
-        dispatch(getBlockedUsersThunk({ page: page, per_page: 20 }));
+        dispatch(
+          getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
+        );
       });
   };
 

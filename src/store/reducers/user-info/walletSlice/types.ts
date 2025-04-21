@@ -1,6 +1,6 @@
 import { User } from "@/common/types";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
-import { Wallet } from "../../user-info/depositSlice/types";
+import { Wallet } from "../depositSlice/types";
 
 export interface WalletState {
   loading: boolean;
@@ -20,15 +20,8 @@ export interface CreateWallet {
   currency: string;
   network: string;
 }
-export interface GetWalletRequest {
+export interface Pagination {
   page: number;
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;
-}
-export interface GetPlatformXRequest {
-  page: number;
-  per_page?: number;
-  status_by_client?: DEPOSIT_STATUSES;
-  start_date: string;
-  end_date: string;
 }

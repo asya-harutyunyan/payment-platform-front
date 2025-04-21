@@ -1,7 +1,7 @@
 import { User } from "@/common/types";
 import { Wallet } from "@/common/types/user";
 import { useAppDispatch } from "@/store";
-import { fetchUser } from "@/store/reducers/auth/authSlice/thunks";
+import { fetchUser } from "@/store/reducers/authSlice/thunks";
 import * as React from "react";
 import {
   createContext,

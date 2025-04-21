@@ -4,7 +4,7 @@ import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import { change_password_schema } from "@/schema/change_password.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
+import { resetPassword } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box, Typography } from "@mui/material";

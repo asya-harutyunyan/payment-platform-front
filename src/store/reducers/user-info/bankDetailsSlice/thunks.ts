@@ -135,7 +135,7 @@ export const blockCardThunk = createAsyncThunk(
 );
 
 export const getBankCardsThunk = createAsyncThunk(
-  "deposit/getBankDetailsThunk",
+  "bankDetails/getBankDetailsThunk",
   async (data: GetBankDetailsRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/banks/all", {
@@ -156,7 +156,7 @@ export const getBankCardsThunk = createAsyncThunk(
   }
 );
 export const getBlockedCardsThunk = createAsyncThunk(
-  "deposit/getBlockedCardsThunk",
+  "bankDetails/getBlockedCardsThunk",
   async (data: GetBankDetailsRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/users/blocked-cards", {

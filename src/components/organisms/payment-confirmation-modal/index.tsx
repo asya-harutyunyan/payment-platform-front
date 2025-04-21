@@ -2,7 +2,6 @@ import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
 import { useAppDispatch } from "@/store";
-import { confirmOrderByClientThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import theme from "@/styles/theme";
 import { H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
@@ -12,6 +11,7 @@ import { enqueueSnackbar } from "notistack";
 import { FC, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import { usePaymentConfirmationModal } from "./usePaymentConfirmationModal";
+import { confirmOrderByClientThunk } from "@/store/reducers/user-info/orderSlice/thunks";
 
 export const PaymentPlatformModal: FC = () => {
   const { opened, close, data } = usePaymentConfirmationModal();

@@ -4,7 +4,14 @@ import {
   isPending,
   isRejected,
 } from "@reduxjs/toolkit";
-import { newRegisteredUsersThunk } from "./thunks";
+import {
+  getOrderSummaryThunk,
+  GetPlatformXThunk,
+  getReportUsersThunk,
+  getSummaryThunk,
+  newRegisteredUsersThunk,
+  platipayThunk,
+} from "./thunks";
 import { ReportsState } from "./types";
 
 const initialState: ReportsState = {
@@ -14,6 +21,30 @@ const initialState: ReportsState = {
   currentPage: 0,
   last_page: 0,
   total: 0,
+  platipay: [],
+  orders_platformX: [],
+  report_users: [],
+  singleOrder: [],
+  adminSummary: {
+    active_cards: 0,
+    deposited_amounts: 0,
+    not_deposited_yet_amount: 0,
+    expiredAmount: 0,
+  },
+  orders_stats: {
+    total_amount: "",
+    total_amount_with_deposit: "",
+    total_done_ammount: "",
+    order_count: "",
+    donee_order_ammount: "",
+    order_witouth_card_count: "",
+  },
+  orderSummary: {
+    active_cards: 0,
+    deposited_amounts: 0,
+    not_deposited_yet_amount: 0,
+    expiredAmount: 0,
+  },
 };
 
 const reportsSlice = createSlice({
@@ -26,6 +57,29 @@ const reportsSlice = createSlice({
     builder
       .addCase(newRegisteredUsersThunk.fulfilled, (state, action) => {
         state.newRegisteredUsers = action.payload.data;
+        state.last_page = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(platipayThunk.fulfilled, (state, action) => {
+        state.platipay = action.payload.data;
+        state.last_page = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getReportUsersThunk.fulfilled, (state, action) => {
+        state.report_users = action.payload;
+        state.last_page = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getOrderSummaryThunk.fulfilled, (state, action) => {
+        state.singleOrder = action.payload;
+        state.orderSummary = action.payload;
+      })
+      .addCase(getSummaryThunk.fulfilled, (state, action) => {
+        state.adminSummary = action.payload;
+      })
+      .addCase(GetPlatformXThunk.fulfilled, (state, action) => {
+        state.orders_platformX = action.payload.orders.data;
+        state.orders_stats = action.payload.stats;
         state.last_page = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

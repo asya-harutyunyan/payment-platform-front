@@ -1,8 +1,8 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { GetWalletRequest } from "../admin/walletSlice/types";
 import { GetUsersRequest, UsersList } from "./types";
+import { Pagination } from "../user-info/walletSlice/types";
 
 export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
@@ -110,7 +110,7 @@ export const generateCodeReferralThunk = createAsyncThunk(
 
 export const getReferalsUserThunk = createAsyncThunk(
   "deposit/getReferalsOfUserThunk",
-  async (data: GetWalletRequest, { rejectWithValue }) => {
+  async (data: Pagination, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/referrals/users-referrals", {
         params: {
@@ -132,7 +132,7 @@ export const getReferalsUserThunk = createAsyncThunk(
 
 export const getReferredUsersForAdminThunk = createAsyncThunk(
   "deposit/getReferredUsersForAdminThunk",
-  async (data: GetWalletRequest, { rejectWithValue }) => {
+  async (data: Pagination, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/admin/referrals/stats", {
         params: {

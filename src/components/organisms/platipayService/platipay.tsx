@@ -4,15 +4,15 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { platipayThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Platipay } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
+import { platipayThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 
 export const PlatiPay: FC = () => {
-  const { platipay, total, loading } = useAppSelector((state) => state.deposit);
+  const { platipay, total, loading } = useAppSelector((state) => state.reports);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { user } = useAuth();

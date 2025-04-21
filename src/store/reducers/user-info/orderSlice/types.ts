@@ -1,21 +1,17 @@
-import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-step/enums";
 import { deposit_id_schema } from "@/schema/price.schema";
 import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
 import { z } from "zod";
 
-export interface DepositState {
+export interface OrderState {
   loading: boolean;
   error: string | null;
-  deposit: Deposit | null;
-  //todo
-  singleDeposit: Deposit | [];
-  singleOrder?: Order;
-  deposits: DataDeposits[];
   orders: Order[];
   currentPage: number | null;
   lastPage: number | null;
   total: number;
   price: number;
+  singleOrder: Order;
+  order: Order[];
   notificationData?: {
     order: {
       order_id: number | string;
@@ -29,27 +25,6 @@ export interface DepositState {
 export type AmountType = z.infer<typeof deposit_id_schema>;
 export type WalletDetalisType = z.infer<typeof wallet_usdt_details_schema>;
 
-export type Deposit = {
-  id: number;
-  user_id: number;
-  wallet_id: number;
-  status_by_client: string;
-  status_by_admin: string;
-  deposit_id?: number;
-  amount: number;
-  processing_amount: string;
-  converted_amount: number;
-  final_status: string;
-  created_at: string;
-  updated_at: string;
-  payment_method_id?: number | string;
-  transaction_id?: string;
-  wallet: Wallet;
-  type?: DEPOSIT_TYPES;
-  payment_method?: PaymentMethod;
-  deposit_currency?: string;
-};
-
 export interface Wallet {
   id: number;
   key?: string;
@@ -60,11 +35,7 @@ export interface Wallet {
   updated_at: string;
   qr_code: string;
 }
-export interface Platipay {
-  amount: string;
-  status_by_client: string;
-  transaction_id: string;
-}
+
 export interface RefferedUsersList {
   name: string;
   surname: string;
@@ -128,47 +99,4 @@ export interface Order {
   name: string;
   surname: string;
   initial_ammount: number;
-}
-export interface DataDeposits {
-  id?: number;
-  status_by_admin?: string;
-  created_at?: string;
-  status_by_admin_row?: string;
-  done_arrow?: string;
-  status_by_user_row?: string;
-  final_status?: string;
-  address: string;
-  left_amount?: string;
-  currency: string;
-  type?: string;
-  key?: string;
-  network: string;
-  qr_code: string;
-  name: string;
-  surname: string;
-  email: string;
-  processing_amount: string;
-  status: string;
-}
-//TODO:must be change
-export interface Deposits {
-  current_page: number;
-  data: DataDeposits[];
-  first_page_url: string;
-  from: unknown;
-  last_page: number;
-  last_page_url: string;
-  links: Link[];
-  next_page_url: unknown;
-  path: string;
-  per_page: number;
-  prev_page_url: unknown;
-  to: unknown;
-  total: number;
-}
-
-export interface Link {
-  url?: string;
-  label: string;
-  active: boolean;
 }

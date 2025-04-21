@@ -6,11 +6,11 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { ReferralOfUser } from "@/store/reducers/user-info/depositSlice/types";
 import {
   generateCodeReferralThunk,
   getReferalsUserThunk,
-} from "@/store/reducers/usersSlice/thunks";
+} from "@/store/reducers/allUsersSlice/thunks";
+import { ReferralOfUser } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";

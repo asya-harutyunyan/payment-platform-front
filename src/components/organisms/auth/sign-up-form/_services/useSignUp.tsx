@@ -1,7 +1,7 @@
 import { z } from "@/common/validation";
 import { auth_schema } from "@/schema/sign_up.schema";
 import { useAppDispatch } from "@/store";
-import { registerUser } from "@/store/reducers/auth/authSlice/thunks";
+import { registerUser } from "@/store/reducers/authSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";

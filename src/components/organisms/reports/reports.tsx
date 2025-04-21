@@ -3,12 +3,13 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store";
+
 import {
   GetPlatformXThunk,
   getReportUsersThunk,
   getSummaryThunk,
-} from "@/store/reducers/user-info/depositSlice/thunks";
-import { newRegisteredUsersThunk } from "@/store/reducers/user-info/reportSlice/thunks";
+  newRegisteredUsersThunk,
+} from "@/store/reducers/user-info/reportSlice/thunks";
 import {
   NewUsers,
   ReportUsers,
@@ -35,7 +36,7 @@ export const Reports: FC = () => {
     loading: loadingDeposits,
     report_users,
     adminSummary,
-  } = useAppSelector((state) => state.deposit);
+  } = useAppSelector((state) => state.reports);
 
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);

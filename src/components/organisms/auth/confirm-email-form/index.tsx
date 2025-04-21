@@ -3,7 +3,7 @@ import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import { useAppDispatch } from "@/store";
-import { confirmEmailRequest } from "@/store/reducers/auth/authSlice/thunks";
+import { confirmEmailRequest } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { Box, Typography } from "@mui/material";

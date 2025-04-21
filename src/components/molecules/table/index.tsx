@@ -28,7 +28,6 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   columns: IColumn<T>[];
   data: T[];
   refetchData?: () => void;
-  onChangePage?: (event: React.ChangeEvent<unknown>, page: number) => void;
   renderSortComponent?: ReactNode;
 }
 

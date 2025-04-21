@@ -4,11 +4,12 @@ import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
+
+import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import {
   confirmOrderByClientThunk,
   getOrdersThunk,
-} from "@/store/reducers/user-info/depositSlice/thunks";
-import { Order } from "@/store/reducers/user-info/depositSlice/types";
+} from "@/store/reducers/user-info/orderSlice/thunks";
 import { H6, P } from "@/styles/typography";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";

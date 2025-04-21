@@ -1,8 +1,8 @@
 import { z } from "@/common/validation";
 import { reset_schema } from "@/schema/change_password.schema";
 import { useAppDispatch } from "@/store";
-import { setEmail } from "@/store/reducers/auth/authSlice";
-import { resetPassword } from "@/store/reducers/auth/authSlice/thunks";
+import { setEmail } from "@/store/reducers/authSlice";
+import { resetPassword } from "@/store/reducers/authSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";

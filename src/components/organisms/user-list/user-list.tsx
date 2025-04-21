@@ -92,11 +92,7 @@ export const UserListComponent: FC = () => {
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
           </Tabs>
-          <DynamicTable
-            columns={columns}
-            data={data}
-            onChangePage={onChangePage}
-          />
+          <DynamicTable columns={columns} data={data} />
 
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}

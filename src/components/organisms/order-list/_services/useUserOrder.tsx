@@ -5,12 +5,13 @@ import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
+
+import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import {
   deleteOrderThunk,
   getOrdersThunk,
-  getOrderSummaryThunk,
-} from "@/store/reducers/user-info/depositSlice/thunks";
-import { Order } from "@/store/reducers/user-info/depositSlice/types";
+} from "@/store/reducers/user-info/orderSlice/thunks";
+import { getOrderSummaryThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
@@ -20,9 +21,13 @@ import { useEffect, useMemo, useState } from "react";
 
 const useAdminOrder = () => {
   const dispatch = useAppDispatch();
-  const { orders, total, loading, orderSummary } = useAppSelector(
-    (state) => state.deposit
-  );
+  const { orders, total, loading } = useAppSelector((state) => state.order);
+  const {
+    orderSummary,
+    total: reportTotal,
+    loading: loadingTotal,
+  } = useAppSelector((state) => state.reports);
+
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [selectedOrder, setSelectedOrder] = useState<number>();
@@ -259,6 +264,8 @@ const useAdminOrder = () => {
   return {
     orders,
     total,
+    reportTotal,
+    loadingTotal,
     loading,
     page,
     setPage,

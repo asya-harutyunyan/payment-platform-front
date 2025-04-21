@@ -8,11 +8,9 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import {
-  deleteWalletsThunk,
-  getWalletsThunk,
-} from "@/store/reducers/admin/walletSlice/thunks";
 import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
+
+import { getWalletsThunk } from "@/store/reducers/user-info/walletSlice/thunks";
 import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";

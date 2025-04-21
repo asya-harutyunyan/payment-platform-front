@@ -184,7 +184,6 @@ export const blockUserThunk = createAsyncThunk(
     }
   }
 );
-
 export const unblockUserThunk = createAsyncThunk(
   "auth/unblockUserThunk",
   async (id: string | number, { rejectWithValue }) => {
