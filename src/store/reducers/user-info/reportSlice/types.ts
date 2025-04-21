@@ -26,5 +26,19 @@ export type NewUsers = {
   name: string;
   surname: string;
   created_at: string;
+  amount?: string;
   email: string;
+};
+
+export type PlatformX = {
+  amount: string;
+  created_at: string;
+};
+
+export type ReportUsers = {
+  name: string;
+  surname: string;
+  blocked_cards: string;
+  wallet_total: string;
+  total_cards: string;
 };

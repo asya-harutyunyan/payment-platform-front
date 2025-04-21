@@ -3,7 +3,10 @@ import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppState } from "../../..";
-import { GetWalletRequest } from "../../admin/walletSlice/types";
+import {
+  GetPlatformXRequest,
+  GetWalletRequest,
+} from "../../admin/walletSlice/types";
 import { AmountType, Deposit, WalletDetalisType } from "./types";
 //first step
 export const processingAmountThunk = createAsyncThunk(
@@ -176,6 +179,27 @@ export const getOrdersStatusThunk = createAsyncThunk(
     }
   }
 );
+export const platipayThunk = createAsyncThunk(
+  "deposit/platipayThunk",
+  async (data: GetWalletRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/admin/plati-pay", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 export const getOrderSummaryThunk = createAsyncThunk(
   "deposit/getOrderSummaryThunk",
   async (_, { rejectWithValue }) => {
@@ -192,8 +216,36 @@ export const getOrderSummaryThunk = createAsyncThunk(
     }
   }
 );
+
+export const GetPlatformXThunk = createAsyncThunk(
+  "deposit/GetPlatformXThunk",
+  async (data: GetPlatformXRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/platform-x/orders-stats", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          status_by_client:
+            data.status_by_client === DEPOSIT_STATUSES.ALL
+              ? undefined
+              : data.status_by_client,
+          start_date: data.start_date,
+          end_date: data.start_date,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 export const getOrdersWithStatusThunk = createAsyncThunk(
-  "deposit/getOrdersThunk",
+  "deposit/getOrdersWithStatusThunk",
   async (data: GetWalletRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/orders/status", {
@@ -313,6 +365,44 @@ export const confirmDepositAdminThunk = createAsyncThunk(
       const response = await httpClient.post(
         `/deposits/confirm/admin/${deposit_id}`
       );
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const getReportUsersThunk = createAsyncThunk(
+  "deposit/getReportUsersThunk",
+  async (data: GetWalletRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/users/user-report`, {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getSummaryThunk = createAsyncThunk(
+  "deposit/getSummaryThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/orders/admin/orders-summary`);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

@@ -9,6 +9,7 @@ import {
 } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 
 const useBankCardList = () => {
@@ -47,25 +48,21 @@ const useBankCardList = () => {
       {
         column: "is_blocked",
         renderComponent: (row: BankCardsDetalis) => {
-          if (row.is_blocked) {
-            return (
-              <Button
-                variant={"error"}
-                text={t("block")}
-                sx={{ width: "130px" }}
-                onClick={() => handleBlockCard?.(row.id)}
-              />
-            );
-          } else {
-            return (
-              <Button
-                variant={"outlined"}
-                text={t("unblock")}
-                sx={{ width: "130px" }}
-                onClick={() => handleUnblockCard?.(row.id)}
-              />
-            );
-          }
+          return !row.is_blocked ? (
+            <Button
+              variant={"error"}
+              text={t("block")}
+              sx={{ width: "130px" }}
+              onClick={() => handleBlockCard?.(row.id)}
+            />
+          ) : (
+            <Button
+              variant={"outlined"}
+              text={t("unblock")}
+              sx={{ width: "130px" }}
+              onClick={() => handleUnblockCard?.(row.id)}
+            />
+          );
         },
       },
     ],
@@ -77,6 +74,16 @@ const useBankCardList = () => {
         .unwrap()
         .then(() => {
           dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
+          enqueueSnackbar("Карта разблокировано", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        })
+        .catch(() => {
+          enqueueSnackbar(t("something_went_wrong"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
         });
     }
   };
@@ -86,6 +93,17 @@ const useBankCardList = () => {
         .unwrap()
         .then(() => {
           dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
+
+          enqueueSnackbar("Карта заблокировано", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        })
+        .catch(() => {
+          enqueueSnackbar(t("something_went_wrong"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
         });
     }
   };

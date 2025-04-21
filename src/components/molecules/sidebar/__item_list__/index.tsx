@@ -60,6 +60,12 @@ export const adminItems = [
     icon: <ChecklistRtlIcon />,
     link: "/reports",
   },
+
+  {
+    text: "platipay",
+    icon: <ChecklistRtlIcon />,
+    link: "/platipay",
+  },
   {
     text: "bank_card_list",
     icon: <ChecklistIcon />,

@@ -25,3 +25,10 @@ export interface GetWalletRequest {
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;
 }
+export interface GetPlatformXRequest {
+  page: number;
+  per_page?: number;
+  status_by_client?: DEPOSIT_STATUSES;
+  start_date: string;
+  end_date: string;
+}

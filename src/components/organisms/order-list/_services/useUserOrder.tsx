@@ -11,6 +11,8 @@ import {
   getOrderSummaryThunk,
 } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
+import { P } from "@/styles/typography";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -196,6 +198,64 @@ const useAdminOrder = () => {
       })
     );
   };
+  const OrderSummary = () => {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Количество активных карт:
+          </P>
+          <P>{orderSummary.active_cards}₽</P>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Сумма, залитая на карты:
+          </P>
+          <P>{orderSummary.deposited_amounts}₽</P>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Полученная сумма:
+          </P>
+          <P>{orderSummary.expiredAmount}₽</P>
+        </Box>
+        <Box sx={{ display: "flex" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              paddingRight: "5px",
+              fontSize: "0.9rem",
+            }}
+          >
+            Ожидаемая сумма:
+          </P>
+          <P>{orderSummary.not_deposited_yet_amount}₽</P>
+        </Box>
+      </Box>
+    );
+  };
   return {
     orders,
     total,
@@ -215,6 +275,7 @@ const useAdminOrder = () => {
     route,
     handleDeleteOrder,
     handleFilterChange,
+    OrderSummary,
   };
 };
 

@@ -117,7 +117,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
           title={t("profit")}
           sub_title={`${formatPrice(updatedPrice)} ₽`}
         >
-          {user?.bank_details.length && user?.bank_details.length < 3 ? (
+          {user?.bank_details.length !== 3 && (
             <Box
               sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}
               onClick={handleOpen}
@@ -140,7 +140,9 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
                 {t("add_bank_card")}
               </P>
             </Box>
-          ) : !showAddCard && !cards.length ? (
+          )}
+
+          {!showAddCard && !cards.length ? (
             <H5>
               Все ваши карты заблокированы,
               <br /> свяжитесь со службой поддержки.

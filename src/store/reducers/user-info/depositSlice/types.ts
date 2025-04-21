@@ -2,6 +2,7 @@ import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-ste
 import { deposit_id_schema } from "@/schema/price.schema";
 import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
 import { z } from "zod";
+import { ReportUsers } from "../reportSlice/types";
 
 export interface DepositState {
   loading: boolean;
@@ -24,7 +25,26 @@ export interface DepositState {
       amount: number;
     };
   };
-  orderSummary: OrderDeposit;
+  orderSummary: Summary;
+  platipay: Platipay[];
+  orders_platformX: Order[];
+  orders_stats: DepositStates;
+  report_users: ReportUsers[];
+  adminSummary: Summary;
+}
+export interface Summary {
+  active_cards: number;
+  deposited_amounts: number;
+  expiredAmount: number;
+  not_deposited_yet_amount: number;
+}
+export interface DepositStates {
+  total_amount: string;
+  total_amount_with_deposit: string;
+  total_done_ammount: string;
+  order_count: string;
+  donee_order_ammount: string;
+  order_witouth_card_count: string;
 }
 export interface OrderDeposit {
   active_cards: number;
@@ -65,6 +85,11 @@ export interface Wallet {
   created_at: string;
   updated_at: string;
   qr_code: string;
+}
+export interface Platipay {
+  amount: string;
+  status_by_client: string;
+  transaction_id: string;
 }
 export interface RefferedUsersList {
   name: string;
