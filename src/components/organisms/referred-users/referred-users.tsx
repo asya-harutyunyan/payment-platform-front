@@ -12,15 +12,14 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { EmptyComponent } from "../empty-component";
 
 export const ReferredUsers: FC = () => {
-  const { referralUsersForAdmin, total, loading } = useAppSelector(
-    (state) => state.users
-  );
+  const { referralUsersForAdmin, referralUsersForAdminPagination, loading } =
+    useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { user } = useAuth();
 
   useEffect(() => {
-    dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 5 }));
+    dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
@@ -81,7 +80,7 @@ export const ReferredUsers: FC = () => {
           >
             <PaginationOutlined
               onPageChange={onChangePage}
-              count={total}
+              count={referralUsersForAdminPagination.total}
               page={page}
             />
           </Box>

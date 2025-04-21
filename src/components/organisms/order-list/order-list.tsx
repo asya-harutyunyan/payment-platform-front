@@ -28,7 +28,6 @@ export const OrderListComponent: FC = () => {
     handleFilterChange,
     OrderSummary,
   } = useAdminOrder();
-  console.log(orders, "orders");
 
   return (
     <Box sx={{ width: "100%" }}>

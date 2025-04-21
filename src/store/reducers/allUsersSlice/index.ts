@@ -21,6 +21,12 @@ const initialState: UserState = {
   banks: [],
   referralUser: [],
   referralUsersForAdmin: [],
+  referralUsersForAdminPagination: {
+    current_page: 0,
+    last_page: 0,
+    per_page: 0,
+    total: 0,
+  },
 };
 
 const usersSlice = createSlice({
@@ -54,6 +60,7 @@ const usersSlice = createSlice({
       .addCase(getReferredUsersForAdminThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.referralUsersForAdmin = action.payload.referral_stats;
+        state.referralUsersForAdminPagination = action.payload.pagination;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

@@ -19,6 +19,9 @@ const useUserList = () => {
   const dispatch = useAppDispatch();
   const route = useLocation();
   const navigate = useNavigate();
+  const [value, setValue] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(0);
+
   const { users, blockedUsers, total, loading } = useAppSelector(
     (state) => state.users
   );
@@ -26,10 +29,32 @@ const useUserList = () => {
   const [page, setPage] = useState(1);
   const [pageBlockedUsers, setPageBlockedUsers] = useState(1);
 
-  useEffect(() => {
-    dispatch(getUsersThunk({ page: page, per_page: 20 }));
-    dispatch(getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 }));
-  }, [dispatch, page, user?.role]);
+  useEffect(() => {}, [dispatch, page, user?.role]);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+    setValue(newValue);
+  };
+
+  function a11yProps(index: number) {
+    return {
+      id: `simple-tab-${index}`,
+      "aria-controls": `simple-tabpanel-${index}`,
+    };
+  }
+
+  const fetchDataByTab = (tab: number, page: number) => {
+    switch (tab) {
+      case 0:
+        return dispatch(getUsersThunk({ page: page, per_page: 20 }));
+      case 1:
+        return dispatch(
+          getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
+        );
+      default:
+        return;
+    }
+  };
 
   const onChangeUsersPage = (
     _event: React.ChangeEvent<unknown>,
@@ -158,7 +183,33 @@ const useUserList = () => {
         );
       });
   };
-
+  const { data, onChangePage, currentPage, columns } = useMemo(() => {
+    if (value === 0) {
+      return {
+        data: users,
+        onChangePage: onChangeUsersPage,
+        currentPage: page,
+        columns: columnsUsers,
+      };
+    } else {
+      return {
+        data: blockedUsers,
+        onChangePage: onChangeBlockedUsersPage,
+        currentPage: pageBlockedUsers,
+        columns: columnsBlockedUsers,
+      };
+    }
+  }, [
+    value,
+    users,
+    onChangeUsersPage,
+    page,
+    columnsUsers,
+    blockedUsers,
+    onChangeBlockedUsersPage,
+    pageBlockedUsers,
+    columnsBlockedUsers,
+  ]);
   return {
     dispatch,
     navigate,
@@ -171,11 +222,23 @@ const useUserList = () => {
     handleSingleUser,
     columnsUsers,
     columnsBlockedUsers,
+    pageBlockedUsers,
+    fetchDataByTab,
     blockUser,
+    data,
+    onChangePage,
+    currentPage,
+    columns,
     users,
     blockedUsers,
     total,
     loading,
+    value,
+    setValue,
+    selectedTab,
+    setSelectedTab,
+    handleChange,
+    a11yProps,
   };
 };
 

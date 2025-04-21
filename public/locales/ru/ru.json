@@ -215,5 +215,6 @@
   "referral_percentage": "Процент рефералов",
   "ref_count": "Количество рефералов",
   "referral_code": "Реферальный код",
-  "platipay": "Платформа PlatiPay"
+  "platipay": "Платформа PlatiPay",
+  "blocked_card": "Замороженная карта"
 }

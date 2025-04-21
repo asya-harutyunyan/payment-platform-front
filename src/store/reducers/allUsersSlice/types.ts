@@ -16,6 +16,13 @@ export interface UserState {
   banks: BankNames[];
   referralUsersForAdmin: RefferedUsersList[];
   referralUser: ReferralOfUser[];
+  referralUsersForAdminPagination: ReferralAdminPagination;
+}
+export interface ReferralAdminPagination {
+  current_page: number;
+  last_page: number;
+  per_page: number;
+  total: number;
 }
 export type BankNames = {
   id: number;

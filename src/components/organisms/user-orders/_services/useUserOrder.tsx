@@ -26,7 +26,7 @@ type ICountdownRendererFn = (
 const useUserOrder = () => {
   const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
-  const { orders, loading, total } = useAppSelector((state) => state.deposit);
+  const { orders, loading, total } = useAppSelector((state) => state.order);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
@@ -194,12 +194,14 @@ const useUserOrder = () => {
             per_page: user?.role === "client" ? 5 : 20,
           })
         );
+        setOpen(false);
       })
       .catch(() => {
         enqueueSnackbar(t("something_went_wrong"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
+        setOpen(false);
       });
   };
 

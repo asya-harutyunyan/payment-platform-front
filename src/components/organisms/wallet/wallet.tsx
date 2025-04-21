@@ -4,107 +4,35 @@ import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { Wallet as WalletType } from "@/store/reducers/user-info/depositSlice/types";
 
-import {
-  deleteWalletsThunk,
-  getWalletsThunk,
-} from "@/store/reducers/user-info/walletSlice/thunks";
+import { getWalletsThunk } from "@/store/reducers/user-info/walletSlice/thunks";
 import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { enqueueSnackbar } from "notistack";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC, useEffect } from "react";
 import { CreateWallet } from "../create-wallet";
 import { EmptyComponent } from "../empty-component";
+import useWallet from "./_services/useWallet";
 
 export const Wallet: FC = () => {
-  const { wallet, total, loading } = useAppSelector((state) => state.wallet);
-  const dispatch = useAppDispatch();
-  const [page, setPage] = useState(1);
-  const [open, setOpen] = useState(false);
-  const { user } = useAuth();
-  const [selectedItem, setSelectedItem] = useState<string | number | null>(
-    null
-  );
-
+  const {
+    columns,
+    handleDeleteItem,
+    onChangePage,
+    user,
+    open,
+    setOpen,
+    page,
+    dispatch,
+    wallet,
+    total,
+    loading,
+  } = useWallet();
   useEffect(() => {
-    if (user?.role === "admin") {
-      dispatch(getWalletsThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getWalletsThunk({ page: page, per_page: 5 }));
-    }
+    dispatch(getWalletsThunk({ page: page, per_page: 20 }));
   }, [dispatch, page, user?.role]);
-
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
-    setPage?.(page);
-    if (user?.role === "admin") {
-      dispatch(getWalletsThunk({ page: page, per_page: 20 }));
-    } else {
-      dispatch(getWalletsThunk({ page: page, per_page: 5 }));
-    }
-  };
-  const handleDeleteModal = (id?: number) => {
-    setOpen(true);
-    setSelectedItem(id as number);
-  };
-  const handleDeleteItem = () => {
-    dispatch(deleteWalletsThunk(selectedItem as number))
-      .unwrap()
-      .then(() => {
-        enqueueSnackbar(t("success_delete_wallet"), {
-          variant: "success",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-        if (user?.role === "admin") {
-          dispatch(getWalletsThunk({ page: page, per_page: 20 }));
-        } else {
-          dispatch(getWalletsThunk({ page: page, per_page: 5 }));
-        }
-        setOpen(false);
-      })
-      .catch(() => {
-        enqueueSnackbar(t("error"), {
-          variant: "error",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-      });
-  };
-  const columns = useMemo<IColumn<WalletType>[]>(
-    () => [
-      {
-        column: "network",
-        valueKey: "network",
-      },
-      {
-        column: "currency",
-        valueKey: "currency",
-      },
-      {
-        column: "address",
-        valueKey: "address",
-      },
-      {
-        column: "key",
-        renderComponent: (row: WalletType) => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-              onClick={() => handleDeleteModal?.(row.id)}
-            />
-          );
-        },
-      },
-    ],
-    []
-  );
-
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("wallet_list")} />

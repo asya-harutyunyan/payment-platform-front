@@ -4,59 +4,28 @@ import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
-import { FC, useMemo, useState } from "react";
+import { FC, useEffect } from "react";
 import useUserList from "./_services/useUserList";
 
 export const UserListComponent: FC = () => {
   const {
     page,
-    onChangeBlockedUsersPage,
-    onChangeUsersPage,
-    columnsUsers,
-    columnsBlockedUsers,
-    users,
-    blockedUsers,
+    fetchDataByTab,
+    data,
+    onChangePage,
+    currentPage,
+    columns,
     total,
     loading,
-  } = useUserList();
-  const [value, setValue] = useState(0);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-  function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      "aria-controls": `simple-tabpanel-${index}`,
-    };
-  }
-  const { data, onChangePage, currentPage, columns } = useMemo(() => {
-    if (value === 0) {
-      return {
-        data: users,
-        onChangePage: onChangeUsersPage,
-        currentPage: page,
-        columns: columnsUsers,
-      };
-    } else {
-      return {
-        data: blockedUsers,
-        onChangePage: onChangeBlockedUsersPage,
-        currentPage: page,
-        columns: columnsBlockedUsers,
-      };
-    }
-  }, [
     value,
-    users,
-    onChangeUsersPage,
-    page,
-    columnsUsers,
-    blockedUsers,
-    onChangeBlockedUsersPage,
-    columnsBlockedUsers,
-  ]);
+    selectedTab,
+    handleChange,
+    a11yProps,
+  } = useUserList();
+
+  useEffect(() => {
+    fetchDataByTab(selectedTab, page);
+  }, [page, selectedTab]);
 
   return (
     <Box>

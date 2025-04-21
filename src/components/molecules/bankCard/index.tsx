@@ -63,13 +63,19 @@ const BankCard: FC<IBankCard> = ({
     }
   };
   const handleOpenChat = () => {
-    //@ts-expect-error script added global value
-    if (typeof jivo_api !== "undefined") {
+    if (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      jivo_api.open();
+      //@ts-expect-error
+      typeof window.LC_API !== "undefined" &&
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-expect-error
+      typeof window.LC_API.open_chat_window === "function"
+    ) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-expect-error
+      window.LC_API.open_chat_window();
     } else {
-      console.error("JivoChat script not loaded yet.");
+      console.error("LiveChat script not loaded yet.");
     }
   };
   const bankNameFormatted = useMemo(() => {

@@ -1,3 +1,4 @@
+import { User } from "@/common/types";
 import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-step/enums";
 import { deposit_id_schema } from "@/schema/price.schema";
 import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
@@ -149,6 +150,8 @@ export interface DataDeposits {
   email: string;
   processing_amount: string;
   status: string;
+  user: User;
+  blocked_card: string;
 }
 //TODO:must be change
 export interface Deposits {

@@ -25,7 +25,6 @@ import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
 import { Route as AuthAdminWalletListIndexImport } from './routes/_auth/_admin/wallet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
-import { Route as AuthAdminTransactionListIndexImport } from './routes/_auth/_admin/transaction-list/index'
 import { Route as AuthAdminReportsIndexImport } from './routes/_auth/_admin/reports/index'
 import { Route as AuthAdminReferredUsersIndexImport } from './routes/_auth/_admin/referred-users/index'
 import { Route as AuthAdminPlatipayIndexImport } from './routes/_auth/_admin/platipay/index'
@@ -207,13 +206,6 @@ const AuthAdminUserListIndexRoute = AuthAdminUserListIndexImport.update({
   path: '/user-list/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
-
-const AuthAdminTransactionListIndexRoute =
-  AuthAdminTransactionListIndexImport.update({
-    id: '/transaction-list/',
-    path: '/transaction-list/',
-    getParentRoute: () => AuthAdminRoute,
-  } as any)
 
 const AuthAdminReportsIndexRoute = AuthAdminReportsIndexImport.update({
   id: '/reports/',
@@ -428,13 +420,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminReportsIndexImport
       parentRoute: typeof AuthAdminImport
     }
-    '/_auth/_admin/transaction-list/': {
-      id: '/_auth/_admin/transaction-list/'
-      path: '/transaction-list'
-      fullPath: '/transaction-list'
-      preLoaderRoute: typeof AuthAdminTransactionListIndexImport
-      parentRoute: typeof AuthAdminImport
-    }
     '/_auth/_admin/user-list/': {
       id: '/_auth/_admin/user-list/'
       path: '/user-list'
@@ -542,7 +527,6 @@ interface AuthAdminRouteChildren {
   AuthAdminPlatipayIndexRoute: typeof AuthAdminPlatipayIndexRoute
   AuthAdminReferredUsersIndexRoute: typeof AuthAdminReferredUsersIndexRoute
   AuthAdminReportsIndexRoute: typeof AuthAdminReportsIndexRoute
-  AuthAdminTransactionListIndexRoute: typeof AuthAdminTransactionListIndexRoute
   AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
   AuthAdminWalletListIndexRoute: typeof AuthAdminWalletListIndexRoute
 }
@@ -558,7 +542,6 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminPlatipayIndexRoute: AuthAdminPlatipayIndexRoute,
   AuthAdminReferredUsersIndexRoute: AuthAdminReferredUsersIndexRoute,
   AuthAdminReportsIndexRoute: AuthAdminReportsIndexRoute,
-  AuthAdminTransactionListIndexRoute: AuthAdminTransactionListIndexRoute,
   AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
   AuthAdminWalletListIndexRoute: AuthAdminWalletListIndexRoute,
 }
@@ -644,7 +627,6 @@ export interface FileRoutesByFullPath {
   '/platipay': typeof AuthAdminPlatipayIndexRoute
   '/referred-users': typeof AuthAdminReferredUsersIndexRoute
   '/reports': typeof AuthAdminReportsIndexRoute
-  '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
@@ -677,7 +659,6 @@ export interface FileRoutesByTo {
   '/platipay': typeof AuthAdminPlatipayIndexRoute
   '/referred-users': typeof AuthAdminReferredUsersIndexRoute
   '/reports': typeof AuthAdminReportsIndexRoute
-  '/transaction-list': typeof AuthAdminTransactionListIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
@@ -714,7 +695,6 @@ export interface FileRoutesById {
   '/_auth/_admin/platipay/': typeof AuthAdminPlatipayIndexRoute
   '/_auth/_admin/referred-users/': typeof AuthAdminReferredUsersIndexRoute
   '/_auth/_admin/reports/': typeof AuthAdminReportsIndexRoute
-  '/_auth/_admin/transaction-list/': typeof AuthAdminTransactionListIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
   '/_auth/_admin/wallet-list/': typeof AuthAdminWalletListIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
@@ -749,7 +729,6 @@ export interface FileRouteTypes {
     | '/platipay'
     | '/referred-users'
     | '/reports'
-    | '/transaction-list'
     | '/user-list'
     | '/wallet-list'
     | '/deposit-info'
@@ -781,7 +760,6 @@ export interface FileRouteTypes {
     | '/platipay'
     | '/referred-users'
     | '/reports'
-    | '/transaction-list'
     | '/user-list'
     | '/wallet-list'
     | '/deposit-info'
@@ -816,7 +794,6 @@ export interface FileRouteTypes {
     | '/_auth/_admin/platipay/'
     | '/_auth/_admin/referred-users/'
     | '/_auth/_admin/reports/'
-    | '/_auth/_admin/transaction-list/'
     | '/_auth/_admin/user-list/'
     | '/_auth/_admin/wallet-list/'
     | '/_auth/_user/deposit-info/'
@@ -898,7 +875,6 @@ export const routeTree = rootRoute
         "/_auth/_admin/platipay/",
         "/_auth/_admin/referred-users/",
         "/_auth/_admin/reports/",
-        "/_auth/_admin/transaction-list/",
         "/_auth/_admin/user-list/",
         "/_auth/_admin/wallet-list/"
       ]
@@ -970,10 +946,6 @@ export const routeTree = rootRoute
     },
     "/_auth/_admin/reports/": {
       "filePath": "_auth/_admin/reports/index.tsx",
-      "parent": "/_auth/_admin"
-    },
-    "/_auth/_admin/transaction-list/": {
-      "filePath": "_auth/_admin/transaction-list/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/user-list/": {

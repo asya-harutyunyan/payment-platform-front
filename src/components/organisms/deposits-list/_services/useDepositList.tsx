@@ -213,6 +213,13 @@ const useDepositInfo = () => {
           ) : null;
         },
       },
+      {
+        column: "blocked_card",
+        renderComponent: (row: DataDeposits) => {
+          const isBlocked = row.user?.bank_details?.[0]?.is_blocked === 1;
+          return isBlocked ? <DoneIcon sx={{ color: "grey" }} /> : "-";
+        },
+      },
     ],
     []
   );
