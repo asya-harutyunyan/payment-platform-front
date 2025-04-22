@@ -2,6 +2,7 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Platipay } from "@/store/reducers/user-info/depositSlice/types";
@@ -34,17 +35,36 @@ export const PlatiPay: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "status_by_client",
-        valueKey: "status_by_client",
+        column: "amount_order",
+        renderComponent: (row: Platipay) => {
+          return (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+                color: getStatusColor(row.status_by_client ?? "-"),
+                fontWeight: 400,
+                textTransform: "capitalize",
+              }}
+            >
+              {row.status_by_client && t(row.status_by_client)}
+            </span>
+          );
+        },
       },
       {
         column: "transaction_id",
         valueKey: "transaction_id",
       },
+      {
+        column: "created_at",
+        valueKey: "created_at",
+      },
     ],
     []
   );
-
+  // {row.status_by_client && t(row.status_by_client)}
+  // </span>}}
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("platipay")} />

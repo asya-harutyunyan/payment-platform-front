@@ -109,6 +109,23 @@ export const getSummaryThunk = createAsyncThunk(
     }
   }
 );
+export const getProcessedAmountsThunk = createAsyncThunk(
+  "reports/getProcessedAmountsThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/orders/admin/processed-amounts`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
 //platform x
 export const GetPlatformXThunk = createAsyncThunk(
   "reports/GetPlatformXThunk",

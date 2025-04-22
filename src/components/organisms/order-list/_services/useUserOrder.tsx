@@ -172,13 +172,10 @@ const useAdminOrder = () => {
         })
         .catch((error) => {
           if (error === "Невозможно удалить заказ со статусом «Выполнено»") {
-            enqueueSnackbar(
-              "Невозможно удалить заказ со статусом «Выполнено»",
-              {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
-              }
-            );
+            enqueueSnackbar("Невозможно удалить заказ со статусом «Успешно»", {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
           } else {
             enqueueSnackbar(t("error"), {
               variant: "error",

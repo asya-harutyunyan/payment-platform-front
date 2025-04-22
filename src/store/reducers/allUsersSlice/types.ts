@@ -19,9 +19,8 @@ export interface UserState {
   referralUsersForAdminPagination: ReferralAdminPagination;
 }
 export interface PercentsData {
-  referral_id: string;
   user_id: string;
-  referral_percentage: number;
+  referral_percentage: string;
 }
 export interface ReferralAdminPagination {
   current_page: number;

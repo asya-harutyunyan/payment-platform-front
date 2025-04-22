@@ -9,12 +9,17 @@ import TaskHeader from "@/components/molecules/title";
 import { useAuth } from "@/context/auth.context";
 import { percent_referral_schema } from "@/schema/referrals";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getReferredUsersForAdminThunk } from "@/store/reducers/allUsersSlice/thunks";
+import {
+  getReferredUsersForAdminThunk,
+  updatePercentThunk,
+} from "@/store/reducers/allUsersSlice/thunks";
 import { RefferedUsersList } from "@/store/reducers/user-info/depositSlice/types";
 import { H3 } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
+import EditIcon from "@mui/icons-material/Edit";
 import { Box } from "@mui/material";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { FC, useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,11 +35,17 @@ export const ReferredUsers: FC = () => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
 
-  const { control, handleSubmit, register } = useForm<FormData>({
+  const {
+    control,
+    handleSubmit,
+    register,
+    setValue,
+    formState: { errors },
+    reset,
+  } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
     defaultValues: {
       referral_percentage: "",
-      referral_id: "",
       user_id: "",
     },
   });
@@ -48,6 +59,9 @@ export const ReferredUsers: FC = () => {
     dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
   };
 
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
   const columns = useMemo<IColumn<RefferedUsersList>[]>(
     () => [
       {
@@ -66,25 +80,28 @@ export const ReferredUsers: FC = () => {
       {
         column: "referral_percentage",
         currencyManual: " ₽",
-        // renderComponent: (row: RefferedUsersList) => {
-        //   return (
-        //     <EditIcon
-        //       onClick={() => {
-        //         setOpen(true);
-        //         setValue("user_id", row.user_id);
-        //         setValue("referral_id", row.referral_id);
-        //       }}
-        //       sx={{
-        //         color: "primary.main",
-        //         marginLeft: "5px",
-        //         fontSize: "20px",
-        //         ":hover": {
-        //           color: "#2c269a",
-        //         },
-        //       }}
-        //     />
-        //   );
-        // },
+        renderComponent: (row: RefferedUsersList) => {
+          return (
+            <EditIcon
+              onClick={() => {
+                setOpen(true);
+                setValue("user_id", row.user_id);
+                setValue(
+                  "referral_percentage",
+                  String(row.referral_percentage ?? "")
+                );
+              }}
+              sx={{
+                color: "primary.main",
+                marginLeft: "5px",
+                fontSize: "23px",
+                ":hover": {
+                  color: "#2c269a",
+                },
+              }}
+            />
+          );
+        },
         valueKey: "referral_percentage",
       },
       {
@@ -104,7 +121,22 @@ export const ReferredUsers: FC = () => {
     []
   );
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
+    dispatch(updatePercentThunk(data))
+      .unwrap()
+      .then(() => {
+        reset();
+        enqueueSnackbar(t("percent_changed"), {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+      })
+      .catch(() => {
+        reset();
+        enqueueSnackbar(t("error"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+      });
   };
 
   return (
@@ -179,10 +211,12 @@ export const ReferredUsers: FC = () => {
               name="referral_percentage"
               placeholder={t("change_percent")}
               whiteVariant
+              numeric
+              type="number"
             />
 
             <Button
-              variant={"text"}
+              variant={"gradient"}
               text={t("yes")}
               sx={{ marginTop: "30px" }}
             />

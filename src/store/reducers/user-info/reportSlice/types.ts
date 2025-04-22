@@ -15,6 +15,16 @@ export interface ReportsState {
   report_users: ReportUsers[];
   adminSummary: Summary;
   singleOrder?: Order[];
+  admingetProcessedAmounts: AdmingetProcessedAmounts;
+}
+export interface AdmingetProcessedAmounts {
+  payment_method_count: string;
+  total_amount: string;
+  profits: string;
+  crypto_deposits: string;
+  card_deposits: string;
+  orders_done_amount: string;
+  orders_in_progress_amount: string;
 }
 export interface Summary {
   active_cards: number;
@@ -76,6 +86,7 @@ export interface Platipay {
   amount: string;
   status_by_client: string;
   transaction_id: string;
+  created_at: string;
 }
 export interface GetPlatformXRequest {
   page: number;

@@ -3,8 +3,8 @@ import DynamicTable, { IColumn } from "@/components/molecules/table";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   GetPlatformXThunk,
+  getProcessedAmountsThunk,
   getReportUsersThunk,
-  getSummaryThunk,
   newRegisteredUsersThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
 import {
@@ -30,9 +30,8 @@ const useReports = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
-  const { newRegisteredUsers, total, loading } = useAppSelector(
-    (state) => state.reports
-  );
+  const { newRegisteredUsers, total, loading, admingetProcessedAmounts } =
+    useAppSelector((state) => state.reports);
   const {
     orders_stats,
     total: totalDeposits,
@@ -136,7 +135,7 @@ const useReports = () => {
       case 1:
         return page && dispatch(getReportUsersThunk({ page, per_page: 20 }));
       case 2:
-        return dispatch(getSummaryThunk());
+        return dispatch(getProcessedAmountsThunk());
       case 3:
         return dispatch(
           GetPlatformXThunk({
@@ -234,35 +233,55 @@ const useReports = () => {
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <H5 color="primary.main" paddingRight={"5px"}>
-              Активные карты:{" "}
+              Общее количество карт:{" "}
             </H5>
-            <P>{adminSummary.active_cards ?? 0}₽</P>
+            <P>{admingetProcessedAmounts.payment_method_count ?? 0}</P>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <H5 color="primary.main" paddingRight={"5px"}>
-              Суммы депозитов:{" "}
+              Сумма всех депозитов (общая):{" "}
             </H5>
-            <P>{adminSummary.deposited_amounts ?? 0}₽</P>
-          </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <H5 color="primary.main" paddingRight={"5px"}>
-              {" "}
-              Просроченная сумма:{" "}
-            </H5>
-            <P>{adminSummary.expiredAmount ?? 0}₽</P>
+            <P>{admingetProcessedAmounts.total_amount ?? 0}₽</P>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <H5 color="primary.main" paddingRight={"5px"}>
               {" "}
-              Сумма еще не внесена:{" "}
+              Сумма прибыли (%):{" "}
             </H5>
-            <P>{adminSummary.not_deposited_yet_amount ?? 0}₽</P>
+            <P>{admingetProcessedAmounts.profits ?? 0}₽</P>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <H5 color="primary.main" paddingRight={"5px"}>
+              {" "}
+              Сумма депозитов, сделанных картой:{" "}
+            </H5>
+            <P>{admingetProcessedAmounts.crypto_deposits ?? 0}₽</P>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <H5 color="primary.main" paddingRight={"5px"}>
+              Сумма депозитов, сделанных картой:{" "}
+            </H5>
+            <P>{admingetProcessedAmounts.card_deposits ?? 0}₽</P>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <H5 color="primary.main" paddingRight={"5px"}>
+              {" "}
+              Сумма, подтверждённая пользователями:{" "}
+            </H5>
+            <P>{admingetProcessedAmounts.orders_done_amount ?? 0}₽</P>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <H5 color="primary.main" paddingRight={"5px"}>
+              {" "}
+              Сумма, не подтверждённая пользователями:{" "}
+            </H5>
+            <P>{admingetProcessedAmounts.orders_in_progress_amount ?? 0}₽</P>
           </Box>
         </Box>
       ),
     },
     {
-      label: "Взаимодействие с платформой ",
+      label: "Взаимодействие с платформой",
       render: () => (
         <Box
           sx={{
@@ -275,7 +294,7 @@ const useReports = () => {
             <H5 color="primary.main" paddingRight={"5px"}>
               Отправленные заказы:{" "}
             </H5>
-            <P>{orders_stats.order_count ?? 0}₽</P>
+            <P>{orders_stats.order_count ?? 0}</P>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <H5 color="primary.main" paddingRight={"5px"}>
@@ -300,7 +319,7 @@ const useReports = () => {
             <H5 color="primary.main" paddingRight={"5px"}>
               Заказы без карты:{" "}
             </H5>
-            <P>{orders_stats.order_witouth_card_count ?? 0}₽</P>
+            <P>{orders_stats.order_witouth_card_count ?? 0}</P>
           </Box>
         </Box>
       ),

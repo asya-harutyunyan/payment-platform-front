@@ -7,6 +7,7 @@ import {
 import {
   getOrderSummaryThunk,
   GetPlatformXThunk,
+  getProcessedAmountsThunk,
   getReportUsersThunk,
   getSummaryThunk,
   newRegisteredUsersThunk,
@@ -25,6 +26,15 @@ const initialState: ReportsState = {
   orders_platformX: [],
   report_users: [],
   singleOrder: [],
+  admingetProcessedAmounts: {
+    payment_method_count: "",
+    total_amount: "",
+    profits: "",
+    crypto_deposits: "",
+    card_deposits: "",
+    orders_done_amount: "",
+    orders_in_progress_amount: "",
+  },
   adminSummary: {
     active_cards: 0,
     deposited_amounts: 0,
@@ -79,6 +89,10 @@ const reportsSlice = createSlice({
       .addCase(getSummaryThunk.fulfilled, (state, action) => {
         state.adminSummary = action.payload;
       })
+      .addCase(getProcessedAmountsThunk.fulfilled, (state, action) => {
+        state.admingetProcessedAmounts = action.payload;
+      })
+
       .addCase(GetPlatformXThunk.fulfilled, (state, action) => {
         state.orders_platformX = action.payload.orders.data;
         state.orders_stats = action.payload.stats;

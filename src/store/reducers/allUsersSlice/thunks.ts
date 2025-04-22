@@ -114,7 +114,6 @@ export const updatePercentThunk = createAsyncThunk(
       const response = await httpClient.post(
         "/admin/referrals/update-percentage",
         {
-          referral_id: data.referral_id,
           user_id: data.user_id,
           referral_percentage: data.referral_percentage,
         }

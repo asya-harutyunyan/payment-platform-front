@@ -64,7 +64,9 @@ export interface Wallet {
 export interface Platipay {
   amount: string;
   status_by_client: string;
+  amount_order?: string;
   transaction_id: string;
+  created_at: string;
 }
 export interface RefferedUsersList {
   name: string;
@@ -75,6 +77,7 @@ export interface RefferedUsersList {
   ref_count: string;
   referral_code: string;
   user_id: string;
+  referral_id: string;
 }
 export interface ReferralOfUser {
   name: string;

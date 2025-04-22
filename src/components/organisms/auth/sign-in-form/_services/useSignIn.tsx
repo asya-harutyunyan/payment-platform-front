@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/store";
 import { fetchUser, loginUser } from "@/store/reducers/authSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
+import { enqueueSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof login_schema>;
@@ -49,6 +50,19 @@ const useSignIn = () => {
               });
             }
           });
+        }
+
+        if (
+          error.message ===
+          "Ваш аккаунт заблокирован. Пожалуйста, свяжитесь со службой поддержки."
+        ) {
+          enqueueSnackbar(
+            "Ваш аккаунт заблокирован. Пожалуйста, свяжитесь со службой поддержки.",
+            {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            }
+          );
         }
       });
   };

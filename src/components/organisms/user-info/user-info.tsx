@@ -47,7 +47,7 @@ export const UserInfo: FC = () => {
             data={user}
             loading={loading}
             fields={fields}
-            title={"User Information"}
+            title={"Список пользователь"}
           />
         </Box>
       )}
