@@ -35,18 +35,11 @@ export const ReferredUsers: FC = () => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    register,
-    setValue,
-    formState: { errors },
-    reset,
-  } = useForm<FormData>({
+  const { control, handleSubmit, setValue, reset } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
     defaultValues: {
-      referral_percentage: "",
-      user_id: "",
+      percentage: "",
+      referral_id: "",
     },
   });
 
@@ -59,9 +52,6 @@ export const ReferredUsers: FC = () => {
     dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
   const columns = useMemo<IColumn<RefferedUsersList>[]>(
     () => [
       {
@@ -85,11 +75,8 @@ export const ReferredUsers: FC = () => {
             <EditIcon
               onClick={() => {
                 setOpen(true);
-                setValue("user_id", row.user_id);
-                setValue(
-                  "referral_percentage",
-                  String(row.referral_percentage ?? "")
-                );
+                setValue("referral_id", `${row.user_id}`);
+                setValue("percentage", String(row.referral_percentage ?? ""));
               }}
               sx={{
                 color: "primary.main",
@@ -120,6 +107,7 @@ export const ReferredUsers: FC = () => {
     ],
     []
   );
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(updatePercentThunk(data))
       .unwrap()
@@ -129,15 +117,21 @@ export const ReferredUsers: FC = () => {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
+        setOpen(false);
+        dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
       })
       .catch(() => {
-        reset();
         enqueueSnackbar(t("error"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
       });
   };
+
+  // const submitForm = (e) => {
+  //   e.preventDefault();
+  //   handleSubmit(onSubmit)();
+  // };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -207,15 +201,14 @@ export const ReferredUsers: FC = () => {
           >
             <FormTextInput
               control={control}
-              {...register("referral_percentage")}
-              name="referral_percentage"
+              name="percentage"
               placeholder={t("change_percent")}
               whiteVariant
-              numeric
-              type="number"
+              // numeric
+              // type="number"
             />
-
             <Button
+              type="submit"
               variant={"gradient"}
               text={t("yes")}
               sx={{ marginTop: "30px" }}

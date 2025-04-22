@@ -6,6 +6,7 @@ import {
   getReferredUsersForAdminThunk,
   getUsersThunk,
   getUserThunk,
+  updatePercentThunk,
 } from "./thunks";
 import { UserState } from "./types";
 
@@ -46,6 +47,9 @@ const usersSlice = createSlice({
         state.blockedUsers = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(updatePercentThunk.fulfilled, (state) => {
+        state.loading = false;
       })
       .addCase(getBankNamesThunk.fulfilled, (state, action) => {
         state.loading = false;
