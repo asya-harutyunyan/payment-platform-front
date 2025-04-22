@@ -18,6 +18,11 @@ export interface UserState {
   referralUser: ReferralOfUser[];
   referralUsersForAdminPagination: ReferralAdminPagination;
 }
+export interface PercentsData {
+  referral_id: string;
+  user_id: string;
+  referral_percentage: number;
+}
 export interface ReferralAdminPagination {
   current_page: number;
   last_page: number;

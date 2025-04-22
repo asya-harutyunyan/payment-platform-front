@@ -16,11 +16,18 @@ export const Reports: FC = () => {
     selectedTab,
     value,
     sort,
+    pageNewRegUsers,
   } = useReports();
 
   useEffect(() => {
-    fetchDataByTab(selectedTab, page, sort);
-  }, [page, sort, selectedTab]);
+    if (selectedTab === 0) {
+      fetchDataByTab(selectedTab, page, sort);
+    } else if (selectedTab === 1) {
+      fetchDataByTab(selectedTab, pageNewRegUsers, sort);
+    } else {
+      fetchDataByTab(selectedTab);
+    }
+  }, [page, pageNewRegUsers, sort, selectedTab]);
 
   return (
     <Box sx={{ width: "100%" }}>

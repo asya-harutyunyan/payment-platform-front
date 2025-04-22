@@ -25,9 +25,9 @@ interface TabContentConfig {
 
 const useReports = () => {
   const dispatch = useAppDispatch();
+  const [pageNewRegUsers, setPageNewRegUsers] = useState(1);
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
-
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const { newRegisteredUsers, total, loading } = useAppSelector(
@@ -45,9 +45,27 @@ const useReports = () => {
     setValue(newValue);
     setSelectedTab(newValue);
   };
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
+  const onChangePageNewUsers = (
+    _event: React.ChangeEvent<unknown>,
+    newPage: number
+  ) => {
+    setPageNewRegUsers(newPage);
+
+    dispatch(
+      newRegisteredUsersThunk({
+        page: newPage,
+        per_page: 20,
+        sort: sort,
+      })
+    );
+  };
+
+  const onChangeReportUsersPage = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
     setPage?.(page);
-    dispatch(newRegisteredUsersThunk({ page: page, per_page: 5, sort: sort }));
+    dispatch(getReportUsersThunk({ page: page, per_page: 20 }));
   };
 
   const columnsNewRegUsers = useMemo<IColumn<NewUsers>[]>(
@@ -98,19 +116,32 @@ const useReports = () => {
     []
   );
 
-  const fetchDataByTab = (tab: number, page: number, sort: "ASC" | "DESC") => {
+  const fetchDataByTab = (
+    tab: number,
+    page?: number,
+    sort?: "ASC" | "DESC"
+  ) => {
     switch (tab) {
       case 0:
-        return dispatch(newRegisteredUsersThunk({ page, per_page: 5, sort }));
+        return (
+          sort &&
+          dispatch(
+            newRegisteredUsersThunk({
+              page: pageNewRegUsers,
+              per_page: 20,
+              sort,
+            })
+          )
+        );
       case 1:
-        return dispatch(getReportUsersThunk({ page, per_page: 5 }));
+        return page && dispatch(getReportUsersThunk({ page, per_page: 20 }));
       case 2:
         return dispatch(getSummaryThunk());
       case 3:
         return dispatch(
           GetPlatformXThunk({
             page: 1,
-            per_page: 5,
+            per_page: 20,
             start_date: "",
             end_date: "",
           })
@@ -163,9 +194,9 @@ const useReports = () => {
             />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <PaginationOutlined
-                onPageChange={onChangePage}
+                onPageChange={onChangePageNewUsers}
                 count={total}
-                page={page}
+                page={pageNewRegUsers}
               />
             </Box>
           </>
@@ -181,7 +212,7 @@ const useReports = () => {
             <DynamicTable columns={columnsReportUsers} data={report_users} />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <PaginationOutlined
-                onPageChange={onChangePage}
+                onPageChange={onChangeReportUsersPage}
                 count={total}
                 page={page}
               />
@@ -317,9 +348,11 @@ const useReports = () => {
     sortComponent,
     columnsNewRegUsers,
     newRegisteredUsers,
+    pageNewRegUsers,
     columnsReportUsers,
     handleChange,
-    onChangePage,
+    onChangePageNewUsers,
+    onChangeReportUsersPage,
     total,
     loading,
     orders_stats,

@@ -1,7 +1,7 @@
 import theme from "@/styles/theme";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 
 interface IPaginationOutlined {
   onPageChange?: (event: React.ChangeEvent<unknown>, page: number) => void;
@@ -14,10 +14,26 @@ export const PaginationOutlined: FC<IPaginationOutlined> = ({
   count,
   page = 1,
 }) => {
+  const handlePageChange = useCallback(
+    (event: React.ChangeEvent<unknown>, pageNumber: number) => {
+      if (onPageChange) {
+        onPageChange(event, pageNumber);
+      }
+
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }, 300);
+    },
+    [onPageChange]
+  );
+
   return (
     <Stack spacing={2}>
       <Pagination
-        onChange={onPageChange}
+        onChange={handlePageChange}
         variant="outlined"
         count={count}
         page={page}

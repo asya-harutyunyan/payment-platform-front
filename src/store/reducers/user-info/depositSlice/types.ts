@@ -74,6 +74,7 @@ export interface RefferedUsersList {
   total_amount: string;
   ref_count: string;
   referral_code: string;
+  user_id: string;
 }
 export interface ReferralOfUser {
   name: string;

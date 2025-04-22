@@ -66,9 +66,11 @@ const reportsSlice = createSlice({
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getReportUsersThunk.fulfilled, (state, action) => {
-        state.report_users = action.payload;
-        state.last_page = action.payload.last_page;
-        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+        state.report_users = action.payload.data;
+        state.last_page = action.payload.meta.last_page;
+        state.total = Math.ceil(
+          action.payload.meta.total / action.payload.meta.per_page
+        );
       })
       .addCase(getOrderSummaryThunk.fulfilled, (state, action) => {
         state.singleOrder = action.payload;

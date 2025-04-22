@@ -20,6 +20,7 @@ export interface IColumn<T> {
   column?: keyof T;
   label?: string;
   valueKey?: string;
+  currencyManual?: string;
   currency?: string;
   renderComponent?: (row: T) => ReactNode;
 }
@@ -111,7 +112,6 @@ function DynamicTable<
                         textTransform: "capitalize",
                       }}
                     >
-                      {column.renderComponent && column.renderComponent(row)}
                       {column.valueKey && _.getPath(row, column.valueKey)}
                       {column.currency
                         ? ` ${
@@ -123,6 +123,9 @@ function DynamicTable<
                             ] ?? ""
                           }`
                         : ""}
+
+                      {column.currencyManual ? column.currencyManual : ""}
+                      {column.renderComponent && column.renderComponent(row)}
                     </span>
                   </TableCell>
                 ))}
