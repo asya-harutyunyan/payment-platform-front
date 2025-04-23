@@ -202,58 +202,94 @@ const useAdminOrder = () => {
   };
   const OrderSummary = () => {
     return (
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            paddingRight: "15px",
+          }}
+        >
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-              paddingRight: "5px",
-              fontSize: "0.9rem",
+
+              fontSize: "0.8rem",
             }}
           >
             Количество активных карт:
           </P>
-          <P>{orderSummary.active_cards}₽</P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {orderSummary.active_cards}
+          </P>
         </Box>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", paddingRight: "15px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-              paddingRight: "5px",
-              fontSize: "0.9rem",
+
+              fontSize: "0.8rem",
             }}
           >
             Сумма, залитая на карты:
           </P>
-          <P>{orderSummary.deposited_amounts}₽</P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {orderSummary.deposited_amounts}₽
+          </P>
         </Box>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", paddingRight: "15px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-              paddingRight: "5px",
-              fontSize: "0.9rem",
+
+              fontSize: "0.8rem",
             }}
           >
             Полученная сумма:
           </P>
-          <P>{orderSummary.expiredAmount}₽</P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {orderSummary.expiredAmount}₽
+          </P>
         </Box>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex", paddingRight: "15px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-              paddingRight: "5px",
-              fontSize: "0.9rem",
+
+              fontSize: "0.8rem",
+            }}
+          >
+            Количество истекших:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {orderSummary.expiredCount}
+          </P>
+        </Box>
+
+        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+
+              fontSize: "0.8rem",
             }}
           >
             Ожидаемая сумма:
           </P>
-          <P>{orderSummary.not_deposited_yet_amount}₽</P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {orderSummary.not_deposited_yet_amount}₽
+          </P>
         </Box>
       </Box>
     );

@@ -9,15 +9,17 @@ interface ITaskHeader {
   subTitle?: string;
   sx?: SxProps;
   renderComponent?: ReactNode;
+  width?: string;
 }
 const TaskHeader: FC<ITaskHeader> = ({
   title,
   subTitle,
   renderComponent,
+  width,
   sx,
 }) => {
   return (
-    <Box sx={{ padding: "16px", width: "90%", ...sx }}>
+    <Box sx={{ padding: "16px 0", width: width ?? "90%", ...sx }}>
       <H3
         color={theme.palette.primary.main}
         sx={{

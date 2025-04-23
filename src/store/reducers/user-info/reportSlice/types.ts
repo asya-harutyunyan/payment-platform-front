@@ -27,6 +27,7 @@ export interface AdmingetProcessedAmounts {
   orders_in_progress_amount: string;
 }
 export interface Summary {
+  expiredCount: string;
   active_cards: number;
   deposited_amounts: number;
   expiredAmount: number;

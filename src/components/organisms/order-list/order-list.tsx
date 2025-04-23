@@ -31,7 +31,11 @@ export const OrderListComponent: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("order_list")} renderComponent={OrderSummary()} />
+      <TaskHeader
+        title={t("order_list")}
+        renderComponent={OrderSummary()}
+        width="100%"
+      />
       <Box
         sx={{
           width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
