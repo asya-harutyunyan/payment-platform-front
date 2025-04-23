@@ -70,6 +70,7 @@ export interface Platipay {
 }
 export interface RefferedUsersList {
   name: string;
+  percentage: string;
   surname: string;
   email: string;
   referral_percentage: string;

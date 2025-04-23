@@ -68,7 +68,7 @@ export const ReferredUsers: FC = () => {
         valueKey: "total_amount",
       },
       {
-        column: "referral_percentage",
+        column: "percentage",
         currencyManual: " ₽",
         renderComponent: (row: RefferedUsersList) => {
           return (
@@ -76,7 +76,7 @@ export const ReferredUsers: FC = () => {
               onClick={() => {
                 setOpen(true);
                 setValue("referral_id", `${row.user_id}`);
-                setValue("percentage", String(row.referral_percentage ?? ""));
+                setValue("percentage", String(row.percentage ?? ""));
               }}
               sx={{
                 color: "primary.main",
@@ -89,7 +89,7 @@ export const ReferredUsers: FC = () => {
             />
           );
         },
-        valueKey: "referral_percentage",
+        valueKey: "percentage",
       },
       {
         column: "ref_count",
