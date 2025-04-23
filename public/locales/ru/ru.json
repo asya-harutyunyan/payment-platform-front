@@ -122,6 +122,7 @@
   "initial_ammount": "Начальная сумма",
   "see_more": "Подробности",
   "amount_order": "Сумма заказа",
+  "status_order": "Статус заказа",
   "transaction_id": "Идентификатор транзакции",
   "key": "",
   "transaction_amount": "Сумма транзакции",

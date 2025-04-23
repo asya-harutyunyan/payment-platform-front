@@ -70,7 +70,7 @@ export interface Wallet {
 export interface Platipay {
   amount: string;
   status_by_client: string;
-  amount_order?: string;
+  status_order?: string;
   transaction_id: string;
   created_at: string;
 }

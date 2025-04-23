@@ -35,7 +35,7 @@ export const PlatiPay: FC = () => {
         valueKey: "amount",
       },
       {
-        column: "amount_order",
+        column: "status_order",
         renderComponent: (row: Platipay) => {
           return (
             <span
