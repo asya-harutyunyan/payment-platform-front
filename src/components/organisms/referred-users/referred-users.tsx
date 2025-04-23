@@ -64,12 +64,10 @@ export const ReferredUsers: FC = () => {
       },
       {
         column: "total_amount",
-        currencyManual: " ₽",
         valueKey: "total_amount",
       },
       {
         column: "percentage",
-        currencyManual: " ₽",
         renderComponent: (row: RefferedUsersList) => {
           return (
             <EditIcon
