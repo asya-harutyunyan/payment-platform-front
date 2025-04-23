@@ -22,7 +22,7 @@ export const DepositLists: FC = () => {
   const {
     dispatch,
     deposits,
-    total,
+    pagination,
     loading,
     open,
     setOpen,
@@ -34,6 +34,8 @@ export const DepositLists: FC = () => {
     columns,
     columnsUser,
   } = useDepositList();
+
+  console.log(pagination);
 
   //TODO
   const handleConfirm = (id?: number) => {
@@ -62,7 +64,7 @@ export const DepositLists: FC = () => {
       <TaskHeader title={t("deposit_lists")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : total > 0 ? (
+      ) : pagination.total > 0 ? (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -79,7 +81,7 @@ export const DepositLists: FC = () => {
             <PaginationOutlined
               page={page}
               onPageChange={onChangePage}
-              count={total}
+              count={pagination.last_page}
             />
           </Box>
         </Box>

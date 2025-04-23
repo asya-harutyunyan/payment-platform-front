@@ -14,7 +14,7 @@ export interface DepositState {
   deposits: DataDeposits[];
   orders: Order[];
   currentPage: number | null;
-  lastPage: number | null;
+  lastPage: number;
   total: number;
   price: number;
   notificationData?: {
@@ -24,6 +24,12 @@ export interface DepositState {
       user_id: number | string;
       amount: number;
     };
+  };
+  pagination: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
   };
 }
 

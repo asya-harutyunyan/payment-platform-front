@@ -20,10 +20,16 @@ const initialState: DepositState = {
   deposits: [],
   orders: [],
   currentPage: null,
-  lastPage: null,
+  pagination: {
+    current_page: 0,
+    last_page: 0,
+    per_page: 0,
+    total: 0,
+  },
   total: 0,
   price: 0,
   singleDeposit: [],
+  lastPage: 0,
 };
 
 const depositSlice = createSlice({
@@ -54,8 +60,11 @@ const depositSlice = createSlice({
       })
       .addCase(getDepositsThunk.fulfilled, (state, action) => {
         state.deposits = action.payload.data;
-        state.lastPage = action.payload.last_page;
-        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+        state.pagination.total = action.payload.pagination.total;
+        state.pagination.last_page = Math.ceil(
+          action.payload.pagination.last_page /
+            action.payload.pagination.per_page
+        );
       })
 
       .addCase(getSingleDepositThunk.fulfilled, (state, action) => {

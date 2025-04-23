@@ -19,7 +19,9 @@ type ICountdownRendererFn = (
 
 const useDepositInfo = () => {
   const dispatch = useAppDispatch();
-  const { deposits, total, loading } = useAppSelector((state) => state.deposit);
+  const { deposits, total, loading, lastPage, pagination } = useAppSelector(
+    (state) => state.deposit
+  );
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
 
@@ -307,6 +309,7 @@ const useDepositInfo = () => {
     dispatch,
     deposits,
     total,
+    lastPage,
     loading,
     open,
     setOpen,
@@ -320,6 +323,7 @@ const useDepositInfo = () => {
     onChangePage,
     handleOpen,
     countDownrenderer,
+    pagination,
     columns,
     columnsUser,
     route,
