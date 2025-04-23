@@ -152,7 +152,7 @@ export const ReferredUsers: FC = () => {
           >
             <PaginationOutlined
               onPageChange={onChangePage}
-              count={referralUsersForAdminPagination.total}
+              count={referralUsersForAdminPagination.last_page}
               page={page}
             />
           </Box>

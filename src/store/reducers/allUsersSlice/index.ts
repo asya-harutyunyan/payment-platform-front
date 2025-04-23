@@ -67,7 +67,8 @@ const usersSlice = createSlice({
         state.referralUsersForAdminPagination = action.payload.pagination;
         state.lastPage = action.payload.pagination.last_page;
         state.total = Math.ceil(
-          action.payload.pagination.total / action.payload.pagination.per_page
+          action.payload.pagination.lastPage /
+            action.payload.pagination.per_page
         );
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
