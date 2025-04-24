@@ -1,5 +1,7 @@
+import { FormTextInput } from "@/components/atoms/input";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   GetPlatformXThunk,
@@ -12,16 +14,21 @@ import {
   ReportUsers,
 } from "@/store/reducers/user-info/reportSlice/types";
 import { H5, P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import { z } from "zod";
 import { EmptyComponent } from "../../empty-component";
 
 interface TabContentConfig {
   label: string;
   render: () => React.ReactNode;
 }
+type NewUserFormData = z.infer<typeof new_users_schema>;
 
 const useReports = () => {
   const dispatch = useAppDispatch();
@@ -39,6 +46,42 @@ const useReports = () => {
     report_users,
     adminSummary,
   } = useAppSelector((state) => state.reports);
+
+  const {
+    control: NewUserControl,
+    register: NewUserRegister,
+    watch: NewUserWatch,
+  } = useForm<NewUserFormData>({
+    resolver: zodResolver(new_users_schema),
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+    },
+  });
+
+  const name = NewUserWatch("name");
+  const surname = NewUserWatch("surname");
+  const email = NewUserWatch("email");
+
+  const [debouncedName] = useDebounce(name, 700);
+  const [debouncedSurname] = useDebounce(surname, 700);
+  const [debouncedEmail] = useDebounce(email, 700);
+
+  useEffect(() => {
+    if (value === 0) {
+      dispatch(
+        newRegisteredUsersThunk({
+          page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          email: debouncedEmail,
+          sort,
+        })
+      );
+    }
+  }, [debouncedName, debouncedSurname, debouncedEmail]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -70,20 +113,53 @@ const useReports = () => {
   const columnsNewRegUsers = useMemo<IColumn<NewUsers>[]>(
     () => [
       {
-        column: "created_at",
-        valueKey: "created_at",
-      },
-      {
         column: "name",
         valueKey: "name",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={NewUserControl}
+              {...NewUserRegister("name")}
+              name="name"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "surname",
         valueKey: "surname",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={NewUserControl}
+              {...NewUserRegister("surname")}
+              name="surname"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "email",
         valueKey: "email",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={NewUserControl}
+              {...NewUserRegister("email")}
+              name="email"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
+      },
+      {
+        column: "created_at",
+        valueKey: "created_at",
       },
     ],
     []
@@ -93,6 +169,10 @@ const useReports = () => {
       {
         column: "name",
         valueKey: "name",
+      },
+      {
+        column: "email",
+        valueKey: "email",
       },
       {
         column: "surname",
@@ -106,10 +186,6 @@ const useReports = () => {
       {
         column: "total_cards",
         valueKey: "total_cards",
-      },
-      {
-        column: "wallet_total",
-        valueKey: "wallet_total",
       },
     ],
     []
@@ -246,7 +322,7 @@ const useReports = () => {
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <H5 color="primary.main" paddingRight={"5px"}>
               {" "}
-              Сумма прибыли (%):{" "}
+              Сумма прибыли:{" "}
             </H5>
             <P>{admingetProcessedAmounts.profits ?? 0}₽</P>
           </Box>

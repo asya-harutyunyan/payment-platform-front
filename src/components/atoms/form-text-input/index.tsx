@@ -26,10 +26,12 @@ interface IBasicTextFields {
   error?: boolean;
   helperText?: string | ReactNode;
   textColor?: string;
+  width?: string;
   whiteVariant?: boolean;
   ref?: Ref<HTMLDivElement>;
   id?: string;
   autofocus?: boolean;
+  padding?: string;
 }
 
 export const BasicTextFields: FC<IBasicTextFields> = ({
@@ -44,6 +46,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   helperText,
   whiteVariant,
   autofocus,
+  width,
   id,
   ref,
 }) => {
@@ -73,14 +76,16 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
             {
               display: "none",
             },
+
           "& input[type=number]": {
             MozAppearance: "textfield",
           },
           ":-internal-autofill-selected": {
             backgroundColor: "red !important",
           },
-          width: "100%",
+          width: width ?? "100%",
           border: "#B5BBC6",
+
           ".MuiOutlinedInput-notchedOutline": {
             borderColor: whiteVariant ? "tertiary.main" : "primary.main",
           },

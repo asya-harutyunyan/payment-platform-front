@@ -24,4 +24,5 @@ export interface Pagination {
   page: number;
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;
+  search?: string;
 }

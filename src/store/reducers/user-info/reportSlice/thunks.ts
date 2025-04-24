@@ -17,7 +17,14 @@ export const newRegisteredUsersThunk = createAsyncThunk(
       const response = await httpClient.get<NewRegisteredUsersResponse>(
         "/users/newly-registered",
         {
-          params: { page: data.page, per_page: data.per_page, sort: data.sort },
+          params: {
+            page: data.page,
+            per_page: data.per_page,
+            sort: data.sort,
+            name: data.name,
+            surname: data.surname,
+            email: data.email,
+          },
         }
       );
       return response.data;
@@ -40,6 +47,7 @@ export const platipayThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
+          search: data.search,
         },
       });
       return response.data;

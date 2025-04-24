@@ -92,7 +92,10 @@ export const BankCardDetalis: FC = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          if (error.card_number[0] === "Поле номер карты уже занято.") {
+          if (
+            error.card_number &&
+            error.card_number[0] === "Поле номер карты уже занято."
+          ) {
             enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
@@ -117,6 +120,11 @@ export const BankCardDetalis: FC = () => {
                 });
               }
             });
+          }
+          if (error) {
+            console.log(error);
+
+            // setValue("card_number", error.card_number[2]);
           }
           if (
             error.bank_details[0] ===
@@ -156,8 +164,17 @@ export const BankCardDetalis: FC = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
+          if (
+            error.card_number[1] &&
+            error.card_number[1] ===
+              "Эта карта заблокирована и не может быть добавлена."
+          ) {
+            setError("card_number", {
+              message:
+                "Данная карта была использована в системе заблокированным пользователем.",
+            });
+          }
           if (error.bank_details[0]) {
-            console.log(error.bank_details[0]);
             enqueueSnackbar(
               "Вы можете добавить не более 3 банковских реквизитов.",
               {

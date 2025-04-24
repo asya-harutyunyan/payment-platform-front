@@ -35,9 +35,6 @@ export const DepositLists: FC = () => {
     columnsUser,
   } = useDepositList();
 
-  console.log(pagination);
-
-  //TODO
   const handleConfirm = (id?: number) => {
     if (id) {
       dispatch(confirmDepositAdminThunk(id))

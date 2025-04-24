@@ -1,5 +1,6 @@
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
+import { P } from "@/styles/typography";
 import {
   Box,
   Paper,
@@ -20,6 +21,7 @@ export interface IColumn<T> {
   column?: keyof T;
   label?: string;
   valueKey?: string;
+  filters?: () => ReactNode;
   currencyManual?: string;
   currency?: string;
   renderComponent?: (row: T) => ReactNode;
@@ -30,6 +32,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   data: T[];
   refetchData?: () => void;
   renderSortComponent?: ReactNode;
+  renderSearch?: () => JSX.Element;
 }
 
 function DynamicTable<
@@ -48,7 +51,7 @@ function DynamicTable<
     isNeedBtnConfirm?: boolean;
     done_arrow?: string;
   },
->({ columns, data, renderSortComponent }: TableProps<T>) {
+>({ columns, data, renderSortComponent, renderSearch }: TableProps<T>) {
   return (
     <>
       <TableContainer component={Paper}>
@@ -57,22 +60,44 @@ function DynamicTable<
             overflow: "auto",
           }}
         >
-          <TableHead>
+          <TableHead
+            sx={{
+              width: "100%",
+            }}
+          >
             <TableRow
               sx={{
                 borderBottom: "3px solid #041F44",
-                width: "100%",
               }}
             >
               {columns?.map((column, index) => (
-                <TableCell
-                  key={index}
-                  sx={{ fontWeight: "bold", color: "primary.main" }}
-                >
-                  {t(column.column as string)}
-                </TableCell>
+                <>
+                  <TableCell
+                    sx={{
+                      width: "100%",
+                      minHeight: "100px",
+                      verticalAlign: "top",
+                    }}
+                    key={index}
+                  >
+                    <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+                      {t(column.column as string)}
+                    </P>
+                    <Box key={index}>
+                      {column.filters ? column.filters() : ""}
+                    </Box>
+                  </TableCell>
+                </>
               ))}
+
               {renderSortComponent}
+            </TableRow>
+            <TableRow
+              sx={{
+                borderBottom: "3px solid #041F44",
+              }}
+            >
+              {renderSearch?.()}
             </TableRow>
           </TableHead>
           <TableBody>

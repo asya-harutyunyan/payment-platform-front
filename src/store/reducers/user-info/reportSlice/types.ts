@@ -61,6 +61,9 @@ export type NewRegisteredUsers = {
   page: number;
   per_page: number;
   sort: "ASC" | "DESC";
+  name?: string;
+  surname?: string;
+  email?: string;
 };
 export type NewUsers = {
   name: string;
@@ -81,6 +84,7 @@ export type ReportUsers = {
   blocked_cards: string;
   wallet_total: string;
   total_cards: string;
+  email: string;
 };
 
 export interface Platipay {

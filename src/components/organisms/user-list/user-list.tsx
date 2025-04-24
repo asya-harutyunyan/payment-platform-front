@@ -21,6 +21,7 @@ export const UserListComponent: FC = () => {
     selectedTab,
     handleChange,
     a11yProps,
+    renderSearch,
   } = useUserList();
 
   useEffect(() => {
@@ -61,7 +62,11 @@ export const UserListComponent: FC = () => {
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
           </Tabs>
-          <DynamicTable columns={columns} data={data} />
+          <DynamicTable
+            columns={columns}
+            data={data}
+            renderSearch={renderSearch}
+          />
 
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
