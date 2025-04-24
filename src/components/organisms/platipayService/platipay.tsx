@@ -18,7 +18,7 @@ export const PlatiPay: FC = () => {
     page,
     user,
     onChangePage,
-    handleSearch,
+    // handleSearch,
     columns,
   } = usePlatipayService();
 
