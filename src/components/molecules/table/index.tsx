@@ -18,7 +18,7 @@ import { ReactNode } from "react";
 import _ from "underscore-contrib";
 
 export interface IColumn<T> {
-  column?: keyof T;
+  column?: keyof T | (() => ReactNode);
   label?: string;
   valueKey?: string;
   filters?: () => ReactNode;
@@ -32,7 +32,7 @@ interface TableProps<T extends { id?: number; created_at?: string }> {
   data: T[];
   refetchData?: () => void;
   renderSortComponent?: ReactNode;
-  renderSearch?: () => JSX.Element;
+  renderBottomComponent?: () => JSX.Element;
 }
 
 function DynamicTable<
@@ -51,7 +51,12 @@ function DynamicTable<
     isNeedBtnConfirm?: boolean;
     done_arrow?: string;
   },
->({ columns, data, renderSortComponent, renderSearch }: TableProps<T>) {
+>({
+  columns,
+  data,
+  renderSortComponent,
+  renderBottomComponent,
+}: TableProps<T>) {
   return (
     <>
       <TableContainer component={Paper}>
@@ -80,11 +85,20 @@ function DynamicTable<
                     }}
                     key={index}
                   >
-                    <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-                      {t(column.column as string)}
+                    <P
+                      sx={{
+                        fontWeight: "bold",
+                        color: "primary.main",
+                      }}
+                    >
+                      {typeof column.column === "string" &&
+                        t(column.column as string)}
                     </P>
                     <Box key={index}>
                       {column.filters ? column.filters() : ""}
+                      {column.column &&
+                        typeof column.column === "function" &&
+                        column.column()}
                     </Box>
                   </TableCell>
                 </>
@@ -97,7 +111,7 @@ function DynamicTable<
                 borderBottom: "3px solid #041F44",
               }}
             >
-              {renderSearch?.()}
+              {renderBottomComponent?.()}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -128,13 +142,13 @@ function DynamicTable<
                       style={{
                         display: "flex",
                         alignItems: "center",
+                        textTransform: "capitalize",
                         color: column.valueKey
                           ? getStatusColor(
                               String(_.getPath?.(row, column.valueKey) || "-")
                             )
                           : "",
                         fontWeight: 400,
-                        textTransform: "capitalize",
                       }}
                     >
                       {column.valueKey && _.getPath(row, column.valueKey)}

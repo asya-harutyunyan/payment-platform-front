@@ -1,62 +1,16 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import DynamicTable, { IColumn } from "@/components/molecules/table";
+import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
-import { useAppDispatch, useAppSelector } from "@/store";
-import { getBlockedCardsThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
-import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, useEffect, useMemo, useState } from "react";
+import { FC } from "react";
 import { EmptyComponent } from "../empty-component";
+import useBlockedCard from "./_services/useBlockedCard";
 
 export const BlockedCardList: FC = () => {
-  const dispatch = useAppDispatch();
-  const [page, setPage] = useState(1);
-  const { user } = useAuth();
-  const { blockedCards, loading, total } = useAppSelector(
-    (state) => state.bankDetails
-  );
-  useEffect(() => {
-    dispatch(getBlockedCardsThunk({ page: page, per_page: 20 }));
-  }, [dispatch, page, user?.role]);
-
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
-    setPage?.(page);
-    dispatch(getBlockedCardsThunk({ page: page, per_page: 20 }));
-  };
-
-  const columns = useMemo<IColumn<BankCardsDetalis>[]>(
-    () => [
-      {
-        column: "name",
-        valueKey: "user.name",
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
-      },
-      {
-        column: "bank_name",
-        valueKey: "bank_name",
-      },
-      {
-        column: "card_holder",
-        valueKey: "card_holder",
-      },
-      {
-        column: "card_number",
-        valueKey: "card_number",
-      },
-      {
-        column: "currency",
-        valueKey: "currency",
-      },
-    ],
-    []
-  );
-
+  const { page, columns, onChangePage, blockedCards, loading, total } =
+    useBlockedCard();
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("blocked-bank_card_list")} />

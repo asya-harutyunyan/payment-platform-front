@@ -123,6 +123,7 @@
   "see_more": "Подробности",
   "amount_order": "Сумма заказа",
   "status_order": "Статус заказа",
+  "percentage": "Процент",
   "transaction_id": "Идентификатор транзакции",
   "key": "",
   "transaction_amount": "Сумма транзакции",
@@ -220,5 +221,8 @@
   "platipay": "Платформа PlatiPay",
   "blocked_card": "Замороженная карта",
   "change_percent": "Изменение процента",
-  "percent_changed": "Процент успешно изменен"
+  "percent_changed": "Процент успешно изменен",
+  "sort_by": "Сортировать",
+  "all": "Все",
+  "month": "Месяц"
 }

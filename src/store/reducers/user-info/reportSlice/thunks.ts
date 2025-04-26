@@ -7,6 +7,7 @@ import {
   GetPlatformXRequest,
   NewRegisteredUsers,
   NewRegisteredUsersResponse,
+  PlatipayRequest,
 } from "./types";
 
 //newly reg users
@@ -41,13 +42,15 @@ export const newRegisteredUsersThunk = createAsyncThunk(
 //platipay
 export const platipayThunk = createAsyncThunk(
   "reports/platipayThunk",
-  async (data: Pagination, { rejectWithValue }) => {
+  async (data: PlatipayRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/admin/plati-pay", {
         params: {
           page: data.page,
           per_page: data.per_page,
-          search: data.search,
+          amount: data.amount,
+          status_by_client: data.status_by_client,
+          transaction_id: data.transaction_id,
         },
       });
       return response.data;

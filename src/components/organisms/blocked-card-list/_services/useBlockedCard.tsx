@@ -1,84 +1,98 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
-import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
-import { platipay_schema } from "@/schema/platipay_schema";
+import { blocked_card_schema } from "@/schema/blocked_card_schena";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { Platipay } from "@/store/reducers/user-info/depositSlice/types";
-import { platipayThunk } from "@/store/reducers/user-info/reportSlice/thunks";
+import { getBlockedCardsThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
+import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
-import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
 
-type FormData = z.infer<typeof platipay_schema>;
+type FormData = z.infer<typeof blocked_card_schema>;
 
-const usePlatipayService = () => {
-  const { platipay, total, loading } = useAppSelector((state) => state.reports);
+const useBlockedCard = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
 
   const { user } = useAuth();
+
+  const { blockedCards, loading, total } = useAppSelector(
+    (state) => state.bankDetails
+  );
   const { control, register, watch } = useForm<FormData>({
-    resolver: zodResolver(platipay_schema),
+    resolver: zodResolver(blocked_card_schema),
     defaultValues: {
-      amount: "",
-      status_by_client: "",
-      transaction_id: "",
+      name: "",
+      surname: "",
+      bank_name: "",
+      card_holder: "",
+      card_number: "",
     },
   });
 
-  const amount = watch("amount");
-  const status_by_client = watch("status_by_client");
-  const transaction_id = watch("transaction_id");
+  const name = watch("name");
+  const surname = watch("surname");
+  const bankName = watch("bank_name");
+  const cardHolder = watch("card_holder");
+  const cardNumber = watch("card_number");
 
-  const [debouncedAmount] = useDebounce(amount, 700);
-  const [debouncedStatusByClient] = useDebounce(status_by_client, 700);
-  const [debouncedTransactionId] = useDebounce(transaction_id, 700);
+  const [debouncedName] = useDebounce(name, 700);
+  const [debouncedSurname] = useDebounce(surname, 700);
+  const [debouncedBankName] = useDebounce(bankName, 700);
+  const [debouncedCardHolder] = useDebounce(cardHolder, 700);
+  const [debouncedCardNumber] = useDebounce(cardNumber, 700);
 
   useEffect(() => {
     dispatch(
-      platipayThunk({
-        page,
+      getBlockedCardsThunk({
+        page: page,
         per_page: 20,
-        amount: debouncedAmount,
-        status_by_client: debouncedStatusByClient,
-        transaction_id: debouncedStatusByClient,
+        name: debouncedName,
+        surname: debouncedSurname,
+        bank_name: debouncedBankName,
+        card_holder: debouncedCardHolder,
+        card_number: debouncedCardNumber,
         sort,
       })
     );
   }, [
-    debouncedAmount,
-    debouncedStatusByClient,
-    debouncedTransactionId,
-    sort,
+    debouncedBankName,
+    debouncedCardHolder,
+    debouncedCardNumber,
+    debouncedName,
+    debouncedSurname,
     page,
+    sort,
   ]);
+
+  useEffect(() => {
+    dispatch(getBlockedCardsThunk({ page: page, per_page: 20 }));
+  }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(platipayThunk({ page: page, per_page: 20 }));
+    dispatch(getBlockedCardsThunk({ page: page, per_page: 20 }));
   };
 
-  const columns = useMemo<IColumn<Platipay>[]>(
+  const columns = useMemo<IColumn<BankCardsDetalis>[]>(
     () => [
       {
-        column: "amount",
-        currencyManual: " ₽",
-        valueKey: "amount",
+        column: "name",
+        valueKey: "user.name",
         filters: () => {
           return (
             <FormTextInput
               control={control}
-              {...register("amount")}
-              name="amount"
+              {...register("name")}
+              name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -86,43 +100,14 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "status_order",
+        column: "surname",
+        valueKey: "user.surname",
         filters: () => {
           return (
             <FormTextInput
               control={control}
-              {...register("status_by_client")}
-              name="status_by_client"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
-        },
-        renderComponent: (row: Platipay) => {
-          return (
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: getStatusColor(row.status_by_client ?? "-"),
-                fontWeight: 400,
-                textTransform: "capitalize",
-              }}
-            >
-              {row.status_by_client && t(row.status_by_client)}
-            </span>
-          );
-        },
-      },
-      {
-        column: "transaction_id",
-        valueKey: "transaction_id",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("transaction_id")}
-              name="transaction_id"
+              {...register("surname")}
+              name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -130,8 +115,53 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "created_at",
-        valueKey: "created_at",
+        column: "bank_name",
+        valueKey: "bank_name",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("bank_name")}
+              name="bank_name"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
+      },
+      {
+        column: "card_holder",
+        valueKey: "card_holder",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("card_holder")}
+              name="card_holder"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
+      },
+      {
+        column: "card_number",
+        valueKey: "card_number",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("card_number")}
+              name="card_number"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
+      },
+      {
+        column: "currency",
+        valueKey: "currency",
       },
       {
         column: () => sortComponent(),
@@ -179,17 +209,16 @@ const usePlatipayService = () => {
       </Box>
     );
   };
-
   return {
     dispatch,
-    platipay,
-    total,
-    loading,
     page,
     setPage,
-    user,
-    onChangePage,
     columns,
+    onChangePage,
+    blockedCards,
+    loading,
+    total,
   };
 };
-export default usePlatipayService;
+
+export default useBlockedCard;

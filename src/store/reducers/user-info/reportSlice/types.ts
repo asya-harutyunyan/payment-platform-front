@@ -100,3 +100,11 @@ export interface GetPlatformXRequest {
   start_date: string;
   end_date: string;
 }
+export interface PlatipayRequest {
+  page: number;
+  per_page?: number;
+  amount?: string;
+  status_by_client?: string;
+  transaction_id?: string;
+  sort?: "ASC" | "DESC";
+}

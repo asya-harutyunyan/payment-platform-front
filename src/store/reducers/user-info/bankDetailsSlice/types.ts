@@ -23,6 +23,12 @@ export interface BankCardsDetails {
 export interface GetBankDetailsRequest {
   page: number;
   per_page?: number;
+  name?: string;
+  surname?: string;
+  bank_name?: string;
+  card_holder?: string;
+  card_number?: string;
+  sort?: "ASC" | "DESC";
 }
 
 export type AddCardType = z.infer<typeof add_card_schema>;

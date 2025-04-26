@@ -3,7 +3,7 @@ import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
-import { search_schema, users_filter_schema } from "@/schema/users_filter";
+import { filter_schema, search_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   getBlockedUsersThunk,
@@ -15,6 +15,8 @@ import {
 } from "@/store/reducers/authSlice/thunks";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
@@ -23,7 +25,7 @@ import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
 
-type FormData = z.infer<typeof users_filter_schema>;
+type FormData = z.infer<typeof filter_schema>;
 type BlockedUserFormData = z.infer<typeof search_schema>;
 
 const useUserList = () => {
@@ -31,6 +33,11 @@ const useUserList = () => {
   const route = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sortBlockedUsers, setSortBlockedUsers] = useState<"ASC" | "DESC">(
+    "ASC"
+  );
+
   //tabs
   const [value, setValue] = useState(0);
   const [selectedTab, setSelectedTab] = useState(0);
@@ -43,7 +50,7 @@ const useUserList = () => {
   const [pageBlockedUsers, setPageBlockedUsers] = useState(1);
   //users
   const { control, register, watch } = useForm<FormData>({
-    resolver: zodResolver(users_filter_schema),
+    resolver: zodResolver(filter_schema),
     defaultValues: {
       name: "",
       surname: "",
@@ -56,7 +63,7 @@ const useUserList = () => {
     register: BlockedUserRegister,
     watch: BlockedUserWatch,
   } = useForm<BlockedUserFormData>({
-    resolver: zodResolver(users_filter_schema),
+    resolver: zodResolver(filter_schema),
     defaultValues: {
       search: "",
     },
@@ -87,6 +94,7 @@ const useUserList = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
+          sort,
         })
       );
     } else {
@@ -95,10 +103,18 @@ const useUserList = () => {
           page: pageBlockedUsers,
           per_page: 20,
           search: debouncedsearch,
+          sort: sortBlockedUsers,
         })
       );
     }
-  }, [debouncedName, debouncedSurname, debouncedEmail, debouncedsearch]);
+  }, [
+    debouncedName,
+    debouncedSurname,
+    debouncedEmail,
+    debouncedsearch,
+    sortBlockedUsers,
+    sort,
+  ]);
 
   //tab
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -212,6 +228,9 @@ const useUserList = () => {
           );
         },
       },
+      {
+        column: () => sortComponent(),
+      },
     ],
     []
   );
@@ -255,9 +274,92 @@ const useUserList = () => {
           );
         },
       },
+      {
+        column: () => sortBlockedComponent(),
+      },
     ],
     []
   );
+  const sortComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
+          }}
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("DESC")}
+          />
+        </Box>
+      </Box>
+    );
+  };
+  const sortBlockedComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
+          }}
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSortBlockedUsers("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSortBlockedUsers("DESC")}
+          />
+        </Box>
+      </Box>
+    );
+  };
   //block-unblock
   const blockUser = (id: number) => {
     dispatch(blockUserThunk(id))
@@ -280,7 +382,7 @@ const useUserList = () => {
       });
   };
 
-  const { data, onChangePage, currentPage, columns, renderSearch } =
+  const { data, onChangePage, currentPage, columns, renderBottomComponent } =
     useMemo(() => {
       if (value === 0) {
         return {
@@ -295,7 +397,7 @@ const useUserList = () => {
           onChangePage: onChangeBlockedUsersPage,
           currentPage: pageBlockedUsers,
           columns: columnsBlockedUsers,
-          renderSearch: () => {
+          renderBottomComponent: () => {
             return (
               <Box>
                 <P>Фильтр по всем полям</P>
@@ -345,7 +447,7 @@ const useUserList = () => {
     currentPage,
     columns,
     users,
-    renderSearch,
+    renderBottomComponent,
     blockedUsers,
     total,
     loading,

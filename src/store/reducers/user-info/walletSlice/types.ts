@@ -25,4 +25,19 @@ export interface Pagination {
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;
   search?: string;
+  name?: string;
+  surname?: string;
+  email?: string;
+  period?: string;
+  sort_by?: "ASC" | "DESC";
+  sort_order?: "ASC" | "DESC";
+  sort?: "ASC" | "DESC";
+}
+export interface FilterWallet {
+  page: number;
+  per_page?: number;
+  address?: string;
+  currency?: string;
+  network?: string;
+  sort?: "ASC" | "DESC";
 }

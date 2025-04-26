@@ -37,6 +37,8 @@ const useReports = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sortUsers, setSortUsers] = useState<"ASC" | "DESC">("ASC");
+
   const { newRegisteredUsers, total, loading, admingetProcessedAmounts } =
     useAppSelector((state) => state.reports);
   const {
@@ -47,6 +49,7 @@ const useReports = () => {
     adminSummary,
   } = useAppSelector((state) => state.reports);
 
+  //report new reg users
   const {
     control: NewUserControl,
     register: NewUserRegister,
@@ -60,6 +63,20 @@ const useReports = () => {
     },
   });
 
+  //reporst users
+  const {
+    control: UserControl,
+    register: UserRegister,
+    watch: UserWatch,
+  } = useForm<NewUserFormData>({
+    resolver: zodResolver(new_users_schema),
+    defaultValues: {
+      name: "",
+      surname: "",
+      email: "",
+    },
+  });
+  //report new reg users
   const name = NewUserWatch("name");
   const surname = NewUserWatch("surname");
   const email = NewUserWatch("email");
@@ -67,6 +84,15 @@ const useReports = () => {
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
+
+  //reporst users
+  const nameUser = UserWatch("name");
+  const surnameUser = UserWatch("surname");
+  const emailUser = UserWatch("email");
+
+  const [debouncedNameUser] = useDebounce(nameUser, 700);
+  const [debouncedSurnameUser] = useDebounce(surnameUser, 700);
+  const [debouncedEmailUser] = useDebounce(emailUser, 700);
 
   useEffect(() => {
     if (value === 0) {
@@ -78,6 +104,20 @@ const useReports = () => {
           surname: debouncedSurname,
           email: debouncedEmail,
           sort,
+        })
+      );
+    }
+  }, [debouncedName, debouncedSurname, debouncedEmail]);
+  useEffect(() => {
+    if (value === 1) {
+      dispatch(
+        newRegisteredUsersThunk({
+          page,
+          per_page: 20,
+          name: debouncedNameUser,
+          surname: debouncedSurnameUser,
+          email: debouncedEmailUser,
+          sort: sortUsers,
         })
       );
     }
@@ -161,6 +201,9 @@ const useReports = () => {
         column: "created_at",
         valueKey: "created_at",
       },
+      {
+        column: () => sortComponent(),
+      },
     ],
     []
   );
@@ -169,14 +212,47 @@ const useReports = () => {
       {
         column: "name",
         valueKey: "name",
-      },
-      {
-        column: "email",
-        valueKey: "email",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={UserControl}
+              {...UserRegister("name")}
+              name="name"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "surname",
         valueKey: "surname",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={UserControl}
+              {...UserRegister("surname")}
+              name="surname"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
+      },
+      {
+        column: "email",
+        valueKey: "email",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={UserControl}
+              {...UserRegister("email")}
+              name="email"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "blocked_cards",
@@ -186,6 +262,9 @@ const useReports = () => {
       {
         column: "total_cards",
         valueKey: "total_cards",
+      },
+      {
+        column: () => sortUserComponent(),
       },
     ],
     []
@@ -265,7 +344,6 @@ const useReports = () => {
             <DynamicTable
               columns={columnsNewRegUsers}
               data={newRegisteredUsers}
-              renderSortComponent={sortComponent()}
             />
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <PaginationOutlined
@@ -407,32 +485,78 @@ const useReports = () => {
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
-          marginTop: "7px",
-          width: "40px",
-          cursor: "pointer",
         }}
       >
-        <ExpandLessIcon
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
           sx={{
-            color: "primary.main",
-            height: "20px",
-            ":hover": {
-              backgroundColor: "#f9f9f9",
-            },
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
           }}
-          onClick={() => setSort("ASC")}
-        />
-        <ExpandMoreIcon
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("DESC")}
+          />
+        </Box>
+      </Box>
+    );
+  };
+  const sortUserComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
           sx={{
-            color: "primary.main",
-            height: "20px",
-            ":hover": {
-              backgroundColor: "#f9f9f9",
-            },
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
           }}
-          onClick={() => setSort("DESC")}
-        />
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSortUsers("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSortUsers("DESC")}
+          />
+        </Box>
       </Box>
     );
   };

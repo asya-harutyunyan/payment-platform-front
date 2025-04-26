@@ -85,6 +85,8 @@ export interface RefferedUsersList {
   referral_code: string;
   user_id: string;
   referral_id: string;
+  key: string;
+  sort_by?: string;
 }
 export interface ReferralOfUser {
   name: string;
@@ -185,4 +187,14 @@ export interface Link {
   url?: string;
   label: string;
   active: boolean;
+}
+export interface DepositRequest {
+  page?: number;
+  per_page?: number;
+  name?: string;
+  //amount?
+  sort_by?: string;
+  status_by_admin?: string;
+  type?: string;
+  sort_order?: "ASC" | "DESC";
 }

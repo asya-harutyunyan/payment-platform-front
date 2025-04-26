@@ -169,6 +169,12 @@ export const getReferredUsersForAdminThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
+          name: data.name,
+          surname: data.surname,
+          email: data.email,
+          sort_by: data.sort_by,
+          sort_order: data.sort_order,
+          period: data.period,
         },
       });
       return response.data;

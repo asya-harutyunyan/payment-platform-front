@@ -3,11 +3,12 @@ import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Pagination } from "../walletSlice/types";
+import { OrderRequest } from "./types";
 
 //order
 export const getOrdersThunk = createAsyncThunk(
   "orders/getOrdersThunk",
-  async (data: Pagination, { rejectWithValue }) => {
+  async (data: OrderRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get("/orders/status", {
         params: {
@@ -17,6 +18,10 @@ export const getOrdersThunk = createAsyncThunk(
             data.status_by_client === DEPOSIT_STATUSES.ALL
               ? undefined
               : data.status_by_client,
+          name: data.name,
+          surname: data.surname,
+          amount: data.amount,
+          sort: data.sort,
         },
       });
       return response.data;

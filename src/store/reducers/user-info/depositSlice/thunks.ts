@@ -2,8 +2,12 @@ import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { AppState } from "../../..";
-import { Pagination } from "../walletSlice/types";
-import { AmountType, Deposit, WalletDetalisType } from "./types";
+import {
+  AmountType,
+  Deposit,
+  DepositRequest,
+  WalletDetalisType,
+} from "./types";
 //first step
 export const createDepositThunk = createAsyncThunk(
   "deposit/processingAmount",
@@ -93,12 +97,16 @@ export const updateDeposit = createAsyncThunk(
 //deposit-lists
 export const getDepositsThunk = createAsyncThunk(
   "deposit/getDepositsThunk",
-  async (data: Pagination, { rejectWithValue }) => {
+  async (data: DepositRequest, { rejectWithValue }) => {
     try {
       const response = await httpClient.get(`/deposits`, {
         params: {
           page: data.page,
           per_page: data.per_page,
+          sort_by: data.sort_by,
+          status_by_admin: data.status_by_admin,
+          type: data.type,
+          name: data.name,
         },
       });
       return response.data;

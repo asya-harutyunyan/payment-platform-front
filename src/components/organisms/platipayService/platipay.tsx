@@ -18,7 +18,6 @@ export const PlatiPay: FC = () => {
     page,
     user,
     onChangePage,
-    // handleSearch,
     columns,
   } = usePlatipayService();
 
@@ -39,11 +38,7 @@ export const PlatiPay: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable
-            columns={columns}
-            data={platipay}
-            // renderSearch={handleSearch}
-          />
+          <DynamicTable columns={columns} data={platipay} />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

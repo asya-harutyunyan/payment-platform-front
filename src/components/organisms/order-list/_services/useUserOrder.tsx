@@ -1,11 +1,12 @@
 import Button from "@/components/atoms/button";
 import { CopyButton } from "@/components/atoms/copy-btn";
+import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
+import { order_schema } from "@/schema/order_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
-
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import {
   deleteOrderThunk,
@@ -13,11 +14,19 @@ import {
 } from "@/store/reducers/user-info/orderSlice/thunks";
 import { getOrderSummaryThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import { z } from "zod";
+
+type FormData = z.infer<typeof order_schema>;
 
 const useAdminOrder = () => {
   const dispatch = useAppDispatch();
@@ -27,16 +36,45 @@ const useAdminOrder = () => {
     total: reportTotal,
     loading: loadingTotal,
   } = useAppSelector((state) => state.reports);
-
+  const { user } = useAuth();
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
+  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+
   const [selectedOrder, setSelectedOrder] = useState<number>();
   const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
   useEffect(() => {
     dispatch(getOrderSummaryThunk());
   }, [dispatch]);
+  const navigate = useNavigate();
+  const route = useLocation();
 
-  const { user } = useAuth();
+  const handleSingleOrder = (row?: number) => {
+    if (route.pathname === "/order-list") {
+      navigate({ to: `/order-list/${row}` });
+    }
+  };
+  const handleDeleteModal = (id?: number) => {
+    setOpenDeleteModal(true);
+    setSelectedOrder(id);
+  };
+  const { control, register, watch } = useForm<FormData>({
+    resolver: zodResolver(order_schema),
+    defaultValues: {
+      name: "",
+      surname: "",
+      amount: "",
+    },
+  });
+
+  const name = watch("name");
+  const surname = watch("surname");
+  const amount = watch("amount");
+
+  const [debouncedName] = useDebounce(name, 700);
+  const [debouncedSurname] = useDebounce(surname, 700);
+  const [debouncedAmount] = useDebounce(amount, 700);
+
   useEffect(() => {
     if (!user?.role) return;
 
@@ -46,6 +84,10 @@ const useAdminOrder = () => {
           page,
           per_page: 50,
           status_by_client: filter,
+          name: debouncedName,
+          surname: debouncedSurname,
+          amount: debouncedAmount,
+          sort,
         })
       );
     };
@@ -54,7 +96,7 @@ const useAdminOrder = () => {
     const interval = setInterval(fetchOrders, 10000);
 
     return () => clearInterval(interval);
-  }, [dispatch, filter, page, user?.role]);
+  }, [debouncedAmount, debouncedName, debouncedSurname, sort, filter, page]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -67,10 +109,32 @@ const useAdminOrder = () => {
       {
         column: "name",
         valueKey: "user.name",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("name")}
+              name="name"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "surname",
         valueKey: "user.surname",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("surname")}
+              name="surname"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "key",
@@ -102,6 +166,17 @@ const useAdminOrder = () => {
         column: "amount_order",
         currency: "wallet_deposit.order_currency",
         valueKey: "amount",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("amount")}
+              name="amount"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "order_status_admin",
@@ -136,21 +211,53 @@ const useAdminOrder = () => {
         column: "card_number",
         valueKey: "wallet_deposit.payment_method.card_number",
       },
+      {
+        column: () => sortComponent(),
+      },
     ],
     []
   );
-  const navigate = useNavigate();
-  const route = useLocation();
+  const sortComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
+          }}
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("DESC")}
+          />
+        </Box>
+      </Box>
+    );
+  };
 
-  const handleSingleOrder = (row?: number) => {
-    if (route.pathname === "/order-list") {
-      navigate({ to: `/order-list/${row}` });
-    }
-  };
-  const handleDeleteModal = (id?: number) => {
-    setOpenDeleteModal(true);
-    setSelectedOrder(id);
-  };
   const handleDeleteOrder = () => {
     if (selectedOrder) {
       dispatch(deleteOrderThunk(selectedOrder))

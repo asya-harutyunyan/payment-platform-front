@@ -100,3 +100,13 @@ export interface Order {
   surname: string;
   initial_ammount: number;
 }
+
+export interface OrderRequest {
+  page: number;
+  per_page: number;
+  status_by_client?: string;
+  name?: string;
+  surname?: string;
+  amount?: string;
+  sort?: "ASC" | "DESC";
+}

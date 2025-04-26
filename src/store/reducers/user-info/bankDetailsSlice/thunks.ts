@@ -163,6 +163,12 @@ export const getBlockedCardsThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
+          name: data.name,
+          surname: data.surname,
+          bank_name: data.bank_name,
+          card_holder: data.card_holder,
+          card_number: data.card_number,
+          sort: data.sort,
         },
       });
       return response.data;

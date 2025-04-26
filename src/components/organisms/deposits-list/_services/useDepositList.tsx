@@ -1,21 +1,34 @@
 import Button from "@/components/atoms/button";
+
+import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
+import { blocked_card_schema } from "@/schema/blocked_card_schena";
+import { deposit_schema } from "@/schema/deposit_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
 import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
 import { H6, P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
 import DoneIcon from "@mui/icons-material/Done";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import Countdown, { CountdownRenderProps } from "react-countdown";
+import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import { z } from "zod";
 type ICountdownRendererFn = (
   props: CountdownRenderProps,
   id?: number
 ) => React.ReactNode;
+
+type FormData = z.infer<typeof deposit_schema>;
 
 const useDepositInfo = () => {
   const dispatch = useAppDispatch();
@@ -24,9 +37,28 @@ const useDepositInfo = () => {
   );
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
-
+  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const { user } = useAuth();
   const [page, setPage] = useState(1);
+  const { control, register, watch } = useForm<FormData>({
+    resolver: zodResolver(blocked_card_schema),
+    defaultValues: {
+      name: "",
+      sort_by: "",
+      status_by_admin: "",
+      type: "",
+    },
+  });
+  const name = watch("name");
+  const amount = watch("sort_by");
+  const statusByAdmin = watch("status_by_admin");
+  const type = watch("type");
+
+  const [debouncedName] = useDebounce(name, 700);
+  const [debouncedAmount] = useDebounce(amount, 700);
+  const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
+  const [debouncedTyoe] = useDebounce(type, 700);
+
   const navigate = useNavigate();
   useEffect(() => {
     if (user?.role === "admin") {
@@ -34,9 +66,26 @@ const useDepositInfo = () => {
         getDepositsThunk({
           page: page,
           per_page: 50,
+          name: debouncedName,
+          sort_by: debouncedAmount,
+          status_by_admin: debouncedStatusByAdmin,
+          type: debouncedTyoe,
+          sort_order: sort,
         })
       );
-    } else {
+    }
+  }, [
+    debouncedAmount,
+    debouncedName,
+    debouncedStatusByAdmin,
+    debouncedTyoe,
+    page,
+    sort,
+    user?.role,
+  ]);
+
+  useEffect(() => {
+    if (user?.role === "client") {
       dispatch(
         getDepositsThunk({
           page: page,
@@ -128,6 +177,17 @@ const useDepositInfo = () => {
       {
         column: "name",
         valueKey: "user.name",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("name")}
+              name="name"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "surname",
@@ -137,6 +197,17 @@ const useDepositInfo = () => {
         column: "processing_amount",
         currency: "deposit_currency",
         valueKey: "amount",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("sort_by")}
+              name="sort_by"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "status_by_admin_row",
@@ -171,6 +242,17 @@ const useDepositInfo = () => {
             </span>
           );
         },
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("status_by_admin")}
+              name="status_by_admin"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: "type",
@@ -186,6 +268,17 @@ const useDepositInfo = () => {
             >
               {row.type && t(row.type)}
             </span>
+          );
+        },
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              {...register("type")}
+              name="type"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
           );
         },
       },
@@ -222,9 +315,52 @@ const useDepositInfo = () => {
           return isBlocked ? <DoneIcon sx={{ color: "grey" }} /> : "-";
         },
       },
+      {
+        column: () => sortComponent(),
+      },
     ],
     []
   );
+  const sortComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
+          }}
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("DESC")}
+          />
+        </Box>
+      </Box>
+    );
+  };
   const columnsUser = useMemo<IColumn<DataDeposits>[]>(
     () => [
       {

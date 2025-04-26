@@ -3,10 +3,10 @@ import TaskHeader from "@/components/molecules/title";
 
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
-import { FC, useEffect } from "react";
+import { useEffect } from "react";
 import useReports from "./_services/useReports";
 
-export const Reports: FC = () => {
+export const Reports = () => {
   const {
     fetchDataByTab,
     loadingAndTotal,
