@@ -12,7 +12,7 @@ export const getWalletsThunk = createAsyncThunk(
           page: data.page,
           per_page: data.per_page,
           address: data.address,
-          netword: data.network,
+          network: data.network,
           currency: data.currency,
           sort: data.sort,
         },

@@ -190,9 +190,10 @@ const useReferredUsers = () => {
                 {...field}
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={field.value}
+                value={field.value || "all"}
                 onChange={(e) => {
-                  field.onChange(e);
+                  const value = e.target.value === "all" ? "" : e.target.value;
+                  field.onChange(value);
                 }}
                 sx={{
                   color: "black",
@@ -214,10 +215,10 @@ const useReferredUsers = () => {
                   },
                 }}
               >
-                <MenuItem value="Все">
+                <MenuItem value={"all"}>
                   <em>{t("all")}</em>
                 </MenuItem>
-                <MenuItem value={"Месяц"}>{t("month")}</MenuItem>
+                <MenuItem value={"month"}>{t("month")}</MenuItem>
               </Select>
             )}
           />

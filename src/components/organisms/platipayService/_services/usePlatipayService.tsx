@@ -50,7 +50,7 @@ const usePlatipayService = () => {
         per_page: 20,
         amount: debouncedAmount,
         status_by_client: debouncedStatusByClient,
-        transaction_id: debouncedStatusByClient,
+        transaction_id: debouncedTransactionId,
         sort,
       })
     );
