@@ -62,11 +62,11 @@ export const UserListComponent: FC = () => {
               {...a11yProps(1)}
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
-            <Tab
+            {/* <Tab
               label="Создать пользователя"
               {...a11yProps(2)}
               sx={{ color: "black", fontSize: "0.8rem" }}
-            />
+            /> */}
           </Tabs>
           {value !== 2 ? (
             <DynamicTable
