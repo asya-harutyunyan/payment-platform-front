@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import theme from "@/styles/theme";
-import { P } from "@/styles/typography";
+import { H4 } from "@/styles/typography";
 import { Box, Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { t } from "i18next";
@@ -128,31 +128,9 @@ export const CreateUser = () => {
           marginTop: "20px",
         }}
       >
-        <Grid
-          container
-          spacing={2}
-          component="div"
-          sx={{ display: "flex", justifyContent: "center" }}
-        >
-          {["Просмотр", "Редактирование", "Удаление"].map((title, index) => (
-            <Grid
-              key={index}
-              component="div"
-              sx={{
-                width: "220px",
-                display: "flex",
-                justifyContent: "center",
-                padding: "1px",
-                border: `1px solid ${theme.palette.primary.main}`,
-                borderRadius: "3px",
-              }}
-            >
-              <P color="primary.main" padding={"10px 0"} fontWeight={600}>
-                {t(title)}
-              </P>
-            </Grid>
-          ))}
-        </Grid>
+        <H4 align="center" color="primary.main">
+          {t("checkbox_title")}
+        </H4>
         {errors.permissions && (
           <Box
             sx={{

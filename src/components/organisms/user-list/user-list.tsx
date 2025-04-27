@@ -1,12 +1,12 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
+import { CreateUser } from "@/components/molecules/create-user/create-user";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
 import useUserList from "./_services/useUserList";
-import { CreateUser } from "@/components/molecules/create-user/create-user";
 
 export const UserListComponent: FC = () => {
   const {
@@ -39,7 +39,6 @@ export const UserListComponent: FC = () => {
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
-            // overflowY: "auto",
           }}
         >
           <Tabs
@@ -62,11 +61,11 @@ export const UserListComponent: FC = () => {
               {...a11yProps(1)}
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
-            {/* <Tab
+            <Tab
               label="Создать пользователя"
               {...a11yProps(2)}
               sx={{ color: "black", fontSize: "0.8rem" }}
-            /> */}
+            />
           </Tabs>
           {value !== 2 ? (
             <DynamicTable
