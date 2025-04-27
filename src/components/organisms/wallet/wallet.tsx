@@ -12,7 +12,6 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 import { CreateWallet } from "../create-wallet";
-import { EmptyComponent } from "../empty-component";
 import useWallet from "./_services/useWallet";
 
 export const Wallet: FC = () => {
@@ -36,7 +35,7 @@ export const Wallet: FC = () => {
       </AccordionUsage>
       {loading ? (
         <CircularIndeterminate />
-      ) : wallet.length > 0 ? (
+      ) : (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -55,8 +54,6 @@ export const Wallet: FC = () => {
             />
           </Box>
         </Box>
-      ) : (
-        <EmptyComponent text={"no_data"} />
       )}
       <BasicModal
         handleClose={() => setOpen(false)}

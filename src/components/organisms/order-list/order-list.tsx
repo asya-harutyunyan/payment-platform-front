@@ -10,7 +10,6 @@ import { H3 } from "@/styles/typography";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import { EmptyComponent } from "../empty-component";
 import useAdminOrder from "./_services/useUserOrder";
 
 export const OrderListComponent: FC = () => {
@@ -69,7 +68,7 @@ export const OrderListComponent: FC = () => {
         </Tabs>
         {loading ? (
           <CircularIndeterminate />
-        ) : orders.length > 0 ? (
+        ) : (
           <Box
             sx={{
               width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -91,8 +90,6 @@ export const OrderListComponent: FC = () => {
               />
             </Box>
           </Box>
-        ) : (
-          <EmptyComponent text={"empty_order_admin"} />
         )}
       </Box>
       <BasicModal

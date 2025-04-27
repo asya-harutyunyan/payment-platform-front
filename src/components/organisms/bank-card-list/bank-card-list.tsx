@@ -9,7 +9,7 @@ import { EmptyComponent } from "../empty-component";
 import useBankCardList from "./_services/useBankCardList";
 
 export const BankCardLists: FC = () => {
-  const { bankCards, loading, total, onChangePage, page, columns } =
+  const { bankCards, loading, total, onChangePage, page, columns, user } =
     useBankCardList();
 
   return (
@@ -17,7 +17,7 @@ export const BankCardLists: FC = () => {
       <TaskHeader title={t("bank_card_list")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : bankCards.length > 0 ? (
+      ) : (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -25,19 +25,19 @@ export const BankCardLists: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={bankCards} />
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <PaginationOutlined
-              onPageChange={onChangePage}
-              count={total}
-              page={page}
-            />
-          </Box>
+          <>
+            <DynamicTable columns={columns} data={bankCards} />
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>{" "}
+          </>
         </Box>
-      ) : (
-        <EmptyComponent text={"no_data"} />
       )}
     </Box>
   );

@@ -9,7 +9,6 @@ import TaskHeader from "@/components/molecules/title";
 import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { EmptyComponent } from "../empty-component";
 import useReferredUsers from "./_service/referredUsers";
 
 export const ReferredUsers = () => {
@@ -32,7 +31,7 @@ export const ReferredUsers = () => {
       <TaskHeader title={t("referred_users")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : referralUsersForAdmin.length > 0 ? (
+      ) : (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -55,8 +54,6 @@ export const ReferredUsers = () => {
             />
           </Box>
         </Box>
-      ) : (
-        <EmptyComponent text={"no_data"} />
       )}
       <BasicModal
         handleClose={() => setOpen(false)}

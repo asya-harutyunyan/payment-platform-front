@@ -61,7 +61,7 @@ export const DepositLists: FC = () => {
       <TaskHeader title={t("deposit_lists")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : pagination.total > 0 ? (
+      ) : (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -82,11 +82,10 @@ export const DepositLists: FC = () => {
             />
           </Box>
         </Box>
-      ) : (
+      )}
+      {pagination.total === 0 && user && user.role === "client" && (
         <EmptyComponent
-          text={
-            user?.role === "admin" ? "empty_deposit_admin" : "empty_deposit"
-          }
+          text={"empty_deposit"}
           isButtonNeeded
           textBtn={"create_deposit"}
           handleClick={() => navigate({ to: "/steps" })}

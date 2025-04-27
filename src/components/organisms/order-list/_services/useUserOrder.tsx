@@ -423,6 +423,7 @@ const useAdminOrder = () => {
     handleDeleteOrder,
     handleFilterChange,
     OrderSummary,
+    user,
   };
 };
 

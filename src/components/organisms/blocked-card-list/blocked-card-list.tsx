@@ -5,8 +5,8 @@ import TaskHeader from "@/components/molecules/title";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import { EmptyComponent } from "../empty-component";
 import useBlockedCard from "./_services/useBlockedCard";
+import { EmptyComponent } from "../empty-component";
 
 export const BlockedCardList: FC = () => {
   const { page, columns, onChangePage, blockedCards, loading, total } =
@@ -16,7 +16,7 @@ export const BlockedCardList: FC = () => {
       <TaskHeader title={t("blocked-bank_card_list")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : blockedCards.length > 0 ? (
+      ) : (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -24,20 +24,20 @@ export const BlockedCardList: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={blockedCards} />
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <PaginationOutlined
-              onPageChange={onChangePage}
-              count={total}
-              page={page}
-            />
-          </Box>
+          <>
+            <DynamicTable columns={columns} data={blockedCards} />
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>
+          </>
         </Box>
-      ) : (
-        <EmptyComponent text={"no_data"} />
-      )}
+      )}{" "}
     </Box>
   );
 };

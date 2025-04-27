@@ -22,7 +22,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
-import { EmptyComponent } from "../../empty-component";
 
 interface TabContentConfig {
   label: string;
@@ -121,7 +120,7 @@ const useReports = () => {
         })
       );
     }
-  }, [debouncedName, debouncedSurname, debouncedEmail]);
+  }, [debouncedNameUser, debouncedSurnameUser, debouncedEmailUser]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -338,42 +337,36 @@ const useReports = () => {
   const tabContents: TabContentConfig[] = [
     {
       label: "Отчет о новых регистрациях",
-      render: () =>
-        newRegisteredUsers.length > 0 ? (
-          <>
-            <DynamicTable
-              columns={columnsNewRegUsers}
-              data={newRegisteredUsers}
+      render: () => (
+        <>
+          <DynamicTable
+            columns={columnsNewRegUsers}
+            data={newRegisteredUsers}
+          />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <PaginationOutlined
+              onPageChange={onChangePageNewUsers}
+              count={total}
+              page={pageNewRegUsers}
             />
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <PaginationOutlined
-                onPageChange={onChangePageNewUsers}
-                count={total}
-                page={pageNewRegUsers}
-              />
-            </Box>
-          </>
-        ) : (
-          <EmptyComponent text="no_data" />
-        ),
+          </Box>
+        </>
+      ),
     },
     {
       label: "Отчёт по пользователям",
-      render: () =>
-        report_users.length > 0 ? (
-          <>
-            <DynamicTable columns={columnsReportUsers} data={report_users} />
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <PaginationOutlined
-                onPageChange={onChangeReportUsersPage}
-                count={total}
-                page={page}
-              />
-            </Box>
-          </>
-        ) : (
-          <EmptyComponent text="no_data" />
-        ),
+      render: () => (
+        <>
+          <DynamicTable columns={columnsReportUsers} data={report_users} />
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <PaginationOutlined
+              onPageChange={onChangeReportUsersPage}
+              count={total}
+              page={page}
+            />
+          </Box>
+        </>
+      ),
     },
     {
       label: "Отчёт по обработанным суммам",

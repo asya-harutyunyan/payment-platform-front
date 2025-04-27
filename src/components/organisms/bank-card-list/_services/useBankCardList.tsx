@@ -115,6 +115,7 @@ const useBankCardList = () => {
     onChangePage,
     page,
     columns,
+    user,
   };
 };
 

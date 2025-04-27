@@ -6,7 +6,6 @@ import { platipayThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
-import { EmptyComponent } from "../empty-component";
 import usePlatipayService from "./_services/usePlatipayService";
 
 export const PlatiPay: FC = () => {
@@ -30,7 +29,7 @@ export const PlatiPay: FC = () => {
       <TaskHeader title={t("platipay")} />
       {loading ? (
         <CircularIndeterminate />
-      ) : platipay.length > 0 ? (
+      ) : (
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
@@ -38,19 +37,19 @@ export const PlatiPay: FC = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable columns={columns} data={platipay} />
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <PaginationOutlined
-              onPageChange={onChangePage}
-              count={total}
-              page={page}
-            />
-          </Box>
+          <>
+            <DynamicTable columns={columns} data={platipay} />
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>
+          </>
         </Box>
-      ) : (
-        <EmptyComponent text={"no_data"} />
       )}
     </Box>
   );
