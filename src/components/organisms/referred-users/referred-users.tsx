@@ -39,11 +39,7 @@ export const ReferredUsers = () => {
             marginTop: "20px",
           }}
         >
-          <DynamicTable
-            columns={columns}
-            data={referralUsersForAdmin}
-            // renderSortComponent={sortComponent()}
-          />
+          <DynamicTable columns={columns} data={referralUsersForAdmin} />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >

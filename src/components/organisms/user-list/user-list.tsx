@@ -6,6 +6,7 @@ import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
 import useUserList from "./_services/useUserList";
+import { CreateUser } from "@/components/molecules/create-user/create-user";
 
 export const UserListComponent: FC = () => {
   const {
@@ -38,7 +39,7 @@ export const UserListComponent: FC = () => {
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
-            overflowY: "auto",
+            // overflowY: "auto",
           }}
         >
           <Tabs
@@ -61,22 +62,32 @@ export const UserListComponent: FC = () => {
               {...a11yProps(1)}
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
-          </Tabs>
-          <DynamicTable
-            columns={columns}
-            data={data}
-            renderBottomComponent={renderBottomComponent}
-          />
-
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <PaginationOutlined
-              onPageChange={onChangePage}
-              count={total}
-              page={currentPage}
+            <Tab
+              label="Создать пользователя"
+              {...a11yProps(2)}
+              sx={{ color: "black", fontSize: "0.8rem" }}
             />
-          </Box>
+          </Tabs>
+          {value !== 2 ? (
+            <DynamicTable
+              columns={columns}
+              data={data}
+              renderBottomComponent={renderBottomComponent}
+            />
+          ) : (
+            <CreateUser />
+          )}
+          {value !== 2 && (
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={currentPage}
+              />
+            </Box>
+          )}
         </Box>
       )}
     </Box>
