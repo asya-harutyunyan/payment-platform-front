@@ -1,11 +1,16 @@
-import { create_user } from "@/schema/create_user.schema";
+import { create_permissions } from "@/schema/create_user.schema";
+import { useAppDispatch } from "@/store";
+import { createPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type FormData = z.infer<typeof create_user>;
+type FormData = z.infer<typeof create_permissions>;
 
 export const useCreateUser = () => {
+  const dispatch = useAppDispatch();
   const {
     control,
     handleSubmit,
@@ -13,9 +18,10 @@ export const useCreateUser = () => {
     register,
     setError,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<FormData>({
-    resolver: zodResolver(create_user),
+    resolver: zodResolver(create_permissions),
     defaultValues: {
       name: "",
       surname: "",
@@ -25,7 +31,30 @@ export const useCreateUser = () => {
     },
   });
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
+    dispatch(createPermissionsThunk(data))
+      .unwrap()
+      .then(() => {
+        enqueueSnackbar(t("permission_added_success"), {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        reset();
+      })
+      .catch((error) => {
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        reset();
+        if (typeof error === "object") {
+          for (const key in error) {
+            setError(key as keyof FormData, {
+              type: "validate",
+              message: error[key as keyof FormData][0],
+            });
+          }
+        }
+      });
   };
   const names = [
     "users_view",

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { password_regex } from "./password.regex";
 
-export const create_user = z.object({
+export const create_permissions = z.object({
   name: z
     .string()
     .min(3, "Имя должно содержать минимум 3 символа")

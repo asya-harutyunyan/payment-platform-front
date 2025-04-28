@@ -1,4 +1,6 @@
 import { useAuth } from "@/context/auth.context";
+// import { useAppDispatch, useAppSelector } from "@/store";
+// import { getPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import {
@@ -18,9 +20,22 @@ interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
+  // const dispatch = useAppDispatch();
   const location = useLocation();
   const { wallet } = useAuth();
   const { user } = useAuth();
+
+  // const { permissions } = useAppSelector((state) => state.permissions);
+  // useEffect(() => {
+  //   if (user) {
+  //     dispatch(getPermissionsThunk(user.id));
+  //   }
+  // }, [user]);
+
+  // useEffect(() => {
+  //   console.log(permissions);
+  // }, [permissions]);
+
   return (
     <List>
       {items.map((item, index) => {
