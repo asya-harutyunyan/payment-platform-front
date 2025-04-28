@@ -21,7 +21,7 @@ export interface IColumn<T> {
   column?: keyof T | (() => ReactNode);
   label?: string;
   valueKey?: string;
-  filters?: () => ReactNode;
+  filters?: (row?: T) => ReactNode;
   currencyManual?: string;
   currency?: string;
   renderComponent?: (row: T) => ReactNode;

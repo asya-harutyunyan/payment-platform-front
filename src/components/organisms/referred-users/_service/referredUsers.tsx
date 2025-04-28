@@ -42,7 +42,7 @@ const useReferredUsers = () => {
     resolver: zodResolver(percent_referral_schema),
     defaultValues: {
       percentage: "",
-      referral_id: "",
+      user_id: "",
     },
   });
 
@@ -147,7 +147,6 @@ const useReferredUsers = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
         <Box
           sx={{
             display: "flex",
@@ -299,8 +298,15 @@ const useReferredUsers = () => {
         filters: () => sortByMonth(),
       },
       {
-        column: "total_amount",
         valueKey: "total_amount",
+        filters: () => {
+          return (
+            <Box sx={{ display: "flex" }}>
+              <P sx={{ fontWeight: 600 }}>{t("total_amount")}</P>
+              {sortOrderComponent()};
+            </Box>
+          );
+        },
       },
       {
         column: "percentage",
@@ -309,7 +315,7 @@ const useReferredUsers = () => {
             <EditIcon
               onClick={() => {
                 setOpen(true);
-                setValue("referral_id", `${row.user_id}`);
+                setValue("user_id", `${row.user_id}`);
                 setValue("percentage", String(row.percentage ?? ""));
               }}
               sx={{
@@ -336,9 +342,6 @@ const useReferredUsers = () => {
 
       {
         column: () => sortComponent(),
-      },
-      {
-        column: () => sortOrderComponent(),
       },
     ],
     []

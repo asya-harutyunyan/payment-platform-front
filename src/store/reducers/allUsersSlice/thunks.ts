@@ -119,7 +119,7 @@ export const updatePercentThunk = createAsyncThunk(
         "/admin/referrals/update-percentage",
         {
           percentage: data.percentage,
-          referral_id: data.referral_id,
+          user_id: data.user_id,
         }
       );
       return response.data;
