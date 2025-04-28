@@ -327,7 +327,6 @@ const useReferredUsers = () => {
       },
       {
         column: "ref_count",
-        currencyManual: " ₽",
         valueKey: "ref_count",
       },
       {
