@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   blockCardThunk,
@@ -8,11 +9,14 @@ import {
   unblockCardThunk,
 } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
+import { P } from "@/styles/typography";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 
 const useBankCardList = () => {
+  const { goToUserPage } = useUserContext();
+
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { user } = useAuth();
@@ -31,7 +35,23 @@ const useBankCardList = () => {
     () => [
       {
         column: "card_holder",
-        valueKey: "card_holder",
+        renderComponent: (row: BankCardsDetalis) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.card_holder}
+            </P>
+          );
+        },
       },
       {
         column: "bank_name",

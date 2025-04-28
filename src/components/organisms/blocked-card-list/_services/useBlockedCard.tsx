@@ -1,6 +1,7 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { blocked_card_schema } from "@/schema/blocked_card_schena";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getBlockedCardsThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
@@ -21,6 +22,7 @@ const useBlockedCard = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const { goToUserPage } = useUserContext();
 
   const { user } = useAuth();
 
@@ -86,7 +88,23 @@ const useBlockedCard = () => {
     () => [
       {
         column: "name",
-        valueKey: "user.name",
+        renderComponent: (row: BankCardsDetalis) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row?.user?.name}
+            </P>
+          );
+        },
         filters: () => {
           return (
             <FormTextInput

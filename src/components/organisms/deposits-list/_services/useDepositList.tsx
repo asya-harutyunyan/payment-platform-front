@@ -4,6 +4,7 @@ import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { blocked_card_schema } from "@/schema/blocked_card_schena";
 import { deposit_schema } from "@/schema/deposit_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -31,6 +32,7 @@ type ICountdownRendererFn = (
 type FormData = z.infer<typeof deposit_schema>;
 
 const useDepositInfo = () => {
+  const { goToUserPage } = useUserContext();
   const dispatch = useAppDispatch();
   const { deposits, total, loading, lastPage, pagination } = useAppSelector(
     (state) => state.deposit
@@ -176,7 +178,24 @@ const useDepositInfo = () => {
     () => [
       {
         column: "name",
-        valueKey: "user.name",
+        renderComponent: (row: DataDeposits) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.name}
+            </P>
+          );
+        },
+
         filters: () => {
           return (
             <FormTextInput

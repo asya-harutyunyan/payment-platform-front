@@ -1,6 +1,7 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { percent_referral_schema } from "@/schema/referrals";
 import { filter_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -29,6 +30,8 @@ const useReferredUsers = () => {
   const { referralUsersForAdmin, referralUsersForAdminPagination, loading } =
     useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
+  const { goToUserPage } = useUserContext();
+
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
@@ -230,7 +233,24 @@ const useReferredUsers = () => {
     () => [
       {
         column: "name",
-        valueKey: "name",
+        renderComponent: (row: RefferedUsersList) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => goToUserPage(row.user_id)}
+            >
+              {row.name}
+            </P>
+          );
+        },
+
         filters: () => {
           return (
             <FormTextInput

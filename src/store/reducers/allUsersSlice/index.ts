@@ -1,4 +1,9 @@
-import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  isFulfilled,
+  isPending,
+  isRejected,
+} from "@reduxjs/toolkit";
 import {
   getBankNamesThunk,
   getBlockedUsersThunk,
@@ -72,8 +77,10 @@ const usersSlice = createSlice({
         );
       })
       .addCase(getUserThunk.fulfilled, (state, action) => {
-        state.loading = false;
         state.user = action.payload;
+      })
+      .addMatcher(isFulfilled, (state) => {
+        state.loading = false;
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

@@ -1,6 +1,7 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable, { IColumn } from "@/components/molecules/table";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
@@ -30,6 +31,8 @@ interface TabContentConfig {
 type NewUserFormData = z.infer<typeof new_users_schema>;
 
 const useReports = () => {
+  const { goToUserPage } = useUserContext();
+
   const dispatch = useAppDispatch();
   const [pageNewRegUsers, setPageNewRegUsers] = useState(1);
   const [page, setPage] = useState(1);
@@ -153,7 +156,23 @@ const useReports = () => {
     () => [
       {
         column: "name",
-        valueKey: "name",
+        renderComponent: (row: NewUsers) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.name}
+            </P>
+          );
+        },
         filters: () => {
           return (
             <FormTextInput
@@ -210,7 +229,24 @@ const useReports = () => {
     () => [
       {
         column: "name",
-        valueKey: "name",
+        renderComponent: (row: ReportUsers) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.name}
+            </P>
+          );
+        },
+
         filters: () => {
           return (
             <FormTextInput

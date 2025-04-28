@@ -1,4 +1,5 @@
 import DashboardPage from "@/components/molecules/sidebar";
+import { UserProvider } from "@/context/single.user.page/user.context";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth")({
@@ -10,10 +11,10 @@ export const Route = createFileRoute("/_auth")({
     }
   },
   component: () => (
-    <>
+    <UserProvider>
       <DashboardPage>
         <Outlet />
       </DashboardPage>
-    </>
+    </UserProvider>
   ),
 });

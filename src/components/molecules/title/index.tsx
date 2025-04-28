@@ -23,7 +23,7 @@ const TaskHeader: FC<ITaskHeader> = ({
       <H3
         color={theme.palette.primary.main}
         sx={{
-          // width: "100%",
+          paddingLeft: "15px",
           fontSize: {
             lg: "1.75rem",
             md: "1.75rem",

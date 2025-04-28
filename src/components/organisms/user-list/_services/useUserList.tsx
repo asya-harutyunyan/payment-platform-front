@@ -3,6 +3,7 @@ import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { filter_schema, search_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
@@ -29,6 +30,8 @@ type FormData = z.infer<typeof filter_schema>;
 type BlockedUserFormData = z.infer<typeof search_schema>;
 
 const useUserList = () => {
+  const { goToUserPage } = useUserContext();
+
   const dispatch = useAppDispatch();
   const route = useLocation();
   const navigate = useNavigate();
@@ -170,7 +173,23 @@ const useUserList = () => {
             />
           );
         },
-        valueKey: "name",
+        renderComponent: (row: User) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.name}
+            </P>
+          );
+        },
       },
       {
         column: "surname",
@@ -238,7 +257,23 @@ const useUserList = () => {
     () => [
       {
         column: "name",
-        valueKey: "name",
+        renderComponent: (row: User) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.name}
+            </P>
+          );
+        },
       },
       {
         column: "surname",

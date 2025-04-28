@@ -71,6 +71,7 @@ export type NewUsers = {
   created_at: string;
   amount?: string;
   email: string;
+  id?: number;
 };
 
 export type PlatformX = {
@@ -85,6 +86,7 @@ export type ReportUsers = {
   wallet_total: string;
   total_cards: string;
   email: string;
+  id?: number;
 };
 
 export interface Platipay {

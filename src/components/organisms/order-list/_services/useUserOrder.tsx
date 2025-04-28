@@ -4,6 +4,7 @@ import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
+import { useUserContext } from "@/context/single.user.page/user.context";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { order_schema } from "@/schema/order_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -29,6 +30,8 @@ import { z } from "zod";
 type FormData = z.infer<typeof order_schema>;
 
 const useAdminOrder = () => {
+  const { goToUserPage } = useUserContext();
+
   const dispatch = useAppDispatch();
   const { orders, total, loading } = useAppSelector((state) => state.order);
   const {
@@ -58,7 +61,7 @@ const useAdminOrder = () => {
     setOpenDeleteModal(true);
     setSelectedOrder(id);
   };
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(order_schema),
     defaultValues: {
       name: "",
@@ -108,12 +111,27 @@ const useAdminOrder = () => {
     () => [
       {
         column: "name",
-        valueKey: "user.name",
+        renderComponent: (row: Order) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={() => goToUserPage(row.id)}
+            >
+              {row?.user?.name}
+            </P>
+          );
+        },
         filters: () => {
           return (
             <FormTextInput
               control={control}
-              {...register("name")}
               name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -128,7 +146,6 @@ const useAdminOrder = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("surname")}
               name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -170,7 +187,6 @@ const useAdminOrder = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("amount")}
               name="amount"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}

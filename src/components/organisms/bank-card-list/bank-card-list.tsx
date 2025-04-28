@@ -5,11 +5,10 @@ import TaskHeader from "@/components/molecules/title";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import { EmptyComponent } from "../empty-component";
 import useBankCardList from "./_services/useBankCardList";
 
 export const BankCardLists: FC = () => {
-  const { bankCards, loading, total, onChangePage, page, columns, user } =
+  const { bankCards, loading, total, onChangePage, page, columns } =
     useBankCardList();
 
   return (

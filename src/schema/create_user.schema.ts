@@ -24,7 +24,9 @@ export const create_permissions = z.object({
     ),
   permissions: z.array(z.string()).refine(
     (permissions) => {
-      return permissions.some((permission) => permission.includes(".view"));
+      return permissions.some((permission) =>
+        permission.match(new RegExp("view", "i"))
+      );
     },
     {
       message:

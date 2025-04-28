@@ -6,7 +6,6 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 import useBlockedCard from "./_services/useBlockedCard";
-import { EmptyComponent } from "../empty-component";
 
 export const BlockedCardList: FC = () => {
   const { page, columns, onChangePage, blockedCards, loading, total } =

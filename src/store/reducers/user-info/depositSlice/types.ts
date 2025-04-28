@@ -87,6 +87,7 @@ export interface RefferedUsersList {
   referral_id: string;
   key: string;
   sort_by?: string;
+  id?: number;
 }
 export interface ReferralOfUser {
   name: string;
@@ -104,6 +105,7 @@ export interface BankCardsDetalis {
   id: number;
   is_blocked: number;
   phone_number: string;
+  user?: User;
 }
 
 export interface PaymentMethod {
@@ -142,6 +144,7 @@ export interface Order {
   name: string;
   surname: string;
   initial_ammount: number;
+  user?: User;
 }
 export interface DataDeposits {
   id?: number;

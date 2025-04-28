@@ -5,7 +5,6 @@ import { H4 } from "@/styles/typography";
 import { Box, Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { t } from "i18next";
-import { useEffect } from "react";
 import { useCreateUser } from "./_services/useCreateUser";
 
 export const CreateUser = () => {
@@ -36,9 +35,7 @@ export const CreateUser = () => {
       );
     }
   };
-  useEffect(() => {
-    console.log(watch("permissions"));
-  });
+
   return (
     <Box
       component="form"
