@@ -50,10 +50,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   }, [user?.permissions]);
 
   useEffect(() => {
-    console.log(filteredAdminItems, "filteredAdminItems");
-  }, [filteredAdminItems]);
-
-  useEffect(() => {
     switch (user?.role) {
       case "superAdmin":
         setSidebarItems(superAdminItems);

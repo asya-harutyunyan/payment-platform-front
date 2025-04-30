@@ -22,15 +22,16 @@ export const create_permissions = z.object({
       password_regex,
       "Пароль должен содержать как заглавные, так и строчные буквы, а также цифры"
     ),
-  permissions: z.array(z.string()).refine(
-    (permissions) => {
-      return permissions.some((permission) =>
-        permission.match(new RegExp("view", "i"))
-      );
-    },
-    {
-      message:
-        "Должен быть указан хотя бы один разрешенный доступ из просмотров",
-    }
-  ),
+  permissions: z.array(z.string()),
+  // .refine(
+  //   (permissions) => {
+  //     return permissions.some((permission) =>
+  //       permission.match(new RegExp("view", "i"))
+  //     );
+  //   },
+  //   {
+  //     message:
+  //       "Должен быть указан хотя бы один разрешенный доступ из просмотров",
+  //   }
+  // ),
 });

@@ -43,7 +43,7 @@ const useUserList = () => {
   );
 
   //tabs
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(2);
   const [selectedTab, setSelectedTab] = useState(0);
   //
   const { users, blockedUsers, total, loading } = useAppSelector(

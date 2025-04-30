@@ -1,15 +1,10 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { H4 } from "@/styles/typography";
-import {
-  Box,
-  Checkbox,
-  FormControlLabel,
-  FormHelperText,
-  Grid,
-} from "@mui/material";
+import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
 import { useCreateUser } from "./_services/useCreateUser";
+import PermissionsTable from "./permissions-table/create-user";
 
 export const CreateUser = () => {
   const {
@@ -18,27 +13,10 @@ export const CreateUser = () => {
     register,
     onSubmit,
     setValue,
-    watch,
-    names,
+    // watch,
+    // names,
     errors,
   } = useCreateUser();
-
-  const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    permission: string
-  ) => {
-    const isChecked = event.target.checked;
-    const permissions = watch("permissions") || [];
-
-    if (isChecked) {
-      setValue("permissions", [...permissions, permission]);
-    } else {
-      setValue(
-        "permissions",
-        permissions.filter((p: string) => p !== permission)
-      );
-    }
-  };
 
   return (
     <Box
@@ -151,37 +129,11 @@ export const CreateUser = () => {
             <FormHelperText error>{errors.permissions.message}</FormHelperText>
           </Box>
         )}
-        <Grid container spacing={2} justifyContent={"center"}>
-          {names.map((name, index) => (
-            <Grid
-              key={index}
-              columns={{
-                xs: 12,
-                sm: 6,
-                md: 6,
-              }}
-              sx={{
-                border: "1px solid #1976d2",
-                display: "flex",
-                justifyContent: "start",
-                paddingLeft: "10px",
-                borderRadius: "3px",
-                width: "220px",
-                height: "80px",
-              }}
-            >
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    sx={{ color: "#1976d2" }}
-                    onChange={(event) => handleCheckboxChange(event, name)}
-                  />
-                }
-                label={t(name)}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <Box sx={{ width: "100%" }}>
+            <PermissionsTable setValue={setValue} />
+          </Box>
+        </Box>
       </Box>
       <Box
         sx={{

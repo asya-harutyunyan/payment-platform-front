@@ -14,10 +14,10 @@ export const useCreateUser = () => {
   const {
     control,
     handleSubmit,
+    setValue,
     watch,
     register,
     setError,
-    setValue,
     reset,
     formState: { errors },
   } = useForm<FormData>({
@@ -30,7 +30,9 @@ export const useCreateUser = () => {
       permissions: [],
     },
   });
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log("SUBMIT DATA", data);
     dispatch(createPermissionsThunk(data))
       .unwrap()
       .then(() => {
@@ -64,44 +66,106 @@ export const useCreateUser = () => {
         }
       });
   };
-  const names = [
-    "users_view",
-    "users_update",
-    "users_view.bankDetails",
-    "users_view.newRegistered",
-    "users_blockedCards.view",
-    "users_blocked.view",
-    "users_block",
-    "users_unblock",
-    "users_card.unblock",
-    "users_card.block",
-    "users_report.view",
 
-    "wallet_view",
-    "wallet_delete",
-    "wallet_store",
-
-    "deposits_view",
-    "deposits_edit",
-    "deposits_confirm",
-
-    "orders_view",
-    "orders_delete",
-    "orders_view.summary",
-    "orders_view.processedAmounts",
-
-    "banks_create",
-    "banks_update",
-    "banks_delete",
-    "banks_viewAll",
-
-    "admin.referrals_update",
-    "admin.referrals_stats",
-
-    "platiPay_view",
-
-    "platformX_view",
+  const viewPlatforms = [
+    { prefix: "platipay", name: "platiPay_view", checking: "platiPay_view" },
+    { prefix: "platformX", name: "platformX_view", checking: "platformX_view" },
   ];
+  const viewRefUsers = [
+    {
+      prefix: "referred_users",
+      name: "admin.referrals_stats",
+      checking: "admin.referrals_stats_view",
+    },
+  ];
+  const viewWalletPermissions = [
+    { prefix: "wallet", name: "wallet_view", checking: "wallet_view" },
+  ];
+  const viewOrderPermissions = [
+    { prefix: "orders", name: "orders_view", checking: "orders_view" },
+  ];
+  const viewDeposit = [
+    { prefix: "deposits", name: "deposits_view", checking: "deposits_view" },
+  ];
+  const bankDetailsPermissions = [
+    { prefix: "banks", name: "banks_viewAll", checking: "banksAll_view" }, //banks
+  ];
+  const viewBlockedCards = [
+    {
+      prefix: "blocked_cards",
+      name: "users_blockedCards.view",
+      checking: "users_blockedCards_view",
+    },
+  ];
+  const viewPermissionsUser = [
+    {
+      prefix: "users",
+      name: "users_view",
+      checking: "users_view",
+    },
+    // { prefix: "users", name: "users_blocked.view", important: true },
+  ];
+  const viewReportPermissions = [
+    {
+      prefix: "new_reg_users",
+      name: "users_view.newRegistered",
+      checking: "users.newRegistered_view",
+    }, //view
+    {
+      prefix: "report_users",
+      name: "users_report.view",
+      checking: "users_report_view",
+    }, // po polz
+    {
+      prefix: "orders_summary",
+      name: "orders_view.summary",
+      checking: "orders.summary_view",
+    }, //5 tiv
+    {
+      prefix: "orders_processing_amount",
+      name: "orders_view.processedAmounts",
+      checking: "orders_view.processedAmounts_view",
+    }, //7tiv
+  ];
+
+  const editWalletPermission = [
+    { prefix: "wallet", name: "wallet_store", checking: "owallet_store" },
+  ];
+  const editUserPermission = [
+    { prefix: "users", name: "users_block", checking: "users_block" }, //edit
+    { prefix: "users", name: "users_unblock", checking: "users_unblock" },
+  ];
+  const editBankPermission = [
+    {
+      prefix: "banks",
+      name: "users_card.unblock",
+      checking: "users_card.unblock",
+    }, //edit
+    { prefix: "banks", name: "users_card.block", checking: "users_card.block" },
+  ];
+  const editReferralPercentPermission = [
+    {
+      prefix: "referred_users",
+      name: "admin.referrals_update",
+      checking: "admin.referrals_update",
+    }, //tokos
+  ];
+  const editDepositPermissions = [
+    {
+      prefix: "deposits",
+      name: "deposits_confirm",
+      checking: "deposits_confirm",
+    },
+  ];
+
+  ///
+  const deleteWalletPermissions = [
+    { prefix: "wallet", name: "wallet_delete", checking: "wallet_delete" },
+  ];
+  const deleteOrderPermissions = [
+    { prefix: "orders", name: "orders_delete", checking: "orders_delete" },
+  ];
+
   return {
     control,
     handleSubmit,
@@ -109,8 +173,27 @@ export const useCreateUser = () => {
     register,
     setError,
     onSubmit,
-    setValue,
-    names,
     errors,
+    //view//
+    viewReportPermissions,
+    viewPermissionsUser,
+    bankDetailsPermissions,
+    viewDeposit,
+    viewOrderPermissions,
+    viewWalletPermissions,
+    viewRefUsers,
+    viewPlatforms,
+    viewBlockedCards,
+    //edit
+    editWalletPermission,
+    editUserPermission,
+    editBankPermission,
+    editReferralPercentPermission,
+    editDepositPermissions,
+    //delete
+    deleteWalletPermissions,
+    deleteOrderPermissions,
+    setValue,
+    //
   };
 };
