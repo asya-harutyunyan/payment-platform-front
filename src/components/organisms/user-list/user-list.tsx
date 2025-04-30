@@ -3,6 +3,7 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import { CreateUser } from "@/components/molecules/create-user/create-user";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+import { useAuth } from "@/context/auth.context";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
@@ -25,6 +26,7 @@ export const UserListComponent: FC = () => {
     renderBottomComponent,
   } = useUserList();
 
+  const { user } = useAuth();
   useEffect(() => {
     fetchDataByTab(selectedTab, page);
   }, [page, selectedTab]);
@@ -81,7 +83,7 @@ export const UserListComponent: FC = () => {
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
           </Tabs>
-          {value !== 2 ? (
+          {value !== 2 && user?.role === "superAdmin" ? (
             <DynamicTable
               columns={columns}
               data={data}

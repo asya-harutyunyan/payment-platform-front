@@ -41,10 +41,18 @@ export const useCreateUser = () => {
         reset();
       })
       .catch((error) => {
-        enqueueSnackbar(t("something_went_wrong"), {
-          variant: "error",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
+        if (error.email[0] === "Поле email уже занято.") {
+          enqueueSnackbar("Данный email уже зарегистрирован.", {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        } else {
+          enqueueSnackbar(t("something_went_wrong"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        }
+
         // reset();
         if (typeof error === "object") {
           for (const key in error) {

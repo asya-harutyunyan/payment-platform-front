@@ -175,65 +175,63 @@ const useDepositInfo = () => {
   };
 
   const columns = useMemo<IColumn<DataDeposits>[]>(
-    () => [
-      {
-        column: "name",
-        renderComponent: (row: DataDeposits) => {
-          return (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": {
-                  textDecoration: "underline",
-                },
-              }}
-              onClick={() => row.id && goToUserPage(row.id)}
-            >
-              {row.user.name}
-            </P>
-          );
+    () =>
+      [
+        {
+          column: "name",
+          renderComponent: (row: DataDeposits) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => row.id && goToUserPage(row.id)}
+              >
+                {row.user.name}
+              </P>
+            );
+          },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("name")}
+                name="name"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("name")}
-              name="name"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "surname",
+          valueKey: "user.surname",
         },
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
-      },
-      {
-        column: "processing_amount",
-        currency: "deposit_currency",
-        valueKey: "amount",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("sort_by")}
-              name="sort_by"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "processing_amount",
+          currency: "deposit_currency",
+          valueKey: "amount",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("sort_by")}
+                name="sort_by"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "status_by_admin_row",
-        renderComponent: (row: DataDeposits) => {
-          return row.type === "FIAT" && row.status_by_admin === "pending" ? (
-            <>
-              {" "}
+        user?.permissions.includes("deposits_update") && {
+          column: "status_by_admin_row",
+          renderComponent: (row: DataDeposits) => {
+            return row.type === "FIAT" && row.status_by_admin === "pending" ? (
               <P
                 sx={{
                   width: "120px",
@@ -246,100 +244,100 @@ const useDepositInfo = () => {
                   }}
                 />
               </P>
-            </>
-          ) : (
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: getStatusColor(row.status_by_admin ?? "-"),
-                fontWeight: 400,
-                textTransform: "capitalize",
-              }}
-            >
-              {row.status_by_admin && t(row.status_by_admin)}
-            </span>
-          );
+            ) : (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: getStatusColor(row.status_by_admin ?? "-"),
+                  fontWeight: 400,
+                  textTransform: "capitalize",
+                }}
+              >
+                {row.status_by_admin && t(row.status_by_admin)}
+              </span>
+            );
+          },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("status_by_admin")}
+                name="status_by_admin"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("status_by_admin")}
-              name="status_by_admin"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "type",
+          renderComponent: (row: DataDeposits) => {
+            return (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: 400,
+                  textTransform: "capitalize",
+                }}
+              >
+                {row.type && t(row.type)}
+              </span>
+            );
+          },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("type")}
+                name="type"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "type",
-        renderComponent: (row: DataDeposits) => {
-          return (
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontWeight: 400,
-                textTransform: "capitalize",
-              }}
-            >
-              {row.type && t(row.type)}
-            </span>
-          );
+        {
+          column: "left_amount",
+          currency: "deposit_currency",
+          valueKey: "processing_amount",
         },
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("type")}
-              name="type"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "key",
+          renderComponent: (row: DataDeposits) => {
+            return (
+              <Button
+                variant={"outlined"}
+                text={t("see_more")}
+                sx={{ width: "130px" }}
+                onClick={() => handleSingleOrder?.(row.id)}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "left_amount",
-        currency: "deposit_currency",
-        valueKey: "processing_amount",
-      },
-      {
-        column: "key",
-        renderComponent: (row: DataDeposits) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleOrder?.(row.id)}
-            />
-          );
+        {
+          column: "key",
+          renderComponent: (row: DataDeposits) => {
+            return row.processing_amount === "0.00" ? (
+              <DoneIcon sx={{ color: "green" }} />
+            ) : null;
+          },
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: DataDeposits) => {
-          return row.processing_amount === "0.00" ? (
-            <DoneIcon sx={{ color: "green" }} />
-          ) : null;
+        {
+          column: "blocked_card",
+          renderComponent: (row: DataDeposits) => {
+            const isBlocked = row.user?.bank_details?.[0]?.is_blocked === 1;
+            return isBlocked ? <DoneIcon sx={{ color: "grey" }} /> : "-";
+          },
         },
-      },
-      {
-        column: "blocked_card",
-        renderComponent: (row: DataDeposits) => {
-          const isBlocked = row.user?.bank_details?.[0]?.is_blocked === 1;
-          return isBlocked ? <DoneIcon sx={{ color: "grey" }} /> : "-";
+        {
+          column: () => sortComponent(),
         },
-      },
-      {
-        column: () => sortComponent(),
-      },
-    ],
-    []
+      ].filter(Boolean) as IColumn<DataDeposits>[],
+    [user?.permissions]
   );
+
   const sortComponent = () => {
     return (
       <Box

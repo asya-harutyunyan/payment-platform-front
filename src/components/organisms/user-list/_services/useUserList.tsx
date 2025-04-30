@@ -21,6 +21,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -408,20 +409,40 @@ const useUserList = () => {
     dispatch(blockUserThunk(id))
       .unwrap()
       .then(() => {
+        enqueueSnackbar("Пользователь заблокирован", {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
         dispatch(getUsersThunk({ page: page, per_page: 20 }));
         dispatch(
           getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
         );
+      })
+      .catch(() => {
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
       });
   };
   const unblockUser = (id: number) => {
     dispatch(unblockUserThunk(id))
       .unwrap()
       .then(() => {
+        enqueueSnackbar("Пользователь разлокирован", {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
         dispatch(getUsersThunk({ page: page, per_page: 20 }));
         dispatch(
           getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
         );
+      })
+      .catch(() => {
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
       });
   };
 
