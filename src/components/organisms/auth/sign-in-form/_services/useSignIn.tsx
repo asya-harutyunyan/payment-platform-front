@@ -36,6 +36,7 @@ const useSignIn = () => {
                 permissions: data.permissions,
               });
               localStorage.setItem("user_role", data.user.role ?? "");
+
               navigate({
                 to:
                   data.user.role === "admin" || data.user.role === "superAdmin"
