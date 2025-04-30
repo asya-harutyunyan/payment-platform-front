@@ -1,4 +1,5 @@
 import { z } from "@/common/validation";
+import { adminItems } from "@/components/molecules/sidebar/__item_list__";
 import { useAuth } from "@/context/auth.context";
 import { login_schema } from "@/schema/login.schema";
 import { useAppDispatch } from "@/store";
@@ -36,13 +37,27 @@ const useSignIn = () => {
                 permissions: data.permissions,
               });
               localStorage.setItem("user_role", data.user.role ?? "");
+              const adminItem = adminItems.find((item) =>
+                data.user.permissions[0].match(item.permission)
+              );
+              switch (data.user.role) {
+                case "admin":
+                  navigate({
+                    to: adminItem?.link,
+                  });
+                  break;
+                case "superAdmin":
+                  navigate({
+                    to: "/user-list",
+                  });
+                  break;
 
-              navigate({
-                to:
-                  data.user.role === "admin" || data.user.role === "superAdmin"
-                    ? "/user-list"
-                    : "/my-information",
-              });
+                default:
+                  navigate({
+                    to: "/my-information",
+                  });
+                  break;
+              }
             }
           });
       })
