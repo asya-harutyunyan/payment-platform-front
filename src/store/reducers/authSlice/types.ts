@@ -19,4 +19,5 @@ export type ChangePassword = z.infer<typeof change_password_schema>;
 export type FetchUserResponseType = {
   user: User;
   wallet: Wallet;
+  permissions: string[];
 };

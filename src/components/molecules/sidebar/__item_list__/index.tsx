@@ -97,7 +97,12 @@ export const superAdminItems = [
 ];
 
 export const adminItems = [
-  { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
+  {
+    text: "user_list",
+    icon: <PersonIcon />,
+    permission: "users_view",
+    link: "/user-list",
+  },
   {
     text: "referred_users",
     permission: "admin.referrals_stats",

@@ -23,7 +23,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { adminItems, superAdminItems, userItems } from "./__item_list__";
 import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
@@ -39,23 +39,33 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width:600px)");
 
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const filteredAdminItems = adminItems.filter(
-    (item) => item.permission && user?.permissions.includes(item.permission)
-  );
+  const filteredAdminItems = useMemo(() => {
+    return adminItems.filter((item) =>
+      user?.permissions.includes(item.permission)
+    );
+  }, [user?.permissions]);
 
   useEffect(() => {
-    if (user?.role === "superAdmin") {
-      setSidebarItems(superAdminItems);
-    } else if (user?.role === "admin") {
-      setSidebarItems(superAdminItems);
-    } else {
-      setSidebarItems(userItems);
+    console.log(filteredAdminItems, "filteredAdminItems");
+  }, [filteredAdminItems]);
+
+  useEffect(() => {
+    switch (user?.role) {
+      case "superAdmin":
+        setSidebarItems(superAdminItems);
+        break;
+      case "admin":
+        setSidebarItems(filteredAdminItems);
+        break;
+      default:
+        setSidebarItems(userItems);
+        break;
     }
-  }, [filteredAdminItems, user?.role]);
+  }, [user?.role, user?.permissions, filteredAdminItems]);
 
   const toggleDrawer = () => {
     if (!matches) {
@@ -66,6 +76,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
     if (logoutUser.fulfilled.match(resultAction)) {
+      setUser(undefined);
       navigate({ to: "/auth/sign-in" });
     } else {
       console.error("Logout failed:", resultAction.payload);

@@ -31,7 +31,10 @@ const useSignIn = () => {
           .unwrap()
           .then((data) => {
             if (data.user) {
-              setUser(data.user);
+              setUser({
+                ...data.user,
+                permissions: data.permissions,
+              });
               localStorage.setItem("user_role", data.user.role ?? "");
               navigate({
                 to:

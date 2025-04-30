@@ -37,10 +37,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (localStorage.getItem("accessToken")) {
       dispatch(fetchUser())
         .unwrap()
-        .then((user) => {
-          if (user) {
-            setUser(user.user);
-            setWallet(user.wallet);
+        .then((data) => {
+          if (data) {
+            setUser({
+              ...data.user,
+              permissions: data.permissions,
+            });
+            setWallet(data.wallet);
           }
         });
     }
@@ -55,9 +58,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchAuthUser = async () => {
     if (localStorage.getItem("accessToken")) {
-      const user = await dispatch(fetchUser()).unwrap();
-      setUser(user.user);
-      setWallet(user.wallet);
+      const data = await dispatch(fetchUser()).unwrap();
+      setUser({
+        ...data.user,
+        permissions: data.permissions,
+      });
+      setWallet(data.wallet);
     }
   };
 
