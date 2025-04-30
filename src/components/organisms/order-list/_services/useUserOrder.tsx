@@ -108,131 +108,135 @@ const useAdminOrder = () => {
     );
   };
   const columns = useMemo<IColumn<Order>[]>(
-    () => [
-      {
-        column: "name",
-        renderComponent: (row: Order) => {
-          return (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": {
-                  textDecoration: "underline",
-                },
-              }}
-              onClick={() => goToUserPage(row.id)}
-            >
-              {row?.user?.name}
-            </P>
-          );
+    () =>
+      [
+        {
+          column: "name",
+          renderComponent: (row: Order) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => goToUserPage(row.id)}
+              >
+                {row?.user?.name}
+              </P>
+            );
+          },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="name"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              name="name"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "surname",
+          valueKey: "user.surname",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="surname"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              name="surname"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        user?.permissions.includes("orders_delete")
+          ? {
+              column: "key",
+              renderComponent: (row: Order) => {
+                return (
+                  <Button
+                    variant={"error"}
+                    text={"Удалить"}
+                    sx={{ width: "130px" }}
+                    onClick={() => handleDeleteModal?.(row.id)}
+                  />
+                );
+              },
+            }
+          : null,
+        {
+          column: "key",
+          renderComponent: (row: Order) => {
+            return (
+              <Button
+                variant={"outlined"}
+                text={t("see_more")}
+                sx={{ width: "130px" }}
+                onClick={() => handleSingleOrder?.(row.id)}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: Order) => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-              onClick={() => handleDeleteModal?.(row.id)}
-            />
-          );
+        {
+          column: "amount_order",
+          currency: "wallet_deposit.order_currency",
+          valueKey: "amount",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="amount"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: Order) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleOrder?.(row.id)}
-            />
-          );
+        {
+          column: "order_status_admin",
+          renderComponent: (row: Order) => {
+            return (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: getStatusColor(row.status_by_client ?? "-"),
+                  fontWeight: 400,
+                  textTransform: "capitalize",
+                }}
+              >
+                {row.status_by_client && t(row.status_by_client)}
+              </span>
+            );
+          },
         },
-      },
-      {
-        column: "amount_order",
-        currency: "wallet_deposit.order_currency",
-        valueKey: "amount",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              name="amount"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "id",
+          valueKey: "transaction_id",
+          renderComponent: (row: Order) => {
+            return (
+              row.transaction_id && (
+                <CopyButton text={row.transaction_id} color={"#7d7d7d"} />
+              )
+            );
+          },
         },
-      },
-      {
-        column: "order_status_admin",
-        renderComponent: (row: Order) => {
-          return (
-            <span
-              style={{
-                display: "flex",
-                alignItems: "center",
-                color: getStatusColor(row.status_by_client ?? "-"),
-                fontWeight: 400,
-                textTransform: "capitalize",
-              }}
-            >
-              {row.status_by_client && t(row.status_by_client)}
-            </span>
-          );
+        {
+          column: "card_number",
+          valueKey: "wallet_deposit.payment_method.card_number",
         },
-      },
-      {
-        column: "id",
-        valueKey: "transaction_id",
-        renderComponent: (row: Order) => {
-          return (
-            row.transaction_id && (
-              <CopyButton text={row.transaction_id} color={"#7d7d7d"} />
-            )
-          );
+        {
+          column: () => sortComponent(),
         },
-      },
-      {
-        column: "card_number",
-        valueKey: "wallet_deposit.payment_method.card_number",
-      },
-      {
-        column: () => sortComponent(),
-      },
-    ],
-    []
+      ].filter(Boolean) as IColumn<Order>[],
+    [control, user?.permissions]
   );
+
   const sortComponent = () => {
     return (
       <Box

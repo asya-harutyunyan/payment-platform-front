@@ -159,162 +159,170 @@ const useUserList = () => {
   };
   //columns
   const columnsUsers = useMemo<IColumn<User>[]>(
-    () => [
-      {
-        column: "name",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("name")}
-              name="name"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+    () =>
+      [
+        {
+          column: "name",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("name")}
+                name="name"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
+          renderComponent: (row: User) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => row.id && goToUserPage(row.id)}
+              >
+                {row.name}
+              </P>
+            );
+          },
         },
-        renderComponent: (row: User) => {
-          return (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": {
-                  textDecoration: "underline",
-                },
-              }}
-              onClick={() => row.id && goToUserPage(row.id)}
-            >
-              {row.name}
-            </P>
-          );
+        {
+          column: "surname",
+          valueKey: "surname",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("surname")}
+                name="surname"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "surname",
-        valueKey: "surname",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("surname")}
-              name="surname"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "email",
+          valueKey: "email",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("email")}
+                width="200px"
+                name="email"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "email",
-        valueKey: "email",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("email")}
-              width="200px"
-              name="email"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "key",
+          renderComponent: (row: User) => {
+            return (
+              <Button
+                variant={"outlined"}
+                text={t("see_more")}
+                sx={{ width: "130px" }}
+                onClick={() => handleSingleUser?.(row.id)}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: User) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleUser?.(row.id)}
-            />
-          );
+        user?.permissions.includes("users_block")
+          ? {
+              column: "key",
+              renderComponent: (row: User) => {
+                return (
+                  <Button
+                    variant={"error"}
+                    text={t("block")}
+                    sx={{ width: "130px" }}
+                    onClick={() => blockUser(row.id)}
+                  />
+                );
+              },
+            }
+          : null,
+        {
+          column: () => sortComponent(),
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: User) => {
-          return (
-            <Button
-              variant={"error"}
-              text={t("block")}
-              sx={{ width: "130px" }}
-              onClick={() => blockUser(row.id)}
-            />
-          );
-        },
-      },
-      {
-        column: () => sortComponent(),
-      },
-    ],
-    []
+      ].filter(Boolean) as IColumn<User>[],
+    [control, user?.permissions]
   );
+
   const columnsBlockedUsers = useMemo<IColumn<User>[]>(
-    () => [
-      {
-        column: "name",
-        renderComponent: (row: User) => {
-          return (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": {
-                  textDecoration: "underline",
-                },
-              }}
-              onClick={() => row.id && goToUserPage(row.id)}
-            >
-              {row.name}
-            </P>
-          );
+    () =>
+      [
+        {
+          column: "name",
+          renderComponent: (row: User) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => row.id && goToUserPage(row.id)}
+              >
+                {row.name}
+              </P>
+            );
+          },
         },
-      },
-      {
-        column: "surname",
-        valueKey: "surname",
-      },
-      {
-        column: "email",
-        valueKey: "email",
-      },
-      {
-        column: "key",
-        renderComponent: (row: User) => {
-          return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleUser?.(row.id)}
-            />
-          );
+        {
+          column: "surname",
+          valueKey: "surname",
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: User) => {
-          return (
-            <Button
-              variant={"contained"}
-              text={t("unblock")}
-              sx={{ width: "130px" }}
-              onClick={() => unblockUser(row.id)}
-            />
-          );
+        {
+          column: "email",
+          valueKey: "email",
         },
-      },
-      {
-        column: () => sortBlockedComponent(),
-      },
-    ],
-    []
+        {
+          column: "key",
+          renderComponent: (row: User) => {
+            return (
+              <Button
+                variant={"outlined"}
+                text={t("see_more")}
+                sx={{ width: "130px" }}
+                onClick={() => handleSingleUser?.(row.id)}
+              />
+            );
+          },
+        },
+        user?.permissions.includes("users_unblock")
+          ? {
+              column: "key",
+              renderComponent: (row: User) => {
+                return (
+                  <Button
+                    variant={"contained"}
+                    text={t("unblock")}
+                    sx={{ width: "130px" }}
+                    onClick={() => unblockUser(row.id)}
+                  />
+                );
+              },
+            }
+          : null,
+        {
+          column: () => sortBlockedComponent(),
+        },
+      ].filter(Boolean) as IColumn<User>[],
+    [user?.permissions]
   );
+
   const sortComponent = () => {
     return (
       <Box

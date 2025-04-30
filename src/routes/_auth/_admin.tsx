@@ -20,7 +20,7 @@ const AdminLayout = () => {
 export const Route = createFileRoute("/_auth/_admin")({
   beforeLoad: async () => {
     const role = localStorage.getItem("user_role");
-    if (role !== "admin") {
+    if (role !== "admin" && role !== "superAdmin") {
       throw redirect({
         to: "/",
       });

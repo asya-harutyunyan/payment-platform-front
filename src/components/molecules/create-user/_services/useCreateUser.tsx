@@ -45,7 +45,6 @@ export const useCreateUser = () => {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-        // reset();
         if (typeof error === "object") {
           for (const key in error) {
             setError(key as keyof FormData, {

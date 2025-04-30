@@ -13,9 +13,17 @@ import {
 import { Link, useLocation } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
-
+interface SubItems {
+  link: string;
+  text: string;
+}
 interface SidebarProps {
-  items: Array<{ link: string; icon: JSX.Element; text: string }>;
+  items: Array<{
+    link: string;
+    icon: JSX.Element;
+    text: string;
+    subItems?: SubItems[];
+  }>;
   onItemClick: () => void;
 }
 
@@ -25,23 +33,20 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
   const { wallet } = useAuth();
   const { user } = useAuth();
 
-  // const { permissions } = useAppSelector((state) => state.permissions);
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(getPermissionsThunk(user.id));
-  //   }
-  // }, [user]);
-
-  // useEffect(() => {
-  //   console.log(permissions);
-  // }, [permissions]);
-
   return (
     <List>
       {items.map((item, index) => {
         const isActive = location.pathname === item.link;
         return (
-          <ListItem key={index} sx={{ width: "100%", padding: "0" }}>
+          <ListItem
+            key={index}
+            sx={{
+              width: "100%",
+              padding: "0",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <Link
               to={item.link}
               style={{
@@ -82,6 +87,45 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
                 </P>
               </ListItemButton>
             </Link>
+            {/* {item.subItems && (
+              <List component="div" disablePadding sx={{ width: "90%" }}>
+                {item.subItems.map((sub, subIndex) => {
+                  return (
+                    <ListItem key={subIndex}>
+                      <Link
+                        to={sub.link}
+                        style={{ textDecoration: "none", width: "100%" }}
+                        onClick={onItemClick}
+                      >
+                        <ListItemButton
+                          sx={{
+                            padding: "10px 15px",
+                            borderRadius: "5px",
+                            backgroundColor: isActive
+                              ? "#202a6083"
+                              : "transparent",
+                            ":hover": {
+                              backgroundColor: "#202a6083",
+                            },
+                          }}
+                        >
+                          <P
+                            sx={{
+                              fontSize: "0.85rem",
+                              color: isActive
+                                ? "white"
+                                : theme.palette.secondary.contrastText,
+                            }}
+                          >
+                            {t(sub.text)}
+                          </P>
+                        </ListItemButton>
+                      </Link>
+                    </ListItem>
+                  );
+                })}
+              </List>
+            )} */}
           </ListItem>
         );
       })}

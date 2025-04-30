@@ -37,43 +37,120 @@ export const userItems = [
   },
 ];
 
-export const adminItems = [
+export const superAdminItems = [
   { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
   {
     text: "referred_users",
+    permission: "admin.referrals_stats",
     icon: <PeopleOutlineIcon />,
     link: "/referred-users",
   },
   {
     text: "deposit_list",
     icon: <FormatListBulletedIcon />,
+    permission: "deposits_view",
     link: "/deposit-list",
   },
-  { text: "order_list", icon: <DvrIcon />, link: "/order-list" },
+  {
+    text: "order_list",
+    icon: <DvrIcon />,
+    permission: "orders_view",
+    link: "/order-list",
+  },
   {
     text: "wallet_list",
     icon: <WalletIcon />,
+    permission: "wallet_view",
     link: "/wallet-list",
   },
   {
     text: "reports",
     icon: <ChecklistRtlIcon />,
+    permission: "users_view.newRegistered",
+    subItems: [
+      { link: "/reports/summary", text: "summary" },
+      { link: "/reports/detailed", text: "detailed" },
+      { link: "/reports/finance", text: "finance" },
+      { link: "/reports/clients", text: "clients" },
+    ],
     link: "/reports",
   },
 
   {
     text: "platipay",
     icon: <ChecklistRtlIcon />,
+    permission: "platiPay_view",
     link: "/platipay",
   },
   {
     text: "bank_card_list",
     icon: <ChecklistIcon />,
+    permission: "users_view.bankDetails",
     link: "/bank-card-list",
   },
   {
     text: "blocked_card_list",
     icon: <PlaylistRemoveIcon />,
+    permission: "platformX_view",
+    link: "/blocked-card-list",
+  },
+];
+
+export const adminItems = [
+  { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
+  {
+    text: "referred_users",
+    permission: "admin.referrals_stats",
+    icon: <PeopleOutlineIcon />,
+    link: "/referred-users",
+  },
+  {
+    text: "deposit_list",
+    icon: <FormatListBulletedIcon />,
+    permission: "deposits_view",
+    link: "/deposit-list",
+  },
+  {
+    text: "order_list",
+    icon: <DvrIcon />,
+    permission: "orders_view",
+    link: "/order-list",
+  },
+  {
+    text: "wallet_list",
+    icon: <WalletIcon />,
+    permission: "wallet_view",
+    link: "/wallet-list",
+  },
+  {
+    text: "reports",
+    icon: <ChecklistRtlIcon />,
+    permission: "users_view.newRegistered",
+    subItems: [
+      { link: "/reports/summary", text: "summary" },
+      { link: "/reports/detailed", text: "detailed" },
+      { link: "/reports/finance", text: "finance" },
+      { link: "/reports/clients", text: "clients" },
+    ],
+    link: "/reports",
+  },
+
+  {
+    text: "platipay",
+    icon: <ChecklistRtlIcon />,
+    permission: "platiPay_view",
+    link: "/platipay",
+  },
+  {
+    text: "bank_card_list",
+    icon: <ChecklistIcon />,
+    permission: "users_view.bankDetails",
+    link: "/bank-card-list",
+  },
+  {
+    text: "blocked_card_list",
+    icon: <PlaylistRemoveIcon />,
+    permission: "platformX_view",
     link: "/blocked-card-list",
   },
 ];

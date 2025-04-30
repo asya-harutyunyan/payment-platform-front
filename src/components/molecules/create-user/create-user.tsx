@@ -1,9 +1,13 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
-import theme from "@/styles/theme";
 import { H4 } from "@/styles/typography";
-import { Box, Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import {
+  Box,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+} from "@mui/material";
 import { t } from "i18next";
 import { useCreateUser } from "./_services/useCreateUser";
 
@@ -40,7 +44,13 @@ export const CreateUser = () => {
     <Box
       component="form"
       onSubmit={handleSubmit(onSubmit)}
-      sx={{ width: "100%", height: "max-content" }}
+      sx={{
+        width: "100%",
+        height: "max-content",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
     >
       <Box
         sx={{
@@ -57,7 +67,7 @@ export const CreateUser = () => {
       >
         <Box
           sx={{
-            width: "48%",
+            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
           }}
         >
           <FormTextInput
@@ -69,7 +79,7 @@ export const CreateUser = () => {
         </Box>
         <Box
           sx={{
-            width: "48%",
+            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
           }}
         >
           <FormTextInput
@@ -95,7 +105,7 @@ export const CreateUser = () => {
       >
         <Box
           sx={{
-            width: "48%",
+            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
           }}
         >
           <FormTextInput
@@ -107,7 +117,7 @@ export const CreateUser = () => {
         </Box>
         <Box
           sx={{
-            width: "48%",
+            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
           }}
         >
           <FormTextInput
@@ -125,7 +135,7 @@ export const CreateUser = () => {
           marginTop: "20px",
         }}
       >
-        <H4 align="center" color="primary.main">
+        <H4 align="center" color="primary.main" sx={{ marginBottom: "20px" }}>
           {t("checkbox_title")}
         </H4>
         {errors.permissions && (
@@ -141,44 +151,34 @@ export const CreateUser = () => {
             <FormHelperText error>{errors.permissions.message}</FormHelperText>
           </Box>
         )}
-        <Grid
-          container
-          spacing={2}
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px 0 20px 0",
-          }}
-        >
-          {Array.from({ length: 10 }).map((_, rowIndex) => (
-            <Grid container spacing={2} key={rowIndex}>
-              {names
-                .slice(rowIndex * 3, (rowIndex + 1) * 3)
-                .map((name, colIndex) => (
-                  <Grid
-                    key={colIndex}
-                    sx={{
-                      border: `1px solid ${theme.palette.primary.main}`,
-                      width: "220px",
-                      display: "flex",
-                      justifyContent: "start",
-                      paddingLeft: "10px",
-                      borderRadius: "3px",
-                    }}
-                  >
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          sx={{ color: "primary.main" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, name)
-                          }
-                        />
-                      }
-                      label={t(name)}
-                    />
-                  </Grid>
-                ))}
+        <Grid container spacing={2} justifyContent={"center"}>
+          {names.map((name, index) => (
+            <Grid
+              key={index}
+              columns={{
+                xs: 12,
+                sm: 6,
+                md: 6,
+              }}
+              sx={{
+                border: "1px solid #1976d2",
+                display: "flex",
+                justifyContent: "start",
+                paddingLeft: "10px",
+                borderRadius: "3px",
+                width: "220px",
+                height: "80px",
+              }}
+            >
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    sx={{ color: "#1976d2" }}
+                    onChange={(event) => handleCheckboxChange(event, name)}
+                  />
+                }
+                label={t(name)}
+              />
             </Grid>
           ))}
         </Grid>
@@ -195,7 +195,7 @@ export const CreateUser = () => {
           variant={"gradient"}
           color="secondary"
           text={t("register")}
-          sx={{ width: "20%", height: "50px" }}
+          sx={{ width: "20%", height: "50px", margin: "20px" }}
           type="submit"
         />
       </Box>

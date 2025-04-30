@@ -39,16 +39,30 @@ export const UserListComponent: FC = () => {
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
+            // overflowX: "auto",
           }}
         >
           <Tabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
+            scrollButtons="auto"
+            allowScrollButtonsMobile={true}
             sx={{
               color: "black",
               backgroundColor: "#f6f6f6",
               width: "100%",
+              minWidth: {
+                xs: "100%",
+              },
+              "& .MuiTabs-scroller": {
+                "::-webkit-scrollbar": {
+                  display: "none",
+                },
+                overflowX: {
+                  xs: "scroll !important",
+                },
+              },
             }}
           >
             <Tab

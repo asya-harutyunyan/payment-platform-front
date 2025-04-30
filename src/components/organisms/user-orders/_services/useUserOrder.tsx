@@ -41,7 +41,8 @@ const useUserOrder = () => {
       dispatch(
         getOrdersThunk({
           page: page,
-          per_page: user.role === "admin" ? 20 : 5,
+          per_page:
+            user.role === "admin" || user.role === "superAdmin" ? 20 : 5,
           status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
@@ -58,7 +59,8 @@ const useUserOrder = () => {
     dispatch(
       getOrdersThunk({
         page,
-        per_page: user?.role === "admin" ? 20 : 5,
+        per_page:
+          user?.role === "admin" || user?.role === "superAdmin" ? 20 : 5,
       })
     );
   };
@@ -169,7 +171,8 @@ const useUserOrder = () => {
     dispatch(
       getOrdersThunk({
         page,
-        per_page: user?.role === "admin" ? 20 : 5,
+        per_page:
+          user?.role === "admin" || user?.role === "superAdmin" ? 20 : 5,
         status_by_client: filter,
       })
     );

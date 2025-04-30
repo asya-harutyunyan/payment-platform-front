@@ -92,71 +92,75 @@ const useWallet = () => {
       });
   };
   const columns = useMemo<IColumn<WalletType>[]>(
-    () => [
-      {
-        column: "network",
-        valueKey: "network",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("network")}
-              name="network"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+    () =>
+      [
+        {
+          column: "network",
+          valueKey: "network",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("network")}
+                name="network"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "currency",
-        valueKey: "currency",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("currency")}
-              name="currency"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "currency",
+          valueKey: "currency",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("currency")}
+                name="currency"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "address",
-        valueKey: "address",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              {...register("address")}
-              name="address"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
+        {
+          column: "address",
+          valueKey: "address",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("address")}
+                name="address"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
-      },
-      {
-        column: "key",
-        renderComponent: (row: WalletType) => {
-          return (
-            <Button
-              variant={"error"}
-              text={"Удалить"}
-              sx={{ width: "130px" }}
-              onClick={() => handleDeleteModal?.(row.id)}
-            />
-          );
+        user?.permissions.includes("wallet_delete")
+          ? {
+              column: "key",
+              renderComponent: (row: WalletType) => {
+                return (
+                  <Button
+                    variant={"error"}
+                    text={"Удалить"}
+                    sx={{ width: "130px" }}
+                    onClick={() => handleDeleteModal?.(row.id)}
+                  />
+                );
+              },
+            }
+          : null,
+        {
+          column: () => sortComponent(),
         },
-      },
-      {
-        column: () => sortComponent(),
-      },
-    ],
-    []
+      ].filter(Boolean) as IColumn<WalletType>[],
+    [user?.permissions]
   );
+
   const sortComponent = () => {
     return (
       <Box

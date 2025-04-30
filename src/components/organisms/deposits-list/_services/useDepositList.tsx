@@ -63,7 +63,7 @@ const useDepositInfo = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    if (user?.role === "admin") {
+    if (user?.role === "admin" || user?.role === "superAdmin") {
       dispatch(
         getDepositsThunk({
           page: page,
@@ -132,7 +132,7 @@ const useDepositInfo = () => {
   };
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    if (user?.role === "admin") {
+    if (user?.role === "admin" || user?.role === "superAdmin") {
       dispatch(
         getDepositsThunk({
           page: page,

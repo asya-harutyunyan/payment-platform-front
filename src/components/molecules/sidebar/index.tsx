@@ -24,7 +24,7 @@ import {
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useState } from "react";
-import { adminItems, userItems } from "./__item_list__";
+import { adminItems, superAdminItems, userItems } from "./__item_list__";
 import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
@@ -43,9 +43,19 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const filteredAdminItems = adminItems.filter(
+    (item) => item.permission && user?.permissions.includes(item.permission)
+  );
+
   useEffect(() => {
-    setSidebarItems(user?.role === "admin" ? adminItems : userItems);
-  }, [user?.role]);
+    if (user?.role === "superAdmin") {
+      setSidebarItems(superAdminItems);
+    } else if (user?.role === "admin") {
+      setSidebarItems(superAdminItems);
+    } else {
+      setSidebarItems(userItems);
+    }
+  }, [filteredAdminItems, user?.role]);
 
   const toggleDrawer = () => {
     if (!matches) {
@@ -61,28 +71,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("Logout failed:", resultAction.payload);
     }
   };
-  // const handleOpenChat = () => {
-  //   toggleDrawer();
-  //   //@ts-expect-error script added global value
-  //   if (typeof jivo_api !== "undefined") {
-  //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  //     // @ts-expect-error
-  //     jivo_api.open();
-  //   } else {
-  //     console.error("JivoChat script not loaded yet.");
-  //   }
-  // };
-  // const downloadAPK = async () => {
-  //   const response = await fetch("/my-app.apk");
-  //   const blob = await response.blob();
-  //   const url = window.URL.createObjectURL(blob);
-  //   const a = document.createElement("a");
-  //   a.href = url;
-  //   a.download = "my-app.apk";
-  //   document.body.appendChild(a);
-  //   a.click();
-  //   window.URL.revokeObjectURL(url);
-  // };
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -123,7 +112,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           },
         }}
       >
-        <Box sx={{ height: "94%" }}>
+        <Box sx={{ height: "auto" }}>
           <GeneralInfo />
           <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
         </Box>

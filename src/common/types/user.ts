@@ -4,7 +4,7 @@ export interface User {
   surname: string;
   email: string;
   email_verified_at?: string;
-  role: "admin" | "client";
+  role: "admin" | "client" | "superAdmin";
   referral: {
     referral_code: string;
   };
@@ -12,6 +12,7 @@ export interface User {
   created_at: string;
   updated_at: string;
   bank_details: BankDetail[];
+  permissions: string[];
 }
 export interface Wallet {
   processing_amount: string;

@@ -32,62 +32,64 @@ const useBankCardList = () => {
     dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
   };
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
-    () => [
-      {
-        column: "card_holder",
-        renderComponent: (row: BankCardsDetalis) => {
-          return (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": {
-                  textDecoration: "underline",
-                },
-              }}
-              onClick={() => row.id && goToUserPage(row.id)}
-            >
-              {row.card_holder}
-            </P>
-          );
+    () =>
+      [
+        {
+          column: "card_holder",
+          renderComponent: (row: BankCardsDetalis) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => row.id && goToUserPage(row.id)}
+              >
+                {row.card_holder}
+              </P>
+            );
+          },
         },
-      },
-      {
-        column: "bank_name",
-        valueKey: "bank_name",
-      },
-      {
-        column: "card_number",
-        valueKey: "card_number",
-      },
-      {
-        column: "currency",
-        valueKey: "currency",
-      },
-      {
-        column: "is_blocked",
-        renderComponent: (row: BankCardsDetalis) => {
-          return !row.is_blocked ? (
-            <Button
-              variant={"error"}
-              text={t("block")}
-              sx={{ width: "130px" }}
-              onClick={() => handleBlockCard?.(row.id)}
-            />
-          ) : (
-            <Button
-              variant={"outlined"}
-              text={t("unblock")}
-              sx={{ width: "130px" }}
-              onClick={() => handleUnblockCard?.(row.id)}
-            />
-          );
+        {
+          column: "bank_name",
+          valueKey: "bank_name",
         },
-      },
-    ],
-    []
+        {
+          column: "card_number",
+          valueKey: "card_number",
+        },
+        {
+          column: "currency",
+          valueKey: "currency",
+        },
+        user?.permissions.includes("banks_update") && {
+          column: "is_blocked",
+          renderComponent: (row: BankCardsDetalis) => {
+            return !row.is_blocked ? (
+              <Button
+                variant={"error"}
+                text={t("block")}
+                sx={{ width: "130px" }}
+                onClick={() => handleBlockCard?.(row.id)}
+              />
+            ) : (
+              <Button
+                variant={"outlined"}
+                text={t("unblock")}
+                sx={{ width: "130px" }}
+                onClick={() => handleUnblockCard?.(row.id)}
+              />
+            );
+          },
+        },
+      ].filter(Boolean) as IColumn<BankCardsDetalis>[],
+    [user?.permissions]
   );
+
   const handleUnblockCard = (id?: number) => {
     if (user?.id && id) {
       dispatch(unblockCardThunk(id))
