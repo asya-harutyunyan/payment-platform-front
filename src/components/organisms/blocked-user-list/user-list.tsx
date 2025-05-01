@@ -19,7 +19,7 @@ export const BlockedUserListComponent: FC = () => {
 
   return (
     <Box>
-      <TaskHeader title={t("user_list_title")} />
+      <TaskHeader title={t("blocked_user_list_title")} />
       {loading ? (
         <CircularIndeterminate />
       ) : (
