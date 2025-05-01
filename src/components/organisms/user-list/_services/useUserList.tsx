@@ -14,6 +14,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -47,6 +48,7 @@ const useUserList = () => {
       name: "",
       surname: "",
       email: "",
+      // month: dayjs(),
     },
   });
 
@@ -54,7 +56,11 @@ const useUserList = () => {
   const name = watch("name");
   const surname = watch("surname");
   const email = watch("email");
+  const month = watch("month");
 
+  useEffect(() => {
+    console.log(dayjs("yyyy/mm").month);
+  }, [month]);
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
@@ -183,6 +189,17 @@ const useUserList = () => {
         {
           column: () => sortComponent(),
         },
+        // {
+        //   column: () => {
+        //     return (
+        //       <MonthPicker
+        //         name="month"
+        //         control={control}
+        //         label="Select Month"
+        //       />
+        //     );
+        //   },
+        // },
       ].filter(Boolean) as IColumn<User>[],
     [control, user?.permissions]
   );

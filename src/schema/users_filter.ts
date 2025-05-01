@@ -5,6 +5,7 @@ export const filter_schema = z.object({
   surname: z.string(),
   email: z.string(),
   period: z.string(),
+  month: z.string(),
 });
 export const search_schema = z.object({
   search: z.string(),

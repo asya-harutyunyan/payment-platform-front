@@ -106,9 +106,9 @@ export const useCreateUser = () => {
   ];
   const viewBlockedPermissionsUser = [
     {
-      prefix: "blocked_users",
+      prefix: "users",
       name: "users_blocked.view",
-      checking: "users_view",
+      checking: "users",
     },
   ];
   const viewReportPermissions = [
@@ -117,36 +117,32 @@ export const useCreateUser = () => {
       name: "users_view.newRegistered",
       checking: "users.newRegistered_view",
     }, //view
+    //7tiv
+  ];
+  const editReportPermissions = [
     {
-      prefix: "report_users",
+      prefix: "new_reg_users",
       name: "users_report.view",
-      checking: "users_report_view",
+      checking: "users_report",
     }, // po polz
     {
-      prefix: "orders_summary",
+      prefix: "new_reg_users",
       name: "orders_view.summary",
-      checking: "orders.summary_view",
+      checking: "orders.summary",
     }, //5 tiv
     {
-      prefix: "orders_processing_amount",
+      prefix: "new_reg_users",
       name: "orders_view.processedAmounts",
-      checking: "orders_view.processedAmounts_view",
-    }, //7tiv
+      checking: "orders_view.processedAmounts",
+    },
   ];
-
   const editWalletPermission = [
     { prefix: "wallet", name: "wallet_store", checking: "owallet_store" },
   ];
   const editUserPermission = [
     { prefix: "users", name: "users_unblock", checking: "users_unblock" },
   ];
-  const editBlockedUserPermission = [
-    {
-      prefix: "blocked_users",
-      name: "users_unblock",
-      checking: "users_unblock",
-    },
-  ];
+
   const editBankPermission = [
     {
       prefix: "banks",
@@ -189,7 +185,7 @@ export const useCreateUser = () => {
     //view//
     viewReportPermissions,
     viewPermissionsUser,
-    editBlockedUserPermission,
+    // editBlockedUserPermission,
     bankDetailsPermissions,
     viewDeposit,
     viewOrderPermissions,
@@ -204,6 +200,7 @@ export const useCreateUser = () => {
     editReferralPercentPermission,
     editDepositPermissions,
     viewBlockedPermissionsUser,
+    editReportPermissions,
     //delete
     deleteWalletPermissions,
     deleteOrderPermissions,

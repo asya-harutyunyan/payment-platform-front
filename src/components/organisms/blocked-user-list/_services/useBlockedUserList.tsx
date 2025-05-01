@@ -168,21 +168,22 @@ const useBlockedUserList = () => {
             );
           },
         },
-        user?.permissions.includes("users_unblock")
-          ? {
-              column: "key",
-              renderComponent: (row: User) => {
-                return (
-                  <Button
-                    variant={"contained"}
-                    text={t("unblock")}
-                    sx={{ width: "130px" }}
-                    onClick={() => unblockUser(row.id)}
-                  />
-                );
-              },
-            }
-          : null,
+        // user?.permissions.includes("users_unblock")
+        //   ?
+        {
+          column: "key",
+          renderComponent: (row: User) => {
+            return (
+              <Button
+                variant={"contained"}
+                text={t("unblock")}
+                sx={{ width: "130px" }}
+                onClick={() => unblockUser(row.id)}
+              />
+            );
+          },
+        },
+        // : null,
         {
           column: () => sortBlockedComponent(),
         },

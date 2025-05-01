@@ -74,6 +74,7 @@ export interface GetUsersRequest {
   email?: string;
   search?: string;
   sort?: "ASC" | "DESC";
+  month?: string;
 }
 export interface PaginatedUsersResponse {
   data: UsersList[];
