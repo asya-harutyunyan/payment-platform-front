@@ -7,8 +7,8 @@ import ImportExportIcon from "@mui/icons-material/ImportExport";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PersonIcon from "@mui/icons-material/Person";
-import PlaylistRemoveIcon from "@mui/icons-material/PlaylistRemove";
 import WalletIcon from "@mui/icons-material/Wallet";
+import WebIcon from "@mui/icons-material/Web";
 export const userItems = [
   {
     text: "task_list",
@@ -56,7 +56,6 @@ export const superAdminItems = [
       {
         link: "/create-user",
         text: "create-user",
-        permission: "create-user.view",
       },
     ],
   },
@@ -87,7 +86,6 @@ export const superAdminItems = [
   {
     text: "reports",
     icon: <ChecklistRtlIcon />,
-    permission: "users_view.newRegistered",
     subItems: [
       {
         link: "/reports-new-users",
@@ -129,8 +127,8 @@ export const superAdminItems = [
   },
   {
     text: "blocked_card_list",
-    icon: <PlaylistRemoveIcon />,
-    permission: "platformX_view",
+    icon: <WebIcon />,
+    permission: "users_blockedCards.view",
     link: "/blocked-card-list",
   },
 ];
@@ -139,8 +137,23 @@ export const adminItems = [
   {
     text: "user_list",
     icon: <PersonIcon />,
-    permission: "users_view",
     link: "/user-list",
+    subItems: [
+      {
+        link: "/user-list",
+        text: "user_list",
+        permission: "users_view",
+      },
+      {
+        link: "/blocked-user-list",
+        text: "blocked-user_list",
+        permission: "blocked_users.view",
+      },
+      {
+        link: "/create-user",
+        text: "create-user",
+      },
+    ],
   },
   {
     text: "referred_users",
@@ -169,30 +182,31 @@ export const adminItems = [
   {
     text: "reports",
     icon: <ChecklistRtlIcon />,
-    permission: "users_view.newRegistered",
     subItems: [
       {
-        link: "/reports/summary",
-        text: "summary",
-        permission: "orders_view.summary",
-      },
-      {
-        link: "/reports/processed-amounts",
-        text: "processed-amounts",
-        permission: "orders_view.processedAmounts",
-      },
-      {
-        link: "/reports/new-registered-users",
+        link: "/reports-new-users",
         text: "new-registered-users",
         permission: "users_view.newRegistered",
       },
+
       {
-        link: "/reports/report-clients",
-        text: "report-clients",
+        link: "/reports-users",
+        text: "reports-users",
         permission: "users_report.view",
       },
+      {
+        link: "/reports-processed-amount",
+        text: "processed-amounts",
+        permission: "orders_view.processedAmounts",
+      },
+
+      {
+        link: "/reports-summary",
+        text: "reports-summary",
+        permission: "orders_view.summary",
+      },
     ],
-    link: "/reports",
+    link: "/reports-new-users",
   },
 
   {
@@ -204,12 +218,12 @@ export const adminItems = [
   {
     text: "bank_card_list",
     icon: <ChecklistIcon />,
-    permission: "banks_viewAll",
+    permission: "users_view.bankDetails",
     link: "/bank-card-list",
   },
   {
     text: "blocked_card_list",
-    icon: <PlaylistRemoveIcon />,
+    icon: <WebIcon />,
     permission: "users_blockedCards.view",
     link: "/blocked-card-list",
   },

@@ -343,7 +343,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
               flexDirection: "column",
             }}
           >
-            <P sx={styleTitle}>Блокираванные Пользователи</P>
+            <P sx={styleTitle}>Блокирoванные Пользователи</P>
             <Box sx={{ width: "100%", display: "flex" }}>
               <Box sx={{ width: "33%" }}>
                 {viewBlockedPermissionsUser.map((item, index) => (
@@ -520,7 +520,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             {" "}
-            <P sx={styleTitle}>Преглашенные пользовательи</P>
+            <P sx={styleTitle}>Просмотр статистики рефералов</P>
             <Box sx={{ width: "100%", display: "flex" }}>
               <Box sx={{ width: "33%" }}>
                 {viewRefUsers.map((item, index) => (
