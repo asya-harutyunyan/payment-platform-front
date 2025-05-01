@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
 import bg from "../../../../assets/images/bg.jpg";
-import useResetPassword from "./_services/useLogin";
+import useResetPassword from "./_services/useResetPassword";
 
 const ResetPasswordComponent = () => {
   const { onSubmit, handleSubmit, control } = useResetPassword();
