@@ -77,11 +77,13 @@ export const UserListComponent: FC = () => {
               {...a11yProps(1)}
               sx={{ color: "black", fontSize: "0.8rem" }}
             />
-            <Tab
-              label="Создать пользователя"
-              {...a11yProps(2)}
-              sx={{ color: "black", fontSize: "0.8rem" }}
-            />
+            {user?.role === "superAdmin" && (
+              <Tab
+                label="Создать пользователя"
+                {...a11yProps(2)}
+                sx={{ color: "black", fontSize: "0.8rem" }}
+              />
+            )}
           </Tabs>
           {value !== 2 && user?.role === "superAdmin" ? (
             <DynamicTable
@@ -92,7 +94,7 @@ export const UserListComponent: FC = () => {
           ) : (
             <CreateUser />
           )}
-          {value !== 2 && (
+          {value !== 2 && user?.role === "superAdmin" && (
             <Box
               sx={{ display: "flex", justifyContent: "center", width: "100%" }}
             >
