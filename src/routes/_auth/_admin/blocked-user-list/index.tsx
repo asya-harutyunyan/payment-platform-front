@@ -1,4 +1,4 @@
-import { BlockedUserListComponent } from "@/components/organisms/blocked-user-list";
+import { BlockedUserListComponent } from "@/components/organisms/blocked-user-list/blocked-user-list";
 import { createFileRoute } from "@tanstack/react-router";
 
 const BlockedUserList = () => {

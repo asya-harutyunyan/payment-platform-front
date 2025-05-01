@@ -18,10 +18,12 @@ import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
 
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { P } from "@/styles/typography";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
+import dayjs from "dayjs";
 type FormData = z.infer<typeof add_wallet_schema>;
 
 const useWallet = () => {
@@ -48,22 +50,51 @@ const useWallet = () => {
   const network = watch("network");
   const currency = watch("currency");
 
+  const month = watch("month");
+
   const [debouncedAddres] = useDebounce(address, 700);
   const [debouncedNetwork] = useDebounce(network, 700);
   const [debouncedCurrency] = useDebounce(currency, 700);
-
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
   useEffect(() => {
-    dispatch(
-      getWalletsThunk({
-        page: page,
-        per_page: 20,
-        address: debouncedAddres,
-        network: debouncedNetwork,
-        currency: debouncedCurrency,
-        sort,
-      })
-    );
-  }, [debouncedAddres, debouncedCurrency, debouncedNetwork, page]);
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        getWalletsThunk({
+          page: page,
+          per_page: 20,
+          address: debouncedAddres,
+          network: debouncedNetwork,
+          currency: debouncedCurrency,
+          month: "",
+          sort,
+        })
+      );
+    } else {
+      dispatch(
+        getWalletsThunk({
+          page: page,
+          per_page: 20,
+          address: debouncedAddres,
+          network: debouncedNetwork,
+          currency: debouncedCurrency,
+          month: debouncedMonth,
+          sort,
+        })
+      );
+    }
+  }, [
+    debouncedAddres,
+    debouncedCurrency,
+    debouncedNetwork,
+    debouncedMonth,
+    page,
+  ]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -154,6 +185,14 @@ const useWallet = () => {
               },
             }
           : null,
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
+        },
         {
           column: () => sortComponent(),
         },

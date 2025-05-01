@@ -1,4 +1,5 @@
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
@@ -11,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
+import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -47,6 +49,7 @@ const useBlockedCard = () => {
   const cardHolder = watch("card_holder");
   const cardNumber = watch("card_number");
   const currency = watch("currency");
+  const month = watch("month");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
@@ -54,23 +57,49 @@ const useBlockedCard = () => {
   const [debouncedCardHolder] = useDebounce(cardHolder, 700);
   const [debouncedCardNumber] = useDebounce(cardNumber, 700);
   const [debouncedCurrency] = useDebounce(currency, 700);
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
 
   useEffect(() => {
-    dispatch(
-      getBlockedCardsThunk({
-        page: page,
-        per_page: 20,
-        name: debouncedName,
-        surname: debouncedSurname,
-        bank_name: debouncedBankName,
-        card_holder: debouncedCardHolder,
-        card_number: debouncedCardNumber,
-        currency: debouncedCurrency,
-        sort,
-      })
-    );
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        getBlockedCardsThunk({
+          page: page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          bank_name: debouncedBankName,
+          card_holder: debouncedCardHolder,
+          card_number: debouncedCardNumber,
+          currency: debouncedCurrency,
+          month: "",
+          sort,
+        })
+      );
+    } else {
+      dispatch(
+        getBlockedCardsThunk({
+          page: page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          bank_name: debouncedBankName,
+          card_holder: debouncedCardHolder,
+          card_number: debouncedCardNumber,
+          currency: debouncedCurrency,
+          month: debouncedMonth,
+          sort,
+        })
+      );
+    }
   }, [
     debouncedBankName,
+    debouncedMonth,
     debouncedCardHolder,
     debouncedCardNumber,
     debouncedName,
@@ -192,6 +221,14 @@ const useBlockedCard = () => {
             />
           );
         },
+      },
+      {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <MonthPicker name="month" control={control} />
+          </Box>
+        ),
       },
       {
         column: () => sortComponent(),

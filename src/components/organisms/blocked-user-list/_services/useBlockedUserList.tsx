@@ -1,6 +1,7 @@
 import { User } from "@/common/types";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
@@ -14,6 +15,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -54,22 +56,45 @@ const useBlockedUserList = () => {
   const name = BlockedUserWatch("name");
   const surname = BlockedUserWatch("surname");
   const email = BlockedUserWatch("email");
+  const month = BlockedUserWatch("month");
 
   const [debouncedBlockedName] = useDebounce(name, 700);
   const [debouncedBlockedSurname] = useDebounce(surname, 700);
   const [debouncedBlockedEmail] = useDebounce(email, 700);
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
 
   useEffect(() => {
-    dispatch(
-      getBlockedUsersThunk({
-        page: pageBlockedUsers,
-        per_page: 20,
-        name: debouncedBlockedName,
-        surname: debouncedBlockedSurname,
-        email: debouncedBlockedEmail,
-        sort: sortBlockedUsers,
-      })
-    );
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        getBlockedUsersThunk({
+          page: pageBlockedUsers,
+          per_page: 20,
+          name: debouncedBlockedName,
+          surname: debouncedBlockedSurname,
+          email: debouncedBlockedEmail,
+          month: "",
+          sort: sortBlockedUsers,
+        })
+      );
+    } else {
+      dispatch(
+        getBlockedUsersThunk({
+          page: pageBlockedUsers,
+          per_page: 20,
+          name: debouncedBlockedName,
+          surname: debouncedBlockedSurname,
+          email: debouncedBlockedEmail,
+          month: debouncedMonth,
+          sort: sortBlockedUsers,
+        })
+      );
+    }
   }, [
     debouncedBlockedName,
     debouncedBlockedSurname,
@@ -77,6 +102,7 @@ const useBlockedUserList = () => {
     sortBlockedUsers,
     value,
     pageBlockedUsers,
+    debouncedMonth,
     dispatch,
   ]);
 
@@ -183,6 +209,14 @@ const useBlockedUserList = () => {
               },
             }
           : null,
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={BlockedUserControl} />
+            </Box>
+          ),
+        },
         {
           column: () => sortBlockedComponent(),
         },

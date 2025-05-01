@@ -56,7 +56,8 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
               <ListItemButton
                 sx={{
                   width: "100%",
-                  padding: "13px 0",
+                  padding: "17px 0",
+                  borderBottom: "1px solid #40404078",
                   ":hover": {
                     backgroundColor: "#202a6083",
                     borderRadius: "5px",

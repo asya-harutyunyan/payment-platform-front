@@ -14,6 +14,7 @@ export const getUsersThunk = createAsyncThunk(
           per_page: data.per_page,
           name: data.name,
           surname: data.surname,
+          month: data.month,
           email: data.email,
         },
       });
@@ -39,6 +40,7 @@ export const getBlockedUsersThunk = createAsyncThunk(
           per_page: data.per_page,
           name: data.name,
           surname: data.surname,
+          month: data.month,
           email: data.email,
         },
       });
@@ -175,6 +177,7 @@ export const getReferredUsersForAdminThunk = createAsyncThunk(
           surname: data.surname,
           email: data.email,
           sort_by: data.sort_by,
+          month: data.month,
           sort_order: data.sort_order,
           period: data.period,
         },

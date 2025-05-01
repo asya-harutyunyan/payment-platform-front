@@ -24,6 +24,7 @@ export const getOrdersThunk = createAsyncThunk(
           status_by_admin: data.status_by_admin,
           sort: data.sort,
           card_number: data.card_number,
+          month: data.month,
         },
       });
       return response.data;

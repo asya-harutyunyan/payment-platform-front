@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 import { CopyButton } from "@/components/atoms/copy-btn";
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
@@ -20,6 +21,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -76,32 +78,56 @@ const useAdminOrder = () => {
   const surname = watch("surname");
   const amount = watch("amount");
   const statusByAdmin = watch("status_by_admin");
-
   const cardNumber = watch("card_number");
+  const month = watch("month");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
   const [debouncedCardNumber] = useDebounce(cardNumber, 700);
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
 
   useEffect(() => {
     if (!user?.role) return;
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
 
     const fetchOrders = () => {
-      dispatch(
-        getOrdersThunk({
-          page,
-          per_page: 50,
-          status_by_client: filter,
-          name: debouncedName,
-          surname: debouncedSurname,
-          amount: debouncedAmount,
-          status_by_admin: debouncedStatusByAdmin,
-          card_number: debouncedCardNumber,
-          sort,
-        })
-      );
+      if (!isValidMonth) {
+        dispatch(
+          getOrdersThunk({
+            page,
+            per_page: 50,
+            status_by_client: filter,
+            name: debouncedName,
+            surname: debouncedSurname,
+            amount: debouncedAmount,
+            status_by_admin: debouncedStatusByAdmin,
+            card_number: debouncedCardNumber,
+            month: "",
+            sort,
+          })
+        );
+      } else {
+        dispatch(
+          getOrdersThunk({
+            page,
+            per_page: 50,
+            status_by_client: filter,
+            name: debouncedName,
+            surname: debouncedSurname,
+            amount: debouncedAmount,
+            month: debouncedMonth,
+            status_by_admin: debouncedStatusByAdmin,
+            card_number: debouncedCardNumber,
+            sort,
+          })
+        );
+      }
     };
 
     fetchOrders();
@@ -114,6 +140,7 @@ const useAdminOrder = () => {
     debouncedSurname,
     debouncedStatusByAdmin,
     debouncedCardNumber,
+    debouncedMonth,
     sort,
     filter,
     page,
@@ -267,6 +294,14 @@ const useAdminOrder = () => {
               />
             );
           },
+        },
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
         },
         {
           column: () => sortComponent(),

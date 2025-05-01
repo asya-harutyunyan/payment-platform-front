@@ -1,4 +1,5 @@
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
@@ -11,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -38,26 +40,49 @@ const usePlatipayService = () => {
   const amount = watch("amount");
   const status_by_client = watch("status_by_client");
   const transaction_id = watch("transaction_id");
+  const month = watch("month");
 
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByClient] = useDebounce(status_by_client, 700);
   const [debouncedTransactionId] = useDebounce(transaction_id, 700);
-
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
   useEffect(() => {
-    dispatch(
-      platipayThunk({
-        page,
-        per_page: 20,
-        amount: debouncedAmount,
-        status_by_client: debouncedStatusByClient,
-        transaction_id: debouncedTransactionId,
-        sort,
-      })
-    );
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        platipayThunk({
+          page,
+          per_page: 20,
+          amount: debouncedAmount,
+          status_by_client: debouncedStatusByClient,
+          transaction_id: debouncedTransactionId,
+          month: "",
+          sort,
+        })
+      );
+    } else {
+      dispatch(
+        platipayThunk({
+          page,
+          per_page: 20,
+          amount: debouncedAmount,
+          status_by_client: debouncedStatusByClient,
+          transaction_id: debouncedTransactionId,
+          month: debouncedMonth,
+          sort,
+        })
+      );
+    }
   }, [
     debouncedAmount,
     debouncedStatusByClient,
     debouncedTransactionId,
+    debouncedMonth,
     sort,
     page,
   ]);
@@ -132,6 +157,14 @@ const usePlatipayService = () => {
       {
         column: "created_at",
         valueKey: "created_at",
+      },
+      {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <MonthPicker name="month" control={control} />
+          </Box>
+        ),
       },
       {
         column: () => sortComponent(),

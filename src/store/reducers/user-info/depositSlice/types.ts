@@ -197,6 +197,7 @@ export interface DepositRequest {
   name?: string;
   surname?: string;
   sort_by?: string;
+  month?: string;
   status_by_admin?: string;
   type?: string;
   sort_order?: "ASC" | "DESC";

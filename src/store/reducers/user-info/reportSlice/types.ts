@@ -64,6 +64,7 @@ export type NewRegisteredUsers = {
   name?: string;
   surname?: string;
   email?: string;
+  month?: string;
 };
 export type NewUsers = {
   name: string;
@@ -109,4 +110,5 @@ export interface PlatipayRequest {
   status_by_client?: string;
   transaction_id?: string;
   sort?: "ASC" | "DESC";
+  month?: string;
 }

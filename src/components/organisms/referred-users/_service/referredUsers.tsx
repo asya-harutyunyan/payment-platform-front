@@ -1,4 +1,5 @@
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
@@ -16,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box, FormControl, MenuItem, Select } from "@mui/material";
+import dayjs from "dayjs";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -71,27 +73,54 @@ const useReferredUsers = () => {
   const surname = filterWatch("surname");
   const email = filterWatch("email");
   const period = filterWatch("period");
+  const month = filterWatch("month");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
+
   useEffect(() => {
-    dispatch(
-      getReferredUsersForAdminThunk({
-        page,
-        per_page: 20,
-        name: debouncedName,
-        surname: debouncedSurname,
-        email: debouncedEmail,
-        sort_by: sort,
-        sort_order: sortOrder,
-        period: period === "all" ? "" : period,
-      })
-    );
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        getReferredUsersForAdminThunk({
+          page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          email: debouncedEmail,
+          sort_by: sort,
+          sort_order: sortOrder,
+          month: "",
+          period: period === "all" ? "" : period,
+        })
+      );
+    } else {
+      dispatch(
+        getReferredUsersForAdminThunk({
+          page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          email: debouncedEmail,
+          sort_by: sort,
+          month: debouncedMonth,
+          sort_order: sortOrder,
+          period: period === "all" ? "" : period,
+        })
+      );
+    }
   }, [
     debouncedEmail,
     debouncedName,
     debouncedSurname,
+    debouncedMonth,
     dispatch,
     page,
     sort,
@@ -339,7 +368,14 @@ const useReferredUsers = () => {
         column: "referral_code",
         valueKey: "referral_code",
       },
-
+      {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <MonthPicker name="month" control={filterControl} />
+          </Box>
+        ),
+      },
       {
         column: () => sortComponent(),
       },

@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
@@ -56,16 +57,39 @@ const useDepositInfo = () => {
   const statusByAdmin = watch("status_by_admin");
   const type = watch("type");
   const surname = watch("surname");
+  const month = watch("month");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
   const [debouncedTyoe] = useDebounce(type, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
-
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
   const navigate = useNavigate();
   useEffect(() => {
-    if (user?.role === "admin" || user?.role === "superAdmin") {
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      if (user?.role === "admin" || user?.role === "superAdmin") {
+        dispatch(
+          getDepositsThunk({
+            page: page,
+            per_page: 50,
+            name: debouncedName,
+            surname: debouncedSurname,
+            sort_by: debouncedAmount,
+            status_by_admin: debouncedStatusByAdmin,
+            type: debouncedTyoe,
+            month: "",
+            sort_order: sort,
+          })
+        );
+      }
+    } else {
       dispatch(
         getDepositsThunk({
           page: page,
@@ -75,6 +99,7 @@ const useDepositInfo = () => {
           sort_by: debouncedAmount,
           status_by_admin: debouncedStatusByAdmin,
           type: debouncedTyoe,
+          month: debouncedMonth,
           sort_order: sort,
         })
       );
@@ -86,6 +111,7 @@ const useDepositInfo = () => {
     debouncedTyoe,
     page,
     sort,
+    debouncedMonth,
     user?.role,
   ]);
 
@@ -345,6 +371,14 @@ const useDepositInfo = () => {
           },
         },
         {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
+        },
+        {
           column: () => sortComponent(),
         },
       ].filter(Boolean) as IColumn<DataDeposits>[],
@@ -437,6 +471,14 @@ const useDepositInfo = () => {
         column: "left_amount",
         currency: "deposit_currency",
         valueKey: "processing_amount",
+      },
+      {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <MonthPicker name="month" control={control} />
+          </Box>
+        ),
       },
       {
         column: "key",

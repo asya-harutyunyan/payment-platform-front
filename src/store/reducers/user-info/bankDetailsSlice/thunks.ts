@@ -146,6 +146,7 @@ export const getBankCardsThunk = createAsyncThunk(
           card_number: data.card_number,
           currency: data.currency,
           bank_name: data.bank_name,
+          month: data.month,
           sort: data.sort,
         },
       });
@@ -174,6 +175,7 @@ export const getBlockedCardsThunk = createAsyncThunk(
           card_holder: data.card_holder,
           card_number: data.card_number,
           currency: data.currency,
+          month: data.month,
           sort: data.sort,
         },
       });

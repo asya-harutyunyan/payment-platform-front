@@ -106,6 +106,7 @@ export const getDepositsThunk = createAsyncThunk(
           sort_by: data.sort_by,
           status_by_admin: data.status_by_admin,
           type: data.type,
+          month: data.month,
           name: data.name,
           surname: data.name,
         },

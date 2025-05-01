@@ -21,8 +21,10 @@ import { useDebounce } from "use-debounce";
 import { z } from "zod";
 
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import dayjs from "dayjs";
 
 type FormData = z.infer<typeof bank_card_schema>;
 
@@ -57,27 +59,52 @@ const useBankCardList = () => {
   const BankName = watch("bank_name");
   const Currency = watch("currency");
   const CardNumber = watch("card_number");
+  const month = watch("month");
 
   const [debounceCardHolder] = useDebounce(CardHolder, 700);
   const [debouncedBankName] = useDebounce(BankName, 700);
   const [debouncedCardNumber] = useDebounce(CardNumber, 700);
   const [debouncedCurrency] = useDebounce(Currency, 700);
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
 
   useEffect(() => {
-    dispatch(
-      getBankCardsThunk({
-        page: page,
-        per_page: 20,
-        card_holder: debounceCardHolder,
-        card_number: debouncedBankName,
-        bank_name: debouncedCardNumber,
-        currency: debouncedCurrency,
-        sort,
-      })
-    );
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        getBankCardsThunk({
+          page: page,
+          per_page: 20,
+          card_holder: debounceCardHolder,
+          card_number: debouncedBankName,
+          bank_name: debouncedCardNumber,
+          currency: debouncedCurrency,
+          month: "",
+          sort,
+        })
+      );
+    } else {
+      dispatch(
+        getBankCardsThunk({
+          page: page,
+          per_page: 20,
+          card_holder: debounceCardHolder,
+          card_number: debouncedBankName,
+          bank_name: debouncedCardNumber,
+          currency: debouncedCurrency,
+          month: debouncedMonth,
+          sort,
+        })
+      );
+    }
   }, [
     debouncedBankName,
     debounceCardHolder,
+    debouncedMonth,
     debouncedCardNumber,
     debouncedCurrency,
     page,
@@ -191,6 +218,14 @@ const useBankCardList = () => {
 
             return null;
           },
+        },
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
         },
         {
           column: () => sortComponent(),

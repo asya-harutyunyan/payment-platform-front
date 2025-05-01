@@ -1,4 +1,5 @@
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
@@ -9,15 +10,13 @@ import {
   getReportUsersThunk,
   newRegisteredUsersThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
-import {
-  NewUsers,
-  ReportUsers,
-} from "@/store/reducers/user-info/reportSlice/types";
+import { NewUsers } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
+import dayjs from "dayjs";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -34,7 +33,6 @@ const useReports = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
-  const [sortUsers, setSortUsers] = useState<"ASC" | "DESC">("ASC");
 
   const {
     newRegisteredUsers,
@@ -64,39 +62,23 @@ const useReports = () => {
     },
   });
 
-  //reporst users
-  const {
-    control: UserControl,
-    register: UserRegister,
-    watch: UserWatch,
-  } = useForm<NewUserFormData>({
-    resolver: zodResolver(new_users_schema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-    },
-  });
-  //report new reg users
   const name = NewUserWatch("name");
   const surname = NewUserWatch("surname");
   const email = NewUserWatch("email");
+  const month = NewUserWatch("month");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
-
-  //reporst users
-  const nameUser = UserWatch("name");
-  const surnameUser = UserWatch("surname");
-  const emailUser = UserWatch("email");
-
-  const [debouncedNameUser] = useDebounce(nameUser, 700);
-  const [debouncedSurnameUser] = useDebounce(surnameUser, 700);
-  const [debouncedEmailUser] = useDebounce(emailUser, 700);
-
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
   useEffect(() => {
-    if (value === 0) {
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
       dispatch(
         newRegisteredUsersThunk({
           page,
@@ -104,25 +86,24 @@ const useReports = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
+          month: "",
           sort,
         })
       );
-    }
-  }, [debouncedName, debouncedSurname, debouncedEmail]);
-  useEffect(() => {
-    if (value === 1) {
+    } else {
       dispatch(
         newRegisteredUsersThunk({
           page,
           per_page: 20,
-          name: debouncedNameUser,
-          surname: debouncedSurnameUser,
-          email: debouncedEmailUser,
-          sort: sortUsers,
+          name: debouncedName,
+          surname: debouncedSurname,
+          email: debouncedEmail,
+          month: debouncedMonth,
+          sort,
         })
       );
     }
-  }, [debouncedNameUser, debouncedSurnameUser, debouncedEmailUser]);
+  }, [debouncedName, debouncedSurname, debouncedEmail, debouncedMonth]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -219,90 +200,20 @@ const useReports = () => {
         valueKey: "created_at",
       },
       {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <MonthPicker name="month" control={NewUserControl} />
+          </Box>
+        ),
+      },
+      {
         column: () => sortComponent(),
       },
     ],
     []
   );
-  const columnsReportUsers = useMemo<IColumn<ReportUsers>[]>(
-    () => [
-      {
-        column: "name",
-        renderComponent: (row: ReportUsers) => {
-          return (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": {
-                  textDecoration: "underline",
-                },
-              }}
-              onClick={() => row.id && goToUserPage(row.id)}
-            >
-              {row.name}
-            </P>
-          );
-        },
 
-        filters: () => {
-          return (
-            <FormTextInput
-              control={UserControl}
-              {...UserRegister("name")}
-              name="name"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
-        },
-      },
-      {
-        column: "surname",
-        valueKey: "surname",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={UserControl}
-              {...UserRegister("surname")}
-              name="surname"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
-        },
-      },
-      {
-        column: "email",
-        valueKey: "email",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={UserControl}
-              {...UserRegister("email")}
-              name="email"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
-        },
-      },
-      {
-        column: "blocked_cards",
-        valueKey: "blocked_cards",
-      },
-
-      {
-        column: "total_cards",
-        valueKey: "total_cards",
-      },
-      {
-        column: () => sortUserComponent(),
-      },
-    ],
-    []
-  );
   useEffect(() => {
     dispatch(
       newRegisteredUsersThunk({
@@ -388,54 +299,13 @@ const useReports = () => {
       </Box>
     );
   };
-  const sortUserComponent = () => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-        }}
-      >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: "40px",
-            cursor: "pointer",
-          }}
-        >
-          <ExpandLessIcon
-            sx={{
-              color: "primary.main",
-              height: "20px",
-              ":hover": {
-                backgroundColor: "#f9f9f9",
-              },
-            }}
-            onClick={() => setSortUsers("ASC")}
-          />
-          <ExpandMoreIcon
-            sx={{
-              color: "primary.main",
-              height: "20px",
-              ":hover": {
-                backgroundColor: "#f9f9f9",
-              },
-            }}
-            onClick={() => setSortUsers("DESC")}
-          />
-        </Box>
-      </Box>
-    );
-  };
+
   return {
     fetchDataByTab,
-
     sortComponent,
     columnsNewRegUsers,
     newRegisteredUsers,
     pageNewRegUsers,
-    columnsReportUsers,
     handleChange,
     onChangePageNewUsers,
     onChangeReportUsersPage,

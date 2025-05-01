@@ -29,6 +29,7 @@ export interface GetBankDetailsRequest {
   card_holder?: string;
   card_number?: string;
   currency?: string;
+  month?: string;
   sort?: "ASC" | "DESC";
 }
 

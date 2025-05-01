@@ -1,6 +1,7 @@
 import { User } from "@/common/types";
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
+import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
@@ -25,47 +26,79 @@ import { z } from "zod";
 type FormData = z.infer<typeof filter_schema>;
 
 const useUserList = () => {
-  const { goToUserPage } = useUserContext();
-
   const dispatch = useAppDispatch();
-  const route = useLocation();
   const navigate = useNavigate();
+  const route = useLocation();
+  const { goToUserPage } = useUserContext();
   const { user } = useAuth();
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
 
-  //tabs
+  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [selectedTab, setSelectedTab] = useState(0);
-  //
+  const [page, setPage] = useState(1);
+
   const { users, blockedUsers, total, loading } = useAppSelector(
     (state) => state.users
   );
-  //paginations
-  const [page, setPage] = useState(1);
-  //users
+
   const { control, register, watch } = useForm<FormData>({
     resolver: zodResolver(filter_schema),
     defaultValues: {
       name: "",
       surname: "",
       email: "",
-      // month: dayjs(),
     },
   });
 
-  //filters
   const name = watch("name");
   const surname = watch("surname");
   const email = watch("email");
   const month = watch("month");
 
-  useEffect(() => {
-    console.log(dayjs("yyyy/mm").month);
-  }, [month]);
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
+  const [debouncedMonth] = useDebounce(
+    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+    2000
+  );
 
   useEffect(() => {
+    const isValidMonth =
+      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+
+    if (!isValidMonth) {
+      dispatch(
+        getUsersThunk({
+          page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          email: debouncedEmail,
+          month: "",
+          sort,
+        })
+      );
+    } else {
+      // If a valid month is selected, include it in the request
+      dispatch(
+        getUsersThunk({
+          page,
+          per_page: 20,
+          name: debouncedName,
+          surname: debouncedSurname,
+          email: debouncedEmail,
+          month: debouncedMonth,
+          sort,
+        })
+      );
+    }
+  }, [debouncedName, debouncedSurname, debouncedEmail, debouncedMonth, sort]);
+
+  const onChangeUsersPage = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setPage(page);
     dispatch(
       getUsersThunk({
         page,
@@ -73,179 +106,18 @@ const useUserList = () => {
         name: debouncedName,
         surname: debouncedSurname,
         email: debouncedEmail,
+        month: debouncedMonth,
         sort,
       })
     );
-  }, [debouncedName, debouncedSurname, debouncedEmail, sort]);
-
-  //pages
-  const onChangeUsersPage = (
-    _event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    setPage?.(page);
-    dispatch(getUsersThunk({ page: page, per_page: 20 }));
   };
 
-  //single page
   const handleSingleUser = (row?: number) => {
     if (route.pathname === "/user-list") {
       navigate({ to: `/user-list/${row}` });
     }
   };
-  //columns
-  const columnsUsers = useMemo<IColumn<User>[]>(
-    () =>
-      [
-        {
-          column: "name",
-          filters: () => {
-            return (
-              <FormTextInput
-                control={control}
-                {...register("name")}
-                name="name"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
-            );
-          },
-          renderComponent: (row: User) => {
-            return (
-              <P
-                sx={{
-                  color: "black",
-                  fontSize: "15px",
-                  fontWeight: 500,
-                  ":hover": {
-                    textDecoration: "underline",
-                  },
-                }}
-                onClick={() => row.id && goToUserPage(row.id)}
-              >
-                {row.name}
-              </P>
-            );
-          },
-        },
-        {
-          column: "surname",
-          valueKey: "surname",
-          filters: () => {
-            return (
-              <FormTextInput
-                control={control}
-                {...register("surname")}
-                name="surname"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
-            );
-          },
-        },
-        {
-          column: "email",
-          valueKey: "email",
-          filters: () => {
-            return (
-              <FormTextInput
-                control={control}
-                {...register("email")}
-                width="200px"
-                name="email"
-                style={{ input: { padding: "10px 14px" } }}
-              />
-            );
-          },
-        },
-        {
-          column: "key",
-          renderComponent: (row: User) => {
-            return (
-              <Button
-                variant={"outlined"}
-                text={t("see_more")}
-                sx={{ width: "130px" }}
-                onClick={() => handleSingleUser?.(row.id)}
-              />
-            );
-          },
-        },
-        user?.permissions.includes("users_block")
-          ? {
-              column: "key",
-              renderComponent: (row: User) => {
-                return (
-                  <Button
-                    variant={"error"}
-                    text={t("block")}
-                    sx={{ width: "130px" }}
-                    onClick={() => blockUser(row.id)}
-                  />
-                );
-              },
-            }
-          : null,
-        {
-          column: () => sortComponent(),
-        },
-        // {
-        //   column: () => {
-        //     return (
-        //       <MonthPicker
-        //         name="month"
-        //         control={control}
-        //         label="Select Month"
-        //       />
-        //     );
-        //   },
-        // },
-      ].filter(Boolean) as IColumn<User>[],
-    [control, user?.permissions]
-  );
 
-  const sortComponent = () => {
-    return (
-      <Box
-        sx={{
-          display: "flex",
-        }}
-      >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            width: "40px",
-            cursor: "pointer",
-          }}
-        >
-          <ExpandLessIcon
-            sx={{
-              color: "primary.main",
-              height: "20px",
-              ":hover": {
-                backgroundColor: "#f9f9f9",
-              },
-            }}
-            onClick={() => setSort("ASC")}
-          />
-          <ExpandMoreIcon
-            sx={{
-              color: "primary.main",
-              height: "20px",
-              ":hover": {
-                backgroundColor: "#f9f9f9",
-              },
-            }}
-            onClick={() => setSort("DESC")}
-          />
-        </Box>
-      </Box>
-    );
-  };
-
-  //block-unblock
   const blockUser = (id: number) => {
     dispatch(blockUserThunk(id))
       .unwrap()
@@ -254,10 +126,7 @@ const useUserList = () => {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-        dispatch(getUsersThunk({ page: page, per_page: 20 }));
-        // dispatch(
-        //   getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
-        // );
+        dispatch(getUsersThunk({ page, per_page: 20 }));
       })
       .catch(() => {
         enqueueSnackbar(t("something_went_wrong"), {
@@ -266,6 +135,130 @@ const useUserList = () => {
         });
       });
   };
+
+  const sortComponent = () => (
+    <Box sx={{ display: "flex" }}>
+      <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          width: "40px",
+          cursor: "pointer",
+        }}
+      >
+        <ExpandLessIcon
+          sx={{
+            color: "primary.main",
+            height: "20px",
+            ":hover": { backgroundColor: "#f9f9f9" },
+          }}
+          onClick={() => setSort("ASC")}
+        />
+        <ExpandMoreIcon
+          sx={{
+            color: "primary.main",
+            height: "20px",
+            ":hover": { backgroundColor: "#f9f9f9" },
+          }}
+          onClick={() => setSort("DESC")}
+        />
+      </Box>
+    </Box>
+  );
+
+  const columnsUsers = useMemo<IColumn<User>[]>(
+    () =>
+      [
+        {
+          column: "name",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              {...register("name")}
+              name="name"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+          renderComponent: (row: User) => (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": { textDecoration: "underline" },
+              }}
+              onClick={() => row.id && goToUserPage(row.id)}
+            >
+              {row.name}
+            </P>
+          ),
+        },
+        {
+          column: "surname",
+          valueKey: "surname",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              {...register("surname")}
+              name="surname"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+        },
+        {
+          column: "email",
+          valueKey: "email",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              {...register("email")}
+              width="200px"
+              name="email"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+        },
+        {
+          column: "key",
+          renderComponent: (row: User) => (
+            <Button
+              variant={"outlined"}
+              text={t("see_more")}
+              sx={{ width: "130px" }}
+              onClick={() => handleSingleUser?.(row.id)}
+            />
+          ),
+        },
+        user?.permissions.includes("users_block")
+          ? {
+              column: "key",
+              renderComponent: (row: User) => (
+                <Button
+                  variant={"error"}
+                  text={t("block")}
+                  sx={{ width: "130px" }}
+                  onClick={() => blockUser(row.id)}
+                />
+              ),
+            }
+          : null,
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
+        },
+        {
+          column: () => sortComponent(),
+        },
+      ].filter(Boolean) as IColumn<User>[],
+    [control, user?.permissions]
+  );
 
   return {
     dispatch,

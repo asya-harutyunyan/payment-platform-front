@@ -25,6 +25,7 @@ export const newRegisteredUsersThunk = createAsyncThunk(
             name: data.name,
             surname: data.surname,
             email: data.email,
+            month: data.month,
           },
         }
       );
@@ -51,6 +52,7 @@ export const platipayThunk = createAsyncThunk(
           amount: data.amount,
           status_by_client: data.status_by_client,
           transaction_id: data.transaction_id,
+          month: data.month,
         },
       });
       return response.data;
@@ -73,6 +75,11 @@ export const getReportUsersThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
+          month: data.month,
+          name: data.name,
+          surname: data.surname,
+          email: data.email,
+          sort: data.sort,
         },
       });
       return response.data;

@@ -29,6 +29,7 @@ export interface Pagination {
   surname?: string;
   email?: string;
   period?: string;
+  month?: string;
   sort_by?: "ASC" | "DESC";
   sort_order?: "ASC" | "DESC";
   sort?: "ASC" | "DESC";
@@ -39,5 +40,6 @@ export interface FilterWallet {
   address?: string;
   currency?: string;
   network?: string;
+  month?: string;
   sort?: "ASC" | "DESC";
 }

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import { z } from "zod";
 
 export const deposit_schema = z.object({
@@ -6,4 +7,9 @@ export const deposit_schema = z.object({
   type: z.string(),
   name: z.string(),
   surname: z.string(),
+  month: z
+    .custom<dayjs.Dayjs>((val) => dayjs.isDayjs(val), {
+      message: "Invalid date format",
+    })
+    .optional(),
 });
