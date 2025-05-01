@@ -46,7 +46,7 @@ export const superAdminItems = [
       {
         link: "/user-list",
         text: "user_list",
-        permission: "unblocked_users.view",
+        permission: "users_view",
       },
       {
         link: "/blocked-user-list",

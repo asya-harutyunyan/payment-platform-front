@@ -38,6 +38,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
     // watch,
     viewReportPermissions,
     viewPermissionsUser,
+    viewBlockedPermissionsUser,
     bankDetailsPermissions,
     viewBlockedCards,
     viewDeposit,
@@ -48,6 +49,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
     //edit
     editWalletPermission,
     editUserPermission,
+    editBlockedUserPermission,
     editBankPermission,
     editReferralPercentPermission,
     editDepositPermissions,
@@ -65,6 +67,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
   const actionPermissions = [
     ...editWalletPermission,
     ...editUserPermission,
+    ...editBlockedUserPermission,
     ...editBankPermission,
     ...editReferralPercentPermission,
     ...editDepositPermissions,
@@ -81,6 +84,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
     ...viewBlockedCards,
     ...bankDetailsPermissions,
     ...viewPermissionsUser,
+    ...viewBlockedPermissionsUser,
     ...viewReportPermissions,
   ];
   const isActionDisabled = (permission: {
@@ -281,7 +285,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
               flexDirection: "column",
             }}
           >
-            <P sx={styleTitle}>Пользователь</P>
+            <P sx={styleTitle}>Пользователи</P>
             <Box sx={{ width: "100%", display: "flex" }}>
               <Box sx={{ width: "33%" }}>
                 {viewPermissionsUser.map((item, index) => (
@@ -308,6 +312,64 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
               </Box>
               <Box sx={{ width: "33%" }}>
                 {editUserPermission.map((item, index) => (
+                  <Box key={index} sx={style}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkedPermissions.includes(item.name)}
+                          sx={{ color: "#1976d2" }}
+                          onChange={(event) =>
+                            handleCheckboxChange(event, item.name)
+                          }
+                          disabled={isActionDisabled(item)}
+                        />
+                      }
+                      label={
+                        <Typography sx={{ fontSize: "0.9rem" }}>
+                          {t(item.name)}
+                        </Typography>
+                      }
+                    />
+                  </Box>
+                ))}
+              </Box>
+              <Box sx={{ width: "33%" }}></Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <P sx={styleTitle}>Блокираванные Пользователи</P>
+            <Box sx={{ width: "100%", display: "flex" }}>
+              <Box sx={{ width: "33%" }}>
+                {viewBlockedPermissionsUser.map((item, index) => (
+                  <Box key={index} sx={style}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkedPermissions.includes(item.name)}
+                          sx={{ color: "#1976d2" }}
+                          onChange={(event) =>
+                            handleCheckboxChange(event, item.name)
+                          }
+                          disabled={isActionDisabled(item)}
+                        />
+                      }
+                      label={
+                        <Typography sx={{ fontSize: "0.9rem" }}>
+                          {t(item.name)}
+                        </Typography>
+                      }
+                    />
+                  </Box>
+                ))}
+              </Box>
+              <Box sx={{ width: "33%" }}>
+                {editBlockedUserPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
                       control={

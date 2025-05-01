@@ -103,7 +103,13 @@ export const useCreateUser = () => {
       name: "users_view",
       checking: "users_view",
     },
-    // { prefix: "users", name: "users_blocked.view", important: true },
+  ];
+  const viewBlockedPermissionsUser = [
+    {
+      prefix: "blocked_users",
+      name: "users_blocked.view",
+      checking: "users_view",
+    },
   ];
   const viewReportPermissions = [
     {
@@ -132,8 +138,14 @@ export const useCreateUser = () => {
     { prefix: "wallet", name: "wallet_store", checking: "owallet_store" },
   ];
   const editUserPermission = [
-    { prefix: "users", name: "users_block", checking: "users_block" }, //edit
     { prefix: "users", name: "users_unblock", checking: "users_unblock" },
+  ];
+  const editBlockedUserPermission = [
+    {
+      prefix: "blocked_users",
+      name: "users_unblock",
+      checking: "users_unblock",
+    },
   ];
   const editBankPermission = [
     {
@@ -177,6 +189,7 @@ export const useCreateUser = () => {
     //view//
     viewReportPermissions,
     viewPermissionsUser,
+    editBlockedUserPermission,
     bankDetailsPermissions,
     viewDeposit,
     viewOrderPermissions,
@@ -190,6 +203,7 @@ export const useCreateUser = () => {
     editBankPermission,
     editReferralPercentPermission,
     editDepositPermissions,
+    viewBlockedPermissionsUser,
     //delete
     deleteWalletPermissions,
     deleteOrderPermissions,

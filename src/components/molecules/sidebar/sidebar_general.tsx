@@ -1,6 +1,4 @@
 import { useAuth } from "@/context/auth.context";
-// import { useAppDispatch, useAppSelector } from "@/store";
-// import { getPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -29,7 +27,6 @@ interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
-  // const dispatch = useAppDispatch();
   const location = useLocation();
   const { wallet } = useAuth();
   const { user } = useAuth();
