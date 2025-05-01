@@ -66,24 +66,37 @@ const useBankCardList = () => {
           column: "currency",
           valueKey: "currency",
         },
-        user?.permissions.includes("banks_update") && {
+        (user?.permissions.includes("banks_update") ||
+          user?.permissions.includes("users_card.block") ||
+          user?.permissions.includes("users_card.unblock")) && {
           column: "is_blocked",
           renderComponent: (row: BankCardsDetalis) => {
-            return !row.is_blocked ? (
-              <Button
-                variant={"error"}
-                text={t("block")}
-                sx={{ width: "130px" }}
-                onClick={() => handleBlockCard?.(row.id)}
-              />
-            ) : (
-              <Button
-                variant={"outlined"}
-                text={t("unblock")}
-                sx={{ width: "130px" }}
-                onClick={() => handleUnblockCard?.(row.id)}
-              />
-            );
+            const canBlock = user?.permissions.includes("users_card.block");
+            const canUnblock = user?.permissions.includes("users_card.unblock");
+
+            if (!row.is_blocked && canBlock) {
+              return (
+                <Button
+                  variant="error"
+                  text={t("block")}
+                  sx={{ width: "130px" }}
+                  onClick={() => handleBlockCard?.(row.id)}
+                />
+              );
+            }
+
+            if (row.is_blocked && canUnblock) {
+              return (
+                <Button
+                  variant="outlined"
+                  text={t("unblock")}
+                  sx={{ width: "130px" }}
+                  onClick={() => handleUnblockCard?.(row.id)}
+                />
+              );
+            }
+
+            return null;
           },
         },
       ].filter(Boolean) as IColumn<BankCardsDetalis>[],

@@ -31,39 +31,24 @@ const useSignIn = () => {
           .unwrap()
           .then((data) => {
             if (data.user) {
+              const { role } = data.user;
+
               setUser({
                 ...data.user,
                 permissions: data.permissions,
               });
-              localStorage.setItem("user_role", data.user.role ?? "");
-              navigate({
-                to:
-                  data.user.role === "admin" || data.user.role === "superAdmin"
-                    ? "/user-list"
-                    : "/my-information",
-              });
-              // const adminItem = adminItems.find((item) =>
-              //   data?.user?.permissions[0].match(item.permission)
-              // );
-              // console.log(data.user.role);
-              // switch (data.user.role) {
-              //   case "admin":
-              //     navigate({
-              //       to: adminItem?.link,
-              //     });
-              //     break;
-              //   case "superAdmin":
-              //     navigate({
-              //       to: "/user-list",
-              //     });
-              //     break;
 
-              //   default:
-              //     navigate({
-              //       to: "/my-information",
-              //     });
-              //     break;
-              // }
+              localStorage.setItem("user_role", role ?? "");
+
+              if (role === "admin") {
+                navigate({
+                  to: "/welcome",
+                });
+              } else if (role === "superAdmin") {
+                navigate({ to: "/user-list" });
+              } else {
+                navigate({ to: "/my-information" });
+              }
             }
           });
       })
@@ -92,6 +77,7 @@ const useSignIn = () => {
         }
       });
   };
+
   return {
     handleSubmit,
     register,

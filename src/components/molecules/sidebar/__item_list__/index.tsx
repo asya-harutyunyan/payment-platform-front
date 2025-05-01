@@ -149,13 +149,13 @@ export const adminItems = [
   {
     text: "bank_card_list",
     icon: <ChecklistIcon />,
-    permission: "users_view.bankDetails",
+    permission: "banks_viewAll",
     link: "/bank-card-list",
   },
   {
     text: "blocked_card_list",
     icon: <PlaylistRemoveIcon />,
-    permission: "platformX_view",
+    permission: "users_blockedCards.view",
     link: "/blocked-card-list",
   },
 ];

@@ -23,6 +23,7 @@ import { Route as AuthUserPartnerProgramIndexImport } from './routes/_auth/_user
 import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/index'
 import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
+import { Route as AuthAdminWelcomeIndexImport } from './routes/_auth/_admin/welcome/index'
 import { Route as AuthAdminWalletListIndexImport } from './routes/_auth/_admin/wallet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
 import { Route as AuthAdminReportsIndexImport } from './routes/_auth/_admin/reports/index'
@@ -193,6 +194,12 @@ const AuthUserDepositInfoIndexRoute = AuthUserDepositInfoIndexImport.update({
   id: '/deposit-info/',
   path: '/deposit-info/',
   getParentRoute: () => AuthUserRoute,
+} as any)
+
+const AuthAdminWelcomeIndexRoute = AuthAdminWelcomeIndexImport.update({
+  id: '/welcome/',
+  path: '/welcome/',
+  getParentRoute: () => AuthAdminRoute,
 } as any)
 
 const AuthAdminWalletListIndexRoute = AuthAdminWalletListIndexImport.update({
@@ -434,6 +441,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminWalletListIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/welcome/': {
+      id: '/_auth/_admin/welcome/'
+      path: '/welcome'
+      fullPath: '/welcome'
+      preLoaderRoute: typeof AuthAdminWelcomeIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_user/deposit-info/': {
       id: '/_auth/_user/deposit-info/'
       path: '/deposit-info'
@@ -529,6 +543,7 @@ interface AuthAdminRouteChildren {
   AuthAdminReportsIndexRoute: typeof AuthAdminReportsIndexRoute
   AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
   AuthAdminWalletListIndexRoute: typeof AuthAdminWalletListIndexRoute
+  AuthAdminWelcomeIndexRoute: typeof AuthAdminWelcomeIndexRoute
 }
 
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
@@ -544,6 +559,7 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminReportsIndexRoute: AuthAdminReportsIndexRoute,
   AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
   AuthAdminWalletListIndexRoute: AuthAdminWalletListIndexRoute,
+  AuthAdminWelcomeIndexRoute: AuthAdminWelcomeIndexRoute,
 }
 
 const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
@@ -629,6 +645,7 @@ export interface FileRoutesByFullPath {
   '/reports': typeof AuthAdminReportsIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
+  '/welcome': typeof AuthAdminWelcomeIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
@@ -661,6 +678,7 @@ export interface FileRoutesByTo {
   '/reports': typeof AuthAdminReportsIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
+  '/welcome': typeof AuthAdminWelcomeIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
@@ -697,6 +715,7 @@ export interface FileRoutesById {
   '/_auth/_admin/reports/': typeof AuthAdminReportsIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
   '/_auth/_admin/wallet-list/': typeof AuthAdminWalletListIndexRoute
+  '/_auth/_admin/welcome/': typeof AuthAdminWelcomeIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
   '/_auth/_user/orders/': typeof AuthUserOrdersIndexRoute
@@ -731,6 +750,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/user-list'
     | '/wallet-list'
+    | '/welcome'
     | '/deposit-info'
     | '/my-information'
     | '/orders'
@@ -762,6 +782,7 @@ export interface FileRouteTypes {
     | '/reports'
     | '/user-list'
     | '/wallet-list'
+    | '/welcome'
     | '/deposit-info'
     | '/my-information'
     | '/orders'
@@ -796,6 +817,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/reports/'
     | '/_auth/_admin/user-list/'
     | '/_auth/_admin/wallet-list/'
+    | '/_auth/_admin/welcome/'
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/my-information/'
     | '/_auth/_user/orders/'
@@ -876,7 +898,8 @@ export const routeTree = rootRoute
         "/_auth/_admin/referred-users/",
         "/_auth/_admin/reports/",
         "/_auth/_admin/user-list/",
-        "/_auth/_admin/wallet-list/"
+        "/_auth/_admin/wallet-list/",
+        "/_auth/_admin/welcome/"
       ]
     },
     "/_auth/_user": {
@@ -954,6 +977,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_admin/wallet-list/": {
       "filePath": "_auth/_admin/wallet-list/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/welcome/": {
+      "filePath": "_auth/_admin/welcome/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_user/deposit-info/": {
