@@ -125,6 +125,11 @@ export const superAdminItems = [
     permission: "users_blockedCards.view",
     link: "/blocked-card-list",
   },
+  {
+    text: "history",
+    icon: <WebIcon />,
+    link: "/history",
+  },
 ];
 
 export const adminItems = [

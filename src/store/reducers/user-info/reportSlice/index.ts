@@ -10,6 +10,7 @@ import {
   getProcessedAmountsThunk,
   getReportUsersThunk,
   getSummaryThunk,
+  historyThunk,
   newRegisteredUsersThunk,
   platipayThunk,
 } from "./thunks";
@@ -26,6 +27,9 @@ const initialState: ReportsState = {
   orders_platformX: [],
   report_users: [],
   singleOrder: [],
+  history: [],
+  history_last_page: 0,
+
   admingetProcessedAmounts: {
     payment_method_count: "",
     total_amount: "",
@@ -40,6 +44,7 @@ const initialState: ReportsState = {
     deposited_amounts: 0,
     not_deposited_yet_amount: 0,
     expiredAmount: 0,
+    expiredCount: "",
   },
   orders_stats: {
     total_amount: "",
@@ -54,6 +59,7 @@ const initialState: ReportsState = {
     deposited_amounts: 0,
     not_deposited_yet_amount: 0,
     expiredAmount: 0,
+    expiredCount: "",
   },
 };
 
@@ -97,6 +103,12 @@ const reportsSlice = createSlice({
         state.orders_platformX = action.payload.orders.data;
         state.orders_stats = action.payload.stats;
         state.last_page = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+
+      .addCase(historyThunk.fulfilled, (state, action) => {
+        state.history = action.payload.data.data;
+        state.history_last_page = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addMatcher(isPending, (state) => {

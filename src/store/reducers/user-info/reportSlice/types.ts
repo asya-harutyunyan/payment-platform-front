@@ -13,7 +13,9 @@ export interface ReportsState {
   orders_platformX: Order[];
   orders_stats: DepositStates;
   report_users: ReportUsers[];
+  history_last_page: number;
   adminSummary: Summary;
+  history: HistoryData[];
   singleOrder?: Order[];
   admingetProcessedAmounts: AdmingetProcessedAmounts;
 }
@@ -111,4 +113,31 @@ export interface PlatipayRequest {
   transaction_id?: string;
   sort?: "ASC" | "DESC";
   month?: string;
+}
+export interface HistoryRequest {
+  page: number;
+  per_page?: number;
+  by_name?: string;
+  by_surname?: string;
+  by_email?: string;
+  to_email?: string;
+  to_name?: string;
+  to_surname?: string;
+  action?: string;
+  role?: string;
+  month?: string;
+  date?: string;
+  sort?: "ASC" | "DESC";
+}
+
+export interface HistoryData {
+  by_name: string;
+  by_surname: string;
+  by_email: string;
+  action: string;
+  date: string;
+  to_name: string;
+  to_surname: string;
+  to_email: string;
+  role: string;
 }

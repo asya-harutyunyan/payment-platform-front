@@ -271,5 +271,14 @@
   "reports-summary": "Взаимодействие с платформой",
   "blocked-user_list": "Блокированные пользователи",
   "create-user": "Создать пользователь",
-  "blocked_user_list_title": "Блокированные пользователи"
+  "blocked_user_list_title": "Блокированные пользователи",
+  "hirstory": "Историа пользователей",
+  "by_name": "От Имени",
+  "by_surname": "От Фамилии",
+  "by_email": "От Email",
+  "action": "Действие",
+  "date": "Время",
+  "to_name": "Для имени",
+  "to_surname": "Для Фамилии",
+  "to_email": "Для Email"
 }

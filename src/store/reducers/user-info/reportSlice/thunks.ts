@@ -5,6 +5,7 @@ import axios from "axios";
 import { Pagination } from "../walletSlice/types";
 import {
   GetPlatformXRequest,
+  HistoryRequest,
   NewRegisteredUsers,
   NewRegisteredUsersResponse,
   PlatipayRequest,
@@ -53,6 +54,36 @@ export const platipayThunk = createAsyncThunk(
           status_by_client: data.status_by_client,
           transaction_id: data.transaction_id,
           month: data.month,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const historyThunk = createAsyncThunk(
+  "reports/historyThunk",
+  async (data: HistoryRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/action-logs", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          by_name: data.by_name,
+          by_surname: data.by_surname,
+          by_email: data.by_email,
+          to_email: data.to_email,
+          to_name: data.to_name,
+          to_surname: data.to_surname,
+          month: data.month,
+          action: data.action,
+          role: data.role,
         },
       });
       return response.data;
