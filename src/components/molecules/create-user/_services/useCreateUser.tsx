@@ -120,17 +120,17 @@ export const useCreateUser = () => {
     {
       prefix: "new_reg_users",
       name: "users_report.view",
-      checking: "users_report",
+      checking: "users_report_view",
     }, // po polz
     {
       prefix: "new_reg_users",
       name: "orders_view.summary",
-      checking: "orders.summary",
+      checking: "orders.summary_view",
     }, //5 tiv
     {
       prefix: "new_reg_users",
       name: "orders_view.processedAmounts",
-      checking: "orders_view.processedAmounts",
+      checking: "orders_view.processedAmounts_view",
     },
     //7tiv
   ];
