@@ -9,6 +9,7 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PersonIcon from "@mui/icons-material/Person";
 import WalletIcon from "@mui/icons-material/Wallet";
 import WebIcon from "@mui/icons-material/Web";
+import AllInboxIcon from "@mui/icons-material/AllInbox";
 export const userItems = [
   {
     text: "task_list",
@@ -39,25 +40,21 @@ export const userItems = [
 
 export const superAdminItems = [
   {
-    text: "user_list",
-    icon: <PersonIcon />,
     link: "/user-list",
-    subItems: [
-      {
-        link: "/user-list",
-        text: "user_list",
-        permission: "users_view",
-      },
-      {
-        link: "/blocked-user-list",
-        text: "blocked-user_list",
-        permission: "blocked_users.view",
-      },
-      {
-        link: "/create-user",
-        text: "create-user",
-      },
-    ],
+    icon: <PersonIcon />,
+    text: "user_list",
+    permission: "users_view",
+  },
+  {
+    link: "/blocked-user-list",
+    icon: <PersonIcon />,
+    text: "blocked-user_list",
+    permission: "blocked_users.view",
+  },
+  {
+    link: "/create-user",
+    icon: <PersonIcon />,
+    text: "create-user",
   },
   {
     text: "referred_users",
@@ -84,38 +81,35 @@ export const superAdminItems = [
     link: "/wallet-list",
   },
   {
-    text: "reports",
-    icon: <ChecklistRtlIcon />,
-    subItems: [
-      {
-        link: "/reports-new-users",
-        text: "new-registered-users",
-        permission: "users_view.newRegistered",
-      },
-
-      {
-        link: "/reports-users",
-        text: "reports-users",
-        permission: "users_report.view",
-      },
-      {
-        link: "/reports-processed-amount",
-        text: "processed-amounts",
-        permission: "orders_view.processedAmounts",
-      },
-
-      {
-        link: "/reports-summary",
-        text: "reports-summary",
-        permission: "orders_view.summary",
-      },
-    ],
     link: "/reports-new-users",
+    text: "new-registered-users",
+    icon: <ChecklistRtlIcon />,
+    permission: "users_view.newRegistered",
+  },
+
+  {
+    link: "/reports-users",
+    text: "reports-users",
+    icon: <ChecklistRtlIcon />,
+    permission: "users_report.view",
+  },
+  {
+    link: "/reports-processed-amount",
+    text: "processed-amounts",
+    icon: <ChecklistRtlIcon />,
+    permission: "orders_view.processedAmounts",
+  },
+
+  {
+    link: "/reports-summary",
+    text: "reports-summary",
+    icon: <ChecklistRtlIcon />,
+    permission: "orders_view.summary",
   },
 
   {
     text: "platipay",
-    icon: <ChecklistRtlIcon />,
+    icon: <AllInboxIcon />,
     permission: "platiPay_view",
     link: "/platipay",
   },
@@ -135,25 +129,21 @@ export const superAdminItems = [
 
 export const adminItems = [
   {
-    text: "user_list",
-    icon: <PersonIcon />,
     link: "/user-list",
-    subItems: [
-      {
-        link: "/user-list",
-        text: "user_list",
-        permission: "users_view",
-      },
-      {
-        link: "/blocked-user-list",
-        text: "blocked-user_list",
-        permission: "blocked_users.view",
-      },
-      {
-        link: "/create-user",
-        text: "create-user",
-      },
-    ],
+    icon: <PersonIcon />,
+    text: "user_list",
+    permission: "users_view",
+  },
+  {
+    link: "/blocked-user-list",
+    icon: <PersonIcon />,
+    text: "blocked-user_list",
+    permission: "blocked_users.view",
+  },
+  {
+    link: "/create-user",
+    icon: <PersonIcon />,
+    text: "create-user",
   },
   {
     text: "referred_users",
@@ -180,38 +170,35 @@ export const adminItems = [
     link: "/wallet-list",
   },
   {
-    text: "reports",
-    icon: <ChecklistRtlIcon />,
-    subItems: [
-      {
-        link: "/reports-new-users",
-        text: "new-registered-users",
-        permission: "users_view.newRegistered",
-      },
-
-      {
-        link: "/reports-users",
-        text: "reports-users",
-        permission: "users_report.view",
-      },
-      {
-        link: "/reports-processed-amount",
-        text: "processed-amounts",
-        permission: "orders_view.processedAmounts",
-      },
-
-      {
-        link: "/reports-summary",
-        text: "reports-summary",
-        permission: "orders_view.summary",
-      },
-    ],
     link: "/reports-new-users",
+    text: "new-registered-users",
+    icon: <ChecklistRtlIcon />,
+    permission: "users_view.newRegistered",
+  },
+
+  {
+    link: "/reports-users",
+    text: "reports-users",
+    icon: <ChecklistRtlIcon />,
+    permission: "users_report.view",
+  },
+  {
+    link: "/reports-processed-amount",
+    text: "processed-amounts",
+    icon: <ChecklistRtlIcon />,
+    permission: "orders_view.processedAmounts",
+  },
+
+  {
+    link: "/reports-summary",
+    text: "reports-summary",
+    icon: <ChecklistRtlIcon />,
+    permission: "orders_view.summary",
   },
 
   {
     text: "platipay",
-    icon: <ChecklistRtlIcon />,
+    icon: <AllInboxIcon />,
     permission: "platiPay_view",
     link: "/platipay",
   },

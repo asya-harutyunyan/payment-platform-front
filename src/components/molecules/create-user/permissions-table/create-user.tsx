@@ -49,11 +49,10 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
     //edit
     editWalletPermission,
     editUserPermission,
-    // editBlockedUserPermission,
+    editBlockedUserPermission,
     editBankPermission,
     editReferralPercentPermission,
     editDepositPermissions,
-    editReportPermissions,
     //delete
     deleteWalletPermissions,
     deleteOrderPermissions,
@@ -68,12 +67,10 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
   const actionPermissions = [
     ...editWalletPermission,
     ...editUserPermission,
-    // ...editBlockedUserPermission,
+    ...editBlockedUserPermission,
     ...editBankPermission,
     ...editReferralPercentPermission,
     ...editDepositPermissions,
-    ...editReportPermissions,
-    ...viewBlockedPermissionsUser,
     ...deleteWalletPermissions,
     ...deleteOrderPermissions,
   ];
@@ -87,6 +84,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
     ...viewBlockedCards,
     ...bankDetailsPermissions,
     ...viewPermissionsUser,
+    ...viewBlockedPermissionsUser,
     ...viewReportPermissions,
   ];
   const isActionDisabled = (permission: {
@@ -370,7 +368,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              {/* <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "33%" }}>
                 {editBlockedUserPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -392,7 +390,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                     />
                   </Box>
                 ))}
-              </Box> */}
+              </Box>
               <Box sx={{ width: "33%" }}></Box>
             </Box>
           </Box>
@@ -664,29 +662,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
-                {editReportPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
+              <Box sx={{ width: "33%" }}></Box>
               <Box sx={{ width: "33%" }}></Box>
             </Box>
           </Box>
