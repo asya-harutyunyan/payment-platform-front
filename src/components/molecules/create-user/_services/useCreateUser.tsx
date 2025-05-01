@@ -117,9 +117,6 @@ export const useCreateUser = () => {
       name: "users_view.newRegistered",
       checking: "users.newRegistered_view",
     }, //view
-    //7tiv
-  ];
-  const editReportPermissions = [
     {
       prefix: "new_reg_users",
       name: "users_report.view",
@@ -135,7 +132,9 @@ export const useCreateUser = () => {
       name: "orders_view.processedAmounts",
       checking: "orders_view.processedAmounts",
     },
+    //7tiv
   ];
+
   const editWalletPermission = [
     { prefix: "wallet", name: "wallet_store", checking: "owallet_store" },
   ];
@@ -202,7 +201,6 @@ export const useCreateUser = () => {
     editReferralPercentPermission,
     editDepositPermissions,
     viewBlockedPermissionsUser,
-    editReportPermissions,
     editBlockedUserPermission,
 
     //delete
