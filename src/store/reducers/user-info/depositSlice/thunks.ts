@@ -107,6 +107,7 @@ export const getDepositsThunk = createAsyncThunk(
           status_by_admin: data.status_by_admin,
           type: data.type,
           name: data.name,
+          surname: data.name,
         },
       });
       return response.data;

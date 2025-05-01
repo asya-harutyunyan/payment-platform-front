@@ -5,7 +5,6 @@ import { IColumn } from "@/components/molecules/table";
 import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
-import { blocked_card_schema } from "@/schema/blocked_card_schena";
 import { deposit_schema } from "@/schema/deposit_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
@@ -43,9 +42,10 @@ const useDepositInfo = () => {
   const { user } = useAuth();
   const [page, setPage] = useState(1);
   const { control, register, watch } = useForm<FormData>({
-    resolver: zodResolver(blocked_card_schema),
+    resolver: zodResolver(deposit_schema),
     defaultValues: {
       name: "",
+      surname: "",
       sort_by: "",
       status_by_admin: "",
       type: "",
@@ -55,11 +55,13 @@ const useDepositInfo = () => {
   const amount = watch("sort_by");
   const statusByAdmin = watch("status_by_admin");
   const type = watch("type");
+  const surname = watch("surname");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
   const [debouncedTyoe] = useDebounce(type, 700);
+  const [debouncedSurname] = useDebounce(surname, 700);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -69,6 +71,7 @@ const useDepositInfo = () => {
           page: page,
           per_page: 50,
           name: debouncedName,
+          surname: debouncedSurname,
           sort_by: debouncedAmount,
           status_by_admin: debouncedStatusByAdmin,
           type: debouncedTyoe,
@@ -211,6 +214,16 @@ const useDepositInfo = () => {
         {
           column: "surname",
           valueKey: "user.surname",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="surname"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: "processing_amount",

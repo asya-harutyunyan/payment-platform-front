@@ -5,11 +5,17 @@ import TaskHeader from "@/components/molecules/title";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import useUserList from "./_services/useUserList";
+import useBlockedUserList from "./_services/useBlockedUserList";
 
-export const UserListComponent: FC = () => {
-  const { page, onChangeUsersPage, columnsUsers, total, loading, users } =
-    useUserList();
+export const BlockedUserListComponent: FC = () => {
+  const {
+    total,
+    loading,
+    columnsBlockedUsers,
+    blockedUsers,
+    onChangeBlockedUsersPage,
+    pageBlockedUsers,
+  } = useBlockedUserList();
 
   return (
     <Box>
@@ -21,17 +27,18 @@ export const UserListComponent: FC = () => {
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
+            // overflowX: "auto",
           }}
         >
-          <DynamicTable columns={columnsUsers} data={users} />
+          <DynamicTable columns={columnsBlockedUsers} data={blockedUsers} />
 
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
             <PaginationOutlined
-              onPageChange={onChangeUsersPage}
+              onPageChange={onChangeBlockedUsersPage}
               count={total}
-              page={page}
+              page={pageBlockedUsers}
             />
           </Box>
         </Box>

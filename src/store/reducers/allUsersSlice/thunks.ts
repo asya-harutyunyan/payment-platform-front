@@ -37,7 +37,9 @@ export const getBlockedUsersThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
-          search: data.search,
+          name: data.name,
+          surname: data.surname,
+          email: data.email,
         },
       });
       return response.data;

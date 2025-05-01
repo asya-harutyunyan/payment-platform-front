@@ -107,6 +107,8 @@ export interface OrderRequest {
   status_by_client?: string;
   name?: string;
   surname?: string;
+  status_by_admin?: string;
   amount?: string;
+  card_number?: string;
   sort?: "ASC" | "DESC";
 }

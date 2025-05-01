@@ -12,7 +12,7 @@ import { fields } from "./columns";
 import { getSingleOrderThunk } from "@/store/reducers/user-info/orderSlice/thunks";
 
 export const OrderInfo: FC = () => {
-  const { singleOrder, loading } = useAppSelector((state) => state.deposit);
+  const { singleOrder, loading } = useAppSelector((state) => state.order);
   const { id } = useParams({ from: "/_auth/_admin/order-list/$id" });
 
   const dispatch = useAppDispatch();

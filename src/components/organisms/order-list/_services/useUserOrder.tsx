@@ -67,16 +67,23 @@ const useAdminOrder = () => {
       name: "",
       surname: "",
       amount: "",
+      status_by_admin: "",
+      card_number: "",
     },
   });
 
   const name = watch("name");
   const surname = watch("surname");
   const amount = watch("amount");
+  const statusByAdmin = watch("status_by_admin");
+
+  const cardNumber = watch("card_number");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedAmount] = useDebounce(amount, 700);
+  const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
+  const [debouncedCardNumber] = useDebounce(cardNumber, 700);
 
   useEffect(() => {
     if (!user?.role) return;
@@ -90,6 +97,8 @@ const useAdminOrder = () => {
           name: debouncedName,
           surname: debouncedSurname,
           amount: debouncedAmount,
+          status_by_admin: debouncedStatusByAdmin,
+          card_number: debouncedCardNumber,
           sort,
         })
       );
@@ -99,7 +108,16 @@ const useAdminOrder = () => {
     const interval = setInterval(fetchOrders, 10000);
 
     return () => clearInterval(interval);
-  }, [debouncedAmount, debouncedName, debouncedSurname, sort, filter, page]);
+  }, [
+    debouncedAmount,
+    debouncedName,
+    debouncedSurname,
+    debouncedStatusByAdmin,
+    debouncedCardNumber,
+    sort,
+    filter,
+    page,
+  ]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -214,6 +232,16 @@ const useAdminOrder = () => {
               </span>
             );
           },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="status_by_admin"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: "id",
@@ -229,6 +257,16 @@ const useAdminOrder = () => {
         {
           column: "card_number",
           valueKey: "wallet_deposit.payment_method.card_number",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="card_number"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: () => sortComponent(),

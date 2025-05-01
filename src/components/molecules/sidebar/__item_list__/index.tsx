@@ -38,7 +38,28 @@ export const userItems = [
 ];
 
 export const superAdminItems = [
-  { text: "user_list", icon: <PersonIcon />, link: "/user-list" },
+  {
+    text: "user_list",
+    icon: <PersonIcon />,
+    link: "/user-list",
+    subItems: [
+      {
+        link: "/user-list",
+        text: "user_list",
+        permission: "unblocked_users.view",
+      },
+      {
+        link: "/blocked-user-list",
+        text: "blocked-user_list",
+        permission: "blocked_users.view",
+      },
+      {
+        link: "/create-user",
+        text: "create-user",
+        permission: "create-user.view",
+      },
+    ],
+  },
   {
     text: "referred_users",
     permission: "admin.referrals_stats",
@@ -68,12 +89,30 @@ export const superAdminItems = [
     icon: <ChecklistRtlIcon />,
     permission: "users_view.newRegistered",
     subItems: [
-      { link: "/reports/summary", text: "summary" },
-      { link: "/reports/detailed", text: "detailed" },
-      { link: "/reports/finance", text: "finance" },
-      { link: "/reports/clients", text: "clients" },
+      {
+        link: "/reports-new-users",
+        text: "new-registered-users",
+        permission: "users_view.newRegistered",
+      },
+
+      {
+        link: "/reports-users",
+        text: "reports-users",
+        permission: "users_report.view",
+      },
+      {
+        link: "/reports-processed-amount",
+        text: "processed-amounts",
+        permission: "orders_view.processedAmounts",
+      },
+
+      {
+        link: "/reports-summary",
+        text: "reports-summary",
+        permission: "orders_view.summary",
+      },
     ],
-    link: "/reports",
+    link: "/reports-new-users",
   },
 
   {
@@ -132,10 +171,26 @@ export const adminItems = [
     icon: <ChecklistRtlIcon />,
     permission: "users_view.newRegistered",
     subItems: [
-      { link: "/reports/summary", text: "summary" },
-      { link: "/reports/detailed", text: "detailed" },
-      { link: "/reports/finance", text: "finance" },
-      { link: "/reports/clients", text: "clients" },
+      {
+        link: "/reports/summary",
+        text: "summary",
+        permission: "orders_view.summary",
+      },
+      {
+        link: "/reports/processed-amounts",
+        text: "processed-amounts",
+        permission: "orders_view.processedAmounts",
+      },
+      {
+        link: "/reports/new-registered-users",
+        text: "new-registered-users",
+        permission: "users_view.newRegistered",
+      },
+      {
+        link: "/reports/report-clients",
+        text: "report-clients",
+        permission: "users_report.view",
+      },
     ],
     link: "/reports",
   },

@@ -44,9 +44,42 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   const filteredAdminItems = useMemo(() => {
-    return adminItems.filter((item) =>
-      user?.permissions.includes(item.permission)
-    );
+    return adminItems
+      .map((item) => {
+        if (item.subItems) {
+          const filteredSubItems = item.subItems.filter((subItem) =>
+            user?.permissions.includes(subItem.permission)
+          );
+
+          if (
+            user?.permissions.includes(item.permission) ||
+            filteredSubItems.length > 0
+          ) {
+            return {
+              text: item.text,
+              icon: item.icon,
+              link: user?.permissions.includes(item.permission)
+                ? item.link
+                : "#", // делает некликабельным
+              subItems: filteredSubItems.map(({ text, link }) => ({
+                text,
+                link,
+              })),
+            };
+          }
+
+          return null;
+        }
+
+        return user?.permissions.includes(item.permission)
+          ? {
+              text: item.text,
+              icon: item.icon,
+              link: item.link,
+            }
+          : null;
+      })
+      .filter((item) => item !== null);
   }, [user?.permissions]);
 
   useEffect(() => {

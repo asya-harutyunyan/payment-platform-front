@@ -3,6 +3,7 @@ import { useAuth } from "@/context/auth.context";
 // import { getPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import {
   Box,
   List,
@@ -87,7 +88,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
                 </P>
               </ListItemButton>
             </Link>
-            {/* {item.subItems && (
+            {item.subItems && (
               <List component="div" disablePadding sx={{ width: "90%" }}>
                 {item.subItems.map((sub, subIndex) => {
                   return (
@@ -101,14 +102,21 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
                           sx={{
                             padding: "10px 15px",
                             borderRadius: "5px",
-                            backgroundColor: isActive
-                              ? "#202a6083"
-                              : "transparent",
+                            backgroundColor: "#202a6083",
                             ":hover": {
                               backgroundColor: "#202a6083",
                             },
                           }}
                         >
+                          <FiberManualRecordIcon
+                            sx={{
+                              width: "7px",
+                              color: isActive
+                                ? "white"
+                                : theme.palette.secondary.contrastText,
+                              paddingRight: "10px",
+                            }}
+                          />{" "}
                           <P
                             sx={{
                               fontSize: "0.85rem",
@@ -125,7 +133,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
                   );
                 })}
               </List>
-            )} */}
+            )}
           </ListItem>
         );
       })}

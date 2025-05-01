@@ -2,6 +2,7 @@ import Button from "@/components/atoms/button";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
+import { bank_card_schema } from "@/schema/bank_card_schena";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   blockCardThunk,
@@ -10,13 +11,23 @@ import {
 } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Box } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import { z } from "zod";
+
+import { FormTextInput } from "@/components/atoms/input";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
+type FormData = z.infer<typeof bank_card_schema>;
 
 const useBankCardList = () => {
   const { goToUserPage } = useUserContext();
-
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { user } = useAuth();
@@ -31,6 +42,48 @@ const useBankCardList = () => {
     setPage?.(page);
     dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
   };
+  const { control, register, watch } = useForm<FormData>({
+    resolver: zodResolver(bank_card_schema),
+    defaultValues: {
+      card_holder: "",
+      card_number: "",
+      bank_name: "",
+      currency: "",
+    },
+  });
+  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+
+  const CardHolder = watch("card_holder");
+  const BankName = watch("bank_name");
+  const Currency = watch("currency");
+  const CardNumber = watch("card_number");
+
+  const [debounceCardHolder] = useDebounce(CardHolder, 700);
+  const [debouncedBankName] = useDebounce(BankName, 700);
+  const [debouncedCardNumber] = useDebounce(CardNumber, 700);
+  const [debouncedCurrency] = useDebounce(Currency, 700);
+
+  useEffect(() => {
+    dispatch(
+      getBankCardsThunk({
+        page: page,
+        per_page: 20,
+        card_holder: debounceCardHolder,
+        card_number: debouncedBankName,
+        bank_name: debouncedCardNumber,
+        currency: debouncedCurrency,
+        sort,
+      })
+    );
+  }, [
+    debouncedBankName,
+    debounceCardHolder,
+    debouncedCardNumber,
+    debouncedCurrency,
+    page,
+    sort,
+  ]);
+
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
     () =>
       [
@@ -53,18 +106,58 @@ const useBankCardList = () => {
               </P>
             );
           },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="card_holder"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: "bank_name",
           valueKey: "bank_name",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="bank_name"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: "card_number",
           valueKey: "card_number",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                {...register("card_number")}
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: "currency",
           valueKey: "currency",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="currency"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         (user?.permissions.includes("banks_update") ||
           user?.permissions.includes("users_card.block") ||
@@ -98,6 +191,9 @@ const useBankCardList = () => {
 
             return null;
           },
+        },
+        {
+          column: () => sortComponent(),
         },
       ].filter(Boolean) as IColumn<BankCardsDetalis>[],
     [user?.permissions]
@@ -141,6 +237,46 @@ const useBankCardList = () => {
           });
         });
     }
+  };
+  const sortComponent = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+        }}
+      >
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "40px",
+            cursor: "pointer",
+          }}
+        >
+          <ExpandLessIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("ASC")}
+          />
+          <ExpandMoreIcon
+            sx={{
+              color: "primary.main",
+              height: "20px",
+              ":hover": {
+                backgroundColor: "#f9f9f9",
+              },
+            }}
+            onClick={() => setSort("DESC")}
+          />
+        </Box>
+      </Box>
+    );
   };
   return {
     bankCards,

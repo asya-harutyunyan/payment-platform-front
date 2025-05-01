@@ -36,6 +36,7 @@ const useBlockedCard = () => {
       surname: "",
       bank_name: "",
       card_holder: "",
+      currency: "",
       card_number: "",
     },
   });
@@ -45,12 +46,14 @@ const useBlockedCard = () => {
   const bankName = watch("bank_name");
   const cardHolder = watch("card_holder");
   const cardNumber = watch("card_number");
+  const currency = watch("currency");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedBankName] = useDebounce(bankName, 700);
   const [debouncedCardHolder] = useDebounce(cardHolder, 700);
   const [debouncedCardNumber] = useDebounce(cardNumber, 700);
+  const [debouncedCurrency] = useDebounce(currency, 700);
 
   useEffect(() => {
     dispatch(
@@ -62,6 +65,7 @@ const useBlockedCard = () => {
         bank_name: debouncedBankName,
         card_holder: debouncedCardHolder,
         card_number: debouncedCardNumber,
+        currency: debouncedCurrency,
         sort,
       })
     );
@@ -71,6 +75,7 @@ const useBlockedCard = () => {
     debouncedCardNumber,
     debouncedName,
     debouncedSurname,
+    debouncedCurrency,
     page,
     sort,
   ]);
@@ -139,7 +144,6 @@ const useBlockedCard = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("bank_name")}
               name="bank_name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -154,7 +158,6 @@ const useBlockedCard = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("card_holder")}
               name="card_holder"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -169,7 +172,6 @@ const useBlockedCard = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("card_number")}
               name="card_number"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -180,6 +182,16 @@ const useBlockedCard = () => {
       {
         column: "currency",
         valueKey: "currency",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={control}
+              name="currency"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
       {
         column: () => sortComponent(),

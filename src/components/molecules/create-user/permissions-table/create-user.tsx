@@ -398,7 +398,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
               flexDirection: "column",
             }}
           >
-            <P sx={styleTitle}>Депосит</P>
+            <P sx={styleTitle}>Депозит</P>
             <Box sx={{ width: "100%", display: "flex" }}>
               <Box sx={{ width: "33%" }}>
                 {viewDeposit.map((item, index) => (

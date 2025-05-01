@@ -195,7 +195,7 @@ export interface DepositRequest {
   page?: number;
   per_page?: number;
   name?: string;
-  //amount?
+  surname?: string;
   sort_by?: string;
   status_by_admin?: string;
   type?: string;

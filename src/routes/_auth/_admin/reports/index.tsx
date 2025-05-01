@@ -1,4 +1,4 @@
-import { Reports } from "@/components/organisms/reports/reports";
+import { Reports } from "@/components/organisms/reports";
 import { createFileRoute } from "@tanstack/react-router";
 
 const ReportsList = () => {

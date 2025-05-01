@@ -124,7 +124,7 @@
   "amount_order": "Сумма заказа",
   "status_order": "Статус заказа",
   "percentage": "Процент",
-  "transaction_id": "Идентификатор транзакции",
+  "transaction_id": "ID транзакции",
   "key": "",
   "transaction_amount": "Сумма транзакции",
   "welcome_first_part": "Зарабатывать с нами очень легко. Для этого тебе нужно иметь банковскую карту и три часа свободного времени. Зарабатывай столько, сколько хочешь именно ты.",
@@ -213,7 +213,7 @@
   "reports": "Отчёт платформы",
   "partner_program": "Партнерская Программа",
   "generate": "Сгенерировать",
-  "referred_users": "Приглашенные пользователи",
+  "referred_users": "Просмотр статистики рефералов",
   "total_amount": "Общая сумма",
   "referral_percentage": "Процент рефералов",
   "ref_count": "Количество рефералов",
@@ -262,5 +262,13 @@
 
   "platiPay_view": "Просмотр PlatiPay",
 
-  "platformX_view": "Просмотр PlatformX"
+  "platformX_view": "Просмотр PlatformX",
+  "reports_title_users": "Отчет по пользователей",
+  "reports_title_new_reg": "Отчет о новых пользователей",
+  "new-registered-users": "Отчет о новых регистрациях",
+  "reports-users": "Отчет по пользователей",
+  "processed-amounts": "Отчёт по обработанным суммам",
+  "reports-summary": "Взаимодействие с платформой",
+  "blocked-user_list": "Блокированные пользователи",
+  "create-user": "Создать пользователь"
 }

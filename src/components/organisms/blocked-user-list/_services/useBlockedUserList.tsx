@@ -4,10 +4,10 @@ import { FormTextInput } from "@/components/atoms/input";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
-import { filter_schema } from "@/schema/users_filter";
+import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getUsersThunk } from "@/store/reducers/allUsersSlice/thunks";
-import { blockUserThunk } from "@/store/reducers/authSlice/thunks";
+import { getBlockedUsersThunk } from "@/store/reducers/allUsersSlice/thunks";
+import { unblockUserThunk } from "@/store/reducers/authSlice/thunks";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -21,89 +21,84 @@ import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
 
-type FormData = z.infer<typeof filter_schema>;
+type FormData = z.infer<typeof new_users_schema>;
 
-const useUserList = () => {
+const useBlockedUserList = () => {
   const { goToUserPage } = useUserContext();
+  const [value, setValue] = useState(0);
 
   const dispatch = useAppDispatch();
   const route = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
-
-  //tabs
-  const [selectedTab, setSelectedTab] = useState(0);
-  //
+  const [sortBlockedUsers, setSortBlockedUsers] = useState<"ASC" | "DESC">(
+    "ASC"
+  );
   const { users, blockedUsers, total, loading } = useAppSelector(
     (state) => state.users
   );
-  //paginations
-  const [page, setPage] = useState(1);
-  //users
-  const { control, register, watch } = useForm<FormData>({
-    resolver: zodResolver(filter_schema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-    },
-  });
+
+  const [pageBlockedUsers, setPageBlockedUsers] = useState(1);
+
+  const { control: BlockedUserControl, watch: BlockedUserWatch } =
+    useForm<FormData>({
+      resolver: zodResolver(new_users_schema),
+      defaultValues: {
+        name: "",
+        surname: "",
+        email: "",
+      },
+    });
 
   //filters
-  const name = watch("name");
-  const surname = watch("surname");
-  const email = watch("email");
+  const name = BlockedUserWatch("name");
+  const surname = BlockedUserWatch("surname");
+  const email = BlockedUserWatch("email");
 
-  const [debouncedName] = useDebounce(name, 700);
-  const [debouncedSurname] = useDebounce(surname, 700);
-  const [debouncedEmail] = useDebounce(email, 700);
+  const [debouncedBlockedName] = useDebounce(name, 700);
+  const [debouncedBlockedSurname] = useDebounce(surname, 700);
+  const [debouncedBlockedEmail] = useDebounce(email, 700);
 
   useEffect(() => {
     dispatch(
-      getUsersThunk({
-        page,
+      getBlockedUsersThunk({
+        page: pageBlockedUsers,
         per_page: 20,
-        name: debouncedName,
-        surname: debouncedSurname,
-        email: debouncedEmail,
-        sort,
+        name: debouncedBlockedName,
+        surname: debouncedBlockedSurname,
+        email: debouncedBlockedEmail,
+        sort: sortBlockedUsers,
       })
     );
-  }, [debouncedName, debouncedSurname, debouncedEmail, sort]);
+  }, [
+    debouncedBlockedName,
+    debouncedBlockedSurname,
+    debouncedBlockedEmail,
+    sortBlockedUsers,
+    value,
+    pageBlockedUsers,
+    dispatch,
+  ]);
 
-  //pages
-  const onChangeUsersPage = (
+  const onChangeBlockedUsersPage = (
     _event: React.ChangeEvent<unknown>,
     page: number
   ) => {
-    setPage?.(page);
-    dispatch(getUsersThunk({ page: page, per_page: 20 }));
+    setPageBlockedUsers?.(page);
+    dispatch(getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 }));
   };
-
   //single page
   const handleSingleUser = (row?: number) => {
     if (route.pathname === "/user-list") {
       navigate({ to: `/user-list/${row}` });
     }
   };
-  //columns
-  const columnsUsers = useMemo<IColumn<User>[]>(
+
+  const columnsBlockedUsers = useMemo<IColumn<User>[]>(
     () =>
       [
         {
           column: "name",
-          filters: () => {
-            return (
-              <FormTextInput
-                control={control}
-                {...register("name")}
-                name="name"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
-            );
-          },
           renderComponent: (row: User) => {
             return (
               <P
@@ -121,6 +116,16 @@ const useUserList = () => {
               </P>
             );
           },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={BlockedUserControl}
+                name="name"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
         },
         {
           column: "surname",
@@ -128,8 +133,7 @@ const useUserList = () => {
           filters: () => {
             return (
               <FormTextInput
-                control={control}
-                {...register("surname")}
+                control={BlockedUserControl}
                 name="surname"
                 width="200px"
                 style={{ input: { padding: "10px 14px" } }}
@@ -143,10 +147,9 @@ const useUserList = () => {
           filters: () => {
             return (
               <FormTextInput
-                control={control}
-                {...register("email")}
-                width="200px"
+                control={BlockedUserControl}
                 name="email"
+                width="200px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );
@@ -165,29 +168,29 @@ const useUserList = () => {
             );
           },
         },
-        user?.permissions.includes("users_block")
+        user?.permissions.includes("users_unblock")
           ? {
               column: "key",
               renderComponent: (row: User) => {
                 return (
                   <Button
-                    variant={"error"}
-                    text={t("block")}
+                    variant={"contained"}
+                    text={t("unblock")}
                     sx={{ width: "130px" }}
-                    onClick={() => blockUser(row.id)}
+                    onClick={() => unblockUser(row.id)}
                   />
                 );
               },
             }
           : null,
         {
-          column: () => sortComponent(),
+          column: () => sortBlockedComponent(),
         },
       ].filter(Boolean) as IColumn<User>[],
-    [control, user?.permissions]
+    [user?.permissions]
   );
 
-  const sortComponent = () => {
+  const sortBlockedComponent = () => {
     return (
       <Box
         sx={{
@@ -211,7 +214,7 @@ const useUserList = () => {
                 backgroundColor: "#f9f9f9",
               },
             }}
-            onClick={() => setSort("ASC")}
+            onClick={() => setSortBlockedUsers("ASC")}
           />
           <ExpandMoreIcon
             sx={{
@@ -221,26 +224,24 @@ const useUserList = () => {
                 backgroundColor: "#f9f9f9",
               },
             }}
-            onClick={() => setSort("DESC")}
+            onClick={() => setSortBlockedUsers("DESC")}
           />
         </Box>
       </Box>
     );
   };
 
-  //block-unblock
-  const blockUser = (id: number) => {
-    dispatch(blockUserThunk(id))
+  const unblockUser = (id: number) => {
+    dispatch(unblockUserThunk(id))
       .unwrap()
       .then(() => {
-        enqueueSnackbar("Пользователь заблокирован", {
+        enqueueSnackbar("Пользователь разлокирован", {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-        dispatch(getUsersThunk({ page: page, per_page: 20 }));
-        // dispatch(
-        //   getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
-        // );
+        dispatch(
+          getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 })
+        );
       })
       .catch(() => {
         enqueueSnackbar(t("something_went_wrong"), {
@@ -255,19 +256,18 @@ const useUserList = () => {
     navigate,
     route,
     user,
-    page,
-    setPage,
-    onChangeUsersPage,
+    onChangeBlockedUsersPage,
     handleSingleUser,
-    columnsUsers,
-    blockUser,
+    columnsBlockedUsers,
+    pageBlockedUsers,
+
     users,
     blockedUsers,
     total,
     loading,
-    selectedTab,
-    setSelectedTab,
+    value,
+    setValue,
   };
 };
 
-export default useUserList;
+export default useBlockedUserList;

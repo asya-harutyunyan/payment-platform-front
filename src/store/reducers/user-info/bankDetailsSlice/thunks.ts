@@ -142,6 +142,11 @@ export const getBankCardsThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
+          card_holder: data.card_holder,
+          card_number: data.card_number,
+          currency: data.currency,
+          bank_name: data.bank_name,
+          sort: data.sort,
         },
       });
       return response.data;
@@ -168,6 +173,7 @@ export const getBlockedCardsThunk = createAsyncThunk(
           bank_name: data.bank_name,
           card_holder: data.card_holder,
           card_number: data.card_number,
+          currency: data.currency,
           sort: data.sort,
         },
       });
