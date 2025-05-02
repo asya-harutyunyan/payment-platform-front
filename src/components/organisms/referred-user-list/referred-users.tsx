@@ -228,7 +228,7 @@ export const ReferredUserList = () => {
               paddingBottom: "50px",
             }}
           >
-            {t("change_price")}
+            {t("amount_to_deduct")}
           </H3>
           <Box
             sx={{

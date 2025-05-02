@@ -283,7 +283,6 @@
   "to_email": "Для Email",
   "referred_user_list": "Рефералная ссылка пользователей",
   "amount_changed": "Значение успешно изменен",
-  "change_price": "Изменить значение",
-  "amount_to_deduct": "Изменить сумму выплаты",
+  "change_price": "Изменить сумму выплаты",
   "amount_to_deduct_input": "Сумма выплаты"
 }
