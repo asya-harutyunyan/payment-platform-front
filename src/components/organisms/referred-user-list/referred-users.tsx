@@ -100,16 +100,27 @@ export const ReferredUserList = () => {
   };
   return (
     <Box sx={{ width: "100%" }}>
-      {canGoBack && (
-        <Button
-          onClick={() => router.history.back()}
-          variant={"outlined"}
-          text={t("back")}
-          sx={{ height: "30px", fontSize: "15px", color: "primary.main" }}
-          icon={ArrowLeftIcon}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "70px",
+        }}
+      >
+        {canGoBack && (
+          <Button
+            onClick={() => router.history.back()}
+            variant={"outlined"}
+            text={t("back")}
+            sx={{ height: "30px", fontSize: "15px", color: "primary.main" }}
+            icon={ArrowLeftIcon}
+          />
+        )}
+        <TaskHeader
+          title={t("referred_user_list")}
+          sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
         />
-      )}
-      <TaskHeader title={t("referred_user_list")} />
+      </Box>
       {loading ? (
         <CircularIndeterminate />
       ) : (
