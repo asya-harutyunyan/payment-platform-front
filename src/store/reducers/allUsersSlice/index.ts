@@ -8,6 +8,7 @@ import {
   getBankNamesThunk,
   getBlockedUsersThunk,
   getReferalsUserThunk,
+  getReferedUsersListThunk,
   getReferredUsersForAdminThunk,
   getUsersThunk,
   getUserThunk,
@@ -27,6 +28,8 @@ const initialState: UserState = {
   banks: [],
   referralUser: [],
   referralUsersForAdmin: [],
+  referred_users_list: [],
+  lastPageRefList: 0,
   referralUsersForAdminPagination: {
     current_page: 0,
     last_page: 0,
@@ -76,6 +79,16 @@ const usersSlice = createSlice({
             action.payload.pagination.per_page
         );
       })
+      .addCase(getReferedUsersListThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.referred_users_list = action.payload.referred_users;
+        state.lastPageRefList = action.payload.pagination.last_page;
+        state.total = Math.ceil(
+          action.payload.pagination.lastPage /
+            action.payload.pagination.per_page
+        );
+      })
+
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.user = action.payload;
       })

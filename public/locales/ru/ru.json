@@ -272,7 +272,7 @@
   "blocked-user_list": "Блокированные пользователи",
   "create-user": "Создать пользователь",
   "blocked_user_list_title": "Блокированные пользователи",
-  "history": "Историа пользователей",
+  "history": "История пользователей",
   "by_name": "От Имени",
   "by_surname": "От Фамилии",
   "by_email": "От Email",
@@ -280,5 +280,9 @@
   "date": "Время",
   "to_name": "Для имени",
   "to_surname": "Для Фамилии",
-  "to_email": "Для Email"
+  "to_email": "Для Email",
+  "referred_user_list": "Рефералная ссылка пользователей",
+  "amount_changed": "Значение успешно изменен",
+  "change_price": "Изменить значение",
+  "amount_to_deduct": "Изменить значение"
 }

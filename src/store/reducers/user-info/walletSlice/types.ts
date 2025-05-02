@@ -21,6 +21,7 @@ export interface CreateWallet {
   network: string;
 }
 export interface Pagination {
+  id?: string | number;
   page: number;
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;

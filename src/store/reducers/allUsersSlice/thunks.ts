@@ -2,7 +2,7 @@ import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Pagination } from "../user-info/walletSlice/types";
-import { GetUsersRequest, PercentsData, UsersList } from "./types";
+import { GetUsersRequest, PercentsData, PriceData, UsersList } from "./types";
 
 export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
@@ -122,7 +122,8 @@ export const updatePercentThunk = createAsyncThunk(
       const response = await httpClient.post(
         "/admin/referrals/update-percentage",
         {
-          percentage: data.percentage,
+          referral_percentage: data.percentage,
+          referral_id: data.referral_id,
           user_id: data.user_id,
         }
       );
@@ -142,7 +143,31 @@ export const updatePercentThunk = createAsyncThunk(
     }
   }
 );
-
+export const updatePriceThunk = createAsyncThunk(
+  "users/updatePercentThunk",
+  async (data: PriceData, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post("/admin/referrals/update-amount", {
+        amount_to_deduct: data.amount_to_deduct,
+        referral_id: Number(data.referral_id),
+        user_id: data.user_id,
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.data.errors) {
+          return rejectWithValue(
+            error.response?.data.errors || "Something went wrong"
+          );
+        }
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 export const getReferalsUserThunk = createAsyncThunk(
   "deposit/getReferalsOfUserThunk",
   async (data: Pagination, { rejectWithValue }) => {
@@ -182,6 +207,31 @@ export const getReferredUsersForAdminThunk = createAsyncThunk(
           period: data.period,
         },
       });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const getReferedUsersListThunk = createAsyncThunk(
+  "deposit/getReferedUsersListThunk",
+  async (data: Pagination, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(
+        `/admin/referrals/get-referred-users/${data.id}`,
+        {
+          params: {
+            page: data.page,
+            per_page: data.per_page,
+          },
+        }
+      );
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

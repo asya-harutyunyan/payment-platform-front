@@ -52,6 +52,10 @@ const Button: React.FC<DynamicButtonProps> = ({
         minHeight: "40px",
         minWidth: "100px",
         textTransform: "capitalize",
+        transition: "transform 0.1s ease",
+        ":active": {
+          transform: "scale(0.95)",
+        },
       }}
       size={size}
       color={color}

@@ -6,4 +6,11 @@ export const percent_referral_schema = z.object({
     .refine((val) => /^\d+(\.\d+)?$/.test(val), "Введите корректное число")
     .refine((val) => parseFloat(val) >= 1, "Минимальное значение — 1"),
   user_id: z.string().nonempty("User ID обязателен"),
+  referral_id: z.string().nonempty("ID реферала обязателен"),
+});
+
+export const price_referral_schema = z.object({
+  amount_to_deduct: z.string(),
+  user_id: z.string().nonempty("User ID обязателен"),
+  referral_id: z.string().nonempty("ID реферала обязателен"),
 });

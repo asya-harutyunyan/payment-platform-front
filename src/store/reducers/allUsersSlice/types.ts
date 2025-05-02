@@ -6,6 +6,7 @@ import {
 
 export interface UserState {
   loading: boolean;
+  lastPageRefList: number;
   error: string | null;
   users: User[];
   blockedUsers: User[];
@@ -14,13 +15,37 @@ export interface UserState {
   lastPage: number | null;
   total: number;
   banks: BankNames[];
+  referred_users_list: ReferedUsersListRequest[];
   referralUsersForAdmin: RefferedUsersList[];
   referralUser: ReferralOfUser[];
   referralUsersForAdminPagination: ReferralAdminPagination;
 }
+export interface ReferedUsersListRequest {
+  id: string;
+  name: string;
+  surname: string;
+  email: string;
+  role: string;
+  referral_user: ReferralUser;
+  referral_percentage?: string;
+  amount?: string;
+  currency?: string;
+}
+export interface ReferralUser {
+  amount: string;
+  currency: string;
+  referral_percentage: string;
+  referral_id: string;
+}
 export interface PercentsData {
   user_id: string;
   percentage: string;
+  referral_id: string;
+}
+export interface PriceData {
+  user_id: string;
+  amount_to_deduct: string;
+  referral_id: string;
 }
 export interface ReferralAdminPagination {
   current_page: number;

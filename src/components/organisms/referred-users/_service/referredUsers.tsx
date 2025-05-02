@@ -13,10 +13,11 @@ import {
 import { RefferedUsersList } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EditIcon from "@mui/icons-material/Edit";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LaunchIcon from "@mui/icons-material/Launch";
 import { Box, FormControl, MenuItem, Select } from "@mui/material";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -33,14 +34,15 @@ const useReferredUsers = () => {
     useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
   const { goToUserPage } = useUserContext();
-
+  const navigate = useNavigate();
+  const route = useLocation();
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
 
-  const { control, handleSubmit, setValue, reset } = useForm<FormData>({
+  const { control, handleSubmit, reset } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
     defaultValues: {
       percentage: "",
@@ -82,7 +84,13 @@ const useReferredUsers = () => {
     month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
     2000
   );
+  const handleSingleUser = (row?: string) => {
+    console.log(row, "roq");
 
+    if (route.pathname === "/referred-users") {
+      navigate({ to: `/referred-users/${row}` });
+    }
+  };
   useEffect(() => {
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
@@ -95,7 +103,6 @@ const useReferredUsers = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
-          sort_by: sort,
           sort_order: sortOrder,
           month: "",
           period: period === "all" ? "" : period,
@@ -109,7 +116,6 @@ const useReferredUsers = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
-          sort_by: sort,
           month: debouncedMonth,
           sort_order: sortOrder,
           period: period === "all" ? "" : period,
@@ -341,24 +347,31 @@ const useReferredUsers = () => {
         column: "percentage",
         renderComponent: (row: RefferedUsersList) => {
           return (
-            <EditIcon
-              onClick={() => {
-                setOpen(true);
-                setValue("user_id", `${row.user_id}`);
-                setValue("percentage", String(row.percentage ?? ""));
-              }}
+            <Box
+              display={"flex"}
               sx={{
-                color: "primary.main",
-                marginLeft: "5px",
-                fontSize: "23px",
                 ":hover": {
-                  color: "#2c269a",
+                  textDecoration: "underline",
                 },
               }}
-            />
+            >
+              <P fontWeight={"500"}>{row.percentage}</P>
+              <LaunchIcon
+                onClick={() => {
+                  handleSingleUser(row.user_id);
+                }}
+                sx={{
+                  color: "primary.main",
+                  marginLeft: "5px",
+                  fontSize: "25px",
+                  ":hover": {
+                    color: "u#525257",
+                  },
+                }}
+              />
+            </Box>
           );
         },
-        valueKey: "percentage",
       },
       {
         column: "ref_count",

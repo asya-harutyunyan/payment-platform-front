@@ -44,7 +44,6 @@ function DynamicTable<
     name?: string;
     is_blocked?: number;
     status_by_client?: string;
-    id?: number;
     processing_amount?: string;
     textBtn?: string;
     isNeedBtnConfirmText?: string;
