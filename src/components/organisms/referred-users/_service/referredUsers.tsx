@@ -355,7 +355,6 @@ const useReferredUsers = () => {
                 },
               }}
             >
-              <P fontWeight={"500"}>{row.percentage}</P>
               <LaunchIcon
                 onClick={() => {
                   handleSingleUser(row.user_id);
