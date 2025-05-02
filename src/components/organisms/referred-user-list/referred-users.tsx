@@ -11,10 +11,12 @@ import {
   getReferedUsersListThunk,
   updatePriceThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+
 import { H3 } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
-import { useParams } from "@tanstack/react-router";
+import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect } from "react";
@@ -26,6 +28,8 @@ type UpdatePriceFormData = z.infer<typeof price_referral_schema>;
 
 export const ReferredUserList = () => {
   const { id } = useParams({ from: "/_auth/_admin/referred-users/$id" });
+  const router = useRouter();
+  const canGoBack = useCanGoBack();
 
   const {
     referred_users_list,
@@ -96,6 +100,15 @@ export const ReferredUserList = () => {
   };
   return (
     <Box sx={{ width: "100%" }}>
+      {canGoBack && (
+        <Button
+          onClick={() => router.history.back()}
+          variant={"outlined"}
+          text={t("back")}
+          sx={{ height: "30px", fontSize: "15px", color: "primary.main" }}
+          icon={ArrowLeftIcon}
+        />
+      )}
       <TaskHeader title={t("referred_user_list")} />
       {loading ? (
         <CircularIndeterminate />
