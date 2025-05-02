@@ -115,7 +115,7 @@ export interface PlatipayRequest {
   month?: string;
 }
 export interface HistoryRequest {
-  page: number;
+  page?: number;
   per_page?: number;
   by_name?: string;
   by_surname?: string;

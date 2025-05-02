@@ -26,7 +26,7 @@ export const HistoryComponent: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("hirstory")} />
+      <TaskHeader title={t("history")} />
       {loading ? (
         <CircularIndeterminate />
       ) : (

@@ -50,6 +50,7 @@ function DynamicTable<
     isNeedBtnConfirmText?: string;
     isNeedBtnConfirm?: boolean;
     done_arrow?: string;
+    by_name?: string;
   },
 >({
   columns,

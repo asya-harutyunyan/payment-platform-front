@@ -5,7 +5,7 @@ import { useAuth } from "@/context/auth.context";
 import { history_schema } from "@/schema/history_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { historyThunk } from "@/store/reducers/user-info/reportSlice/thunks";
-import { HistoryData } from "@/store/reducers/user-info/reportSlice/types";
+import { HistoryRequest } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -147,7 +147,7 @@ const usePlatipayService = () => {
     );
   };
 
-  const columns = useMemo<IColumn<HistoryData>[]>(
+  const columns = useMemo<IColumn<HistoryRequest>[]>(
     () => [
       {
         column: "action",

@@ -1,15 +1,18 @@
-import ChecklistIcon from "@mui/icons-material/Checklist";
-import ChecklistRtlIcon from "@mui/icons-material/ChecklistRtl";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AllInboxIcon from "@mui/icons-material/AllInbox";
 import DvrIcon from "@mui/icons-material/Dvr";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import GroupIcon from "@mui/icons-material/Group";
 import ImportExportIcon from "@mui/icons-material/ImportExport";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PersonIcon from "@mui/icons-material/Person";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import WalletIcon from "@mui/icons-material/Wallet";
 import WebIcon from "@mui/icons-material/Web";
-import AllInboxIcon from "@mui/icons-material/AllInbox";
 export const userItems = [
   {
     text: "task_list",
@@ -47,13 +50,13 @@ export const superAdminItems = [
   },
   {
     link: "/blocked-user-list",
-    icon: <PersonIcon />,
+    icon: <PersonRemoveIcon />,
     text: "blocked-user_list",
     permission: "blocked_users.view",
   },
   {
     link: "/create-user",
-    icon: <PersonIcon />,
+    icon: <PersonAddAltIcon />,
     text: "create-user",
   },
   {
@@ -83,27 +86,35 @@ export const superAdminItems = [
   {
     link: "/reports-new-users",
     text: "new-registered-users",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "users_view.newRegistered",
   },
 
   {
     link: "/reports-users",
     text: "reports-users",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "users_report.view",
   },
   {
     link: "/reports-processed-amount",
     text: "processed-amounts",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "orders_view.processedAmounts",
   },
 
   {
     link: "/reports-summary",
     text: "reports-summary",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "orders_view.summary",
   },
 
@@ -115,7 +126,7 @@ export const superAdminItems = [
   },
   {
     text: "bank_card_list",
-    icon: <ChecklistIcon />,
+    icon: <AccountBalanceIcon />,
     permission: "users_view.bankDetails",
     link: "/bank-card-list",
   },
@@ -127,7 +138,7 @@ export const superAdminItems = [
   },
   {
     text: "history",
-    icon: <WebIcon />,
+    icon: <ManageSearchIcon />,
     link: "/history",
   },
 ];
@@ -141,13 +152,13 @@ export const adminItems = [
   },
   {
     link: "/blocked-user-list",
-    icon: <PersonIcon />,
+    icon: <PersonRemoveIcon />,
     text: "blocked-user_list",
     permission: "blocked_users.view",
   },
   {
     link: "/create-user",
-    icon: <PersonIcon />,
+    icon: <PersonAddAltIcon />,
     text: "create-user",
   },
   {
@@ -177,27 +188,35 @@ export const adminItems = [
   {
     link: "/reports-new-users",
     text: "new-registered-users",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "users_view.newRegistered",
   },
 
   {
     link: "/reports-users",
     text: "reports-users",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "users_report.view",
   },
   {
     link: "/reports-processed-amount",
     text: "processed-amounts",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "orders_view.processedAmounts",
   },
 
   {
     link: "/reports-summary",
     text: "reports-summary",
-    icon: <ChecklistRtlIcon />,
+    icon: (
+      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
+    ),
     permission: "orders_view.summary",
   },
 
@@ -209,7 +228,7 @@ export const adminItems = [
   },
   {
     text: "bank_card_list",
-    icon: <ChecklistIcon />,
+    icon: <AccountBalanceIcon />,
     permission: "users_view.bankDetails",
     link: "/bank-card-list",
   },
@@ -218,5 +237,10 @@ export const adminItems = [
     icon: <WebIcon />,
     permission: "users_blockedCards.view",
     link: "/blocked-card-list",
+  },
+  {
+    text: "history",
+    icon: <ManageSearchIcon />,
+    link: "/history",
   },
 ];

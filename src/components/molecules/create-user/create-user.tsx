@@ -1,6 +1,6 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
-import { H3, H4 } from "@/styles/typography";
+import { H2, H4 } from "@/styles/typography";
 import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
 import { useCreateUser } from "./_services/useCreateUser";
@@ -30,9 +30,9 @@ export const CreateUser = () => {
         justifyContent: "center",
       }}
     >
-      <H3 color="primary.main" align="center" paddingBottom={"20px"}>
+      <H2 color="primary.main" align="center" paddingBottom={"30px"}>
         Создать пользователя
-      </H3>
+      </H2>
       <Box
         sx={{
           display: "flex",
