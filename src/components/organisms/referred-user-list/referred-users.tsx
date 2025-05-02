@@ -87,6 +87,7 @@ export const ReferredUserList = () => {
         dispatch(getReferedUsersListThunk({ id, page: page, per_page: 20 }));
       })
       .catch(() => {
+        ResetUpdatePrice();
         setSelectedId({
           user_id: "",
           referral_id: "",
