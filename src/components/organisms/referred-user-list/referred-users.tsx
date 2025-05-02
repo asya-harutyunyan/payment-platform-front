@@ -240,7 +240,7 @@ export const ReferredUserList = () => {
             <FormTextInput
               control={ControlUpdatePrice}
               name="amount_to_deduct"
-              placeholder={t("amount_to_deduct")}
+              placeholder={t("amount_to_deduct_input")}
               whiteVariant
             />
             <Button
