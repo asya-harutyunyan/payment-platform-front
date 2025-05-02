@@ -43,9 +43,9 @@ export interface PercentsData {
   referral_id: string;
 }
 export interface PriceData {
-  user_id: string;
-  amount_to_deduct: string;
-  referral_id: string;
+  user_id: string | number;
+  amount_to_deduct: string | number;
+  referral_id: string | number;
 }
 export interface ReferralAdminPagination {
   current_page: number;

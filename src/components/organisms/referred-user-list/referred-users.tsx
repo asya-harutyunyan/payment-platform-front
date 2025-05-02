@@ -71,7 +71,13 @@ export const ReferredUserList = () => {
   const onSubmitPriceUpdate: SubmitHandler<UpdatePriceFormData> = async (
     data
   ) => {
-    dispatch(updatePriceThunk(data))
+    dispatch(
+      updatePriceThunk({
+        user_id: Number(data.user_id),
+        amount_to_deduct: Number(data.amount_to_deduct),
+        referral_id: Number(data.referral_id),
+      })
+    )
       .unwrap()
       .then(() => {
         setSelectedId({
