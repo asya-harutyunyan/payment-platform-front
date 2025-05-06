@@ -1,7 +1,7 @@
 import bg from "@/assets/images/modal.png";
 // import { AndroidIcon } from "@/assets/svg/android";
 // import { IOSIcon } from "@/assets/svg/ios";
-import JivoChat from "@/common/jivosite";
+import LiveChatLoader from "@/common/livechat";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
@@ -280,7 +280,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {t("countdown")}
         </H6>
       </BasicModal>
-      {user && <JivoChat />}
+      {user && <LiveChatLoader />}
     </Box>
   );
 };
