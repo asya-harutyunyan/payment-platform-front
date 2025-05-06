@@ -1,16 +1,16 @@
-import { useAuth } from "@/context/auth.context";
-import { useNotifications } from "@/hooks/useNotifications";
+// import { useAuth } from "@/context/auth.context";
+// import { useNotifications } from "@/hooks/useNotifications";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 const UserLayout = () => {
-  const { user } = useAuth();
-  const { initialize } = useNotifications();
-  useEffect(() => {
-    if (user) {
-      initialize();
-    }
-  }, []);
+  // const { user } = useAuth();
+  // const { initialize } = useNotifications();
+  // useEffect(() => {
+  //   if (user) {
+  //     initialize();
+  //   }
+  // }, []);
   return (
     <>
       <Outlet />
