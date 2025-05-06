@@ -222,7 +222,12 @@ const useUserList = () => {
           ),
         },
         {
-          column: "key",
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
           renderComponent: (row: User) => (
             <Button
               variant={"outlined"}
@@ -234,7 +239,7 @@ const useUserList = () => {
         },
         user?.permissions.includes("users_block")
           ? {
-              column: "key",
+              column: () => sortComponent(),
               renderComponent: (row: User) => (
                 <Button
                   variant={"error"}
@@ -245,17 +250,6 @@ const useUserList = () => {
               ),
             }
           : null,
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={control} />
-            </Box>
-          ),
-        },
-        {
-          column: () => sortComponent(),
-        },
       ].filter(Boolean) as IColumn<User>[],
     [control, user?.permissions]
   );

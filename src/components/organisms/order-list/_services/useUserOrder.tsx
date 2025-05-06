@@ -215,7 +215,12 @@ const useAdminOrder = () => {
             }
           : null,
         {
-          column: "key",
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
           renderComponent: (row: Order) => {
             return (
               <Button
@@ -294,14 +299,6 @@ const useAdminOrder = () => {
               />
             );
           },
-        },
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={control} />
-            </Box>
-          ),
         },
         {
           column: () => sortComponent(),

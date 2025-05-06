@@ -182,7 +182,12 @@ const useBlockedUserList = () => {
           },
         },
         {
-          column: "key",
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={BlockedUserControl} />
+            </Box>
+          ),
           renderComponent: (row: User) => {
             return (
               <Button
@@ -196,7 +201,7 @@ const useBlockedUserList = () => {
         },
         user?.permissions.includes("users_unblock")
           ? {
-              column: "key",
+              column: () => sortBlockedComponent(),
               renderComponent: (row: User) => {
                 return (
                   <Button
@@ -209,17 +214,6 @@ const useBlockedUserList = () => {
               },
             }
           : null,
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={BlockedUserControl} />
-            </Box>
-          ),
-        },
-        {
-          column: () => sortBlockedComponent(),
-        },
       ].filter(Boolean) as IColumn<User>[],
     [user?.permissions]
   );

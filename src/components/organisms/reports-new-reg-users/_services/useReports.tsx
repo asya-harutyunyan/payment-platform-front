@@ -17,6 +17,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
+import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -195,17 +196,16 @@ const useReports = () => {
           );
         },
       },
-      {
-        column: "created_at",
-        valueKey: "created_at",
-      },
+
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>Сортировка по дате</P>
+            {/* <P>{t("created_at")}</P> */}
+            <P fontWeight={"bold"}>{t("created_at")}</P>
             <MonthPicker name="month" control={NewUserControl} />
           </Box>
         ),
+        valueKey: "created_at",
       },
       {
         column: () => sortComponent(),

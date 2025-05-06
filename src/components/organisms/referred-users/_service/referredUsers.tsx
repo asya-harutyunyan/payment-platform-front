@@ -329,10 +329,6 @@ const useReferredUsers = () => {
         },
       },
       {
-        column: "sort_by",
-        filters: () => sortByMonth(),
-      },
-      {
         valueKey: "total_amount",
         filters: () => {
           return (

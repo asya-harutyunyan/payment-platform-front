@@ -1,8 +1,7 @@
 import bg from "@/assets/images/modal.png";
 // import { AndroidIcon } from "@/assets/svg/android";
 // import { IOSIcon } from "@/assets/svg/ios";
-// import JivoChat from "@/common/jivosite";
-import LiveChatWidget from "@/common/livechat";
+import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
@@ -139,7 +138,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <H3 noWrap> {t("payhub")}</H3>
         </Toolbar>
       </AppBar>
-
       <Drawer
         variant="permanent"
         anchor="left"
@@ -172,7 +170,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <LogoutButton handleLogout={handleLogout} />
         </Box>
       </Drawer>
-
       <Drawer
         variant="temporary"
         anchor="left"
@@ -203,7 +200,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           </Box>
         </Box>
       </Drawer>
-
       <Box
         component="main"
         sx={{
@@ -247,7 +243,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           </Box>
         </Box>
       </Box>
-
       <BasicModal
         handleClose={() => setOpen(false)}
         open={open}
@@ -285,7 +280,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {t("countdown")}
         </H6>
       </BasicModal>
-      {user && <LiveChatWidget />}
+      {user && <JivoChat />}
     </Box>
   );
 };

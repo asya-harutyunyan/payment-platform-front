@@ -172,7 +172,12 @@ const useWallet = () => {
         },
         user?.permissions.includes("wallet_delete")
           ? {
-              column: "key",
+              column: () => (
+                <Box>
+                  <P fontWeight={"bold"}>Сортировка по дате</P>
+                  <MonthPicker name="month" control={control} />
+                </Box>
+              ),
               renderComponent: (row: WalletType) => {
                 return (
                   <Button
@@ -185,14 +190,7 @@ const useWallet = () => {
               },
             }
           : null,
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={control} />
-            </Box>
-          ),
-        },
+
         {
           column: () => sortComponent(),
         },

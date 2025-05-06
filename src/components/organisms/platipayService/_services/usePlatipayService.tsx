@@ -155,16 +155,13 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "created_at",
-        valueKey: "created_at",
-      },
-      {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <P fontWeight={"bold"}>{t("created_at")}</P>
             <MonthPicker name="month" control={control} />
           </Box>
         ),
+        valueKey: "created_at",
       },
       {
         column: () => sortComponent(),

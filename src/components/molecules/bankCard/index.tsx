@@ -63,20 +63,23 @@ const BankCard: FC<IBankCard> = ({
     }
   };
   const handleOpenChat = () => {
-    if (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-expect-error
-      typeof window.LC_API !== "undefined" &&
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-expect-error
-      typeof window.LC_API.open_chat_window === "function"
-    ) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-expect-error
-      window.LC_API.open_chat_window();
-    } else {
-      console.error("LiveChat script not loaded yet.");
-    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //@ts-expect-error
+    window.JivoSiteApi?.open();
+    // if (
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   //@ts-expect-error
+    //   typeof window.LC_API !== "undefined" &&
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   //@ts-expect-error
+    //   typeof window.LC_API.open_chat_window === "function"
+    // ) {
+    //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    //   //@ts-expect-error
+    //   window.LC_API.open_chat_window();
+    // } else {
+    //   console.error("LiveChat script not loaded yet.");
+    // }
   };
   const bankNameFormatted = useMemo(() => {
     return banks.find((bank) => bank.key === bankName)?.["name"] ?? bankName;
