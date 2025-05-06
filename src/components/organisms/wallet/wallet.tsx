@@ -7,6 +7,7 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 
+import { useAuth } from "@/context/auth.context";
 import { H3 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -15,6 +16,7 @@ import { CreateWallet } from "../create-wallet";
 import useWallet from "./_services/useWallet";
 
 export const Wallet: FC = () => {
+  const { user } = useAuth();
   const {
     columns,
     handleDeleteItem,
@@ -30,9 +32,11 @@ export const Wallet: FC = () => {
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("wallet_list")} />
-      <AccordionUsage title={"add_wallet"}>
-        {(onClose) => <CreateWallet page={page} onClose={onClose} />}
-      </AccordionUsage>
+      {user?.permissions.includes("wallet_store") && (
+        <AccordionUsage title={"add_wallet"}>
+          {(onClose) => <CreateWallet page={page} onClose={onClose} />}
+        </AccordionUsage>
+      )}
       {loading ? (
         <CircularIndeterminate />
       ) : (

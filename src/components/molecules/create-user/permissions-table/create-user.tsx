@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { H4, P } from "@/styles/typography";
 import {
   Box,
@@ -9,9 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import { t } from "i18next";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect } from "react";
 import { useCreateUser } from "../_services/useCreateUser";
-
 const style = {
   color: "primary.main",
   width: "85%",
@@ -25,14 +23,24 @@ const style = {
 };
 const styleHead = {
   color: "primary.main",
-  width: "30%",
+  width: "32%",
   height: "70px",
   borderRadius: "5px",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
 };
-const PermissionsTable = ({ setValue }: { setValue: any }) => {
+interface IPermissions {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setValue: any;
+  setCheckedPermissions: Dispatch<SetStateAction<string[]>>;
+  checkedPermissions: string[];
+}
+const PermissionsTable = ({
+  setValue,
+  setCheckedPermissions,
+  checkedPermissions,
+}: IPermissions) => {
   const {
     // setValue,
     // watch,
@@ -57,9 +65,8 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
     deleteWalletPermissions,
     deleteOrderPermissions,
     errors,
-  } = useCreateUser();
+  } = useCreateUser({});
 
-  const [checkedPermissions, setCheckedPermissions] = useState<string[]>([]);
   useEffect(() => {
     setValue("permissions", checkedPermissions);
   }, [checkedPermissions, setValue]);
@@ -170,18 +177,39 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          marginBottom: "30px",
+          marginBottom: "32px",
           backgroundColor: "#f5f5f5",
         }}
       >
         <Box sx={styleHead}>
-          <H4 color="primary.main">Просмотр</H4>
+          <H4
+            color="primary.main"
+            sx={{
+              fontSize: { lg: "1.4rem", md: "1.4rem", xs: "1rem", sm: "1rem" },
+            }}
+          >
+            Просмотр
+          </H4>
         </Box>
         <Box sx={styleHead}>
-          <H4 color="primary.main">Редактирование</H4>
+          <H4
+            sx={{
+              fontSize: { lg: "1.4rem", md: "1.4rem", xs: "1rem", sm: "1rem" },
+            }}
+            color="primary.main"
+          >
+            Редактирование
+          </H4>
         </Box>
         <Box sx={styleHead}>
-          <H4 color="primary.main">Удалениe</H4>
+          <H4
+            sx={{
+              fontSize: { lg: "1.4rem", md: "1.4rem", xs: "1rem", sm: "1rem" },
+            }}
+            color="primary.main"
+          >
+            Удалениe
+          </H4>
         </Box>
       </Paper>
       <Paper
@@ -206,8 +234,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Кошелек</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewWalletPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -222,7 +256,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -230,7 +273,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {editWalletPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -245,7 +288,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -253,7 +305,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {deleteWalletPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -268,7 +320,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -286,8 +347,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Пользователи</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewPermissionsUser.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -302,7 +369,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -310,7 +386,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {editUserPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -325,7 +401,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -333,7 +418,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
           <Box
@@ -344,8 +429,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Блокирoванные Пользователи</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewBlockedPermissionsUser.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -360,7 +451,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -368,7 +468,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {editBlockedUserPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -383,7 +483,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -391,7 +500,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
           <Box
@@ -402,8 +511,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Заказ</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewOrderPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -418,7 +533,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -426,8 +550,8 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}></Box>
+              <Box sx={{ width: "32%" }}>
                 {deleteOrderPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -442,7 +566,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -461,8 +594,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Депозит</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewDeposit.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -477,7 +616,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -485,7 +633,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {editDepositPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -500,7 +648,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -508,7 +665,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
 
@@ -521,8 +678,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
           >
             {" "}
             <P sx={styleTitle}>Просмотр статистики рефералов</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewRefUsers.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -537,7 +700,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -545,7 +717,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {editReferralPercentPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -560,7 +732,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -568,7 +749,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
           <Box
@@ -580,8 +761,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
           >
             {" "}
             <P sx={styleTitle}>Детали банка</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {bankDetailsPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -596,7 +783,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -604,7 +800,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {editBankPermission.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -619,7 +815,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -627,7 +832,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
           <Box
@@ -638,8 +843,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Отчет</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewReportPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -654,7 +865,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -662,8 +882,8 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
           <Box
@@ -675,7 +895,7 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
           >
             <P sx={styleTitle}>Платформы</P>
             <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+              <Box sx={{ width: "32%" }}>
                 {viewPlatforms.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -690,7 +910,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -698,8 +927,8 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
           <Box
@@ -710,8 +939,14 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
             }}
           >
             <P sx={styleTitle}>Блокированные карты</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "33%" }}>
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
                 {viewBlockedCards.map((item, index) => (
                   <Box key={index} sx={style}>
                     <FormControlLabel
@@ -726,7 +961,16 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                         />
                       }
                       label={
-                        <Typography sx={{ fontSize: "0.9rem" }}>
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
                           {t(item.name)}
                         </Typography>
                       }
@@ -734,8 +978,8 @@ const PermissionsTable = ({ setValue }: { setValue: any }) => {
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "33%" }}></Box>
-              <Box sx={{ width: "33%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
         </Box>

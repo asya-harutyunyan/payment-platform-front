@@ -46,32 +46,36 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const filteredAdminItems = useMemo(() => {
     return adminItems
       .map((item) => {
-        if (item.subItems) {
-          const filteredSubItems = item.subItems.filter((subItem) =>
-            user?.permissions.includes(subItem.permission)
-          );
+        // if (item.subItems) {
+        //   const filteredSubItems = item.subItems.filter(
+        //     (subItem: { permission: string }) =>
+        //       user?.permissions.includes(subItem.permission)
+        //   );
 
-          if (
-            user?.permissions.includes(item.permission) ||
-            filteredSubItems.length > 0
-          ) {
-            return {
-              text: item.text,
-              icon: item.icon,
-              link: user?.permissions.includes(item.permission)
-                ? item.link
-                : "#", // делает некликабельным
-              subItems: filteredSubItems.map(({ text, link }) => ({
-                text,
-                link,
-              })),
-            };
-          }
+        //   if (
+        //     user?.permissions.includes(item.permission) ||
+        //     filteredSubItems.length > 0
+        //   ) {
+        //     return {
+        //       text: item.text,
+        //       icon: item.icon,
+        //       link: user?.permissions.includes(item.permission)
+        //         ? item.link
+        //         : "#",
+        //       subItems: filteredSubItems.map(({ text, link }) => ({
+        //         text,
+        //         link,
+        //       })),
+        //     };
+        //   }
 
-          return null;
-        }
+        //   return null;
+        // }
 
-        return user?.permissions.includes(item.permission)
+        return item.permission &&
+          user?.permissions
+            ?.filter((perm): perm is string => !!perm)
+            .includes(item.permission)
           ? {
               text: item.text,
               icon: item.icon,
@@ -184,13 +188,12 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         }}
       >
         <Box sx={drawerStyles}>
-          <Box sx={{ height: "85%" }}>
+          <Box>
             <GeneralInfo />
             <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
           </Box>
           <Box
             sx={{
-              height: "15%",
               display: "flex",
               justifyContent: "space-between",
               flexDirection: "column",
@@ -212,7 +215,15 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           flexDirection: "column",
         }}
       >
-        <Box sx={{ height: "90%", zIndex: 2 }}>{children}</Box>
+        <Box
+          sx={{
+            height: "90%",
+            zIndex: 2,
+            marginTop: { lg: "0", md: "0", xs: "70px", sm: "70px" },
+          }}
+        >
+          {children}
+        </Box>
         <Box
           sx={{
             width: "100%",

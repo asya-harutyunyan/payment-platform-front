@@ -50,15 +50,16 @@ export const MonthPicker = ({
                     textField: {
                       fullWidth: true,
                       sx: {
-                        height: VERTICAL_PADDING, // Use padding variable here
+                        height: VERTICAL_PADDING,
+                        overflow: "hidden",
                         "& .MuiPickersInputBase-root": {
-                          height: VERTICAL_PADDING, // Ensure the input's height is consistent
-                          lineHeight: VERTICAL_PADDING, // Align text vertically
-                          color: "black", // Set the text color to black
+                          height: VERTICAL_PADDING,
+                          lineHeight: VERTICAL_PADDING,
+                          color: "black",
                         },
                         "& .MuiInputBase-root": {
                           height: VERTICAL_PADDING,
-                          color: "black", // Set the text color to black
+                          color: "black",
                         },
                         "& .MuiInputLabel-root": {
                           color: "primary.main",

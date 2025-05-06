@@ -4,12 +4,15 @@ import { createPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
+import { Dispatch, SetStateAction } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 type FormData = z.infer<typeof create_permissions>;
-
-export const useCreateUser = () => {
+interface ICreateUser {
+  setCheckedPermissions?: Dispatch<SetStateAction<string[]>>;
+}
+export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
   const dispatch = useAppDispatch();
   const {
     control,
@@ -32,7 +35,6 @@ export const useCreateUser = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log("SUBMIT DATA", data);
     dispatch(createPermissionsThunk(data))
       .unwrap()
       .then(() => {
@@ -40,22 +42,28 @@ export const useCreateUser = () => {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
-        reset();
+        setCheckedPermissions?.([]);
+        reset({
+          name: "",
+          surname: "",
+          email: "",
+          password: "",
+          permissions: [],
+        });
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }, 300);
       })
       .catch((error) => {
-        if (error.email[0] === "Поле email уже занято.") {
-          enqueueSnackbar("Данный email уже зарегистрирован.", {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
+        setTimeout(() => {
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth",
           });
-        } else {
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        }
-
-        // reset();
+        }, 300);
         if (typeof error === "object") {
           for (const key in error) {
             setError(key as keyof FormData, {
@@ -64,6 +72,25 @@ export const useCreateUser = () => {
             });
           }
         }
+        if (error.email?.[0] === "Поле email уже занято.") {
+          enqueueSnackbar("Данный email уже зарегистрирован.", {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          return;
+        }
+        if (error.permissions?.[0]) {
+          enqueueSnackbar(error.permissions[0], {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          return;
+        }
+
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
       });
   };
 
@@ -88,7 +115,7 @@ export const useCreateUser = () => {
     { prefix: "deposits", name: "deposits_view", checking: "deposits_view" },
   ];
   const bankDetailsPermissions = [
-    { prefix: "banks", name: "banks_viewAll", checking: "banksAll_view" }, //banks
+    { prefix: "banks", name: "banks_viewAll", checking: "banksAll_view" },
   ];
   const viewBlockedCards = [
     {

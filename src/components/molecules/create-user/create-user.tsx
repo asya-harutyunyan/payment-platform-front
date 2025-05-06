@@ -3,10 +3,13 @@ import { FormTextInput } from "@/components/atoms/input";
 import { H2, H4 } from "@/styles/typography";
 import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
+import { useState } from "react";
 import { useCreateUser } from "./_services/useCreateUser";
 import PermissionsTable from "./permissions-table/create-user";
 
 export const CreateUser = () => {
+  const [checkedPermissions, setCheckedPermissions] = useState<string[]>([]);
+
   const {
     control,
     handleSubmit,
@@ -16,7 +19,7 @@ export const CreateUser = () => {
     // watch,
     // names,
     errors,
-  } = useCreateUser();
+  } = useCreateUser({ setCheckedPermissions });
 
   return (
     <Box
@@ -134,7 +137,11 @@ export const CreateUser = () => {
         )}
         <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <Box sx={{ width: "100%" }}>
-            <PermissionsTable setValue={setValue} />
+            <PermissionsTable
+              setValue={setValue}
+              checkedPermissions={checkedPermissions}
+              setCheckedPermissions={setCheckedPermissions}
+            />
           </Box>
         </Box>
       </Box>

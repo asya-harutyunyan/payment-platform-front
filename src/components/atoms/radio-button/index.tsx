@@ -20,6 +20,7 @@ import { BasicModal } from "../modal";
 
 interface IFormTextInput<T extends FieldValues, U extends object>
   extends UseControllerProps<T> {
+  width?: string;
   control: Control<T>;
   data: U[];
   name: FieldPath<T>;
@@ -34,6 +35,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   name,
   labelKey,
   valueKey,
+  width,
   ...props
 }: IFormTextInput<T, U>) => {
   const { field, fieldState } = useController<T>({
@@ -57,7 +59,9 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   const [selectedItem, setSelectedItem] = useState<U | null>(null);
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", width: "40%" }}>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", width: width ?? "40%" }}
+    >
       <FormControl error={hasErrors}>
         <RadioGroup
           {...field}

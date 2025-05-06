@@ -194,6 +194,7 @@ export const ReferredUserList = () => {
               name="percentage"
               placeholder={t("change_percent")}
               whiteVariant
+              numeric
             />
             <Button
               type="submit"
@@ -248,6 +249,7 @@ export const ReferredUserList = () => {
               name="amount_to_deduct"
               placeholder={t("amount_to_deduct_input")}
               whiteVariant
+              numeric
             />
             <Button
               type="submit"

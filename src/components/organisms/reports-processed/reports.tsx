@@ -33,46 +33,123 @@ export const ReportsProccesedAmount = () => {
               flexDirection: "column",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Общее количество карт:{" "}
               </H5>
               <P>{admingetProcessedAmounts.payment_method_count ?? 0}</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Сумма всех депозитов (общая):{" "}
               </H5>
               <P>{admingetProcessedAmounts.total_amount ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 {" "}
                 Сумма прибыли:{" "}
               </H5>
               <P>{admingetProcessedAmounts.profits ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 {" "}
                 Сумма депозитов, сделанных картой:{" "}
               </H5>
               <P>{admingetProcessedAmounts.crypto_deposits ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Сумма депозитов, сделанных картой:{" "}
               </H5>
               <P>{admingetProcessedAmounts.card_deposits ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 {" "}
                 Сумма, подтверждённая пользователями:{" "}
               </H5>
               <P>{admingetProcessedAmounts.orders_done_amount ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 {" "}
                 Сумма, не подтверждённая пользователями:{" "}

@@ -1,7 +1,7 @@
 import { httpClient } from "@/common/api";
 import { User } from "@/common/types";
 import { ConfirmEmailFormData } from "@/components/organisms/auth/change-password-form";
-import { ResetPasswordschema } from "@/components/organisms/auth/reset-password-form/_services/useLogin";
+import { ResetPasswordschema } from "@/components/organisms/auth/reset-password-form/_services/useResetPassword";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {

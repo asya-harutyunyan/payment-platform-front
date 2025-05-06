@@ -33,32 +33,87 @@ export const ReportsSummary = () => {
               flexDirection: "column",
             }}
           >
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Отправленные заказы:{" "}
               </H5>
               <P>{orders_stats.order_count ?? 0}</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Общая сумма заказов:{" "}
               </H5>
               <P>{orders_stats.total_amount ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 {" "}
                 Сумма по выданным заказам:{" "}
               </H5>
               <P>{orders_stats.total_amount_with_deposit ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Сумма подтвержденных заказов:{" "}
               </H5>
               <P>{orders_stats.total_done_ammount ?? 0}₽</P>
             </Box>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: {
+                  lg: "start",
+                  md: "start",
+                  xs: "space-between",
+                  sm: "space-between",
+                },
+              }}
+            >
               <H5 color="primary.main" paddingRight={"5px"}>
                 Заказы без карты:{" "}
               </H5>

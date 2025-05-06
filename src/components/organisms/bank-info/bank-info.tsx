@@ -87,7 +87,12 @@ export const BankInfoComponent: FC = () => {
   );
   return (
     <Box>
-      <Box sx={{ display: "flex", width: "100%" }}>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+        }}
+      >
         <Box
           sx={{
             width: "100%",
