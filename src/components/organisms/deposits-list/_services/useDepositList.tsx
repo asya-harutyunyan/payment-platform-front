@@ -71,6 +71,8 @@ const useDepositInfo = () => {
     2000
   );
   const navigate = useNavigate();
+
+  //need to change 1 useeffect
   useEffect(() => {
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
@@ -147,23 +149,23 @@ const useDepositInfo = () => {
     user?.role,
   ]);
 
-  // useEffect(() => {
-  //   if (user?.role === "client") {
-  //     dispatch(
-  //       getDepositsThunk({
-  //         page: page,
-  //         per_page: 5,
-  //       })
-  //     );
-  //   } else {
-  //     dispatch(
-  //       getDepositsAdminThunk({
-  //         page: page,
-  //         per_page: 5,
-  //       })
-  //     );
-  //   }
-  // }, [dispatch, page, user?.role]);
+  useEffect(() => {
+    if (user?.role === "client") {
+      dispatch(
+        getDepositsThunk({
+          page: page,
+          per_page: 5,
+        })
+      );
+    } else {
+      dispatch(
+        getDepositsAdminThunk({
+          page: page,
+          per_page: 5,
+        })
+      );
+    }
+  }, [dispatch, page, user?.role]);
 
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
     if (type) {
