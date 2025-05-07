@@ -308,7 +308,8 @@ const useDepositInfo = () => {
             );
           },
         },
-        user?.permissions.includes("deposits_update") && {
+
+        user?.permissions.includes("deposits_view") && {
           column: "status_by_admin_row",
           renderComponent: (row: DataDeposits) => {
             return row.type === "FIAT" && row.status_by_admin === "pending" ? (
@@ -317,12 +318,26 @@ const useDepositInfo = () => {
                   width: "120px",
                 }}
               >
-                <Countdown
-                  date={getTimer(row.created_at as string, "FIAT")}
-                  renderer={(props) => {
-                    return countDownrenderer(props, row.id);
-                  }}
-                />
+                {user.permissions.includes("deposits_edit") ? (
+                  <Countdown
+                    date={getTimer(row.created_at as string, "FIAT")}
+                    renderer={(props) => {
+                      return countDownrenderer(props, row.id);
+                    }}
+                  />
+                ) : (
+                  <span
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      color: getStatusColor(row.status_by_admin ?? "-"),
+                      fontWeight: 400,
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {row.status_by_admin && t(row.status_by_admin)}
+                  </span>
+                )}
               </P>
             ) : (
               <span
