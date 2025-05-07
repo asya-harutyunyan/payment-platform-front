@@ -384,7 +384,12 @@ const useDepositInfo = () => {
           valueKey: "processing_amount",
         },
         {
-          column: "key",
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
           renderComponent: (row: DataDeposits) => {
             return (
               <Button
@@ -397,14 +402,6 @@ const useDepositInfo = () => {
           },
         },
         {
-          column: "key",
-          renderComponent: (row: DataDeposits) => {
-            return row.processing_amount === "0.00" ? (
-              <DoneIcon sx={{ color: "green" }} />
-            ) : null;
-          },
-        },
-        {
           column: "blocked_card",
           renderComponent: (row: DataDeposits) => {
             const isBlocked = row.user?.bank_details?.[0]?.is_blocked === 1;
@@ -412,15 +409,12 @@ const useDepositInfo = () => {
           },
         },
         {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={control} />
-            </Box>
-          ),
-        },
-        {
           column: () => sortComponent(),
+          renderComponent: (row: DataDeposits) => {
+            return row.processing_amount === "0.00" ? (
+              <DoneIcon sx={{ color: "green" }} />
+            ) : null;
+          },
         },
       ].filter(Boolean) as IColumn<DataDeposits>[],
     [user?.permissions]
@@ -513,6 +507,7 @@ const useDepositInfo = () => {
         currency: "deposit_currency",
         valueKey: "processing_amount",
       },
+
       {
         column: () => (
           <Box>
@@ -520,9 +515,6 @@ const useDepositInfo = () => {
             <MonthPicker name="month" control={control} />
           </Box>
         ),
-      },
-      {
-        column: "key",
         renderComponent: (row: DataDeposits) => {
           return (
             <Button
