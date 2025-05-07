@@ -7,6 +7,7 @@ import {
 } from "@reduxjs/toolkit";
 import {
   createDepositThunk,
+  getDepositsAdminThunk,
   getDepositsThunk,
   getSingleDepositThunk,
   updateDeposit,
@@ -18,6 +19,7 @@ const initialState: DepositState = {
   error: null,
   deposit: null,
   deposits: [],
+  depositsAdmin: [],
   orders: [],
   currentPage: null,
   pagination: {
@@ -60,6 +62,14 @@ const depositSlice = createSlice({
       })
       .addCase(getDepositsThunk.fulfilled, (state, action) => {
         state.deposits = action.payload.data;
+        state.pagination.total = action.payload.pagination.total;
+        state.pagination.last_page = Math.ceil(
+          action.payload.pagination.last_page /
+            action.payload.pagination.per_page
+        );
+      })
+      .addCase(getDepositsAdminThunk.fulfilled, (state, action) => {
+        state.depositsAdmin = action.payload.data;
         state.pagination.total = action.payload.pagination.total;
         state.pagination.last_page = Math.ceil(
           action.payload.pagination.last_page /

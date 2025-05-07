@@ -8,6 +8,7 @@ export interface DepositState {
   loading: boolean;
   error: string | null;
   deposit: Deposit | null;
+  depositsAdmin: DataDeposits[];
   //todo
   singleDeposit: Deposit | [];
   singleOrder?: Order;

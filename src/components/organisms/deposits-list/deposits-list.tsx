@@ -32,6 +32,7 @@ export const DepositLists: FC = () => {
     navigate,
     onChangePage,
     columns,
+    depositsAdmin,
     columnsUser,
   } = useDepositList();
 
@@ -70,7 +71,7 @@ export const DepositLists: FC = () => {
         >
           <DynamicTable
             columns={user?.role === "client" ? columnsUser : columns}
-            data={deposits}
+            data={user?.role === "client" ? deposits : depositsAdmin}
           />
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}

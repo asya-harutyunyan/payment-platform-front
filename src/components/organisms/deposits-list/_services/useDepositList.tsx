@@ -8,7 +8,10 @@ import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { deposit_schema } from "@/schema/deposit_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import {
+  getDepositsAdminThunk,
+  getDepositsThunk,
+} from "@/store/reducers/user-info/depositSlice/thunks";
 import { DataDeposits } from "@/store/reducers/user-info/depositSlice/types";
 import { H6, P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -34,9 +37,8 @@ type FormData = z.infer<typeof deposit_schema>;
 const useDepositInfo = () => {
   const { goToUserPage } = useUserContext();
   const dispatch = useAppDispatch();
-  const { deposits, total, loading, lastPage, pagination } = useAppSelector(
-    (state) => state.deposit
-  );
+  const { deposits, depositsAdmin, total, loading, lastPage, pagination } =
+    useAppSelector((state) => state.deposit);
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
@@ -88,21 +90,51 @@ const useDepositInfo = () => {
             sort_order: sort,
           })
         );
+      } else {
+        dispatch(
+          getDepositsAdminThunk({
+            page: page,
+            per_page: 50,
+            name: debouncedName,
+            surname: debouncedSurname,
+            sort_by: debouncedAmount,
+            status_by_admin: debouncedStatusByAdmin,
+            type: debouncedTyoe,
+            month: "",
+            sort_order: sort,
+          })
+        );
       }
     } else {
-      dispatch(
-        getDepositsThunk({
-          page: page,
-          per_page: 50,
-          name: debouncedName,
-          surname: debouncedSurname,
-          sort_by: debouncedAmount,
-          status_by_admin: debouncedStatusByAdmin,
-          type: debouncedTyoe,
-          month: debouncedMonth,
-          sort_order: sort,
-        })
-      );
+      if (user?.role === "admin" || user?.role === "superAdmin") {
+        dispatch(
+          getDepositsAdminThunk({
+            page: page,
+            per_page: 50,
+            name: debouncedName,
+            surname: debouncedSurname,
+            sort_by: debouncedAmount,
+            status_by_admin: debouncedStatusByAdmin,
+            type: debouncedTyoe,
+            month: debouncedMonth,
+            sort_order: sort,
+          })
+        );
+      } else {
+        dispatch(
+          getDepositsThunk({
+            page: page,
+            per_page: 50,
+            name: debouncedName,
+            surname: debouncedSurname,
+            sort_by: debouncedAmount,
+            status_by_admin: debouncedStatusByAdmin,
+            type: debouncedTyoe,
+            month: debouncedMonth,
+            sort_order: sort,
+          })
+        );
+      }
     }
   }, [
     debouncedAmount,
@@ -115,16 +147,23 @@ const useDepositInfo = () => {
     user?.role,
   ]);
 
-  useEffect(() => {
-    if (user?.role === "client") {
-      dispatch(
-        getDepositsThunk({
-          page: page,
-          per_page: 5,
-        })
-      );
-    }
-  }, [dispatch, page, user?.role]);
+  // useEffect(() => {
+  //   if (user?.role === "client") {
+  //     dispatch(
+  //       getDepositsThunk({
+  //         page: page,
+  //         per_page: 5,
+  //       })
+  //     );
+  //   } else {
+  //     dispatch(
+  //       getDepositsAdminThunk({
+  //         page: page,
+  //         per_page: 5,
+  //       })
+  //     );
+  //   }
+  // }, [dispatch, page, user?.role]);
 
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
     if (type) {
@@ -163,7 +202,7 @@ const useDepositInfo = () => {
     setPage?.(page);
     if (user?.role === "admin" || user?.role === "superAdmin") {
       dispatch(
-        getDepositsThunk({
+        getDepositsAdminThunk({
           page: page,
           per_page: 50,
         })
@@ -536,6 +575,7 @@ const useDepositInfo = () => {
     columnsUser,
     route,
     handleSingleOrder,
+    depositsAdmin,
   };
 };
 

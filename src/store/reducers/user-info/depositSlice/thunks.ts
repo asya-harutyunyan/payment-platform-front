@@ -122,6 +122,33 @@ export const getDepositsThunk = createAsyncThunk(
     }
   }
 );
+export const getDepositsAdminThunk = createAsyncThunk(
+  "deposit/getDepositsAdminThunk",
+  async (data: DepositRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/deposits/admin`, {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          sort_by: data.sort_by,
+          status_by_admin: data.status_by_admin,
+          type: data.type,
+          month: data.month,
+          name: data.name,
+          surname: data.name,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 //single deposit
 export const getSingleDepositThunk = createAsyncThunk(
   "deposit/getSingleDepositThunk",
