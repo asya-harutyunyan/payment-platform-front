@@ -71,11 +71,11 @@ const depositSlice = createSlice({
       .addCase(getDepositsAdminThunk.fulfilled, (state, action) => {
         state.depositsAdmin = action.payload.data;
         console.log(action.payload);
-        // state.pagination.total = action.payload.pagination.total;
-        // state.pagination.last_page = Math.ceil(
-        //   action.payload.pagination.last_page /
-        //     action.payload.pagination.per_page
-        // );
+        state.pagination.total = action.payload.pagination.total;
+        state.pagination.last_page = Math.ceil(
+          action.payload.pagination.last_page /
+            action.payload.pagination.per_page
+        );
       })
 
       .addCase(getSingleDepositThunk.fulfilled, (state, action) => {
