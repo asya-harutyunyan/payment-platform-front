@@ -171,6 +171,26 @@ const useUserList = () => {
     () =>
       [
         {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>{t("created_at")}</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
+          renderComponent: (row: User) => (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+                ":hover": { textDecoration: "underline" },
+              }}
+            >
+              {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+            </P>
+          ),
+        },
+        {
           column: "name",
           filters: () => (
             <FormTextInput
@@ -222,12 +242,6 @@ const useUserList = () => {
           ),
         },
         {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={control} />
-            </Box>
-          ),
           renderComponent: (row: User) => (
             <Button
               variant={"outlined"}

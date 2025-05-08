@@ -89,6 +89,7 @@ export interface RefferedUsersList {
   key: string;
   sort_by?: string;
   id?: number;
+  created_at?: string;
 }
 export interface ReferralOfUser {
   name: string;

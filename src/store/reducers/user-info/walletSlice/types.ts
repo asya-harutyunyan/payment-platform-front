@@ -31,6 +31,7 @@ export interface Pagination {
   email?: string;
   period?: string;
   month?: string;
+  referral_code?: string;
   sort_by?: "ASC" | "DESC";
   sort_order?: "ASC" | "DESC";
   sort?: "ASC" | "DESC";

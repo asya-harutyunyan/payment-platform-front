@@ -19,7 +19,7 @@ const TaskHeader: FC<ITaskHeader> = ({
   sx,
 }) => {
   return (
-    <Box sx={{ padding: "16px 0", width: width ?? "90%", ...sx }}>
+    <Box sx={{ padding: "7px 0", width: width ?? "90%", ...sx }}>
       <H3
         color={theme.palette.primary.main}
         sx={{
@@ -34,16 +34,20 @@ const TaskHeader: FC<ITaskHeader> = ({
       >
         {title}
       </H3>
-      <P
-        sx={{
-          fontSize: "16px",
-          fontWeight: "500",
-          padding: "10px 5px",
-        }}
-      >
-        {subTitle}
-      </P>
-      <Box sx={{ margin: "20px 0" }}>{renderComponent}</Box>
+      {subTitle && (
+        <P
+          sx={{
+            fontSize: "16px",
+            fontWeight: "500",
+            padding: "10px 5px",
+          }}
+        >
+          {subTitle}
+        </P>
+      )}
+      {renderComponent && (
+        <Box sx={{ margin: "20px 0" }}>{renderComponent}</Box>
+      )}
       {subTitle && <Divider sx={{ marginTop: "8px", marginBottom: "30px" }} />}
     </Box>
   );

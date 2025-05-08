@@ -205,6 +205,7 @@ export const getReferredUsersForAdminThunk = createAsyncThunk(
           month: data.month,
           sort_order: data.sort_order,
           period: data.period,
+          referral_code: data.referral_code,
         },
       });
       return response.data;

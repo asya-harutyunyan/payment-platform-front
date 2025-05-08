@@ -156,6 +156,27 @@ const useAdminOrder = () => {
     () =>
       [
         {
+          renderComponent: (row: Order) => {
+            return (
+              <span
+                style={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                }}
+              >
+                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+              </span>
+            );
+          },
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <MonthPicker name="month" control={control} />
+            </Box>
+          ),
+        },
+        {
           column: "name",
           renderComponent: (row: Order) => {
             return (
@@ -199,28 +220,54 @@ const useAdminOrder = () => {
             );
           },
         },
+        {
+          column: "order_status_admin",
+          renderComponent: (row: Order) => {
+            return (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: getStatusColor(row.status_by_client ?? "-"),
+                  fontWeight: 400,
+                  textTransform: "capitalize",
+                }}
+              >
+                {row.status_by_client && t(row.status_by_client)}
+              </span>
+            );
+          },
+          //TODO: there is a problem with backend
+          // filters: () => {
+          //   return (
+          //     <FormTextInput
+          //       control={control}
+          //       name="status_by_client"
+          //       width="200px"
+          //       style={{ input: { padding: "10px 14px" } }}
+          //     />
+          //   );
+          // },
+        },
         user?.permissions.includes("orders_delete")
           ? {
               column: "key",
               renderComponent: (row: Order) => {
                 return (
-                  <Button
-                    variant={"error"}
-                    text={"Удалить"}
-                    sx={{ width: "130px" }}
-                    onClick={() => handleDeleteModal?.(row.id)}
-                  />
+                  row.status_by_client !== "done" && (
+                    <Button
+                      variant={"error"}
+                      text={"Удалить"}
+                      sx={{ width: "130px" }}
+                      onClick={() => handleDeleteModal?.(row.id)}
+                    />
+                  )
                 );
               },
             }
           : null,
         {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
-              <MonthPicker name="month" control={control} />
-            </Box>
-          ),
+          column: () => sortComponent(),
           renderComponent: (row: Order) => {
             return (
               <Button
@@ -247,34 +294,7 @@ const useAdminOrder = () => {
             );
           },
         },
-        {
-          column: "order_status_admin",
-          renderComponent: (row: Order) => {
-            return (
-              <span
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  color: getStatusColor(row.status_by_admin ?? "-"),
-                  fontWeight: 400,
-                  textTransform: "capitalize",
-                }}
-              >
-                {row.status_by_admin && t(row.status_by_admin)}
-              </span>
-            );
-          },
-          filters: () => {
-            return (
-              <FormTextInput
-                control={control}
-                name="status_by_admin"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
-            );
-          },
-        },
+
         {
           column: "id",
           valueKey: "transaction_id",
@@ -299,9 +319,6 @@ const useAdminOrder = () => {
               />
             );
           },
-        },
-        {
-          column: () => sortComponent(),
         },
       ].filter(Boolean) as IColumn<Order>[],
     [control, user?.permissions]

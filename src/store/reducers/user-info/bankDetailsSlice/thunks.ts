@@ -147,6 +147,7 @@ export const getBankCardsThunk = createAsyncThunk(
           currency: data.currency,
           bank_name: data.bank_name,
           month: data.month,
+          name: data.name,
           sort: data.sort,
         },
       });

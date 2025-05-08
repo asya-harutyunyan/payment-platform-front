@@ -69,6 +69,7 @@ const useReferredUsers = () => {
       surname: "",
       email: "",
       period: "",
+      referral_code: "",
     },
   });
   const name = filterWatch("name");
@@ -76,10 +77,12 @@ const useReferredUsers = () => {
   const email = filterWatch("email");
   const period = filterWatch("period");
   const month = filterWatch("month");
+  const referralCode = filterWatch("referral_code");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
+  const [debouncedReferralCode] = useDebounce(referralCode, 700);
   const [debouncedMonth] = useDebounce(
     month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
     2000
@@ -104,6 +107,7 @@ const useReferredUsers = () => {
           surname: debouncedSurname,
           email: debouncedEmail,
           sort_order: sortOrder,
+          referral_code: debouncedReferralCode,
           month: "",
           period: period === "all" ? "" : period,
         })
@@ -118,6 +122,7 @@ const useReferredUsers = () => {
           email: debouncedEmail,
           month: debouncedMonth,
           sort_order: sortOrder,
+          referral_code: debouncedReferralCode,
           period: period === "all" ? "" : period,
         })
       );
@@ -127,6 +132,7 @@ const useReferredUsers = () => {
     debouncedName,
     debouncedSurname,
     debouncedMonth,
+    debouncedReferralCode,
     dispatch,
     page,
     sort,
@@ -141,7 +147,7 @@ const useReferredUsers = () => {
         }}
       >
         <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          Сортировка по созданию
+          {t("sort_by_created_at")}
         </P>
         <Box
           sx={{
@@ -266,6 +272,27 @@ const useReferredUsers = () => {
   const columns = useMemo<IColumn<RefferedUsersList>[]>(
     () => [
       {
+        renderComponent: (row: RefferedUsersList) => {
+          return (
+            <span
+              style={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+            </span>
+          );
+        },
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>{t("sort_by")}</P>
+            <MonthPicker name="month" control={filterControl} />
+          </Box>
+        ),
+      },
+      {
         column: "name",
         renderComponent: (row: RefferedUsersList) => {
           return (
@@ -375,15 +402,18 @@ const useReferredUsers = () => {
       {
         column: "referral_code",
         valueKey: "referral_code",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={filterControl}
+              width="200px"
+              name="referral_code"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
-      {
-        column: () => (
-          <Box>
-            <P fontWeight={"bold"}>Сортировка по дате</P>
-            <MonthPicker name="month" control={filterControl} />
-          </Box>
-        ),
-      },
+
       {
         column: () => sortComponent(),
       },

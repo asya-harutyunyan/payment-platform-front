@@ -51,6 +51,7 @@ const useBankCardList = () => {
       card_number: "",
       bank_name: "",
       currency: "",
+      name: "",
     },
   });
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
@@ -60,11 +61,14 @@ const useBankCardList = () => {
   const Currency = watch("currency");
   const CardNumber = watch("card_number");
   const month = watch("month");
+  const name = watch("name");
 
   const [debounceCardHolder] = useDebounce(CardHolder, 700);
   const [debouncedBankName] = useDebounce(BankName, 700);
   const [debouncedCardNumber] = useDebounce(CardNumber, 700);
   const [debouncedCurrency] = useDebounce(Currency, 700);
+  const [debouncedName] = useDebounce(name, 700);
+
   const [debouncedMonth] = useDebounce(
     month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
     2000
@@ -83,6 +87,7 @@ const useBankCardList = () => {
           card_number: debouncedCardNumber,
           bank_name: debouncedBankName,
           currency: debouncedCurrency,
+          name: debouncedName,
           month: "",
           sort,
         })
@@ -96,6 +101,7 @@ const useBankCardList = () => {
           card_number: debouncedCardNumber,
           bank_name: debouncedBankName,
           currency: debouncedCurrency,
+          name: debouncedName,
           month: debouncedMonth,
           sort,
         })
@@ -107,6 +113,7 @@ const useBankCardList = () => {
     debouncedMonth,
     debouncedCardNumber,
     debouncedCurrency,
+    debouncedName,
     page,
     sort,
   ]);
@@ -114,6 +121,20 @@ const useBankCardList = () => {
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
     () =>
       [
+        {
+          column: "name",
+          valueKey: "user.name",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="name"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
+        },
         {
           column: "card_holder",
           renderComponent: (row: BankCardsDetalis) => {

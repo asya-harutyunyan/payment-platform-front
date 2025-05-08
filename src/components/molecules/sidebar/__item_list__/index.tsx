@@ -86,35 +86,27 @@ export const superAdminItems = [
   {
     link: "/reports-new-users",
     text: "new-registered-users",
-    icon: (
-      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
-    ),
+    icon: <FiberManualRecordIcon sx={{ fontSize: "10px" }} />,
     permission: "users_view.newRegistered",
   },
 
   {
     link: "/reports-users",
     text: "reports-users",
-    icon: (
-      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
-    ),
+    icon: <FiberManualRecordIcon sx={{ fontSize: "10px" }} />,
     permission: "users_report.view",
   },
   {
     link: "/reports-processed-amount",
     text: "processed-amounts",
-    icon: (
-      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
-    ),
+    icon: <FiberManualRecordIcon sx={{ fontSize: "10px" }} />,
     permission: "orders_view.processedAmounts",
   },
 
   {
     link: "/reports-summary",
     text: "reports-summary",
-    icon: (
-      <FiberManualRecordIcon sx={{ fontSize: "10px", paddingLeft: "15px" }} />
-    ),
+    icon: <FiberManualRecordIcon sx={{ fontSize: "10px" }} />,
     permission: "orders_view.summary",
   },
 

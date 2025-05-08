@@ -161,7 +161,19 @@ const usePlatipayService = () => {
             <MonthPicker name="month" control={control} />
           </Box>
         ),
-        valueKey: "created_at",
+        renderComponent: (row: Platipay) => {
+          return (
+            <span
+              style={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              {dayjs(row.created_at).format("DD MMM HH:mm")}
+            </span>
+          );
+        },
       },
       {
         column: () => sortComponent(),
