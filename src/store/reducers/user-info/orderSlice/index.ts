@@ -4,7 +4,11 @@ import {
   isPending,
   isRejected,
 } from "@reduxjs/toolkit";
-import { getOrdersThunk, getSingleOrderThunk } from "./thunks";
+import {
+  getOrdersThunk,
+  getSingleOrderThunk,
+  getUserOrdersThunk,
+} from "./thunks";
 import { OrderState } from "./types";
 
 const initialState: OrderState = {
@@ -24,6 +28,7 @@ const initialState: OrderState = {
     surname: "",
     initial_ammount: 0,
   },
+  ordersUser: [],
   orders: [],
   currentPage: null,
   lastPage: null,
@@ -40,6 +45,11 @@ const depositSlice = createSlice({
     builder
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.orders = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getUserOrdersThunk.fulfilled, (state, action) => {
+        state.ordersUser = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

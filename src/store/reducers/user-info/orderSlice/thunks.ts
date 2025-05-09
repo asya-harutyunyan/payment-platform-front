@@ -38,6 +38,39 @@ export const getOrdersThunk = createAsyncThunk(
     }
   }
 );
+//user
+export const getUserOrdersThunk = createAsyncThunk(
+  "orders/getUserOrdersThunk",
+  async (data: OrderRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/orders", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          status_by_client:
+            data.status_by_client === DEPOSIT_STATUSES.ALL
+              ? undefined
+              : data.status_by_client,
+          name: data.name,
+          surname: data.surname,
+          amount: data.amount,
+          status_by_admin: data.status_by_admin,
+          sort: data.sort,
+          card_number: data.card_number,
+          month: data.month,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 
 export const getOrdersWithStatusThunk = createAsyncThunk(
   "orders/getOrdersWithStatusThunk",

@@ -17,7 +17,7 @@ import useUserOrder from "./_services/useUserOrder";
 export const UserOrdersComponent: FC = () => {
   const {
     filter,
-    orders,
+    ordersUser,
     loading,
     total,
     page,
@@ -66,14 +66,14 @@ export const UserOrdersComponent: FC = () => {
         </Tabs>
         {loading ? (
           <CircularIndeterminate />
-        ) : orders.length > 0 ? (
+        ) : ordersUser.length > 0 ? (
           <Box
             sx={{
               width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
               height: "100vh",
             }}
           >
-            <DynamicTable columns={columns} data={orders} />
+            <DynamicTable columns={columns} data={ordersUser} />
 
             <Box
               sx={{

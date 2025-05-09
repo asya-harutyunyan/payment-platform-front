@@ -20,6 +20,7 @@ export interface OrderState {
       amount: number;
     };
   };
+  ordersUser: Order[];
 }
 
 export type AmountType = z.infer<typeof deposit_id_schema>;

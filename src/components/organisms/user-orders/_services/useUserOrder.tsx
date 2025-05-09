@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import {
   confirmOrderByClientThunk,
-  getOrdersThunk,
+  getUserOrdersThunk,
 } from "@/store/reducers/user-info/orderSlice/thunks";
 import { H6, P } from "@/styles/typography";
 import { useLocation, useNavigate } from "@tanstack/react-router";
@@ -26,7 +26,7 @@ type ICountdownRendererFn = (
 const useUserOrder = () => {
   const dispatch = useAppDispatch();
   const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
-  const { orders, loading, total } = useAppSelector((state) => state.order);
+  const { ordersUser, loading, total } = useAppSelector((state) => state.order);
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
@@ -39,7 +39,7 @@ const useUserOrder = () => {
 
     const fetchOrders = () => {
       dispatch(
-        getOrdersThunk({
+        getUserOrdersThunk({
           page: page,
           per_page:
             user.role === "admin" || user.role === "superAdmin" ? 20 : 5,
@@ -57,7 +57,7 @@ const useUserOrder = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
     dispatch(
-      getOrdersThunk({
+      getUserOrdersThunk({
         page,
         per_page:
           user?.role === "admin" || user?.role === "superAdmin" ? 20 : 5,
@@ -169,7 +169,7 @@ const useUserOrder = () => {
   ) => {
     setFilter(filter);
     dispatch(
-      getOrdersThunk({
+      getUserOrdersThunk({
         page,
         per_page:
           user?.role === "admin" || user?.role === "superAdmin" ? 20 : 5,
@@ -192,7 +192,7 @@ const useUserOrder = () => {
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
         dispatch(
-          getOrdersThunk({
+          getUserOrdersThunk({
             page,
             per_page: user?.role === "client" ? 5 : 20,
           })
@@ -217,7 +217,7 @@ const useUserOrder = () => {
   return {
     filter,
     setFilter,
-    orders,
+    ordersUser,
     loading,
     total,
     page,
