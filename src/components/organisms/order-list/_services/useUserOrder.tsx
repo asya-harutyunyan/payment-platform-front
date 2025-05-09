@@ -228,12 +228,12 @@ const useAdminOrder = () => {
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  color: getStatusColor(row.status_by_admin ?? "-"),
+                  color: getStatusColor(row.status_by_client ?? "-"),
                   fontWeight: 400,
                   textTransform: "capitalize",
                 }}
               >
-                {row.status_by_admin && t(row.status_by_admin)}
+                {row.status_by_client && t(row.status_by_client)}
               </span>
             );
           },
