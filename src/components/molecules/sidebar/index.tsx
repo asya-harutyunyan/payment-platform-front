@@ -42,6 +42,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   const filteredAdminItems = useMemo(() => {
     return adminItems
       .map((item) => {
@@ -142,21 +144,28 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         variant="permanent"
         anchor="left"
         sx={{
-          display: { xs: "none", sm: "block" },
-          width: "22%",
+          display: { lg: "flex", md: "flex", xs: "none", sm: "block" },
+          justifyContent: isCollapsed ? "center" : "start",
+          width: isCollapsed ? "7%" : "25%",
           flexShrink: 0,
-          height: "100vh",
           "& .MuiDrawer-paper": {
-            width: "23%",
-            padding: "30px",
-            boxSizing: "border-box",
+            padding: isCollapsed ? "10px" : "30px",
             backgroundColor: theme.palette.primary.main,
+            overflowX: "hidden",
+            transition: "width 0.3s",
           },
         }}
       >
         <Box sx={{ height: "auto" }}>
-          <GeneralInfo />
-          <Sidebar items={sidebarItems} onItemClick={toggleDrawer} />
+          <GeneralInfo
+            setIsCollapsed={setIsCollapsed}
+            isCollapsed={isCollapsed}
+          />
+          <Sidebar
+            items={sidebarItems}
+            onItemClick={toggleDrawer}
+            isCollapsed={isCollapsed}
+          />
         </Box>
         <Box
           sx={{
@@ -170,6 +179,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <LogoutButton handleLogout={handleLogout} />
         </Box>
       </Drawer>
+
       <Drawer
         variant="temporary"
         anchor="left"
@@ -200,13 +210,22 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           </Box>
         </Box>
       </Drawer>
+
       <Box
         component="main"
         sx={{
-          width: "68%",
+          width: isCollapsed ? "88%" : "68%",
+          transform: isCollapsed ? "scaleX(0.99)" : "scaleX(1)",
+          transformOrigin: "left center",
+          transition: "transform 0.3s ease",
           height: "88vh",
           flexGrow: 1,
-          padding: { ld: "50px", md: "50px", xs: "20px", sm: "20px" },
+          padding: {
+            ld: "50px",
+            md: "50px",
+            xs: "20px",
+            sm: "20px",
+          },
           display: "flex",
           flexDirection: "column",
         }}

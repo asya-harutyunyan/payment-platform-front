@@ -1,21 +1,17 @@
 import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-} from "@mui/material";
+import { List, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
 import { Link, useLocation } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
+import useWalletInfo from "./_services/useWalletInfo";
+
 interface SubItems {
   link: string;
   text: string;
 }
+
 interface SidebarProps {
   items: Array<{
     link: string;
@@ -24,156 +20,126 @@ interface SidebarProps {
     subItems?: SubItems[];
   }>;
   onItemClick: () => void;
+  isCollapsed?: boolean;
 }
 
-const Sidebar: FC<SidebarProps> = ({ items, onItemClick }) => {
+const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
   const location = useLocation();
-  const { wallet } = useAuth();
   const { user } = useAuth();
+  const { walletInfo } = useWalletInfo();
 
   return (
-    <List>
-      {items.map((item, index) => {
-        const isActive = location.pathname === item.link;
-        return (
-          <ListItem
-            key={index}
-            sx={{
-              width: "100%",
-              padding: "0",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Link
-              to={item.link}
-              style={{
-                textDecoration: "none",
+    <>
+      <style>
+        {`
+        .scrollable-text-wrapper {
+          overflow: hidden;
+          position: relative;
+          width: 100%;
+        }
+
+        .scrollable-text {
+          display: inline-block;
+          white-space: nowrap;
+          transform: translateX(0%);
+          transition: transform 6s linear;
+          will-change: transform;
+        }
+        @media (min-width:768px) {
+
+        .scrollable-text-wrapper:hover .scrollable-text {
+          transform: translateX(-50%);
+        }}
+      `}
+      </style>
+
+      <List>
+        {items.map((item, index) => {
+          const isActive = location.pathname === item.link;
+          return (
+            <ListItem
+              key={index}
+              sx={{
                 width: "100%",
+                padding: "0",
+                display: "flex",
+                flexDirection: "column",
               }}
-              onClick={onItemClick}
             >
-              <ListItemButton
-                sx={{
+              <Link
+                to={item.link}
+                style={{
+                  textDecoration: "none",
                   width: "100%",
-                  padding: "17px 0",
-                  borderBottom: "1px solid #40404078",
-                  ":hover": {
-                    backgroundColor: "#202a6083",
-                    borderRadius: "5px",
-                  },
+                  display: "flex",
+                  justifyContent: "center",
                 }}
+                onClick={onItemClick}
               >
-                <ListItemIcon
+                <ListItemButton
                   sx={{
-                    color: isActive
-                      ? "white"
-                      : theme.palette.secondary.contrastText,
-                    paddingLeft: "10px",
+                    width: "100%",
+                    height: "60px",
+                    borderBottom: isActive
+                      ? "1px solid #fff"
+                      : "1px solid #40404078",
+                    backgroundColor: isActive ? "#202a6083" : "",
+                    display: "flex",
+                    ":hover": {
+                      backgroundColor: "#202a6083",
+                      borderRadius: "5px",
+                    },
                   }}
                 >
-                  {item.icon}
-                </ListItemIcon>
-                <P
-                  sx={{
-                    fontSize: "0.9rem",
-                    color: isActive
-                      ? "white"
-                      : theme.palette.secondary.contrastText,
-                  }}
-                >
-                  {t(item.text)}
-                </P>
-              </ListItemButton>
-            </Link>
-            {item.subItems && (
-              <List component="div" disablePadding sx={{ width: "90%" }}>
-                {item.subItems.map((sub, subIndex) => {
-                  return (
-                    <ListItem key={subIndex}>
-                      <Link
-                        to={sub.link}
-                        style={{ textDecoration: "none", width: "100%" }}
-                        onClick={onItemClick}
-                      >
-                        <ListItemButton
-                          sx={{
-                            padding: "10px 15px",
-                            borderRadius: "5px",
-                            backgroundColor: "#202a6083",
-                            ":hover": {
-                              backgroundColor: "#202a6083",
-                            },
-                          }}
-                        >
-                          <FiberManualRecordIcon
-                            sx={{
-                              width: "7px",
-                              color: isActive
-                                ? "white"
-                                : theme.palette.secondary.contrastText,
-                              paddingRight: "10px",
-                            }}
-                          />{" "}
-                          <P
-                            sx={{
-                              fontSize: "0.85rem",
-                              color: isActive
-                                ? "white"
-                                : theme.palette.secondary.contrastText,
-                            }}
-                          >
-                            {t(sub.text)}
-                          </P>
-                        </ListItemButton>
-                      </Link>
-                    </ListItem>
-                  );
-                })}
-              </List>
-            )}
-          </ListItem>
-        );
-      })}
-      {user?.role === "client" && (
-        <>
-          <Box sx={{ display: "flex", padding: "25px 10px 10px 10px" }}>
-            <P
-              sx={{
-                color: theme.palette.secondary.contrastText,
-                paddingRight: "10px",
-              }}
-            >
-              {t("earnings_amount")}:
-            </P>
-            <P
-              sx={{
-                color: "white",
-              }}
-            >
-              {wallet?.processing_amount ?? "0"} ₽
-            </P>
-          </Box>
-          <Box sx={{ display: "flex", padding: "10px" }}>
-            <P
-              sx={{
-                color: theme.palette.secondary.contrastText,
-                paddingRight: "10px",
-              }}
-            >
-              {t("expected_profit")}:
-            </P>
-            <P
-              sx={{
-                color: "white",
-              }}
-            >
-              {wallet?.profits ?? "0"} ₽
-            </P>
-          </Box>
-        </>
-      )}
-    </List>
+                  <ListItemIcon
+                    sx={{
+                      color: isActive
+                        ? "white"
+                        : theme.palette.secondary.contrastText,
+                      display: "flex",
+                      justifyContent: isCollapsed ? "center" : "start",
+                      minWidth: "40px",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+
+                  {/* Scrolling text wrapper */}
+                  <div
+                    className="scrollable-text-wrapper"
+                    style={{
+                      opacity: isCollapsed ? 0 : 1,
+                      flexGrow: 1,
+                      width: isCollapsed ? "0" : "100%",
+                    }}
+                  >
+                    <P
+                      className="scrollable-text"
+                      sx={{
+                        fontSize: "0.9rem",
+                        color: isActive
+                          ? "white"
+                          : theme.palette.secondary.contrastText,
+                        fontWeight: isActive ? "700" : "",
+                        padding: "0",
+                        minWidth: isCollapsed ? "0" : "40px",
+                      }}
+                    >
+                      {t(item.text)}
+                    </P>
+                  </div>
+                </ListItemButton>
+              </Link>
+            </ListItem>
+          );
+        })}
+
+        {user?.role === "client" &&
+          walletInfo &&
+          typeof walletInfo === "function" &&
+          walletInfo() !== undefined && <>{walletInfo()}</>}
+      </List>
+    </>
   );
 };
 
