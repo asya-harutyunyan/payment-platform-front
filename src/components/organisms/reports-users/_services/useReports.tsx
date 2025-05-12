@@ -211,13 +211,13 @@ const useReports = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+              {sortUserComponent()}
+            </Box>
             <MonthPicker name="month" control={UserControl} />
           </Box>
         ),
-      },
-      {
-        column: () => sortUserComponent(),
         renderComponent: (row: ReportUsers) => {
           return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -324,9 +324,6 @@ const useReports = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",
