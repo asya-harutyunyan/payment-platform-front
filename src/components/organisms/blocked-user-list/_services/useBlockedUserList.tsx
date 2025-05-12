@@ -184,7 +184,7 @@ const useBlockedUserList = () => {
         {
           column: () => (
             <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
               <MonthPicker name="month" control={BlockedUserControl} />
             </Box>
           ),
@@ -225,7 +225,9 @@ const useBlockedUserList = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",

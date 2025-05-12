@@ -401,7 +401,7 @@ const useDepositInfo = () => {
         {
           column: () => (
             <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
               <MonthPicker name="month" control={control} />
             </Box>
           ),
@@ -426,9 +426,26 @@ const useDepositInfo = () => {
         {
           column: () => sortComponent(),
           renderComponent: (row: DataDeposits) => {
-            return row.processing_amount === "0.00" ? (
-              <DoneIcon sx={{ color: "green" }} />
-            ) : null;
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {" "}
+                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                </P>
+                {row.processing_amount === "0.00" ? (
+                  <DoneIcon sx={{ color: "green" }} />
+                ) : (
+                  " "
+                )}
+              </Box>
+            );
           },
         },
       ].filter(Boolean) as IColumn<DataDeposits>[],
@@ -442,7 +459,9 @@ const useDepositInfo = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",
@@ -526,7 +545,7 @@ const useDepositInfo = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
             <MonthPicker name="month" control={control} />
           </Box>
         ),

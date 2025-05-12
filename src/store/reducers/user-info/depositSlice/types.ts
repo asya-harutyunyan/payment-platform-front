@@ -108,6 +108,7 @@ export interface BankCardsDetalis {
   is_blocked: number;
   phone_number: string;
   user?: User;
+  created_at?: string;
 }
 
 export interface PaymentMethod {

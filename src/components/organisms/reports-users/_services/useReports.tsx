@@ -17,6 +17,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
+import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -210,13 +211,30 @@ const useReports = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
             <MonthPicker name="month" control={UserControl} />
           </Box>
         ),
       },
       {
         column: () => sortUserComponent(),
+        renderComponent: (row: ReportUsers) => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingRight: "5px",
+                }}
+              >
+                {" "}
+                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+              </P>
+            </Box>
+          );
+        },
       },
     ],
     []
@@ -264,7 +282,9 @@ const useReports = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",
@@ -304,7 +324,9 @@ const useReports = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",

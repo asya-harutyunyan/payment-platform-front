@@ -200,7 +200,6 @@ const useReports = () => {
       {
         column: () => (
           <Box>
-            {/* <P>{t("created_at")}</P> */}
             <P fontWeight={"bold"}>{t("created_at")}</P>
             <MonthPicker name="month" control={NewUserControl} />
           </Box>
@@ -209,6 +208,23 @@ const useReports = () => {
       },
       {
         column: () => sortComponent(),
+        renderComponent: (row: NewUsers) => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingRight: "5px",
+                }}
+              >
+                {" "}
+                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+              </P>
+            </Box>
+          );
+        },
       },
     ],
     []
@@ -266,7 +282,9 @@ const useReports = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",

@@ -146,9 +146,6 @@ const useReferredUsers = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",
@@ -287,7 +284,10 @@ const useReferredUsers = () => {
         },
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>{t("sort_by")}</P>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              {" "}
+              <P fontWeight={"bold"}>{t("sort_by")}</P> {sortComponent()}
+            </Box>
             <MonthPicker name="month" control={filterControl} />
           </Box>
         ),
@@ -412,10 +412,6 @@ const useReferredUsers = () => {
             />
           );
         },
-      },
-
-      {
-        column: () => sortComponent(),
       },
     ],
     []

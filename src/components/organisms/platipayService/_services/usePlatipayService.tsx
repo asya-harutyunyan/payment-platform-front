@@ -157,7 +157,10 @@ const usePlatipayService = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>{t("created_at")}</P>
+            <Box sx={{ display: "flex" }}>
+              <P fontWeight={"bold"}>{t("created_at")}</P>
+              {sortComponent()}
+            </Box>
             <MonthPicker name="month" control={control} />
           </Box>
         ),
@@ -175,9 +178,6 @@ const usePlatipayService = () => {
           );
         },
       },
-      {
-        column: () => sortComponent(),
-      },
     ],
     []
   );
@@ -188,7 +188,6 @@ const usePlatipayService = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
         <Box
           sx={{
             display: "flex",

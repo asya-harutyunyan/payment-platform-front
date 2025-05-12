@@ -174,7 +174,7 @@ const useWallet = () => {
           ? {
               column: () => (
                 <Box>
-                  <P fontWeight={"bold"}>Сортировка по дате</P>
+                  <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
                   <MonthPicker name="month" control={control} />
                 </Box>
               ),
@@ -193,6 +193,23 @@ const useWallet = () => {
 
         {
           column: () => sortComponent(),
+          renderComponent: (row: WalletType) => {
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {" "}
+                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                </P>
+              </Box>
+            );
+          },
         },
       ].filter(Boolean) as IColumn<WalletType>[],
     [user?.permissions]
@@ -205,7 +222,9 @@ const useWallet = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",

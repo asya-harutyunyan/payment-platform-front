@@ -122,7 +122,7 @@ const useBankCardList = () => {
     () =>
       [
         {
-          column: "name",
+          column: "name_user",
           valueKey: "user.name",
           filters: () => {
             return (
@@ -243,13 +243,30 @@ const useBankCardList = () => {
         {
           column: () => (
             <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <Box sx={{ display: "flex" }}>
+                <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+                {sortComponent()}
+              </Box>
               <MonthPicker name="month" control={control} />
             </Box>
           ),
-        },
-        {
-          column: () => sortComponent(),
+          renderComponent: (row: BankCardsDetalis) => {
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {" "}
+                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                </P>
+              </Box>
+            );
+          },
         },
       ].filter(Boolean) as IColumn<BankCardsDetalis>[],
     [user?.permissions]
@@ -301,7 +318,6 @@ const useBankCardList = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
         <Box
           sx={{
             display: "flex",

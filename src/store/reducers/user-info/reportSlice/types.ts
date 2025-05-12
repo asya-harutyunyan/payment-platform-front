@@ -90,6 +90,7 @@ export type ReportUsers = {
   total_cards: string;
   email: string;
   id?: number;
+  created_at?: string;
 };
 
 export interface Platipay {
@@ -128,6 +129,7 @@ export interface HistoryRequest {
   month?: string;
   date?: string;
   sort?: "ASC" | "DESC";
+  created_at?: string;
 }
 
 export interface HistoryData {

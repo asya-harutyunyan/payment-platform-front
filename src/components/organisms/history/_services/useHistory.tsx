@@ -12,6 +12,7 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
+import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -280,13 +281,30 @@ const usePlatipayService = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>Сортировка по дате</P>
+            <Box sx={{ display: "flex" }}>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+              {sortComponent()}
+            </Box>
             <MonthPicker name="month" control={control} />
           </Box>
         ),
-      },
-      {
-        column: () => sortComponent(),
+        renderComponent: (row: HistoryRequest) => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingRight: "5px",
+                }}
+              >
+                {" "}
+                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+              </P>
+            </Box>
+          );
+        },
       },
     ],
     []
@@ -298,7 +316,6 @@ const usePlatipayService = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
         <Box
           sx={{
             display: "flex",

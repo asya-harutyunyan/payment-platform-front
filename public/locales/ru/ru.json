@@ -228,7 +228,8 @@
   "change_percent": "Изменение процента",
   "percent_changed": "Процент успешно изменен",
   "sort_by": "Сортировать",
-  "sort_by_created_at": "Сортировка по дате создания",
+  "sort_by_created_at": "Сортировка   создания",
+
   "all": "Все",
   "month": "Месяц",
   "checkbox_title": "Выберите, чем может управлять созданный пользователь.",
@@ -244,30 +245,24 @@
   "users_card.unblock": "Разблокировка карты пользователя",
   "users_card.block": "Блокировка карты пользователя",
   "users_report.view": "Просмотр отчётов пользователей",
-
   "wallet_view": "Просмотр кошельков",
   "wallet_delete": "Удаление кошелька",
   "wallet_store": "Создание кошелька",
-
   "deposits_view": "Просмотр депозитов",
   "deposits_edit": "Редактирование депозита",
   "deposits_confirm": "Подтверждение депозита",
-
   "orders_view": "Просмотр заказов",
   "orders_delete": "Удаление заказов",
   "orders_view.summary": "Просмотр сводки заказов",
   "orders_view.processedAmounts": "Просмотр обработанных сумм заказов",
-
   "banks_create": "Создание банка",
   "banks_update": "Обновление банка",
   "banks_delete": "Удаление банка",
   "banks_viewAll": "Просмотр всех банков",
-
   "admin.referrals_update": "Обновление рефералов",
   "admin.referrals_stats": "Просмотс статистики рефералов",
-
   "platiPay_view": "Просмотр PlatiPay",
-
+  "name_user": "Имя пользователя",
   "platformX_view": "Просмотр PlatformX",
   "reports_title_users": "Отчет по пользователей",
   "reports_title_new_reg": "Отчет о новых пользователей",

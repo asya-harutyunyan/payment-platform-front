@@ -153,6 +153,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             backgroundColor: theme.palette.primary.main,
             overflowX: "hidden",
             transition: "width 0.3s",
+            boxSizing: "border-box",
           },
         }}
       >

@@ -171,7 +171,7 @@ const useAdminOrder = () => {
           },
           column: () => (
             <Box>
-              <P fontWeight={"bold"}>Сортировка по дате</P>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
               <MonthPicker name="month" control={control} />
             </Box>
           ),
@@ -331,7 +331,9 @@ const useAdminOrder = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
+        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
+          {t("sort_by_created_at")}
+        </P>
         <Box
           sx={{
             display: "flex",

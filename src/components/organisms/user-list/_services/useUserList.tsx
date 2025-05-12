@@ -138,7 +138,6 @@ const useUserList = () => {
 
   const sortComponent = () => (
     <Box sx={{ display: "flex" }}>
-      <P sx={{ fontWeight: "bold", color: "primary.main" }}>Сортировка </P>
       <Box
         sx={{
           display: "flex",
@@ -173,7 +172,11 @@ const useUserList = () => {
         {
           column: () => (
             <Box>
-              <P fontWeight={"bold"}>{t("created_at")}</P>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                {" "}
+                <P fontWeight={"bold"}>{t("created_at")}</P>
+                {sortComponent()}
+              </Box>
               <MonthPicker name="month" control={control} />
             </Box>
           ),
@@ -253,7 +256,7 @@ const useUserList = () => {
         },
         user?.permissions.includes("users_block")
           ? {
-              column: () => sortComponent(),
+              // column: () => sortComponent(),
               renderComponent: (row: User) => (
                 <Button
                   variant={"error"}
