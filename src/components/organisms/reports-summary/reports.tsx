@@ -45,10 +45,10 @@ export const ReportsSummary = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Отправленные заказы:{" "}
-              </H5>
-              <P>{orders_stats.order_count ?? 0}</P>
+              </P>
+              <H5 color="primary.main">{orders_stats.order_count ?? 0}</H5>
             </Box>
             <Box
               sx={{
@@ -62,10 +62,10 @@ export const ReportsSummary = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Общая сумма заказов:{" "}
-              </H5>
-              <P>{orders_stats.total_amount ?? 0}₽</P>
+              </P>
+              <H5 color="primary.main">{orders_stats.total_amount ?? 0}₽</H5>
             </Box>
             <Box
               sx={{
@@ -79,11 +79,12 @@ export const ReportsSummary = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
-                {" "}
+              <P fontSize={"1.1rem"} color="primary.main" paddingRight={"5px"}>
                 Сумма по выданным заказам:{" "}
+              </P>
+              <H5 color="primary.main">
+                {orders_stats.total_amount_with_deposit ?? 0}₽
               </H5>
-              <P>{orders_stats.total_amount_with_deposit ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -97,10 +98,12 @@ export const ReportsSummary = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Сумма подтвержденных заказов:{" "}
+              </P>
+              <H5 color="primary.main">
+                {orders_stats.total_done_ammount ?? 0}₽
               </H5>
-              <P>{orders_stats.total_done_ammount ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -114,10 +117,12 @@ export const ReportsSummary = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Заказы без карты:{" "}
+              </P>
+              <H5 color="primary.main">
+                {orders_stats.order_witouth_card_count ?? 0}
               </H5>
-              <P>{orders_stats.order_witouth_card_count ?? 0}</P>
             </Box>
           </Box>
         </Box>

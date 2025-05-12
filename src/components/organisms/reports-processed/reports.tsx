@@ -45,10 +45,12 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Общее количество карт:{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.payment_method_count ?? 0}
               </H5>
-              <P>{admingetProcessedAmounts.payment_method_count ?? 0}</P>
             </Box>
             <Box
               sx={{
@@ -62,10 +64,12 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} color="primary.main" paddingRight={"5px"}>
                 Сумма всех депозитов (общая):{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.total_amount ?? 0}₽
               </H5>
-              <P>{admingetProcessedAmounts.total_amount ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -79,11 +83,13 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 {" "}
                 Сумма прибыли:{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.profits ?? 0}₽
               </H5>
-              <P>{admingetProcessedAmounts.profits ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -97,11 +103,12 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
-                {" "}
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Сумма депозитов, сделанных картой:{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.crypto_deposits ?? 0}₽
               </H5>
-              <P>{admingetProcessedAmounts.crypto_deposits ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -115,10 +122,12 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Сумма депозитов, сделанных картой:{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.card_deposits ?? 0}₽
               </H5>
-              <P>{admingetProcessedAmounts.card_deposits ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -132,11 +141,12 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
-                {" "}
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Сумма, подтверждённая пользователями:{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.orders_done_amount ?? 0}₽
               </H5>
-              <P>{admingetProcessedAmounts.orders_done_amount ?? 0}₽</P>
             </Box>
             <Box
               sx={{
@@ -150,11 +160,12 @@ export const ReportsProccesedAmount = () => {
                 },
               }}
             >
-              <H5 color="primary.main" paddingRight={"5px"}>
-                {" "}
+              <P fontSize={"1.1rem"} paddingRight={"5px"}>
                 Сумма, не подтверждённая пользователями:{" "}
+              </P>
+              <H5 color="primary.main">
+                {admingetProcessedAmounts.orders_in_progress_amount ?? 0}₽
               </H5>
-              <P>{admingetProcessedAmounts.orders_in_progress_amount ?? 0}₽</P>
             </Box>
           </Box>
         </Box>

@@ -154,14 +154,14 @@ const useDepositInfo = () => {
       dispatch(
         getDepositsThunk({
           page: page,
-          per_page: 5,
+          per_page: 50,
         })
       );
     } else {
       dispatch(
         getDepositsAdminThunk({
           page: page,
-          per_page: 5,
+          per_page: 50,
         })
       );
     }
