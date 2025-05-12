@@ -286,7 +286,8 @@ const useReferredUsers = () => {
           <Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {" "}
-              <P fontWeight={"bold"}>{t("sort_by")}</P> {sortComponent()}
+              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>{" "}
+              {sortComponent()}
             </Box>
             <MonthPicker name="month" control={filterControl} />
           </Box>
