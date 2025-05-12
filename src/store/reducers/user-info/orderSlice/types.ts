@@ -113,4 +113,5 @@ export interface OrderRequest {
   month?: string;
   card_number?: string;
   sort?: "ASC" | "DESC";
+  transaction_id?: string;
 }

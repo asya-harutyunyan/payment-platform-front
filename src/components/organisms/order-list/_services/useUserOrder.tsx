@@ -2,8 +2,9 @@ import Button from "@/components/atoms/button";
 import { CopyButton } from "@/components/atoms/copy-btn";
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
+import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
-import { getStatusColor } from "@/components/utils/status-color";
+import { getStatusColor, StatusOptions } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
@@ -71,17 +72,21 @@ const useAdminOrder = () => {
       amount: "",
       status_by_admin: "",
       card_number: "",
+      transaction_id: "",
     },
   });
 
   const name = watch("name");
   const surname = watch("surname");
   const amount = watch("amount");
-  const statusByAdmin = watch("status_by_admin");
+  const statusByAdmin =
+    watch("status_by_admin") === "all" ? "" : watch("status_by_admin");
   const cardNumber = watch("card_number");
   const month = watch("month");
+  const transaction_id = watch("transaction_id");
 
   const [debouncedName] = useDebounce(name, 700);
+  const [debouncedTransactionId] = useDebounce(transaction_id, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
@@ -95,7 +100,8 @@ const useAdminOrder = () => {
     if (!user?.role) return;
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
-
+    // const status =
+    // debouncedStatusByAdmin === "all" ? "" : debouncedStatusByAdmin;
     const fetchOrders = () => {
       if (!isValidMonth) {
         dispatch(
@@ -106,8 +112,9 @@ const useAdminOrder = () => {
             name: debouncedName,
             surname: debouncedSurname,
             amount: debouncedAmount,
-            status_by_admin: debouncedStatusByAdmin,
+            // status_by_client: debouncedStatusByAdmin,
             card_number: debouncedCardNumber,
+            transaction_id: debouncedTransactionId,
             month: "",
             sort,
           })
@@ -121,8 +128,9 @@ const useAdminOrder = () => {
             name: debouncedName,
             surname: debouncedSurname,
             amount: debouncedAmount,
+            transaction_id: debouncedTransactionId,
             month: debouncedMonth,
-            status_by_admin: debouncedStatusByAdmin,
+            // status_by_client: debouncedStatusByAdmin,
             card_number: debouncedCardNumber,
             sort,
           })
@@ -140,6 +148,7 @@ const useAdminOrder = () => {
     debouncedSurname,
     debouncedStatusByAdmin,
     debouncedCardNumber,
+    debouncedTransactionId,
     debouncedMonth,
     sort,
     filter,
@@ -221,7 +230,6 @@ const useAdminOrder = () => {
           },
         },
         {
-          column: "order_status_admin",
           renderComponent: (row: Order) => {
             return (
               <span
@@ -237,17 +245,25 @@ const useAdminOrder = () => {
               </span>
             );
           },
-          //TODO: there is a problem with backend
-          // filters: () => {
-          //   return (
-          //     <FormTextInput
-          //       control={control}
-          //       name="status_by_client"
-          //       width="200px"
-          //       style={{ input: { padding: "10px 14px" } }}
-          //     />
-          //   );
-          // },
+          // TODO: there is a problem with backend
+          filters: () => {
+            return (
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "10px" }}
+                >
+                  {t("order_status_client")}
+                </P>
+                <SelectFieldWith
+                  placeholder={"Виберите статус"}
+                  name="status_by_client"
+                  control={control}
+                  options={StatusOptions}
+                />
+              </Box>
+            );
+          },
         },
         user?.permissions.includes("orders_delete")
           ? {
@@ -303,6 +319,16 @@ const useAdminOrder = () => {
               row.transaction_id && (
                 <CopyButton text={row.transaction_id} color={"#7d7d7d"} />
               )
+            );
+          },
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="transaction_id"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
             );
           },
         },

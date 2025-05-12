@@ -25,6 +25,7 @@ export const getOrdersThunk = createAsyncThunk(
           sort: data.sort,
           card_number: data.card_number,
           month: data.month,
+          transaction_id: data.transaction_id,
         },
       });
       return response.data;

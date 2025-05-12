@@ -22,6 +22,8 @@ import { z } from "zod";
 
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
+import { SelectFieldWith } from "@/components/atoms/select";
+import { CurrencyOptions } from "@/components/utils/status-color";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import dayjs from "dayjs";
@@ -58,7 +60,7 @@ const useBankCardList = () => {
 
   const CardHolder = watch("card_holder");
   const BankName = watch("bank_name");
-  const Currency = watch("currency");
+  const Currency = watch("currency") === "all" ? "" : watch("currency");
   const CardNumber = watch("card_number");
   const month = watch("month");
   const name = watch("name");
@@ -77,7 +79,7 @@ const useBankCardList = () => {
   useEffect(() => {
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
-
+    const status = debouncedCurrency === "all" ? "" : debouncedCurrency;
     if (!isValidMonth) {
       dispatch(
         getBankCardsThunk({
@@ -86,7 +88,7 @@ const useBankCardList = () => {
           card_holder: debounceCardHolder,
           card_number: debouncedCardNumber,
           bank_name: debouncedBankName,
-          currency: debouncedCurrency,
+          currency: status,
           name: debouncedName,
           month: "",
           sort,
@@ -100,7 +102,7 @@ const useBankCardList = () => {
           card_holder: debounceCardHolder,
           card_number: debouncedCardNumber,
           bank_name: debouncedBankName,
-          currency: debouncedCurrency,
+          currency: status,
           name: debouncedName,
           month: debouncedMonth,
           sort,
@@ -113,6 +115,7 @@ const useBankCardList = () => {
     debouncedMonth,
     debouncedCardNumber,
     debouncedCurrency,
+
     debouncedName,
     page,
     sort,
@@ -194,16 +197,23 @@ const useBankCardList = () => {
           },
         },
         {
-          column: "currency",
           valueKey: "currency",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="currency"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "10px" }}
+                >
+                  {t("currency")}
+                </P>
+                <SelectFieldWith
+                  placeholder={"Виберите валюту"}
+                  name="currency"
+                  control={control}
+                  options={CurrencyOptions}
+                />
+              </Box>
             );
           },
         },

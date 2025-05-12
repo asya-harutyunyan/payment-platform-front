@@ -42,6 +42,13 @@ export const SelectFieldWith = <T extends FieldValues>({
           nameKey={nameKey}
           error={error}
           helperText={helperText}
+          sx={{
+            alignItems: "center",
+            "& .MuiInputBase-root": {
+              height: 40,
+              boxSizing: "border-box",
+            },
+          }}
         />
       )}
     />

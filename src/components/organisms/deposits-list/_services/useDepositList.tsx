@@ -2,8 +2,9 @@ import Button from "@/components/atoms/button";
 
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
+import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
-import { getStatusColor } from "@/components/utils/status-color";
+import { getStatusColor, StatusOptions } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { deposit_schema } from "@/schema/deposit_schema";
@@ -56,7 +57,8 @@ const useDepositInfo = () => {
   });
   const name = watch("name");
   const amount = watch("sort_by");
-  const statusByAdmin = watch("status_by_admin");
+  const statusByAdmin =
+    watch("status_by_admin") === "all" ? "" : watch("status_by_admin");
   const type = watch("type");
   const surname = watch("surname");
   const month = watch("month");
@@ -74,11 +76,15 @@ const useDepositInfo = () => {
 
   //need to change 1 useeffect
   useEffect(() => {
+    const status =
+      debouncedStatusByAdmin === "all" ? "" : debouncedStatusByAdmin;
+    console.log(status, "status");
+
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
 
     if (!isValidMonth) {
-      if (user?.role === "admin" || user?.role === "superAdmin") {
+      if (user?.role === "client") {
         dispatch(
           getDepositsThunk({
             page: page,
@@ -86,7 +92,7 @@ const useDepositInfo = () => {
             name: debouncedName,
             surname: debouncedSurname,
             sort_by: debouncedAmount,
-            status_by_admin: debouncedStatusByAdmin,
+            status_by_admin: status,
             type: debouncedTyoe,
             month: "",
             sort_order: sort,
@@ -100,7 +106,7 @@ const useDepositInfo = () => {
             name: debouncedName,
             surname: debouncedSurname,
             sort_by: debouncedAmount,
-            status_by_admin: debouncedStatusByAdmin,
+            status_by_admin: status,
             type: debouncedTyoe,
             month: "",
             sort_order: sort,
@@ -116,7 +122,7 @@ const useDepositInfo = () => {
             name: debouncedName,
             surname: debouncedSurname,
             sort_by: debouncedAmount,
-            status_by_admin: debouncedStatusByAdmin,
+            status_by_admin: status,
             type: debouncedTyoe,
             month: debouncedMonth,
             sort_order: sort,
@@ -130,7 +136,7 @@ const useDepositInfo = () => {
             name: debouncedName,
             surname: debouncedSurname,
             sort_by: debouncedAmount,
-            status_by_admin: debouncedStatusByAdmin,
+            status_by_admin: status,
             type: debouncedTyoe,
             month: debouncedMonth,
             sort_order: sort,
@@ -310,7 +316,6 @@ const useDepositInfo = () => {
         },
 
         user?.permissions.includes("deposits_view") && {
-          column: "status_by_admin_row",
           renderComponent: (row: DataDeposits) => {
             return row.type === "FIAT" && row.status_by_admin === "pending" ? (
               <P
@@ -355,13 +360,20 @@ const useDepositInfo = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                {...register("status_by_admin")}
-                name="status_by_admin"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "10px" }}
+                >
+                  {t("status_by_admin_row")}
+                </P>
+                <SelectFieldWith
+                  placeholder={"Виберите статус"}
+                  name="status_by_admin"
+                  control={control}
+                  options={StatusOptions}
+                />
+              </Box>
             );
           },
         },

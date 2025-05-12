@@ -22,7 +22,7 @@
   "add_wallet": "Добавить новый кошелек",
   "wallet_added_success": "Кошелек успешно создано",
   "status_by_user_row": "Статус депозита",
-  "order_status_admin": "Статус заказа",
+  "order_status_client": "Статус заказа",
   "order_status_user": "Статус заказа",
   "deposit_list": "Список депозитов",
   "created_at": "Создано",

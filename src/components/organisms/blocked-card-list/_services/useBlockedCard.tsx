@@ -1,6 +1,8 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
+import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
+import { CurrencyOptions } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { blocked_card_schema } from "@/schema/blocked_card_schena";
@@ -49,7 +51,7 @@ const useBlockedCard = () => {
   const bankName = watch("bank_name");
   const cardHolder = watch("card_holder");
   const cardNumber = watch("card_number");
-  const currency = watch("currency");
+  const currency = watch("currency") === "all" ? "" : watch("currency");
   const month = watch("month");
 
   const [debouncedName] = useDebounce(name, 700);
@@ -66,6 +68,7 @@ const useBlockedCard = () => {
   useEffect(() => {
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    const status = debouncedCurrency === "all" ? "" : debouncedCurrency;
 
     if (!isValidMonth) {
       dispatch(
@@ -77,7 +80,7 @@ const useBlockedCard = () => {
           bank_name: debouncedBankName,
           card_holder: debouncedCardHolder,
           card_number: debouncedCardNumber,
-          currency: debouncedCurrency,
+          currency: status,
           month: "",
           sort,
         })
@@ -92,7 +95,7 @@ const useBlockedCard = () => {
           bank_name: debouncedBankName,
           card_holder: debouncedCardHolder,
           card_number: debouncedCardNumber,
-          currency: debouncedCurrency,
+          currency: status,
           month: debouncedMonth,
           sort,
         })
@@ -210,16 +213,23 @@ const useBlockedCard = () => {
         },
       },
       {
-        column: "currency",
         valueKey: "currency",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="currency"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "10px" }}
+              >
+                {t("currency")}
+              </P>
+              <SelectFieldWith
+                placeholder={"Виберите валюту"}
+                name="currency"
+                control={control}
+                options={CurrencyOptions}
+              />
+            </Box>
           );
         },
       },

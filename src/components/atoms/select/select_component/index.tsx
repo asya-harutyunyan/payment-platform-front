@@ -54,7 +54,7 @@ export const SelectField = <T extends FieldValues>({
   nameKey,
 }: ISelectField<T>) => {
   const [value, setValue] = useState<string | number>(
-    defaultValueFirst ? (options[0]?.name ?? propValue) : ""
+    defaultValueFirst ? (options[0]?.name ?? propValue) : (propValue ?? "")
   );
 
   const handleChange = (event: SelectChangeEvent<string | number>) => {
@@ -67,6 +67,7 @@ export const SelectField = <T extends FieldValues>({
     <FormControl sx={{ ...sx, width: "100%" }} error={error}>
       <InputLabel
         id={id}
+        // shrink={true}
         sx={{
           color: whiteVariant ? "tertiary.main" : "primary.main",
           "&.MuiFormLabel-root": {
