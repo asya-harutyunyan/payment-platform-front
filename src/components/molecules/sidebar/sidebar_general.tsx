@@ -83,7 +83,9 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
                     borderBottom: isActive
                       ? "1px solid #fff"
                       : "1px solid #40404078",
-                    backgroundColor: isActive ? "#202a6083" : "",
+                    background: isActive
+                      ? "linear-gradient(to right, transparent 0%,rgba(42, 60, 110, 0.95) 20%,rgba(42, 60, 110, 0.95) 80%,transparent 100%)"
+                      : "",
                     display: "flex",
                     ":hover": {
                       backgroundColor: "#202a6083",

@@ -19,6 +19,10 @@
   "status_by_client": "Статус депозита",
   "no_data": "В настоящее время доступных данных нет.",
   "no": "Нет",
+  "permissions_title_view": "Выбрать все (Просмотр)",
+  "permissions_title_edit": "Выбрать все (Редактирование)",
+  "permissions_title_delete": "Выбрать все (Удаление)",
+
   "add_wallet": "Добавить новый кошелек",
   "wallet_added_success": "Кошелек успешно создано",
   "status_by_user_row": "Статус депозита",

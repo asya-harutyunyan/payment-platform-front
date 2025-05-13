@@ -78,10 +78,11 @@ const PermissionsTable = ({
     ...editBankPermission,
     ...editReferralPercentPermission,
     ...editDepositPermissions,
+  ];
+  const deletePermissions = [
     ...deleteWalletPermissions,
     ...deleteOrderPermissions,
   ];
-
   const viewPermissions = [
     ...viewPlatforms,
     ...viewRefUsers,
@@ -154,6 +155,82 @@ const PermissionsTable = ({
     padding: "5px 0 5px 20px",
     fontWeight: "bold",
   };
+  const handleCheckAllView = () => {
+    const viewPermissionNames = viewPermissions.map((perm) => perm.name);
+    const editPermissionNames = actionPermissions.map((perm) => perm.name);
+    const deletePermissionNames = deletePermissions.map((perm) => perm.name);
+
+    const areAllChecked = viewPermissionNames.every((name) =>
+      checkedPermissions.includes(name)
+    );
+
+    if (areAllChecked) {
+      // Удалить все view-права и связанные edit и delete права
+      setCheckedPermissions((prev) =>
+        prev.filter(
+          (name) =>
+            !viewPermissionNames.includes(name) &&
+            !editPermissionNames.includes(name) &&
+            !deletePermissionNames.includes(name)
+        )
+      );
+    } else {
+      // Только добавить все view-права, не затрагивая edit и delete права
+      setCheckedPermissions((prev) => [
+        ...new Set([...prev, ...viewPermissionNames]),
+      ]);
+    }
+  };
+
+  const handleCheckAllEdit = () => {
+    const editPermissionNames = actionPermissions
+      .filter((perm) => {
+        const requiredView = viewPermissions.find(
+          (view) => view.prefix === perm.prefix
+        );
+        return requiredView && checkedPermissions.includes(requiredView.name);
+      })
+      .map((perm) => perm.name);
+
+    const areAllChecked = editPermissionNames.every((name) =>
+      checkedPermissions.includes(name)
+    );
+
+    if (areAllChecked) {
+      setCheckedPermissions((prev) =>
+        prev.filter((name) => !editPermissionNames.includes(name))
+      );
+    } else {
+      setCheckedPermissions((prev) => [
+        ...new Set([...prev, ...editPermissionNames]),
+      ]);
+    }
+  };
+
+  const handleCheckAllDelete = () => {
+    const deletePermissionNames = deletePermissions
+      .filter((perm) => {
+        const requiredView = viewPermissions.find(
+          (view) => view.prefix === perm.prefix
+        );
+        return requiredView && checkedPermissions.includes(requiredView.name);
+      })
+      .map((perm) => perm.name);
+
+    const areAllChecked = deletePermissionNames.every((name) =>
+      checkedPermissions.includes(name)
+    );
+
+    if (areAllChecked) {
+      setCheckedPermissions((prev) =>
+        prev.filter((name) => !deletePermissionNames.includes(name))
+      );
+    } else {
+      setCheckedPermissions((prev) => [
+        ...new Set([...prev, ...deletePermissionNames]),
+      ]);
+    }
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -219,6 +296,58 @@ const PermissionsTable = ({
           backgroundColor: "#f5f5f5",
         }}
       >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-around",
+          }}
+        >
+          <Box sx={styleTitle}>
+            {" "}
+            <P
+              color="primary.main"
+              onClick={handleCheckAllView}
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              {t("permissions_title_view")}
+            </P>
+          </Box>
+          <Box sx={styleTitle}>
+            {" "}
+            <P
+              color="primary.main"
+              onClick={handleCheckAllEdit}
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              {t("permissions_title_edit")}
+            </P>
+          </Box>
+          <Box sx={styleTitle}>
+            {" "}
+            <P
+              color="primary.main"
+              onClick={handleCheckAllDelete}
+              sx={{
+                cursor: "pointer",
+                ":hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              {t("permissions_title_delete")}
+            </P>
+          </Box>
+        </Box>
         <Box
           sx={{
             display: "flex",
