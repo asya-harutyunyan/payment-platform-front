@@ -80,9 +80,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
                   sx={{
                     width: "100%",
                     height: "60px",
-                    borderBottom: isActive
-                      ? "1px solid #fff"
-                      : "1px solid #40404078",
+                    borderBottom: "1px solid #40404078",
                     background: isActive
                       ? "linear-gradient(to right, transparent 0%,rgba(42, 60, 110, 0.95) 20%,rgba(42, 60, 110, 0.95) 80%,transparent 100%)"
                       : "",

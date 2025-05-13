@@ -22,7 +22,8 @@
   "permissions_title_view": "Выбрать все (Просмотр)",
   "permissions_title_edit": "Выбрать все (Редактирование)",
   "permissions_title_delete": "Выбрать все (Удаление)",
-
+  "amount_to_pay": "Сумма к выплате",
+  "amount_payment": "Выплаченная сумма",
   "add_wallet": "Добавить новый кошелек",
   "wallet_added_success": "Кошелек успешно создано",
   "status_by_user_row": "Статус депозита",

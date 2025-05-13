@@ -24,6 +24,11 @@ export const ReferredUsers = () => {
     open,
     setOpen,
     page,
+    ControlUpdatePrice,
+    setUpdateModal,
+    updateModal,
+    HandleSubmitUpdatePrice,
+    onSubmitPriceUpdate,
   } = useReferredUsers();
 
   return (
@@ -95,6 +100,61 @@ export const ReferredUsers = () => {
               name="percentage"
               placeholder={t("change_percent")}
               whiteVariant
+            />
+            <Button
+              type="submit"
+              variant={"gradient"}
+              text={t("yes")}
+              sx={{ marginTop: "30px" }}
+            />
+          </Box>
+        </Box>
+      </BasicModal>
+      <BasicModal
+        handleClose={() => setUpdateModal(false)}
+        open={updateModal}
+        bg={bg}
+        width="50%"
+      >
+        <Box
+          component="form"
+          onSubmit={HandleSubmitUpdatePrice(onSubmitPriceUpdate)}
+          sx={{
+            display: "flex",
+            width: "100%",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "start",
+            height: "auto",
+          }}
+        >
+          <H3
+            align="center"
+            sx={{
+              fontSize: {
+                lg: "1.5rem",
+                md: "1.5rem",
+                xs: "1.1rem",
+                sm: "1.1rem",
+              },
+              paddingBottom: "50px",
+            }}
+          >
+            {t("amount_to_deduct")}
+          </H3>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              width: "50%",
+            }}
+          >
+            <FormTextInput
+              control={ControlUpdatePrice}
+              name="amount_to_deduct"
+              placeholder={t("amount_to_deduct_input")}
+              whiteVariant
+              numeric
             />
             <Button
               type="submit"

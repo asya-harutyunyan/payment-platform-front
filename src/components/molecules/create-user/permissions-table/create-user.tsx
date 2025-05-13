@@ -165,7 +165,6 @@ const PermissionsTable = ({
     );
 
     if (areAllChecked) {
-      // Удалить все view-права и связанные edit и delete права
       setCheckedPermissions((prev) =>
         prev.filter(
           (name) =>
@@ -175,7 +174,6 @@ const PermissionsTable = ({
         )
       );
     } else {
-      // Только добавить все view-права, не затрагивая edit и delete права
       setCheckedPermissions((prev) => [
         ...new Set([...prev, ...viewPermissionNames]),
       ]);

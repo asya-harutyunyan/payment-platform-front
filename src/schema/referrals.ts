@@ -12,5 +12,5 @@ export const percent_referral_schema = z.object({
 export const price_referral_schema = z.object({
   amount_to_deduct: z.string(),
   user_id: z.string().nonempty("User ID обязателен"),
-  referral_id: z.string().nonempty("ID реферала обязателен"),
+  // referral_id: z.string().nonempty("ID реферала обязателен"),
 });

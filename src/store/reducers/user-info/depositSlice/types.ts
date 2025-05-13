@@ -90,6 +90,8 @@ export interface RefferedUsersList {
   sort_by?: string;
   id?: number;
   created_at?: string;
+  amount_to_pay?: string;
+  amount_payment?: string;
 }
 export interface ReferralOfUser {
   name: string;

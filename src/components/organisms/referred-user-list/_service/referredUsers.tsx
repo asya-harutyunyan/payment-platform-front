@@ -37,7 +37,6 @@ const useReferredUsers = () => {
     user_id: "",
     referral_id: "",
   });
-  // const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
   const { control, handleSubmit, setValue, reset } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
@@ -47,13 +46,12 @@ const useReferredUsers = () => {
       referral_id: "",
     },
   });
-  //
 
   const { id } = useParams({ from: "/_auth/_admin/referred-users/$id" });
 
   useEffect(() => {
     dispatch(getReferedUsersListThunk({ id, page: page, per_page: 20 }));
-  }, []);
+  }, [dispatch, id, page]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -111,53 +109,6 @@ const useReferredUsers = () => {
     );
   };
 
-  //   return (
-  //     <Box sx={{ marginTop: "7px" }}>
-  //       <FormControl fullWidth>
-  //         <Controller
-  //           control={filterControl}
-  //           name="period"
-  //           render={({ field }) => (
-  //             <Select
-  //               {...field}
-  //               labelId="demo-simple-select-label"
-  //               id="demo-simple-select"
-  //               value={field.value || "all"}
-  //               onChange={(e) => {
-  //                 const value = e.target.value === "all" ? "" : e.target.value;
-  //                 field.onChange(value);
-  //               }}
-  //               sx={{
-  //                 color: "black",
-  //                 width: "100px",
-  //                 borderRadius: "5px",
-  //                 borderColor: "primary.main",
-  //                 height: "43px",
-  //                 "& .MuiOutlinedInput-notchedOutline": {
-  //                   borderColor: "primary.main",
-  //                 },
-  //                 "&:hover .MuiOutlinedInput-notchedOutline": {
-  //                   borderColor: "secondary.main",
-  //                 },
-  //                 "& .MuiSelect-select": {
-  //                   color: "black",
-  //                 },
-  //                 "& .MuiSvgIcon-root": {
-  //                   color: "black",
-  //                 },
-  //               }}
-  //             >
-  //               <MenuItem value={"all"}>
-  //                 <em>{t("all")}</em>
-  //               </MenuItem>
-  //               <MenuItem value={"month"}>{t("month")}</MenuItem>
-  //             </Select>
-  //           )}
-  //         />
-  //       </FormControl>
-  //     </Box>
-  //   );
-  // };
   const columns = useMemo<IColumn<ReferedUsersListRequest>[]>(
     () => [
       {
@@ -215,31 +166,6 @@ const useReferredUsers = () => {
           );
         },
         valueKey: "referral_user.referral_percentage",
-      },
-      {
-        column: "amount",
-        valueKey: "referral_user.amount",
-        renderComponent: (row: ReferedUsersListRequest) => {
-          return (
-            <EditIcon
-              onClick={() => {
-                setUpdateModal(true);
-                setSelectedId({
-                  user_id: row.id,
-                  referral_id: row.referral_user.referral_id,
-                });
-              }}
-              sx={{
-                color: "primary.main",
-                marginLeft: "5px",
-                fontSize: "23px",
-                ":hover": {
-                  color: "#2c269a",
-                },
-              }}
-            />
-          );
-        },
       },
       {
         column: "currency",

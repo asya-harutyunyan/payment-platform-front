@@ -149,7 +149,7 @@ export const updatePriceThunk = createAsyncThunk(
     try {
       const response = await httpClient.post("/admin/referrals/update-amount", {
         amount_to_deduct: data.amount_to_deduct,
-        referral_id: data.referral_id,
+        // referral_id: data.referral_id,
         user_id: data.user_id,
       });
       return response.data;

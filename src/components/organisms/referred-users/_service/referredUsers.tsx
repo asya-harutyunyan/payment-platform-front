@@ -3,12 +3,18 @@ import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
-import { percent_referral_schema } from "@/schema/referrals";
+import EditIcon from "@mui/icons-material/Edit";
+
+import {
+  percent_referral_schema,
+  price_referral_schema,
+} from "@/schema/referrals";
 import { filter_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
   getReferredUsersForAdminThunk,
   updatePercentThunk,
+  updatePriceThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { RefferedUsersList } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
@@ -28,6 +34,7 @@ import { z } from "zod";
 
 type FormData = z.infer<typeof percent_referral_schema>;
 type FilterFormData = z.infer<typeof filter_schema>;
+type UpdatePriceFormData = z.infer<typeof price_referral_schema>;
 
 const useReferredUsers = () => {
   const { referralUsersForAdmin, referralUsersForAdminPagination, loading } =
@@ -41,6 +48,7 @@ const useReferredUsers = () => {
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
+  const [updateModal, setUpdateModal] = useState(false);
 
   const { control, handleSubmit, reset } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
@@ -72,6 +80,44 @@ const useReferredUsers = () => {
       referral_code: "",
     },
   });
+
+  const {
+    control: ControlUpdatePrice,
+    handleSubmit: HandleSubmitUpdatePrice,
+    setValue: SetValueUpdatePrice,
+    reset: ResetUpdatePrice,
+  } = useForm<UpdatePriceFormData>({
+    resolver: zodResolver(price_referral_schema),
+    defaultValues: {
+      amount_to_deduct: "",
+      user_id: "",
+      // referral_id: "",
+    },
+  });
+  const onSubmitPriceUpdate: SubmitHandler<UpdatePriceFormData> = async (
+    data
+  ) => {
+    dispatch(updatePriceThunk(data))
+      .unwrap()
+      .then(() => {
+        ResetUpdatePrice();
+        enqueueSnackbar(t("amount_changed"), {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        setUpdateModal(false);
+        dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
+      })
+      .catch(() => {
+        ResetUpdatePrice();
+
+        setUpdateModal(false);
+        enqueueSnackbar(t("error"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+      });
+  };
   const name = filterWatch("name");
   const surname = filterWatch("surname");
   const email = filterWatch("email");
@@ -357,12 +403,64 @@ const useReferredUsers = () => {
         },
       },
       {
-        valueKey: "total_amount",
-        filters: () => {
+        renderComponent: (row: RefferedUsersList) => {
           return (
-            <Box sx={{ display: "flex" }}>
-              <P sx={{ fontWeight: 600 }}>{t("total_amount")}</P>
-              {sortOrderComponent()};
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingLeft: "30px",
+                }}
+              >
+                {row.total_amount ?? "-"}
+              </P>
+            </Box>
+          );
+        },
+        column: () => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P fontWeight={"bold"}>{t("total_amount")}</P>
+              {sortOrderComponent()}
+            </Box>
+          );
+        },
+      },
+      {
+        column: "amount_to_pay",
+        valueKey: "amount_to_pay",
+      },
+      {
+        column: "amount_payment",
+        renderComponent: (row: RefferedUsersList) => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingLeft: "30px",
+                }}
+              >
+                {row.amount_payment ?? "-"}
+              </P>
+              <EditIcon
+                onClick={() => {
+                  setUpdateModal(true);
+                  SetValueUpdatePrice("user_id", `${row.user_id}`);
+                }}
+                sx={{
+                  color: "primary.main",
+                  marginLeft: "5px",
+                  fontSize: "23px",
+                  ":hover": {
+                    color: "#2c269a",
+                  },
+                }}
+              />
             </Box>
           );
         },
@@ -452,6 +550,11 @@ const useReferredUsers = () => {
     setOpen,
     page,
     sortByMonth,
+    ControlUpdatePrice,
+    updateModal,
+    setUpdateModal,
+    HandleSubmitUpdatePrice,
+    onSubmitPriceUpdate,
   };
 };
 
