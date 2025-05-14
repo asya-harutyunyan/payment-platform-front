@@ -41,7 +41,13 @@ export const UserOrdersComponent: FC = () => {
         <Tabs
           value={filter}
           onChange={handleFilterChange}
-          sx={{ color: "black", backgroundColor: "#f6f6f6" }}
+          sx={{
+            color: "black",
+            backgroundColor: "#f6f6f6",
+            ".MuiTabs-list": {
+              overflowX: "auto",
+            },
+          }}
         >
           <Tab
             label="Все"

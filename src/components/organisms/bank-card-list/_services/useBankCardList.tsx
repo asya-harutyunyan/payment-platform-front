@@ -125,20 +125,6 @@ const useBankCardList = () => {
     () =>
       [
         {
-          column: "name_user",
-          valueKey: "user.name",
-          filters: () => {
-            return (
-              <FormTextInput
-                control={control}
-                name="name"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
-            );
-          },
-        },
-        {
           column: "card_holder",
           renderComponent: (row: BankCardsDetalis) => {
             return (
@@ -162,6 +148,20 @@ const useBankCardList = () => {
               <FormTextInput
                 control={control}
                 name="card_holder"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            );
+          },
+        },
+        {
+          column: "name_user",
+          valueKey: "user.name",
+          filters: () => {
+            return (
+              <FormTextInput
+                control={control}
+                name="name"
                 width="200px"
                 style={{ input: { padding: "10px 14px" } }}
               />

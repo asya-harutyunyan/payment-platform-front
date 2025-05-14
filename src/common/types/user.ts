@@ -1,3 +1,8 @@
+import {
+  DataDeposits,
+  Order,
+} from "@/store/reducers/user-info/depositSlice/types";
+
 export interface User {
   id: number;
   name: string;
@@ -13,6 +18,15 @@ export interface User {
   updated_at: string;
   bank_details: BankDetail[];
   permissions: string[];
+  deposits: {
+    data: DataDeposits[];
+    amount_payed: string;
+    profit: string;
+    total_amount: string;
+  };
+  current_orders: {
+    data: Order[];
+  };
 }
 export interface Wallet {
   processing_amount: string;

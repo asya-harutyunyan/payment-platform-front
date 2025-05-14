@@ -16,6 +16,16 @@ export const fields = [
     column: "email",
     valueKey: "email",
   },
+
+  {
+    column: "referral_code",
+    valueKey: "referral_code",
+  },
+  {
+    column: "role",
+    valueKey: "role",
+  },
+
   {
     column: "key",
     renderOptionalComponent: (row: User) => (
@@ -27,7 +37,14 @@ export const fields = [
         )}
         {row?.bank_details.length
           ? row?.bank_details?.map(
-              ({ id, bank_name, card_holder, card_number, currency }) => (
+              ({
+                id,
+                bank_name,
+                card_holder,
+                card_number,
+                currency,
+                is_blocked,
+              }) => (
                 <Box
                   key={id}
                   sx={{
@@ -56,6 +73,16 @@ export const fields = [
                   <P>
                     <span style={{ fontWeight: "500" }}>{t("currency")}</span>:{" "}
                     {currency}
+                  </P>
+                  <P>
+                    <span
+                      style={{
+                        fontWeight: "500",
+                        color: is_blocked ? "#a43939" : "#9a9696",
+                      }}
+                    >
+                      {is_blocked ? t("blocked") : t("unblocked")}
+                    </span>
                   </P>
                   <Divider sx={{ paddingTop: "10px" }} />
                 </Box>

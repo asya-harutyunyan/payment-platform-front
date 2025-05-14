@@ -137,7 +137,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
         {user?.role === "client" &&
           walletInfo &&
           typeof walletInfo === "function" &&
-          walletInfo() !== undefined && <>{walletInfo()}</>}
+          walletInfo() !== undefined && <>{!isCollapsed ? walletInfo() : ""}</>}
       </List>
     </>
   );
