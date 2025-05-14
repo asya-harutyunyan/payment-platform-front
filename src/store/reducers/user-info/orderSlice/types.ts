@@ -114,4 +114,5 @@ export interface OrderRequest {
   card_number?: string;
   sort?: "ASC" | "DESC";
   transaction_id?: string;
+  status_client?: string;
 }

@@ -73,6 +73,7 @@ const useAdminOrder = () => {
       status_by_admin: "",
       card_number: "",
       transaction_id: "",
+      status_client: "",
     },
   });
 
@@ -112,7 +113,7 @@ const useAdminOrder = () => {
             name: debouncedName,
             surname: debouncedSurname,
             amount: debouncedAmount,
-            // status_by_client: debouncedStatusByAdmin,
+            status_client: debouncedStatusByAdmin,
             card_number: debouncedCardNumber,
             transaction_id: debouncedTransactionId,
             month: "",
@@ -130,7 +131,7 @@ const useAdminOrder = () => {
             amount: debouncedAmount,
             transaction_id: debouncedTransactionId,
             month: debouncedMonth,
-            // status_by_client: debouncedStatusByAdmin,
+            status_client: debouncedStatusByAdmin,
             card_number: debouncedCardNumber,
             sort,
           })
@@ -262,7 +263,7 @@ const useAdminOrder = () => {
                 </P>
                 <SelectFieldWith
                   placeholder={"Виберите статус"}
-                  name="status_by_client"
+                  name="status_client"
                   control={control}
                   options={StatusOptions}
                 />
