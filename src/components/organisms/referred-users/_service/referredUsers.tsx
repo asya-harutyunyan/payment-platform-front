@@ -332,7 +332,9 @@ const useReferredUsers = () => {
           <Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               {" "}
-              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>{" "}
+              <P fontWeight={"bold"} sx={{ textWrap: "nowrap" }}>
+                {t("sort_by_created_at")}
+              </P>{" "}
               {sortComponent()}
             </Box>
             <MonthPicker name="month" control={filterControl} />
@@ -421,7 +423,7 @@ const useReferredUsers = () => {
         },
         column: () => {
           return (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ display: "flex" }}>
               <P fontWeight={"bold"}>{t("total_amount")}</P>
               {sortOrderComponent()}
             </Box>

@@ -13,6 +13,7 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   defaultValueFirst?: boolean;
   valueKey?: keyof ISelectOption;
   nameKey?: string;
+  height?: string;
 }
 
 export const SelectFieldWith = <T extends FieldValues>({
@@ -26,6 +27,7 @@ export const SelectFieldWith = <T extends FieldValues>({
   helperText,
   valueKey,
   nameKey,
+  height,
 }: SelectFieldWithHookFormProps<T>) => {
   return (
     <Controller
@@ -45,7 +47,7 @@ export const SelectFieldWith = <T extends FieldValues>({
           sx={{
             alignItems: "center",
             "& .MuiInputBase-root": {
-              // height: 40,
+              height: height ?? "inherit",
               boxSizing: "border-box",
             },
           }}

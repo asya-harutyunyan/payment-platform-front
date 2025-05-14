@@ -19,6 +19,8 @@ import { useDebounce } from "use-debounce";
 import { z } from "zod";
 
 import { MonthPicker } from "@/components/atoms/month-picker";
+import { SelectFieldWith } from "@/components/atoms/select";
+import { CurrencyOptions } from "@/components/utils/status-color";
 import { P } from "@/styles/typography";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -62,6 +64,7 @@ const useWallet = () => {
   useEffect(() => {
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    const status = debouncedCurrency === "all" ? "" : debouncedCurrency;
 
     if (!isValidMonth) {
       dispatch(
@@ -70,7 +73,7 @@ const useWallet = () => {
           per_page: 20,
           address: debouncedAddres,
           network: debouncedNetwork,
-          currency: debouncedCurrency,
+          currency: status,
           month: "",
           sort,
         })
@@ -82,7 +85,7 @@ const useWallet = () => {
           per_page: 20,
           address: debouncedAddres,
           network: debouncedNetwork,
-          currency: debouncedCurrency,
+          currency: status,
           month: debouncedMonth,
           sort,
         })
@@ -142,17 +145,24 @@ const useWallet = () => {
           },
         },
         {
-          column: "currency",
           valueKey: "currency",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                {...register("currency")}
-                name="currency"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("currency")}
+                </P>
+                <SelectFieldWith
+                  placeholder={""}
+                  name="currency"
+                  control={control}
+                  options={CurrencyOptions}
+                  height="43px"
+                />
+              </Box>
             );
           },
         },

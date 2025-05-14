@@ -179,9 +179,11 @@ const useUserList = () => {
         {
           column: () => (
             <Box>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex" }}>
                 {" "}
-                <P fontWeight={"bold"}>{t("created_at")}</P>
+                <P fontWeight={"bold"} paddingRight={"5px"}>
+                  {t("created_at")}
+                </P>
                 {sortComponent()}
               </Box>
               <MonthPicker name="month" control={control} />

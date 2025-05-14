@@ -257,15 +257,16 @@ const useAdminOrder = () => {
               <Box>
                 <P
                   fontWeight={"bold"}
-                  sx={{ textWrap: "nowrap", paddingBottom: "10px" }}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
                 >
                   {t("order_status_client")}
                 </P>
                 <SelectFieldWith
-                  placeholder={"Виберите статус"}
+                  placeholder={""}
                   name="status_client"
                   control={control}
                   options={StatusOptions}
+                  height="43px"
                 />
               </Box>
             );

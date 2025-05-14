@@ -115,10 +115,10 @@ const useBankCardList = () => {
     debouncedMonth,
     debouncedCardNumber,
     debouncedCurrency,
-
     debouncedName,
     page,
     sort,
+    dispatch,
   ]);
 
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
@@ -203,15 +203,16 @@ const useBankCardList = () => {
               <Box>
                 <P
                   fontWeight={"bold"}
-                  sx={{ textWrap: "nowrap", paddingBottom: "10px" }}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
                 >
                   {t("currency")}
                 </P>
                 <SelectFieldWith
-                  placeholder={"Виберите валюту"}
+                  placeholder={""}
                   name="currency"
                   control={control}
                   options={CurrencyOptions}
+                  height="43px"
                 />
               </Box>
             );
