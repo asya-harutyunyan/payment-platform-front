@@ -106,6 +106,8 @@ const useReports = () => {
     debouncedMonth,
     debouncedSurnameUser,
     debouncedEmailUser,
+    sortUsers,
+    page,
   ]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {

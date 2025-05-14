@@ -16,6 +16,7 @@ export const getUsersThunk = createAsyncThunk(
           surname: data.surname,
           month: data.month,
           email: data.email,
+          sort: data.sort,
         },
       });
       return response.data;
@@ -42,6 +43,7 @@ export const getBlockedUsersThunk = createAsyncThunk(
           surname: data.surname,
           month: data.month,
           email: data.email,
+          sort: data.sort,
         },
       });
       return response.data;

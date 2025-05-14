@@ -79,7 +79,6 @@ const useUserList = () => {
         })
       );
     } else {
-      // If a valid month is selected, include it in the request
       dispatch(
         getUsersThunk({
           page,
@@ -92,7 +91,15 @@ const useUserList = () => {
         })
       );
     }
-  }, [debouncedName, debouncedSurname, debouncedEmail, debouncedMonth, sort]);
+  }, [
+    debouncedName,
+    debouncedSurname,
+    debouncedEmail,
+    debouncedMonth,
+    sort,
+    dispatch,
+    page,
+  ]);
 
   const onChangeUsersPage = (
     _event: React.ChangeEvent<unknown>,

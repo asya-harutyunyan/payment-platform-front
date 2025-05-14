@@ -180,7 +180,12 @@ const useAdminOrder = () => {
           },
           column: () => (
             <Box>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+              <P
+                fontWeight={"bold"}
+                sx={{ display: "flex", alignItems: "center" }}
+              >
+                {t("sort_by_created_at")} {sortComponent()}
+              </P>
               <MonthPicker name="month" control={control} />
             </Box>
           ),
@@ -283,7 +288,6 @@ const useAdminOrder = () => {
             }
           : null,
         {
-          column: () => sortComponent(),
           renderComponent: (row: Order) => {
             return (
               <Button
@@ -357,9 +361,6 @@ const useAdminOrder = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",

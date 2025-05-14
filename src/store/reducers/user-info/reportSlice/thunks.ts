@@ -54,6 +54,7 @@ export const platipayThunk = createAsyncThunk(
           status_by_client: data.status_by_client,
           transaction_id: data.transaction_id,
           month: data.month,
+          sort: data.sort,
         },
       });
       return response.data;
@@ -84,6 +85,8 @@ export const historyThunk = createAsyncThunk(
           month: data.month,
           action: data.action,
           role: data.role,
+          sort: data.sort,
+          date: data.date,
         },
       });
       return response.data;

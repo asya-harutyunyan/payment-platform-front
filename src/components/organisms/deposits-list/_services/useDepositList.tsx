@@ -91,11 +91,10 @@ const useDepositInfo = () => {
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
-            sort_by: debouncedAmount,
+            sort: sort,
             status_by_admin: status,
             type: debouncedTyoe,
             month: "",
-            sort_order: sort,
           })
         );
       } else {
@@ -105,11 +104,10 @@ const useDepositInfo = () => {
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
-            sort_by: debouncedAmount,
+            sort: sort,
             status_by_admin: status,
             type: debouncedTyoe,
             month: "",
-            sort_order: sort,
           })
         );
       }
@@ -121,11 +119,10 @@ const useDepositInfo = () => {
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
-            sort_by: debouncedAmount,
+            sort: sort,
             status_by_admin: status,
             type: debouncedTyoe,
             month: debouncedMonth,
-            sort_order: sort,
           })
         );
       } else {
@@ -135,11 +132,10 @@ const useDepositInfo = () => {
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
-            sort_by: debouncedAmount,
+            sort: sort,
             status_by_admin: status,
             type: debouncedTyoe,
             month: debouncedMonth,
-            sort_order: sort,
           })
         );
       }

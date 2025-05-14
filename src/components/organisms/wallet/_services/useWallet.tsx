@@ -94,6 +94,7 @@ const useWallet = () => {
     debouncedNetwork,
     debouncedMonth,
     page,
+    sort,
   ]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
