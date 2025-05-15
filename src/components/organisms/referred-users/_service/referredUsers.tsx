@@ -196,7 +196,7 @@ const useReferredUsers = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40px",
+            paddingTop: "8px",
             cursor: "pointer",
           }}
         >
@@ -330,14 +330,17 @@ const useReferredUsers = () => {
         },
         column: () => (
           <Box>
+            {" "}
+            <P fontWeight={"bold"} sx={{ textWrap: "nowrap" }}>
+              {t("sort_by_created_at")}
+            </P>{" "}
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              {" "}
-              <P fontWeight={"bold"} sx={{ textWrap: "nowrap" }}>
-                {t("sort_by_created_at")}
-              </P>{" "}
-              {sortComponent()}
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <MonthPicker name="month" control={filterControl} />{" "}
+                <MonthPicker name="month" control={filterControl} />{" "}
+              </Box>
+              {sortComponent()}{" "}
             </Box>
-            <MonthPicker name="month" control={filterControl} />
           </Box>
         ),
       },

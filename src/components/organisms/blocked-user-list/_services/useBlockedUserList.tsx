@@ -185,7 +185,13 @@ const useBlockedUserList = () => {
           column: () => (
             <Box>
               <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
-              <MonthPicker name="month" control={BlockedUserControl} />
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker name="month" control={BlockedUserControl} />
+                  <MonthPicker name="month" control={BlockedUserControl} />
+                </Box>
+                {sortBlockedComponent()}
+              </Box>
             </Box>
           ),
           renderComponent: (row: User) => {
@@ -201,7 +207,6 @@ const useBlockedUserList = () => {
         },
         user?.permissions.includes("users_unblock")
           ? {
-              column: () => sortBlockedComponent(),
               renderComponent: (row: User) => {
                 return (
                   <Button
@@ -223,16 +228,13 @@ const useBlockedUserList = () => {
       <Box
         sx={{
           display: "flex",
+          paddingTop: "8px",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40px",
             cursor: "pointer",
           }}
         >
@@ -290,7 +292,6 @@ const useBlockedUserList = () => {
     handleSingleUser,
     columnsBlockedUsers,
     pageBlockedUsers,
-
     users,
     blockedUsers,
     total,

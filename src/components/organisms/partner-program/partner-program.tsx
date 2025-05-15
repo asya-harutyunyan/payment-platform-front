@@ -25,6 +25,7 @@ export const PartnerProgramComponent: FC = () => {
     onChangePage,
     columns,
     generateReferalCode,
+    PartnerProgramSummary,
     // onSubmit,
     // selectedType,
     // options,
@@ -60,6 +61,13 @@ export const PartnerProgramComponent: FC = () => {
                 <P color="primary.main">{user.referral.referral_code}</P>
               </Box>
             )}
+            <Box
+              sx={{
+                width: "100%",
+              }}
+            >
+              {PartnerProgramSummary()}
+            </Box>
             {/* //TODO: */}
             {/* <BasicCard
               sx={{

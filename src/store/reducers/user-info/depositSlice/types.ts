@@ -26,6 +26,12 @@ export interface DepositState {
       amount: number;
     };
   };
+  paginationAdminPage: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
+  };
   pagination: {
     current_page: number;
     last_page: number;

@@ -1,1 +1,1 @@
-export * from "./platipay";
+export * from "./history";

@@ -186,7 +186,10 @@ const useWallet = () => {
               column: () => (
                 <Box>
                   <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-                  <MonthPicker name="month" control={control} />
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <MonthPicker name="month" control={control} />
+                    <MonthPicker name="month" control={control} />
+                  </Box>
                 </Box>
               ),
               renderComponent: (row: WalletType) => {

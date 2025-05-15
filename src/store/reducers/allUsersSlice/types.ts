@@ -17,6 +17,8 @@ export interface UserState {
   banks: BankNames[];
   referred_users_list: ReferedUsersListRequest[];
   referralUsersForAdmin: RefferedUsersList[];
+  amount_to_pay: string;
+  total_amount: string;
   referralUser: ReferralOfUser[];
   referralUsersForAdminPagination: ReferralAdminPagination;
 }
@@ -99,6 +101,8 @@ export interface GetUsersRequest {
   email?: string;
   search?: string;
   sort?: "ASC" | "DESC";
+  to?: string;
+  from?: string;
   month?: string;
 }
 export interface PaginatedUsersResponse {

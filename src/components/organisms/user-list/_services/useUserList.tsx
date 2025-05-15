@@ -149,7 +149,6 @@ const useUserList = () => {
         sx={{
           display: "flex",
           flexDirection: "column",
-          width: "40px",
           cursor: "pointer",
         }}
       >
@@ -179,14 +178,21 @@ const useUserList = () => {
         {
           column: () => (
             <Box>
-              <Box sx={{ display: "flex" }}>
-                {" "}
-                <P fontWeight={"bold"} paddingRight={"5px"}>
-                  {t("created_at")}
-                </P>
-                {sortComponent()}
+              <P fontWeight={"bold"} paddingRight={"5px"}>
+                {t("created_at")}
+              </P>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker name="from" control={control} />
+                  <MonthPicker name="to" control={control} />
+                </Box>
+                <Box paddingTop={"8px"}>{sortComponent()}</Box>
               </Box>
-              <MonthPicker name="month" control={control} />
             </Box>
           ),
           renderComponent: (row: User) => (
@@ -265,7 +271,6 @@ const useUserList = () => {
         },
         user?.permissions.includes("users_block")
           ? {
-              // column: () => sortComponent(),
               renderComponent: (row: User) => (
                 <Button
                   variant={"error"}

@@ -22,7 +22,15 @@ import { z } from "zod";
 type FormData = z.infer<typeof platipay_schema>;
 
 const usePlatipayService = () => {
-  const { platipay, total, loading } = useAppSelector((state) => state.reports);
+  const {
+    platipay,
+    total,
+    loading,
+    done_count,
+    progress_count,
+    not_gived_count,
+    expired_count,
+  } = useAppSelector((state) => state.reports);
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
@@ -157,11 +165,20 @@ const usePlatipayService = () => {
       {
         column: () => (
           <Box>
-            <Box sx={{ display: "flex" }}>
-              <P fontWeight={"bold"}>{t("created_at")}</P>
+            <P fontWeight={"bold"}>{t("created_at")}</P>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <MonthPicker name="month" control={control} />
+                <MonthPicker name="month" control={control} />
+              </Box>
               {sortComponent()}
             </Box>
-            <MonthPicker name="month" control={control} />
           </Box>
         ),
         renderComponent: (row: Platipay) => {
@@ -220,10 +237,98 @@ const usePlatipayService = () => {
       </Box>
     );
   };
+  const PartnerProgramSummary = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          width: "100%",
+          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            paddingRight: "15px",
+          }}
+        >
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            {t("done_count")}:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>{done_count}0</P>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            paddingRight: "15px",
+          }}
+        >
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            {t("expired_count")}:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {expired_count}0
+          </P>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            paddingRight: "15px",
+          }}
+        >
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+              fontSize: "1rem",
+            }}
+          >
+            {t("progress_count")}:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {progress_count}0
+          </P>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            paddingRight: "15px",
+          }}
+        >
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
 
+              fontSize: "1rem",
+            }}
+          >
+            {t("not_gived_count")}:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {not_gived_count}0
+          </P>
+        </Box>
+      </Box>
+    );
+  };
   return {
     dispatch,
     platipay,
+    PartnerProgramSummary,
     total,
     loading,
     page,

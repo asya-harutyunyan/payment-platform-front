@@ -36,6 +36,8 @@ const initialState: UserState = {
     per_page: 0,
     total: 0,
   },
+  amount_to_pay: "",
+  total_amount: "",
 };
 
 const usersSlice = createSlice({
@@ -66,6 +68,8 @@ const usersSlice = createSlice({
       .addCase(getReferalsUserThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.referralUser = action.payload.referred_users;
+        state.total_amount = action.payload.total_amount;
+        state.amount_to_pay = action.payload.amount_to_pay;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

@@ -49,6 +49,7 @@ export const SelectFieldWith = <T extends FieldValues>({
             "& .MuiInputBase-root": {
               height: height ?? "inherit",
               boxSizing: "border-box",
+              textTransform: "capitalize",
             },
           }}
         />

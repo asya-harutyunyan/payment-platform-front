@@ -210,14 +210,32 @@ const useReports = () => {
         column: "total_cards",
         valueKey: "total_cards",
       },
+      //
+      {
+        column: "earned_amount",
+        valueKey: "earned_amount",
+      },
+
+      {
+        column: "deposit_amount",
+        valueKey: "deposit_amount",
+      },
+      {
+        column: "paid_amount",
+        valueKey: "paid_amount",
+      },
+      //
       {
         column: () => (
           <Box>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-              {sortUserComponent()}
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <MonthPicker name="month" control={UserControl} />
+                <MonthPicker name="month" control={UserControl} />
+              </Box>
+              {sortUserComponent()}{" "}
             </Box>
-            <MonthPicker name="month" control={UserControl} />
           </Box>
         ),
         renderComponent: (row: ReportUsers) => {
@@ -330,7 +348,7 @@ const useReports = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40px",
+            paddingTop: "8px",
             cursor: "pointer",
           }}
         >

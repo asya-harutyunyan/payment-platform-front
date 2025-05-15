@@ -111,6 +111,9 @@ export const SelectField = <T extends FieldValues>({
           <MenuItem
             key={option.id}
             value={valueKey ? option[valueKey] : option.name}
+            sx={{
+              textTransform: "capitalize",
+            }}
           >
             {nameKey ? option[nameKey as keyof ISelectOption] : t(option.name)}{" "}
           </MenuItem>

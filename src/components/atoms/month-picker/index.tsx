@@ -18,7 +18,7 @@ type MonthPickerProps = {
   onClear?: () => void;
 };
 
-const VERTICAL_PADDING = "40px";
+const VERTICAL_PADDING = "43px";
 
 export const MonthPicker = ({
   name,
@@ -39,7 +39,7 @@ export const MonthPicker = ({
             render={({ field }) => (
               <>
                 <DatePicker
-                  views={["year", "month"]}
+                  views={["day", "year", "month"]}
                   label={label}
                   value={field.value}
                   onChange={field.onChange}
@@ -81,8 +81,8 @@ export const MonthPicker = ({
                     popper: {
                       sx: {
                         "& .MuiPaper-root": {
-                          color: "primary.main", // Popup text color
-                          backgroundColor: "white", // Optional background color
+                          color: "primary.main",
+                          backgroundColor: "white",
                         },
                         "& .MuiPickersCalendarHeader-label": {
                           color: "primary.main",

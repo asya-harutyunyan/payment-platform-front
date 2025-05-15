@@ -34,6 +34,9 @@ export const DepositLists: FC = () => {
     columns,
     depositsAdmin,
     columnsUser,
+    paginationAdminPage,
+    onChangePageAdmin,
+    pageAdmin,
   } = useDepositList();
 
   const handleConfirm = (id?: number) => {
@@ -77,9 +80,15 @@ export const DepositLists: FC = () => {
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
             <PaginationOutlined
-              page={page}
-              onPageChange={onChangePage}
-              count={pagination.last_page}
+              page={user?.role === "client" ? page : pageAdmin}
+              onPageChange={
+                user?.role === "client" ? onChangePage : onChangePageAdmin
+              }
+              count={
+                user?.role === "client"
+                  ? pagination.last_page
+                  : paginationAdminPage.last_page
+              }
             />
           </Box>
         </Box>

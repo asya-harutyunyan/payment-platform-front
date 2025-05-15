@@ -9,6 +9,10 @@ export interface ReportsState {
   last_page: number | null;
   total: number;
   platipay: Platipay[];
+  done_count: string;
+  progress_count: string;
+  not_gived_count: string;
+  expired_count: string;
   orderSummary: Summary;
   orders_platformX: Order[];
   orders_stats: DepositStates;
@@ -85,6 +89,9 @@ export type PlatformX = {
 export type ReportUsers = {
   name: string;
   surname: string;
+  earned_amount: string;
+  deposit_amount: string;
+  paid_amount: string;
   blocked_cards: string;
   wallet_total: string;
   total_cards: string;
@@ -118,12 +125,10 @@ export interface PlatipayRequest {
 export interface HistoryRequest {
   page?: number;
   per_page?: number;
-  by_name?: string;
-  by_surname?: string;
+  by_name_surname?: string;
   by_email?: string;
   to_email?: string;
-  to_name?: string;
-  to_surname?: string;
+  to_name_surname?: string;
   action?: string;
   role?: string;
   month?: string;

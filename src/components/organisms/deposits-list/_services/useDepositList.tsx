@@ -38,13 +38,23 @@ type FormData = z.infer<typeof deposit_schema>;
 const useDepositInfo = () => {
   const { goToUserPage } = useUserContext();
   const dispatch = useAppDispatch();
-  const { deposits, depositsAdmin, total, loading, lastPage, pagination } =
-    useAppSelector((state) => state.deposit);
+  const {
+    deposits,
+    depositsAdmin,
+    paginationAdminPage,
+    total,
+    loading,
+    lastPage,
+    pagination,
+  } = useAppSelector((state) => state.deposit);
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const { user } = useAuth();
   const [page, setPage] = useState(1);
+  console.log(paginationAdminPage, "paginationAdminPage");
+
+  const [pageAdmin, setPageAdmin] = useState(1);
   const { control, register, watch } = useForm<FormData>({
     resolver: zodResolver(deposit_schema),
     defaultValues: {
@@ -100,7 +110,7 @@ const useDepositInfo = () => {
       } else {
         dispatch(
           getDepositsAdminThunk({
-            page: page,
+            page: pageAdmin,
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
@@ -115,7 +125,7 @@ const useDepositInfo = () => {
       if (user?.role === "admin" || user?.role === "superAdmin") {
         dispatch(
           getDepositsAdminThunk({
-            page: page,
+            page: pageAdmin,
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
@@ -146,9 +156,18 @@ const useDepositInfo = () => {
     debouncedStatusByAdmin,
     debouncedTyoe,
     page,
-    sort,
+    pageAdmin,
+    debouncedSurname,
     debouncedMonth,
     user?.role,
+    month,
+    name,
+    surname,
+    statusByAdmin,
+    type,
+    amount,
+    sort,
+    dispatch,
   ]);
 
   useEffect(() => {
@@ -162,12 +181,12 @@ const useDepositInfo = () => {
     } else {
       dispatch(
         getDepositsAdminThunk({
-          page: page,
+          page: pageAdmin,
           per_page: 50,
         })
       );
     }
-  }, [dispatch, page, user?.role]);
+  }, [dispatch, page, pageAdmin, user?.role]);
 
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
     if (type) {
@@ -202,16 +221,23 @@ const useDepositInfo = () => {
         .format()
     );
   };
-  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
-    setPage?.(page);
+  const onChangePageAdmin = (
+    _event: React.ChangeEvent<unknown>,
+    page: number
+  ) => {
+    setPageAdmin?.(page);
     if (user?.role === "admin" || user?.role === "superAdmin") {
       dispatch(
         getDepositsAdminThunk({
-          page: page,
+          page: pageAdmin,
           per_page: 50,
         })
       );
-    } else {
+    }
+  };
+  const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
+    setPage?.(page);
+    if (user?.role === "client") {
       dispatch(
         getDepositsThunk({
           page: page,
@@ -411,7 +437,10 @@ const useDepositInfo = () => {
           column: () => (
             <Box>
               <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
-              <MonthPicker name="month" control={control} />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <MonthPicker name="month" control={control} />
+                <MonthPicker name="month" control={control} />
+              </Box>
             </Box>
           ),
           renderComponent: (row: DataDeposits) => {
@@ -613,6 +642,9 @@ const useDepositInfo = () => {
     route,
     handleSingleOrder,
     depositsAdmin,
+    paginationAdminPage,
+    onChangePageAdmin,
+    pageAdmin,
   };
 };
 

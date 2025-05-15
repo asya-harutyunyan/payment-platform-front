@@ -12,6 +12,8 @@ export function getStatusColor(status: string) {
       return "#B22222";
     case "failed":
       return "#4a4a4a";
+    case "not_gived":
+      return "#292929";
     default:
       return "black";
   }
@@ -31,5 +33,12 @@ export const CurrencyOptions = [
   { id: Math.random(), name: "RUB" },
   { id: Math.random(), name: "USD" },
   { id: Math.random(), name: "USDT" },
+  { id: Math.random(), name: "all" },
+];
+
+export const RoleOptions = [
+  { id: Math.random(), name: "superAdmin" },
+  { id: Math.random(), name: "admin" },
+  { id: Math.random(), name: "client" },
   { id: Math.random(), name: "all" },
 ];

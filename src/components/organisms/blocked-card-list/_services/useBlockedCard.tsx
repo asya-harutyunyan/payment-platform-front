@@ -237,11 +237,19 @@ const useBlockedCard = () => {
       {
         column: () => (
           <Box>
-            <Box sx={{ display: "flex" }}>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <MonthPicker name="month" control={control} />
+                <MonthPicker name="month" control={control} />
+              </Box>
               {sortComponent()}
             </Box>
-            <MonthPicker name="month" control={control} />
           </Box>
         ),
         renderComponent: (row: BankCardsDetalis) => {
@@ -276,7 +284,7 @@ const useBlockedCard = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40px",
+            paddingTop: "8px",
             cursor: "pointer",
           }}
         >

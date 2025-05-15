@@ -185,9 +185,15 @@ const useAdminOrder = () => {
                 fontWeight={"bold"}
                 sx={{ display: "flex", alignItems: "center" }}
               >
-                {t("sort_by_created_at")} {sortComponent()}
+                {t("sort_by_created_at")}
               </P>
-              <MonthPicker name="month" control={control} />
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker name="month" control={control} />
+                  <MonthPicker name="month" control={control} />
+                </Box>
+                {sortComponent()}
+              </Box>
             </Box>
           ),
         },
@@ -367,7 +373,7 @@ const useAdminOrder = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40px",
+            paddingTop: "8px",
             cursor: "pointer",
           }}
         >
@@ -466,13 +472,12 @@ const useAdminOrder = () => {
             sx={{
               color: "primary.main",
               fontWeight: "700",
-
-              fontSize: "0.8rem",
+              fontSize: "0.9rem",
             }}
           >
             Количество активных карт:
           </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+          <P sx={{ fontSize: "0.9rem", paddingLeft: "5px" }}>
             {orderSummary.active_cards}
           </P>
         </Box>
@@ -482,12 +487,12 @@ const useAdminOrder = () => {
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.8rem",
+              fontSize: "0.9rem",
             }}
           >
             Сумма, залитая на карты:
           </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+          <P sx={{ fontSize: "0.9rem", paddingLeft: "5px" }}>
             {orderSummary.deposited_amounts}₽
           </P>
         </Box>
@@ -497,12 +502,12 @@ const useAdminOrder = () => {
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.8rem",
+              fontSize: "0.9rem",
             }}
           >
             Полученная сумма:
           </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+          <P sx={{ fontSize: "0.9rem", paddingLeft: "5px" }}>
             {orderSummary.expiredAmount}₽
           </P>
         </Box>
@@ -512,12 +517,12 @@ const useAdminOrder = () => {
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.8rem",
+              fontSize: "0.9rem",
             }}
           >
             Количество истекших:
           </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+          <P sx={{ fontSize: "0.9rem", paddingLeft: "5px" }}>
             {orderSummary.expiredCount}
           </P>
         </Box>
@@ -528,12 +533,12 @@ const useAdminOrder = () => {
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.8rem",
+              fontSize: "0.9rem",
             }}
           >
             Ожидаемая сумма:
           </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+          <P sx={{ fontSize: "0.9rem", paddingLeft: "5px" }}>
             {orderSummary.not_deposited_yet_amount}₽
           </P>
         </Box>

@@ -11,6 +11,7 @@ import usePlatipayService from "./_services/usePlatipayService";
 export const PlatiPay: FC = () => {
   const {
     dispatch,
+    PartnerProgramSummary,
     platipay,
     total,
     loading,
@@ -26,7 +27,11 @@ export const PlatiPay: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("platipay")} />
+      <TaskHeader
+        title={t("platipay")}
+        width="100%"
+        renderComponent={PartnerProgramSummary()}
+      />
       {loading ? (
         <CircularIndeterminate />
       ) : (

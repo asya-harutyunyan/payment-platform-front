@@ -7,8 +7,11 @@ import {
   getReferalsUserThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { ReferralOfUser } from "@/store/reducers/user-info/depositSlice/types";
+import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
@@ -16,9 +19,8 @@ import { z } from "zod";
 type FormData = z.infer<typeof gen_code_type_schema>;
 
 const usePartnerProgram = () => {
-  const { referralUser, total, loading } = useAppSelector(
-    (state) => state.users
-  );
+  const { referralUser, amount_to_pay, total_amount, total, loading } =
+    useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
@@ -84,7 +86,51 @@ const usePartnerProgram = () => {
     { id: 1, name: "FIAT", currency: "Картой" },
     { id: 2, name: "CRYITO", currency: "Криптовалютой" },
   ];
+  const PartnerProgramSummary = () => {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "start",
+          width: "100%",
+          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+        }}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            paddingRight: "15px",
+          }}
+        >
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
 
+              fontSize: "1rem",
+            }}
+          >
+            {t(amount_to_pay)}:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>{amount_to_pay}</P>
+        </Box>
+        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+          <P
+            sx={{
+              color: "primary.main",
+              fontWeight: "700",
+
+              fontSize: "1rem",
+            }}
+          >
+            {t("total_amount")}:
+          </P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>{total_amount}₽</P>
+        </Box>
+      </Box>
+    );
+  };
   return {
     referralUser,
     total,
@@ -99,6 +145,7 @@ const usePartnerProgram = () => {
     onChangePage,
     columns,
     generateReferalCode,
+    PartnerProgramSummary,
     onSubmit,
     selectedType,
     options,

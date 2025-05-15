@@ -1,6 +1,8 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
+import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
+import { RoleOptions } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { history_schema } from "@/schema/history_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -74,20 +76,19 @@ const usePlatipayService = () => {
   useEffect(() => {
     const isValidMonth =
       dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    const role = debouncedRole === "all" ? "" : debouncedRole;
 
     if (!isValidMonth) {
       dispatch(
         historyThunk({
           page,
           per_page: 20,
-          by_name: debounceByName,
-          by_surname: debouncedBySurname,
+          by_name_surname: debounceByName,
           by_email: debouncedByEmail,
           to_email: debouncedToEmail,
-          to_surname: debouncedToSurname,
-          to_name: debouncedToName,
+          to_name_surname: debouncedToName,
           action: debouncedAction,
-          role: debouncedRole,
+          role: role,
           month: "",
           date: debouncedDate,
           sort,
@@ -98,14 +99,12 @@ const usePlatipayService = () => {
         historyThunk({
           page,
           per_page: 20,
-          by_name: debounceByName,
-          by_surname: debouncedBySurname,
+          by_name_surname: debounceByName,
           by_email: debouncedByEmail,
           to_email: debouncedToEmail,
-          to_surname: debouncedToSurname,
-          to_name: debouncedToName,
+          to_name_surname: debouncedToName,
           action: debouncedAction,
-          role: debouncedRole,
+          role: role,
           month: debouncedMonth,
           date: debouncedDate,
           sort,
@@ -133,12 +132,10 @@ const usePlatipayService = () => {
       historyThunk({
         page,
         per_page: 20,
-        by_name: debounceByName,
-        by_surname: debouncedBySurname,
+        by_name_surname: debounceByName,
         by_email: debouncedByEmail,
         to_email: debouncedToEmail,
-        to_surname: debouncedToSurname,
-        to_name: debouncedToName,
+        to_name_surname: debouncedToName,
         action: debouncedAction,
         role: debouncedRole,
         month: debouncedMonth,
@@ -166,7 +163,7 @@ const usePlatipayService = () => {
       },
 
       {
-        column: "by_name",
+        column: "by_name_surname",
         valueKey: "by_name",
         filters: () => {
           return (
@@ -179,20 +176,7 @@ const usePlatipayService = () => {
           );
         },
       },
-      {
-        column: "by_surname",
-        valueKey: "by_surname",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              name="by_surname"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
-        },
-      },
+
       {
         column: "by_email",
         valueKey: "by_email",
@@ -223,41 +207,35 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "role",
         valueKey: "role",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="role"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("role")}
+              </P>
+              <SelectFieldWith
+                placeholder={""}
+                name="role"
+                control={control}
+                options={RoleOptions}
+                height="43px"
+              />
+            </Box>
           );
         },
       },
       {
-        column: "to_name",
+        column: "to_name_surname",
         valueKey: "to_name",
         filters: () => {
           return (
             <FormTextInput
               control={control}
               name="to_name"
-              width="200px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
-          );
-        },
-      },
-      {
-        column: "to_surname",
-        valueKey: "to_surname",
-        filters: () => {
-          return (
-            <FormTextInput
-              control={control}
-              name="to_surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -281,11 +259,20 @@ const usePlatipayService = () => {
       {
         column: () => (
           <Box>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+
             <Box sx={{ display: "flex" }}>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-              {sortComponent()}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <MonthPicker name="month" control={control} />
+                <MonthPicker name="month" control={control} />
+              </Box>
+              {sortComponent()}{" "}
             </Box>
-            <MonthPicker name="month" control={control} />
           </Box>
         ),
         renderComponent: (row: HistoryRequest) => {
@@ -320,7 +307,7 @@ const usePlatipayService = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            width: "40px",
+            paddingTop: "8px",
             cursor: "pointer",
           }}
         >

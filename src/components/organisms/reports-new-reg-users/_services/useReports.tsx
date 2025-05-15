@@ -201,7 +201,10 @@ const useReports = () => {
         column: () => (
           <Box>
             <P fontWeight={"bold"}>{t("created_at")}</P>
-            <MonthPicker name="month" control={NewUserControl} />
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <MonthPicker name="month" control={NewUserControl} />
+              <MonthPicker name="month" control={NewUserControl} />
+            </Box>
           </Box>
         ),
         valueKey: "created_at",

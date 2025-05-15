@@ -14,9 +14,11 @@ export const getUsersThunk = createAsyncThunk(
           per_page: data.per_page,
           name: data.name,
           surname: data.surname,
-          month: data.month,
+          to: data.to,
+          from: data.from,
           email: data.email,
           sort: data.sort,
+          month: data.month,
         },
       });
       return response.data;
@@ -41,7 +43,8 @@ export const getBlockedUsersThunk = createAsyncThunk(
           per_page: data.per_page,
           name: data.name,
           surname: data.surname,
-          month: data.month,
+          to: data.to,
+          from: data.from,
           email: data.email,
           sort: data.sort,
         },

@@ -23,7 +23,6 @@ const TaskHeader: FC<ITaskHeader> = ({
       <H3
         color={theme.palette.primary.main}
         sx={{
-          paddingLeft: "15px",
           fontSize: {
             lg: "1.75rem",
             md: "1.75rem",
@@ -46,7 +45,7 @@ const TaskHeader: FC<ITaskHeader> = ({
         </P>
       )}
       {renderComponent && (
-        <Box sx={{ margin: "20px 0" }}>{renderComponent}</Box>
+        <Box sx={{ margin: "20px 0", width: "100%" }}>{renderComponent}</Box>
       )}
       {subTitle && <Divider sx={{ marginTop: "8px", marginBottom: "30px" }} />}
     </Box>
