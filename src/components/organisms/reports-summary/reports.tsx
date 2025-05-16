@@ -8,16 +8,12 @@ import { t } from "i18next";
 import useReports from "./_services/useReports";
 
 export const ReportsSummary = () => {
-  const {
-    loadingAndTotal,
-
-    orders_stats,
-  } = useReports();
+  const { orders_stats, loadingDeposits } = useReports();
 
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("reports-summary")} />
-      {loadingAndTotal.loading ? (
+      {loadingDeposits ? (
         <CircularIndeterminate />
       ) : (
         <Paper

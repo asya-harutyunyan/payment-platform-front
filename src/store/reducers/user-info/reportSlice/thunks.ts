@@ -193,8 +193,8 @@ export const GetPlatformXThunk = createAsyncThunk(
             data.status_by_client === DEPOSIT_STATUSES.ALL
               ? undefined
               : data.status_by_client,
-          start_date: data.start_date,
-          end_date: data.start_date,
+          from: data.from,
+          to: data.to,
         },
       });
       return response.data;

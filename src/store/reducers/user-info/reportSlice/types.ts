@@ -113,6 +113,8 @@ export interface GetPlatformXRequest {
   status_by_client?: DEPOSIT_STATUSES;
   start_date: string;
   end_date: string;
+  from?: string;
+  to?: string;
 }
 export interface PlatipayRequest {
   page: number;
