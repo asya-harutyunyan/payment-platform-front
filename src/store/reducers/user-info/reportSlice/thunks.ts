@@ -1,5 +1,4 @@
 import { httpClient } from "@/common/api";
-import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Pagination } from "../walletSlice/types";
@@ -165,9 +164,14 @@ export const getSummaryThunk = createAsyncThunk(
 );
 export const getProcessedAmountsThunk = createAsyncThunk(
   "reports/getProcessedAmountsThunk",
-  async (_, { rejectWithValue }) => {
+  async (data: GetPlatformXRequest, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get(`/orders/admin/processed-amounts`);
+      const response = await httpClient.get(`/orders/admin/processed-amounts`, {
+        params: {
+          from: data.from,
+          to: data.to,
+        },
+      });
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
@@ -187,12 +191,6 @@ export const GetPlatformXThunk = createAsyncThunk(
     try {
       const response = await httpClient.get("/platform-x/orders-stats", {
         params: {
-          page: data.page,
-          per_page: data.per_page,
-          status_by_client:
-            data.status_by_client === DEPOSIT_STATUSES.ALL
-              ? undefined
-              : data.status_by_client,
           from: data.from,
           to: data.to,
         },

@@ -58,7 +58,6 @@ export const ReportsSummary = () => {
       })
     );
   }, [debouncedTo, debouncedFrom]);
-  console.log(orders_stats);
 
   return (
     <Box sx={{ width: "100%" }}>

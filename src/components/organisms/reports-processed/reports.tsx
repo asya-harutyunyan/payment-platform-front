@@ -1,23 +1,67 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
 
+import { MonthPicker } from "@/components/atoms/month-picker";
+import { add_wallet_schema } from "@/schema/add_wallet.schema";
+import { useAppDispatch } from "@/store";
+import { getProcessedAmountsThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { H5, P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import dayjs from "dayjs";
 import { t } from "i18next";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import { z } from "zod";
 import useReports from "./_services/useReports";
 
-export const ReportsProccesedAmount = () => {
-  const {
-    loadingAndTotal,
+type FormData = z.infer<typeof add_wallet_schema>;
 
-    admingetProcessedAmounts,
-  } = useReports();
+export const ReportsProccesedAmount = () => {
+  const { admingetProcessedAmounts, loading } = useReports();
+  console.log(admingetProcessedAmounts);
+  const dispatch = useAppDispatch();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
+  const { control, watch } = useForm<FormData>({
+    resolver: zodResolver(add_wallet_schema),
+    defaultValues: {
+      from: undefined,
+      to: undefined,
+    },
+  });
+
+  const from = watch("from");
+  const to = watch("to");
+
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
+    2000
+  );
+
+  useEffect(() => {
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
+    dispatch(
+      getProcessedAmountsThunk({
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+      })
+    );
+  }, [debouncedTo, debouncedFrom]);
 
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("processed-amounts")} />
-      {loadingAndTotal.loading ? (
+      {loading ? (
         <CircularIndeterminate />
       ) : (
         <Paper
@@ -29,6 +73,29 @@ export const ReportsProccesedAmount = () => {
             padding: "20px",
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            <Box sx={{ marginRight: "20px" }}>
+              <MonthPicker
+                name="from"
+                control={control}
+                label={t("from")}
+                onOpen={() => setIsDatePickerOpen(true)}
+                onClose={() => setIsDatePickerOpen(false)}
+              />
+            </Box>
+            <MonthPicker
+              name="to"
+              control={control}
+              label={t("to")}
+              onOpen={() => setIsDatePickerOpen(true)}
+              onClose={() => setIsDatePickerOpen(false)}
+            />
+          </Box>
           <Box
             sx={{
               display: "flex",

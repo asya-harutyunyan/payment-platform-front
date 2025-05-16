@@ -112,7 +112,7 @@ export interface Platipay {
   created_at: string;
 }
 export interface GetPlatformXRequest {
-  page: number;
+  page?: number;
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;
   from?: string;
