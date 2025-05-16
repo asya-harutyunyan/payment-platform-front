@@ -26,7 +26,8 @@ export const newRegisteredUsersThunk = createAsyncThunk(
             name: data.name,
             surname: data.surname,
             email: data.email,
-            month: data.month,
+            from: data.from,
+            to: data.to,
           },
         }
       );
@@ -53,7 +54,8 @@ export const platipayThunk = createAsyncThunk(
           amount: data.amount,
           status_by_client: data.status_by_client,
           transaction_id: data.transaction_id,
-          month: data.month,
+          from: data.from,
+          to: data.to,
           sort: data.sort,
         },
       });
@@ -76,13 +78,12 @@ export const historyThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
-          by_name: data.by_name,
-          by_surname: data.by_surname,
+          by_fullname: data.by_fullname,
           by_email: data.by_email,
           to_email: data.to_email,
-          to_name: data.to_name,
-          to_surname: data.to_surname,
-          month: data.month,
+          to_fullname: data.to_fullname,
+          from: data.from,
+          to: data.to,
           action: data.action,
           role: data.role,
           sort: data.sort,
@@ -109,7 +110,8 @@ export const getReportUsersThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
-          month: data.month,
+          from: data.from,
+          to: data.to,
           name: data.name,
           surname: data.surname,
           email: data.email,

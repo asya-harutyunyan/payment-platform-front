@@ -210,5 +210,7 @@ export interface DepositRequest {
   month?: string;
   status_by_admin?: string;
   type?: string;
+  from?: string;
+  to?: string;
   sort?: "ASC" | "DESC";
 }

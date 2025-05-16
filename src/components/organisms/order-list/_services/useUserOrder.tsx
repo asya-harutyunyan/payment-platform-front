@@ -46,6 +46,7 @@ const useAdminOrder = () => {
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const [selectedOrder, setSelectedOrder] = useState<number>();
   const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
@@ -69,7 +70,8 @@ const useAdminOrder = () => {
     defaultValues: {
       name: "",
       surname: "",
-      amount: "",
+      from: undefined,
+      to: undefined,
       status_by_admin: "",
       card_number: "",
       transaction_id: "",
@@ -80,10 +82,10 @@ const useAdminOrder = () => {
   const name = watch("name");
   const surname = watch("surname");
   const amount = watch("amount");
-  const statusByAdmin =
-    watch("status_by_admin") === "all" ? "" : watch("status_by_admin");
+  const statusByAdmin = watch("status_by_admin");
   const cardNumber = watch("card_number");
-  const month = watch("month");
+  const from = watch("from");
+  const to = watch("to");
   const transaction_id = watch("transaction_id");
 
   const [debouncedName] = useDebounce(name, 700);
@@ -92,51 +94,40 @@ const useAdminOrder = () => {
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
   const [debouncedCardNumber] = useDebounce(cardNumber, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
 
   useEffect(() => {
-    if (!user?.role) return;
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
-    // const status =
-    // debouncedStatusByAdmin === "all" ? "" : debouncedStatusByAdmin;
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
+    const status =
+      debouncedStatusByAdmin === "all" ? "" : debouncedStatusByAdmin;
+
     const fetchOrders = () => {
-      if (!isValidMonth) {
-        dispatch(
-          getOrdersThunk({
-            page,
-            per_page: 50,
-            status_by_client: filter,
-            name: debouncedName,
-            surname: debouncedSurname,
-            amount: debouncedAmount,
-            status_client: debouncedStatusByAdmin,
-            card_number: debouncedCardNumber,
-            transaction_id: debouncedTransactionId,
-            month: "",
-            sort,
-          })
-        );
-      } else {
-        dispatch(
-          getOrdersThunk({
-            page,
-            per_page: 50,
-            status_by_client: filter,
-            name: debouncedName,
-            surname: debouncedSurname,
-            amount: debouncedAmount,
-            transaction_id: debouncedTransactionId,
-            month: debouncedMonth,
-            status_client: debouncedStatusByAdmin,
-            card_number: debouncedCardNumber,
-            sort,
-          })
-        );
-      }
+      dispatch(
+        getOrdersThunk({
+          page,
+          per_page: 50,
+          status_by_client: filter,
+          name: debouncedName,
+          surname: debouncedSurname,
+          amount: debouncedAmount,
+          status_client: status,
+          card_number: debouncedCardNumber,
+          transaction_id: debouncedTransactionId,
+          to: isValidRange ? debouncedTo : "",
+          from: isValidRange ? debouncedFrom : "",
+          sort,
+        })
+      );
     };
 
     fetchOrders();
@@ -150,7 +141,8 @@ const useAdminOrder = () => {
     debouncedStatusByAdmin,
     debouncedCardNumber,
     debouncedTransactionId,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     sort,
     filter,
     page,
@@ -159,7 +151,20 @@ const useAdminOrder = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(
-      getOrdersThunk({ page: page, per_page: 50, status_by_client: filter })
+      getOrdersThunk({
+        page: page,
+        per_page: 50,
+        status_by_client: filter,
+        from: debouncedFrom,
+        to: debouncedTo,
+        name: debouncedName,
+        surname: debouncedSurname,
+        amount: debouncedAmount,
+        status_client: debouncedStatusByAdmin,
+        card_number: debouncedCardNumber,
+        transaction_id: debouncedTransactionId,
+        sort,
+      })
     );
   };
   const columns = useMemo<IColumn<Order>[]>(
@@ -175,7 +180,7 @@ const useAdminOrder = () => {
                   fontWeight: 500,
                 }}
               >
-                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
               </span>
             );
           },
@@ -189,8 +194,20 @@ const useAdminOrder = () => {
               </P>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker name="month" control={control} />
-                  <MonthPicker name="month" control={control} />
+                  <MonthPicker
+                    name="from"
+                    control={control}
+                    label={t("from")}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={control}
+                    label={t("to")}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
                 </Box>
                 {sortComponent()}
               </Box>

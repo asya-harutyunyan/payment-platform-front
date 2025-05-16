@@ -33,6 +33,8 @@ const useBlockedUserList = () => {
   const route = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
   const [sortBlockedUsers, setSortBlockedUsers] = useState<"ASC" | "DESC">(
     "ASC"
   );
@@ -49,6 +51,8 @@ const useBlockedUserList = () => {
         name: "",
         surname: "",
         email: "",
+        from: undefined,
+        to: undefined,
       },
     });
 
@@ -56,21 +60,27 @@ const useBlockedUserList = () => {
   const name = BlockedUserWatch("name");
   const surname = BlockedUserWatch("surname");
   const email = BlockedUserWatch("email");
-  const month = BlockedUserWatch("month");
+  const from = BlockedUserWatch("from");
+  const to = BlockedUserWatch("to");
 
   const [debouncedBlockedName] = useDebounce(name, 700);
   const [debouncedBlockedSurname] = useDebounce(surname, 700);
   const [debouncedBlockedEmail] = useDebounce(email, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
 
   useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
 
-    if (!isValidMonth) {
+    if (!isValidRange) {
       dispatch(
         getBlockedUsersThunk({
           page: pageBlockedUsers,
@@ -78,7 +88,8 @@ const useBlockedUserList = () => {
           name: debouncedBlockedName,
           surname: debouncedBlockedSurname,
           email: debouncedBlockedEmail,
-          month: "",
+          from: "",
+          to: "",
           sort: sortBlockedUsers,
         })
       );
@@ -90,7 +101,8 @@ const useBlockedUserList = () => {
           name: debouncedBlockedName,
           surname: debouncedBlockedSurname,
           email: debouncedBlockedEmail,
-          month: debouncedMonth,
+          from: debouncedFrom,
+          to: debouncedTo,
           sort: sortBlockedUsers,
         })
       );
@@ -102,8 +114,10 @@ const useBlockedUserList = () => {
     sortBlockedUsers,
     value,
     pageBlockedUsers,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     dispatch,
+    isDatePickerOpen,
   ]);
 
   const onChangeBlockedUsersPage = (
@@ -115,7 +129,9 @@ const useBlockedUserList = () => {
   };
   //single page
   const handleSingleUser = (row?: number) => {
-    if (route.pathname === "/user-list") {
+    if (route.pathname === "/blocked-user-list") {
+      console.log(row);
+
       navigate({ to: `/user-list/${row}` });
     }
   };
@@ -187,8 +203,18 @@ const useBlockedUserList = () => {
               <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker name="month" control={BlockedUserControl} />
-                  <MonthPicker name="month" control={BlockedUserControl} />
+                  <MonthPicker
+                    name="from"
+                    control={BlockedUserControl}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={BlockedUserControl}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
                 </Box>
                 {sortBlockedComponent()}
               </Box>
@@ -200,7 +226,9 @@ const useBlockedUserList = () => {
                 variant={"outlined"}
                 text={t("see_more")}
                 sx={{ width: "130px" }}
-                onClick={() => handleSingleUser?.(row.id)}
+                onClick={() => {
+                  handleSingleUser?.(row.id);
+                }}
               />
             );
           },

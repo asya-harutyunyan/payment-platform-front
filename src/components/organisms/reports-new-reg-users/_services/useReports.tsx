@@ -34,6 +34,7 @@ const useReports = () => {
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const {
     newRegisteredUsers,
@@ -60,51 +61,53 @@ const useReports = () => {
       name: "",
       surname: "",
       email: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
   const name = NewUserWatch("name");
   const surname = NewUserWatch("surname");
   const email = NewUserWatch("email");
-  const month = NewUserWatch("month");
+  const from = NewUserWatch("from");
+  const to = NewUserWatch("to");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
     2000
   );
-  useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
+    2000
+  );
 
-    if (!isValidMonth) {
-      dispatch(
-        newRegisteredUsersThunk({
-          page,
-          per_page: 20,
-          name: debouncedName,
-          surname: debouncedSurname,
-          email: debouncedEmail,
-          month: "",
-          sort,
-        })
-      );
-    } else {
-      dispatch(
-        newRegisteredUsersThunk({
-          page,
-          per_page: 20,
-          name: debouncedName,
-          surname: debouncedSurname,
-          email: debouncedEmail,
-          month: debouncedMonth,
-          sort,
-        })
-      );
-    }
-  }, [debouncedName, debouncedSurname, debouncedEmail, debouncedMonth]);
+  useEffect(() => {
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
+    dispatch(
+      newRegisteredUsersThunk({
+        page,
+        per_page: 20,
+        name: debouncedName,
+        surname: debouncedSurname,
+        email: debouncedEmail,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort,
+      })
+    );
+  }, [
+    debouncedName,
+    debouncedSurname,
+    debouncedEmail,
+    debouncedTo,
+    debouncedFrom,
+  ]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -202,8 +205,20 @@ const useReports = () => {
           <Box>
             <P fontWeight={"bold"}>{t("created_at")}</P>
             <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <MonthPicker name="month" control={NewUserControl} />
-              <MonthPicker name="month" control={NewUserControl} />
+              <MonthPicker
+                name="from"
+                control={NewUserControl}
+                label={t("from")}
+                onOpen={() => setIsDatePickerOpen(true)}
+                onClose={() => setIsDatePickerOpen(false)}
+              />
+              <MonthPicker
+                name="to"
+                control={NewUserControl}
+                label={t("to")}
+                onOpen={() => setIsDatePickerOpen(true)}
+                onClose={() => setIsDatePickerOpen(false)}
+              />
             </Box>
           </Box>
         ),
@@ -223,7 +238,7 @@ const useReports = () => {
                 }}
               >
                 {" "}
-                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
               </P>
             </Box>
           );

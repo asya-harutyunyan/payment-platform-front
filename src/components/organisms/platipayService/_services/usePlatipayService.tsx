@@ -34,6 +34,7 @@ const usePlatipayService = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { user } = useAuth();
   const { control, register, watch } = useForm<FormData>({
@@ -42,55 +43,52 @@ const usePlatipayService = () => {
       amount: "",
       status_by_client: "",
       transaction_id: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
   const amount = watch("amount");
   const status_by_client = watch("status_by_client");
   const transaction_id = watch("transaction_id");
-  const month = watch("month");
+  const from = watch("from");
+  const to = watch("to");
 
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByClient] = useDebounce(status_by_client, 700);
   const [debouncedTransactionId] = useDebounce(transaction_id, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
     2000
   );
-  useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
+    2000
+  );
 
-    if (!isValidMonth) {
-      dispatch(
-        platipayThunk({
-          page,
-          per_page: 20,
-          amount: debouncedAmount,
-          status_by_client: debouncedStatusByClient,
-          transaction_id: debouncedTransactionId,
-          month: "",
-          sort,
-        })
-      );
-    } else {
-      dispatch(
-        platipayThunk({
-          page,
-          per_page: 20,
-          amount: debouncedAmount,
-          status_by_client: debouncedStatusByClient,
-          transaction_id: debouncedTransactionId,
-          month: debouncedMonth,
-          sort,
-        })
-      );
-    }
+  useEffect(() => {
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
+    dispatch(
+      platipayThunk({
+        page,
+        per_page: 20,
+        amount: debouncedAmount,
+        status_by_client: debouncedStatusByClient,
+        transaction_id: debouncedTransactionId,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort,
+      })
+    );
   }, [
     debouncedAmount,
     debouncedStatusByClient,
     debouncedTransactionId,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     sort,
     page,
   ]);
@@ -174,8 +172,20 @@ const usePlatipayService = () => {
                   flexDirection: "column",
                 }}
               >
-                <MonthPicker name="month" control={control} />
-                <MonthPicker name="month" control={control} />
+                <MonthPicker
+                  name="from"
+                  control={control}
+                  label={t("from")}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={control}
+                  label={t("to")}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
               </Box>
               {sortComponent()}
             </Box>

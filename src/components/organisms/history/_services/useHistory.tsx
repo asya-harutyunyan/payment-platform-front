@@ -30,94 +30,81 @@ const usePlatipayService = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { user } = useAuth();
   const { control, watch } = useForm<FormData>({
     resolver: zodResolver(history_schema),
     defaultValues: {
-      by_name: "",
-      by_surname: "",
+      by_fullname: "",
       by_email: "",
-      to_name: "",
-      to_surname: "",
+      to_fullname: "",
       to_email: "",
       action: "",
       role: "",
       date: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
-  const by_name = watch("by_name");
-  const by_surname = watch("by_surname");
+  const by_name = watch("by_fullname");
   const by_email = watch("by_email");
-  const to_name = watch("to_name");
-  const to_surname = watch("to_surname");
+  const to_name = watch("to_fullname");
   const to_email = watch("to_email");
   const role = watch("role");
   const action = watch("action");
   const date = watch("date");
-  const month = watch("month");
+  const from = watch("from");
+  const to = watch("to");
 
   const [debounceByName] = useDebounce(by_name, 700);
-  const [debouncedBySurname] = useDebounce(by_surname, 700);
   const [debouncedByEmail] = useDebounce(by_email, 700);
 
   const [debouncedToName] = useDebounce(to_name, 700);
-  const [debouncedToSurname] = useDebounce(to_surname, 700);
   const [debouncedToEmail] = useDebounce(to_email, 700);
   const [debouncedAction] = useDebounce(action, 700);
   const [debouncedRole] = useDebounce(role, 700);
   const [debouncedDate] = useDebounce(date, 700);
 
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
     2000
   );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
+    2000
+  );
+
   useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
     const role = debouncedRole === "all" ? "" : debouncedRole;
 
-    if (!isValidMonth) {
-      dispatch(
-        historyThunk({
-          page,
-          per_page: 20,
-          by_name_surname: debounceByName,
-          by_email: debouncedByEmail,
-          to_email: debouncedToEmail,
-          to_name_surname: debouncedToName,
-          action: debouncedAction,
-          role: role,
-          month: "",
-          date: debouncedDate,
-          sort,
-        })
-      );
-    } else {
-      dispatch(
-        historyThunk({
-          page,
-          per_page: 20,
-          by_name_surname: debounceByName,
-          by_email: debouncedByEmail,
-          to_email: debouncedToEmail,
-          to_name_surname: debouncedToName,
-          action: debouncedAction,
-          role: role,
-          month: debouncedMonth,
-          date: debouncedDate,
-          sort,
-        })
-      );
-    }
+    dispatch(
+      historyThunk({
+        page,
+        per_page: 20,
+        by_fullname: debounceByName,
+        by_email: debouncedByEmail,
+        to_email: debouncedToEmail,
+        to_fullname: debouncedToName,
+        action: debouncedAction,
+        role: role,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        date: debouncedDate,
+        sort,
+      })
+    );
   }, [
     debounceByName,
-    debouncedBySurname,
     debouncedByEmail,
     debouncedToEmail,
-    debouncedToSurname,
-    debouncedMonth,
+    debouncedTo,
+    debouncedFrom,
     sort,
     page,
     debouncedToName,
@@ -132,13 +119,14 @@ const usePlatipayService = () => {
       historyThunk({
         page,
         per_page: 20,
-        by_name_surname: debounceByName,
+        by_fullname: debounceByName,
         by_email: debouncedByEmail,
         to_email: debouncedToEmail,
-        to_name_surname: debouncedToName,
+        to_fullname: debouncedToName,
         action: debouncedAction,
         role: debouncedRole,
-        month: debouncedMonth,
+        from: debouncedFrom,
+        to: debouncedTo,
         date: debouncedDate,
         sort,
       })
@@ -163,13 +151,13 @@ const usePlatipayService = () => {
       },
 
       {
-        column: "by_name_surname",
-        valueKey: "by_name",
+        column: "by_fullname",
+        valueKey: "by_fullname",
         filters: () => {
           return (
             <FormTextInput
               control={control}
-              name="by_name"
+              name="by_fullname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -229,13 +217,13 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "to_name_surname",
-        valueKey: "to_name",
+        column: "to_fullname",
+        valueKey: "to_fullname",
         filters: () => {
           return (
             <FormTextInput
               control={control}
-              name="to_name"
+              name="to_fullname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -268,8 +256,20 @@ const usePlatipayService = () => {
                   flexDirection: "column",
                 }}
               >
-                <MonthPicker name="month" control={control} />
-                <MonthPicker name="month" control={control} />
+                <MonthPicker
+                  name="from"
+                  control={control}
+                  label={t("from")}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={control}
+                  label={t("to")}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
               </Box>
               {sortComponent()}{" "}
             </Box>
@@ -287,7 +287,7 @@ const usePlatipayService = () => {
                 }}
               >
                 {" "}
-                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
               </P>
             </Box>
           );

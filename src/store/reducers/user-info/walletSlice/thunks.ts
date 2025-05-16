@@ -15,7 +15,8 @@ export const getWalletsThunk = createAsyncThunk(
           network: data.network,
           currency: data.currency,
           sort: data.sort,
-          month: data.month,
+          from: data.from,
+          to: data.to,
         },
       });
       return response.data;

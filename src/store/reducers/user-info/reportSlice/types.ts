@@ -70,7 +70,8 @@ export type NewRegisteredUsers = {
   name?: string;
   surname?: string;
   email?: string;
-  month?: string;
+  from?: string;
+  to?: string;
 };
 export type NewUsers = {
   name: string;
@@ -120,19 +121,22 @@ export interface PlatipayRequest {
   status_by_client?: string;
   transaction_id?: string;
   sort?: "ASC" | "DESC";
-  month?: string;
+  from?: string;
+  to?: string;
 }
 export interface HistoryRequest {
   page?: number;
   per_page?: number;
-  by_name_surname?: string;
+  by_fullname?: string;
   by_email?: string;
   to_email?: string;
-  to_name_surname?: string;
+  to_fullname?: string;
   action?: string;
   role?: string;
   month?: string;
   date?: string;
+  from?: string;
+  to?: string;
   sort?: "ASC" | "DESC";
   created_at?: string;
 }

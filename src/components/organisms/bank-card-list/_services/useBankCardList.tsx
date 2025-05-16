@@ -35,6 +35,8 @@ const useBankCardList = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const { user } = useAuth();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
   const { bankCards, loading, total } = useAppSelector(
     (state) => state.bankDetails
   );
@@ -54,6 +56,8 @@ const useBankCardList = () => {
       bank_name: "",
       currency: "",
       name: "",
+      from: undefined,
+      to: undefined,
     },
   });
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
@@ -62,7 +66,8 @@ const useBankCardList = () => {
   const BankName = watch("bank_name");
   const Currency = watch("currency") === "all" ? "" : watch("currency");
   const CardNumber = watch("card_number");
-  const month = watch("month");
+  const from = watch("from");
+  const to = watch("to");
   const name = watch("name");
 
   const [debounceCardHolder] = useDebounce(CardHolder, 700);
@@ -71,48 +76,40 @@ const useBankCardList = () => {
   const [debouncedCurrency] = useDebounce(Currency, 700);
   const [debouncedName] = useDebounce(name, 700);
 
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
 
   useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
     const status = debouncedCurrency === "all" ? "" : debouncedCurrency;
-    if (!isValidMonth) {
-      dispatch(
-        getBankCardsThunk({
-          page: page,
-          per_page: 20,
-          card_holder: debounceCardHolder,
-          card_number: debouncedCardNumber,
-          bank_name: debouncedBankName,
-          currency: status,
-          name: debouncedName,
-          month: "",
-          sort,
-        })
-      );
-    } else {
-      dispatch(
-        getBankCardsThunk({
-          page: page,
-          per_page: 20,
-          card_holder: debounceCardHolder,
-          card_number: debouncedCardNumber,
-          bank_name: debouncedBankName,
-          currency: status,
-          name: debouncedName,
-          month: debouncedMonth,
-          sort,
-        })
-      );
-    }
+
+    dispatch(
+      getBankCardsThunk({
+        page: page,
+        per_page: 20,
+        card_holder: debounceCardHolder,
+        card_number: debouncedCardNumber,
+        bank_name: debouncedBankName,
+        currency: status,
+        name: debouncedName,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort,
+      })
+    );
   }, [
     debouncedBankName,
     debounceCardHolder,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     debouncedCardNumber,
     debouncedCurrency,
     debouncedName,
@@ -258,8 +255,22 @@ const useBankCardList = () => {
 
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker name="month" control={control} />
-                  <MonthPicker name="month" control={control} />
+                  <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <MonthPicker
+                      name="from"
+                      control={control}
+                      label={t("from")}
+                      onOpen={() => setIsDatePickerOpen(true)}
+                      onClose={() => setIsDatePickerOpen(false)}
+                    />
+                    <MonthPicker
+                      name="to"
+                      control={control}
+                      label={t("to")}
+                      onOpen={() => setIsDatePickerOpen(true)}
+                      onClose={() => setIsDatePickerOpen(false)}
+                    />
+                  </Box>
                 </Box>
                 {sortComponent()}
               </Box>
@@ -277,7 +288,7 @@ const useBankCardList = () => {
                   }}
                 >
                   {" "}
-                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
                 </P>
               </Box>
             );

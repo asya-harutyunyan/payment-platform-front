@@ -32,6 +32,8 @@ export interface Pagination {
   period?: string;
   month?: string;
   referral_code?: string;
+  from?: string;
+  to?: string;
   sort_by?: "ASC" | "DESC";
   sort_order?: "ASC" | "DESC";
   sort?: "ASC" | "DESC";
@@ -43,5 +45,7 @@ export interface FilterWallet {
   currency?: string;
   network?: string;
   month?: string;
+  from?: string;
+  to?: string;
   sort?: "ASC" | "DESC";
 }

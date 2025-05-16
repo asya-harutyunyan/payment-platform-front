@@ -34,6 +34,7 @@ const useWallet = () => {
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { user } = useAuth();
   const [selectedItem, setSelectedItem] = useState<string | number | null>(
@@ -45,57 +46,52 @@ const useWallet = () => {
       address: "",
       network: "",
       currency: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
   const address = watch("address");
   const network = watch("network");
   const currency = watch("currency");
-
-  const month = watch("month");
+  const from = watch("from");
+  const to = watch("to");
 
   const [debouncedAddres] = useDebounce(address, 700);
   const [debouncedNetwork] = useDebounce(network, 700);
   const [debouncedCurrency] = useDebounce(currency, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
   useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
     const status = debouncedCurrency === "all" ? "" : debouncedCurrency;
 
-    if (!isValidMonth) {
-      dispatch(
-        getWalletsThunk({
-          page: page,
-          per_page: 20,
-          address: debouncedAddres,
-          network: debouncedNetwork,
-          currency: status,
-          month: "",
-          sort,
-        })
-      );
-    } else {
-      dispatch(
-        getWalletsThunk({
-          page: page,
-          per_page: 20,
-          address: debouncedAddres,
-          network: debouncedNetwork,
-          currency: status,
-          month: debouncedMonth,
-          sort,
-        })
-      );
-    }
+    dispatch(
+      getWalletsThunk({
+        page: page,
+        per_page: 20,
+        address: debouncedAddres,
+        network: debouncedNetwork,
+        currency: status,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort,
+      })
+    );
   }, [
     debouncedAddres,
     debouncedCurrency,
     debouncedNetwork,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     page,
     sort,
   ]);
@@ -181,32 +177,31 @@ const useWallet = () => {
             );
           },
         },
-        user?.permissions.includes("wallet_delete")
-          ? {
-              column: () => (
-                <Box>
-                  <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-                  <Box sx={{ display: "flex", flexDirection: "column" }}>
-                    <MonthPicker name="month" control={control} />
-                    <MonthPicker name="month" control={control} />
-                  </Box>
-                </Box>
-              ),
-              renderComponent: (row: WalletType) => {
-                return (
-                  <Button
-                    variant={"error"}
-                    text={"Удалить"}
-                    sx={{ width: "130px" }}
-                    onClick={() => handleDeleteModal?.(row.id)}
-                  />
-                );
-              },
-            }
-          : null,
-
         {
-          column: () => sortComponent(),
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker
+                    name="from"
+                    control={control}
+                    label={t("from")}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={control}
+                    label={t("to")}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                </Box>
+                {sortComponent()}
+              </Box>
+            </Box>
+          ),
           renderComponent: (row: WalletType) => {
             return (
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -219,12 +214,26 @@ const useWallet = () => {
                   }}
                 >
                   {" "}
-                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
                 </P>
               </Box>
             );
           },
         },
+        user?.permissions.includes("wallet_delete")
+          ? {
+              renderComponent: (row: WalletType) => {
+                return (
+                  <Button
+                    variant={"error"}
+                    text={"Удалить"}
+                    sx={{ width: "130px" }}
+                    onClick={() => handleDeleteModal?.(row.id)}
+                  />
+                );
+              },
+            }
+          : null,
       ].filter(Boolean) as IColumn<WalletType>[],
     [user?.permissions]
   );
@@ -236,9 +245,6 @@ const useWallet = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",

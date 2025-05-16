@@ -49,6 +49,7 @@ const useReferredUsers = () => {
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
   const [updateModal, setUpdateModal] = useState(false);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { control, handleSubmit, reset } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
@@ -78,6 +79,8 @@ const useReferredUsers = () => {
       email: "",
       period: "",
       referral_code: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
@@ -91,7 +94,6 @@ const useReferredUsers = () => {
     defaultValues: {
       amount_to_deduct: "",
       user_id: "",
-      // referral_id: "",
     },
   });
   const onSubmitPriceUpdate: SubmitHandler<UpdatePriceFormData> = async (
@@ -122,15 +124,20 @@ const useReferredUsers = () => {
   const surname = filterWatch("surname");
   const email = filterWatch("email");
   const period = filterWatch("period");
-  const month = filterWatch("month");
+  const from = filterWatch("from");
+  const to = filterWatch("to");
   const referralCode = filterWatch("referral_code");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
   const [debouncedReferralCode] = useDebounce(referralCode, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
   const handleSingleUser = (row?: string) => {
@@ -141,10 +148,11 @@ const useReferredUsers = () => {
     }
   };
   useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
 
-    if (!isValidMonth) {
+    if (!isValidRange) {
       dispatch(
         getReferredUsersForAdminThunk({
           page,
@@ -154,7 +162,8 @@ const useReferredUsers = () => {
           email: debouncedEmail,
           sort_order: sortOrder,
           referral_code: debouncedReferralCode,
-          month: "",
+          from: "",
+          to: "",
           period: period === "all" ? "" : period,
         })
       );
@@ -166,7 +175,8 @@ const useReferredUsers = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
-          month: debouncedMonth,
+          from: debouncedFrom,
+          to: debouncedTo,
           sort_order: sortOrder,
           referral_code: debouncedReferralCode,
           period: period === "all" ? "" : period,
@@ -177,7 +187,8 @@ const useReferredUsers = () => {
     debouncedEmail,
     debouncedName,
     debouncedSurname,
-    debouncedMonth,
+    debouncedTo,
+    debouncedFrom,
     debouncedReferralCode,
     dispatch,
     page,
@@ -324,7 +335,7 @@ const useReferredUsers = () => {
                 fontWeight: 500,
               }}
             >
-              {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+              {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
             </span>
           );
         },
@@ -336,8 +347,18 @@ const useReferredUsers = () => {
             </P>{" "}
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <MonthPicker name="month" control={filterControl} />{" "}
-                <MonthPicker name="month" control={filterControl} />{" "}
+                <MonthPicker
+                  name="from"
+                  control={filterControl}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={filterControl}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
               </Box>
               {sortComponent()}{" "}
             </Box>

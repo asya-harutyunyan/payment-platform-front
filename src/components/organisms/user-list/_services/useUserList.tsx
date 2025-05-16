@@ -35,6 +35,7 @@ const useUserList = () => {
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(1);
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { users, blockedUsers, total, loading } = useAppSelector(
     (state) => state.users
@@ -46,27 +47,35 @@ const useUserList = () => {
       name: "",
       surname: "",
       email: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
   const name = watch("name");
   const surname = watch("surname");
   const email = watch("email");
-  const month = watch("month");
+  const from = watch("from");
+  const to = watch("to");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
 
   useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
 
-    if (!isValidMonth) {
+    if (!isValidRange) {
       dispatch(
         getUsersThunk({
           page,
@@ -74,7 +83,8 @@ const useUserList = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
-          month: "",
+          from: "",
+          to: "",
           sort,
         })
       );
@@ -86,7 +96,8 @@ const useUserList = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
-          month: debouncedMonth,
+          from: debouncedFrom,
+          to: debouncedTo,
           sort,
         })
       );
@@ -95,7 +106,8 @@ const useUserList = () => {
     debouncedName,
     debouncedSurname,
     debouncedEmail,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     sort,
     dispatch,
     page,
@@ -113,7 +125,8 @@ const useUserList = () => {
         name: debouncedName,
         surname: debouncedSurname,
         email: debouncedEmail,
-        month: debouncedMonth,
+        from: debouncedFrom,
+        to: debouncedTo,
         sort,
       })
     );
@@ -188,8 +201,20 @@ const useUserList = () => {
                 }}
               >
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker name="from" control={control} />
-                  <MonthPicker name="to" control={control} />
+                  <MonthPicker
+                    name="from"
+                    control={control}
+                    label={t("from")}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={control}
+                    label={t("to")}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
                 </Box>
                 <Box paddingTop={"8px"}>{sortComponent()}</Box>
               </Box>
@@ -204,7 +229,7 @@ const useUserList = () => {
                 ":hover": { textDecoration: "underline" },
               }}
             >
-              {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+              {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
             </P>
           ),
         },

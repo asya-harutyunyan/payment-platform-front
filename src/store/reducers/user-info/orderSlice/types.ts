@@ -111,6 +111,8 @@ export interface OrderRequest {
   status_by_admin?: string;
   amount?: string;
   month?: string;
+  from?: string;
+  to?: string;
   card_number?: string;
   sort?: "ASC" | "DESC";
   transaction_id?: string;

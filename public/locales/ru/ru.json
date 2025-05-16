@@ -301,6 +301,8 @@
   "action": "Действие",
   "date": "Время",
   "to_name_surname": "Для Имени Фамилии",
+  "from": "От",
+  "to": "До",
   "to_email": "Для Email",
   "referred_user_list": "Рефералная ссылка пользователей",
   "amount_changed": "Значение успешно изменен",

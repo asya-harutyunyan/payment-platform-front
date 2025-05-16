@@ -35,6 +35,7 @@ const useReports = () => {
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
   const [sortUsers, setSortUsers] = useState<"ASC" | "DESC">("ASC");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const {
     orders_stats,
@@ -43,7 +44,6 @@ const useReports = () => {
     report_users,
     adminSummary,
   } = useAppSelector((state) => state.reports);
-  console.log(report_users);
 
   //reporst users
   const {
@@ -56,6 +56,8 @@ const useReports = () => {
       name: "",
       surname: "",
       email: "",
+      from: undefined,
+      to: undefined,
     },
   });
 
@@ -63,47 +65,42 @@ const useReports = () => {
   const nameUser = UserWatch("name");
   const surnameUser = UserWatch("surname");
   const emailUser = UserWatch("email");
-  const month = UserWatch("month");
+  const from = UserWatch("from");
+  const to = UserWatch("to");
 
   const [debouncedNameUser] = useDebounce(nameUser, 700);
   const [debouncedSurnameUser] = useDebounce(surnameUser, 700);
   const [debouncedEmailUser] = useDebounce(emailUser, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
     2000
   );
-  useEffect(() => {
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
+    2000
+  );
 
-    if (!isValidMonth) {
-      dispatch(
-        getReportUsersThunk({
-          page,
-          per_page: 20,
-          name: debouncedNameUser,
-          surname: debouncedSurnameUser,
-          email: debouncedEmailUser,
-          month: "",
-          sort: sortUsers,
-        })
-      );
-    } else {
-      dispatch(
-        getReportUsersThunk({
-          page,
-          per_page: 20,
-          name: debouncedNameUser,
-          surname: debouncedSurnameUser,
-          email: debouncedEmailUser,
-          month: debouncedMonth,
-          sort: sortUsers,
-        })
-      );
-    }
+  useEffect(() => {
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
+    dispatch(
+      getReportUsersThunk({
+        page,
+        per_page: 20,
+        name: debouncedNameUser,
+        surname: debouncedSurnameUser,
+        email: debouncedEmailUser,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort: sortUsers,
+      })
+    );
   }, [
     debouncedNameUser,
-    debouncedMonth,
+    debouncedTo,
+    debouncedFrom,
     debouncedSurnameUser,
     debouncedEmailUser,
     sortUsers,
@@ -231,8 +228,20 @@ const useReports = () => {
             <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <MonthPicker name="month" control={UserControl} />
-                <MonthPicker name="month" control={UserControl} />
+                <MonthPicker
+                  name="from"
+                  control={UserControl}
+                  label={t("from")}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={UserControl}
+                  label={t("to")}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
               </Box>
               {sortUserComponent()}{" "}
             </Box>
@@ -250,7 +259,7 @@ const useReports = () => {
                 }}
               >
                 {" "}
-                {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
               </P>
             </Box>
           );

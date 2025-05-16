@@ -69,7 +69,7 @@ const useUserList = () => {
                   }}
                 >
                   {" "}
-                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
                 </P>
               </Box>
             );
@@ -108,7 +108,7 @@ const useUserList = () => {
                   }}
                 >
                   {" "}
-                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
                 </P>
               </Box>
             );

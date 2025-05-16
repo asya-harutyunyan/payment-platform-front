@@ -16,6 +16,8 @@ type MonthPickerProps = {
   maxDate?: Dayjs;
   disabled?: boolean;
   onClear?: () => void;
+  onOpen?: () => void; // добавляем коллбэки
+  onClose?: () => void;
 };
 
 const VERTICAL_PADDING = "43px";
@@ -26,6 +28,8 @@ export const MonthPicker = ({
   label = "",
   minDate,
   maxDate,
+  onClose,
+  onOpen,
   disabled = false,
   onClear,
 }: MonthPickerProps) => {
@@ -46,6 +50,9 @@ export const MonthPicker = ({
                   minDate={minDate}
                   maxDate={maxDate}
                   disabled={disabled}
+                  sx={{ width: "100%" }}
+                  onOpen={onOpen}
+                  onClose={onClose}
                   slotProps={{
                     textField: {
                       fullWidth: true,
@@ -63,6 +70,10 @@ export const MonthPicker = ({
                         },
                         "& .MuiInputLabel-root": {
                           color: "primary.main",
+                          lineHeight: VERTICAL_PADDING,
+                          top: "50%",
+                          transform: "translateY(-50%)",
+                          paddingLeft: "10px",
                         },
                         "& .MuiOutlinedInput-notchedOutline": {
                           borderColor: "primary.main",

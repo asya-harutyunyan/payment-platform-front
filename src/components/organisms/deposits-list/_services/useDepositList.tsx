@@ -49,10 +49,10 @@ const useDepositInfo = () => {
   } = useAppSelector((state) => state.deposit);
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sortBy, setSortBy] = useState<"ASC" | "DESC">("ASC");
   const { user } = useAuth();
   const [page, setPage] = useState(1);
-  console.log(paginationAdminPage, "paginationAdminPage");
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const [pageAdmin, setPageAdmin] = useState(1);
   const { control, register, watch } = useForm<FormData>({
@@ -60,133 +60,95 @@ const useDepositInfo = () => {
     defaultValues: {
       name: "",
       surname: "",
-      sort_by: "",
       status_by_admin: "",
       type: "",
+      from: undefined,
+      to: undefined,
+      amount: "",
     },
   });
-  const name = watch("name");
-  const amount = watch("sort_by");
-  const statusByAdmin =
-    watch("status_by_admin") === "all" ? "" : watch("status_by_admin");
-  const type = watch("type");
-  const surname = watch("surname");
-  const month = watch("month");
+  const [name, surname, statusByAdmin, type, from, to, amount] = watch([
+    "name",
+    "surname",
+    "status_by_admin",
+    "type",
+    "from",
+    "to",
+    "amount",
+  ]);
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedAmount] = useDebounce(amount, 700);
   const [debouncedStatusByAdmin] = useDebounce(statusByAdmin, 700);
-  const [debouncedTyoe] = useDebounce(type, 700);
+  const [debouncedType] = useDebounce(type, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
-  const [debouncedMonth] = useDebounce(
-    month && dayjs(month).isValid() ? dayjs(month).format("YYYY/MM") : "",
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
     2000
   );
   const navigate = useNavigate();
 
-  //need to change 1 useeffect
   useEffect(() => {
     const status =
       debouncedStatusByAdmin === "all" ? "" : debouncedStatusByAdmin;
-    console.log(status, "status");
 
-    const isValidMonth =
-      dayjs(debouncedMonth).isValid() && debouncedMonth !== "";
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
 
-    if (!isValidMonth) {
-      if (user?.role === "client") {
-        dispatch(
-          getDepositsThunk({
-            page: page,
-            per_page: 50,
-            name: debouncedName,
-            surname: debouncedSurname,
-            sort: sort,
-            status_by_admin: status,
-            type: debouncedTyoe,
-            month: "",
-          })
-        );
-      } else {
+    switch (user?.role) {
+      case "admin":
+      case "superAdmin":
         dispatch(
           getDepositsAdminThunk({
             page: pageAdmin,
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
-            sort: sort,
+            sort: sortBy,
             status_by_admin: status,
-            type: debouncedTyoe,
-            month: "",
+            type: debouncedType,
+            from: isValidRange ? debouncedFrom : "",
+            to: isValidRange ? debouncedTo : "",
           })
         );
-      }
-    } else {
-      if (user?.role === "admin" || user?.role === "superAdmin") {
-        dispatch(
-          getDepositsAdminThunk({
-            page: pageAdmin,
-            per_page: 50,
-            name: debouncedName,
-            surname: debouncedSurname,
-            sort: sort,
-            status_by_admin: status,
-            type: debouncedTyoe,
-            month: debouncedMonth,
-          })
-        );
-      } else {
+        return;
+      default:
         dispatch(
           getDepositsThunk({
             page: page,
             per_page: 50,
             name: debouncedName,
             surname: debouncedSurname,
-            sort: sort,
+            sort: sortBy,
             status_by_admin: status,
-            type: debouncedTyoe,
-            month: debouncedMonth,
+            type: debouncedType,
+            from: "",
+            to: "",
           })
         );
-      }
+        return;
     }
   }, [
     debouncedAmount,
     debouncedName,
     debouncedStatusByAdmin,
-    debouncedTyoe,
+    debouncedType,
     page,
     pageAdmin,
     debouncedSurname,
-    debouncedMonth,
+    debouncedFrom,
+    debouncedTo,
     user?.role,
-    month,
-    name,
-    surname,
     statusByAdmin,
     type,
     amount,
-    sort,
-    dispatch,
+    sortBy,
   ]);
-
-  useEffect(() => {
-    if (user?.role === "client") {
-      dispatch(
-        getDepositsThunk({
-          page: page,
-          per_page: 50,
-        })
-      );
-    } else {
-      dispatch(
-        getDepositsAdminThunk({
-          page: pageAdmin,
-          per_page: 50,
-        })
-      );
-    }
-  }, [dispatch, page, pageAdmin, user?.role]);
 
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
     if (type) {
@@ -328,8 +290,7 @@ const useDepositInfo = () => {
             return (
               <FormTextInput
                 control={control}
-                {...register("sort_by")}
-                name="sort_by"
+                name="amount"
                 width="200px"
                 style={{ input: { padding: "10px 14px" } }}
               />
@@ -438,8 +399,18 @@ const useDepositInfo = () => {
             <Box>
               <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <MonthPicker name="month" control={control} />
-                <MonthPicker name="month" control={control} />
+                <MonthPicker
+                  name="from"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
               </Box>
             </Box>
           ),
@@ -475,7 +446,7 @@ const useDepositInfo = () => {
                   }}
                 >
                   {" "}
-                  {dayjs(row.created_at).format("DD MMM YYYY HH:mm")}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
                 </P>
                 {row.processing_amount === "0.00" ? (
                   <DoneIcon sx={{ color: "green" }} />
@@ -516,7 +487,7 @@ const useDepositInfo = () => {
                 backgroundColor: "#f9f9f9",
               },
             }}
-            onClick={() => setSort("ASC")}
+            onClick={() => setSortBy("ASC")}
           />
           <ExpandMoreIcon
             sx={{
@@ -526,7 +497,7 @@ const useDepositInfo = () => {
                 backgroundColor: "#f9f9f9",
               },
             }}
-            onClick={() => setSort("DESC")}
+            onClick={() => setSortBy("DESC")}
           />
         </Box>
       </Box>
