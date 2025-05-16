@@ -1,23 +1,68 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
 
+import { MonthPicker } from "@/components/atoms/month-picker";
+import { add_wallet_schema } from "@/schema/add_wallet.schema";
+import { useAppDispatch } from "@/store";
+import { GetPlatformXThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { H5, P } from "@/styles/typography";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import Paper from "@mui/material/Paper";
+import dayjs from "dayjs";
 import { t } from "i18next";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDebounce } from "use-debounce";
+import { z } from "zod";
 import useReports from "./_services/useReports";
 
-export const ReportsSummary = () => {
-  const {
-    loadingAndTotal,
+type FormData = z.infer<typeof add_wallet_schema>;
 
-    orders_stats,
-  } = useReports();
+export const ReportsSummary = () => {
+  const dispatch = useAppDispatch();
+  const { orders_stats, loadingDeposits } = useReports();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+
+  const { control, watch } = useForm<FormData>({
+    resolver: zodResolver(add_wallet_schema),
+    defaultValues: {
+      from: undefined,
+      to: undefined,
+    },
+  });
+
+  const from = watch("from");
+  const to = watch("to");
+
+  const [debouncedFrom] = useDebounce(
+    from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
+    2000
+  );
+  const [debouncedTo] = useDebounce(
+    to && dayjs(to).isValid() ? dayjs(to).format("DD.MM.YYYY") : "",
+    2000
+  );
+
+  useEffect(() => {
+    if (isDatePickerOpen) return;
+    const isValidRange =
+      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+
+    dispatch(
+      GetPlatformXThunk({
+        page: 1,
+        per_page: 20,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+      })
+    );
+  }, [debouncedTo, debouncedFrom]);
 
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("reports-summary")} />
-      {loadingAndTotal.loading ? (
+      {loadingDeposits ? (
         <CircularIndeterminate />
       ) : (
         <Paper
@@ -29,6 +74,29 @@ export const ReportsSummary = () => {
             padding: "20px",
           }}
         >
+          <Box
+            sx={{
+              display: "flex",
+              width: "100%",
+            }}
+          >
+            <Box sx={{ marginRight: "20px" }}>
+              <MonthPicker
+                name="from"
+                control={control}
+                label={t("from")}
+                onOpen={() => setIsDatePickerOpen(true)}
+                onClose={() => setIsDatePickerOpen(false)}
+              />
+            </Box>
+            <MonthPicker
+              name="to"
+              control={control}
+              label={t("to")}
+              onOpen={() => setIsDatePickerOpen(true)}
+              onClose={() => setIsDatePickerOpen(false)}
+            />
+          </Box>
           <Box
             sx={{
               display: "flex",
@@ -47,7 +115,7 @@ export const ReportsSummary = () => {
                 Отправленные заказы:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
-                {orders_stats.order_count ?? 0}
+                {orders_stats.order_count}
               </H5>
             </Box>
             <Box
@@ -61,7 +129,7 @@ export const ReportsSummary = () => {
                 Общая сумма заказов:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
-                {orders_stats.total_amount ?? 0}₽
+                {orders_stats.total_amount}₽
               </H5>
             </Box>
             <Box
@@ -75,7 +143,7 @@ export const ReportsSummary = () => {
                 Сумма по выданным заказам:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
-                {orders_stats.total_amount_with_deposit ?? 0}₽
+                {orders_stats.total_amount_with_deposit}₽
               </H5>
             </Box>
             <Box
@@ -89,7 +157,21 @@ export const ReportsSummary = () => {
                 Сумма подтвержденных заказов:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
-                {orders_stats.total_done_ammount ?? 0}₽
+                {orders_stats.total_done_amount}₽
+              </H5>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <P fontSize={"1.2rem"} paddingRight={"5px"}>
+                Количество выполненного заказа:{" "}
+              </P>
+              <H5 color="primary.main" sx={{ fontWeight: 400 }}>
+                {orders_stats.done_order_count}
               </H5>
             </Box>
             <Box
@@ -103,7 +185,7 @@ export const ReportsSummary = () => {
                 Заказы без карты:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
-                {orders_stats.order_witouth_card_count ?? 0}
+                {orders_stats.orders_without_card_count}
               </H5>
             </Box>
           </Box>
