@@ -64,7 +64,7 @@ const useReferredUsers = () => {
         page,
         per_page: 20,
         id,
-        sort_order: sortOrder,
+        sort: sortOrder,
       })
     );
   }, [dispatch, page, id, sortOrder]);

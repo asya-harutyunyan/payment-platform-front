@@ -103,7 +103,7 @@ export const getDepositsThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
-          sort_order: data.sort,
+          sort: data.sort,
           status_by_admin: data.status_by_admin,
           type: data.type,
           from: data.from,

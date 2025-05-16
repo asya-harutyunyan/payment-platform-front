@@ -93,7 +93,6 @@ export interface RefferedUsersList {
   user_id: string;
   referral_id: string;
   key: string;
-  sort_by?: string;
   id?: number;
   created_at?: string;
   amount_to_pay?: string;
