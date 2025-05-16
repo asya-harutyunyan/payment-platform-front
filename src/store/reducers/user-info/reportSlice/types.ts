@@ -44,8 +44,12 @@ export interface DepositStates {
   total_amount_with_deposit: string;
   total_done_ammount: string;
   order_count: string;
-  donee_order_ammount: string;
+  done_order_amount: string;
   order_witouth_card_count: string;
+
+  done_order_count?: 1;
+  orders_without_card_count?: 0;
+  total_done_amount?: 370.49;
 }
 export interface OrderDeposit {
   active_cards: number;
@@ -111,8 +115,6 @@ export interface GetPlatformXRequest {
   page: number;
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES;
-  start_date: string;
-  end_date: string;
   from?: string;
   to?: string;
 }
