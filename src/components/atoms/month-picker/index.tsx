@@ -56,6 +56,7 @@ export const MonthPicker = ({
                   slotProps={{
                     textField: {
                       fullWidth: true,
+
                       sx: {
                         height: VERTICAL_PADDING,
                         overflow: "hidden",

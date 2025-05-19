@@ -4,7 +4,11 @@ import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
-import { getStatusColor, StatusOptions } from "@/components/utils/status-color";
+import {
+  getStatusColor,
+  StatusOptions,
+  TypeOptions,
+} from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { deposit_schema } from "@/schema/deposit_schema";
@@ -99,6 +103,7 @@ const useDepositInfo = () => {
     if (isDatePickerOpen) return;
     const isValidRange =
       dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+    const statusType = debouncedType === "all" ? "" : debouncedType;
 
     switch (user?.role) {
       case "admin":
@@ -111,7 +116,7 @@ const useDepositInfo = () => {
             surname: debouncedSurname,
             sort: sortBy,
             status_by_admin: status,
-            type: debouncedType,
+            type: statusType,
             from: isValidRange ? debouncedFrom : "",
             to: isValidRange ? debouncedTo : "",
           })
@@ -126,7 +131,7 @@ const useDepositInfo = () => {
             surname: debouncedSurname,
             sort: sortBy,
             status_by_admin: status,
-            type: debouncedType,
+            type: statusType,
             from: "",
             to: "",
           })
@@ -143,10 +148,7 @@ const useDepositInfo = () => {
     debouncedSurname,
     debouncedFrom,
     debouncedTo,
-    user?.role,
     statusByAdmin,
-    type,
-    amount,
     sortBy,
   ]);
 
@@ -362,7 +364,6 @@ const useDepositInfo = () => {
           },
         },
         {
-          column: "type",
           renderComponent: (row: DataDeposits) => {
             return (
               <span
@@ -379,13 +380,21 @@ const useDepositInfo = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                {...register("type")}
-                name="type"
-                width="200px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("type")}
+                </P>
+                <SelectFieldWith
+                  placeholder={""}
+                  name="type"
+                  control={control}
+                  options={TypeOptions}
+                  height="43px"
+                />
+              </Box>
             );
           },
         },

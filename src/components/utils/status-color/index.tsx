@@ -35,6 +35,11 @@ export const CurrencyOptions = [
   { id: Math.random(), name: "USDT" },
   { id: Math.random(), name: "all" },
 ];
+export const TypeOptions = [
+  { id: Math.random(), name: "CRYPTO" },
+  { id: Math.random(), name: "FIAT" },
+  { id: Math.random(), name: "all" },
+];
 
 export const RoleOptions = [
   { id: Math.random(), name: "superAdmin" },

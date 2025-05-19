@@ -5,8 +5,6 @@ import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
-  GetPlatformXThunk,
-  getProcessedAmountsThunk,
   getReportUsersThunk,
   newRegisteredUsersThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
@@ -107,6 +105,7 @@ const useReports = () => {
     debouncedEmail,
     debouncedTo,
     debouncedFrom,
+    sort,
   ]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -204,28 +203,30 @@ const useReports = () => {
         column: () => (
           <Box>
             <P fontWeight={"bold"}>{t("created_at")}</P>
-            <Box sx={{ display: "flex", flexDirection: "column" }}>
-              <MonthPicker
-                name="from"
-                control={NewUserControl}
-                label={t("from")}
-                onOpen={() => setIsDatePickerOpen(true)}
-                onClose={() => setIsDatePickerOpen(false)}
-              />
-              <MonthPicker
-                name="to"
-                control={NewUserControl}
-                label={t("to")}
-                onOpen={() => setIsDatePickerOpen(true)}
-                onClose={() => setIsDatePickerOpen(false)}
-              />
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <MonthPicker
+                  name="from"
+                  control={NewUserControl}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={NewUserControl}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+              </Box>
+              {sortComponent()},
             </Box>
           </Box>
         ),
-        valueKey: "created_at",
-      },
-      {
-        column: () => sortComponent(),
         renderComponent: (row: NewUsers) => {
           return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -248,51 +249,6 @@ const useReports = () => {
     []
   );
 
-  useEffect(() => {
-    dispatch(
-      newRegisteredUsersThunk({
-        page: pageNewRegUsers,
-        per_page: 20,
-        sort,
-      })
-    );
-  }, [page, sort]);
-
-  const fetchDataByTab = (
-    tab: number,
-    page?: number,
-    sort?: "ASC" | "DESC"
-  ) => {
-    switch (tab) {
-      case 0:
-        return (
-          sort &&
-          dispatch(
-            newRegisteredUsersThunk({
-              page: pageNewRegUsers,
-              per_page: 20,
-              sort,
-            })
-          )
-        );
-      case 1:
-        return page && dispatch(getReportUsersThunk({ page, per_page: 20 }));
-      case 2:
-        return dispatch(getProcessedAmountsThunk());
-      case 3:
-        return dispatch(
-          GetPlatformXThunk({
-            page: 1,
-            per_page: 20,
-            start_date: "",
-            end_date: "",
-          })
-        );
-      default:
-        return;
-    }
-  };
-
   const sortComponent = () => {
     return (
       <Box
@@ -300,9 +256,6 @@ const useReports = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",
@@ -337,7 +290,6 @@ const useReports = () => {
   };
 
   return {
-    fetchDataByTab,
     sortComponent,
     columnsNewRegUsers,
     newRegisteredUsers,

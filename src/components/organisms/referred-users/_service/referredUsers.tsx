@@ -160,7 +160,7 @@ const useReferredUsers = () => {
           name: debouncedName,
           surname: debouncedSurname,
           email: debouncedEmail,
-          sort: sortOrder,
+          sort: sort,
           referral_code: debouncedReferralCode,
           from: "",
           to: "",
@@ -177,7 +177,7 @@ const useReferredUsers = () => {
           email: debouncedEmail,
           from: debouncedFrom,
           to: debouncedTo,
-          sort: sortOrder,
+          sort: sort,
           referral_code: debouncedReferralCode,
           period: period === "all" ? "" : period,
         })

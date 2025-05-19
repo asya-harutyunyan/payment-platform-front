@@ -223,14 +223,12 @@ const useBlockedCard = () => {
                 <MonthPicker
                   name="from"
                   control={control}
-                  label={t("from")}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
                   name="to"
                   control={control}
-                  label={t("to")}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />

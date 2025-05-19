@@ -60,12 +60,10 @@ export const ReferredUserList = () => {
     defaultValues: {
       amount_to_deduct: "",
       user_id: "",
-      referral_id: "",
     },
   });
 
   useEffect(() => {
-    SetValueUpdatePrice("referral_id", `${selectedId.referral_id}`);
     SetValueUpdatePrice("user_id", `${selectedId.user_id}`);
   });
   const onSubmitPriceUpdate: SubmitHandler<UpdatePriceFormData> = async (
@@ -75,7 +73,6 @@ export const ReferredUserList = () => {
       updatePriceThunk({
         user_id: Number(data.user_id),
         amount_to_deduct: Number(data.amount_to_deduct),
-        referral_id: Number(data.referral_id),
       })
     )
       .unwrap()

@@ -83,7 +83,6 @@ export const ReportsProccesedAmount = () => {
               <MonthPicker
                 name="from"
                 control={control}
-                label={t("from")}
                 onOpen={() => setIsDatePickerOpen(true)}
                 onClose={() => setIsDatePickerOpen(false)}
               />
@@ -91,7 +90,6 @@ export const ReportsProccesedAmount = () => {
             <MonthPicker
               name="to"
               control={control}
-              label={t("to")}
               onOpen={() => setIsDatePickerOpen(true)}
               onClose={() => setIsDatePickerOpen(false)}
             />

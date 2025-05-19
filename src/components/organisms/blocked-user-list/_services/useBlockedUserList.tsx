@@ -222,6 +222,26 @@ const useBlockedUserList = () => {
           ),
           renderComponent: (row: User) => {
             return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {" "}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+                </P>
+              </Box>
+            );
+          },
+        },
+        {
+          column: "key",
+          renderComponent: (row: User) => {
+            return (
               <Button
                 variant={"outlined"}
                 text={t("see_more")}

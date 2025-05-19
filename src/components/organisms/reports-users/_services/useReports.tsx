@@ -5,8 +5,6 @@ import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
-  GetPlatformXThunk,
-  getProcessedAmountsThunk,
   getReportUsersThunk,
   newRegisteredUsersThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
@@ -231,14 +229,12 @@ const useReports = () => {
                 <MonthPicker
                   name="from"
                   control={UserControl}
-                  label={t("from")}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
                   name="to"
                   control={UserControl}
-                  label={t("to")}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
@@ -268,41 +264,6 @@ const useReports = () => {
     ],
     []
   );
-
-  const fetchDataByTab = (
-    tab: number,
-    page?: number,
-    sort?: "ASC" | "DESC"
-  ) => {
-    switch (tab) {
-      case 0:
-        return (
-          sort &&
-          dispatch(
-            newRegisteredUsersThunk({
-              page: pageNewRegUsers,
-              per_page: 20,
-              sort,
-            })
-          )
-        );
-      case 1:
-        return page && dispatch(getReportUsersThunk({ page, per_page: 20 }));
-      case 2:
-        return dispatch(getProcessedAmountsThunk());
-      case 3:
-        return dispatch(
-          GetPlatformXThunk({
-            page: 1,
-            per_page: 20,
-            start_date: "",
-            end_date: "",
-          })
-        );
-      default:
-        return;
-    }
-  };
 
   const sortComponent = () => {
     return (
@@ -386,7 +347,6 @@ const useReports = () => {
     );
   };
   return {
-    fetchDataByTab,
     sortComponent,
     pageNewRegUsers,
     columnsReportUsers,
