@@ -35,6 +35,7 @@ import { Route as AuthAdminReferredUsersIndexImport } from './routes/_auth/_admi
 import { Route as AuthAdminPlatipayIndexImport } from './routes/_auth/_admin/platipay/index'
 import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
 import { Route as AuthAdminHistoryIndexImport } from './routes/_auth/_admin/history/index'
+import { Route as AuthAdminFreezedUserListIndexImport } from './routes/_auth/_admin/freezed-user-list/index'
 import { Route as AuthAdminDepositListIndexImport } from './routes/_auth/_admin/deposit-list/index'
 import { Route as AuthAdminCreateUserIndexImport } from './routes/_auth/_admin/create-user/index'
 import { Route as AuthAdminBlockedUserListIndexImport } from './routes/_auth/_admin/blocked-user-list/index'
@@ -45,6 +46,7 @@ import { Route as AuthUserDepositInfoIdImport } from './routes/_auth/_user/depos
 import { Route as AuthAdminUserListIdImport } from './routes/_auth/_admin/user-list/$id'
 import { Route as AuthAdminReferredUsersIdImport } from './routes/_auth/_admin/referred-users/$id'
 import { Route as AuthAdminOrderListIdImport } from './routes/_auth/_admin/order-list/$id'
+import { Route as AuthAdminFreezedUserListIdImport } from './routes/_auth/_admin/freezed-user-list/$id'
 import { Route as AuthAdminDepositListIdImport } from './routes/_auth/_admin/deposit-list/$id'
 import { Route as AuthAdminBlockedUserListIdImport } from './routes/_auth/_admin/blocked-user-list/$id'
 
@@ -283,6 +285,13 @@ const AuthAdminHistoryIndexRoute = AuthAdminHistoryIndexImport.update({
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
+const AuthAdminFreezedUserListIndexRoute =
+  AuthAdminFreezedUserListIndexImport.update({
+    id: '/freezed-user-list/',
+    path: '/freezed-user-list/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+
 const AuthAdminDepositListIndexRoute = AuthAdminDepositListIndexImport.update({
   id: '/deposit-list/',
   path: '/deposit-list/',
@@ -346,6 +355,14 @@ const AuthAdminOrderListIdRoute = AuthAdminOrderListIdImport.update({
   path: '/order-list/$id',
   getParentRoute: () => AuthAdminRoute,
 } as any)
+
+const AuthAdminFreezedUserListIdRoute = AuthAdminFreezedUserListIdImport.update(
+  {
+    id: '/freezed-user-list/$id',
+    path: '/freezed-user-list/$id',
+    getParentRoute: () => AuthAdminRoute,
+  } as any,
+)
 
 const AuthAdminDepositListIdRoute = AuthAdminDepositListIdImport.update({
   id: '/deposit-list/$id',
@@ -428,6 +445,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminDepositListIdImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/freezed-user-list/$id': {
+      id: '/_auth/_admin/freezed-user-list/$id'
+      path: '/freezed-user-list/$id'
+      fullPath: '/freezed-user-list/$id'
+      preLoaderRoute: typeof AuthAdminFreezedUserListIdImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/order-list/$id': {
       id: '/_auth/_admin/order-list/$id'
       path: '/order-list/$id'
@@ -496,6 +520,13 @@ declare module '@tanstack/react-router' {
       path: '/deposit-list'
       fullPath: '/deposit-list'
       preLoaderRoute: typeof AuthAdminDepositListIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
+    '/_auth/_admin/freezed-user-list/': {
+      id: '/_auth/_admin/freezed-user-list/'
+      path: '/freezed-user-list'
+      fullPath: '/freezed-user-list'
+      preLoaderRoute: typeof AuthAdminFreezedUserListIndexImport
       parentRoute: typeof AuthAdminImport
     }
     '/_auth/_admin/history/': {
@@ -667,6 +698,7 @@ declare module '@tanstack/react-router' {
 interface AuthAdminRouteChildren {
   AuthAdminBlockedUserListIdRoute: typeof AuthAdminBlockedUserListIdRoute
   AuthAdminDepositListIdRoute: typeof AuthAdminDepositListIdRoute
+  AuthAdminFreezedUserListIdRoute: typeof AuthAdminFreezedUserListIdRoute
   AuthAdminOrderListIdRoute: typeof AuthAdminOrderListIdRoute
   AuthAdminReferredUsersIdRoute: typeof AuthAdminReferredUsersIdRoute
   AuthAdminUserListIdRoute: typeof AuthAdminUserListIdRoute
@@ -675,6 +707,7 @@ interface AuthAdminRouteChildren {
   AuthAdminBlockedUserListIndexRoute: typeof AuthAdminBlockedUserListIndexRoute
   AuthAdminCreateUserIndexRoute: typeof AuthAdminCreateUserIndexRoute
   AuthAdminDepositListIndexRoute: typeof AuthAdminDepositListIndexRoute
+  AuthAdminFreezedUserListIndexRoute: typeof AuthAdminFreezedUserListIndexRoute
   AuthAdminHistoryIndexRoute: typeof AuthAdminHistoryIndexRoute
   AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
   AuthAdminPlatipayIndexRoute: typeof AuthAdminPlatipayIndexRoute
@@ -692,6 +725,7 @@ interface AuthAdminRouteChildren {
 const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminBlockedUserListIdRoute: AuthAdminBlockedUserListIdRoute,
   AuthAdminDepositListIdRoute: AuthAdminDepositListIdRoute,
+  AuthAdminFreezedUserListIdRoute: AuthAdminFreezedUserListIdRoute,
   AuthAdminOrderListIdRoute: AuthAdminOrderListIdRoute,
   AuthAdminReferredUsersIdRoute: AuthAdminReferredUsersIdRoute,
   AuthAdminUserListIdRoute: AuthAdminUserListIdRoute,
@@ -700,6 +734,7 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminBlockedUserListIndexRoute: AuthAdminBlockedUserListIndexRoute,
   AuthAdminCreateUserIndexRoute: AuthAdminCreateUserIndexRoute,
   AuthAdminDepositListIndexRoute: AuthAdminDepositListIndexRoute,
+  AuthAdminFreezedUserListIndexRoute: AuthAdminFreezedUserListIndexRoute,
   AuthAdminHistoryIndexRoute: AuthAdminHistoryIndexRoute,
   AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
   AuthAdminPlatipayIndexRoute: AuthAdminPlatipayIndexRoute,
@@ -786,6 +821,7 @@ export interface FileRoutesByFullPath {
   '/landing-page': typeof NoauthLandingPageIndexLazyRoute
   '/blocked-user-list/$id': typeof AuthAdminBlockedUserListIdRoute
   '/deposit-list/$id': typeof AuthAdminDepositListIdRoute
+  '/freezed-user-list/$id': typeof AuthAdminFreezedUserListIdRoute
   '/order-list/$id': typeof AuthAdminOrderListIdRoute
   '/referred-users/$id': typeof AuthAdminReferredUsersIdRoute
   '/user-list/$id': typeof AuthAdminUserListIdRoute
@@ -796,6 +832,7 @@ export interface FileRoutesByFullPath {
   '/blocked-user-list': typeof AuthAdminBlockedUserListIndexRoute
   '/create-user': typeof AuthAdminCreateUserIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
+  '/freezed-user-list': typeof AuthAdminFreezedUserListIndexRoute
   '/history': typeof AuthAdminHistoryIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
@@ -828,6 +865,7 @@ export interface FileRoutesByTo {
   '/landing-page': typeof NoauthLandingPageIndexLazyRoute
   '/blocked-user-list/$id': typeof AuthAdminBlockedUserListIdRoute
   '/deposit-list/$id': typeof AuthAdminDepositListIdRoute
+  '/freezed-user-list/$id': typeof AuthAdminFreezedUserListIdRoute
   '/order-list/$id': typeof AuthAdminOrderListIdRoute
   '/referred-users/$id': typeof AuthAdminReferredUsersIdRoute
   '/user-list/$id': typeof AuthAdminUserListIdRoute
@@ -838,6 +876,7 @@ export interface FileRoutesByTo {
   '/blocked-user-list': typeof AuthAdminBlockedUserListIndexRoute
   '/create-user': typeof AuthAdminCreateUserIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
+  '/freezed-user-list': typeof AuthAdminFreezedUserListIndexRoute
   '/history': typeof AuthAdminHistoryIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
@@ -874,6 +913,7 @@ export interface FileRoutesById {
   '/_no_auth/landing-page/': typeof NoauthLandingPageIndexLazyRoute
   '/_auth/_admin/blocked-user-list/$id': typeof AuthAdminBlockedUserListIdRoute
   '/_auth/_admin/deposit-list/$id': typeof AuthAdminDepositListIdRoute
+  '/_auth/_admin/freezed-user-list/$id': typeof AuthAdminFreezedUserListIdRoute
   '/_auth/_admin/order-list/$id': typeof AuthAdminOrderListIdRoute
   '/_auth/_admin/referred-users/$id': typeof AuthAdminReferredUsersIdRoute
   '/_auth/_admin/user-list/$id': typeof AuthAdminUserListIdRoute
@@ -884,6 +924,7 @@ export interface FileRoutesById {
   '/_auth/_admin/blocked-user-list/': typeof AuthAdminBlockedUserListIndexRoute
   '/_auth/_admin/create-user/': typeof AuthAdminCreateUserIndexRoute
   '/_auth/_admin/deposit-list/': typeof AuthAdminDepositListIndexRoute
+  '/_auth/_admin/freezed-user-list/': typeof AuthAdminFreezedUserListIndexRoute
   '/_auth/_admin/history/': typeof AuthAdminHistoryIndexRoute
   '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
   '/_auth/_admin/platipay/': typeof AuthAdminPlatipayIndexRoute
@@ -918,6 +959,7 @@ export interface FileRouteTypes {
     | '/landing-page'
     | '/blocked-user-list/$id'
     | '/deposit-list/$id'
+    | '/freezed-user-list/$id'
     | '/order-list/$id'
     | '/referred-users/$id'
     | '/user-list/$id'
@@ -928,6 +970,7 @@ export interface FileRouteTypes {
     | '/blocked-user-list'
     | '/create-user'
     | '/deposit-list'
+    | '/freezed-user-list'
     | '/history'
     | '/order-list'
     | '/platipay'
@@ -959,6 +1002,7 @@ export interface FileRouteTypes {
     | '/landing-page'
     | '/blocked-user-list/$id'
     | '/deposit-list/$id'
+    | '/freezed-user-list/$id'
     | '/order-list/$id'
     | '/referred-users/$id'
     | '/user-list/$id'
@@ -969,6 +1013,7 @@ export interface FileRouteTypes {
     | '/blocked-user-list'
     | '/create-user'
     | '/deposit-list'
+    | '/freezed-user-list'
     | '/history'
     | '/order-list'
     | '/platipay'
@@ -1003,6 +1048,7 @@ export interface FileRouteTypes {
     | '/_no_auth/landing-page/'
     | '/_auth/_admin/blocked-user-list/$id'
     | '/_auth/_admin/deposit-list/$id'
+    | '/_auth/_admin/freezed-user-list/$id'
     | '/_auth/_admin/order-list/$id'
     | '/_auth/_admin/referred-users/$id'
     | '/_auth/_admin/user-list/$id'
@@ -1013,6 +1059,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/blocked-user-list/'
     | '/_auth/_admin/create-user/'
     | '/_auth/_admin/deposit-list/'
+    | '/_auth/_admin/freezed-user-list/'
     | '/_auth/_admin/history/'
     | '/_auth/_admin/order-list/'
     | '/_auth/_admin/platipay/'
@@ -1096,6 +1143,7 @@ export const routeTree = rootRoute
       "children": [
         "/_auth/_admin/blocked-user-list/$id",
         "/_auth/_admin/deposit-list/$id",
+        "/_auth/_admin/freezed-user-list/$id",
         "/_auth/_admin/order-list/$id",
         "/_auth/_admin/referred-users/$id",
         "/_auth/_admin/user-list/$id",
@@ -1104,6 +1152,7 @@ export const routeTree = rootRoute
         "/_auth/_admin/blocked-user-list/",
         "/_auth/_admin/create-user/",
         "/_auth/_admin/deposit-list/",
+        "/_auth/_admin/freezed-user-list/",
         "/_auth/_admin/history/",
         "/_auth/_admin/order-list/",
         "/_auth/_admin/platipay/",
@@ -1147,6 +1196,10 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin/deposit-list/$id.tsx",
       "parent": "/_auth/_admin"
     },
+    "/_auth/_admin/freezed-user-list/$id": {
+      "filePath": "_auth/_admin/freezed-user-list/$id.tsx",
+      "parent": "/_auth/_admin"
+    },
     "/_auth/_admin/order-list/$id": {
       "filePath": "_auth/_admin/order-list/$id.tsx",
       "parent": "/_auth/_admin"
@@ -1185,6 +1238,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_admin/deposit-list/": {
       "filePath": "_auth/_admin/deposit-list/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/freezed-user-list/": {
+      "filePath": "_auth/_admin/freezed-user-list/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/history/": {

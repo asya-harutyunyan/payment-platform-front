@@ -55,6 +55,11 @@ export const superAdminItems = [
     permission: "blocked_users.view",
   },
   {
+    link: "/freezed-user-list",
+    icon: <PersonIcon />,
+    text: "freezed_user_list",
+  },
+  {
     link: "/create-user",
     icon: <PersonAddAltIcon />,
     text: "create-user",

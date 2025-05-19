@@ -7,6 +7,8 @@ import {
 import {
   getBankNamesThunk,
   getBlockedUsersThunk,
+  getFreezedUsersThunk,
+  getFreezeUserThunk,
   getReferalsUserThunk,
   getReferedUsersListThunk,
   getReferredUsersForAdminThunk,
@@ -22,6 +24,8 @@ const initialState: UserState = {
   users: [],
   blockedUsers: [],
   user: null,
+  freezedUser: null,
+  freezedUsers: [],
   currentPage: null,
   lastPage: null,
   total: 0,
@@ -49,6 +53,12 @@ const usersSlice = createSlice({
       .addCase(getUsersThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.users = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getFreezedUsersThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.freezedUsers = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
@@ -95,6 +105,9 @@ const usersSlice = createSlice({
 
       .addCase(getUserThunk.fulfilled, (state, action) => {
         state.user = action.payload;
+      })
+      .addCase(getFreezeUserThunk.fulfilled, (state, action) => {
+        state.freezedUser = action.payload;
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

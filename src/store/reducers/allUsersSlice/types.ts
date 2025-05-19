@@ -9,8 +9,10 @@ export interface UserState {
   lastPageRefList: number;
   error: string | null;
   users: User[];
+  freezedUsers: User[];
   blockedUsers: User[];
   user: User | null;
+  freezedUser: User | null;
   currentPage: number | null;
   lastPage: number | null;
   total: number;

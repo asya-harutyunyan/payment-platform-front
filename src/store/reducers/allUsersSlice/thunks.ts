@@ -8,9 +8,35 @@ export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
   async (data: GetUsersRequest, { rejectWithValue }) => {
     try {
-      console.log(data, "data");
-
       const response = await httpClient.get<UsersList>("/users", {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          name: data.name,
+          surname: data.surname,
+          to: data.to,
+          from: data.from,
+          email: data.email,
+          sort: data.sort,
+          month: data.month,
+        },
+      });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getFreezedUsersThunk = createAsyncThunk(
+  "users/getFreezedUsers",
+  async (data: GetUsersRequest, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get<UsersList>("/freezed", {
         params: {
           page: data.page,
           per_page: data.per_page,
@@ -89,6 +115,22 @@ export const getUserThunk = createAsyncThunk(
   async (id: number, { rejectWithValue }) => {
     try {
       const response = await httpClient.get(`/users/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+export const getFreezeUserThunk = createAsyncThunk(
+  "users/getFreezeUserThunk",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/freezed/${id}/expired-orders`);
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
