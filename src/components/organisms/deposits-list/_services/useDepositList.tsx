@@ -53,7 +53,7 @@ const useDepositInfo = () => {
   } = useAppSelector((state) => state.deposit);
   const [open, setOpen] = useState<boolean>(false);
   const [addId, setAddId] = useState<number | null>(null);
-  const [sortBy, setSortBy] = useState<"ASC" | "DESC">("ASC");
+  const [sortBy, setSortBy] = useState<"ASC" | "DESC">("DESC");
   const { user } = useAuth();
   const [page, setPage] = useState(1);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
@@ -108,6 +108,8 @@ const useDepositInfo = () => {
     switch (user?.role) {
       case "admin":
       case "superAdmin":
+        console.log("admin");
+
         dispatch(
           getDepositsAdminThunk({
             page: pageAdmin,
@@ -118,6 +120,7 @@ const useDepositInfo = () => {
             status_by_admin: status,
             type: statusType,
             from: isValidRange ? debouncedFrom : "",
+            amount: debouncedAmount,
             to: isValidRange ? debouncedTo : "",
           })
         );
@@ -131,6 +134,7 @@ const useDepositInfo = () => {
             surname: debouncedSurname,
             sort: sortBy,
             status_by_admin: status,
+            amount: debouncedAmount,
             type: statusType,
             from: "",
             to: "",
@@ -239,6 +243,30 @@ const useDepositInfo = () => {
   const columns = useMemo<IColumn<DataDeposits>[]>(
     () =>
       [
+        {
+          column: () => sortComponent(),
+          renderComponent: (row: DataDeposits) => {
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+                </P>
+                {row.processing_amount === "0.00" ? (
+                  <DoneIcon sx={{ color: "green" }} />
+                ) : (
+                  " "
+                )}
+              </Box>
+            );
+          },
+        },
         {
           column: "name",
           renderComponent: (row: DataDeposits) => {
@@ -439,31 +467,6 @@ const useDepositInfo = () => {
           renderComponent: (row: DataDeposits) => {
             const isBlocked = row.user?.bank_details?.[0]?.is_blocked === 1;
             return isBlocked ? <DoneIcon sx={{ color: "grey" }} /> : "-";
-          },
-        },
-        {
-          column: () => sortComponent(),
-          renderComponent: (row: DataDeposits) => {
-            return (
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <P
-                  sx={{
-                    color: "black",
-                    fontSize: "15px",
-                    fontWeight: 500,
-                    paddingRight: "5px",
-                  }}
-                >
-                  {" "}
-                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
-                </P>
-                {row.processing_amount === "0.00" ? (
-                  <DoneIcon sx={{ color: "green" }} />
-                ) : (
-                  " "
-                )}
-              </Box>
-            );
           },
         },
       ].filter(Boolean) as IColumn<DataDeposits>[],

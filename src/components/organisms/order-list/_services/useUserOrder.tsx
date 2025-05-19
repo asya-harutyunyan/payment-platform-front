@@ -45,7 +45,7 @@ const useAdminOrder = () => {
   const { user } = useAuth();
   const [page, setPage] = useState(1);
   const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const [selectedOrder, setSelectedOrder] = useState<number>();

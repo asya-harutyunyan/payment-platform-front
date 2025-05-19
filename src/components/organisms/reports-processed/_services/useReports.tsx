@@ -6,7 +6,7 @@ const useReports = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [value, setValue] = useState(0);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
 
   const { total, loading, admingetProcessedAmounts } = useAppSelector(
     (state) => state.reports

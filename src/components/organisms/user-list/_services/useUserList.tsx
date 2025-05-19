@@ -32,7 +32,7 @@ const useUserList = () => {
   const { goToUserPage } = useUserContext();
   const { user } = useAuth();
 
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(1);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);

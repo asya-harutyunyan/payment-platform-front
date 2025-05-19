@@ -25,7 +25,7 @@ type FormData = z.infer<typeof blocked_card_schema>;
 const useBlockedCard = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const { goToUserPage } = useUserContext();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 

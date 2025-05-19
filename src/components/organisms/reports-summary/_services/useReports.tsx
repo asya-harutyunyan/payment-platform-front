@@ -4,7 +4,7 @@ import { useState } from "react";
 const useReports = () => {
   const dispatch = useAppDispatch();
   const [value, setValue] = useState(0);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const {
     orders_stats,
     total: totalDeposits,

@@ -37,7 +37,7 @@ const useReferredUsers = () => {
     user_id: "",
     referral_id: "",
   });
-  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
+  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
   const { control, handleSubmit, setValue, reset } = useForm<FormData>({
     resolver: zodResolver(percent_referral_schema),
     defaultValues: {

@@ -31,7 +31,7 @@ const useReports = () => {
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const {

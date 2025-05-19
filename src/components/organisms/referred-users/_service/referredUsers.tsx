@@ -46,8 +46,8 @@ const useReferredUsers = () => {
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
-  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
+  const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
   const [updateModal, setUpdateModal] = useState(false);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 

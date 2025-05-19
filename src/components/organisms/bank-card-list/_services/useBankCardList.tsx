@@ -60,7 +60,7 @@ const useBankCardList = () => {
       to: undefined,
     },
   });
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
 
   const CardHolder = watch("card_holder");
   const BankName = watch("bank_name");

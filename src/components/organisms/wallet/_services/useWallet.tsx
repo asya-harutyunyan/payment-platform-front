@@ -33,7 +33,7 @@ const useWallet = () => {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState(1);
   const [open, setOpen] = useState(false);
-  const [sort, setSort] = useState<"ASC" | "DESC">("ASC");
+  const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { user } = useAuth();
