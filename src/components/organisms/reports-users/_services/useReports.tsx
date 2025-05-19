@@ -135,6 +135,47 @@ const useReports = () => {
   const columnsReportUsers = useMemo<IColumn<ReportUsers>[]>(
     () => [
       {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                <MonthPicker
+                  name="from"
+                  control={UserControl}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={UserControl}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+              </Box>
+              {sortUserComponent()}{" "}
+            </Box>
+          </Box>
+        ),
+        renderComponent: (row: ReportUsers) => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingRight: "5px",
+                }}
+              >
+                {" "}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+              </P>
+            </Box>
+          );
+        },
+      },
+      {
         column: "name",
         renderComponent: (row: ReportUsers) => {
           return (
@@ -218,48 +259,6 @@ const useReports = () => {
       {
         column: "paid_amount",
         valueKey: "paid_amount",
-      },
-      //
-      {
-        column: () => (
-          <Box>
-            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <MonthPicker
-                  name="from"
-                  control={UserControl}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-                <MonthPicker
-                  name="to"
-                  control={UserControl}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-              </Box>
-              {sortUserComponent()}{" "}
-            </Box>
-          </Box>
-        ),
-        renderComponent: (row: ReportUsers) => {
-          return (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <P
-                sx={{
-                  color: "black",
-                  fontSize: "15px",
-                  fontWeight: 500,
-                  paddingRight: "5px",
-                }}
-              >
-                {" "}
-                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
-              </P>
-            </Box>
-          );
-        },
       },
     ],
     []

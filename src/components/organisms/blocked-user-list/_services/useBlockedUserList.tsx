@@ -80,33 +80,18 @@ const useBlockedUserList = () => {
     const isValidRange =
       dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
 
-    if (!isValidRange) {
-      dispatch(
-        getBlockedUsersThunk({
-          page: pageBlockedUsers,
-          per_page: 20,
-          name: debouncedBlockedName,
-          surname: debouncedBlockedSurname,
-          email: debouncedBlockedEmail,
-          from: "",
-          to: "",
-          sort: sortBlockedUsers,
-        })
-      );
-    } else {
-      dispatch(
-        getBlockedUsersThunk({
-          page: pageBlockedUsers,
-          per_page: 20,
-          name: debouncedBlockedName,
-          surname: debouncedBlockedSurname,
-          email: debouncedBlockedEmail,
-          from: debouncedFrom,
-          to: debouncedTo,
-          sort: sortBlockedUsers,
-        })
-      );
-    }
+    dispatch(
+      getBlockedUsersThunk({
+        page: pageBlockedUsers,
+        per_page: 20,
+        name: debouncedBlockedName,
+        surname: debouncedBlockedSurname,
+        email: debouncedBlockedEmail,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort: sortBlockedUsers,
+      })
+    );
   }, [
     debouncedBlockedName,
     debouncedBlockedSurname,
@@ -139,6 +124,47 @@ const useBlockedUserList = () => {
   const columnsBlockedUsers = useMemo<IColumn<User>[]>(
     () =>
       [
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker
+                    name="from"
+                    control={BlockedUserControl}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={BlockedUserControl}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                </Box>
+                {sortBlockedComponent()}
+              </Box>
+            </Box>
+          ),
+          renderComponent: (row: User) => {
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {" "}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+                </P>
+              </Box>
+            );
+          },
+        },
         {
           column: "name",
           renderComponent: (row: User) => {
@@ -197,47 +223,7 @@ const useBlockedUserList = () => {
             );
           },
         },
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker
-                    name="from"
-                    control={BlockedUserControl}
-                    onOpen={() => setIsDatePickerOpen(true)}
-                    onClose={() => setIsDatePickerOpen(false)}
-                  />
-                  <MonthPicker
-                    name="to"
-                    control={BlockedUserControl}
-                    onOpen={() => setIsDatePickerOpen(true)}
-                    onClose={() => setIsDatePickerOpen(false)}
-                  />
-                </Box>
-                {sortBlockedComponent()}
-              </Box>
-            </Box>
-          ),
-          renderComponent: (row: User) => {
-            return (
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <P
-                  sx={{
-                    color: "black",
-                    fontSize: "15px",
-                    fontWeight: 500,
-                    paddingRight: "5px",
-                  }}
-                >
-                  {" "}
-                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
-                </P>
-              </Box>
-            );
-          },
-        },
+
         {
           column: "key",
           renderComponent: (row: User) => {

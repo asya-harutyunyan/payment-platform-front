@@ -8,6 +8,8 @@ export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
   async (data: GetUsersRequest, { rejectWithValue }) => {
     try {
+      console.log(data, "data");
+
       const response = await httpClient.get<UsersList>("/users", {
         params: {
           page: data.page,

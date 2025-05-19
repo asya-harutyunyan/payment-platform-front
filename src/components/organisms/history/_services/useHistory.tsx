@@ -136,6 +136,53 @@ const usePlatipayService = () => {
   const columns = useMemo<IColumn<HistoryRequest>[]>(
     () => [
       {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+
+            <Box sx={{ display: "flex" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <MonthPicker
+                  name="from"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+              </Box>
+              {sortComponent()}{" "}
+            </Box>
+          </Box>
+        ),
+        renderComponent: (row: HistoryRequest) => {
+          return (
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingRight: "5px",
+                }}
+              >
+                {" "}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+              </P>
+            </Box>
+          );
+        },
+      },
+      {
         column: "action",
         valueKey: "action",
         filters: () => {
@@ -241,53 +288,6 @@ const usePlatipayService = () => {
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
-          );
-        },
-      },
-      {
-        column: () => (
-          <Box>
-            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-
-            <Box sx={{ display: "flex" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <MonthPicker
-                  name="from"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-                <MonthPicker
-                  name="to"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-              </Box>
-              {sortComponent()}{" "}
-            </Box>
-          </Box>
-        ),
-        renderComponent: (row: HistoryRequest) => {
-          return (
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <P
-                sx={{
-                  color: "black",
-                  fontSize: "15px",
-                  fontWeight: 500,
-                  paddingRight: "5px",
-                }}
-              >
-                {" "}
-                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
-              </P>
-            </Box>
           );
         },
       },

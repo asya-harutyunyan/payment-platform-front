@@ -126,6 +126,47 @@ const useWallet = () => {
     () =>
       [
         {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker
+                    name="from"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                </Box>
+                {sortComponent()}
+              </Box>
+            </Box>
+          ),
+          renderComponent: (row: WalletType) => {
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                  }}
+                >
+                  {" "}
+                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+                </P>
+              </Box>
+            );
+          },
+        },
+        {
           column: "network",
           valueKey: "network",
           filters: () => {
@@ -177,47 +218,7 @@ const useWallet = () => {
             );
           },
         },
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker
-                    name="from"
-                    control={control}
-                    onOpen={() => setIsDatePickerOpen(true)}
-                    onClose={() => setIsDatePickerOpen(false)}
-                  />
-                  <MonthPicker
-                    name="to"
-                    control={control}
-                    onOpen={() => setIsDatePickerOpen(true)}
-                    onClose={() => setIsDatePickerOpen(false)}
-                  />
-                </Box>
-                {sortComponent()}
-              </Box>
-            </Box>
-          ),
-          renderComponent: (row: WalletType) => {
-            return (
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <P
-                  sx={{
-                    color: "black",
-                    fontSize: "15px",
-                    fontWeight: 500,
-                    paddingRight: "5px",
-                  }}
-                >
-                  {" "}
-                  {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
-                </P>
-              </Box>
-            );
-          },
-        },
+
         user?.permissions.includes("wallet_delete")
           ? {
               renderComponent: (row: WalletType) => {

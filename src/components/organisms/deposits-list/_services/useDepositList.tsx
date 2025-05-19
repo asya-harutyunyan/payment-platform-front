@@ -108,8 +108,6 @@ const useDepositInfo = () => {
     switch (user?.role) {
       case "admin":
       case "superAdmin":
-        console.log("admin");
-
         dispatch(
           getDepositsAdminThunk({
             page: pageAdmin,
@@ -244,7 +242,29 @@ const useDepositInfo = () => {
     () =>
       [
         {
-          column: () => sortComponent(),
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  {" "}
+                  <MonthPicker
+                    name="from"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                </Box>
+                {sortComponent()}
+              </Box>
+            </Box>
+          ),
           renderComponent: (row: DataDeposits) => {
             return (
               <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -432,25 +452,6 @@ const useDepositInfo = () => {
           valueKey: "processing_amount",
         },
         {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
-              <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <MonthPicker
-                  name="from"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-                <MonthPicker
-                  name="to"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-              </Box>
-            </Box>
-          ),
           renderComponent: (row: DataDeposits) => {
             return (
               <Button
@@ -480,9 +481,6 @@ const useDepositInfo = () => {
           display: "flex",
         }}
       >
-        <P sx={{ fontWeight: "bold", color: "primary.main" }}>
-          {t("sort_by_created_at")}
-        </P>
         <Box
           sx={{
             display: "flex",

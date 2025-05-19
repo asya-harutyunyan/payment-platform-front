@@ -75,33 +75,18 @@ const useUserList = () => {
     const isValidRange =
       dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
 
-    if (!isValidRange) {
-      dispatch(
-        getUsersThunk({
-          page,
-          per_page: 20,
-          name: debouncedName,
-          surname: debouncedSurname,
-          email: debouncedEmail,
-          from: "",
-          to: "",
-          sort,
-        })
-      );
-    } else {
-      dispatch(
-        getUsersThunk({
-          page,
-          per_page: 20,
-          name: debouncedName,
-          surname: debouncedSurname,
-          email: debouncedEmail,
-          from: debouncedFrom,
-          to: debouncedTo,
-          sort,
-        })
-      );
-    }
+    dispatch(
+      getUsersThunk({
+        page,
+        per_page: 20,
+        name: debouncedName,
+        surname: debouncedSurname,
+        email: debouncedEmail,
+        to: isValidRange ? debouncedTo : "",
+        from: isValidRange ? debouncedFrom : "",
+        sort,
+      })
+    );
   }, [
     debouncedName,
     debouncedSurname,

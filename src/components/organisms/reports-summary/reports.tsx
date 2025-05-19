@@ -51,8 +51,6 @@ export const ReportsSummary = () => {
 
     dispatch(
       GetPlatformXThunk({
-        page: 1,
-        per_page: 20,
         to: isValidRange ? debouncedTo : "",
         from: isValidRange ? debouncedFrom : "",
       })
@@ -78,9 +76,10 @@ export const ReportsSummary = () => {
             sx={{
               display: "flex",
               width: "100%",
+              flexDirection: { lg: "row", md: "row", xs: "column" },
             }}
           >
-            <Box sx={{ marginRight: "20px" }}>
+            <Box sx={{ marginRight: { lg: "20px", md: "0", xs: "0" } }}>
               <MonthPicker
                 name="from"
                 control={control}

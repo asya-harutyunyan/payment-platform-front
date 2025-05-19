@@ -21,7 +21,6 @@ type FormData = z.infer<typeof add_wallet_schema>;
 
 export const ReportsProccesedAmount = () => {
   const { admingetProcessedAmounts, loading } = useReports();
-  console.log(admingetProcessedAmounts);
   const dispatch = useAppDispatch();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
@@ -77,9 +76,10 @@ export const ReportsProccesedAmount = () => {
             sx={{
               display: "flex",
               width: "100%",
+              flexDirection: { lg: "row", md: "row", xs: "column" },
             }}
           >
-            <Box sx={{ marginRight: "20px" }}>
+            <Box sx={{ marginRight: { lg: "20px", md: "0", xs: "0" } }}>
               <MonthPicker
                 name="from"
                 control={control}

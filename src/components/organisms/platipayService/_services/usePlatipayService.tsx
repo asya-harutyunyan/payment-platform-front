@@ -101,6 +101,49 @@ const usePlatipayService = () => {
   const columns = useMemo<IColumn<Platipay>[]>(
     () => [
       {
+        column: () => (
+          <Box>
+            <P fontWeight={"bold"}>{t("created_at")}</P>
+
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <MonthPicker
+                  name="from"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  name="to"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+              </Box>
+              {sortComponent()}
+            </Box>
+          </Box>
+        ),
+        renderComponent: (row: Platipay) => {
+          return (
+            <span
+              style={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              {dayjs(row.created_at).format("DD MMM HH:mm")}
+            </span>
+          );
+        },
+      },
+      {
         column: "amount",
         currencyManual: " ₽",
         valueKey: "amount",
@@ -157,49 +200,6 @@ const usePlatipayService = () => {
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
             />
-          );
-        },
-      },
-      {
-        column: () => (
-          <Box>
-            <P fontWeight={"bold"}>{t("created_at")}</P>
-
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <MonthPicker
-                  name="from"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-                <MonthPicker
-                  name="to"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-              </Box>
-              {sortComponent()}
-            </Box>
-          </Box>
-        ),
-        renderComponent: (row: Platipay) => {
-          return (
-            <span
-              style={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-              }}
-            >
-              {dayjs(row.created_at).format("DD MMM HH:mm")}
-            </span>
           );
         },
       },
