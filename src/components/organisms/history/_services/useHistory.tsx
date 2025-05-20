@@ -79,7 +79,8 @@ const usePlatipayService = () => {
   useEffect(() => {
     if (isDatePickerOpen) return;
     const isValidRange =
-      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+      dayjs(debouncedFrom, "DD.MM.YYYY").isValid() ||
+      dayjs(debouncedTo, "DD.MM.YYYY").isValid();
 
     const role = debouncedRole === "all" ? "" : debouncedRole;
 

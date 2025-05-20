@@ -69,12 +69,12 @@ const useBlockedCard = () => {
     if (isDatePickerOpen) return;
 
     const formattedFrom =
-      debouncedFrom && dayjs(debouncedFrom).isValid()
+      debouncedFrom && dayjs(debouncedFrom, "DD.MM.YYYY").isValid()
         ? dayjs(debouncedFrom).format("YYYY.MM.DD")
         : undefined;
 
     const formattedTo =
-      debouncedTo && dayjs(debouncedTo).isValid()
+      debouncedTo && dayjs(debouncedTo, "DD.MM.YYYY").isValid()
         ? dayjs(debouncedTo).format("YYYY.MM.DD")
         : undefined;
 

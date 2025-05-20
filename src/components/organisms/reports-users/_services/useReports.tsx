@@ -81,7 +81,8 @@ const useReports = () => {
   useEffect(() => {
     if (isDatePickerOpen) return;
     const isValidRange =
-      dayjs(debouncedFrom).isValid() || dayjs(debouncedTo).isValid();
+      dayjs(debouncedFrom, "DD.MM.YYYY").isValid() ||
+      dayjs(debouncedTo, "DD.MM.YYYY").isValid();
 
     dispatch(
       getReportUsersThunk({
