@@ -54,11 +54,11 @@ export const superAdminItems = [
     text: "blocked-user_list",
     permission: "blocked_users.view",
   },
-  // {
-  //   link: "/freezed-user-list",
-  //   icon: <PersonIcon />,
-  //   text: "freezed_user_list",
-  // },
+  {
+    link: "/freezed-user-list",
+    icon: <PersonIcon />,
+    text: "freezed_user_list",
+  },
   {
     link: "/create-user",
     icon: <PersonAddAltIcon />,

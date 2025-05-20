@@ -142,6 +142,22 @@ export const getFreezeUserThunk = createAsyncThunk(
     }
   }
 );
+export const deleteFreezeUserThunk = createAsyncThunk(
+  "users/getFreezeUserThunk",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.delete(`/freezed/${id}/expired-orders`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
 
 export const generateCodeReferralThunk = createAsyncThunk(
   "users/getUserReferalThunk",

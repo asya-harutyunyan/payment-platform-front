@@ -12,14 +12,16 @@ import { Paper } from "../../molecules/paper/paper";
 import { fields } from "./columns";
 
 export const FreezeUserInfo: FC = () => {
-  const { user, loading } = useAppSelector((state) => state.users);
-  const { id } = useParams({ from: "/_auth/_admin/user-list/$id" });
+  const { freezedUser, loading } = useAppSelector((state) => state.users);
+  const { id } = useParams({ from: "/_auth/_admin/freezed-user-list/$id" });
   const dispatch = useAppDispatch();
   const router = useRouter();
   const canGoBack = useCanGoBack();
+
   useEffect(() => {
     dispatch(getFreezeUserThunk(Number(id)));
   }, [dispatch, id]);
+
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
@@ -38,12 +40,12 @@ export const FreezeUserInfo: FC = () => {
           sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
         />
       </Box>
-      {!user ? (
+      {!freezedUser ? (
         <CircularIndeterminate />
       ) : (
         <Box>
           <Paper
-            data={user}
+            data={freezedUser}
             loading={loading}
             fields={fields}
             title={"Список замароженных пользовательей"}

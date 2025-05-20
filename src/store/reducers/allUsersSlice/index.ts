@@ -107,7 +107,7 @@ const usersSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(getFreezeUserThunk.fulfilled, (state, action) => {
-        state.freezedUser = action.payload;
+        state.freezedUser = action.payload.user;
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

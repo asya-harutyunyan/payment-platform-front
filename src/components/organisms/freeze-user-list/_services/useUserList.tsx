@@ -7,7 +7,10 @@ import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { filter_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getFreezedUsersThunk } from "@/store/reducers/allUsersSlice/thunks";
+import {
+  deleteFreezeUserThunk,
+  getFreezedUsersThunk,
+} from "@/store/reducers/allUsersSlice/thunks";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
@@ -16,6 +19,7 @@ import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -123,23 +127,21 @@ const useUserList = () => {
   };
 
   const deleteUser = (id: number) => {
-    console.log(id);
-
-    // dispatch(blockUserThunk(id))
-    //   .unwrap()
-    //   .then(() => {
-    //     enqueueSnackbar("Пользователь заблокирован", {
-    //       variant: "success",
-    //       anchorOrigin: { vertical: "top", horizontal: "right" },
-    //     });
-    //     dispatch(getFreezedUsersThunk({ page, per_page: 20 }));
-    //   })
-    //   .catch(() => {
-    //     enqueueSnackbar(t("something_went_wrong"), {
-    //       variant: "error",
-    //       anchorOrigin: { vertical: "top", horizontal: "right" },
-    //     });
-    //   });
+    dispatch(deleteFreezeUserThunk(id))
+      .unwrap()
+      .then(() => {
+        enqueueSnackbar(t("deleted_orders"), {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        dispatch(getFreezedUsersThunk({ page, per_page: 20 }));
+      })
+      .catch(() => {
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+      });
   };
 
   const sortComponent = () => (
@@ -174,49 +176,6 @@ const useUserList = () => {
   const columnsUsers = useMemo<IColumn<User>[]>(
     () =>
       [
-        {
-          column: () => (
-            <Box>
-              <P fontWeight={"bold"} paddingRight={"5px"}>
-                {t("created_at")}
-              </P>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <Box sx={{ display: "flex", flexDirection: "column" }}>
-                  <MonthPicker
-                    name="from"
-                    control={control}
-                    onOpen={() => setIsDatePickerOpen(true)}
-                    onClose={() => setIsDatePickerOpen(false)}
-                  />
-                  <MonthPicker
-                    name="to"
-                    control={control}
-                    onOpen={() => setIsDatePickerOpen(true)}
-                    onClose={() => setIsDatePickerOpen(false)}
-                  />
-                </Box>
-                <Box paddingTop={"8px"}>{sortComponent()}</Box>
-              </Box>
-            </Box>
-          ),
-          renderComponent: (row: User) => (
-            <P
-              sx={{
-                color: "black",
-                fontSize: "15px",
-                fontWeight: 500,
-                ":hover": { textDecoration: "underline" },
-              }}
-            >
-              {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
-            </P>
-          ),
-        },
         {
           column: "name",
           filters: () => (
@@ -269,6 +228,35 @@ const useUserList = () => {
           ),
         },
         {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"} paddingRight={"5px"}>
+                {t("created_at")}
+              </P>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <Box sx={{ display: "flex", flexDirection: "column" }}>
+                  <MonthPicker
+                    name="from"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    name="to"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                </Box>
+                <Box paddingTop={"8px"}>{sortComponent()}</Box>
+              </Box>
+            </Box>
+          ),
           renderComponent: (row: User) => (
             <Button
               variant={"outlined"}

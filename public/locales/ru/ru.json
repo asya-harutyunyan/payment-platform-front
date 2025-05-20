@@ -309,5 +309,6 @@
   "amount_changed": "Значение успешно изменен",
   "change_price": "Изменить сумму выплаты",
   "amount_to_deduct": "Изменить сумму выплаты",
-  "amount_to_deduct_input": "Сумма выплаты"
+  "amount_to_deduct_input": "Сумма выплаты",
+  "deleted_orders": "Просроченные заказы пользователя успешно удалены"
 }
