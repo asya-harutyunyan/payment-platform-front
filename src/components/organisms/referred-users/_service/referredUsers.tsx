@@ -141,8 +141,6 @@ const useReferredUsers = () => {
     2000
   );
   const handleSingleUser = (row?: string) => {
-    console.log(row, "roq");
-
     if (route.pathname === "/referred-users") {
       navigate({ to: `/referred-users/${row}` });
     }

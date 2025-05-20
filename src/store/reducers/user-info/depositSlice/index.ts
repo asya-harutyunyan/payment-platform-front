@@ -75,7 +75,6 @@ const depositSlice = createSlice({
       })
       .addCase(getDepositsAdminThunk.fulfilled, (state, action) => {
         state.depositsAdmin = action.payload.data;
-        console.log(action.payload);
         state.paginationAdminPage.total = action.payload.pagination.total;
         state.paginationAdminPage.last_page = Math.ceil(
           action.payload.pagination.total / action.payload.pagination.per_page

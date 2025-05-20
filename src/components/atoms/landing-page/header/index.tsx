@@ -72,8 +72,6 @@ export const ResponsiveAppBar = () => {
         to = "/deposit-list";
         break;
       case "superAdmin":
-        console.log(user?.role);
-
         to = "/deposit-list";
         break;
       default:

@@ -120,9 +120,6 @@ const useUserList = () => {
       navigate({ to: `/freezed-user-list/${row}` });
     }
   };
-  useEffect(() => {
-    console.log(freezedUsers);
-  }, [freezedUsers]);
 
   const deleteUser = (id: number) => {
     console.log(id);

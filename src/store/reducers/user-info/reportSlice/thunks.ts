@@ -189,8 +189,6 @@ export const GetPlatformXThunk = createAsyncThunk(
   "reports/GetPlatformXThunk",
   async (data: GetPlatformXRequest, { rejectWithValue }) => {
     try {
-      console.log(data);
-
       const response = await httpClient.get("/platform-x/orders-stats", {
         params: {
           from: data.from,

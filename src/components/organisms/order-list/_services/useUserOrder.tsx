@@ -82,7 +82,7 @@ const useAdminOrder = () => {
   const name = watch("name");
   const surname = watch("surname");
   const amount = watch("amount");
-  const statusByAdmin = watch("status_by_admin");
+  const statusByAdmin = watch("status_client");
   const cardNumber = watch("card_number");
   const from = watch("from");
   const to = watch("to");
