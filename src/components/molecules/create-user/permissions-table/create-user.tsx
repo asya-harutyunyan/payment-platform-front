@@ -51,6 +51,7 @@ const PermissionsTable = ({
     viewBlockedCards,
     viewDeposit,
     viewOrderPermissions,
+    viewOrderSummaryPermissions,
     viewWalletPermissions,
     viewRefUsers,
     viewPlatforms,
@@ -88,6 +89,7 @@ const PermissionsTable = ({
     ...viewRefUsers,
     ...viewWalletPermissions,
     ...viewOrderPermissions,
+    ...viewOrderSummaryPermissions,
     ...viewDeposit,
     ...viewBlockedCards,
     ...bankDetailsPermissions,
@@ -712,7 +714,56 @@ const PermissionsTable = ({
               </Box>
             </Box>
           </Box>
-
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box sx={{ width: "32%" }}>
+                {viewOrderSummaryPermissions.map((item, index) => (
+                  <Box key={index} sx={style}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkedPermissions.includes(item.name)}
+                          sx={{ color: "#1976d2" }}
+                          onChange={(event) =>
+                            handleCheckboxChange(event, item.name)
+                          }
+                          disabled={isActionDisabled(item)}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
+                          {t(item.name)}
+                        </Typography>
+                      }
+                    />
+                  </Box>
+                ))}
+              </Box>
+              <Box sx={{ width: "32%" }}></Box>
+              <Box sx={{ width: "32%" }}></Box>
+            </Box>
+          </Box>
           <Box
             sx={{
               width: "100%",

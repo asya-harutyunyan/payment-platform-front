@@ -357,7 +357,7 @@ const useDepositInfo = () => {
                   width: "120px",
                 }}
               >
-                {user.permissions.includes("deposits_edit") ? (
+                {user.permissions.includes("deposits_confirm") ? (
                   <Countdown
                     date={getTimer(row.created_at as string, "FIAT")}
                     renderer={(props) => {

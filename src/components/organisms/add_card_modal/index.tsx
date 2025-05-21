@@ -330,13 +330,6 @@ export const AddCardModal: FC<IStepTwo> = ({
             placeholder={t("bank_name")}
           />
         )}
-        {/* <FormPhoneInput
-          control={control}
-          name="phone_number"
-          placeholder={t("phone_number")}
-          style={{}}
-          whiteVariant
-        /> */}
         <FormTextInput
           control={control}
           name="card_number"

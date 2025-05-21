@@ -50,9 +50,13 @@ const useAdminOrder = () => {
 
   const [selectedOrder, setSelectedOrder] = useState<number>();
   const [filter, setFilter] = useState<DEPOSIT_STATUSES>(DEPOSIT_STATUSES.ALL);
+
   useEffect(() => {
-    dispatch(getOrderSummaryThunk());
+    if (user?.permissions.includes("orders_view.summary")) {
+      dispatch(getOrderSummaryThunk());
+    }
   }, [dispatch]);
+
   const navigate = useNavigate();
   const route = useLocation();
 

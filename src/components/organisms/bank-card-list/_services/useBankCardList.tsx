@@ -12,6 +12,7 @@ import {
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
+import EditIcon from "@mui/icons-material/Edit";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -36,6 +37,7 @@ const useBankCardList = () => {
   const [page, setPage] = useState(1);
   const { user } = useAuth();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { bankCards, loading, total } = useAppSelector(
     (state) => state.bankDetails
@@ -126,7 +128,6 @@ const useBankCardList = () => {
           column: () => (
             <Box>
               <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
-
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <Box sx={{ display: "flex", flexDirection: "column" }}>
@@ -226,7 +227,34 @@ const useBankCardList = () => {
         },
         {
           column: "card_number",
-          valueKey: "card_number",
+          renderComponent: (row: BankCardsDetalis) => {
+            return (
+              <Box sx={{ display: "flex" }}>
+                <P
+                  sx={{
+                    color: "black",
+                    fontSize: "15px",
+                    fontWeight: 500,
+                  }}
+                >
+                  {row.card_number}
+                </P>
+                <EditIcon
+                  onClick={() => {
+                    setOpen(true);
+                  }}
+                  sx={{
+                    color: "primary.main",
+                    marginLeft: "5px",
+                    fontSize: "23px",
+                    ":hover": {
+                      color: "#2c269a",
+                    },
+                  }}
+                />
+              </Box>
+            );
+          },
           filters: () => {
             return (
               <FormTextInput
@@ -381,6 +409,8 @@ const useBankCardList = () => {
     total,
     setPage,
     onChangePage,
+    open,
+    setOpen,
     page,
     columns,
     user,

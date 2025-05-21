@@ -275,7 +275,7 @@
   "deposits_confirm": "Подтверждение депозита",
   "orders_view": "Просмотр заказов",
   "orders_delete": "Удаление заказов",
-  "orders_view.summary": "Просмотр сводки заказов",
+  "orders_view.summary": "Просмотр информация заказов",
   "orders_view.processedAmounts": "Просмотр обработанных сумм заказов",
   "banks_create": "Создание банка",
   "banks_update": "Обновление банка",

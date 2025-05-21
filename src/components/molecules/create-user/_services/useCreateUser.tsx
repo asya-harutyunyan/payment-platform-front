@@ -111,6 +111,14 @@ export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
   const viewOrderPermissions = [
     { prefix: "orders", name: "orders_view", checking: "orders_view" },
   ];
+  const viewOrderSummaryPermissions = [
+    {
+      prefix: "orders",
+      name: "orders_view.summary",
+      checking: "orders_summary_view",
+    },
+  ];
+
   const viewDeposit = [
     { prefix: "deposits", name: "deposits_view", checking: "deposits_view" },
   ];
@@ -217,6 +225,7 @@ export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
     bankDetailsPermissions,
     viewDeposit,
     viewOrderPermissions,
+    viewOrderSummaryPermissions,
     viewWalletPermissions,
     viewRefUsers,
     viewPlatforms,
