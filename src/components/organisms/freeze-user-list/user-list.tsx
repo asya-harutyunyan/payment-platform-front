@@ -19,7 +19,7 @@ export const FreezedUserListComponent: FC = () => {
 
   return (
     <Box>
-      <TaskHeader title={t("user_list_title")} />
+      <TaskHeader title={t("freezed_user_info")} />
       {loading ? (
         <CircularIndeterminate />
       ) : (

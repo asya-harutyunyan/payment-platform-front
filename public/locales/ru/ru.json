@@ -305,6 +305,7 @@
   "from": "От",
   "to": "До",
   "to_email": "Для Email",
+  "freezed_user_info": "Замороженные пользователи",
   "referred_user_list": "Рефералная ссылка пользователей",
   "amount_changed": "Значение успешно изменен",
   "change_price": "Изменить сумму выплаты",

@@ -36,7 +36,7 @@ export const FreezeUserInfo: FC = () => {
           />
         )}
         <TaskHeader
-          title={t("user_info")}
+          title={t("freezed_user_info")}
           sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
         />
       </Box>
