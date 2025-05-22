@@ -6,6 +6,7 @@ export const filter_schema = z.object({
   email: z.string(),
   period: z.string(),
   referral_code: z.string(),
+  role: z.string(),
   // month: z
   //   .custom<dayjs.Dayjs>((val) => dayjs.isDayjs(val), {
   //     message: "Invalid date format",

@@ -17,6 +17,7 @@ export const getUsersThunk = createAsyncThunk(
           to: data.to,
           from: data.from,
           email: data.email,
+          role: data.role,
           sort: data.sort,
           month: data.month,
         },

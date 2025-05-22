@@ -101,6 +101,7 @@ export interface GetUsersRequest {
   name?: string;
   surname?: string;
   email?: string;
+  role?: string;
   search?: string;
   sort?: "ASC" | "DESC";
   to?: string;

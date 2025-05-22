@@ -42,7 +42,7 @@ export const TypeOptions = [
 ];
 
 export const RoleOptions = [
-  { id: Math.random(), name: "superAdmin" },
+  // { id: Math.random(), name: "superAdmin" },
   { id: Math.random(), name: "admin" },
   { id: Math.random(), name: "client" },
   { id: Math.random(), name: "all" },

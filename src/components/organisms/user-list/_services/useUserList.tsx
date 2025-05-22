@@ -47,6 +47,7 @@ const useUserList = () => {
       name: "",
       surname: "",
       email: "",
+      role: "",
       from: undefined,
       to: undefined,
     },
@@ -55,12 +56,14 @@ const useUserList = () => {
   const name = watch("name");
   const surname = watch("surname");
   const email = watch("email");
+  const role = watch("role");
   const from = watch("from");
   const to = watch("to");
 
   const [debouncedName] = useDebounce(name, 700);
   const [debouncedSurname] = useDebounce(surname, 700);
   const [debouncedEmail] = useDebounce(email, 700);
+  const [debouncedRole] = useDebounce(role, 700);
   const [debouncedFrom] = useDebounce(
     from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
     2000
@@ -85,6 +88,7 @@ const useUserList = () => {
         email: debouncedEmail,
         to: isValidRange ? debouncedTo : "",
         from: isValidRange ? debouncedFrom : "",
+        role: debouncedRole,
         sort,
       })
     );
@@ -92,6 +96,7 @@ const useUserList = () => {
     debouncedName,
     debouncedSurname,
     debouncedEmail,
+    debouncedRole,
     debouncedFrom,
     debouncedTo,
     sort,
@@ -255,6 +260,7 @@ const useUserList = () => {
             />
           ),
         },
+
         {
           column: "email",
           valueKey: "email",
@@ -268,6 +274,29 @@ const useUserList = () => {
             />
           ),
         },
+        // {
+        //   column: "role",
+        //   valueKey: "role",
+        //   // filters: () => {
+        //   //   return (
+        //   //     <Box>
+        //   //       <P
+        //   //         fontWeight={"bold"}
+        //   //         sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+        //   //       >
+        //   //         {t("role")}
+        //   //       </P>
+        //   //       <SelectFieldWith
+        //   //         placeholder={""}
+        //   //         name="role"
+        //   //         control={control}
+        //   //         options={RoleOptions}
+        //   //         height="43px"
+        //   //       />
+        //   //     </Box>
+        //   //   );
+        //   // },
+        // },
         {
           renderComponent: (row: User) => (
             <Button
@@ -278,6 +307,7 @@ const useUserList = () => {
             />
           ),
         },
+
         user?.permissions.includes("users_block")
           ? {
               renderComponent: (row: User) => (

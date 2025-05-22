@@ -40,7 +40,6 @@ export const AddCardModal: FC<IStepTwo> = ({
   cardHolder,
   bankDetailID,
   bankName,
-  // phoneNumber,
   cardNumber,
   currency,
   isEdit,
