@@ -32,7 +32,13 @@ export default ({ mode }: ResolvedConfig) => {
           rewriteWsOrigin: true,
         },
       },
-      allowedHosts: ["ru.payhub.finance","ru.payhub.investments","ru.payhub.services","ru.payhub.live"],
+      allowedHosts: [
+        "ru.payhub.finance",
+        "ru.payhub.investments",
+        "ru.payhub.services",
+        "ru.payhub.live",
+        "msk.payhub.finance",
+      ],
     },
   });
 };
