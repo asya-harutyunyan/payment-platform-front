@@ -24,7 +24,7 @@ const useWalletInfo = () => {
               color: "white",
             }}
           >
-            {wallet?.processing_amount ?? "0"} ₽
+            {wallet?.profits ?? "0"} ₽
           </P>
         </Box>
         <Box sx={{ display: "flex", padding: "10px" }}>
@@ -41,7 +41,7 @@ const useWalletInfo = () => {
               color: "white",
             }}
           >
-            {wallet?.profits ?? "0"} ₽
+            {wallet?.processing_amount ?? "0"} ₽
           </P>
         </Box>
       </>
