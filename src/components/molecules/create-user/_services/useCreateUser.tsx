@@ -111,9 +111,10 @@ export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
   const viewOrderPermissions = [
     { prefix: "orders", name: "orders_view", checking: "orders_view" },
   ];
+
   const viewOrderSummaryPermissions = [
     {
-      prefix: "orders",
+      prefix: "orders_summary",
       name: "orders_view.summary",
       checking: "orders_summary_view",
     },
@@ -179,6 +180,13 @@ export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
   const editBlockedUserPermission = [
     { prefix: "blocked_users", name: "users_block", checking: "users_block" },
   ];
+  const editOrderUpdatePermissions = [
+    {
+      prefix: "orders",
+      name: "orders_update.status",
+      checking: "orders_update.status",
+    },
+  ];
 
   const editBankPermission = [
     {
@@ -235,6 +243,8 @@ export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
     editUserPermission,
     editBankPermission,
     editReferralPercentPermission,
+    editOrderUpdatePermissions,
+
     editDepositPermissions,
     viewBlockedPermissionsUser,
     editBlockedUserPermission,

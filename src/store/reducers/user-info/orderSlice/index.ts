@@ -50,8 +50,10 @@ const depositSlice = createSlice({
       })
       .addCase(getUserOrdersThunk.fulfilled, (state, action) => {
         state.ordersUser = action.payload.data;
-        state.lastPage = action.payload.last_page;
-        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+        state.lastPage = action.payload.pagination.last_page;
+        state.total = Math.ceil(
+          action.payload.pagination.total / action.payload.pagination.per_page
+        );
       })
       .addCase(getSingleOrderThunk.fulfilled, (state, action) => {
         state.singleOrder = action.payload;

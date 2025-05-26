@@ -12,6 +12,7 @@ import { order_schema } from "@/schema/order_schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import {
+  changeStatusDoneOrderThunk,
   deleteOrderThunk,
   getOrdersThunk,
 } from "@/store/reducers/user-info/orderSlice/thunks";
@@ -173,6 +174,37 @@ const useAdminOrder = () => {
       })
     );
   };
+  const handleChangeDone = (id?: number) => {
+    if (id) {
+      dispatch(changeStatusDoneOrderThunk(id))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(t("success_change_order"), {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          dispatch(
+            getOrdersThunk({
+              page,
+              per_page: 50,
+            })
+          );
+        })
+        .catch((error) => {
+          if (error === "Невозможно удалить заказ со статусом «Выполнено»") {
+            enqueueSnackbar("Невозможно удалить заказ со статусом «Успешно»", {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          } else {
+            enqueueSnackbar(t("error"), {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
+        });
+    }
+  };
   const columns = useMemo<IColumn<Order>[]>(
     () =>
       [
@@ -325,6 +357,21 @@ const useAdminOrder = () => {
                 sx={{ width: "130px" }}
                 onClick={() => handleSingleOrder?.(row.id)}
               />
+            );
+          },
+        },
+        {
+          column: "key",
+          renderComponent: (row: Order) => {
+            return (
+              row.status_by_client === "expired" && (
+                <Button
+                  variant={"outlined"}
+                  text={"Изменить: Выполнено"}
+                  sx={{ width: "200px" }}
+                  onClick={() => handleChangeDone?.(row.id)}
+                />
+              )
             );
           },
         },

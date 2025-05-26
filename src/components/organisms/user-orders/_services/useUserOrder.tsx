@@ -10,7 +10,7 @@ import {
   confirmOrderByClientThunk,
   getUserOrdersThunk,
 } from "@/store/reducers/user-info/orderSlice/thunks";
-import { H6, P } from "@/styles/typography";
+import { P } from "@/styles/typography";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
 import { t } from "i18next";
@@ -84,23 +84,20 @@ const useUserOrder = () => {
     { completed, formatted },
     id
   ) => {
-    if (completed) {
-      return <H6 color="primary.main">Не оплачен</H6>;
-    }
-
-    return (
-      <Button
-        variant="contained"
-        sx={{ fontSize: "0.7rem", width: "140px" }}
-        onClick={() => {
-          handleOpen();
-          if (id) {
-            setAddId(id);
-          }
-        }}
-        text={`Подтвердить - ${formatted.minutes}:${formatted.seconds}`}
-      />
-    );
+    if (!completed)
+      return (
+        <Button
+          variant="contained"
+          sx={{ fontSize: "0.7rem", width: "140px" }}
+          onClick={() => {
+            handleOpen();
+            if (id) {
+              setAddId(id);
+            }
+          }}
+          text={`Подтвердить - ${formatted.minutes}:${formatted.seconds}`}
+        />
+      );
   };
 
   const columns = useMemo<IColumn<Order>[]>(

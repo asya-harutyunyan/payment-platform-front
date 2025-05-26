@@ -61,6 +61,7 @@ const PermissionsTable = ({
     editBlockedUserPermission,
     editBankPermission,
     editReferralPercentPermission,
+    editOrderUpdatePermissions,
     editDepositPermissions,
     //delete
     deleteWalletPermissions,
@@ -78,6 +79,7 @@ const PermissionsTable = ({
     ...editBlockedUserPermission,
     ...editBankPermission,
     ...editReferralPercentPermission,
+    ...editOrderUpdatePermissions,
     ...editDepositPermissions,
   ];
   const deletePermissions = [
@@ -679,7 +681,39 @@ const PermissionsTable = ({
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "32%" }}></Box>
+              <Box sx={{ width: "32%" }}>
+                {" "}
+                {editOrderUpdatePermissions.map((item, index) => (
+                  <Box key={index} sx={style}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkedPermissions.includes(item.name)}
+                          sx={{ color: "#1976d2" }}
+                          onChange={(event) =>
+                            handleCheckboxChange(event, item.name)
+                          }
+                          disabled={isActionDisabled(item)}
+                        />
+                      }
+                      label={
+                        <Typography
+                          sx={{
+                            fontSize: {
+                              lg: "0.9rem",
+                              md: "0.9rem",
+                              xs: "0.6rem",
+                              sm: "0.6rem",
+                            },
+                          }}
+                        >
+                          {t(item.name)}
+                        </Typography>
+                      }
+                    />
+                  </Box>
+                ))}
+              </Box>
               <Box sx={{ width: "32%" }}>
                 {deleteOrderPermissions.map((item, index) => (
                   <Box key={index} sx={style}>
@@ -764,6 +798,7 @@ const PermissionsTable = ({
               <Box sx={{ width: "32%" }}></Box>
             </Box>
           </Box>
+
           <Box
             sx={{
               width: "100%",
