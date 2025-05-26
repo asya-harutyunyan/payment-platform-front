@@ -159,7 +159,6 @@ export const changeStatusDoneOrderThunk = createAsyncThunk(
     try {
       const response = await httpClient.put(`/orders/status/${id}`, {
         status_by_client: "done",
-        status_by_admin: "",
       });
       return response.data;
     } catch (error: unknown) {

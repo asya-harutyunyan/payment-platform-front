@@ -116,7 +116,6 @@ const useAdminOrder = () => {
 
     const status =
       debouncedStatusByAdmin === "all" ? "" : debouncedStatusByAdmin;
-    console.log(isValidRange, debouncedFrom, "isValidRange");
 
     const fetchOrders = () => {
       dispatch(
@@ -183,6 +182,8 @@ const useAdminOrder = () => {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
+          console.log(12);
+
           dispatch(
             getOrdersThunk({
               page,
