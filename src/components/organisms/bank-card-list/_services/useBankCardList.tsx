@@ -12,7 +12,7 @@ import {
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EditIcon from "@mui/icons-material/Edit";
+// import EditIcon from "@mui/icons-material/Edit";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
@@ -239,7 +239,7 @@ const useBankCardList = () => {
                 >
                   {row.card_number}
                 </P>
-                <EditIcon
+                {/* <EditIcon
                   onClick={() => {
                     setOpen(true);
                   }}
@@ -251,7 +251,7 @@ const useBankCardList = () => {
                       color: "#2c269a",
                     },
                   }}
-                />
+                /> */}
               </Box>
             );
           },
