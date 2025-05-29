@@ -12,8 +12,8 @@ import {
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import EditIcon from "@mui/icons-material/Edit";
-import { Box } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { Box, IconButton } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -42,9 +42,6 @@ const useBankCardList = () => {
   const { bankCards, loading, total } = useAppSelector(
     (state) => state.bankDetails
   );
-  useEffect(() => {
-    dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
-  }, [user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
@@ -238,19 +235,23 @@ const useBankCardList = () => {
                 >
                   {row.card_number}
                 </P>
-                {/* <EditIcon
+                <IconButton
                   onClick={() => {
-                    setOpen(true);
+                    if (user?.bank_details.length) {
+                      setOpen(true);
+                    }
                   }}
+                  disabled={user?.bank_details.length === 0}
                   sx={{
                     color: "primary.main",
                     marginLeft: "5px",
-                    fontSize: "23px",
                     ":hover": {
                       color: "#2c269a",
                     },
                   }}
-                /> */}
+                >
+                  <EditIcon sx={{ fontSize: "23px" }} />
+                </IconButton>
               </Box>
             );
           },
