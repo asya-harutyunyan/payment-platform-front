@@ -12,8 +12,8 @@ import {
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box, IconButton } from "@mui/material";
+// import EditIcon from "@mui/icons-material/Edit";
+import { Box } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -235,7 +235,7 @@ const useBankCardList = () => {
                 >
                   {row.card_number}
                 </P>
-                <IconButton
+                {/* <IconButton
                   onClick={() => {
                     if (user?.bank_details.length) {
                       setOpen(true);
@@ -251,7 +251,7 @@ const useBankCardList = () => {
                   }}
                 >
                   <EditIcon sx={{ fontSize: "23px" }} />
-                </IconButton>
+                </IconButton> */}
               </Box>
             );
           },

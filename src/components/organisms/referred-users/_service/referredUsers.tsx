@@ -1,7 +1,6 @@
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
 import { IColumn } from "@/components/molecules/table";
-import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import EditIcon from "@mui/icons-material/Edit";
 
