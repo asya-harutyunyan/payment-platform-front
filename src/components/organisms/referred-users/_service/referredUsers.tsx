@@ -44,7 +44,6 @@ const useReferredUsers = () => {
   const navigate = useNavigate();
   const route = useLocation();
   const [page, setPage] = useState(1);
-  const { user } = useAuth();
   const [open, setOpen] = useState(false);
   const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const [sortOrder, setSortOrder] = useState<"ASC" | "DESC">("DESC");
