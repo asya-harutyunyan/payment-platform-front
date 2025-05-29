@@ -1,7 +1,12 @@
+import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
+import { BasicCard } from "@/components/atoms/card";
 import { CopyButton } from "@/components/atoms/copy-btn";
+import { FormTextInput } from "@/components/atoms/input";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
+import { RadioButtonsGroup } from "@/components/atoms/radio-button";
+import { SelectFieldWith } from "@/components/atoms/select";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { P } from "@/styles/typography";
@@ -16,19 +21,19 @@ export const PartnerProgramComponent: FC = () => {
     referralUser,
     total,
     loading,
-    // navigate,
-    // paymentType,
-    // setPaymentType,
-    // control,
-    // handleSubmit,
+    navigate,
+    paymentType,
+    setPaymentType,
+    control,
+    handleSubmit,
     user,
     onChangePage,
     columns,
     generateReferalCode,
     PartnerProgramSummary,
-    // onSubmit,
-    // selectedType,
-    // options,
+    onSubmit,
+    selectedType,
+    options,
     page,
   } = usePartnerProgram();
 
@@ -68,8 +73,7 @@ export const PartnerProgramComponent: FC = () => {
             >
               {PartnerProgramSummary()}
             </Box>
-            {/* //TODO: */}
-            {/* <BasicCard
+            <BasicCard
               sx={{
                 width: "100%",
                 marginTop: "20px",
@@ -87,7 +91,7 @@ export const PartnerProgramComponent: FC = () => {
                   width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
                 }}
               >
-                {paymentType ? (
+                {!paymentType ? (
                   <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
                     <P color="#fff" padding={"10px 0"}>
                       Выберите способ получения рефералов:
@@ -188,7 +192,7 @@ export const PartnerProgramComponent: FC = () => {
                   </Box>
                 )}
               </Box>
-            </BasicCard> */}
+            </BasicCard>
           </Box>
         }
       />

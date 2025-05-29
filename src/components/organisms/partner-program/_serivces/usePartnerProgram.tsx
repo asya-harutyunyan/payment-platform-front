@@ -79,7 +79,7 @@ const usePartnerProgram = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     console.log(data);
-    // setPaymentType(false);
+    setPaymentType(false);
   };
 
   const options = [
@@ -100,7 +100,7 @@ const usePartnerProgram = () => {
           sx={{
             display: "flex",
             alignItems: "center",
-            paddingRight: "15px",
+            paddingLeft: "15px",
           }}
         >
           <P
@@ -111,16 +111,20 @@ const usePartnerProgram = () => {
               fontSize: "1rem",
             }}
           >
-            {t(amount_to_pay)}:
+            {t("amount_to_pay")}:
           </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>{amount_to_pay}</P>
+          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
+            {amount_to_pay}₽
+          </P>
         </Box>
-        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+        <Box
+          sx={{ display: "flex", paddingRight: "15px", alignItems: "center" }}
+        >
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-
+              paddingLeft: "15px",
               fontSize: "1rem",
             }}
           >
