@@ -59,10 +59,6 @@ const useReferredUsers = () => {
     },
   });
 
-  useEffect(() => {
-    dispatch(getReferredUsersForAdminThunk({ page: page, per_page: 20 }));
-  }, [user?.role]);
-
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
   };
