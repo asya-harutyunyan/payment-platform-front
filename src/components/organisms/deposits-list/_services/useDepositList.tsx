@@ -193,25 +193,9 @@ const useDepositInfo = () => {
     page: number
   ) => {
     setPageAdmin?.(page);
-    if (user?.role === "admin" || user?.role === "superAdmin") {
-      dispatch(
-        getDepositsAdminThunk({
-          page: pageAdmin,
-          per_page: 50,
-        })
-      );
-    }
   };
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    if (user?.role === "client") {
-      dispatch(
-        getDepositsThunk({
-          page: page,
-          per_page: 5,
-        })
-      );
-    }
   };
   const handleOpen = () => setOpen(true);
 

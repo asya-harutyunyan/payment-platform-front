@@ -111,13 +111,11 @@ const useBlockedUserList = () => {
     page: number
   ) => {
     setPageBlockedUsers?.(page);
-    dispatch(getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 }));
+    // dispatch(getBlockedUsersThunk({ page: pageBlockedUsers, per_page: 20 }));
   };
   //single page
   const handleSingleUser = (row?: number) => {
     if (route.pathname === "/blocked-user-list") {
-      console.log(row);
-
       navigate({ to: `/user-list/${row}` });
     }
   };

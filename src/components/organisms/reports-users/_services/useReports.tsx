@@ -4,10 +4,7 @@ import { IColumn } from "@/components/molecules/table";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
-import {
-  getReportUsersThunk,
-  newRegisteredUsersThunk,
-} from "@/store/reducers/user-info/reportSlice/thunks";
+import { getReportUsersThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { ReportUsers } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +24,6 @@ const useReports = () => {
   const { goToUserPage } = useUserContext();
 
   const dispatch = useAppDispatch();
-  const [pageNewRegUsers, setPageNewRegUsers] = useState(1);
   const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
@@ -110,27 +106,12 @@ const useReports = () => {
     setValue(newValue);
     setSelectedTab(newValue);
   };
-  const onChangePageNewUsers = (
-    _event: React.ChangeEvent<unknown>,
-    newPage: number
-  ) => {
-    setPageNewRegUsers(newPage);
-
-    dispatch(
-      newRegisteredUsersThunk({
-        page: newPage,
-        per_page: 20,
-        sort: sort,
-      })
-    );
-  };
 
   const onChangeReportUsersPage = (
     _event: React.ChangeEvent<unknown>,
     page: number
   ) => {
     setPage?.(page);
-    dispatch(getReportUsersThunk({ page: page, per_page: 20 }));
   };
 
   const columnsReportUsers = useMemo<IColumn<ReportUsers>[]>(
@@ -348,10 +329,8 @@ const useReports = () => {
   };
   return {
     sortComponent,
-    pageNewRegUsers,
     columnsReportUsers,
     handleChange,
-    onChangePageNewUsers,
     onChangeReportUsersPage,
     orders_stats,
     totalDeposits,

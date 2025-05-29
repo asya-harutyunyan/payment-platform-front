@@ -23,7 +23,7 @@ export const PlatiPay: FC = () => {
 
   useEffect(() => {
     dispatch(platipayThunk({ page: page, per_page: 20 }));
-  }, [dispatch, page, user?.role]);
+  }, [user?.role]);
 
   return (
     <Box sx={{ width: "100%" }}>

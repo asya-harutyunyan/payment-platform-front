@@ -22,7 +22,7 @@ export const HistoryComponent: FC = () => {
 
   useEffect(() => {
     dispatch(historyThunk({ page: page, per_page: 20 }));
-  }, [dispatch, page, user?.role]);
+  }, [user?.role]);
 
   return (
     <Box sx={{ width: "100%" }}>

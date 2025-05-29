@@ -99,7 +99,6 @@ const useWallet = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getWalletsThunk({ page: page, per_page: 20 }));
   };
   const handleDeleteModal = (id?: number) => {
     setOpen(true);

@@ -56,13 +56,6 @@ const useUserOrder = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
-    dispatch(
-      getUserOrdersThunk({
-        page,
-        per_page:
-          user?.role === "admin" || user?.role === "superAdmin" ? 20 : 5,
-      })
-    );
   };
 
   const handleOpen = () => setOpen(true);

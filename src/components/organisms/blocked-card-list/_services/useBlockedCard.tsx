@@ -108,7 +108,6 @@ const useBlockedCard = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getBlockedCardsThunk({ page, per_page: 20 }));
   };
 
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(

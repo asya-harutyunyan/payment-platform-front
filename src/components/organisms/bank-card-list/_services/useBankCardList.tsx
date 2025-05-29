@@ -44,11 +44,10 @@ const useBankCardList = () => {
   );
   useEffect(() => {
     dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
-  }, [dispatch, page, user?.role]);
+  }, [user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
   };
   const { control, register, watch } = useForm<FormData>({
     resolver: zodResolver(bank_card_schema),

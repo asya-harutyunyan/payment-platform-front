@@ -96,7 +96,6 @@ const usePlatipayService = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(platipayThunk({ page: page, per_page: 20 }));
   };
 
   const columns = useMemo<IColumn<Platipay>[]>(

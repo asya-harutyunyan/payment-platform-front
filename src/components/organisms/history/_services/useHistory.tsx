@@ -116,22 +116,6 @@ const usePlatipayService = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(
-      historyThunk({
-        page,
-        per_page: 20,
-        by_fullname: debounceByName,
-        by_email: debouncedByEmail,
-        to_email: debouncedToEmail,
-        to_fullname: debouncedToName,
-        action: debouncedAction,
-        role: debouncedRole,
-        from: debouncedFrom,
-        to: debouncedTo,
-        date: debouncedDate,
-        sort,
-      })
-    );
   };
 
   const columns = useMemo<IColumn<HistoryRequest>[]>(

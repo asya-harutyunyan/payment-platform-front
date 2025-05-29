@@ -4,10 +4,7 @@ import { IColumn } from "@/components/molecules/table";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
-import {
-  getReportUsersThunk,
-  newRegisteredUsersThunk,
-} from "@/store/reducers/user-info/reportSlice/thunks";
+import { newRegisteredUsersThunk } from "@/store/reducers/user-info/reportSlice/thunks";
 import { NewUsers } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -28,7 +25,6 @@ const useReports = () => {
 
   const dispatch = useAppDispatch();
   const [pageNewRegUsers, setPageNewRegUsers] = useState(1);
-  const [page, setPage] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
   const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
@@ -90,7 +86,7 @@ const useReports = () => {
 
     dispatch(
       newRegisteredUsersThunk({
-        page,
+        page: pageNewRegUsers,
         per_page: 20,
         name: debouncedName,
         surname: debouncedSurname,
@@ -107,6 +103,7 @@ const useReports = () => {
     debouncedTo,
     debouncedFrom,
     sort,
+    pageNewRegUsers,
   ]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -119,21 +116,13 @@ const useReports = () => {
   ) => {
     setPageNewRegUsers(newPage);
 
-    dispatch(
-      newRegisteredUsersThunk({
-        page: newPage,
-        per_page: 20,
-        sort: sort,
-      })
-    );
-  };
-
-  const onChangeReportUsersPage = (
-    _event: React.ChangeEvent<unknown>,
-    page: number
-  ) => {
-    setPage?.(page);
-    dispatch(getReportUsersThunk({ page: page, per_page: 20 }));
+    // dispatch(
+    //   newRegisteredUsersThunk({
+    //     page: newPage,
+    //     per_page: 20,
+    //     sort: sort,
+    //   })
+    // );
   };
 
   const columnsNewRegUsers = useMemo<IColumn<NewUsers>[]>(
@@ -296,7 +285,6 @@ const useReports = () => {
     pageNewRegUsers,
     handleChange,
     onChangePageNewUsers,
-    onChangeReportUsersPage,
     totalNewRegUsers,
     newRegUsersloading,
     orders_stats,
@@ -305,8 +293,6 @@ const useReports = () => {
     report_users,
     adminSummary,
     dispatch,
-    page,
-    setPage,
     selectedTab,
     setSelectedTab,
     value,

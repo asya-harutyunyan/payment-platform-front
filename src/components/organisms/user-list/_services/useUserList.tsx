@@ -109,18 +109,18 @@ const useUserList = () => {
     page: number
   ) => {
     setPage(page);
-    dispatch(
-      getUsersThunk({
-        page,
-        per_page: 20,
-        name: debouncedName,
-        surname: debouncedSurname,
-        email: debouncedEmail,
-        from: debouncedFrom,
-        to: debouncedTo,
-        sort,
-      })
-    );
+    // dispatch(
+    //   getUsersThunk({
+    //     page,
+    //     per_page: 20,
+    //     name: debouncedName,
+    //     surname: debouncedSurname,
+    //     email: debouncedEmail,
+    //     from: debouncedFrom,
+    //     to: debouncedTo,
+    //     sort,
+    //   })
+    // );
   };
 
   const handleSingleUser = (row?: number) => {

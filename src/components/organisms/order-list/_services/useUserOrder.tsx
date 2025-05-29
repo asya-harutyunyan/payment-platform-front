@@ -56,7 +56,7 @@ const useAdminOrder = () => {
     if (user?.permissions.includes("orders_view.summary")) {
       dispatch(getOrderSummaryThunk());
     }
-  }, [dispatch]);
+  }, []);
 
   const navigate = useNavigate();
   const route = useLocation();
@@ -156,22 +156,6 @@ const useAdminOrder = () => {
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
-    dispatch(
-      getOrdersThunk({
-        page: page,
-        per_page: 50,
-        status_by_client: filter,
-        from: debouncedFrom,
-        to: debouncedTo,
-        name: debouncedName,
-        surname: debouncedSurname,
-        amount: debouncedAmount,
-        status_client: debouncedStatusByAdmin,
-        card_number: debouncedCardNumber,
-        transaction_id: debouncedTransactionId,
-        sort,
-      })
-    );
   };
   const handleChangeDone = (id?: number) => {
     if (id) {
