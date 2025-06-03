@@ -289,7 +289,7 @@ const useDepositInfo = () => {
                 }}
                 onClick={() => row.id && goToUserPage(row.id)}
               >
-                {row.user.name}
+                {row.user?.name}
               </P>
             );
           },
