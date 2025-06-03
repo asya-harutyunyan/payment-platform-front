@@ -153,6 +153,8 @@ const useDepositInfo = () => {
     debouncedTo,
     statusByAdmin,
     sortBy,
+    isDatePickerOpen,
+    user?.role,
   ]);
 
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
