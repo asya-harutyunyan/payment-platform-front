@@ -149,6 +149,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           width: isCollapsed ? "7%" : "25%",
           flexShrink: 0,
           "& .MuiDrawer-paper": {
+            width: isCollapsed ? "7%" : "25%",
             padding: isCollapsed ? "10px" : "30px",
             backgroundColor: theme.palette.primary.main,
             overflowX: "hidden",
