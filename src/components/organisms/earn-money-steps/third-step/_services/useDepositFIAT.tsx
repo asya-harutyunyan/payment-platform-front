@@ -39,7 +39,7 @@ const useDepositFeat = (handleNext?: () => void) => {
           }, 500);
           handleNext?.();
         }
-        handleNext?.();
+        // handleNext?.();
       })
       .catch(() => {
         enqueueSnackbar(t("usdt_error"), {
