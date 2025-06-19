@@ -156,3 +156,25 @@ export interface HistoryData {
   to_email: string;
   role: string;
 }
+
+export enum EReportKeys {
+  by_new_registrations = "by_new_registrations",
+  by_users = "by_users",
+  by_processed_amounts = "by_processed_amounts",
+  by_platform_interaction = "by_platform_interaction",
+}
+
+export enum EReportFormats {
+  csv = "csv",
+  excel = "excel",
+}
+
+export type TReportData = Partial<{
+  key: EReportKeys;
+  format: EReportFormats;
+  name: string;
+  surname: string;
+  email: string;
+  from: string;
+  to: string;
+}>;

@@ -8,6 +8,7 @@ import {
   NewRegisteredUsers,
   NewRegisteredUsersResponse,
   PlatipayRequest,
+  TReportData,
 } from "./types";
 
 //newly reg users
@@ -195,6 +196,29 @@ export const GetPlatformXThunk = createAsyncThunk(
           to: data.to,
         },
       });
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+type TFileExportResponse = { filename: string; url: string };
+
+export const DownloadReportThunk = createAsyncThunk(
+  "reports/DownloadReportThunk",
+  async (data: TReportData, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.post<TFileExportResponse>(
+        "/export",
+        data
+      );
+
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
