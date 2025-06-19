@@ -1,11 +1,20 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
 
+import Button from "@/components/atoms/button";
 import { MonthPicker } from "@/components/atoms/month-picker";
 import { add_wallet_schema } from "@/schema/add_wallet.schema";
 import { useAppDispatch } from "@/store";
-import { GetPlatformXThunk } from "@/store/reducers/user-info/reportSlice/thunks";
+import {
+  DownloadReportThunk,
+  GetPlatformXThunk,
+} from "@/store/reducers/user-info/reportSlice/thunks";
+import {
+  EReportFormats,
+  EReportKeys,
+} from "@/store/reducers/user-info/reportSlice/types";
 import { H5, P } from "@/styles/typography";
+import { downloadFile } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -58,9 +67,33 @@ export const ReportsSummary = () => {
     );
   }, [debouncedTo, debouncedFrom]);
 
+  const onDownloadClick = async (format: EReportFormats) => {
+    const { url, filename } = await dispatch(
+      DownloadReportThunk({ key: EReportKeys.by_platform_interaction, format })
+    ).unwrap();
+
+    downloadFile(url, filename);
+  };
+
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("reports-summary")} />
+      <TaskHeader
+        title={t("reports-summary")}
+        renderComponent={
+          <Box sx={{ display: "flex", gap: "10px" }}>
+            <Button
+              text="Скачать в CSV"
+              variant="contained"
+              onClick={() => onDownloadClick(EReportFormats.csv)}
+            />
+            <Button
+              text="Скачать в Excel"
+              variant="contained"
+              onClick={() => onDownloadClick(EReportFormats.excel)}
+            />
+          </Box>
+        }
+      />
       {loadingDeposits ? (
         <CircularIndeterminate />
       ) : (

@@ -4,9 +4,17 @@ import { IColumn } from "@/components/molecules/table";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getReportUsersThunk } from "@/store/reducers/user-info/reportSlice/thunks";
-import { ReportUsers } from "@/store/reducers/user-info/reportSlice/types";
+import {
+  DownloadReportThunk,
+  getReportUsersThunk,
+} from "@/store/reducers/user-info/reportSlice/thunks";
+import {
+  EReportFormats,
+  EReportKeys,
+  ReportUsers,
+} from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
+import { downloadFile } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -112,6 +120,14 @@ const useReports = () => {
     page: number
   ) => {
     setPage?.(page);
+  };
+
+  const onDownloadClick = async (format: EReportFormats) => {
+    const { url, filename } = await dispatch(
+      DownloadReportThunk({ key: EReportKeys.by_users, format })
+    ).unwrap();
+
+    downloadFile(url, filename);
   };
 
   const columnsReportUsers = useMemo<IColumn<ReportUsers>[]>(
@@ -344,6 +360,7 @@ const useReports = () => {
     setSelectedTab,
     value,
     setValue,
+    onDownloadClick,
     sort,
     setSort,
   };

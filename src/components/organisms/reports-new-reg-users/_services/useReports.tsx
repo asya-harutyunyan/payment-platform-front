@@ -4,9 +4,17 @@ import { IColumn } from "@/components/molecules/table";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { newRegisteredUsersThunk } from "@/store/reducers/user-info/reportSlice/thunks";
-import { NewUsers } from "@/store/reducers/user-info/reportSlice/types";
+import {
+  DownloadReportThunk,
+  newRegisteredUsersThunk,
+} from "@/store/reducers/user-info/reportSlice/thunks";
+import {
+  EReportFormats,
+  EReportKeys,
+  NewUsers,
+} from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
+import { downloadFile } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -24,6 +32,7 @@ const useReports = () => {
   const { goToUserPage } = useUserContext();
 
   const dispatch = useAppDispatch();
+
   const [pageNewRegUsers, setPageNewRegUsers] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
   const [value, setValue] = useState(0);
@@ -123,6 +132,14 @@ const useReports = () => {
     //     sort: sort,
     //   })
     // );
+  };
+
+  const onDownloadClick = async (format: EReportFormats) => {
+    const { url, filename } = await dispatch(
+      DownloadReportThunk({ key: EReportKeys.by_new_registrations, format })
+    ).unwrap();
+
+    downloadFile(url, filename);
   };
 
   const columnsNewRegUsers = useMemo<IColumn<NewUsers>[]>(
@@ -300,6 +317,7 @@ const useReports = () => {
     sort,
     setSort,
     admingetProcessedAmounts,
+    onDownloadClick,
   };
 };
 

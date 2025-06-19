@@ -1,8 +1,10 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import TaskHeader from "@/components/molecules/title";
 
+import Button from "@/components/atoms/button";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
+import { EReportFormats } from "@/store/reducers/user-info/reportSlice/types";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import useReports from "./_services/useReports";
@@ -15,11 +17,28 @@ export const ReportsUsers = () => {
     report_users,
     onChangeReportUsersPage,
     columnsReportUsers,
+    onDownloadClick,
   } = useReports();
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("reports_title_users")} />
+      <TaskHeader
+        title={t("reports_title_users")}
+        renderComponent={
+          <Box sx={{ display: "flex", gap: "10px" }}>
+            <Button
+              text="Скачать в CSV"
+              variant="contained"
+              onClick={() => onDownloadClick(EReportFormats.csv)}
+            />
+            <Button
+              text="Скачать в Excel"
+              variant="contained"
+              onClick={() => onDownloadClick(EReportFormats.excel)}
+            />
+          </Box>
+        }
+      />
       {loadingDeposits ? (
         <CircularIndeterminate />
       ) : (
