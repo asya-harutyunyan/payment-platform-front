@@ -3,7 +3,7 @@ export function addFivePercent(value: number): number {
   return Math.ceil(updatedPrice / 50) * 50;
 }
 
-export async function downloadFile(url: string, filename: string) {
+export async function downloadFileWithURL(url: string, filename: string) {
   const response = await fetch(url);
   const blob = await response.blob();
 
@@ -14,4 +14,11 @@ export async function downloadFile(url: string, filename: string) {
   a.click();
   document.body.removeChild(a);
   URL.revokeObjectURL(a.href);
+}
+
+export async function downloadFileWithPath(path: string, filename: string) {
+  downloadFileWithURL(
+    process.env.VITE_BASE_API_URL + path + filename,
+    filename
+  );
 }

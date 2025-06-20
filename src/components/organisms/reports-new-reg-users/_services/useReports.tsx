@@ -14,7 +14,7 @@ import {
   NewUsers,
 } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
-import { downloadFile } from "@/utils";
+import { downloadFileWithPath } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -135,11 +135,11 @@ const useReports = () => {
   };
 
   const onDownloadClick = async (format: EReportFormats) => {
-    const { url, filename } = await dispatch(
+    const { folder_path, filename } = await dispatch(
       DownloadReportThunk({ key: EReportKeys.by_new_registrations, format })
     ).unwrap();
 
-    downloadFile(url, filename);
+    downloadFileWithPath(folder_path, filename);
   };
 
   const columnsNewRegUsers = useMemo<IColumn<NewUsers>[]>(

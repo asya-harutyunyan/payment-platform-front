@@ -208,7 +208,11 @@ export const GetPlatformXThunk = createAsyncThunk(
   }
 );
 
-type TFileExportResponse = { filename: string; url: string };
+type TFileExportResponse = {
+  filename: string;
+  url: string;
+  folder_path: string;
+};
 
 export const DownloadReportThunk = createAsyncThunk(
   "reports/DownloadReportThunk",

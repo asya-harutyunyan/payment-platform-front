@@ -14,7 +14,7 @@ import {
   EReportKeys,
 } from "@/store/reducers/user-info/reportSlice/types";
 import { H5, P } from "@/styles/typography";
-import { downloadFile } from "@/utils";
+import { downloadFileWithPath } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -68,11 +68,11 @@ export const ReportsProccesedAmount = () => {
   }, [debouncedTo, debouncedFrom]);
 
   const onDownloadClick = async (format: EReportFormats) => {
-    const { url, filename } = await dispatch(
+    const { folder_path, filename } = await dispatch(
       DownloadReportThunk({ key: EReportKeys.by_processed_amounts, format })
     ).unwrap();
 
-    downloadFile(url, filename);
+    downloadFileWithPath(folder_path, filename);
   };
 
   return (
