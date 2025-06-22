@@ -55,6 +55,11 @@ const useSignIn = () => {
       .catch((error) => {
         if (error.errors && error.message !== "Ваша почта не подтверждена") {
           Object.entries(error.errors).forEach(([field, messages]) => {
+            // for make red email field
+            if (messages === " ") {
+              setError("email", { type: "manual", message: " " });
+            }
+
             if (Array.isArray(messages) && messages.length > 0) {
               setError(field as keyof FormData, {
                 type: "manual",
