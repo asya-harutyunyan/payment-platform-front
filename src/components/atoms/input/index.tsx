@@ -1,5 +1,5 @@
 import { Box, SxProps } from "@mui/material";
-import { ReactNode, useMemo } from "react";
+import { FocusEventHandler, ReactNode, useCallback, useMemo } from "react";
 import {
   Control,
   FieldPath,
@@ -26,6 +26,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   mask?: boolean;
   autofocus?: boolean;
   numeric?: boolean;
+  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -42,14 +43,28 @@ export const FormTextInput = <T extends FieldValues>({
   whiteVariant,
   mask,
   numeric,
+  onBlur,
   ...props
 }: IFormTextInput<T>) => {
-  const { field, fieldState } = useController<T>({
+  const {
+    field: { onBlur: onBlurForm, ...field },
+    fieldState,
+  } = useController<T>({
     name,
     control,
     defaultValue,
     ...props,
   });
+
+  const handleBlur = useCallback<
+    FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+  >(
+    (e) => {
+      onBlurForm();
+      onBlur?.(e);
+    },
+    [onBlur, onBlurForm]
+  );
 
   const helperText = useMemo(() => {
     if (fieldState.invalid && fieldState.error?.message) {
@@ -65,12 +80,14 @@ export const FormTextInput = <T extends FieldValues>({
     const formattedValue = numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return formattedValue;
   };
+
   return (
     <Box width={"100%"}>
       {!mask ? (
         <BasicTextFields
           style={style}
           {...field}
+          onBlur={handleBlur}
           width={width}
           placeholder={placeholder || ""}
           leftIcon={leftIcon}
@@ -91,7 +108,7 @@ export const FormTextInput = <T extends FieldValues>({
         <CreditCardInput
           value={field.value}
           onChange={field.onChange}
-          onBlur={field.onBlur}
+          onBlur={onBlurForm}
           placeholder={placeholder}
           error={!!helperText}
           helperText={helperText}

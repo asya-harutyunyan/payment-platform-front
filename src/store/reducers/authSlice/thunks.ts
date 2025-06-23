@@ -2,6 +2,8 @@ import { httpClient } from "@/common/api";
 import { User } from "@/common/types";
 import { ConfirmEmailFormData } from "@/components/organisms/auth/change-password-form";
 import { ResetPasswordschema } from "@/components/organisms/auth/reset-password-form/_services/useResetPassword";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
+import { RootState } from "@/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
@@ -9,6 +11,8 @@ import {
   FetchUserResponseType,
   LoginUserType,
   RegisterUserType,
+  twoFASchema,
+  TwoFASetupResponse,
 } from "./types";
 
 export const registerUser = createAsyncThunk(
@@ -43,6 +47,12 @@ export const loginUser = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        const parsedError = twoFASchema.safeParse(error.response?.data);
+
+        if (parsedError.success) {
+          rejectWithValue(parsedError.data);
+        }
+
         return rejectWithValue(
           error.response?.data || "Invalid login credentials"
         );
@@ -197,6 +207,72 @@ export const unblockUserThunk = createAsyncThunk(
         );
       }
       return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const setupTwoFAThunk = createAsyncThunk<TwoFASetupResponse, void>(
+  "auth/setupTwoFAThunk",
+  async (_, { rejectWithValue, getState }) => {
+    try {
+      const response = await httpClient.get<TwoFASetupResponse>(
+        "/auth/2fa/setup",
+        {
+          headers: {
+            Authorization: `Bearer ${(getState() as RootState).auth.signInTFAErrorData?.token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data || "2FA setup failed");
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const enableTwoFAThunk = createAsyncThunk(
+  "auth/enableTwoFAThunk",
+  async (args: { otp: string }, { rejectWithValue, getState }) => {
+    try {
+      const response = await httpClient.post(
+        "/auth/2fa/enable",
+        {
+          secret: (getState() as RootState).auth.setupTwoFAData?.secret,
+          otp: args.otp,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${(getState() as RootState).auth.signInTFAErrorData?.token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data || "2FA enable failed");
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
+
+export const getUserRoleThunk = createAsyncThunk<EUserRole, { email: string }>(
+  "auth/getUserRoleThunk",
+  async (userInfo, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get("/get-role", { params: userInfo });
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data || "Invalid Role");
+      }
+      return rejectWithValue("Invalid Role");
     }
   }
 );

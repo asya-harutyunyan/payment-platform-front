@@ -6,6 +6,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import {
   FC,
+  FocusEventHandler,
   HTMLInputTypeAttribute,
   ReactNode,
   Ref,
@@ -22,7 +23,7 @@ interface IBasicTextFields {
   rightIcon?: ReactNode;
   value?: string | number;
   onChange?: (value: string) => void;
-  onBlur?: () => void;
+  onBlur: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement> | undefined;
   error?: boolean;
   helperText?: string | ReactNode;
   textColor?: string;

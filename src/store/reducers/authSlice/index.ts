@@ -3,18 +3,23 @@ import {
   changePassword,
   confirmEmail,
   confirmEmailRequest,
+  enableTwoFAThunk,
   fetchUser,
   loginUser,
   logoutUser,
   registerUser,
   resetPassword,
+  setupTwoFAThunk,
 } from "./thunks";
-import { AuthState } from "./types";
+import { AuthState, TSignInTFAErrorData } from "./types";
 
 const initialState: AuthState = {
   loading: false,
   error: null,
   email: "",
+
+  setupTwoFAData: null,
+  signInTFAErrorData: null,
 };
 
 const authSlice = createSlice({
@@ -60,6 +65,17 @@ const authSlice = createSlice({
       .addCase(logoutUser.fulfilled, (state) => {
         state.error = null;
         localStorage.removeItem("accessToken");
+      })
+      .addCase(loginUser.rejected, (state, { payload }) => {
+        state.signInTFAErrorData = payload as TSignInTFAErrorData;
+        state.loading = false;
+      })
+      .addCase(setupTwoFAThunk.fulfilled, (state, { payload }) => {
+        state.setupTwoFAData = payload;
+        state.loading = false;
+      })
+      .addCase(enableTwoFAThunk.fulfilled, (state) => {
+        state.loading = false;
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;
