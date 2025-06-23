@@ -5,6 +5,7 @@ import {
   confirmEmailRequest,
   enableTwoFAThunk,
   fetchUser,
+  getUserRoleThunk,
   loginUser,
   logoutUser,
   registerUser,
@@ -20,6 +21,7 @@ const initialState: AuthState = {
 
   setupTwoFAData: null,
   signInTFAErrorData: null,
+  getUserRoleData: null,
 };
 
 const authSlice = createSlice({
@@ -32,6 +34,9 @@ const authSlice = createSlice({
     },
     setEmail: (state, action) => {
       state.email = action.payload;
+    },
+    resetRoleData: (state) => {
+      state.getUserRoleData = null;
     },
   },
   extraReducers: (builder) => {
@@ -70,6 +75,10 @@ const authSlice = createSlice({
         state.signInTFAErrorData = payload as TSignInTFAErrorData;
         state.loading = false;
       })
+      .addCase(getUserRoleThunk.fulfilled, (state, { payload }) => {
+        state.getUserRoleData = payload;
+        state.loading = false;
+      })
       .addCase(setupTwoFAThunk.fulfilled, (state, { payload }) => {
         state.setupTwoFAData = payload;
         state.loading = false;
@@ -85,6 +94,6 @@ const authSlice = createSlice({
       });
   },
 });
-export const { setEmail } = authSlice.actions;
+export const { setEmail, resetRoleData } = authSlice.actions;
 
 export default authSlice.reducer;

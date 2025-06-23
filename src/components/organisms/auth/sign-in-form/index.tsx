@@ -7,6 +7,7 @@ import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
+import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import bg from "../../../../assets/images/bg.jpg";
 import { TwoFAModal } from "../../two-fa-modal";
 import useSignIn, { EUserRole } from "./_services/useSignIn";
@@ -14,13 +15,12 @@ import useSignIn, { EUserRole } from "./_services/useSignIn";
 const LoginForm = () => {
   const {
     handleSubmit,
-    register,
     control,
     onSubmit,
-    onEmailBlur,
-    currentUserRole,
     isTwoFAModalOpen,
+    getUserRoleData,
     setIsTwoFAModalOpen,
+    handleEmailOrPasswordChange,
   } = useSignIn();
 
   return (
@@ -78,26 +78,35 @@ const LoginForm = () => {
           </P>
           <FormTextInput
             control={control}
-            onBlur={onEmailBlur}
             type="text"
             name="email"
+            onChange={handleEmailOrPasswordChange}
             placeholder={t("email")}
           />
           <FormTextInput
             control={control}
             name="password"
             type="password"
+            onChange={handleEmailOrPasswordChange}
             placeholder={t("password")}
           />
 
-          {currentUserRole === EUserRole.Admin && (
+          {getUserRoleData?.role === EUserRole.Admin && (
             <FormTextInput
               control={control}
-              {...register("otp")}
               name="otp"
               placeholder={t("otp_code")}
             />
           )}
+
+          {getUserRoleData?.role === EUserRole.Client && (
+            <GoogleReCaptcha
+              onVerify={(token) => {
+                console.log(token);
+              }}
+            />
+          )}
+
           <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
             <P style={{ padding: "20px 0", fontSize: "14px" }}>
               <Link

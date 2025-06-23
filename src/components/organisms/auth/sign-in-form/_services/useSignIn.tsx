@@ -1,142 +1,172 @@
 import { z } from "@/common/validation";
 import { useAuth } from "@/context/auth.context";
 import { login_schema } from "@/schema/login.schema";
-import { useAppDispatch } from "@/store";
+import { useAppDispatch, useAppSelector } from "@/store";
+import { resetRoleData } from "@/store/reducers/authSlice";
 import {
   enableTwoFAThunk,
   fetchUser,
+  getUserRoleThunk,
   loginUser,
 } from "@/store/reducers/authSlice/thunks";
 import { twoFASchema } from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { enqueueSnackbar } from "notistack";
-import { FocusEventHandler, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof login_schema>;
 
 export enum EUserRole {
   Admin = "admin",
-  User = "user",
+  Client = "client",
   SuperAdmin = "superAdmin",
 }
+
+const INITIAL_PATHS_WITH_ROLES = {
+  [EUserRole.Admin]: "/welcome",
+  [EUserRole.SuperAdmin]: "/user-list",
+  [EUserRole.Client]: "/my-information",
+};
 
 const useSignIn = () => {
   const dispatch = useAppDispatch();
   const { setUser } = useAuth();
   const navigate = useNavigate();
 
-  const [currentUserRole, setUserCurrentRole] = useState<EUserRole | null>(
-    null
-  );
   const [isTwoFAModalOpen, setIsTwoFAModalOpen] = useState(false);
 
-  const { control, handleSubmit, register, setError } = useForm<FormData>({
+  const getUserRoleData = useAppSelector((state) => state.auth.getUserRoleData);
+
+  const { control, handleSubmit, setError } = useForm<FormData>({
     resolver: zodResolver(login_schema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
+    defaultValues: { email: "", password: "" },
   });
 
-  const onEmailBlur = useCallback<
-    FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  >(async () => {
-    try {
-      // const a = await dispatch(
-      //   getUserRoleThunk({ email: e.target.value })
-      // ).unwrap();
-      const receivedRole = EUserRole.Admin;
+  const handleAuthError = useCallback(
+    (error: unknown) => {
+      const parsedError = twoFASchema.safeParse(error);
 
-      setUserCurrentRole(receivedRole);
-    } catch (error) {
-      console.log(error);
-    }
-  }, []);
+      if (parsedError.success) {
+        setIsTwoFAModalOpen(true);
+        return;
+      }
+
+      const typedError = error as {
+        message: string;
+        errors: Record<string, Array<string>> | string;
+      };
+
+      if (
+        typedError.errors &&
+        typedError.message !== "Ваша почта не подтверждена"
+      ) {
+        Object.entries(typedError.errors).forEach(([field, messages]) => {
+          // for make red email field
+          if (messages === " ") {
+            setError("email", { type: "manual", message: " " });
+          }
+
+          if (Array.isArray(messages) && messages.length > 0) {
+            setError(field as keyof FormData, {
+              type: "manual",
+              message: messages[0],
+            });
+          }
+        });
+      }
+      if (
+        typedError.message ===
+        "Ваш аккаунт заблокирован. Пожалуйста, свяжитесь со службой поддержки."
+      ) {
+        enqueueSnackbar(
+          "Ваш аккаунт заблокирован. Пожалуйста, свяжитесь со службой поддержки.",
+          {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          }
+        );
+      }
+    },
+    [setError]
+  );
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (data.otp) {
+    if (!getUserRoleData) {
+      try {
+        const response = await dispatch(
+          getUserRoleThunk({ email: data.email, password: data.password })
+        ).unwrap();
+
+        if (response.role === EUserRole.Admin && !response.google2fa_enabled) {
+          await dispatch(loginUser(data)).unwrap();
+        }
+
+        if (response.role !== EUserRole.SuperAdmin) {
+          return;
+        }
+      } catch (error) {
+        handleAuthError(error);
+      }
+    }
+
+    if (
+      getUserRoleData?.role === EUserRole.Admin &&
+      !getUserRoleData.google2fa_enabled
+    ) {
+      if (!data.otp || data.otp.length === 0) {
+        setError("otp", {
+          type: "manual",
+          message: "Authorization key required!",
+        });
+        return;
+      }
+
+      if (data.otp.length < 6) {
+        setError("otp", {
+          type: "manual",
+          message: "Invalid authorization key!",
+        });
+        return;
+      }
+
       await dispatch(enableTwoFAThunk({ otp: data.otp })).unwrap();
     }
 
-    dispatch(loginUser(data))
-      .unwrap()
-      .then(() => {
-        dispatch(fetchUser())
-          .unwrap()
-          .then((data) => {
-            if (data.user) {
-              const { role } = data.user;
+    try {
+      await dispatch(loginUser(data)).unwrap();
 
-              setUser({
-                ...data.user,
-                permissions: data.permissions,
-              });
+      const userData = await dispatch(fetchUser()).unwrap();
 
-              localStorage.setItem("user_role", role ?? "");
+      if (userData.user) {
+        const { role } = userData.user;
 
-              if (role === "admin") {
-                navigate({
-                  to: "/welcome",
-                });
-              } else if (role === "superAdmin") {
-                navigate({ to: "/user-list" });
-              } else {
-                navigate({ to: "/my-information" });
-              }
-            }
-          });
-      })
-      .catch((error) => {
-        const parsedError = twoFASchema.safeParse(error);
+        setUser({ ...userData.user, permissions: userData.permissions });
 
-        if (parsedError.success) {
-          setIsTwoFAModalOpen(true);
-          return;
-        }
+        localStorage.setItem("user_role", role ?? "");
 
-        if (error.errors && error.message !== "Ваша почта не подтверждена") {
-          Object.entries(error.errors).forEach(([field, messages]) => {
-            // for make red email field
-            if (messages === " ") {
-              setError("email", { type: "manual", message: " " });
-            }
-
-            if (Array.isArray(messages) && messages.length > 0) {
-              setError(field as keyof FormData, {
-                type: "manual",
-                message: messages[0],
-              });
-            }
-          });
-        }
-        if (
-          error.message ===
-          "Ваш аккаунт заблокирован. Пожалуйста, свяжитесь со службой поддержки."
-        ) {
-          enqueueSnackbar(
-            "Ваш аккаунт заблокирован. Пожалуйста, свяжитесь со службой поддержки.",
-            {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            }
-          );
-        }
-      });
+        navigate({
+          to: INITIAL_PATHS_WITH_ROLES[role] ?? INITIAL_PATHS_WITH_ROLES.client,
+        });
+      }
+    } catch (error) {
+      handleAuthError(error);
+    }
   };
+
+  const handleEmailOrPasswordChange = useCallback(() => {
+    dispatch(resetRoleData());
+  }, [dispatch]);
 
   return {
     handleSubmit,
-    register,
     control,
     onSubmit,
-    setUser,
-    navigate,
-    onEmailBlur,
-    currentUserRole,
+    getUserRoleData,
     isTwoFAModalOpen,
     setIsTwoFAModalOpen,
+    handleEmailOrPasswordChange,
   };
 };
 

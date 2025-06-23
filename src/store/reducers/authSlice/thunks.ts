@@ -2,7 +2,6 @@ import { httpClient } from "@/common/api";
 import { User } from "@/common/types";
 import { ConfirmEmailFormData } from "@/components/organisms/auth/change-password-form";
 import { ResetPasswordschema } from "@/components/organisms/auth/reset-password-form/_services/useResetPassword";
-import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { RootState } from "@/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -11,6 +10,8 @@ import {
   FetchUserResponseType,
   LoginUserType,
   RegisterUserType,
+  TGetUserRoleData,
+  TGetUserRoleOptions,
   twoFASchema,
   TwoFASetupResponse,
 } from "./types";
@@ -261,18 +262,20 @@ export const enableTwoFAThunk = createAsyncThunk(
   }
 );
 
-export const getUserRoleThunk = createAsyncThunk<EUserRole, { email: string }>(
-  "auth/getUserRoleThunk",
-  async (userInfo, { rejectWithValue }) => {
-    try {
-      const response = await httpClient.get("/get-role", { params: userInfo });
+export const getUserRoleThunk = createAsyncThunk<
+  TGetUserRoleData,
+  TGetUserRoleOptions
+>("auth/getUserRoleThunk", async (userInfo, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.get<TGetUserRoleData>("/get-role", {
+      params: userInfo,
+    });
 
-      return response.data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data || "Invalid Role");
-      }
-      return rejectWithValue("Invalid Role");
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(error.response?.data || "Invalid Role");
     }
+    return rejectWithValue("Invalid Role");
   }
-);
+});

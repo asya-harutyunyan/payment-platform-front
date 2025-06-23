@@ -4,6 +4,7 @@ import { ThemeProvider } from "@emotion/react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { SnackbarProvider } from "notistack";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { I18nextProvider } from "react-i18next";
 import { Provider } from "react-redux";
 import { App } from "./app";
@@ -33,16 +34,18 @@ const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <Provider store={store}>
-      <I18nextProvider i18n={i18n} defaultNS={"translation"}>
-        <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <SnackbarProvider maxSnack={3}>
-              <App />
-            </SnackbarProvider>
-          </ThemeProvider>
-        </AuthProvider>
-      </I18nextProvider>
-    </Provider>
+    <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPCHA_KEY!}>
+      <Provider store={store}>
+        <I18nextProvider i18n={i18n} defaultNS={"translation"}>
+          <AuthProvider>
+            <ThemeProvider theme={theme}>
+              <SnackbarProvider maxSnack={3}>
+                <App />
+              </SnackbarProvider>
+            </ThemeProvider>
+          </AuthProvider>
+        </I18nextProvider>
+      </Provider>
+    </GoogleReCaptchaProvider>
   );
 }

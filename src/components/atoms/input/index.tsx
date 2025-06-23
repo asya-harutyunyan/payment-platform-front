@@ -1,8 +1,6 @@
 import { Box, SxProps } from "@mui/material";
-import { FocusEventHandler, ReactNode, useCallback, useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import {
-  Control,
-  FieldPath,
   FieldValues,
   useController,
   UseControllerProps,
@@ -11,9 +9,6 @@ import { BasicTextFields } from "../form-text-input";
 import CreditCardInput from "../input-mask";
 
 interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
-  control: Control<T>;
-  name: FieldPath<T>;
-  defaultValue?: T[FieldPath<T>];
   placeholder?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
@@ -26,7 +21,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   mask?: boolean;
   autofocus?: boolean;
   numeric?: boolean;
-  onBlur?: FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  onChange?: (value: string) => void;
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -43,28 +38,15 @@ export const FormTextInput = <T extends FieldValues>({
   whiteVariant,
   mask,
   numeric,
-  onBlur,
+  onChange,
   ...props
 }: IFormTextInput<T>) => {
-  const {
-    field: { onBlur: onBlurForm, ...field },
-    fieldState,
-  } = useController<T>({
+  const { field, fieldState } = useController<T>({
     name,
     control,
     defaultValue,
     ...props,
   });
-
-  const handleBlur = useCallback<
-    FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
-  >(
-    (e) => {
-      onBlurForm();
-      onBlur?.(e);
-    },
-    [onBlur, onBlurForm]
-  );
 
   const helperText = useMemo(() => {
     if (fieldState.invalid && fieldState.error?.message) {
@@ -87,7 +69,6 @@ export const FormTextInput = <T extends FieldValues>({
         <BasicTextFields
           style={style}
           {...field}
-          onBlur={handleBlur}
           width={width}
           placeholder={placeholder || ""}
           leftIcon={leftIcon}
@@ -101,6 +82,7 @@ export const FormTextInput = <T extends FieldValues>({
           onChange={(value: string) => {
             const numericValue = numeric ? value.replace(/\D/g, "") : value;
 
+            onChange?.(numericValue);
             field.onChange(numericValue);
           }}
         />
@@ -108,7 +90,7 @@ export const FormTextInput = <T extends FieldValues>({
         <CreditCardInput
           value={field.value}
           onChange={field.onChange}
-          onBlur={onBlurForm}
+          onBlur={field.onBlur}
           placeholder={placeholder}
           error={!!helperText}
           helperText={helperText}

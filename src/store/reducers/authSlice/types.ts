@@ -1,5 +1,6 @@
 import { User } from "@/common/types";
 import { Wallet } from "@/common/types/user";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { change_password_schema } from "@/schema/change_password.schema";
 import { comfirm_email_schema } from "@/schema/comfirm_email.schema";
 import { login_schema } from "@/schema/login.schema";
@@ -12,6 +13,7 @@ export interface AuthState {
   email: "";
   signInTFAErrorData: TSignInTFAErrorData | null;
   setupTwoFAData: TSetupTwoFAData | null;
+  getUserRoleData: TGetUserRoleData | null;
 }
 export type RegisterUserType = z.infer<typeof auth_schema>;
 export type LoginUserType = z.infer<typeof login_schema>;
@@ -44,3 +46,6 @@ export type TwoFAEnableOptions = {
   otp: string;
   secret: string;
 };
+
+export type TGetUserRoleData = { role: EUserRole; google2fa_enabled: boolean };
+export type TGetUserRoleOptions = { email: string; password: string };
