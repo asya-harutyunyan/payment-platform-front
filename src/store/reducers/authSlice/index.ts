@@ -46,6 +46,7 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state) => {
         state.loading = false;
+        state.getUserRoleData = null;
       })
       .addCase(confirmEmailRequest.fulfilled, (state) => {
         state.loading = false;
