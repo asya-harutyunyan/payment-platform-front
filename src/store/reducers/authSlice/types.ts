@@ -39,6 +39,7 @@ export type TwoFASetupResponse = {
   secret: string;
   qr_code_svg: string;
   qr_code_url: string;
+  qr_code_base64: string;
 };
 
 // Add types for 2FA enable

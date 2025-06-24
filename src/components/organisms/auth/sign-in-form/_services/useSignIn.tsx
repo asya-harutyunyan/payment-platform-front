@@ -101,6 +101,7 @@ const useSignIn = () => {
 
         if (response.role === EUserRole.Admin && !response.google2fa_enabled) {
           await dispatch(loginUser(data)).unwrap();
+          setIsTwoFAModalOpen(true);
         }
 
         if (response.role !== EUserRole.SuperAdmin) {

@@ -19,8 +19,8 @@ interface TwoFAModalProps {
 export const TwoFAModal: FC<TwoFAModalProps> = ({ open, onClose }) => {
   const dispatch = useAppDispatch();
   const [currentStep, setCurrentStep] = useState(1);
-  const qrCodeUrl = useAppSelector(
-    (state) => state.auth.setupTwoFAData?.qr_code_url
+  const qr_code_base64 = useAppSelector(
+    (state) => state.auth.setupTwoFAData?.qr_code_base64
   );
   const secretHash = useAppSelector(
     (state) => state.auth.setupTwoFAData?.secret
@@ -159,7 +159,7 @@ export const TwoFAModal: FC<TwoFAModalProps> = ({ open, onClose }) => {
         {t("two_factor_info_step2")}
       </P>
 
-      {qrCodeUrl && (
+      {qr_code_base64 && (
         <Box
           sx={{
             display: "flex",
@@ -174,7 +174,7 @@ export const TwoFAModal: FC<TwoFAModalProps> = ({ open, onClose }) => {
           }}
         >
           <img
-            src={qrCodeUrl}
+            src={qr_code_base64}
             alt="QR Code"
             style={{
               width: "200px",
