@@ -1,23 +1,22 @@
 import { Checkbox, CheckboxProps, FormControlLabel } from "@mui/material";
-import { Control, Controller } from "react-hook-form";
+import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
 
 interface FormData {
   checkbox: boolean;
 }
 
-interface CustomCheckboxProps extends CheckboxProps {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: Control<any>;
-  name: keyof FormData;
+interface CustomCheckboxProps<T extends FieldValues>
+  extends Omit<CheckboxProps, "defaultValue" | "name">,
+    UseControllerProps<T> {
   label?: string;
 }
 
-export const CustomCheckbox = ({
+export const CustomCheckbox = <T extends FieldValues = FormData>({
   control,
   name,
   label,
   ...props
-}: CustomCheckboxProps) => (
+}: CustomCheckboxProps<T>) => (
   <Controller
     name={name}
     control={control}
