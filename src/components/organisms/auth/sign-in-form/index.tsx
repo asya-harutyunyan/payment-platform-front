@@ -19,8 +19,9 @@ const LoginForm = () => {
     onSubmit,
     isTwoFAModalOpen,
     getUserRoleData,
-    setIsTwoFAModalOpen,
+    handleModalClose,
     handleEmailOrPasswordChange,
+    handleRecaptchaVerify,
   } = useSignIn();
 
   return (
@@ -100,11 +101,7 @@ const LoginForm = () => {
           )}
 
           {getUserRoleData?.role === EUserRole.Client && (
-            <GoogleReCaptcha
-              onVerify={(token) => {
-                console.log(token);
-              }}
-            />
+            <GoogleReCaptcha onVerify={handleRecaptchaVerify} />
           )}
 
           <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
@@ -158,10 +155,7 @@ const LoginForm = () => {
         </BasicCard>
       </Box>
 
-      <TwoFAModal
-        open={isTwoFAModalOpen}
-        onClose={() => setIsTwoFAModalOpen(false)}
-      />
+      <TwoFAModal open={isTwoFAModalOpen} onClose={handleModalClose} />
     </>
   );
 };

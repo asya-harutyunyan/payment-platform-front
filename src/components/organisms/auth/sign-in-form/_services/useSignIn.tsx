@@ -9,7 +9,10 @@ import {
   getUserRoleThunk,
   loginUser,
 } from "@/store/reducers/authSlice/thunks";
-import { twoFASchema } from "@/store/reducers/authSlice/types";
+import {
+  recaptchaErrorSchema,
+  twoFASchema,
+} from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { enqueueSnackbar } from "notistack";
@@ -17,6 +20,13 @@ import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof login_schema>;
+
+const showRecaptchaError = () => {
+  enqueueSnackbar("Не удачная попытка попробуйте по позже!", {
+    variant: "error",
+    anchorOrigin: { vertical: "top", horizontal: "right" },
+  });
+};
 
 export enum EUserRole {
   Admin = "admin",
@@ -39,7 +49,7 @@ const useSignIn = () => {
 
   const getUserRoleData = useAppSelector((state) => state.auth.getUserRoleData);
 
-  const { control, handleSubmit, setError } = useForm<FormData>({
+  const { control, handleSubmit, setError, setValue } = useForm<FormData>({
     resolver: zodResolver(login_schema),
     defaultValues: { email: "", password: "" },
   });
@@ -51,6 +61,12 @@ const useSignIn = () => {
       if (parsedError.success) {
         setIsTwoFAModalOpen(true);
         return;
+      }
+
+      const recaptchaParsedError = recaptchaErrorSchema.safeParse(error);
+
+      if (recaptchaParsedError.success) {
+        showRecaptchaError();
       }
 
       const typedError = error as {
@@ -92,30 +108,35 @@ const useSignIn = () => {
     [setError]
   );
 
+  const handleRecaptchaVerify = (token: string) => {
+    setValue("recaptcha_token", token);
+    handleSubmit(onSubmit)();
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (!getUserRoleData) {
+    let userData = getUserRoleData;
+    if (!userData) {
       try {
-        const response = await dispatch(
+        userData = await dispatch(
           getUserRoleThunk({ email: data.email, password: data.password })
         ).unwrap();
 
-        if (response.role === EUserRole.Admin && !response.google2fa_enabled) {
+        if (userData.role === EUserRole.Admin && !userData.google2fa_enabled) {
           await dispatch(loginUser(data)).unwrap();
           setIsTwoFAModalOpen(true);
+          return;
         }
 
-        if (response.role !== EUserRole.SuperAdmin) {
+        if (userData.role === EUserRole.Client) {
           return;
         }
       } catch (error) {
         handleAuthError(error);
+        return;
       }
     }
 
-    if (
-      getUserRoleData?.role === EUserRole.Admin &&
-      !getUserRoleData.google2fa_enabled
-    ) {
+    if (userData.role === EUserRole.Admin && !userData.google2fa_enabled) {
       if (!data.otp || data.otp.length === 0) {
         setError("otp", {
           type: "manual",
@@ -133,6 +154,10 @@ const useSignIn = () => {
       }
 
       await dispatch(enableTwoFAThunk({ otp: data.otp })).unwrap();
+    }
+
+    if (userData.role === EUserRole.Client && !data.recaptcha_token) {
+      return;
     }
 
     try {
@@ -160,14 +185,17 @@ const useSignIn = () => {
     dispatch(resetRoleData());
   }, [dispatch]);
 
+  const handleModalClose = useCallback(() => setIsTwoFAModalOpen(false), []);
+
   return {
     handleSubmit,
     control,
     onSubmit,
     getUserRoleData,
     isTwoFAModalOpen,
-    setIsTwoFAModalOpen,
     handleEmailOrPasswordChange,
+    handleModalClose,
+    handleRecaptchaVerify,
   };
 };
 

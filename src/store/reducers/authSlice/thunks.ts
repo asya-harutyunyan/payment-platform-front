@@ -9,6 +9,7 @@ import {
   ConfirmEmailType,
   FetchUserResponseType,
   LoginUserType,
+  recaptchaErrorSchema,
   RegisterUserType,
   TGetUserRoleData,
   TGetUserRoleOptions,
@@ -52,6 +53,14 @@ export const loginUser = createAsyncThunk(
 
         if (parsedError.success) {
           rejectWithValue(parsedError.data);
+        }
+
+        const parsedRecaptchaError = recaptchaErrorSchema.safeParse(
+          error.response?.data
+        );
+
+        if (parsedRecaptchaError.success) {
+          rejectWithValue(parsedRecaptchaError.data);
         }
 
         return rejectWithValue(

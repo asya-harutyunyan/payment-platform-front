@@ -50,3 +50,10 @@ export type TwoFAEnableOptions = {
 
 export type TGetUserRoleData = { role: EUserRole; google2fa_enabled: boolean };
 export type TGetUserRoleOptions = { email: string; password: string };
+
+export const RECAPTCHA_ERROR_KEY = "INVALID_RECAPTCHA";
+
+export const recaptchaErrorSchema = z.object({
+  message: z.string(),
+  status: z.literal("INVALID_RECAPTCHA"),
+});
