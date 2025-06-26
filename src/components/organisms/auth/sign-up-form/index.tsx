@@ -14,7 +14,8 @@ import bg from "../../../../assets/images/bg.jpg";
 import useSignUp from "./_services/useSignUp";
 
 const SignUpForm: FC = () => {
-  const { control, handleSubmit, watch, onSubmit } = useSignUp();
+  const { control, handleSubmit, watch, onSubmit, onRecaptchaVerify } =
+    useSignUp();
 
   return (
     <>
@@ -146,7 +147,7 @@ const SignUpForm: FC = () => {
           </TextWithDivider>
         </BasicCard>
       </Box>
-      <GoogleReCaptcha onVerify={() => {}} />
+      <GoogleReCaptcha onVerify={onRecaptchaVerify} />
     </>
   );
 };
