@@ -83,15 +83,17 @@ export const SystemSettings: FC = () => {
   }, [dispatch, reset]);
 
   useEffect(() => {
-    const initActiveUsersData = async () => {
+    const intervalId = setInterval(async () => {
       try {
         await dispatch(getActiveActiveUsersThunk()).unwrap();
       } catch (error) {
         console.log(error);
       }
-    };
+    }, 60000);
 
-    initActiveUsersData();
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [dispatch]);
 
   const onSubmit = handleSubmit(async (data) => {
@@ -115,12 +117,7 @@ export const SystemSettings: FC = () => {
   return (
     <Box sx={{ width: "100%", mx: "auto", mt: 4 }}>
       <TaskHeader title={t("system_settings")} />
-      <P
-        sx={{
-          color: "black",
-          mb: 4,
-        }}
-      >
+      <P sx={{ color: "black", mb: 4 }}>
         {t("active_users_count")}: {activeUsersCount ?? 0}
       </P>
       <Box
