@@ -11,6 +11,7 @@ import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import SettingsIcon from "@mui/icons-material/Settings";
 import WalletIcon from "@mui/icons-material/Wallet";
 import WebIcon from "@mui/icons-material/Web";
 export const userItems = [
@@ -137,6 +138,11 @@ export const superAdminItems = [
     text: "history",
     icon: <ManageSearchIcon />,
     link: "/history",
+  },
+  {
+    text: "system_settings",
+    icon: <SettingsIcon />,
+    link: "/system-settings",
   },
 ];
 

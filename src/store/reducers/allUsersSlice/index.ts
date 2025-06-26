@@ -5,6 +5,7 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import {
+  createSystemConfigThunk,
   getBankNamesThunk,
   getBlockedUsersThunk,
   getFreezedUsersThunk,
@@ -12,9 +13,11 @@ import {
   getReferalsUserThunk,
   getReferedUsersListThunk,
   getReferredUsersForAdminThunk,
+  getSystemConfigThunk,
   getUsersThunk,
   getUserThunk,
   updatePercentThunk,
+  updateSystemConfigThunk,
 } from "./thunks";
 import { UserState } from "./types";
 
@@ -42,6 +45,7 @@ const initialState: UserState = {
   },
   amount_to_pay: "",
   total_amount: "",
+  systemConfigState: {},
 };
 
 const usersSlice = createSlice({
@@ -108,6 +112,42 @@ const usersSlice = createSlice({
       })
       .addCase(getFreezeUserThunk.fulfilled, (state, action) => {
         state.freezedUser = action.payload.user;
+      })
+      .addCase(getSystemConfigThunk.pending, (state) => {
+        state.systemConfigState.loading = true;
+      })
+      .addCase(getSystemConfigThunk.fulfilled, (state, { payload }) => {
+        state.systemConfigState.data = payload;
+        state.systemConfigState.loading = false;
+      })
+      .addCase(getSystemConfigThunk.rejected, (state) => {
+        state.systemConfigState.loading = false;
+      })
+      .addCase(createSystemConfigThunk.pending, (state) => {
+        state.systemConfigState.loading = true;
+      })
+      .addCase(createSystemConfigThunk.fulfilled, (state, { payload }) => {
+        state.systemConfigState.data = {
+          config: payload.config_data,
+          ...payload,
+        };
+        state.systemConfigState.loading = false;
+      })
+      .addCase(createSystemConfigThunk.rejected, (state) => {
+        state.systemConfigState.loading = false;
+      })
+      .addCase(updateSystemConfigThunk.pending, (state) => {
+        state.systemConfigState.loading = true;
+      })
+      .addCase(updateSystemConfigThunk.fulfilled, (state, { payload }) => {
+        state.systemConfigState.data = {
+          config: payload.config_data,
+          ...payload,
+        };
+        state.systemConfigState.loading = false;
+      })
+      .addCase(updateSystemConfigThunk.rejected, (state) => {
+        state.systemConfigState.loading = false;
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

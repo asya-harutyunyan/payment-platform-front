@@ -104,5 +104,9 @@
   "otp_code": "OTP Code",
   "enable_2fa": "Enable 2FA",
   "enabling": "Enabling...",
-  "continue": "Continue"
+  "continue": "Continue",
+  "system_settings": "System Settings",
+  "number_of_user": "Number of users",
+  "interval_in_minutes": "Interval in minutes",
+  "setting_enabled": "Setting enabled"
 }

@@ -23,6 +23,10 @@ export interface UserState {
   total_amount: string;
   referralUser: ReferralOfUser[];
   referralUsersForAdminPagination: ReferralAdminPagination;
+  systemConfigState: {
+    loading?: boolean;
+    data?: TGetSystemConfigThunkResponse;
+  };
 }
 export interface ReferedUsersListRequest {
   id: string;
@@ -113,3 +117,69 @@ export interface PaginatedUsersResponse {
   currentPage: number;
   lastPage: number;
 }
+
+export enum EConfigNames {
+  registration_limit = "registration_limit",
+}
+
+export type TCreateSystemConfigThunkOptions = {
+  name: EConfigNames;
+  is_enabled: boolean;
+  config: {
+    name: EConfigNames;
+    registration_limit: number;
+    registration_time_minutes: number;
+  };
+};
+
+export type TCreateSystemConfigThunkResponse = {
+  message: string;
+  data: {
+    name: EConfigNames;
+    is_enabled: boolean;
+    config_data: {
+      name: EConfigNames;
+      registration_limit: number;
+      registration_time_minutes: number;
+    };
+    updated_at: string;
+    created_at: string;
+    id: number;
+  };
+};
+
+export type TGetSystemConfigThunkResponse = {
+  id: number;
+  name: EConfigNames;
+  config: {
+    name: EConfigNames;
+    registration_limit: number;
+    registration_time_minutes: number;
+  };
+  is_enabled: boolean;
+};
+export type TGetSystemConfigThunkError =
+  | { message: string; status?: number }
+  | string;
+
+export type TGetSystemConfigThunkOptions = {
+  name: EConfigNames;
+};
+
+export type TUpdateSystemConfigThunkResponse = {
+  message: string;
+  data: {
+    id: number;
+    name: EConfigNames;
+    config_data: {
+      name: EConfigNames;
+      registration_limit: number;
+      registration_time_minutes: number;
+    };
+    is_enabled: boolean;
+    created_at: string;
+    updated_at: string;
+  };
+};
+
+export type TUpdateSystemConfigThunkOptions = TCreateSystemConfigThunkOptions;

@@ -26,6 +26,7 @@ import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/de
 import { Route as AuthAdminWelcomeIndexImport } from './routes/_auth/_admin/welcome/index'
 import { Route as AuthAdminWalletListIndexImport } from './routes/_auth/_admin/wallet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
+import { Route as AuthAdminSystemSettingsIndexImport } from './routes/_auth/_admin/system-settings/index'
 import { Route as AuthAdminReportsUsersIndexImport } from './routes/_auth/_admin/reports-users/index'
 import { Route as AuthAdminReportsSummaryIndexImport } from './routes/_auth/_admin/reports-summary/index'
 import { Route as AuthAdminReportsProcessedAmountIndexImport } from './routes/_auth/_admin/reports-processed-amount/index'
@@ -223,6 +224,13 @@ const AuthAdminUserListIndexRoute = AuthAdminUserListIndexImport.update({
   path: '/user-list/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
+
+const AuthAdminSystemSettingsIndexRoute =
+  AuthAdminSystemSettingsIndexImport.update({
+    id: '/system-settings/',
+    path: '/system-settings/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 
 const AuthAdminReportsUsersIndexRoute = AuthAdminReportsUsersIndexImport.update(
   {
@@ -578,6 +586,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminReportsUsersIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/system-settings/': {
+      id: '/_auth/_admin/system-settings/'
+      path: '/system-settings'
+      fullPath: '/system-settings'
+      preLoaderRoute: typeof AuthAdminSystemSettingsIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/user-list/': {
       id: '/_auth/_admin/user-list/'
       path: '/user-list'
@@ -702,6 +717,7 @@ interface AuthAdminRouteChildren {
   AuthAdminReportsProcessedAmountIndexRoute: typeof AuthAdminReportsProcessedAmountIndexRoute
   AuthAdminReportsSummaryIndexRoute: typeof AuthAdminReportsSummaryIndexRoute
   AuthAdminReportsUsersIndexRoute: typeof AuthAdminReportsUsersIndexRoute
+  AuthAdminSystemSettingsIndexRoute: typeof AuthAdminSystemSettingsIndexRoute
   AuthAdminUserListIndexRoute: typeof AuthAdminUserListIndexRoute
   AuthAdminWalletListIndexRoute: typeof AuthAdminWalletListIndexRoute
   AuthAdminWelcomeIndexRoute: typeof AuthAdminWelcomeIndexRoute
@@ -729,6 +745,7 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
     AuthAdminReportsProcessedAmountIndexRoute,
   AuthAdminReportsSummaryIndexRoute: AuthAdminReportsSummaryIndexRoute,
   AuthAdminReportsUsersIndexRoute: AuthAdminReportsUsersIndexRoute,
+  AuthAdminSystemSettingsIndexRoute: AuthAdminSystemSettingsIndexRoute,
   AuthAdminUserListIndexRoute: AuthAdminUserListIndexRoute,
   AuthAdminWalletListIndexRoute: AuthAdminWalletListIndexRoute,
   AuthAdminWelcomeIndexRoute: AuthAdminWelcomeIndexRoute,
@@ -825,6 +842,7 @@ export interface FileRoutesByFullPath {
   '/reports-processed-amount': typeof AuthAdminReportsProcessedAmountIndexRoute
   '/reports-summary': typeof AuthAdminReportsSummaryIndexRoute
   '/reports-users': typeof AuthAdminReportsUsersIndexRoute
+  '/system-settings': typeof AuthAdminSystemSettingsIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/welcome': typeof AuthAdminWelcomeIndexRoute
@@ -868,6 +886,7 @@ export interface FileRoutesByTo {
   '/reports-processed-amount': typeof AuthAdminReportsProcessedAmountIndexRoute
   '/reports-summary': typeof AuthAdminReportsSummaryIndexRoute
   '/reports-users': typeof AuthAdminReportsUsersIndexRoute
+  '/system-settings': typeof AuthAdminSystemSettingsIndexRoute
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/welcome': typeof AuthAdminWelcomeIndexRoute
@@ -915,6 +934,7 @@ export interface FileRoutesById {
   '/_auth/_admin/reports-processed-amount/': typeof AuthAdminReportsProcessedAmountIndexRoute
   '/_auth/_admin/reports-summary/': typeof AuthAdminReportsSummaryIndexRoute
   '/_auth/_admin/reports-users/': typeof AuthAdminReportsUsersIndexRoute
+  '/_auth/_admin/system-settings/': typeof AuthAdminSystemSettingsIndexRoute
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
   '/_auth/_admin/wallet-list/': typeof AuthAdminWalletListIndexRoute
   '/_auth/_admin/welcome/': typeof AuthAdminWelcomeIndexRoute
@@ -960,6 +980,7 @@ export interface FileRouteTypes {
     | '/reports-processed-amount'
     | '/reports-summary'
     | '/reports-users'
+    | '/system-settings'
     | '/user-list'
     | '/wallet-list'
     | '/welcome'
@@ -1002,6 +1023,7 @@ export interface FileRouteTypes {
     | '/reports-processed-amount'
     | '/reports-summary'
     | '/reports-users'
+    | '/system-settings'
     | '/user-list'
     | '/wallet-list'
     | '/welcome'
@@ -1047,6 +1069,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/reports-processed-amount/'
     | '/_auth/_admin/reports-summary/'
     | '/_auth/_admin/reports-users/'
+    | '/_auth/_admin/system-settings/'
     | '/_auth/_admin/user-list/'
     | '/_auth/_admin/wallet-list/'
     | '/_auth/_admin/welcome/'
@@ -1139,6 +1162,7 @@ export const routeTree = rootRoute
         "/_auth/_admin/reports-processed-amount/",
         "/_auth/_admin/reports-summary/",
         "/_auth/_admin/reports-users/",
+        "/_auth/_admin/system-settings/",
         "/_auth/_admin/user-list/",
         "/_auth/_admin/wallet-list/",
         "/_auth/_admin/welcome/"
@@ -1251,6 +1275,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_admin/reports-users/": {
       "filePath": "_auth/_admin/reports-users/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/system-settings/": {
+      "filePath": "_auth/_admin/system-settings/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/user-list/": {

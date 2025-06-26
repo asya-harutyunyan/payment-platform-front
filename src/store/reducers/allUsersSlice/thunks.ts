@@ -2,7 +2,19 @@ import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Pagination } from "../user-info/walletSlice/types";
-import { GetUsersRequest, PercentsData, PriceData, UsersList } from "./types";
+import {
+  GetUsersRequest,
+  PercentsData,
+  PriceData,
+  TCreateSystemConfigThunkOptions,
+  TCreateSystemConfigThunkResponse,
+  TGetSystemConfigThunkError,
+  TGetSystemConfigThunkOptions,
+  TGetSystemConfigThunkResponse,
+  TUpdateSystemConfigThunkOptions,
+  TUpdateSystemConfigThunkResponse,
+  UsersList,
+} from "./types";
 
 export const getUsersThunk = createAsyncThunk(
   "users/getUsers",
@@ -310,3 +322,71 @@ export const getReferedUsersListThunk = createAsyncThunk(
     }
   }
 );
+
+export const createSystemConfigThunk = createAsyncThunk<
+  TCreateSystemConfigThunkResponse["data"],
+  TCreateSystemConfigThunkOptions
+>("deposit/createSystemConfigThunk", async (data, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.post<TCreateSystemConfigThunkResponse>(
+      "/system-config",
+      data
+    );
+
+    return response.data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
+export const getSystemConfigThunk = createAsyncThunk<
+  TGetSystemConfigThunkResponse,
+  TGetSystemConfigThunkOptions,
+  { rejectValue: TGetSystemConfigThunkError }
+>("deposit/getSystemConfigThunk", async (params, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.get<TGetSystemConfigThunkResponse>(
+      "/system-config",
+      { params }
+    );
+
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue({
+        message: error.response?.data?.message || "Something went wrong",
+        status: error.response?.status,
+      });
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
+export const updateSystemConfigThunk = createAsyncThunk<
+  TUpdateSystemConfigThunkResponse["data"],
+  TUpdateSystemConfigThunkOptions
+>("deposit/updateSystemConfigThunk", async (data, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.patch<TUpdateSystemConfigThunkResponse>(
+      "/system-config",
+      data
+    );
+
+    return response.data.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});

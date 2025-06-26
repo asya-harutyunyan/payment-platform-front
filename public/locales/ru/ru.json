@@ -328,5 +328,9 @@
   "otp_code": "Код OTP",
   "enable_2fa": "Включить 2FA",
   "enabling": "Включение...",
-  "continue": "Продолжить"
+  "continue": "Продолжить",
+  "system_settings": "Системные настройки",
+  "number_of_user": "Количество пользователей",
+  "interval_in_minutes": "Интервал в минутах",
+  "setting_enabled": "Настройка включена"
 }
