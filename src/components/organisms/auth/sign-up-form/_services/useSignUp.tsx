@@ -2,16 +2,18 @@ import { z } from "@/common/validation";
 import { auth_schema } from "@/schema/sign_up.schema";
 import { useAppDispatch } from "@/store";
 import { registerUser } from "@/store/reducers/authSlice/thunks";
+import { recaptchaErrorSchema } from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { showRecaptchaError } from "../../sign-in-form/_services/useSignIn";
 
 type FormData = z.infer<typeof auth_schema>;
 
 const useSignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { control, handleSubmit, watch, register, setError } =
+  const { control, handleSubmit, watch, setError, setValue } =
     useForm<FormData>({
       resolver: zodResolver(auth_schema),
       defaultValues: {
@@ -25,6 +27,10 @@ const useSignUp = () => {
       },
     });
 
+  const onRecaptchaVerify = (token: string) => {
+    setValue("recaptcha_token", token);
+  };
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(registerUser(data))
       .unwrap()
@@ -36,6 +42,12 @@ const useSignUp = () => {
         }
       })
       .catch((error) => {
+        const tError = recaptchaErrorSchema.safeParse(error);
+
+        if (tError.success) {
+          showRecaptchaError();
+        }
+
         if (error.errors) {
           Object.entries(error.errors).forEach(([field, messages]) => {
             if (Array.isArray(messages) && messages.length > 0) {
@@ -55,9 +67,9 @@ const useSignUp = () => {
     control,
     handleSubmit,
     watch,
-    register,
     onSubmit,
     navigate,
+    onRecaptchaVerify,
   };
 };
 export default useSignUp;

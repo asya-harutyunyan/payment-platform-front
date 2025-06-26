@@ -55,5 +55,5 @@ export const RECAPTCHA_ERROR_KEY = "INVALID_RECAPTCHA";
 
 export const recaptchaErrorSchema = z.object({
   message: z.string(),
-  status: z.literal("INVALID_RECAPTCHA"),
+  status: z.enum(["INVALID_RECAPTCHA", "RECAPTCHA_REQUIRED"]),
 });

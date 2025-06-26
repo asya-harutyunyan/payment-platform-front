@@ -21,7 +21,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof login_schema>;
 
-const showRecaptchaError = () => {
+export const showRecaptchaError = () => {
   enqueueSnackbar("Не удачная попытка попробуйте по позже!", {
     variant: "error",
     anchorOrigin: { vertical: "top", horizontal: "right" },
