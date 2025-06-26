@@ -332,5 +332,7 @@
   "system_settings": "Системные настройки",
   "number_of_user": "Количество пользователей",
   "interval_in_minutes": "Интервал в минутах",
-  "setting_enabled": "Настройка включена"
+  "setting_enabled": "Настройка включена",
+  "active_users_count": "Количество активных пользователей",
+  "submit": "Отправить"
 }

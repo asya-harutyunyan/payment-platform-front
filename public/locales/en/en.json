@@ -108,5 +108,7 @@
   "system_settings": "System Settings",
   "number_of_user": "Number of users",
   "interval_in_minutes": "Interval in minutes",
-  "setting_enabled": "Setting enabled"
+  "setting_enabled": "Setting enabled",
+  "active_users_count": "Active users count",
+  "submit": "Submit"
 }

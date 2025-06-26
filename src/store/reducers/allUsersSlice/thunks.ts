@@ -8,6 +8,7 @@ import {
   PriceData,
   TCreateSystemConfigThunkOptions,
   TCreateSystemConfigThunkResponse,
+  TGetActiveActiveUsersThunkResponse,
   TGetSystemConfigThunkError,
   TGetSystemConfigThunkOptions,
   TGetSystemConfigThunkResponse,
@@ -380,6 +381,26 @@ export const updateSystemConfigThunk = createAsyncThunk<
     );
 
     return response.data.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
+export const getActiveActiveUsersThunk = createAsyncThunk<
+  TGetActiveActiveUsersThunkResponse,
+  void
+>("deposit/getActiveActiveUsersThunk", async (_, { rejectWithValue }) => {
+  try {
+    const response =
+      await httpClient.get<TGetActiveActiveUsersThunkResponse>("/active-users");
+
+    return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error)) {
       return rejectWithValue(

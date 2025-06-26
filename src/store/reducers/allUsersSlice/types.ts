@@ -27,6 +27,10 @@ export interface UserState {
     loading?: boolean;
     data?: TGetSystemConfigThunkResponse;
   };
+  activeUsersState: {
+    loading?: boolean;
+    data?: TGetActiveActiveUsersThunkResponse;
+  };
 }
 export interface ReferedUsersListRequest {
   id: string;
@@ -151,7 +155,7 @@ export type TCreateSystemConfigThunkResponse = {
 export type TGetSystemConfigThunkResponse = {
   id: number;
   name: EConfigNames;
-  config: {
+  config?: {
     name: EConfigNames;
     registration_limit: number;
     registration_time_minutes: number;
@@ -183,3 +187,8 @@ export type TUpdateSystemConfigThunkResponse = {
 };
 
 export type TUpdateSystemConfigThunkOptions = TCreateSystemConfigThunkOptions;
+
+export type TGetActiveActiveUsersThunkResponse = {
+  count: number;
+  users: Array<User>;
+};

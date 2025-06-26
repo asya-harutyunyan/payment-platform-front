@@ -6,6 +6,7 @@ import {
 } from "@reduxjs/toolkit";
 import {
   createSystemConfigThunk,
+  getActiveActiveUsersThunk,
   getBankNamesThunk,
   getBlockedUsersThunk,
   getFreezedUsersThunk,
@@ -46,6 +47,7 @@ const initialState: UserState = {
   amount_to_pay: "",
   total_amount: "",
   systemConfigState: {},
+  activeUsersState: {},
 };
 
 const usersSlice = createSlice({
@@ -148,6 +150,16 @@ const usersSlice = createSlice({
       })
       .addCase(updateSystemConfigThunk.rejected, (state) => {
         state.systemConfigState.loading = false;
+      })
+      .addCase(getActiveActiveUsersThunk.pending, (state) => {
+        state.activeUsersState.loading = true;
+      })
+      .addCase(getActiveActiveUsersThunk.fulfilled, (state, { payload }) => {
+        state.activeUsersState.data = payload;
+        state.activeUsersState.loading = false;
+      })
+      .addCase(getActiveActiveUsersThunk.rejected, (state) => {
+        state.activeUsersState.loading = false;
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;
