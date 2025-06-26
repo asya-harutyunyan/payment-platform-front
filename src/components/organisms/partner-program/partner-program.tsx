@@ -30,6 +30,7 @@ export const PartnerProgramComponent: FC = () => {
     // selectedType,
     // options,
     page,
+    referralUrl,
   } = usePartnerProgram();
 
   return (
@@ -49,16 +50,29 @@ export const PartnerProgramComponent: FC = () => {
             )}
 
             {user?.referral?.referral_code && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  height: "40px",
-                  padding: "10px 0",
-                }}
-              >
-                <CopyButton text={user.referral.referral_code} />
-                <P color="primary.main">{user.referral.referral_code}</P>
+              <Box sx={{ display: "flex", flexDirection: "row" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    height: "40px",
+                    padding: "10px 0",
+                  }}
+                >
+                  <CopyButton text={user.referral.referral_code} />
+                  <P color="primary.main">{user.referral.referral_code}</P>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    height: "40px",
+                    padding: "10px 0",
+                  }}
+                >
+                  <CopyButton text={referralUrl} />
+                  <P color="primary.main">{referralUrl}</P>
+                </Box>
               </Box>
             )}
             <Box

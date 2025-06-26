@@ -4,7 +4,7 @@ import { useAppDispatch } from "@/store";
 import { registerUser } from "@/store/reducers/authSlice/thunks";
 import { recaptchaErrorSchema } from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useSearch } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { showRecaptchaError } from "../../sign-in-form/_services/useSignIn";
 
@@ -13,6 +13,9 @@ type FormData = z.infer<typeof auth_schema>;
 const useSignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const searchParams = useSearch({
+    from: "/_no_auth/auth/sign-up/",
+  });
   const { control, handleSubmit, watch, setError, setValue } =
     useForm<FormData>({
       resolver: zodResolver(auth_schema),
@@ -20,7 +23,8 @@ const useSignUp = () => {
         name: "",
         surname: "",
         email: "",
-        referral_code: "",
+        referral_code:
+          (searchParams as { referral_code?: string }).referral_code ?? "",
         password: "",
         password_confirmation: "",
         checkbox: false,

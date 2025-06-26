@@ -36,6 +36,11 @@ const usePartnerProgram = () => {
   });
   const selectedType = watch("type");
 
+  const referralUrl =
+    location.href.replace("partner-program", "auth/sign-up/") +
+    "?referral_code=" +
+    user?.referral.referral_code;
+
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
     dispatch(getReferalsUserThunk({ page: page, per_page: 5 }));
@@ -154,6 +159,7 @@ const usePartnerProgram = () => {
     selectedType,
     options,
     page,
+    referralUrl,
   };
 };
 
