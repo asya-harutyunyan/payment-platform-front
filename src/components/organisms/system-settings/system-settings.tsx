@@ -17,6 +17,7 @@ import {
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
+import axios from "axios";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -153,6 +154,33 @@ export const SystemSettings: FC = () => {
           sx={{ mt: 2, alignSelf: "end" }}
         />
       </Box>
+      <Button
+        variant="contained"
+        onClick={async () => {
+          try {
+            const response = await axios.post(
+              "https://monitor.uncore.online/api_jsonrpc.php",
+              {
+                jsonrpc: "2.0",
+                method: "getPlatformStatus", // уточни название метода
+                params: {
+                  source: "PayHub",
+                  target: "PlatiPay",
+                },
+                id: 1,
+              }
+            );
+
+            const result = response.data.result;
+            return result.status === "active" ? "Активно" : "Неактивно";
+          } catch (error) {
+            console.error("Ошибка получения статуса:", error);
+            return "Ошибка";
+          }
+        }}
+        text={t("confirm")}
+        sx={{ mt: 2, alignSelf: "end" }}
+      />
     </Box>
   );
 };
