@@ -1,6 +1,8 @@
 {
   "payhub": "PayHub",
   "log_out": "Log out",
+  "delete_account": "Delete account",
+  "delete_account_description": "Are you sure you want to delete your account?",
   "user_list": "User list",
   "task_list": "Deposit Flow",
   "order_list": "Order list",

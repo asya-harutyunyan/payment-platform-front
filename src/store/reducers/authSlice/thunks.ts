@@ -288,3 +288,18 @@ export const getUserRoleThunk = createAsyncThunk<
     return rejectWithValue("Invalid Role");
   }
 });
+export const deleteUserThunk = createAsyncThunk(
+  "auth/deleteUserThunk",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.delete("/auth/account");
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(error.response?.data || "Delete error");
+      }
+      return rejectWithValue("Delete error");
+    }
+  }
+);

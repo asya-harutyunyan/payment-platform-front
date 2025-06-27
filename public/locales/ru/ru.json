@@ -1,6 +1,8 @@
 {
   "payhub": "PayHub",
   "log_out": "Выйти",
+  "delete_account": "Удалить аккаунт",
+  "delete_account_description": "Вы действительно хотите удалить аккаунт?",
   "user_list": "Список пользователь",
   "task_list": "Начать зарабатывать",
   "order_list": "Список заказов",

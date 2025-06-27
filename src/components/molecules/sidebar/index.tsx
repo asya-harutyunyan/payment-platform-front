@@ -24,6 +24,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { adminItems, superAdminItems, userItems } from "./__item_list__";
+import DeleteAccountButton from "./delete_account_button";
 import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
@@ -173,12 +174,14 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           sx={{
             height: "6%",
             display: "flex",
+            gap: 2,
             justifyContent: "space-between",
             flexDirection: "column",
             zIndex: 1,
           }}
         >
           <LogoutButton handleLogout={handleLogout} />
+          {user?.role === "client" && <DeleteAccountButton />}
         </Box>
       </Drawer>
 
