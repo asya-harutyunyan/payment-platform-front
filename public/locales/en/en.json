@@ -112,5 +112,6 @@
   "interval_in_minutes": "Interval in minutes",
   "setting_enabled": "Setting enabled",
   "active_users_count": "Active users count",
-  "submit": "Submit"
+  "submit": "Submit",
+  "checkout_money": "Checkout money"
 }

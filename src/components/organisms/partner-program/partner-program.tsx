@@ -1,9 +1,16 @@
+import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
+import { BasicCard } from "@/components/atoms/card";
 import { CopyButton } from "@/components/atoms/copy-btn";
+import { FormTextInput } from "@/components/atoms/input";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
+
+import { SelectFieldWith } from "@/components/atoms/select";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
+
+import { CheckoutForm } from "@/components/molecules";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -16,21 +23,18 @@ export const PartnerProgramComponent: FC = () => {
     referralUser,
     total,
     loading,
-    // navigate,
-    // paymentType,
-    // setPaymentType,
-    // control,
-    // handleSubmit,
+    control,
     user,
     onChangePage,
     columns,
     generateReferalCode,
     PartnerProgramSummary,
-    // onSubmit,
-    // selectedType,
-    // options,
+    onSubmit,
     page,
     referralUrl,
+    options,
+    isCheckoutFormVisible,
+    onCheckoutButtonClick,
   } = usePartnerProgram();
 
   return (
@@ -40,14 +44,23 @@ export const PartnerProgramComponent: FC = () => {
         subTitle={t("ref_percent")}
         renderComponent={
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            {!user?.referral?.referral_code && (
+            <Box sx={{ display: "flex", gap: 4, marginBottom: 2 }}>
+              {!user?.referral?.referral_code && (
+                <Button
+                  variant={"gradient"}
+                  text={t("generate")}
+                  sx={{ width: "180px" }}
+                  onClick={generateReferalCode}
+                />
+              )}
+
               <Button
                 variant={"gradient"}
-                text={t("generate")}
-                sx={{ width: "130px" }}
-                onClick={generateReferalCode}
+                text={t("checkout_money")}
+                sx={{ width: "180px" }}
+                onClick={onCheckoutButtonClick}
               />
-            )}
+            </Box>
 
             {user?.referral?.referral_code && (
               <Box sx={{ display: "flex", flexDirection: "row" }}>
@@ -82,127 +95,69 @@ export const PartnerProgramComponent: FC = () => {
             >
               {PartnerProgramSummary()}
             </Box>
-            {/* //TODO: */}
-            {/* <BasicCard
-              sx={{
-                width: "100%",
-                marginTop: "20px",
-                padding: "0",
-                height: "350px",
-              }}
-              bg={bg}
-              title={`${t("gen_code")}  2389`}
-            >
-              <Box
+
+            {isCheckoutFormVisible && (
+              <BasicCard
                 sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexDirection: "column",
-                  width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
+                  width: "100%",
+                  marginTop: "20px",
+                  padding: "0",
+                  height: "350px",
                 }}
+                bg={bg}
               >
-                {paymentType ? (
-                  <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
-                    <P color="#fff" padding={"10px 0"}>
-                      Выберите способ получения рефералов:
-                    </P>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    width: "100%",
+                  }}
+                  component="form"
+                  onSubmit={onSubmit}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                    }}
+                  >
+                    <FormTextInput
+                      control={control}
+                      name="request_amount"
+                      placeholder={t("gen_code")}
+                      numeric
+                      type="number"
+                      whiteVariant={true}
+                    />
+
                     <SelectFieldWith
-                      name="type"
+                      name="currency_of_payment"
                       control={control}
                       options={options}
                       whiteVariant
                       nameKey="currency"
                       placeholder={t("select_currency")}
                     />
-                    {selectedType === "FIAT" ? (
-                      user?.bank_details && (
-                        <Box>
-                          <RadioButtonsGroup
-                            width={"100%"}
-                            data={user?.bank_details.filter(
-                              (card) => !card.is_blocked
-                            )}
-                            control={control}
-                            name="payment_method_id"
-                            labelKey="card_number"
-                            valueKey="id"
-                          />
-                          <P
-                            color="#fff"
-                            padding={"10px 0"}
-                            onClick={() => navigate({ to: "/my-information" })}
-                            sx={{
-                              cursor: "pointer",
-                              ":hover": {
-                                textDecoration: "underline",
-                              },
-                            }}
-                          >
-                            {t("add_payment_method")}
-                          </P>
-                        </Box>
-                      )
-                    ) : selectedType === "CRYITO" ? (
-                      <Box>
-                        <FormTextInput
-                          control={control}
-                          name="transaction_id"
-                          placeholder={t("hash")}
-                          whiteVariant={true}
-                        />
-                      </Box>
-                    ) : (
-                      ""
-                    )}
+                  </Box>
 
-                    <Button
-                      variant={"gradient"}
-                      text={t("confirm")}
-                      onClick={() => setPaymentType(false)}
-                      type="submit"
-                      sx={{ width: "100%", height: "50px", marginTop: "30px" }}
-                    />
-                  </Box>
-                ) : (
-                  <Box sx={{ width: "100%" }}>
-                    <P
-                      fontSize={"1.2rem"}
-                      color="tertiary.main"
-                      paddingBottom={"10px"}
-                    >
-                      Ваш способ оплаты — Карта
-                    </P>
-                    <Box sx={{ width: "100%" }}>
-                      <P
-                        fontSize={"1.2rem"}
-                        color="tertiary.main"
-                        sx={{
-                          border: "1px solid #fff",
-                          padding: "10px",
-                          borderRadius: "10px",
-                          letterSpacing: "5px",
-                          textAlign: "center",
-                        }}
-                      >
-                        {" "}
-                        4332 2323 4231 1221
-                      </P>
-                      <Button
-                        variant={"gradient"}
-                        text={t("change_type")}
-                        onClick={() => setPaymentType(true)}
-                        sx={{
-                          width: "100%",
-                          height: "50px",
-                          marginTop: "30px",
-                          borderRadius: "10px",
-                        }}
-                      />
-                    </Box>
-                  </Box>
-                )}
-              </Box>
-            </BasicCard> */}
+                  <CheckoutForm control={control} />
+
+                  <Button
+                    variant={"gradient"}
+                    text={t("confirm")}
+                    type="submit"
+                    sx={{
+                      width: "100%",
+                      height: "50px",
+                      marginTop: "30px",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </Box>
+              </BasicCard>
+            )}
           </Box>
         }
       />

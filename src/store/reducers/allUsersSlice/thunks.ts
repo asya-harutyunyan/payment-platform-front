@@ -6,6 +6,7 @@ import {
   GetUsersRequest,
   PercentsData,
   PriceData,
+  TCreateRefOrderThunkOptions,
   TCreateSystemConfigThunkOptions,
   TCreateSystemConfigThunkResponse,
   TGetActiveActiveUsersThunkResponse,
@@ -194,6 +195,28 @@ export const generateCodeReferralThunk = createAsyncThunk(
     }
   }
 );
+
+export const createRefOrderThunk = createAsyncThunk<
+  unknown,
+  TCreateRefOrderThunkOptions
+>("users/createRefOrderThunk", async (data, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.post("/referrals/create-ref-order", data);
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.data.errors) {
+        return rejectWithValue(
+          error.response?.data.errors || "Something went wrong"
+        );
+      }
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
+    }
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
 export const updatePercentThunk = createAsyncThunk(
   "users/updatePercentThunk",
   async (data: PercentsData, { rejectWithValue }) => {

@@ -1,4 +1,6 @@
 import { User } from "@/common/types";
+import { createReferralsOrderSchema } from "@/schema/wallet_details.schema";
+import { z } from "zod";
 import {
   ReferralOfUser,
   RefferedUsersList,
@@ -192,3 +194,7 @@ export type TGetActiveActiveUsersThunkResponse = {
   count: number;
   users: Array<User>;
 };
+
+export type TCreateRefOrderThunkOptions = z.infer<
+  typeof createReferralsOrderSchema
+>;

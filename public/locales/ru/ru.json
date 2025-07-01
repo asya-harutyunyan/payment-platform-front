@@ -336,5 +336,6 @@
   "interval_in_minutes": "Интервал в минутах",
   "setting_enabled": "Настройка включена",
   "active_users_count": "Количество активных пользователей",
-  "submit": "Отправить"
+  "submit": "Отправить",
+  "checkout_money": "Вывести средства"
 }
