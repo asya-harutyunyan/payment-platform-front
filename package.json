@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "sh ./scripts/version-update.sh &&  vite build",
     "lint": "eslint .",
     "start": "npx serve -s dist -l 8080",
     "preview": "vite preview --host"
