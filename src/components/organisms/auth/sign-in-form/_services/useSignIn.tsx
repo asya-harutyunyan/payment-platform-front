@@ -22,13 +22,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof login_schema>;
 
-export const showRecaptchaError = () => {
-  enqueueSnackbar("Не удачная попытка попробуйте по позже!", {
-    variant: "error",
-    anchorOrigin: { vertical: "top", horizontal: "right" },
-  });
-};
-
 export enum EUserRole {
   Admin = "admin",
   Client = "client",
@@ -67,7 +60,11 @@ const useSignIn = () => {
       const recaptchaParsedError = recaptchaErrorSchema.safeParse(error);
 
       if (recaptchaParsedError.success) {
-        showRecaptchaError();
+        enqueueSnackbar(recaptchaParsedError.data.message, {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        return;
       }
 
       const typedError = error as {

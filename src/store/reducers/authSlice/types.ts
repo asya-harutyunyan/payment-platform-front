@@ -55,5 +55,15 @@ export const RECAPTCHA_ERROR_KEY = "INVALID_RECAPTCHA";
 
 export const recaptchaErrorSchema = z.object({
   message: z.string(),
-  status: z.enum(["INVALID_RECAPTCHA", "RECAPTCHA_REQUIRED"]),
+  key: z.enum([
+    "GOOGLE2FA_REQUIRED",
+    "GOOGLE2FA_ONE_TIME_CODE_REQUIRED",
+    "GOOGLE2FA_INVALID_CODE",
+    "RECAPTCHA_REQUIRED",
+    "INVALID_RECAPTCHA",
+    "REGISTRATION_SUCCESS",
+    "TEMPORARY_BLOCK",
+    "ACCOUNT_BLOCKED",
+    "TEMPORARY_BLOCK",
+  ]),
 });
