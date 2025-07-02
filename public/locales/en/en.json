@@ -113,5 +113,7 @@
   "setting_enabled": "Setting enabled",
   "active_users_count": "Active users count",
   "submit": "Submit",
-  "checkout_money": "Checkout money"
+  "checkout_money": "Checkout money",
+  "authorization_key_required": "Authorization key required!",
+  "invalid_authorization_key": "Invalid authorization key!"
 }

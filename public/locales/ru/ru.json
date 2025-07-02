@@ -325,9 +325,9 @@
   "scan_with_authenticator": "Отсканируйте с помощью приложения-аутентификатора",
   "manual_entry_code": "Или введите этот код вручную:",
   "done": "Готово",
-  "enter_otp_code": "Введите код OTP",
+  "enter_otp_code": "Введите код ОТП",
   "two_factor_info_step3": "Введите 6-значный код из вашего приложения-аутентификатора для завершения настройки 2FA.",
-  "otp_code": "Код OTP",
+  "otp_code": "Код ОТП",
   "enable_2fa": "Включить 2FA",
   "enabling": "Включение...",
   "continue": "Продолжить",
@@ -337,5 +337,7 @@
   "setting_enabled": "Настройка включена",
   "active_users_count": "Количество активных пользователей",
   "submit": "Отправить",
-  "checkout_money": "Вывести средства"
+  "checkout_money": "Вывести средства",
+  "authorization_key_required": "Требуется ключ авторизации!",
+  "invalid_authorization_key": "Недействительный ключ авторизации!"
 }

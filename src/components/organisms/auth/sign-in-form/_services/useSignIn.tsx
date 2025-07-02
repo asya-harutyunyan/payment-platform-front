@@ -15,6 +15,7 @@ import {
 } from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -140,7 +141,7 @@ const useSignIn = () => {
       if (!data.otp || data.otp.length === 0) {
         setError("otp", {
           type: "manual",
-          message: "Authorization key required!",
+          message: t("authorization_key_required"),
         });
         return;
       }
@@ -148,7 +149,7 @@ const useSignIn = () => {
       if (data.otp.length < 6) {
         setError("otp", {
           type: "manual",
-          message: "Invalid authorization key!",
+          message: t("invalid-authorization-key"),
         });
         return;
       }
