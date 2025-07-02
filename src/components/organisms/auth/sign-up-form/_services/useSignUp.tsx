@@ -5,8 +5,8 @@ import { registerUser } from "@/store/reducers/authSlice/thunks";
 import { recaptchaErrorSchema } from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useSearch } from "@tanstack/react-router";
+import { enqueueSnackbar } from "notistack";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { showRecaptchaError } from "../../sign-in-form/_services/useSignIn";
 
 type FormData = z.infer<typeof auth_schema>;
 
@@ -49,7 +49,11 @@ const useSignUp = () => {
         const tError = recaptchaErrorSchema.safeParse(error);
 
         if (tError.success) {
-          showRecaptchaError();
+          enqueueSnackbar(tError.data.message, {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          return;
         }
 
         if (error.errors) {
