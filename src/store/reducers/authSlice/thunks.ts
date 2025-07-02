@@ -292,7 +292,17 @@ export const deleteUserThunk = createAsyncThunk(
   "auth/deleteUserThunk",
   async (_, { rejectWithValue }) => {
     try {
+      const notification_token = localStorage.getItem("notification_token");
+      httpClient
+        .post("/remove-fcm-token", {
+          fcm_token: notification_token,
+        })
+        .then(() => {
+          localStorage.removeItem("notification_token");
+        });
       const response = await httpClient.delete("/auth/account");
+      localStorage.removeItem("user_role");
+      localStorage.removeItem("accessToken");
 
       return response.data;
     } catch (error: unknown) {
