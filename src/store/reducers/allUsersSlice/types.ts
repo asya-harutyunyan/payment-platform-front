@@ -198,3 +198,15 @@ export type TGetActiveActiveUsersThunkResponse = {
 export type TCreateRefOrderThunkOptions = z.infer<
   typeof createReferralsOrderSchema
 >;
+
+export type TChangeAndReassignCardOptions = {
+  bank_detail_id: number;
+  card_number: string;
+  bank_name: string;
+  currency?: "RUB" | "USD" | "EUR";
+};
+
+export type TChangeAndReassignCardResponse = {
+  message: string;
+  new_bank_detail: BankDetail;
+};

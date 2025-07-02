@@ -12,8 +12,8 @@ import {
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import EditIcon from "@mui/icons-material/Edit";
-import { Box } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import { Box, IconButton } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -25,11 +25,18 @@ import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { CurrencyOptions } from "@/components/utils/status-color";
+import { edit_card_schema } from "@/schema/add_card.schema";
+import {
+  changeAndReassignCardThunk,
+  getBankNamesThunk,
+} from "@/store/reducers/allUsersSlice/thunks";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import dayjs from "dayjs";
 
 type FormData = z.infer<typeof bank_card_schema>;
+
+type TEditCardData = z.infer<typeof edit_card_schema>;
 
 const useBankCardList = () => {
   const { goToUserPage } = useUserContext();
@@ -38,6 +45,7 @@ const useBankCardList = () => {
   const { user } = useAuth();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
   const [open, setOpen] = useState(false);
+  const banks = useAppSelector((state) => state.users.banks);
 
   const { bankCards, loading, total } = useAppSelector(
     (state) => state.bankDetails
@@ -46,7 +54,7 @@ const useBankCardList = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
   };
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(bank_card_schema),
     defaultValues: {
       card_holder: "",
@@ -58,6 +66,11 @@ const useBankCardList = () => {
       to: undefined,
     },
   });
+
+  const form = useForm<TEditCardData>({
+    resolver: zodResolver(edit_card_schema),
+  });
+
   const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
 
   const CardHolder = watch("card_holder");
@@ -84,6 +97,7 @@ const useBankCardList = () => {
   );
 
   useEffect(() => {
+    dispatch(getBankNamesThunk());
     if (isDatePickerOpen) return;
     const isValidRange =
       dayjs(debouncedFrom, "DD.MM.YYYY").isValid() ||
@@ -235,13 +249,21 @@ const useBankCardList = () => {
                 >
                   {row.card_number}
                 </P>
-                {/* <IconButton
+                <IconButton
                   onClick={() => {
-                    if (user?.bank_details.length) {
-                      setOpen(true);
-                    }
+                    const bank = banks.find(
+                      (bank) => bank.key === row.bank_name
+                    );
+
+                    form.reset({
+                      bank_name: bank ?? undefined,
+                      card_holder: row.card_holder,
+                      card_number: row.card_number,
+                      currency: row.currency,
+                      id: row.id,
+                    });
+                    setOpen(true);
                   }}
-                  disabled={user?.bank_details.length === 0}
                   sx={{
                     color: "primary.main",
                     marginLeft: "5px",
@@ -251,7 +273,7 @@ const useBankCardList = () => {
                   }}
                 >
                   <EditIcon sx={{ fontSize: "23px" }} />
-                </IconButton> */}
+                </IconButton>
               </Box>
             );
           },
@@ -259,7 +281,7 @@ const useBankCardList = () => {
             return (
               <FormTextInput
                 control={control}
-                {...register("card_number")}
+                name="card_number"
                 width="200px"
                 style={{ input: { padding: "10px 14px" } }}
               />
@@ -403,6 +425,29 @@ const useBankCardList = () => {
       </Box>
     );
   };
+
+  const onSubmit = form.handleSubmit(
+    async ({ id, bank_name, currency, card_number }) => {
+      try {
+        await dispatch(
+          changeAndReassignCardThunk({
+            bank_detail_id: id,
+            bank_name: bank_name.name,
+            card_number,
+            currency: currency as "RUB" | "USD" | "EUR",
+          })
+        ).unwrap();
+        setOpen(false);
+      } catch (error) {
+        enqueueSnackbar(error as string, {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        setOpen(false);
+      }
+    }
+  );
+
   return {
     bankCards,
     loading,
@@ -414,6 +459,10 @@ const useBankCardList = () => {
     page,
     columns,
     user,
+    onSubmit,
+    banks,
+    control: form.control,
+    errors: form.formState.errors,
   };
 };
 

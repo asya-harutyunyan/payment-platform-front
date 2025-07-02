@@ -6,6 +6,8 @@ import {
   GetUsersRequest,
   PercentsData,
   PriceData,
+  TChangeAndReassignCardOptions,
+  TChangeAndReassignCardResponse,
   TCreateRefOrderThunkOptions,
   TCreateSystemConfigThunkOptions,
   TCreateSystemConfigThunkResponse,
@@ -428,6 +430,31 @@ export const getActiveActiveUsersThunk = createAsyncThunk<
     if (axios.isAxiosError(error)) {
       return rejectWithValue(
         error.response?.data?.message || "Something went wrong"
+      );
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
+export const changeAndReassignCardThunk = createAsyncThunk<
+  TChangeAndReassignCardResponse,
+  TChangeAndReassignCardOptions,
+  { rejectValue: string }
+>("banks/changeAndReassignCardThunk", async (body, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.post<TChangeAndReassignCardResponse>(
+      "/banks/change-and-reassign",
+      body
+    );
+
+    return response.data;
+  } catch (error: unknown) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.error ||
+          error.response?.data?.message ||
+          "Something went wrong"
       );
     }
 

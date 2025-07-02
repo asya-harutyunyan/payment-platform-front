@@ -1,19 +1,16 @@
-import second_step from "@/assets/images/modal.png";
+import bg from "@/assets/images/modal.png";
+import { Autocomplite } from "@/components/atoms/autocomplite";
 import Button from "@/components/atoms/button";
+import { FormTextInput } from "@/components/atoms/input";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
-import { RadioButtonsGroup } from "@/components/atoms/radio-button";
+import { SelectFieldWith } from "@/components/atoms/select";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
-import { useAuth } from "@/context/auth.context";
-import { choose_card_schema } from "@/schema/add_card.schema";
-import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import { useForm } from "react-hook-form";
 import useBankCardList from "./_services/useBankCardList";
 
 export const BankCardLists: FC = () => {
@@ -26,17 +23,13 @@ export const BankCardLists: FC = () => {
     columns,
     setOpen,
     open,
+    onSubmit,
+    control,
+    errors,
+    banks,
   } = useBankCardList();
 
-  const { control } = useForm<Partial<Deposit>>({
-    resolver: zodResolver(choose_card_schema),
-    defaultValues: {
-      payment_method_id: "",
-    },
-  });
-  const { user } = useAuth();
-  const handleClose = () => setOpen(false);
-
+  const options = [{ id: 1, name: "RUB" }];
   return (
     <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("bank_card_list")} />
@@ -64,34 +57,70 @@ export const BankCardLists: FC = () => {
           </>
         </Box>
       )}
-      <BasicModal
-        handleClose={handleClose}
-        open={open}
-        bg={second_step}
-        width="50%"
-      >
-        {user?.bank_details.length ? (
-          <RadioButtonsGroup
-            data={user?.bank_details}
-            control={control}
-            name="payment_method_id"
-            labelKey="card_number"
-            valueKey="id"
-          />
-        ) : (
-          ""
-        )}
-        <Button
+
+      <BasicModal handleClose={() => setOpen(false)} open={open} bg={bg}>
+        <Box
+          component="form"
+          onSubmit={onSubmit}
           sx={{
-            marginTop: "20px",
             width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
-            height: "50px",
-            fontSize: "17px",
+            marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
+            height: { lg: "auto", md: "auto", xs: "500px", sm: "500px" },
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
           }}
-          text={t("confirm")}
-          variant={"gradient"}
-          type="submit"
-        />
+        >
+          <FormTextInput
+            control={control}
+            name="card_holder"
+            placeholder={t("name_cards_member")}
+            whiteVariant
+          />
+          <Autocomplite
+            name="bank_name"
+            control={control}
+            options={banks}
+            whiteVariant
+            defaultValueFirst
+            placeholder={t("bank_name")}
+            error={!!errors.bank_name}
+            helperText={errors.bank_name?.message}
+            style={{ marginBottom: "10px" }}
+          />
+          <FormTextInput
+            control={control}
+            name="card_number"
+            mask
+            placeholder={t("card_number")}
+            whiteVariant={true}
+          />
+          <SelectFieldWith
+            name="currency"
+            control={control}
+            options={options}
+            whiteVariant
+            defaultValueFirst
+            placeholder={t("select_currency")}
+            error={!!errors.currency}
+            helperText={errors.currency?.message}
+          />
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+              margin: "20px 0",
+            }}
+          >
+            <Button
+              sx={{ width: "99%", height: "50px" }}
+              variant={"gradient"}
+              type="submit"
+              text={t("confirm")}
+            />
+          </Box>
+        </Box>
       </BasicModal>
     </Box>
   );
