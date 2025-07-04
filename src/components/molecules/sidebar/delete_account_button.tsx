@@ -31,7 +31,7 @@ const DeleteAccountButton = () => {
           }}
           icon={PersonRemove}
           text={t("delete_account")}
-          variant={"error"}
+          variant={"error_background"}
         />
       </Box>
       <BasicModal
