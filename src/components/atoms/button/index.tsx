@@ -9,7 +9,8 @@ type ButtonVariant =
   | "gradient"
   | "outlinedWhite"
   | "outlinedBlue"
-  | "error";
+  | "error"
+  | "error_background";
 type Sizes = "small" | "medium" | "large";
 type Colors =
   | "inherit"

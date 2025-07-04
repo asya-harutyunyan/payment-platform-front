@@ -21,6 +21,7 @@ export interface OrderState {
     };
   };
   ordersUser: Order[];
+  deletedOrders: Order[];
 }
 
 export type AmountType = z.infer<typeof deposit_id_schema>;

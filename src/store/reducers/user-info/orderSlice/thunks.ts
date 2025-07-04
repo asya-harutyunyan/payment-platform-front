@@ -190,3 +190,28 @@ export const confirmOrderByClientThunk = createAsyncThunk(
     }
   }
 );
+
+export const getDeletedOrdersThunk = createAsyncThunk(
+  "orders/getDeletedOrdersThunk",
+  async (data: Pagination, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.get(`/orders/admin/deleted-orders`, {
+        params: {
+          page: data.page,
+          per_page: data.per_page,
+          sort: data.sort,
+        },
+      });
+      console.log(response);
+
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);

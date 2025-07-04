@@ -5,6 +5,7 @@ import {
   isRejected,
 } from "@reduxjs/toolkit";
 import {
+  getDeletedOrdersThunk,
   getOrdersThunk,
   getSingleOrderThunk,
   getUserOrdersThunk,
@@ -35,6 +36,7 @@ const initialState: OrderState = {
   total: 0,
   price: 0,
   order: [],
+  deletedOrders: [],
 };
 
 const depositSlice = createSlice({
@@ -45,6 +47,11 @@ const depositSlice = createSlice({
     builder
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.orders = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+      })
+      .addCase(getDeletedOrdersThunk.fulfilled, (state, action) => {
+        state.deletedOrders = action.payload.deleted_orders;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

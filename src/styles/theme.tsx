@@ -18,6 +18,7 @@ declare module "@mui/material/Button" {
     outlinedBlue: true;
     outlinedWhite: true;
     error: true;
+    error_background: true;
   }
 }
 
@@ -69,7 +70,19 @@ const theme = createTheme({
             border: "2px solid  #b72d2d",
             color: "#b72d2d",
             "&:hover": {
-              backgroundImage: "linear-gradient(to right, #fcf9f9, #f8f0f0)",
+              backgroundImage: "linear-gradient(to right, #aa5b5b, #f8f0f0)",
+            },
+          },
+        },
+        {
+          props: { variant: "error_background" },
+          style: {
+            // border: "2px solid  #b72d2d",
+            backgroundImage: "linear-gradient(to right, #b72d2d17, #927d7d52)",
+            color: "#b72d2d",
+            "&:hover": {
+              backgroundImage:
+                "linear-gradient(to right, #b72d2d4a, #927d7d71)",
             },
           },
         },

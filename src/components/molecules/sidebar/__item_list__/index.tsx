@@ -49,6 +49,7 @@ export const superAdminItems = [
     text: "user_list",
     permission: "users_view",
   },
+
   {
     link: "/blocked-user-list",
     icon: <PersonRemoveIcon />,
@@ -82,6 +83,12 @@ export const superAdminItems = [
     icon: <DvrIcon />,
     permission: "orders_view",
     link: "/order-list",
+  },
+  {
+    link: "/deleted-orders",
+    icon: <WebIcon />,
+    text: "deleted_orders_list",
+    permission: "deleted_orders.view",
   },
   {
     text: "wallet_list",
