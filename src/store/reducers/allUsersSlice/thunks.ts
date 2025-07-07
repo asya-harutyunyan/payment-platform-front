@@ -16,6 +16,8 @@ import {
   TGetActiveActiveUsersThunkResponse,
   TGetReferralOrdersOptions,
   TGetReferralOrdersResponse,
+  TGetReferralsOrdersThunkOptions,
+  TGetReferralsOrdersThunkResponse,
   TGetSystemConfigThunkError,
   TGetSystemConfigThunkOptions,
   TGetSystemConfigThunkResponse,
@@ -404,6 +406,45 @@ export const createSystemConfigThunk = createAsyncThunk<
     );
 
     return response.data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+export const getReferralsOrdersThunk = createAsyncThunk<
+  TGetReferralsOrdersThunkResponse["data"],
+  TGetReferralsOrdersThunkOptions
+>("deposit/getReferralsOrdersThunk", async (_, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.get<TGetReferralsOrdersThunkResponse>(
+      "/referrals/my-ref-orders"
+    );
+
+    return response.data.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return rejectWithValue(
+        error.response?.data?.message || "Something went wrong"
+      );
+    }
+
+    return rejectWithValue("An unexpected error occurred");
+  }
+});
+
+export const cancelReferralsOrdersThunk = createAsyncThunk<
+  unknown,
+  { id: number }
+>("deposit/cancelReferralsOrdersThunk", async ({ id }, { rejectWithValue }) => {
+  try {
+    const response = await httpClient.delete(`/referrals/my-ref-orders/${id}`);
+
+    return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return rejectWithValue(

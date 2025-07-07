@@ -21,6 +21,7 @@ import { Route as AuthUserWalletIndexImport } from './routes/_auth/_user/wallet/
 import { Route as AuthUserStepsIndexImport } from './routes/_auth/_user/steps/index'
 import { Route as AuthUserPartnerProgramIndexImport } from './routes/_auth/_user/partner-program/index'
 import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/index'
+import { Route as AuthUserOrdersHistoryIndexImport } from './routes/_auth/_user/orders-history/index'
 import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
 import { Route as AuthAdminWelcomeIndexImport } from './routes/_auth/_admin/welcome/index'
@@ -194,6 +195,14 @@ const AuthUserOrdersIndexRoute = AuthUserOrdersIndexImport.update({
   path: '/orders/',
   getParentRoute: () => AuthUserRoute,
 } as any)
+
+const AuthUserOrdersHistoryIndexRoute = AuthUserOrdersHistoryIndexImport.update(
+  {
+    id: '/orders-history/',
+    path: '/orders-history/',
+    getParentRoute: () => AuthUserRoute,
+  } as any,
+)
 
 const AuthUserMyInformationIndexRoute = AuthUserMyInformationIndexImport.update(
   {
@@ -658,6 +667,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserMyInformationIndexImport
       parentRoute: typeof AuthUserImport
     }
+    '/_auth/_user/orders-history/': {
+      id: '/_auth/_user/orders-history/'
+      path: '/orders-history'
+      fullPath: '/orders-history'
+      preLoaderRoute: typeof AuthUserOrdersHistoryIndexImport
+      parentRoute: typeof AuthUserImport
+    }
     '/_auth/_user/orders/': {
       id: '/_auth/_user/orders/'
       path: '/orders'
@@ -794,6 +810,7 @@ interface AuthUserRouteChildren {
   AuthUserOrdersIdRoute: typeof AuthUserOrdersIdRoute
   AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
   AuthUserMyInformationIndexRoute: typeof AuthUserMyInformationIndexRoute
+  AuthUserOrdersHistoryIndexRoute: typeof AuthUserOrdersHistoryIndexRoute
   AuthUserOrdersIndexRoute: typeof AuthUserOrdersIndexRoute
   AuthUserPartnerProgramIndexRoute: typeof AuthUserPartnerProgramIndexRoute
   AuthUserStepsIndexRoute: typeof AuthUserStepsIndexRoute
@@ -805,6 +822,7 @@ const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserOrdersIdRoute: AuthUserOrdersIdRoute,
   AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
   AuthUserMyInformationIndexRoute: AuthUserMyInformationIndexRoute,
+  AuthUserOrdersHistoryIndexRoute: AuthUserOrdersHistoryIndexRoute,
   AuthUserOrdersIndexRoute: AuthUserOrdersIndexRoute,
   AuthUserPartnerProgramIndexRoute: AuthUserPartnerProgramIndexRoute,
   AuthUserStepsIndexRoute: AuthUserStepsIndexRoute,
@@ -884,6 +902,7 @@ export interface FileRoutesByFullPath {
   '/welcome': typeof AuthAdminWelcomeIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
+  '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
   '/partner-program': typeof AuthUserPartnerProgramIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
@@ -930,6 +949,7 @@ export interface FileRoutesByTo {
   '/welcome': typeof AuthAdminWelcomeIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
+  '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
   '/partner-program': typeof AuthUserPartnerProgramIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
@@ -980,6 +1000,7 @@ export interface FileRoutesById {
   '/_auth/_admin/welcome/': typeof AuthAdminWelcomeIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
+  '/_auth/_user/orders-history/': typeof AuthUserOrdersHistoryIndexRoute
   '/_auth/_user/orders/': typeof AuthUserOrdersIndexRoute
   '/_auth/_user/partner-program/': typeof AuthUserPartnerProgramIndexRoute
   '/_auth/_user/steps/': typeof AuthUserStepsIndexRoute
@@ -1028,6 +1049,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/deposit-info'
     | '/my-information'
+    | '/orders-history'
     | '/orders'
     | '/partner-program'
     | '/steps'
@@ -1073,6 +1095,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/deposit-info'
     | '/my-information'
+    | '/orders-history'
     | '/orders'
     | '/partner-program'
     | '/steps'
@@ -1121,6 +1144,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/welcome/'
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/my-information/'
+    | '/_auth/_user/orders-history/'
     | '/_auth/_user/orders/'
     | '/_auth/_user/partner-program/'
     | '/_auth/_user/steps/'
@@ -1224,6 +1248,7 @@ export const routeTree = rootRoute
         "/_auth/_user/orders/$id",
         "/_auth/_user/deposit-info/",
         "/_auth/_user/my-information/",
+        "/_auth/_user/orders-history/",
         "/_auth/_user/orders/",
         "/_auth/_user/partner-program/",
         "/_auth/_user/steps/",
@@ -1355,6 +1380,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_user/my-information/": {
       "filePath": "_auth/_user/my-information/index.tsx",
+      "parent": "/_auth/_user"
+    },
+    "/_auth/_user/orders-history/": {
+      "filePath": "_auth/_user/orders-history/index.tsx",
       "parent": "/_auth/_user"
     },
     "/_auth/_user/orders/": {

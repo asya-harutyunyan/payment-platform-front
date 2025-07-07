@@ -344,5 +344,6 @@
   "orders_for_refound": "Запросы на выплату",
   "orders_count": "Количество заказов",
   "payment_method_id": "ID способа оплаты",
-  "wallet": "Кошелек"
+  "wallet": "Кошелек",
+  "orders_history": "История запросов"
 }

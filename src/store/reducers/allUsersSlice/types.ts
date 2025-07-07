@@ -37,6 +37,10 @@ export interface UserState {
     loading?: boolean;
     data?: TGetReferralOrdersResponse["data"];
   };
+  getUserReferralsOrdersState: {
+    loading?: boolean;
+    data?: TGetReferralsOrdersThunkResponse["data"];
+  };
 }
 export interface ReferedUsersListRequest {
   id: string;
@@ -243,3 +247,26 @@ export type TAcceptReferralOrderThunkResponse = unknown;
 export type TAcceptReferralOrderThunkOptions = {
   referral_order_id: number;
 };
+
+export type TGetReferralsOrdersThunkResponse = {
+  data: {
+    user: {
+      id: number;
+      name: string;
+      email: string;
+    };
+    orders: Array<
+      {
+        id: number;
+        created_at?: string;
+        request_amount: string;
+        currency_of_payment: string;
+        payment_status: string;
+      } & (
+        | { transaction_hash: null; payment_method: string }
+        | { transaction_hash: string; payment_method: null }
+      )
+    >;
+  };
+};
+export type TGetReferralsOrdersThunkOptions = void;

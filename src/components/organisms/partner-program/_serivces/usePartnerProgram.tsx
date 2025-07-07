@@ -3,19 +3,15 @@ import { useAuth } from "@/context/auth.context";
 import { createReferralsOrderSchema } from "@/schema/wallet_details.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
-  createRefOrderThunk,
   generateCodeReferralThunk,
   getReferalsUserThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { ReferralOfUser } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
-import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
-import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 export type TFormData = z.infer<typeof createReferralsOrderSchema>;
@@ -31,19 +27,11 @@ const usePartnerProgram = () => {
   const { fetchAuthUser } = useAuth();
 
   const [page, setPage] = useState(1);
-  const [isCheckoutFormVisible, setIsCheckoutFormVisible] = useState(false);
 
   const { referralUser, amount_to_pay, total_amount, total, loading } =
     useAppSelector((state) => state.users);
 
   const { user } = useAuth();
-
-  const { control, handleSubmit } = useForm<TFormData>({
-    resolver: zodResolver(createReferralsOrderSchema),
-    defaultValues: {
-      currency_of_payment: ECurrencyRefOrder.USDT,
-    },
-  });
 
   const referralUrl =
     location.href.replace("partner-program", "auth/sign-up/") +
@@ -81,14 +69,6 @@ const usePartnerProgram = () => {
     []
   );
 
-  const options = useMemo(
-    () => [
-      { id: 1, name: ECurrencyRefOrder.RUB, currency: "Картой" },
-      { id: 2, name: ECurrencyRefOrder.USDT, currency: "Криптовалютой" },
-    ],
-    []
-  );
-
   const generateReferalCode = () => {
     dispatch(generateCodeReferralThunk())
       .unwrap()
@@ -98,23 +78,8 @@ const usePartnerProgram = () => {
       });
   };
 
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await dispatch(createRefOrderThunk(data)).unwrap();
-      enqueueSnackbar(
-        "Ваш запрос находится на обработке! Пожалуйста подождите.",
-        {
-          variant: "success",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
-  });
-
   const onCheckoutButtonClick = () => {
-    setIsCheckoutFormVisible(true);
+    navigate({ to: "/orders-history" });
   };
 
   const PartnerProgramSummary = () => {
@@ -166,22 +131,18 @@ const usePartnerProgram = () => {
       </Box>
     );
   };
+
   return {
     referralUser,
     total,
     loading,
-    navigate,
     user,
-    control,
     onChangePage,
     columns,
     generateReferalCode,
     PartnerProgramSummary,
-    onSubmit,
     page,
-    options,
     referralUrl,
-    isCheckoutFormVisible,
     onCheckoutButtonClick,
   };
 };

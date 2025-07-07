@@ -42,28 +42,29 @@ const useOrdersForRefound = () => {
     setCurrentOrdersData([]);
   };
 
-  const columns = useMemo<TColumn<TDataItem>[]>(
-    () => [
-      { column: t("id") as keyof TDataItem, valueKey: "user.id" },
-      {
-        column: t("orders_count") as keyof TDataItem,
-        renderComponent: (row) => <>{row.orders.length}</>,
-      },
-      { column: t("email") as keyof TDataItem, valueKey: "user.email" },
-      { column: t("name") as keyof TDataItem, valueKey: "user.name" },
-      {
-        column: "" as keyof TDataItem,
-        renderComponent: (row) => (
-          <Button
-            variant="contained"
-            text={t("confirm")}
-            onClick={() => {
-              setCurrentOrdersData(row.orders);
-            }}
-          />
-        ),
-      },
-    ],
+  const columns = useMemo(
+    () =>
+      [
+        { column: t("id"), valueKey: "user.id" },
+        {
+          column: t("orders_count"),
+          renderComponent: (row) => <>{row.orders.length}</>,
+        },
+        { column: t("email"), valueKey: "user.email" },
+        { column: t("name"), valueKey: "user.name" },
+        {
+          column: "",
+          renderComponent: (row) => (
+            <Button
+              variant="contained"
+              text={t("confirm")}
+              onClick={() => {
+                setCurrentOrdersData(row.orders);
+              }}
+            />
+          ),
+        },
+      ] as TColumn<TDataItem>[],
     []
   );
 

@@ -40,6 +40,11 @@ export const userItems = [
     icon: <GroupIcon />,
     link: "/partner-program",
   },
+  {
+    text: "orders_history",
+    icon: <GroupIcon />,
+    link: "/orders-history",
+  },
 ];
 
 export const superAdminItems = [
