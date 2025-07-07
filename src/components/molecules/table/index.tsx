@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { t } from "i18next";
 import { ReactNode } from "react";
+import { Path } from "react-hook-form";
 
 // @ts-expect-error no types for this lib
 import _ from "underscore-contrib";
@@ -21,6 +22,15 @@ export interface IColumn<T> {
   column?: keyof T | (() => ReactNode);
   label?: string;
   valueKey?: string;
+  filters?: (row?: T) => ReactNode;
+  currencyManual?: string;
+  currency?: string;
+  renderComponent?: (row: T) => ReactNode;
+}
+export interface TColumn<T> {
+  column?: keyof T | (() => ReactNode);
+  label?: string;
+  valueKey?: Path<T>;
   filters?: (row?: T) => ReactNode;
   currencyManual?: string;
   currency?: string;

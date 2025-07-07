@@ -115,5 +115,10 @@
   "submit": "Submit",
   "checkout_money": "Checkout money",
   "authorization_key_required": "Authorization key required!",
-  "invalid_authorization_key": "Invalid authorization key!"
+  "invalid_authorization_key": "Invalid authorization key!",
+  "orders_for_refound": "Orders for refound",
+  "orders_count": "Orders Count",
+  "payment_method_id": "Payment Method Id",
+  "wallet": "Wallet",
+  "status": "status"
 }
