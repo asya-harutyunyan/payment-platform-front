@@ -202,7 +202,6 @@ export const getDeletedOrdersThunk = createAsyncThunk(
           sort: data.sort,
         },
       });
-      console.log(response);
 
       return response.data;
     } catch (error: unknown) {

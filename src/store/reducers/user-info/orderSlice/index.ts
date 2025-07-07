@@ -51,7 +51,7 @@ const depositSlice = createSlice({
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getDeletedOrdersThunk.fulfilled, (state, action) => {
-        state.deletedOrders = action.payload.deleted_orders;
+        state.deletedOrders = action.payload.data;
         state.lastPage = action.payload.last_page;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })

@@ -9,7 +9,6 @@ import useDeletedOrders from "./_services/useDeletedOrders";
 export const DeletedOrdersComponent: FC = () => {
   const { deletedOrders, total, loading, page, onChangePage, columns } =
     useDeletedOrders();
-  console.log(deletedOrders, "deletedOrders");
 
   return (
     <Box sx={{ width: "100%" }}>
