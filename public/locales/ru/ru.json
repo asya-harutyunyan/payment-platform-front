@@ -340,5 +340,9 @@
   "submit": "Отправить",
   "checkout_money": "Вывести средства",
   "authorization_key_required": "Требуется ключ авторизации!",
-  "invalid_authorization_key": "Недействительный ключ авторизации!"
+  "invalid_authorization_key": "Недействительный ключ авторизации!",
+  "orders_for_refound": "Запросы на выплату",
+  "orders_count": "Количество заказов",
+  "payment_method_id": "ID способа оплаты",
+  "wallet": "Кошелек"
 }

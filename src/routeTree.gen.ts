@@ -33,6 +33,7 @@ import { Route as AuthAdminReportsProcessedAmountIndexImport } from './routes/_a
 import { Route as AuthAdminReportsNewUsersIndexImport } from './routes/_auth/_admin/reports-new-users/index'
 import { Route as AuthAdminReferredUsersIndexImport } from './routes/_auth/_admin/referred-users/index'
 import { Route as AuthAdminPlatipayIndexImport } from './routes/_auth/_admin/platipay/index'
+import { Route as AuthAdminOrdersForRefoundIndexImport } from './routes/_auth/_admin/orders-for-refound/index'
 import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
 import { Route as AuthAdminHistoryIndexImport } from './routes/_auth/_admin/history/index'
 import { Route as AuthAdminFreezedUserListIndexImport } from './routes/_auth/_admin/freezed-user-list/index'
@@ -274,6 +275,13 @@ const AuthAdminPlatipayIndexRoute = AuthAdminPlatipayIndexImport.update({
   path: '/platipay/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
+
+const AuthAdminOrdersForRefoundIndexRoute =
+  AuthAdminOrdersForRefoundIndexImport.update({
+    id: '/orders-for-refound/',
+    path: '/orders-for-refound/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 
 const AuthAdminOrderListIndexRoute = AuthAdminOrderListIndexImport.update({
   id: '/order-list/',
@@ -559,6 +567,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminOrderListIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/orders-for-refound/': {
+      id: '/_auth/_admin/orders-for-refound/'
+      path: '/orders-for-refound'
+      fullPath: '/orders-for-refound'
+      preLoaderRoute: typeof AuthAdminOrdersForRefoundIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/platipay/': {
       id: '/_auth/_admin/platipay/'
       path: '/platipay'
@@ -727,6 +742,7 @@ interface AuthAdminRouteChildren {
   AuthAdminFreezedUserListIndexRoute: typeof AuthAdminFreezedUserListIndexRoute
   AuthAdminHistoryIndexRoute: typeof AuthAdminHistoryIndexRoute
   AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
+  AuthAdminOrdersForRefoundIndexRoute: typeof AuthAdminOrdersForRefoundIndexRoute
   AuthAdminPlatipayIndexRoute: typeof AuthAdminPlatipayIndexRoute
   AuthAdminReferredUsersIndexRoute: typeof AuthAdminReferredUsersIndexRoute
   AuthAdminReportsNewUsersIndexRoute: typeof AuthAdminReportsNewUsersIndexRoute
@@ -755,6 +771,7 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminFreezedUserListIndexRoute: AuthAdminFreezedUserListIndexRoute,
   AuthAdminHistoryIndexRoute: AuthAdminHistoryIndexRoute,
   AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
+  AuthAdminOrdersForRefoundIndexRoute: AuthAdminOrdersForRefoundIndexRoute,
   AuthAdminPlatipayIndexRoute: AuthAdminPlatipayIndexRoute,
   AuthAdminReferredUsersIndexRoute: AuthAdminReferredUsersIndexRoute,
   AuthAdminReportsNewUsersIndexRoute: AuthAdminReportsNewUsersIndexRoute,
@@ -854,6 +871,7 @@ export interface FileRoutesByFullPath {
   '/freezed-user-list': typeof AuthAdminFreezedUserListIndexRoute
   '/history': typeof AuthAdminHistoryIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
+  '/orders-for-refound': typeof AuthAdminOrdersForRefoundIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
   '/referred-users': typeof AuthAdminReferredUsersIndexRoute
   '/reports-new-users': typeof AuthAdminReportsNewUsersIndexRoute
@@ -899,6 +917,7 @@ export interface FileRoutesByTo {
   '/freezed-user-list': typeof AuthAdminFreezedUserListIndexRoute
   '/history': typeof AuthAdminHistoryIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
+  '/orders-for-refound': typeof AuthAdminOrdersForRefoundIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
   '/referred-users': typeof AuthAdminReferredUsersIndexRoute
   '/reports-new-users': typeof AuthAdminReportsNewUsersIndexRoute
@@ -948,6 +967,7 @@ export interface FileRoutesById {
   '/_auth/_admin/freezed-user-list/': typeof AuthAdminFreezedUserListIndexRoute
   '/_auth/_admin/history/': typeof AuthAdminHistoryIndexRoute
   '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
+  '/_auth/_admin/orders-for-refound/': typeof AuthAdminOrdersForRefoundIndexRoute
   '/_auth/_admin/platipay/': typeof AuthAdminPlatipayIndexRoute
   '/_auth/_admin/referred-users/': typeof AuthAdminReferredUsersIndexRoute
   '/_auth/_admin/reports-new-users/': typeof AuthAdminReportsNewUsersIndexRoute
@@ -995,6 +1015,7 @@ export interface FileRouteTypes {
     | '/freezed-user-list'
     | '/history'
     | '/order-list'
+    | '/orders-for-refound'
     | '/platipay'
     | '/referred-users'
     | '/reports-new-users'
@@ -1039,6 +1060,7 @@ export interface FileRouteTypes {
     | '/freezed-user-list'
     | '/history'
     | '/order-list'
+    | '/orders-for-refound'
     | '/platipay'
     | '/referred-users'
     | '/reports-new-users'
@@ -1086,6 +1108,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/freezed-user-list/'
     | '/_auth/_admin/history/'
     | '/_auth/_admin/order-list/'
+    | '/_auth/_admin/orders-for-refound/'
     | '/_auth/_admin/platipay/'
     | '/_auth/_admin/referred-users/'
     | '/_auth/_admin/reports-new-users/'
@@ -1180,6 +1203,7 @@ export const routeTree = rootRoute
         "/_auth/_admin/freezed-user-list/",
         "/_auth/_admin/history/",
         "/_auth/_admin/order-list/",
+        "/_auth/_admin/orders-for-refound/",
         "/_auth/_admin/platipay/",
         "/_auth/_admin/referred-users/",
         "/_auth/_admin/reports-new-users/",
@@ -1279,6 +1303,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_admin/order-list/": {
       "filePath": "_auth/_admin/order-list/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/orders-for-refound/": {
+      "filePath": "_auth/_admin/orders-for-refound/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/platipay/": {
