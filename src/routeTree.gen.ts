@@ -36,7 +36,9 @@ import { Route as AuthAdminReferredUsersIndexImport } from './routes/_auth/_admi
 import { Route as AuthAdminPlatipayIndexImport } from './routes/_auth/_admin/platipay/index'
 import { Route as AuthAdminOrdersForRefoundIndexImport } from './routes/_auth/_admin/orders-for-refound/index'
 import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
+import { Route as AuthAdminManageModeratorsIndexImport } from './routes/_auth/_admin/manage-moderators/index'
 import { Route as AuthAdminHistoryIndexImport } from './routes/_auth/_admin/history/index'
+import { Route as AuthAdminHistoryDepositsIndexImport } from './routes/_auth/_admin/history-deposits/index'
 import { Route as AuthAdminFreezedUserListIndexImport } from './routes/_auth/_admin/freezed-user-list/index'
 import { Route as AuthAdminDepositListIndexImport } from './routes/_auth/_admin/deposit-list/index'
 import { Route as AuthAdminDeletedOrdersIndexImport } from './routes/_auth/_admin/deleted-orders/index'
@@ -298,11 +300,25 @@ const AuthAdminOrderListIndexRoute = AuthAdminOrderListIndexImport.update({
   getParentRoute: () => AuthAdminRoute,
 } as any)
 
+const AuthAdminManageModeratorsIndexRoute =
+  AuthAdminManageModeratorsIndexImport.update({
+    id: '/manage-moderators/',
+    path: '/manage-moderators/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
+
 const AuthAdminHistoryIndexRoute = AuthAdminHistoryIndexImport.update({
   id: '/history/',
   path: '/history/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
+
+const AuthAdminHistoryDepositsIndexRoute =
+  AuthAdminHistoryDepositsIndexImport.update({
+    id: '/history-deposits/',
+    path: '/history-deposits/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 
 const AuthAdminFreezedUserListIndexRoute =
   AuthAdminFreezedUserListIndexImport.update({
@@ -562,11 +578,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminFreezedUserListIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/history-deposits/': {
+      id: '/_auth/_admin/history-deposits/'
+      path: '/history-deposits'
+      fullPath: '/history-deposits'
+      preLoaderRoute: typeof AuthAdminHistoryDepositsIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/history/': {
       id: '/_auth/_admin/history/'
       path: '/history'
       fullPath: '/history'
       preLoaderRoute: typeof AuthAdminHistoryIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
+    '/_auth/_admin/manage-moderators/': {
+      id: '/_auth/_admin/manage-moderators/'
+      path: '/manage-moderators'
+      fullPath: '/manage-moderators'
+      preLoaderRoute: typeof AuthAdminManageModeratorsIndexImport
       parentRoute: typeof AuthAdminImport
     }
     '/_auth/_admin/order-list/': {
@@ -756,7 +786,9 @@ interface AuthAdminRouteChildren {
   AuthAdminDeletedOrdersIndexRoute: typeof AuthAdminDeletedOrdersIndexRoute
   AuthAdminDepositListIndexRoute: typeof AuthAdminDepositListIndexRoute
   AuthAdminFreezedUserListIndexRoute: typeof AuthAdminFreezedUserListIndexRoute
+  AuthAdminHistoryDepositsIndexRoute: typeof AuthAdminHistoryDepositsIndexRoute
   AuthAdminHistoryIndexRoute: typeof AuthAdminHistoryIndexRoute
+  AuthAdminManageModeratorsIndexRoute: typeof AuthAdminManageModeratorsIndexRoute
   AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
   AuthAdminOrdersForRefoundIndexRoute: typeof AuthAdminOrdersForRefoundIndexRoute
   AuthAdminPlatipayIndexRoute: typeof AuthAdminPlatipayIndexRoute
@@ -785,7 +817,9 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminDeletedOrdersIndexRoute: AuthAdminDeletedOrdersIndexRoute,
   AuthAdminDepositListIndexRoute: AuthAdminDepositListIndexRoute,
   AuthAdminFreezedUserListIndexRoute: AuthAdminFreezedUserListIndexRoute,
+  AuthAdminHistoryDepositsIndexRoute: AuthAdminHistoryDepositsIndexRoute,
   AuthAdminHistoryIndexRoute: AuthAdminHistoryIndexRoute,
+  AuthAdminManageModeratorsIndexRoute: AuthAdminManageModeratorsIndexRoute,
   AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
   AuthAdminOrdersForRefoundIndexRoute: AuthAdminOrdersForRefoundIndexRoute,
   AuthAdminPlatipayIndexRoute: AuthAdminPlatipayIndexRoute,
@@ -887,7 +921,9 @@ export interface FileRoutesByFullPath {
   '/deleted-orders': typeof AuthAdminDeletedOrdersIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
   '/freezed-user-list': typeof AuthAdminFreezedUserListIndexRoute
+  '/history-deposits': typeof AuthAdminHistoryDepositsIndexRoute
   '/history': typeof AuthAdminHistoryIndexRoute
+  '/manage-moderators': typeof AuthAdminManageModeratorsIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
   '/orders-for-refound': typeof AuthAdminOrdersForRefoundIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
@@ -934,7 +970,9 @@ export interface FileRoutesByTo {
   '/deleted-orders': typeof AuthAdminDeletedOrdersIndexRoute
   '/deposit-list': typeof AuthAdminDepositListIndexRoute
   '/freezed-user-list': typeof AuthAdminFreezedUserListIndexRoute
+  '/history-deposits': typeof AuthAdminHistoryDepositsIndexRoute
   '/history': typeof AuthAdminHistoryIndexRoute
+  '/manage-moderators': typeof AuthAdminManageModeratorsIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
   '/orders-for-refound': typeof AuthAdminOrdersForRefoundIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
@@ -985,7 +1023,9 @@ export interface FileRoutesById {
   '/_auth/_admin/deleted-orders/': typeof AuthAdminDeletedOrdersIndexRoute
   '/_auth/_admin/deposit-list/': typeof AuthAdminDepositListIndexRoute
   '/_auth/_admin/freezed-user-list/': typeof AuthAdminFreezedUserListIndexRoute
+  '/_auth/_admin/history-deposits/': typeof AuthAdminHistoryDepositsIndexRoute
   '/_auth/_admin/history/': typeof AuthAdminHistoryIndexRoute
+  '/_auth/_admin/manage-moderators/': typeof AuthAdminManageModeratorsIndexRoute
   '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
   '/_auth/_admin/orders-for-refound/': typeof AuthAdminOrdersForRefoundIndexRoute
   '/_auth/_admin/platipay/': typeof AuthAdminPlatipayIndexRoute
@@ -1034,7 +1074,9 @@ export interface FileRouteTypes {
     | '/deleted-orders'
     | '/deposit-list'
     | '/freezed-user-list'
+    | '/history-deposits'
     | '/history'
+    | '/manage-moderators'
     | '/order-list'
     | '/orders-for-refound'
     | '/platipay'
@@ -1080,7 +1122,9 @@ export interface FileRouteTypes {
     | '/deleted-orders'
     | '/deposit-list'
     | '/freezed-user-list'
+    | '/history-deposits'
     | '/history'
+    | '/manage-moderators'
     | '/order-list'
     | '/orders-for-refound'
     | '/platipay'
@@ -1129,7 +1173,9 @@ export interface FileRouteTypes {
     | '/_auth/_admin/deleted-orders/'
     | '/_auth/_admin/deposit-list/'
     | '/_auth/_admin/freezed-user-list/'
+    | '/_auth/_admin/history-deposits/'
     | '/_auth/_admin/history/'
+    | '/_auth/_admin/manage-moderators/'
     | '/_auth/_admin/order-list/'
     | '/_auth/_admin/orders-for-refound/'
     | '/_auth/_admin/platipay/'
@@ -1225,7 +1271,9 @@ export const routeTree = rootRoute
         "/_auth/_admin/deleted-orders/",
         "/_auth/_admin/deposit-list/",
         "/_auth/_admin/freezed-user-list/",
+        "/_auth/_admin/history-deposits/",
         "/_auth/_admin/history/",
+        "/_auth/_admin/manage-moderators/",
         "/_auth/_admin/order-list/",
         "/_auth/_admin/orders-for-refound/",
         "/_auth/_admin/platipay/",
@@ -1322,8 +1370,16 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin/freezed-user-list/index.tsx",
       "parent": "/_auth/_admin"
     },
+    "/_auth/_admin/history-deposits/": {
+      "filePath": "_auth/_admin/history-deposits/index.tsx",
+      "parent": "/_auth/_admin"
+    },
     "/_auth/_admin/history/": {
       "filePath": "_auth/_admin/history/index.tsx",
+      "parent": "/_auth/_admin"
+    },
+    "/_auth/_admin/manage-moderators/": {
+      "filePath": "_auth/_admin/manage-moderators/index.tsx",
       "parent": "/_auth/_admin"
     },
     "/_auth/_admin/order-list/": {

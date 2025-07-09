@@ -8,8 +8,10 @@ import {
 import {
   createDepositThunk,
   getDepositsAdminThunk,
+  getDepositsHistoryAdminThunk,
   getDepositsThunk,
   getSingleDepositThunk,
+  manageDepositLimitThunk,
   updateDeposit,
 } from "./thunks";
 import { Deposit, DepositState } from "./types";
@@ -34,10 +36,18 @@ const initialState: DepositState = {
     per_page: 0,
     total: 0,
   },
+  paginationDepositHistory: {
+    current_page: 0,
+    last_page: 0,
+    per_page: 0,
+    total: 0,
+  },
+  manageDepositLimitHistory: [],
   total: 0,
   price: 0,
   singleDeposit: [],
   lastPage: 0,
+  depositHistory: [],
 };
 
 const depositSlice = createSlice({
@@ -66,6 +76,23 @@ const depositSlice = createSlice({
       .addCase(updateDeposit.fulfilled, (state, action) => {
         state.deposit = action.payload;
       })
+      .addCase(getDepositsHistoryAdminThunk.fulfilled, (state, action) => {
+        state.depositHistory = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.paginationDepositHistory.total = action.payload.total;
+        state.paginationDepositHistory.last_page = Math.ceil(
+          action.payload.total / action.payload.per_page
+        );
+      })
+      .addCase(manageDepositLimitThunk.fulfilled, (state, action) => {
+        state.manageDepositLimitHistory = action.payload.data;
+        state.lastPage = action.payload.last_page;
+        state.paginationDepositHistory.total = action.payload.total;
+        state.paginationDepositHistory.last_page = Math.ceil(
+          action.payload.total / action.payload.per_page
+        );
+      })
+
       .addCase(getDepositsThunk.fulfilled, (state, action) => {
         state.deposits = action.payload.data;
         state.pagination.total = action.payload.pagination.total;
