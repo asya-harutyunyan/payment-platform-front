@@ -1,5 +1,6 @@
 import { User } from "@/common/types";
 import { DEPOSIT_TYPES } from "@/components/organisms/earn-money-steps/third-step/enums";
+import { deposit_limit_schema } from "@/schema/limit.schema";
 import { deposit_id_schema } from "@/schema/price.schema";
 import { wallet_usdt_details_schema } from "@/schema/wallet_details.schema";
 import { z } from "zod";
@@ -18,6 +19,8 @@ export interface DepositState {
   lastPage: number;
   total: number;
   price: number;
+  depositHistory: DepositLimits[];
+  manageDepositLimitHistory: ManageLimit[];
   notificationData?: {
     order: {
       order_id: number | string;
@@ -25,6 +28,12 @@ export interface DepositState {
       user_id: number | string;
       amount: number;
     };
+  };
+  paginationDepositHistory: {
+    current_page: number;
+    last_page: number;
+    per_page: number;
+    total: number;
   };
   paginationAdminPage: {
     current_page: number;
@@ -42,6 +51,7 @@ export interface DepositState {
 
 export type AmountType = z.infer<typeof deposit_id_schema>;
 export type WalletDetalisType = z.infer<typeof wallet_usdt_details_schema>;
+export type LimitType = z.infer<typeof deposit_limit_schema>;
 
 export type Deposit = {
   id: number;
@@ -64,6 +74,36 @@ export type Deposit = {
   deposit_currency?: string;
 };
 
+export interface DepositLimits {
+  id: number;
+  action: string;
+  role: "superAdmin" | "admin" | "manager" | string;
+  date: string;
+  created_at: string;
+  updated_at?: string | null;
+  by_email: string;
+  by_fullname: string;
+  by_name: string;
+  by_surname: string;
+  to_email: string;
+  to_fullname: string;
+  to_name: string;
+  to_surname: string;
+}
+export interface DepositLimitsrequest {
+  page: string | number;
+  per_page: string | number;
+  by_fullname: string;
+  by_email: string;
+  to_email: string;
+  to_fullname: string;
+  action: string;
+  role: string;
+  to: string;
+  from: string;
+  date: string;
+  sort: string;
+}
 export interface Wallet {
   id: number;
   key?: string;
@@ -213,4 +253,33 @@ export interface DepositRequest {
   amount?: string;
   to?: string;
   sort?: "ASC" | "DESC";
+  email?: string;
+  role?: string;
+}
+
+export interface ManageLimitRequest {
+  page?: number;
+  per_page?: number;
+  limit?: number | string;
+  role?: string;
+  user_id?: number;
+  email?: string;
+  name?: string;
+  surname?: string;
+  created_at?: string | null;
+  updated_at?: string | null;
+  sort?: "ASC" | "DESC";
+  user?: User;
+}
+export interface ManageLimit {
+  limit?: number | string;
+  role?: string;
+  email?: string;
+  name?: string;
+  surname?: string;
+  sort?: "ASC" | "DESC";
+}
+export interface UpdateLimit {
+  limit: string;
+  user_id: string;
 }

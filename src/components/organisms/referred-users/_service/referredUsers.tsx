@@ -60,22 +60,19 @@ const useReferredUsers = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
   };
-  const {
-    control: filterControl,
-    register: filterRegister,
-    watch: filterWatch,
-  } = useForm<FilterFormData>({
-    resolver: zodResolver(filter_schema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      period: "",
-      referral_code: "",
-      from: undefined,
-      to: undefined,
-    },
-  });
+  const { control: filterControl, watch: filterWatch } =
+    useForm<FilterFormData>({
+      resolver: zodResolver(filter_schema),
+      defaultValues: {
+        name: "",
+        surname: "",
+        email: "",
+        period: "",
+        referral_code: "",
+        from: undefined,
+        to: undefined,
+      },
+    });
 
   const {
     control: ControlUpdatePrice,
@@ -381,7 +378,6 @@ const useReferredUsers = () => {
           return (
             <FormTextInput
               control={filterControl}
-              {...filterRegister("name")}
               name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -396,7 +392,6 @@ const useReferredUsers = () => {
           return (
             <FormTextInput
               control={filterControl}
-              {...filterRegister("surname")}
               name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -412,7 +407,6 @@ const useReferredUsers = () => {
           return (
             <FormTextInput
               control={filterControl}
-              {...filterRegister("email")}
               width="200px"
               name="email"
               style={{ input: { padding: "10px 14px" } }}
