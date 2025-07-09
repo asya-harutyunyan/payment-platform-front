@@ -13,6 +13,8 @@ import {
   getFreezeUserThunk,
   getReferalsUserThunk,
   getReferedUsersListThunk,
+  getReferralOrdersThunk,
+  getReferralsOrdersThunk,
   getReferredUsersForAdminThunk,
   getSystemConfigThunk,
   getUsersThunk,
@@ -48,6 +50,8 @@ const initialState: UserState = {
   total_amount: "",
   systemConfigState: {},
   activeUsersState: {},
+  getReferralOrdersState: {},
+  getUserReferralsOrdersState: {},
 };
 
 const usersSlice = createSlice({
@@ -160,6 +164,20 @@ const usersSlice = createSlice({
       })
       .addCase(getActiveActiveUsersThunk.rejected, (state) => {
         state.activeUsersState.loading = false;
+      })
+      .addCase(getReferralOrdersThunk.pending, (state) => {
+        state.getReferralOrdersState.loading = true;
+      })
+      .addCase(getReferralOrdersThunk.fulfilled, (state, { payload }) => {
+        state.getReferralOrdersState.loading = false;
+        state.getReferralOrdersState.data = payload.data;
+      })
+      .addCase(getReferralsOrdersThunk.pending, (state) => {
+        state.getUserReferralsOrdersState.loading = true;
+      })
+      .addCase(getReferralsOrdersThunk.fulfilled, (state, { payload }) => {
+        state.getUserReferralsOrdersState.loading = false;
+        state.getUserReferralsOrdersState.data = payload;
       })
       .addMatcher(isFulfilled, (state) => {
         state.loading = false;

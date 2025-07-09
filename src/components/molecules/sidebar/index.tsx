@@ -94,7 +94,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         setSidebarItems(superAdminItems);
         break;
       case "admin":
-        setSidebarItems(filteredAdminItems);
+        setSidebarItems(adminItems);
+        // setSidebarItems(filteredAdminItems);
         break;
       default:
         setSidebarItems(userItems);

@@ -1,16 +1,11 @@
-import bg from "@/assets/images/modal.png";
 import Button from "@/components/atoms/button";
-import { BasicCard } from "@/components/atoms/card";
 import { CopyButton } from "@/components/atoms/copy-btn";
-import { FormTextInput } from "@/components/atoms/input";
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 
-import { SelectFieldWith } from "@/components/atoms/select";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 
-import { CheckoutForm } from "@/components/molecules";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -23,17 +18,13 @@ export const PartnerProgramComponent: FC = () => {
     referralUser,
     total,
     loading,
-    control,
     user,
     onChangePage,
     columns,
     generateReferalCode,
     PartnerProgramSummary,
-    onSubmit,
     page,
     referralUrl,
-    options,
-    isCheckoutFormVisible,
     onCheckoutButtonClick,
   } = usePartnerProgram();
 
@@ -95,69 +86,6 @@ export const PartnerProgramComponent: FC = () => {
             >
               {PartnerProgramSummary()}
             </Box>
-
-            {isCheckoutFormVisible && (
-              <BasicCard
-                sx={{
-                  width: "100%",
-                  marginTop: "20px",
-                  padding: "0",
-                  height: "350px",
-                }}
-                bg={bg}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                    width: "100%",
-                  }}
-                  component="form"
-                  onSubmit={onSubmit}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 4,
-                    }}
-                  >
-                    <FormTextInput
-                      control={control}
-                      name="request_amount"
-                      placeholder={t("gen_code")}
-                      numeric
-                      type="number"
-                      whiteVariant={true}
-                    />
-
-                    <SelectFieldWith
-                      name="currency_of_payment"
-                      control={control}
-                      options={options}
-                      whiteVariant
-                      nameKey="currency"
-                      placeholder={t("select_currency")}
-                    />
-                  </Box>
-
-                  <CheckoutForm control={control} />
-
-                  <Button
-                    variant={"gradient"}
-                    text={t("confirm")}
-                    type="submit"
-                    sx={{
-                      width: "100%",
-                      height: "50px",
-                      marginTop: "30px",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </Box>
-              </BasicCard>
-            )}
           </Box>
         }
       />

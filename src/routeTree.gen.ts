@@ -21,6 +21,7 @@ import { Route as AuthUserWalletIndexImport } from './routes/_auth/_user/wallet/
 import { Route as AuthUserStepsIndexImport } from './routes/_auth/_user/steps/index'
 import { Route as AuthUserPartnerProgramIndexImport } from './routes/_auth/_user/partner-program/index'
 import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/index'
+import { Route as AuthUserOrdersHistoryIndexImport } from './routes/_auth/_user/orders-history/index'
 import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
 import { Route as AuthAdminWelcomeIndexImport } from './routes/_auth/_admin/welcome/index'
@@ -33,6 +34,7 @@ import { Route as AuthAdminReportsProcessedAmountIndexImport } from './routes/_a
 import { Route as AuthAdminReportsNewUsersIndexImport } from './routes/_auth/_admin/reports-new-users/index'
 import { Route as AuthAdminReferredUsersIndexImport } from './routes/_auth/_admin/referred-users/index'
 import { Route as AuthAdminPlatipayIndexImport } from './routes/_auth/_admin/platipay/index'
+import { Route as AuthAdminOrdersForRefoundIndexImport } from './routes/_auth/_admin/orders-for-refound/index'
 import { Route as AuthAdminOrderListIndexImport } from './routes/_auth/_admin/order-list/index'
 import { Route as AuthAdminManageModeratorsIndexImport } from './routes/_auth/_admin/manage-moderators/index'
 import { Route as AuthAdminHistoryIndexImport } from './routes/_auth/_admin/history/index'
@@ -196,6 +198,14 @@ const AuthUserOrdersIndexRoute = AuthUserOrdersIndexImport.update({
   getParentRoute: () => AuthUserRoute,
 } as any)
 
+const AuthUserOrdersHistoryIndexRoute = AuthUserOrdersHistoryIndexImport.update(
+  {
+    id: '/orders-history/',
+    path: '/orders-history/',
+    getParentRoute: () => AuthUserRoute,
+  } as any,
+)
+
 const AuthUserMyInformationIndexRoute = AuthUserMyInformationIndexImport.update(
   {
     id: '/my-information/',
@@ -276,6 +286,13 @@ const AuthAdminPlatipayIndexRoute = AuthAdminPlatipayIndexImport.update({
   path: '/platipay/',
   getParentRoute: () => AuthAdminRoute,
 } as any)
+
+const AuthAdminOrdersForRefoundIndexRoute =
+  AuthAdminOrdersForRefoundIndexImport.update({
+    id: '/orders-for-refound/',
+    path: '/orders-for-refound/',
+    getParentRoute: () => AuthAdminRoute,
+  } as any)
 
 const AuthAdminOrderListIndexRoute = AuthAdminOrderListIndexImport.update({
   id: '/order-list/',
@@ -589,6 +606,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminOrderListIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_admin/orders-for-refound/': {
+      id: '/_auth/_admin/orders-for-refound/'
+      path: '/orders-for-refound'
+      fullPath: '/orders-for-refound'
+      preLoaderRoute: typeof AuthAdminOrdersForRefoundIndexImport
+      parentRoute: typeof AuthAdminImport
+    }
     '/_auth/_admin/platipay/': {
       id: '/_auth/_admin/platipay/'
       path: '/platipay'
@@ -671,6 +695,13 @@ declare module '@tanstack/react-router' {
       path: '/my-information'
       fullPath: '/my-information'
       preLoaderRoute: typeof AuthUserMyInformationIndexImport
+      parentRoute: typeof AuthUserImport
+    }
+    '/_auth/_user/orders-history/': {
+      id: '/_auth/_user/orders-history/'
+      path: '/orders-history'
+      fullPath: '/orders-history'
+      preLoaderRoute: typeof AuthUserOrdersHistoryIndexImport
       parentRoute: typeof AuthUserImport
     }
     '/_auth/_user/orders/': {
@@ -759,6 +790,7 @@ interface AuthAdminRouteChildren {
   AuthAdminHistoryIndexRoute: typeof AuthAdminHistoryIndexRoute
   AuthAdminManageModeratorsIndexRoute: typeof AuthAdminManageModeratorsIndexRoute
   AuthAdminOrderListIndexRoute: typeof AuthAdminOrderListIndexRoute
+  AuthAdminOrdersForRefoundIndexRoute: typeof AuthAdminOrdersForRefoundIndexRoute
   AuthAdminPlatipayIndexRoute: typeof AuthAdminPlatipayIndexRoute
   AuthAdminReferredUsersIndexRoute: typeof AuthAdminReferredUsersIndexRoute
   AuthAdminReportsNewUsersIndexRoute: typeof AuthAdminReportsNewUsersIndexRoute
@@ -789,6 +821,7 @@ const AuthAdminRouteChildren: AuthAdminRouteChildren = {
   AuthAdminHistoryIndexRoute: AuthAdminHistoryIndexRoute,
   AuthAdminManageModeratorsIndexRoute: AuthAdminManageModeratorsIndexRoute,
   AuthAdminOrderListIndexRoute: AuthAdminOrderListIndexRoute,
+  AuthAdminOrdersForRefoundIndexRoute: AuthAdminOrdersForRefoundIndexRoute,
   AuthAdminPlatipayIndexRoute: AuthAdminPlatipayIndexRoute,
   AuthAdminReferredUsersIndexRoute: AuthAdminReferredUsersIndexRoute,
   AuthAdminReportsNewUsersIndexRoute: AuthAdminReportsNewUsersIndexRoute,
@@ -811,6 +844,7 @@ interface AuthUserRouteChildren {
   AuthUserOrdersIdRoute: typeof AuthUserOrdersIdRoute
   AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
   AuthUserMyInformationIndexRoute: typeof AuthUserMyInformationIndexRoute
+  AuthUserOrdersHistoryIndexRoute: typeof AuthUserOrdersHistoryIndexRoute
   AuthUserOrdersIndexRoute: typeof AuthUserOrdersIndexRoute
   AuthUserPartnerProgramIndexRoute: typeof AuthUserPartnerProgramIndexRoute
   AuthUserStepsIndexRoute: typeof AuthUserStepsIndexRoute
@@ -822,6 +856,7 @@ const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserOrdersIdRoute: AuthUserOrdersIdRoute,
   AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
   AuthUserMyInformationIndexRoute: AuthUserMyInformationIndexRoute,
+  AuthUserOrdersHistoryIndexRoute: AuthUserOrdersHistoryIndexRoute,
   AuthUserOrdersIndexRoute: AuthUserOrdersIndexRoute,
   AuthUserPartnerProgramIndexRoute: AuthUserPartnerProgramIndexRoute,
   AuthUserStepsIndexRoute: AuthUserStepsIndexRoute,
@@ -890,6 +925,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof AuthAdminHistoryIndexRoute
   '/manage-moderators': typeof AuthAdminManageModeratorsIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
+  '/orders-for-refound': typeof AuthAdminOrdersForRefoundIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
   '/referred-users': typeof AuthAdminReferredUsersIndexRoute
   '/reports-new-users': typeof AuthAdminReportsNewUsersIndexRoute
@@ -902,6 +938,7 @@ export interface FileRoutesByFullPath {
   '/welcome': typeof AuthAdminWelcomeIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
+  '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
   '/partner-program': typeof AuthUserPartnerProgramIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
@@ -937,6 +974,7 @@ export interface FileRoutesByTo {
   '/history': typeof AuthAdminHistoryIndexRoute
   '/manage-moderators': typeof AuthAdminManageModeratorsIndexRoute
   '/order-list': typeof AuthAdminOrderListIndexRoute
+  '/orders-for-refound': typeof AuthAdminOrdersForRefoundIndexRoute
   '/platipay': typeof AuthAdminPlatipayIndexRoute
   '/referred-users': typeof AuthAdminReferredUsersIndexRoute
   '/reports-new-users': typeof AuthAdminReportsNewUsersIndexRoute
@@ -949,6 +987,7 @@ export interface FileRoutesByTo {
   '/welcome': typeof AuthAdminWelcomeIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
+  '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
   '/partner-program': typeof AuthUserPartnerProgramIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
@@ -988,6 +1027,7 @@ export interface FileRoutesById {
   '/_auth/_admin/history/': typeof AuthAdminHistoryIndexRoute
   '/_auth/_admin/manage-moderators/': typeof AuthAdminManageModeratorsIndexRoute
   '/_auth/_admin/order-list/': typeof AuthAdminOrderListIndexRoute
+  '/_auth/_admin/orders-for-refound/': typeof AuthAdminOrdersForRefoundIndexRoute
   '/_auth/_admin/platipay/': typeof AuthAdminPlatipayIndexRoute
   '/_auth/_admin/referred-users/': typeof AuthAdminReferredUsersIndexRoute
   '/_auth/_admin/reports-new-users/': typeof AuthAdminReportsNewUsersIndexRoute
@@ -1000,6 +1040,7 @@ export interface FileRoutesById {
   '/_auth/_admin/welcome/': typeof AuthAdminWelcomeIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
+  '/_auth/_user/orders-history/': typeof AuthUserOrdersHistoryIndexRoute
   '/_auth/_user/orders/': typeof AuthUserOrdersIndexRoute
   '/_auth/_user/partner-program/': typeof AuthUserPartnerProgramIndexRoute
   '/_auth/_user/steps/': typeof AuthUserStepsIndexRoute
@@ -1037,6 +1078,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/manage-moderators'
     | '/order-list'
+    | '/orders-for-refound'
     | '/platipay'
     | '/referred-users'
     | '/reports-new-users'
@@ -1049,6 +1091,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/deposit-info'
     | '/my-information'
+    | '/orders-history'
     | '/orders'
     | '/partner-program'
     | '/steps'
@@ -1083,6 +1126,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/manage-moderators'
     | '/order-list'
+    | '/orders-for-refound'
     | '/platipay'
     | '/referred-users'
     | '/reports-new-users'
@@ -1095,6 +1139,7 @@ export interface FileRouteTypes {
     | '/welcome'
     | '/deposit-info'
     | '/my-information'
+    | '/orders-history'
     | '/orders'
     | '/partner-program'
     | '/steps'
@@ -1132,6 +1177,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/history/'
     | '/_auth/_admin/manage-moderators/'
     | '/_auth/_admin/order-list/'
+    | '/_auth/_admin/orders-for-refound/'
     | '/_auth/_admin/platipay/'
     | '/_auth/_admin/referred-users/'
     | '/_auth/_admin/reports-new-users/'
@@ -1144,6 +1190,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/welcome/'
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/my-information/'
+    | '/_auth/_user/orders-history/'
     | '/_auth/_user/orders/'
     | '/_auth/_user/partner-program/'
     | '/_auth/_user/steps/'
@@ -1228,6 +1275,7 @@ export const routeTree = rootRoute
         "/_auth/_admin/history/",
         "/_auth/_admin/manage-moderators/",
         "/_auth/_admin/order-list/",
+        "/_auth/_admin/orders-for-refound/",
         "/_auth/_admin/platipay/",
         "/_auth/_admin/referred-users/",
         "/_auth/_admin/reports-new-users/",
@@ -1248,6 +1296,7 @@ export const routeTree = rootRoute
         "/_auth/_user/orders/$id",
         "/_auth/_user/deposit-info/",
         "/_auth/_user/my-information/",
+        "/_auth/_user/orders-history/",
         "/_auth/_user/orders/",
         "/_auth/_user/partner-program/",
         "/_auth/_user/steps/",
@@ -1337,6 +1386,10 @@ export const routeTree = rootRoute
       "filePath": "_auth/_admin/order-list/index.tsx",
       "parent": "/_auth/_admin"
     },
+    "/_auth/_admin/orders-for-refound/": {
+      "filePath": "_auth/_admin/orders-for-refound/index.tsx",
+      "parent": "/_auth/_admin"
+    },
     "/_auth/_admin/platipay/": {
       "filePath": "_auth/_admin/platipay/index.tsx",
       "parent": "/_auth/_admin"
@@ -1383,6 +1436,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_user/my-information/": {
       "filePath": "_auth/_user/my-information/index.tsx",
+      "parent": "/_auth/_user"
+    },
+    "/_auth/_user/orders-history/": {
+      "filePath": "_auth/_user/orders-history/index.tsx",
       "parent": "/_auth/_user"
     },
     "/_auth/_user/orders/": {

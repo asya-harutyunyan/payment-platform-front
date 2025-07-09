@@ -43,6 +43,11 @@ export const userItems = [
     icon: <GroupIcon />,
     link: "/partner-program",
   },
+  {
+    text: "orders_history",
+    icon: <GroupIcon />,
+    link: "/orders-history",
+  },
 ];
 
 export const superAdminItems = [
@@ -286,5 +291,10 @@ export const adminItems = [
     text: "system_settings",
     icon: <SettingsIcon />,
     link: "/system-settings",
+  },
+  {
+    text: "orders_for_refound",
+    icon: <ManageSearchIcon />,
+    link: "/orders-for-refound",
   },
 ];
