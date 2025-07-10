@@ -203,7 +203,7 @@ export const getDeletedOrdersThunk = createAsyncThunk(
         },
       });
 
-      return response.data;
+      return response.data.deleted_orders;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         return rejectWithValue(

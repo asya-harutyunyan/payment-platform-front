@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
+import { Paper } from "@/components/molecules/paper/paper";
 import TaskHeader from "@/components/molecules/title";
 import { updateRegistrationLimitSchema } from "@/schema/system_settings.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
@@ -21,6 +22,7 @@ import { t } from "i18next";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { fields } from "./columns";
 
 export type TRegistrationLimitFormValues = z.infer<
   typeof updateRegistrationLimitSchema
@@ -28,6 +30,7 @@ export type TRegistrationLimitFormValues = z.infer<
 
 export const SystemSettings: FC = () => {
   const dispatch = useAppDispatch();
+  const { singleOrder, loading } = useAppSelector((state) => state.order);
 
   const activeUsersCount = useAppSelector(
     (state) => state.users.activeUsersState.data?.count
@@ -115,7 +118,7 @@ export const SystemSettings: FC = () => {
   });
 
   return (
-    <Box sx={{ width: "100%", mx: "auto", mt: 4 }}>
+    <Box sx={{ width: "100%", mx: "auto" }}>
       <TaskHeader title={t("system_settings")} />
       <P sx={{ color: "black", mb: 4 }}>
         {t("active_users_count")}: {activeUsersCount ?? 0}
@@ -153,6 +156,14 @@ export const SystemSettings: FC = () => {
           sx={{ mt: 2, alignSelf: "end" }}
         />
       </Box>
+      {/* <Box sx={{ mt: 4 }}>
+        <Paper
+          data={singleOrder}
+          fields={fields}
+          title={"server_statuses"}
+          loading={loading}
+        />
+      </Box> */}
     </Box>
   );
 };
