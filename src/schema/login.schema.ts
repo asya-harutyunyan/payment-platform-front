@@ -5,4 +5,5 @@ export const login_schema = z.object({
   password: z.string().min(3),
   otp: z.string().optional(),
   recaptcha_token: z.string().optional(),
+  fingerprint: z.string(),
 });
