@@ -67,8 +67,6 @@ const useManageModerators = () => {
   });
 
   const onSubmitLimitUpdate: SubmitHandler<UpdateLimit> = async (data) => {
-    console.log(data);
-
     dispatch(updateLimitDepositsThunk(data))
       .unwrap()
       .then(() => {

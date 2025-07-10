@@ -28,7 +28,7 @@ export const ManageModeratorsComponent = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("referred_users")} />
+      <TaskHeader title={t("user_list_title")} />
       {loading ? (
         <CircularIndeterminate />
       ) : (
