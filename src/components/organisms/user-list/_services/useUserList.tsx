@@ -8,9 +8,13 @@ import { useUserContext } from "@/context/single.user.page/user.context";
 import { filter_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUsersThunk } from "@/store/reducers/allUsersSlice/thunks";
-import { blockUserThunk } from "@/store/reducers/authSlice/thunks";
+import {
+  blockUserThunk,
+  deleteUserAdminThunk,
+} from "@/store/reducers/authSlice/thunks";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
@@ -22,7 +26,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
-
 type FormData = z.infer<typeof filter_schema>;
 
 const useUserList = () => {
@@ -31,17 +34,22 @@ const useUserList = () => {
   const route = useLocation();
   const { goToUserPage } = useUserContext();
   const { user } = useAuth();
+  const [openDeleteModal, setOpenDeleteModal] = useState<boolean>(false);
 
   const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const [selectedTab, setSelectedTab] = useState(0);
   const [page, setPage] = useState(1);
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState<number>();
 
   const { users, blockedUsers, total, loading } = useAppSelector(
     (state) => state.users
   );
-
-  const { control, register, watch } = useForm<FormData>({
+  const handleDeleteModal = (id?: number) => {
+    setOpenDeleteModal(true);
+    setSelectedOrder(id);
+  };
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(filter_schema),
     defaultValues: {
       name: "",
@@ -109,18 +117,6 @@ const useUserList = () => {
     page: number
   ) => {
     setPage(page);
-    // dispatch(
-    //   getUsersThunk({
-    //     page,
-    //     per_page: 20,
-    //     name: debouncedName,
-    //     surname: debouncedSurname,
-    //     email: debouncedEmail,
-    //     from: debouncedFrom,
-    //     to: debouncedTo,
-    //     sort,
-    //   })
-    // );
   };
 
   const handleSingleUser = (row?: number) => {
@@ -145,6 +141,29 @@ const useUserList = () => {
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
       });
+  };
+  const deleteUser = () => {
+    if (selectedOrder) {
+      dispatch(deleteUserAdminThunk(selectedOrder))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar("Пользователь удален.", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          dispatch(getUsersThunk({ page, per_page: 20 }));
+          setSelectedOrder(undefined);
+          setOpenDeleteModal(false);
+        })
+        .catch(() => {
+          enqueueSnackbar(t("something_went_wrong"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+          setSelectedOrder(undefined);
+          setOpenDeleteModal(false);
+        });
+    }
   };
 
   const sortComponent = () => (
@@ -227,7 +246,6 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              {...register("name")}
               name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -253,7 +271,6 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              {...register("surname")}
               name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -267,36 +284,12 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              {...register("email")}
               width="200px"
               name="email"
               style={{ input: { padding: "10px 14px" } }}
             />
           ),
         },
-        // {
-        //   column: "role",
-        //   valueKey: "role",
-        //   // filters: () => {
-        //   //   return (
-        //   //     <Box>
-        //   //       <P
-        //   //         fontWeight={"bold"}
-        //   //         sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
-        //   //       >
-        //   //         {t("role")}
-        //   //       </P>
-        //   //       <SelectFieldWith
-        //   //         placeholder={""}
-        //   //         name="role"
-        //   //         control={control}
-        //   //         options={RoleOptions}
-        //   //         height="43px"
-        //   //       />
-        //   //     </Box>
-        //   //   );
-        //   // },
-        // },
         {
           renderComponent: (row: User) => (
             <Button
@@ -307,16 +300,34 @@ const useUserList = () => {
             />
           ),
         },
-
         user?.permissions.includes("users_block")
           ? {
               renderComponent: (row: User) => (
                 <Button
-                  variant={"error"}
+                  variant={"error_background"}
                   text={t("block")}
                   sx={{ width: "130px" }}
                   onClick={() => blockUser(row.id)}
                 />
+              ),
+            }
+          : null,
+        user?.permissions.includes("users_block")
+          ? {
+              renderComponent: (row: User) => (
+                <Box
+                  onClick={() => handleDeleteModal(row.id)}
+                  sx={{
+                    cursor: "pointer",
+                    color: "#b72d2d",
+                    transition: "transform 0.3s ease-in-out",
+                    "&:hover": {
+                      transform: "scale(1.35)",
+                    },
+                  }}
+                >
+                  <DeleteIcon />
+                </Box>
               ),
             }
           : null,
@@ -333,6 +344,8 @@ const useUserList = () => {
     setPage,
     onChangeUsersPage,
     handleSingleUser,
+    openDeleteModal,
+    setOpenDeleteModal,
     columnsUsers,
     blockUser,
     users,
@@ -341,6 +354,7 @@ const useUserList = () => {
     loading,
     selectedTab,
     setSelectedTab,
+    deleteUser,
   };
 };
 

@@ -313,3 +313,20 @@ export const deleteUserThunk = createAsyncThunk(
     }
   }
 );
+
+export const deleteUserAdminThunk = createAsyncThunk(
+  "auth/deleteUserAdminThunk",
+  async (id: string | number, { rejectWithValue }) => {
+    try {
+      const response = await httpClient.delete(`/users/full-delete/${id}`);
+      return response.data;
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
+        return rejectWithValue(
+          error.response?.data?.message || "Something went wrong"
+        );
+      }
+      return rejectWithValue("An unexpected error occurred");
+    }
+  }
+);
