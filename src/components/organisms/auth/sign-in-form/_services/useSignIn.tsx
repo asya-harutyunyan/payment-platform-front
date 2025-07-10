@@ -13,12 +13,11 @@ import {
   recaptchaErrorSchema,
   twoFASchema,
 } from "@/store/reducers/authSlice/types";
-import FingerprintJS from "@fingerprintjs/fingerprintjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormData = z.infer<typeof login_schema>;
@@ -48,29 +47,6 @@ const useSignIn = () => {
     resolver: zodResolver(login_schema),
     defaultValues: { email: "", password: "" },
   });
-
-  useEffect(() => {
-    const bootstrapFingerprint = async () => {
-      try {
-        const fp = await FingerprintJS.load();
-        const { visitorId } = await fp.get();
-
-        if (!fp || typeof fp !== "string") {
-          throw new Error("INVALID_FINGERPRINT");
-        }
-
-        setValue("fingerprint", visitorId);
-      } catch (error) {
-        enqueueSnackbar(t("something_went_wrong"), {
-          variant: "error",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-        console.log(error);
-      }
-    };
-
-    bootstrapFingerprint();
-  }, [setValue]);
 
   const handleAuthError = useCallback(
     (error: unknown) => {

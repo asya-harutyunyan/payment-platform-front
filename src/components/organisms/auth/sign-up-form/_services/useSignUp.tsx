@@ -6,7 +6,11 @@ import { recaptchaErrorSchema } from "@/store/reducers/authSlice/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { enqueueSnackbar } from "notistack";
+import { useEffect } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+
+import FingerprintJS from "@fingerprintjs/fingerprintjs";
+import { t } from "i18next";
 
 type FormData = z.infer<typeof auth_schema>;
 
@@ -34,6 +38,29 @@ const useSignUp = () => {
   const onRecaptchaVerify = (token: string) => {
     setValue("recaptcha_token", token);
   };
+
+  useEffect(() => {
+    const bootstrapFingerprint = async () => {
+      try {
+        const fp = await FingerprintJS.load();
+        const { visitorId } = await fp.get();
+
+        if (!visitorId || typeof visitorId !== "string") {
+          throw new Error("INVALID_FINGERPRINT");
+        }
+
+        setValue("fingerprint", visitorId);
+      } catch (error) {
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
+        console.log(error);
+      }
+    };
+
+    bootstrapFingerprint();
+  }, [setValue]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     dispatch(registerUser(data))

@@ -27,6 +27,7 @@ export const auth_schema = z
       message: "Необходимо согласие с условиями",
     }),
     recaptcha_token: z.string().optional(),
+    fingerprint: z.string().optional(),
   })
   .refine((data) => data.password === data.password_confirmation, {
     message: "Пароли не совпадают",
