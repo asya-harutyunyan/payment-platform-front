@@ -31,7 +31,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
     return new Date(
       dayjs()
         .add(
-          (dayjs.utc(deposit?.created_at).add(10, "minutes").unix() -
+          (dayjs.utc(deposit?.created_at).add(30, "minutes").unix() -
             dayjs().utc().unix()) *
             1000,
           "milliseconds"
