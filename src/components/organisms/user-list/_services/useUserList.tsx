@@ -300,18 +300,19 @@ const useUserList = () => {
             />
           ),
         },
-        user?.permissions.includes("users_block")
-          ? {
-              renderComponent: (row: User) => (
-                <Button
-                  variant={"error_background"}
-                  text={t("block")}
-                  sx={{ width: "130px" }}
-                  onClick={() => blockUser(row.id)}
-                />
-              ),
-            }
-          : null,
+        // user?.permissions.includes("users_block")
+        // ?
+        {
+          renderComponent: (row: User) => (
+            <Button
+              variant={"error_background"}
+              text={t("block")}
+              sx={{ width: "130px" }}
+              onClick={() => blockUser(row.id)}
+            />
+          ),
+        },
+        // : null,
         user?.permissions.includes("users_block")
           ? {
               renderComponent: (row: User) => (
