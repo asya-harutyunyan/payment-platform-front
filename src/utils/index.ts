@@ -18,7 +18,7 @@ export async function downloadFileWithURL(url: string, filename: string) {
 
 export async function downloadFileWithPath(path: string, filename: string) {
   downloadFileWithURL(
-    process.env.VITE_BASE_API_URL + path + filename,
+    import.meta.env.VITE_BASE_API_URL + path + filename,
     filename
   );
 }

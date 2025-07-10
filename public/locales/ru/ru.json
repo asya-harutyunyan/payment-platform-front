@@ -351,5 +351,6 @@
   "payment_method_id": "ID способа оплаты",
   "wallet": "Кошелек",
   "orders_history": "История запросов",
-  "server_statuses": "Статус сервера"
+  "server_statuses": "Статус сервера",
+  "delete": "Удалить"
 }
