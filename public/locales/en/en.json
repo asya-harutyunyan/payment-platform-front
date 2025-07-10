@@ -121,5 +121,6 @@
   "payment_method_id": "Payment Method Id",
   "wallet": "Wallet",
   "status": "status",
-  "orders_history": "Orders history"
+  "orders_history": "Orders history",
+  "delete": "Delete"
 }
