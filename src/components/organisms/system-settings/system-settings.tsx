@@ -1,7 +1,6 @@
 import Button from "@/components/atoms/button";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
-import { CircularIndeterminate } from "@/components/atoms/loader";
 import { Paper } from "@/components/molecules/paper/paper";
 import TaskHeader from "@/components/molecules/title";
 import { P } from "@/styles/typography";
@@ -61,18 +60,18 @@ export const SystemSettings: FC = () => {
         />
       </Box>
       <Box sx={{ mt: 4 }}>
-        {loading ? (
+        {/* {loading ? (
           <CircularIndeterminate />
-        ) : (
-          <Paper
-            data={ServerInfoObject}
-            fields={fields}
-            title={"server_statuses"}
-            loading={loading}
-            firstSectionWidth="0"
-            secondSectionWidth="100%"
-          />
-        )}
+        ) : ( */}
+        <Paper
+          data={ServerInfoObject}
+          fields={fields}
+          title={"server_statuses"}
+          loading={loading}
+          firstSectionWidth="0"
+          secondSectionWidth="100%"
+        />
+        {/* )} */}
       </Box>
       <Box sx={{ mt: 4 }}>
         <Paper
