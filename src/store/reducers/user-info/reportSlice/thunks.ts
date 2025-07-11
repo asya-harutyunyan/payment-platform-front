@@ -211,11 +211,10 @@ export const GetPlatformXThunk = createAsyncThunk(
 type TFileExportResponse = {
   filename: string;
   url: string;
-  folder_path: string;
 };
 
-export const DownloadReportThunk = createAsyncThunk(
-  "reports/DownloadReportThunk",
+export const downloadReportThunk = createAsyncThunk(
+  "reports/downloadReportThunk",
   async (data: TReportData, { rejectWithValue }) => {
     try {
       const response = await httpClient.post<TFileExportResponse>(
