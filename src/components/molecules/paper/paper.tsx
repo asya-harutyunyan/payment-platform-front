@@ -21,9 +21,18 @@ interface PaperProps<T> {
   }[];
   title?: string;
   loading?: boolean;
+  firstSectionWidth?: string;
+  secondSectionWidth?: string;
 }
 
-export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
+export const Paper = <T,>({
+  data,
+  fields,
+  title,
+  loading,
+  firstSectionWidth,
+  secondSectionWidth,
+}: PaperProps<T>) => {
   return (
     <Box
       sx={{
@@ -79,7 +88,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                 alignItems: "center",
               }}
             >
-              <Box sx={{ width: "50%" }}>
+              <Box sx={{ width: firstSectionWidth ?? "50%" }}>
                 <Typography sx={{ fontWeight: 500 }}>
                   {t(field?.column ?? "")}
                 </Typography>
@@ -89,7 +98,7 @@ export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
                     field.renderOptionalComponent(data)}
                 </Typography>
               </Box>
-              <Box sx={{ width: "50%" }}>
+              <Box sx={{ width: secondSectionWidth ?? "50%" }}>
                 <Typography
                   sx={{
                     color: "primary.main",
