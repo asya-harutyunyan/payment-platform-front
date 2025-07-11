@@ -5,7 +5,7 @@ import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
-  DownloadReportThunk,
+  downloadReportThunk,
   newRegisteredUsersThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
 import {
@@ -14,7 +14,7 @@ import {
   NewUsers,
 } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
-import { downloadFileWithPath } from "@/utils";
+import { downloadFileWithURL } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -54,20 +54,17 @@ const useReports = () => {
   } = useAppSelector((state) => state.reports);
 
   //report new reg users
-  const {
-    control: NewUserControl,
-    register: NewUserRegister,
-    watch: NewUserWatch,
-  } = useForm<NewUserFormData>({
-    resolver: zodResolver(new_users_schema),
-    defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
-      from: undefined,
-      to: undefined,
-    },
-  });
+  const { control: NewUserControl, watch: NewUserWatch } =
+    useForm<NewUserFormData>({
+      resolver: zodResolver(new_users_schema),
+      defaultValues: {
+        name: "",
+        surname: "",
+        email: "",
+        from: undefined,
+        to: undefined,
+      },
+    });
 
   const name = NewUserWatch("name");
   const surname = NewUserWatch("surname");
@@ -135,11 +132,11 @@ const useReports = () => {
   };
 
   const onDownloadClick = async (format: EReportFormats) => {
-    const { folder_path, filename } = await dispatch(
-      DownloadReportThunk({ key: EReportKeys.by_new_registrations, format })
+    const { filename, url } = await dispatch(
+      downloadReportThunk({ key: EReportKeys.by_new_registrations, format })
     ).unwrap();
 
-    downloadFileWithPath(folder_path, filename);
+    downloadFileWithURL(url, filename);
   };
 
   const columnsNewRegUsers = useMemo<IColumn<NewUsers>[]>(
@@ -213,7 +210,6 @@ const useReports = () => {
           return (
             <FormTextInput
               control={NewUserControl}
-              {...NewUserRegister("name")}
               name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -228,7 +224,6 @@ const useReports = () => {
           return (
             <FormTextInput
               control={NewUserControl}
-              {...NewUserRegister("surname")}
               name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -243,7 +238,6 @@ const useReports = () => {
           return (
             <FormTextInput
               control={NewUserControl}
-              {...NewUserRegister("email")}
               name="email"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}

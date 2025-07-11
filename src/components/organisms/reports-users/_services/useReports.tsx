@@ -5,7 +5,7 @@ import { useUserContext } from "@/context/single.user.page/user.context";
 import { new_users_schema } from "@/schema/users_filter";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
-  DownloadReportThunk,
+  downloadReportThunk,
   getReportUsersThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
 import {
@@ -14,7 +14,7 @@ import {
   ReportUsers,
 } from "@/store/reducers/user-info/reportSlice/types";
 import { P } from "@/styles/typography";
-import { downloadFileWithPath } from "@/utils";
+import { downloadFileWithURL } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -48,11 +48,7 @@ const useReports = () => {
   } = useAppSelector((state) => state.reports);
 
   //reporst users
-  const {
-    control: UserControl,
-    register: UserRegister,
-    watch: UserWatch,
-  } = useForm<NewUserFormData>({
+  const { control: UserControl, watch: UserWatch } = useForm<NewUserFormData>({
     resolver: zodResolver(new_users_schema),
     defaultValues: {
       name: "",
@@ -123,11 +119,11 @@ const useReports = () => {
   };
 
   const onDownloadClick = async (format: EReportFormats) => {
-    const { folder_path, filename } = await dispatch(
-      DownloadReportThunk({ key: EReportKeys.by_users, format })
+    const { url, filename } = await dispatch(
+      downloadReportThunk({ key: EReportKeys.by_users, format })
     ).unwrap();
 
-    downloadFileWithPath(folder_path, filename);
+    downloadFileWithURL(url, filename);
   };
 
   const columnsReportUsers = useMemo<IColumn<ReportUsers>[]>(
@@ -197,7 +193,6 @@ const useReports = () => {
           return (
             <FormTextInput
               control={UserControl}
-              {...UserRegister("name")}
               name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -212,7 +207,6 @@ const useReports = () => {
           return (
             <FormTextInput
               control={UserControl}
-              {...UserRegister("surname")}
               name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -227,7 +221,6 @@ const useReports = () => {
           return (
             <FormTextInput
               control={UserControl}
-              {...UserRegister("email")}
               name="email"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}

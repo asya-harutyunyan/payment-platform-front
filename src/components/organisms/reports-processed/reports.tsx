@@ -6,7 +6,7 @@ import { MonthPicker } from "@/components/atoms/month-picker";
 import { add_wallet_schema } from "@/schema/add_wallet.schema";
 import { useAppDispatch } from "@/store";
 import {
-  DownloadReportThunk,
+  downloadReportThunk,
   getProcessedAmountsThunk,
 } from "@/store/reducers/user-info/reportSlice/thunks";
 import {
@@ -14,7 +14,7 @@ import {
   EReportKeys,
 } from "@/store/reducers/user-info/reportSlice/types";
 import { H5, P } from "@/styles/typography";
-import { downloadFileWithPath } from "@/utils";
+import { downloadFileWithURL } from "@/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -68,11 +68,11 @@ export const ReportsProccesedAmount = () => {
   }, [debouncedTo, debouncedFrom]);
 
   const onDownloadClick = async (format: EReportFormats) => {
-    const { folder_path, filename } = await dispatch(
-      DownloadReportThunk({ key: EReportKeys.by_processed_amounts, format })
+    const { url, filename } = await dispatch(
+      downloadReportThunk({ key: EReportKeys.by_processed_amounts, format })
     ).unwrap();
 
-    downloadFileWithPath(folder_path, filename);
+    downloadFileWithURL(url, filename);
   };
 
   return (
