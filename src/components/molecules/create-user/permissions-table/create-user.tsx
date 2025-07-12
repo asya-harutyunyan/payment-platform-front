@@ -1,3 +1,4 @@
+import { EUserRoles } from "@/schema/create_user.schema";
 import { H4, P } from "@/styles/typography";
 import {
   Box,
@@ -9,7 +10,8 @@ import {
 } from "@mui/material";
 import { t } from "i18next";
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useCreateUser } from "../_services/useCreateUser";
+import { Control, useController } from "react-hook-form";
+import { FormData, useCreateUser } from "../_services/useCreateUser";
 const style = {
   color: "primary.main",
   width: "85%",
@@ -30,7 +32,8 @@ const styleHead = {
   justifyContent: "center",
   alignItems: "center",
 };
-interface IPermissions {
+interface IPermissions<T extends FormData> {
+  control: Control<T>;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValue: any;
   setCheckedPermissions: Dispatch<SetStateAction<string[]>>;
@@ -38,9 +41,10 @@ interface IPermissions {
 }
 const PermissionsTable = ({
   setValue,
+  control,
   setCheckedPermissions,
   checkedPermissions,
-}: IPermissions) => {
+}: IPermissions<FormData>) => {
   const {
     // setValue,
     // watch,
@@ -68,6 +72,10 @@ const PermissionsTable = ({
     deleteOrderPermissions,
     errors,
   } = useCreateUser({});
+
+  const {
+    field: { value },
+  } = useController({ control, name: "role" });
 
   useEffect(() => {
     setValue("permissions", checkedPermissions);
@@ -233,6 +241,10 @@ const PermissionsTable = ({
       ]);
     }
   };
+
+  if (value !== EUserRoles.CUSTOM) {
+    return null;
+  }
 
   return (
     <Box sx={{ width: "100%" }}>

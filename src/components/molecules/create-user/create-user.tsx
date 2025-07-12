@@ -1,5 +1,7 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
+import { SelectFieldWith } from "@/components/atoms/select";
+import { EUserRoles } from "@/schema/create_user.schema";
 import { H2, H4 } from "@/styles/typography";
 import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
@@ -13,7 +15,6 @@ export const CreateUser = () => {
   const {
     control,
     handleSubmit,
-    register,
     onSubmit,
     setValue,
     // watch,
@@ -56,7 +57,6 @@ export const CreateUser = () => {
         >
           <FormTextInput
             control={control}
-            {...register("name")}
             name="name"
             placeholder={t("name")}
           />
@@ -68,7 +68,6 @@ export const CreateUser = () => {
         >
           <FormTextInput
             control={control}
-            {...register("surname")}
             name="surname"
             placeholder={t("surname")}
           />
@@ -94,7 +93,6 @@ export const CreateUser = () => {
         >
           <FormTextInput
             control={control}
-            {...register("email")}
             name="email"
             placeholder={t("email")}
           />
@@ -106,10 +104,40 @@ export const CreateUser = () => {
         >
           <FormTextInput
             control={control}
-            {...register("password")}
             name="password"
             type="password"
             placeholder={t("password")}
+          />
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          justifyContent: {
+            lg: "space-between",
+            md: "space-between",
+            xs: "inherit",
+            sm: "inherit",
+          },
+        }}
+      >
+        <Box
+          sx={{
+            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
+          }}
+        >
+          <SelectFieldWith
+            name="role"
+            control={control}
+            options={[
+              { id: EUserRoles.CUSTOM, name: "CUSTOM" },
+              { id: EUserRoles.SUPPORT_INTERN, name: "SUPPORT_INTERN" },
+              { id: EUserRoles.SUPPORT_MANAGER, name: "SUPPORT_MANAGER" },
+              { id: EUserRoles.SUPPORT_OPERATOR, name: "SUPPORT_OPERATOR" },
+            ]}
+            placeholder={t("select_currency")}
           />
         </Box>
       </Box>
@@ -138,6 +166,7 @@ export const CreateUser = () => {
         <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <Box sx={{ width: "100%" }}>
             <PermissionsTable
+              control={control}
               setValue={setValue}
               checkedPermissions={checkedPermissions}
               setCheckedPermissions={setCheckedPermissions}

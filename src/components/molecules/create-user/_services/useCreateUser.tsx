@@ -1,4 +1,4 @@
-import { create_permissions } from "@/schema/create_user.schema";
+import { create_permissions, EUserRoles } from "@/schema/create_user.schema";
 import { useAppDispatch } from "@/store";
 import { createPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -8,7 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
-type FormData = z.infer<typeof create_permissions>;
+export type FormData = z.infer<typeof create_permissions>;
 interface ICreateUser {
   setCheckedPermissions?: Dispatch<SetStateAction<string[]>>;
 }
@@ -31,6 +31,7 @@ export const useCreateUser = ({ setCheckedPermissions }: ICreateUser) => {
       email: "",
       password: "",
       permissions: [],
+      role: EUserRoles.CUSTOM,
     },
   });
 

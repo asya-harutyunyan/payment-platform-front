@@ -1,6 +1,13 @@
 import { z } from "zod";
 import { password_regex } from "./password.regex";
 
+export enum EUserRoles {
+  SUPPORT_MANAGER = "SUPPORT_MANAGER",
+  SUPPORT_OPERATOR = "SUPPORT_OPERATOR",
+  SUPPORT_INTERN = "SUPPORT_INTERN",
+  CUSTOM = "CUSTOM",
+}
+
 export const create_permissions = z.object({
   name: z
     .string()
@@ -22,6 +29,7 @@ export const create_permissions = z.object({
       password_regex,
       "Пароль должен содержать как заглавные, так и строчные буквы, а также цифры"
     ),
+  role: z.nativeEnum(EUserRoles),
   permissions: z.array(z.string()),
   // .refine(
   //   (permissions) => {
