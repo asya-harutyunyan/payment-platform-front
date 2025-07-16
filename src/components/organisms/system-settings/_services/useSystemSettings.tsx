@@ -32,6 +32,7 @@ const useSystemSettings = () => {
   const { control, handleSubmit, reset } =
     useForm<TRegistrationLimitFormValues>({
       resolver: zodResolver(updateRegistrationLimitSchema),
+      defaultValues: { is_enabled: false },
     });
   const ServerInfoObject = useMemo<ZabbixMetrics[]>(() => {
     if (!serverInfo) return [];
@@ -45,7 +46,6 @@ const useSystemSettings = () => {
       cpu_usage: serverInfo.zabbix[key].cpu_usage,
     }));
   }, [serverInfo]);
-  console.log(ServerInfoObject);
 
   const fields = [
     {
