@@ -42,7 +42,18 @@ const initialState: OrderState = {
 const depositSlice = createSlice({
   name: "deposit",
   initialState,
-  reducers: {},
+  reducers: {
+    deleteOrder: (state, action) => {
+      state.orders = state.orders.filter(
+        (order) => order.id !== action.payload
+      );
+    },
+    deleteOrderUser: (state, action) => {
+      state.ordersUser = state.ordersUser.filter(
+        (order) => order.id !== action.payload
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
@@ -76,5 +87,7 @@ const depositSlice = createSlice({
       });
   },
 });
+
+export const { deleteOrder, deleteOrderUser } = depositSlice.actions;
 
 export default depositSlice.reducer;

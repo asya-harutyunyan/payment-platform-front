@@ -9,7 +9,7 @@ import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { H3 } from "@/styles/typography";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import useAdminOrder from "./_services/useUserOrder";
 
 export const OrderListComponent: FC = () => {
@@ -28,6 +28,26 @@ export const OrderListComponent: FC = () => {
     OrderSummary,
     user,
   } = useAdminOrder();
+
+  useEffect(() => {
+    const Echo = (window as any).Echo;
+    if (!Echo) {
+      console.error("❌ Echo not found on window");
+      return;
+    }
+
+    const channel = Echo.channel("orders");
+
+    const callback = (e: any) => {
+      console.log("🗑️ Order deleted event from socket:", e);
+    };
+
+    channel.listen(".OrderDeleted", callback);
+
+    return () => {
+      channel.stopListening(".OrderDeleted", callback);
+    };
+  }, []);
 
   return (
     <Box sx={{ width: "100%" }}>
