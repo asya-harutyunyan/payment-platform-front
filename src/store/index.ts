@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { webSocketMiddleware } from "./middleware/websocket.middleware";
 import usersSlice from "./reducers/allUsersSlice";
 import authSlice from "./reducers/authSlice";
 import globalInfoSlice from "./reducers/globalInfo/globalInfoSlice";
@@ -27,8 +28,8 @@ const rootReducer = combineReducers({
 export const store = configureStore({
   reducer: rootReducer,
   devTools: true,
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().prepend(webSocketMiddleware.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(webSocketMiddleware.middleware),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

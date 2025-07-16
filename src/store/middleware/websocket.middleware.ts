@@ -1,10 +1,6 @@
 import { socketConnection } from "@/common/socket";
 import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { RootState } from "..";
-import {
-  setNotificationData,
-  updateDepositAdminStatus,
-} from "../reducers/user-info/depositSlice";
+import { deleteOrder } from "../reducers/user-info/orderSlice";
 import { connect } from "../reducers/websocket";
 
 // let socket: Socket<ServerToClientListen, ClientToServerListen>;
@@ -30,18 +26,23 @@ webSocketMiddleware.startListening({
     if (action.type === "websocket/connect") {
       socketConnection.ws.connect();
       socketConnection.ws
-        .private(`App.User.${action.payload}`)
-        .notification((notification: unknown) => {
-          listenerApi.dispatch(setNotificationData(notification));
+        .channel("orders")
+        .listen(".OrderDeleted", (data: { id: number; message: string }) => {
+          listenerApi.dispatch(deleteOrder(data.id));
         });
-      socketConnection.ws
-        .channel(`Deposit.Confirmed.${action.payload}`)
-        .notification((notification: { id: number; status: string }) => {
-          const { deposit } = listenerApi.getState() as RootState;
-          if (deposit.deposit?.id === notification.id) {
-            listenerApi.dispatch(updateDepositAdminStatus(notification.status));
-          }
-        });
+      // socketConnection.ws
+      //   .private(`App.User.${action.payload}`)
+      //   .notification((notification: unknown) => {
+      //     listenerApi.dispatch(setNotificationData(notification));
+      //   });
+      // socketConnection.ws
+      //   .channel(`Deposit.Confirmed.${action.payload}`)
+      //   .notification((notification: { id: number; status: string }) => {
+      //     const { deposit } = listenerApi.getState() as RootState;
+      //     if (deposit.deposit?.id === notification.id) {
+      //       listenerApi.dispatch(updateDepositAdminStatus(notification.status));
+      //     }
+      //   });
     }
 
     // Can cancel other running instances

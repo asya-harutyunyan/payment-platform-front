@@ -1,14 +1,18 @@
+import { useAuth } from "@/context/auth.context";
+import { useAppDispatch } from "@/store";
+import { connect } from "@/store/reducers/websocket";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { useEffect } from "react";
 
 const AdminLayout = () => {
-  // const { user } = useAuth();
-  // const dispatch = useAppDispatch();
+  const { user } = useAuth();
+  const dispatch = useAppDispatch();
 
-  // useEffect(() => {
-  //   if (user) {
-  //     dispatch(connect(user.id));
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (user) {
+      dispatch(connect());
+    }
+  }, []);
 
   return (
     <>
