@@ -1,5 +1,9 @@
 import { Checkbox, CheckboxProps, FormControlLabel } from "@mui/material";
-import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
+import {
+  FieldValues,
+  useController,
+  UseControllerProps,
+} from "react-hook-form";
 
 interface FormData {
   checkbox: boolean;
@@ -16,37 +20,36 @@ export const CustomCheckbox = <T extends FieldValues = FormData>({
   name,
   label,
   ...props
-}: CustomCheckboxProps<T>) => (
-  <Controller
-    name={name}
-    control={control}
-    render={({ field }) => (
-      <FormControlLabel
-        control={
-          <Checkbox
-            {...field}
-            {...props}
-            checked={field.value}
-            onChange={(e) => field.onChange(e.target.checked)}
-            sx={{
-              color: "primary.main",
-              "&.Mui-checked": {
-                color: "primary.main",
-              },
-            }}
-          />
-        }
-        label={label}
-        sx={{
-          "& .MuiFormControlLabel-label": {
+}: CustomCheckboxProps<T>) => {
+  const {
+    field: { value, onChange },
+  } = useController({ control, name });
+
+  return (
+    <FormControlLabel
+      control={
+        <Checkbox
+          {...props}
+          checked={value}
+          onChange={(e) => onChange(e.target.checked)}
+          sx={{
             color: "primary.main",
-            fontWeight: "300",
-            fontFamily: "Poppins, sans-serif",
-            fontSize: "14px",
-          },
-          padding: "10px 0 10px 10px",
-        }}
-      />
-    )}
-  />
-);
+            "&.Mui-checked": {
+              color: "primary.main",
+            },
+          }}
+        />
+      }
+      label={label}
+      sx={{
+        "& .MuiFormControlLabel-label": {
+          color: "primary.main",
+          fontWeight: "300",
+          fontFamily: "Poppins, sans-serif",
+          fontSize: "14px",
+        },
+        padding: "10px 0 10px 10px",
+      }}
+    />
+  );
+};
