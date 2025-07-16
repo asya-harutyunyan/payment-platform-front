@@ -29,26 +29,6 @@ export const OrderListComponent: FC = () => {
     user,
   } = useAdminOrder();
 
-  useEffect(() => {
-    const Echo = (window as any).Echo;
-    if (!Echo) {
-      console.error("❌ Echo not found on window");
-      return;
-    }
-
-    const channel = Echo.channel("orders");
-
-    const callback = (e: any) => {
-      console.log("🗑️ Order deleted event from socket:", e);
-    };
-
-    channel.listen(".OrderDeleted", callback);
-
-    return () => {
-      channel.stopListening(".OrderDeleted", callback);
-    };
-  }, []);
-
   return (
     <Box sx={{ width: "100%" }}>
       {user?.permissions.includes("orders_view.summary") && (
