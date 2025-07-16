@@ -224,7 +224,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           transform: isCollapsed ? "scaleX(0.99)" : "scaleX(1)",
           transformOrigin: "left center",
           transition: "transform 0.3s ease",
-          height: "88vh",
+          // height: "88vh",
           flexGrow: 1,
           padding: {
             ld: "50px",

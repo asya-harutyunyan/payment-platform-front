@@ -3,122 +3,25 @@ import { CustomCheckbox } from "@/components/atoms/checkbox";
 import { FormTextInput } from "@/components/atoms/input";
 import { Paper } from "@/components/molecules/paper/paper";
 import TaskHeader from "@/components/molecules/title";
-import { updateRegistrationLimitSchema } from "@/schema/system_settings.schema";
-import { useAppDispatch, useAppSelector } from "@/store";
-import {
-  createSystemConfigThunk,
-  getActiveActiveUsersThunk,
-  getSystemConfigThunk,
-  updateSystemConfigThunk,
-} from "@/store/reducers/allUsersSlice/thunks";
-import {
-  EConfigNames,
-  TGetSystemConfigThunkError,
-} from "@/store/reducers/allUsersSlice/types";
 import { P } from "@/styles/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { FC, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { fields } from "./columns";
-
-export type TRegistrationLimitFormValues = z.infer<
-  typeof updateRegistrationLimitSchema
->;
+import { FC } from "react";
+import useSystemSettings from "./_services/useSystemSettings";
 
 export const SystemSettings: FC = () => {
-  const dispatch = useAppDispatch();
-  const { singleOrder, loading } = useAppSelector((state) => state.order);
-
-  const activeUsersCount = useAppSelector(
-    (state) => state.users.activeUsersState.data?.count
-  );
-
-  const { control, handleSubmit, reset } =
-    useForm<TRegistrationLimitFormValues>({
-      resolver: zodResolver(updateRegistrationLimitSchema),
-    });
-
-  useEffect(() => {
-    const initSystemConfig = async () => {
-      try {
-        const data = await dispatch(
-          getSystemConfigThunk({ name: EConfigNames.registration_limit })
-        ).unwrap();
-
-        reset({
-          name: data.name,
-          is_enabled: data.is_enabled,
-          registration_limit: data.config?.registration_limit.toString(),
-          registration_time_minutes:
-            data.config?.registration_time_minutes.toString(),
-        });
-      } catch (error) {
-        const typedError = error as TGetSystemConfigThunkError;
-
-        if (typeof typedError === "object" && typedError.status === 404) {
-          const data = await dispatch(
-            createSystemConfigThunk({
-              name: EConfigNames.registration_limit,
-              is_enabled: false,
-              config: {
-                name: EConfigNames.registration_limit,
-                registration_limit: 100,
-                registration_time_minutes: 1,
-              },
-            })
-          ).unwrap();
-
-          reset({
-            is_enabled: data.is_enabled,
-            name: data.name,
-            registration_limit: data.config_data.registration_limit.toString(),
-            registration_time_minutes:
-              data.config_data.registration_time_minutes.toString(),
-          });
-        }
-      }
-    };
-
-    initSystemConfig();
-  }, [dispatch, reset]);
-
-  useEffect(() => {
-    const intervalId = setInterval(async () => {
-      try {
-        await dispatch(getActiveActiveUsersThunk()).unwrap();
-      } catch (error) {
-        console.log(error);
-      }
-    }, 60000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [dispatch]);
-
-  const onSubmit = handleSubmit(async (data) => {
-    try {
-      await dispatch(
-        updateSystemConfigThunk({
-          config: {
-            name: EConfigNames.registration_limit,
-            registration_limit: Number(data.registration_limit),
-            registration_time_minutes: Number(data.registration_time_minutes),
-          },
-          is_enabled: data.is_enabled,
-          name: EConfigNames.registration_limit,
-        })
-      ).unwrap();
-    } catch (error) {
-      console.log(error);
-    }
-  });
+  const {
+    loading,
+    fields,
+    activeUsersCount,
+    ServerInfoObject,
+    fieldsSecondSide,
+    control,
+    onSubmit,
+  } = useSystemSettings();
 
   return (
-    <Box sx={{ width: "100%", mx: "auto" }}>
+    <Box sx={{ width: "100%" }}>
       <TaskHeader title={t("system_settings")} />
       <P sx={{ color: "black", mb: 4 }}>
         {t("active_users_count")}: {activeUsersCount ?? 0}
@@ -156,14 +59,30 @@ export const SystemSettings: FC = () => {
           sx={{ mt: 2, alignSelf: "end" }}
         />
       </Box>
-      {/* <Box sx={{ mt: 4 }}>
+      <Box sx={{ mt: 4 }}>
+        {/* {loading ? (
+          <CircularIndeterminate />
+        ) : ( */}
         <Paper
-          data={singleOrder}
+          data={ServerInfoObject}
           fields={fields}
           title={"server_statuses"}
           loading={loading}
+          firstSectionWidth="0"
+          secondSectionWidth="100%"
         />
-      </Box> */}
+        {/* )} */}
+      </Box>
+      <Box sx={{ mt: 4 }}>
+        <Paper
+          data={ServerInfoObject}
+          fields={fieldsSecondSide}
+          title={"server_statuses"}
+          loading={loading}
+          firstSectionWidth="0"
+          secondSectionWidth="100%"
+        />
+      </Box>
     </Box>
   );
 };
