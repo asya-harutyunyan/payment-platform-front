@@ -2,44 +2,55 @@ import { z } from "zod";
 import { password_regex } from "./password.regex";
 
 export enum EUserRoles {
-  SUPPORT_MANAGER = "SUPPORT_MANAGER",
-  SUPPORT_OPERATOR = "SUPPORT_OPERATOR",
-  SUPPORT_INTERN = "SUPPORT_INTERN",
+  SUPPORT_LEAD = "support_lead",
+  SUPPORT_OPERATOR = "support_operator",
+  SUPPORT_TRAINEE = "support_trainee",
+  TECHNICAL_SPECIALIST = "technical_specialist",
   CUSTOM = "CUSTOM",
 }
 
-export const create_permissions = z.object({
-  name: z
-    .string()
-    .min(3, "Имя должно содержать минимум 3 символа")
-    .max(15, "Имя не должно превышать 15 символов"),
-  surname: z
-    .string()
-    .min(3, "Фамилия должна содержать минимум 3 символа")
-    .max(15, "Фамилия не должна превышать 15 символов"),
-  email: z
-    .string()
-    .email()
-    .min(3, "Email должна содержать минимум 3 символа")
-    .max(50, "Email не должен превышать 50 символов"),
-  password: z
-    .string()
-    .min(6, "Пароль должен содержать минимум 6 символов")
-    .regex(
-      password_regex,
-      "Пароль должен содержать как заглавные, так и строчные буквы, а также цифры"
-    ),
-  role: z.nativeEnum(EUserRoles),
-  permissions: z.array(z.string()),
-  // .refine(
-  //   (permissions) => {
-  //     return permissions.some((permission) =>
-  //       permission.match(new RegExp("view", "i"))
-  //     );
-  //   },
-  //   {
-  //     message:
-  //       "Должен быть указан хотя бы один разрешенный доступ из просмотров",
-  //   }
-  // ),
-});
+export const create_permissions = z
+  .object({
+    name: z
+      .string()
+      .min(3, "Имя должно содержать минимум 3 символа")
+      .max(15, "Имя не должно превышать 15 символов"),
+    surname: z
+      .string()
+      .min(3, "Фамилия должна содержать минимум 3 символа")
+      .max(15, "Фамилия не должна превышать 15 символов"),
+    email: z
+      .string()
+      .email()
+      .min(3, "Email должна содержать минимум 3 символа")
+      .max(50, "Email не должен превышать 50 символов"),
+    password: z
+      .string()
+      .min(6, "Пароль должен содержать минимум 6 символов")
+      .regex(
+        password_regex,
+        "Пароль должен содержать как заглавные, так и строчные буквы, а также цифры"
+      ),
+    // .refine(
+    //   (permissions) => {
+    //     return permissions.some((permission) =>
+    //       permission.match(new RegExp("view", "i"))
+    //     );
+    //   },
+    //   {
+    //     message:
+    //       "Должен быть указан хотя бы один разрешенный доступ из просмотров",
+    //   }
+    // ),
+  })
+  .and(
+    z.union([
+      z.object({
+        role: z.literal(EUserRoles.CUSTOM),
+        permissions: z.array(z.string()),
+      }),
+      z.object({
+        role: z.nativeEnum(EUserRoles),
+      }),
+    ])
+  );

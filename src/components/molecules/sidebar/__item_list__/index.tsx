@@ -296,10 +296,12 @@ export const adminItems = [
     text: "system_settings",
     icon: <SettingsIcon />,
     link: "/system-settings",
+    permission: "system_conf_active_users.view",
   },
   {
     text: "orders_for_refound",
     icon: <ManageSearchIcon />,
     link: "/orders-for-refound",
+    permission: "admin.referral_orders_all.view",
   },
 ];

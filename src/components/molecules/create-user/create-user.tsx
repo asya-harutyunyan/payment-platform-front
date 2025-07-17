@@ -8,6 +8,17 @@ import { t } from "i18next";
 import { useCreateUser } from "./_services/useCreateUser";
 import PermissionsTable from "./permissions-table/create-user";
 
+const DROPDOWN_OPTIONS = [
+  { id: EUserRoles.CUSTOM, name: "CUSTOM" },
+  { id: EUserRoles.SUPPORT_LEAD, name: "support_lead" },
+  { id: EUserRoles.SUPPORT_OPERATOR, name: "support_operator" },
+  { id: EUserRoles.SUPPORT_TRAINEE, name: "support_trainee" },
+  {
+    id: EUserRoles.TECHNICAL_SPECIALIST,
+    name: "technical_specialist",
+  },
+];
+
 export const CreateUser = () => {
   const { control, handleSubmit, onSubmit, errors } = useCreateUser();
 
@@ -100,12 +111,7 @@ export const CreateUser = () => {
           <SelectFieldWith
             name="role"
             control={control}
-            options={[
-              { id: EUserRoles.CUSTOM, name: "CUSTOM" },
-              { id: EUserRoles.SUPPORT_INTERN, name: "SUPPORT_INTERN" },
-              { id: EUserRoles.SUPPORT_MANAGER, name: "SUPPORT_MANAGER" },
-              { id: EUserRoles.SUPPORT_OPERATOR, name: "SUPPORT_OPERATOR" },
-            ]}
+            options={DROPDOWN_OPTIONS}
             placeholder={t("select_currency")}
           />
         </Box>
@@ -115,7 +121,7 @@ export const CreateUser = () => {
         <H4 align="center" color="primary.main" sx={{ marginBottom: "20px" }}>
           {t("checkbox_title")}
         </H4>
-        {errors.permissions && (
+        {"permissions" in errors && errors.permissions && (
           <Box
             sx={{
               color: "error.main",

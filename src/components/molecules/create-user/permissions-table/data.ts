@@ -54,8 +54,8 @@ export const PERMISSIONS_DATA: Root = [
       ],
       [
         {
-          prefix: "orders_summary",
-          name: "orders_view.summary",
+          prefix: "deleted_orders",
+          name: "orders_deleted.view",
           checking: "view",
         },
       ],
@@ -90,11 +90,29 @@ export const PERMISSIONS_DATA: Root = [
   {
     title: "Детали банка",
     rows: [
+      [{ prefix: "banks", name: "banks_viewAll", checking: "view" }],
       [
-        { prefix: "banks", name: "banks_viewAll", checking: "view" },
-        { prefix: "banks", name: "users_card.unblock", checking: "edit" }, //edit
+        {
+          prefix: "blocked_cards",
+          name: "users_blockedCards.view",
+          checking: "view",
+        },
+        { prefix: "blocked_cards", name: "users_card.block", checking: "edit" },
       ],
-      [{ prefix: "banks", name: "users_card.block", checking: "edit" }],
+      [
+        {
+          prefix: "blocked_cards",
+          name: "users_card.unblock",
+          checking: "edit",
+        },
+      ],
+      [
+        {
+          prefix: "blocked_cards",
+          name: "banks_change_reassign.update",
+          checking: "edit",
+        },
+      ],
     ],
   },
   {
@@ -138,15 +156,40 @@ export const PERMISSIONS_DATA: Root = [
     ],
   },
   {
-    title: "Блокированные карты",
+    title: "Реферальная программа",
     rows: [
       [
         {
-          prefix: "blocked_cards",
-          name: "users_blockedCards.view",
+          prefix: "ref_order",
+          name: "admin.referral_orders_all.view",
           checking: "view",
         },
+        {
+          prefix: "ref_order",
+          name: "admin.referral_order_approve.approve",
+          checking: "edit",
+        },
       ],
+    ],
+  },
+  {
+    title: "Системные настройки",
+    rows: [
+      [
+        {
+          prefix: "system_conf",
+          name: "system_conf_active_users.view",
+          checking: "view",
+        },
+        { prefix: "system_conf", name: "system_conf.update", checking: "edit" },
+
+        // {
+        //   prefix: "system_conf",
+        //   name: "system_conf.delete",
+        //   checking: "delete",
+        // },
+      ],
+      // [{ prefix: "system_conf", name: "system_conf.create", checking: "edit" }],
     ],
   },
 ];
@@ -161,14 +204,12 @@ export const FORMATTED_PERMISSIONS_DATA = PERMISSIONS_DATA.map((section) => ({
         tempRow[0] = column;
         return;
       }
-
-      if (column.checking === "delete") {
-        tempRow[2] = column;
-        return;
-      }
-
       if (column.checking === "edit") {
         tempRow[1] = column;
+        return;
+      }
+      if (column.checking === "delete") {
+        tempRow[2] = column;
         return;
       }
     });
@@ -249,3 +290,21 @@ export const PERMISSION_NAME_GROUPED_BY_PREFIX = ALL_PERMISSIONS.reduce(
   },
   {} as Record<string, string[]>
 );
+
+// "banks_create", // don't used
+// "banks_delete", // don't used
+// "banks_grouped_changed_cards.view", // don't used
+// "banks_update", // don't used
+
+// // Superadmin
+// "superAdmin_action_log_deposits.view",
+// "superAdmin_action_log.view",
+// "superAdmin_deposits_limits.update",
+// "superAdmin_deposits_limits.view",
+// "superAdmin_freezed_expired_orders.delete",
+// "superAdmin_freezed_expired_orders.view",
+// "superAdmin_freezed.view",
+// "superAdmin_grant_permissions.create",
+
+// "users_update", // don't used
+// "users_view.bankDetails", // don't used
