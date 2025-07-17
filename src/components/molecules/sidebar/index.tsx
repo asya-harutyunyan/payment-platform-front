@@ -99,8 +99,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       case EUserRole.SupportOperator:
       case EUserRole.SupportTrainee:
       case EUserRole.TechnicalSpecialist:
-        setSidebarItems(adminItems);
-        // setSidebarItems(filteredAdminItems);
+        setSidebarItems(filteredAdminItems);
         break;
       default:
         setSidebarItems(userItems);
