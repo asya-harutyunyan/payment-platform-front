@@ -40,6 +40,13 @@ const useSignUp = () => {
   };
 
   useEffect(() => {
+    setValue(
+      "validation_token",
+      `validated_${Math.random().toString(36).slice(2)}`
+    );
+  }, [setValue]);
+
+  useEffect(() => {
     const bootstrapFingerprint = async () => {
       try {
         const fp = await FingerprintJS.load();

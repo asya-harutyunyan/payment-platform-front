@@ -1,6 +1,7 @@
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
+import { HiddenInput } from "@/components/atoms/hidden-input/hidden-input";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import theme from "@/styles/theme";
@@ -39,6 +40,7 @@ const SignUpForm: FC = () => {
           },
         }}
       >
+        {/* <input type="hidden" name="validation_token" id="validation_token" /> */}
         <Box
           sx={{
             width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
@@ -78,6 +80,8 @@ const SignUpForm: FC = () => {
           >
             {t("create_account")}
           </P>
+
+          <HiddenInput control={control} name="validation_token" />
 
           <FormTextInput
             control={control}
