@@ -120,7 +120,15 @@ const useReports = () => {
 
   const onDownloadClick = async (format: EReportFormats) => {
     const { url, filename } = await dispatch(
-      downloadReportThunk({ key: EReportKeys.by_users, format })
+      downloadReportThunk({
+        key: EReportKeys.by_users,
+        format,
+        from: debouncedFrom,
+        to: debouncedTo,
+        email: emailUser,
+        name: nameUser,
+        surname: surnameUser,
+      })
     ).unwrap();
 
     downloadFileWithURL(url, filename);
