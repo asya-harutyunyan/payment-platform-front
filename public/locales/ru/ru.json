@@ -309,7 +309,7 @@
   "banks_delete": "Удаление банка",
   "banks_viewAll": "Просмотр всех банков",
   "admin.referrals_update": "Обновление рефералов",
-  "admin.referrals_stats": "Просмотс статистики рефералов",
+  "admin.referrals_stats": "Просмотр статистики рефералов",
   "platiPay_view": "Просмотр PlatiPay",
   "name_user": "Имя пользователя",
   "platformX_view": "Просмотр PlatformX",
@@ -369,5 +369,17 @@
   "wallet": "Кошелек",
   "orders_history": "История запросов",
   "server_statuses": "Статус сервера",
-  "delete": "Удалить"
+  "delete": "Удалить",
+  "admin.referral_orders_all.view": "Просмотр реферальных заказов",
+  "admin.referral_order_approve.approve": "Подтверждение реферальных заказов",
+  "banks_change_reassign.update": "Редактирование банковских карт",
+  "orders_deleted.view": "Просмотр удаленных заказов",
+  "system_conf_active_users.view": "Видеть системные настройки",
+  "system_conf.create": "Создать системные настройки",
+  "system_conf.update": "Обновление системных настроек",
+  "system_conf.delete": "Удаление системных настроек",
+  "support_lead": "Руководитель поддержки",
+  "support_operator": "Оператор поддержки",
+  "support_trainee": "Стажер поддержки",
+  "technical_specialist": "Технический специалист"
 }

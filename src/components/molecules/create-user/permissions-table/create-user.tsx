@@ -1,3 +1,4 @@
+import { EUserRoles } from "@/schema/create_user.schema";
 import { H4, P } from "@/styles/typography";
 import {
   Box,
@@ -8,8 +9,17 @@ import {
   Typography,
 } from "@mui/material";
 import { t } from "i18next";
-import { Dispatch, SetStateAction, useEffect } from "react";
-import { useCreateUser } from "../_services/useCreateUser";
+import { Control, useController } from "react-hook-form";
+import { FormData } from "../_services/useCreateUser";
+import {
+  actionPermissions,
+  deletePermissions,
+  FORMATTED_PERMISSIONS_DATA,
+  PERMISSION_NAME_GROUPED_BY_PREFIX,
+  TPermissionItem,
+  viewPermissions,
+} from "./data";
+
 const style = {
   color: "primary.main",
   width: "85%",
@@ -30,81 +40,27 @@ const styleHead = {
   justifyContent: "center",
   alignItems: "center",
 };
-interface IPermissions {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setValue: any;
-  setCheckedPermissions: Dispatch<SetStateAction<string[]>>;
-  checkedPermissions: string[];
+const styleTitle = {
+  padding: "5px 0 5px 20px",
+  fontWeight: "bold",
+};
+
+interface IPermissions<T extends FormData> {
+  control: Control<T>;
 }
-const PermissionsTable = ({
-  setValue,
-  setCheckedPermissions,
-  checkedPermissions,
-}: IPermissions) => {
+
+const PermissionsTable = ({ control }: IPermissions<FormData>) => {
   const {
-    // setValue,
-    // watch,
-    viewReportPermissions,
-    viewPermissionsUser,
-    viewBlockedPermissionsUser,
-    bankDetailsPermissions,
-    viewBlockedCards,
-    viewDeposit,
-    viewOrderPermissions,
-    viewOrderSummaryPermissions,
-    viewWalletPermissions,
-    viewRefUsers,
-    viewPlatforms,
-    //edit
-    editWalletPermission,
-    editUserPermission,
-    editBlockedUserPermission,
-    editBankPermission,
-    editReferralPercentPermission,
-    editOrderUpdatePermissions,
-    editDepositPermissions,
-    //delete
-    deleteWalletPermissions,
-    deleteOrderPermissions,
-    errors,
-  } = useCreateUser({});
+    field: { value },
+  } = useController({ control, name: "role" });
 
-  useEffect(() => {
-    setValue("permissions", checkedPermissions);
-  }, [checkedPermissions, setValue]);
+  const {
+    field: { value: checkedPermissions, onChange: onPermissionsChange },
+    fieldState: { error },
+  } = useController({ control, name: "permissions" });
 
-  const actionPermissions = [
-    ...editWalletPermission,
-    ...editUserPermission,
-    ...editBlockedUserPermission,
-    ...editBankPermission,
-    ...editReferralPercentPermission,
-    ...editOrderUpdatePermissions,
-    ...editDepositPermissions,
-  ];
-  const deletePermissions = [
-    ...deleteWalletPermissions,
-    ...deleteOrderPermissions,
-  ];
-  const viewPermissions = [
-    ...viewPlatforms,
-    ...viewRefUsers,
-    ...viewWalletPermissions,
-    ...viewOrderPermissions,
-    ...viewOrderSummaryPermissions,
-    ...viewDeposit,
-    ...viewBlockedCards,
-    ...bankDetailsPermissions,
-    ...viewPermissionsUser,
-    ...viewBlockedPermissionsUser,
-    ...viewReportPermissions,
-  ];
-  const isActionDisabled = (permission: {
-    name: string;
-    prefix: string;
-    checking: string;
-  }) => {
-    if (permission.checking.endsWith("_view")) return false;
+  const isActionDisabled = (permission: TPermissionItem) => {
+    if (permission.checking === "view") return false;
 
     const viewPerm = viewPermissions.find(
       (v) => v.prefix === permission.prefix
@@ -114,72 +70,47 @@ const PermissionsTable = ({
   };
 
   const handleCheckboxChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    permissionName: string
+    isChecked: boolean,
+    permission: TPermissionItem
   ) => {
-    const isChecked = event.target.checked;
+    if (isChecked) {
+      onPermissionsChange([
+        ...new Set([...checkedPermissions, permission.name]),
+      ]);
 
-    setCheckedPermissions((prev) => {
-      let updated = isChecked
-        ? [...prev, permissionName]
-        : prev.filter((perm) => perm !== permissionName);
+      return;
+    }
 
-      const allPermissions = [...viewPermissions, ...actionPermissions];
-      const currentPermission = allPermissions.find(
-        (p) => p.name === permissionName
+    if (permission.checking !== "view") {
+      const filteredNewCheckedPermissions = checkedPermissions.filter(
+        (name) => permission.name !== name
       );
+      onPermissionsChange([...new Set(filteredNewCheckedPermissions)]);
+      return;
+    }
 
-      if (!currentPermission) return updated;
+    const filteredNewCheckedPermissions = checkedPermissions.filter(
+      (permissionName) =>
+        !PERMISSION_NAME_GROUPED_BY_PREFIX[permission.prefix].includes(
+          permissionName
+        )
+    );
 
-      const { prefix } = currentPermission;
-
-      const viewPerm = viewPermissions.find((v) => v.prefix === prefix)?.name;
-      const actionPerms = actionPermissions
-        .filter((a) => a.prefix === prefix)
-        .map((a) => a.name);
-
-      if (isChecked && actionPerms.includes(permissionName)) {
-        if (viewPerm && !updated.includes(viewPerm)) {
-          updated.push(viewPerm);
-        }
-      }
-
-      if (!isChecked && viewPerm === permissionName) {
-        updated = updated.filter((perm) => {
-          const p = actionPermissions.find((a) => a.name === perm);
-          return !(p && p.prefix === prefix);
-        });
-      }
-
-      return [...new Set(updated)];
-    });
+    onPermissionsChange([...new Set(filteredNewCheckedPermissions)]);
   };
 
-  const styleTitle = {
-    padding: "5px 0 5px 20px",
-    fontWeight: "bold",
-  };
   const handleCheckAllView = () => {
     const viewPermissionNames = viewPermissions.map((perm) => perm.name);
-    const editPermissionNames = actionPermissions.map((perm) => perm.name);
-    const deletePermissionNames = deletePermissions.map((perm) => perm.name);
 
     const areAllChecked = viewPermissionNames.every((name) =>
       checkedPermissions.includes(name)
     );
 
     if (areAllChecked) {
-      setCheckedPermissions((prev) =>
-        prev.filter(
-          (name) =>
-            !viewPermissionNames.includes(name) &&
-            !editPermissionNames.includes(name) &&
-            !deletePermissionNames.includes(name)
-        )
-      );
+      onPermissionsChange([]);
     } else {
-      setCheckedPermissions((prev) => [
-        ...new Set([...prev, ...viewPermissionNames]),
+      onPermissionsChange([
+        ...new Set([...checkedPermissions, ...viewPermissionNames]),
       ]);
     }
   };
@@ -199,12 +130,12 @@ const PermissionsTable = ({
     );
 
     if (areAllChecked) {
-      setCheckedPermissions((prev) =>
-        prev.filter((name) => !editPermissionNames.includes(name))
+      onPermissionsChange(
+        checkedPermissions.filter((name) => !editPermissionNames.includes(name))
       );
     } else {
-      setCheckedPermissions((prev) => [
-        ...new Set([...prev, ...editPermissionNames]),
+      onPermissionsChange([
+        ...new Set([...checkedPermissions, ...editPermissionNames]),
       ]);
     }
   };
@@ -224,19 +155,25 @@ const PermissionsTable = ({
     );
 
     if (areAllChecked) {
-      setCheckedPermissions((prev) =>
-        prev.filter((name) => !deletePermissionNames.includes(name))
+      onPermissionsChange(
+        checkedPermissions.filter(
+          (name) => !deletePermissionNames.includes(name)
+        )
       );
     } else {
-      setCheckedPermissions((prev) => [
-        ...new Set([...prev, ...deletePermissionNames]),
+      onPermissionsChange([
+        ...new Set([...checkedPermissions, ...deletePermissionNames]),
       ]);
     }
   };
 
+  if (value !== EUserRoles.CUSTOM) {
+    return null;
+  }
+
   return (
     <Box sx={{ width: "100%" }}>
-      {errors.permissions && (
+      {error && (
         <Box
           sx={{
             color: "error.main",
@@ -246,7 +183,7 @@ const PermissionsTable = ({
             width: "100%",
           }}
         >
-          <FormHelperText error>{errors.permissions.message}</FormHelperText>
+          <FormHelperText error>{error.message}</FormHelperText>
         </Box>
       )}
 
@@ -287,10 +224,11 @@ const PermissionsTable = ({
             }}
             color="primary.main"
           >
-            Удалениe
+            Удаление
           </H4>
         </Box>
       </Paper>
+
       <Paper
         sx={{
           display: "flex",
@@ -305,51 +243,43 @@ const PermissionsTable = ({
           }}
         >
           <Box sx={styleTitle}>
-            {" "}
             <P
               color="primary.main"
               onClick={handleCheckAllView}
               sx={{
                 cursor: "pointer",
-                ":hover": {
-                  textDecoration: "underline",
-                },
+                ":hover": { textDecoration: "underline" },
               }}
             >
               {t("permissions_title_view")}
             </P>
           </Box>
           <Box sx={styleTitle}>
-            {" "}
             <P
               color="primary.main"
               onClick={handleCheckAllEdit}
               sx={{
                 cursor: "pointer",
-                ":hover": {
-                  textDecoration: "underline",
-                },
+                ":hover": { textDecoration: "underline" },
               }}
             >
               {t("permissions_title_edit")}
             </P>
           </Box>
           <Box sx={styleTitle}>
-            {" "}
             <P
               color="primary.main"
               onClick={handleCheckAllDelete}
               sx={{
                 cursor: "pointer",
-                ":hover": {
-                  textDecoration: "underline",
-                },
+                ":hover": { textDecoration: "underline" },
               }}
             >
               {t("permissions_title_delete")}
             </P>
           </Box>
         </Box>
+
         <Box
           sx={{
             display: "flex",
@@ -357,847 +287,87 @@ const PermissionsTable = ({
             flexDirection: "column",
           }}
         >
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Кошелек</P>
+          {FORMATTED_PERMISSIONS_DATA.map((section) => (
             <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
+              key={section.title}
+              sx={{ width: "100%", display: "flex", flexDirection: "column" }}
             >
-              <Box sx={{ width: "32%" }}>
-                {viewWalletPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {editWalletPermission.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {deleteWalletPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Пользователи</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewPermissionsUser.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {editUserPermission.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Блокирoванные Пользователи</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewBlockedPermissionsUser.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {editBlockedUserPermission.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Заказ</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewOrderPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {" "}
-                {editOrderUpdatePermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {deleteOrderPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewOrderSummaryPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
+              <P sx={styleTitle}>{section.title}</P>
 
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Депозит</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewDeposit.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                {section.rows.map((row, rowIndex) => (
+                  <Box
+                    key={`${section.title}_${rowIndex}`}
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {row.map((column, columnIndex) => {
+                      if (!column) {
+                        return (
+                          <Box
+                            sx={{ width: "32%" }}
+                            key={`${section.title}_${rowIndex}_${columnIndex}`}
+                          />
+                        );
                       }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {editDepositPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
 
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {" "}
-            <P sx={styleTitle}>Просмотр статистики рефералов</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewRefUsers.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
+                      return (
+                        <Box
+                          sx={{ width: "32%" }}
+                          key={`${section.title}_${rowIndex}_${column.checking}`}
                         >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
+                          <Box
+                            key={`${section.title}_${rowIndex}_${columnIndex}`}
+                            sx={style}
+                          >
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={checkedPermissions.includes(
+                                    column.name
+                                  )}
+                                  sx={{ color: "#1976d2" }}
+                                  onChange={(event) =>
+                                    handleCheckboxChange(
+                                      event.target.checked,
+                                      column
+                                    )
+                                  }
+                                  disabled={isActionDisabled(column)}
+                                />
+                              }
+                              label={
+                                <Typography
+                                  sx={{
+                                    fontSize: {
+                                      lg: "0.9rem",
+                                      md: "0.9rem",
+                                      xs: "0.6rem",
+                                      sm: "0.6rem",
+                                    },
+                                  }}
+                                >
+                                  {t(column.name)}
+                                </Typography>
+                              }
+                            />
+                          </Box>
+                        </Box>
+                      );
+                    })}
                   </Box>
                 ))}
               </Box>
-              <Box sx={{ width: "32%" }}>
-                {editReferralPercentPermission.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
             </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            {" "}
-            <P sx={styleTitle}>Детали банка</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {bankDetailsPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}>
-                {editBankPermission.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Отчет</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewReportPermissions.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Платформы</P>
-            <Box sx={{ width: "100%", display: "flex" }}>
-              <Box sx={{ width: "32%" }}>
-                {viewPlatforms.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <P sx={styleTitle}>Блокированные карты</P>
-            <Box
-              sx={{
-                width: "100%",
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box sx={{ width: "32%" }}>
-                {viewBlockedCards.map((item, index) => (
-                  <Box key={index} sx={style}>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          checked={checkedPermissions.includes(item.name)}
-                          sx={{ color: "#1976d2" }}
-                          onChange={(event) =>
-                            handleCheckboxChange(event, item.name)
-                          }
-                          disabled={isActionDisabled(item)}
-                        />
-                      }
-                      label={
-                        <Typography
-                          sx={{
-                            fontSize: {
-                              lg: "0.9rem",
-                              md: "0.9rem",
-                              xs: "0.6rem",
-                              sm: "0.6rem",
-                            },
-                          }}
-                        >
-                          {t(item.name)}
-                        </Typography>
-                      }
-                    />
-                  </Box>
-                ))}
-              </Box>
-              <Box sx={{ width: "32%" }}></Box>
-              <Box sx={{ width: "32%" }}></Box>
-            </Box>
-          </Box>
+          ))}
         </Box>
       </Paper>
     </Box>
   );
 };
+
 export default PermissionsTable;
