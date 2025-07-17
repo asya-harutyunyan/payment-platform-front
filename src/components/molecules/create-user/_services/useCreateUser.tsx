@@ -1,4 +1,5 @@
-import { create_permissions, EUserRoles } from "@/schema/create_user.schema";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
+import { create_permissions } from "@/schema/create_user.schema";
 import { useAppDispatch } from "@/store";
 import { createPermissionsThunk } from "@/store/reducers/permissions/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -25,7 +26,7 @@ export const useCreateUser = () => {
       email: "",
       password: "",
       permissions: [],
-      role: EUserRoles.CUSTOM,
+      role: EUserRole.Admin,
     },
   });
 

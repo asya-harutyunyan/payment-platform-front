@@ -381,5 +381,6 @@
   "support_lead": "Руководитель поддержки",
   "support_operator": "Оператор поддержки",
   "support_trainee": "Стажер поддержки",
-  "technical_specialist": "Технический специалист"
+  "technical_specialist": "Технический специалист",
+  "custom_role": "Другая роль"
 }

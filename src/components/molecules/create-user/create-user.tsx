@@ -1,7 +1,7 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { SelectFieldWith } from "@/components/atoms/select";
-import { EUserRoles } from "@/schema/create_user.schema";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { H2, H4 } from "@/styles/typography";
 import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
@@ -9,14 +9,11 @@ import { useCreateUser } from "./_services/useCreateUser";
 import PermissionsTable from "./permissions-table/create-user";
 
 const DROPDOWN_OPTIONS = [
-  { id: EUserRoles.CUSTOM, name: "CUSTOM" },
-  { id: EUserRoles.SUPPORT_LEAD, name: "support_lead" },
-  { id: EUserRoles.SUPPORT_OPERATOR, name: "support_operator" },
-  { id: EUserRoles.SUPPORT_TRAINEE, name: "support_trainee" },
-  {
-    id: EUserRoles.TECHNICAL_SPECIALIST,
-    name: "technical_specialist",
-  },
+  { id: EUserRole.Admin, name: "custom_role" },
+  { id: EUserRole.SupportLead, name: "support_lead" },
+  { id: EUserRole.SupportOperator, name: "support_operator" },
+  { id: EUserRole.SupportTrainee, name: "support_trainee" },
+  { id: EUserRole.TechnicalSpecialist, name: "technical_specialist" },
 ];
 
 export const CreateUser = () => {
@@ -113,6 +110,7 @@ export const CreateUser = () => {
             control={control}
             options={DROPDOWN_OPTIONS}
             placeholder={t("select_currency")}
+            valueKey="id"
           />
         </Box>
       </Box>

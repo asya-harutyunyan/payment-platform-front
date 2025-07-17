@@ -1,4 +1,4 @@
-import { EUserRoles } from "@/schema/create_user.schema";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { H4, P } from "@/styles/typography";
 import {
   Box,
@@ -167,7 +167,7 @@ const PermissionsTable = ({ control }: IPermissions<FormData>) => {
     }
   };
 
-  if (value !== EUserRoles.CUSTOM) {
+  if (value !== EUserRole.Admin) {
     return null;
   }
 
