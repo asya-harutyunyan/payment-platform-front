@@ -1,3 +1,4 @@
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { H3, P } from "@/styles/typography";
@@ -64,14 +65,19 @@ export const ResponsiveAppBar = () => {
 
   const onBtnClick = useCallback(() => {
     let to = "/auth/sign-in";
+
     switch (user?.role) {
-      case "client":
+      case EUserRole.Client:
         to = "/my-information";
         break;
-      case "admin":
+      case EUserRole.Admin:
+      case EUserRole.SupportLead:
+      case EUserRole.SupportOperator:
+      case EUserRole.SupportTrainee:
+      case EUserRole.TechnicalSpecialist:
         to = "/welcome";
         break;
-      case "superAdmin":
+      case EUserRole.SuperAdmin:
         to = "/deposit-list";
         break;
       default:

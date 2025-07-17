@@ -1,3 +1,4 @@
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import {
   DataDeposits,
   Order,
@@ -9,7 +10,7 @@ export interface User {
   surname: string;
   email: string;
   email_verified_at?: string;
-  role: "admin" | "client" | "superAdmin";
+  role: EUserRole;
   referral: {
     referral_code: string;
   };

@@ -5,6 +5,7 @@ import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/authSlice/thunks";
@@ -90,10 +91,14 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
 
   useEffect(() => {
     switch (user?.role) {
-      case "superAdmin":
+      case EUserRole.SuperAdmin:
         setSidebarItems(superAdminItems);
         break;
-      case "admin":
+      case EUserRole.Admin:
+      case EUserRole.SupportLead:
+      case EUserRole.SupportOperator:
+      case EUserRole.SupportTrainee:
+      case EUserRole.TechnicalSpecialist:
         setSidebarItems(adminItems);
         // setSidebarItems(filteredAdminItems);
         break;

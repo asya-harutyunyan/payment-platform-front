@@ -14,6 +14,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { useCallback } from "react";
 import Features from "../../atoms/landing-page/why-choose-payhub";
+import { EUserRole } from "../auth/sign-in-form/_services/useSignIn";
 
 export const LandingPage = () => {
   const navigate = useNavigate();
@@ -22,11 +23,16 @@ export const LandingPage = () => {
 
   const onBtnClick = useCallback(() => {
     let to = "/auth/sign-up";
+
     switch (user?.role) {
-      case "client":
+      case EUserRole.Client:
         to = "/my-information";
         break;
-      case "admin":
+      case EUserRole.Admin:
+      case EUserRole.SupportLead:
+      case EUserRole.SupportOperator:
+      case EUserRole.SupportTrainee:
+      case EUserRole.TechnicalSpecialist:
         to = "/deposit-list";
         break;
       default:

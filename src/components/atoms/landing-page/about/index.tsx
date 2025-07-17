@@ -1,6 +1,7 @@
 import imgArrow from "@/assets/images/arrow.png";
 import img from "@/assets/images/Isolation.png";
 import imgUsers from "@/assets/images/users.png";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { useAuth } from "@/context/auth.context";
 import { H1, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
@@ -16,10 +17,14 @@ export const AboutSection = () => {
   const onBtnClick = useCallback(() => {
     let to = "/auth/sign-up";
     switch (user?.role) {
-      case "client":
+      case EUserRole.Client:
         to = "/my-information";
         break;
-      case "admin":
+      case EUserRole.Admin:
+      case EUserRole.SupportLead:
+      case EUserRole.SupportOperator:
+      case EUserRole.SupportTrainee:
+      case EUserRole.TechnicalSpecialist:
         to = "/deposit-list";
         break;
       default:
