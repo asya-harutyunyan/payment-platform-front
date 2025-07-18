@@ -388,5 +388,6 @@
   "support_operator": "Оператор поддержки",
   "support_trainee": "Стажер поддержки",
   "technical_specialist": "Технический специалист",
-  "custom_role": "Другая роль"
+  "custom_role": "Другая роль",
+  "confirm_all": "Подтвердить все"
 }

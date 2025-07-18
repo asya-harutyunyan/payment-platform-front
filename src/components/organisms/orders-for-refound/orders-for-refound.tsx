@@ -34,11 +34,11 @@ export const OrdersForRefoundPage: FC = () => {
       </Box>
       <BasicModal
         handleClose={onModalClose}
-        open={!!currentOrdersData?.length}
+        open={!!currentOrdersData.data.length}
         bg={bg}
         width="50%"
       >
-        <DynamicTable columns={ordersColumns} data={currentOrdersData} />
+        <DynamicTable columns={ordersColumns} data={currentOrdersData.data} />
       </BasicModal>
     </Box>
   );

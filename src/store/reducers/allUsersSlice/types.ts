@@ -244,9 +244,13 @@ export type TGetReferralOrdersResponse = {
 export type TGetReferralOrdersOptions = void;
 
 export type TAcceptReferralOrderThunkResponse = unknown;
-export type TAcceptReferralOrderThunkOptions = {
-  referral_order_id: number;
-};
+export type TAcceptReferralOrderThunkOptions =
+  | {
+      referral_order_id: number;
+    }
+  | {
+      user_id: number;
+    };
 
 export type TGetReferralsOrdersThunkResponse = {
   data: {

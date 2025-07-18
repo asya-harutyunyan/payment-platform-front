@@ -14,6 +14,8 @@ import { useEffect, useMemo, useState } from "react";
 type TDataItem = TGetReferralOrdersResponse["data"][number];
 type TOrderDataItem = TDataItem["orders"][number] & { created_at?: string };
 
+const INITIAL_STATE = { data: [], userId: null };
+
 const useOrdersForRefound = () => {
   const dispatch = useAppDispatch();
   const { user } = useAuth();
@@ -21,15 +23,15 @@ const useOrdersForRefound = () => {
   const referralOrdersData =
     useAppSelector((state) => state.users.getReferralOrdersState.data) ?? [];
 
-  const [currentOrdersData, setCurrentOrdersData] = useState<
-    TDataItem["orders"]
-  >([]);
+  const [currentOrdersData, setCurrentOrdersData] = useState<{
+    data: TDataItem["orders"];
+    userId: number | null;
+  }>(INITIAL_STATE);
 
   useEffect(() => {
     const initData = async () => {
       try {
-        const res = await dispatch(getReferralOrdersThunk()).unwrap();
-        console.log(res);
+        await dispatch(getReferralOrdersThunk()).unwrap();
       } catch (error) {
         console.log(error);
       }
@@ -39,7 +41,7 @@ const useOrdersForRefound = () => {
   }, [dispatch, user?.permissions]);
 
   const onModalClose = () => {
-    setCurrentOrdersData([]);
+    setCurrentOrdersData(INITIAL_STATE);
   };
 
   const columns = useMemo(
@@ -59,7 +61,7 @@ const useOrdersForRefound = () => {
               variant="contained"
               text={t("confirm")}
               onClick={() => {
-                setCurrentOrdersData(row.orders);
+                setCurrentOrdersData({ data: row.orders, userId: row.user.id });
               }}
             />
           ),
@@ -92,7 +94,44 @@ const useOrdersForRefound = () => {
         valueKey: "payment_status",
       },
       {
-        column: "" as keyof TOrderDataItem,
+        column: () => (
+          <Button
+            variant="contained"
+            text={t("confirm_all")}
+            onClick={async () => {
+              try {
+                if (!currentOrdersData.userId) {
+                  return;
+                }
+
+                const res = await dispatch(
+                  acceptReferralOrderThunk({
+                    user_id: currentOrdersData.userId,
+                  })
+                ).unwrap();
+                await dispatch(getReferralOrdersThunk()).unwrap();
+                setCurrentOrdersData(INITIAL_STATE);
+
+                if (typeof res === "string") {
+                  enqueueSnackbar(res, {
+                    variant: "success",
+                    anchorOrigin: { vertical: "top", horizontal: "right" },
+                  });
+                }
+              } catch (error) {
+                console.log(error);
+
+                if (typeof error === "string") {
+                  enqueueSnackbar(error, {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "right" },
+                  });
+                }
+              }
+            }}
+          />
+        ),
+
         renderComponent: (row) => (
           <Button
             variant="contained"
@@ -124,7 +163,7 @@ const useOrdersForRefound = () => {
         ),
       },
     ],
-    [dispatch]
+    [dispatch, currentOrdersData]
   );
 
   return {
