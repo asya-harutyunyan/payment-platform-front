@@ -11,7 +11,10 @@ import {
   EConfigNames,
   TGetSystemConfigThunkError,
 } from "@/store/reducers/allUsersSlice/types";
-import { getServerInfoThunk } from "@/store/reducers/globalInfo/globalInfoSlice/thunks";
+import {
+  getServerInfoLatencyThunk,
+  getServerInfoThunk,
+} from "@/store/reducers/globalInfo/globalInfoSlice/thunks";
 import { ZabbixMetrics } from "@/store/reducers/globalInfo/globalInfoSlice/types";
 import { H4, P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,7 +29,9 @@ export type TRegistrationLimitFormValues = z.infer<
 >;
 const useSystemSettings = () => {
   const dispatch = useAppDispatch();
-  const { serverInfo, loading } = useAppSelector((state) => state.globalInfo);
+  const { serverInfo, serverInfoLatency, loading } = useAppSelector(
+    (state) => state.globalInfo
+  );
   const activeUsersCount = useAppSelector(
     (state) => state.users.activeUsersState.data?.count
   );
@@ -54,6 +59,22 @@ const useSystemSettings = () => {
       renderComponent: () => {
         return (
           <Box width={"100%"}>
+            <Box sx={{ display: "flex", paddingBottom: "15px" }}>
+              <P
+                fontWeight={700}
+                color="primary.main"
+                paddingRight={"5px"}
+                fontSize={"23px"}
+              >
+                {t("server_status")}:
+              </P>{" "}
+              <P fontSize={"23px"}>
+                {serverInfo?.partner_api?.status &&
+                serverInfo.partner_api.status === "inactive"
+                  ? `${t("inactive")}`
+                  : `${t("active")}`}
+              </P>
+            </Box>
             {ServerInfoObject.map((item, index) => {
               return (
                 <Box
@@ -85,7 +106,7 @@ const useSystemSettings = () => {
                       </P>{" "}
                       <P fontSize={"18px"}>
                         {item.cpu_usage
-                          ? `${item.cpu_usage}%`
+                          ? `${item.cpu_usage}`
                           : "No data available"}
                       </P>
                     </Box>
@@ -100,7 +121,7 @@ const useSystemSettings = () => {
                       </P>{" "}
                       <P fontSize={"18px"}>
                         {item.disk_total
-                          ? `${item.disk_total}%`
+                          ? `${item.disk_total}`
                           : "No data available"}
                       </P>
                     </Box>
@@ -130,7 +151,7 @@ const useSystemSettings = () => {
                       </P>{" "}
                       <P fontSize={"18px"}>
                         {item.disk_used_percent
-                          ? `${item.disk_used_percent}%`
+                          ? `${item.disk_used_percent}`
                           : "No data available"}
                       </P>
                     </Box>
@@ -145,7 +166,7 @@ const useSystemSettings = () => {
                       </P>{" "}
                       <P>
                         {item.memory_available
-                          ? `${item.memory_available}%`
+                          ? `${item.memory_available}`
                           : "No data available"}
                       </P>
                     </Box>
@@ -160,7 +181,7 @@ const useSystemSettings = () => {
                       </P>{" "}
                       <P fontSize={"18px"}>
                         {item.memory_available_percent
-                          ? `${item.memory_available_percent}%`
+                          ? `${item.memory_available_percent}`
                           : "No data available"}
                       </P>
                     </Box>
@@ -401,6 +422,21 @@ const useSystemSettings = () => {
                         : "No data available"}
                     </P>
                   </Box>
+                  <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                    <P
+                      fontWeight={500}
+                      color="primary.main"
+                      paddingRight={"5px"}
+                      fontSize={"18px"}
+                    >
+                      {t("valid_until_date")}:
+                    </P>{" "}
+                    <P fontSize={"18px"}>
+                      {serverInfo?.ssl_cert?.valid_until
+                        ? `${serverInfo.ssl_cert.valid_until}`
+                        : "No data available"}
+                    </P>
+                  </Box>
                 </Box>
                 <H4
                   color="primary.main"
@@ -410,21 +446,6 @@ const useSystemSettings = () => {
                   {t("partner_api")}
                 </H4>
                 <Box>
-                  <Box sx={{ display: "flex", paddingBottom: "5px" }}>
-                    <P
-                      fontWeight={500}
-                      color="primary.main"
-                      paddingRight={"5px"}
-                      fontSize={"18px"}
-                    >
-                      {t("status")}:
-                    </P>{" "}
-                    <P fontSize={"18px"}>
-                      {serverInfo?.partner_api?.status
-                        ? `${serverInfo.partner_api.status}`
-                        : "No data available"}
-                    </P>
-                  </Box>
                   <Box sx={{ display: "flex", paddingBottom: "5px" }}>
                     <P
                       fontWeight={500}
@@ -534,6 +555,21 @@ const useSystemSettings = () => {
                     </P>
                   </Box>
                 </Box>
+                <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                  <P
+                    fontWeight={700}
+                    color="primary.main"
+                    paddingRight={"5px"}
+                    fontSize={"18px"}
+                  >
+                    {t("backend_version")}:
+                  </P>{" "}
+                  <P fontSize={"18px"}>
+                    {serverInfo?.backend_version
+                      ? `${serverInfo.backend_version}`
+                      : "No data available"}
+                  </P>
+                </Box>
               </Box>
             }
           </Box>
@@ -541,7 +577,104 @@ const useSystemSettings = () => {
       },
     },
   ];
-
+  const fieldsThirdSide = [
+    {
+      renderComponent: () => {
+        return (
+          <Box width={"100%"}>
+            {serverInfoLatency &&
+              Object.keys(serverInfoLatency).map((nodeName, index) => {
+                const nodeData = serverInfoLatency[nodeName];
+                if (nodeData && nodeData.length > 0) {
+                  const [status, latency, message, httpCode, ip] = nodeData[0];
+                  return (
+                    <Box key={index} sx={{ mb: 3 }}>
+                      <H4
+                        color="primary.main"
+                        paddingRight={"25px"}
+                        paddingBottom={"10px"}
+                      >
+                        {nodeName}
+                      </H4>
+                      <Box>
+                        <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                          <P
+                            fontWeight={500}
+                            color="primary.main"
+                            paddingRight={"5px"}
+                            fontSize={"18px"}
+                          >
+                            Status:
+                          </P>
+                          <P fontSize={"18px"}>
+                            {status ? `${status}` : "No data available"}
+                          </P>
+                        </Box>
+                        <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                          <P
+                            fontWeight={500}
+                            color="primary.main"
+                            paddingRight={"5px"}
+                            fontSize={"18px"}
+                          >
+                            Latency:
+                          </P>
+                          <P fontSize={"18px"}>
+                            {latency
+                              ? `${(latency * 1000).toFixed(2)}ms`
+                              : "No data available"}
+                          </P>
+                        </Box>
+                        <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                          <P
+                            fontWeight={500}
+                            color="primary.main"
+                            paddingRight={"5px"}
+                            fontSize={"18px"}
+                          >
+                            Message:
+                          </P>
+                          <P fontSize={"18px"}>
+                            {message ? `${message}` : "No data available"}
+                          </P>
+                        </Box>
+                        <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                          <P
+                            fontWeight={500}
+                            color="primary.main"
+                            paddingRight={"5px"}
+                            fontSize={"18px"}
+                          >
+                            HTTP Code:
+                          </P>
+                          <P fontSize={"18px"}>
+                            {httpCode ? `${httpCode}` : "No data available"}
+                          </P>
+                        </Box>
+                        <Box sx={{ display: "flex", paddingBottom: "5px" }}>
+                          <P
+                            fontWeight={500}
+                            color="primary.main"
+                            paddingRight={"5px"}
+                            fontSize={"18px"}
+                          >
+                            IP Address:
+                          </P>
+                          <P fontSize={"18px"}>
+                            {ip ? `${ip}` : "No data available"}
+                          </P>
+                        </Box>
+                      </Box>
+                    </Box>
+                  );
+                }
+                return null;
+              })}
+          </Box>
+        );
+      },
+    },
+  ];
   useEffect(() => {
     const initSystemConfig = async () => {
       try {
@@ -623,56 +756,20 @@ const useSystemSettings = () => {
   });
   useEffect(() => {
     dispatch(getServerInfoThunk());
+    dispatch(getServerInfoLatencyThunk());
   }, []);
 
   return {
     loading,
+    serverInfoLatency,
     activeUsersCount,
     ServerInfoObject,
     fieldsSecondSide,
     fields,
+    fieldsThirdSide,
     control,
     onSubmit,
   };
 };
 
 export default useSystemSettings;
-
-// "mysql": {
-//   "status": "ok",
-//   "response_time_ms": 0.06
-// },
-// "db_connections": 17,
-// "ping": "down",
-// "frontend": {
-//   "status": "ok",
-//   "http_code": 200,
-//   "response_time_ms": 26.36
-// },
-// "backend": {
-//   "status": "error",
-//   "http_code": 404,
-//   "response_time_ms": 39.51
-// },
-// "ssl_cert": {
-//   "status": "error",
-//   "message": "php_network_getaddresses: getaddrinfo for https failed: Try again (0)"
-// },
-// "partner_api": {
-//   "status": "error",
-//   "message": "cURL error 28: Connection timed out after 5001 milliseconds (see https:\/\/curl.haxx.se\/libcurl\/c\/libcurl-errors.html) for https:\/\/partner-api.com\/status"
-// },
-// "login_check": {
-//   "status": "ok",
-//   "http_code": 200,
-//   "response": {
-//       "token": "1275|PUNgk1gyOXnHTlTSpI2Tng9xwaXZMYXomy7lvob5d4f21556",
-//       "type": "Bearer"
-//   }
-// },
-// "health_check": {
-//   "status": "ok",
-//   "http_code": 200,
-//   "response_time_ms": 27.25
-// }
-// }

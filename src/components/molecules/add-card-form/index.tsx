@@ -27,7 +27,6 @@ export const BankCardDetalis: FC = () => {
     >
       <FormTextInput
         control={control}
-        {...register("card_holder")}
         name="card_holder"
         type="text"
         placeholder={t("name_cards_member")}
@@ -47,7 +46,6 @@ export const BankCardDetalis: FC = () => {
       {bankName?.name === "Другое" && (
         <FormTextInput
           control={control}
-          {...register("bank_name_manual")}
           name="bank_name_manual"
           type="text"
           placeholder={t("bank_name")}
@@ -64,11 +62,10 @@ export const BankCardDetalis: FC = () => {
 
       <FormTextInput
         control={control}
-        {...register("card_number")}
         name="card_number"
         placeholder={t("card_number")}
         whiteVariant={false}
-        mask
+        // mask
       />
 
       <SelectFieldWith

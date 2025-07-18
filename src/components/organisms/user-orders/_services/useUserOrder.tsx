@@ -65,7 +65,7 @@ const useUserOrder = () => {
   const handleOpen = () => setOpen(true);
 
   const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
-    const duration = type === "FIAT" ? 40 : 15;
+    const duration = type === "FIAT" ? 40 : 15; //checking
     return new Date(
       dayjs()
         .add(

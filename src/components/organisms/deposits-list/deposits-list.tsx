@@ -69,7 +69,7 @@ export const DepositLists: FC = () => {
         <Box
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
+            // height: "100vh",
           }}
         >
           <DynamicTable
@@ -79,17 +79,21 @@ export const DepositLists: FC = () => {
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "100%" }}
           >
-            <PaginationOutlined
-              page={user?.role === "client" ? page : pageAdmin}
-              onPageChange={
-                user?.role === "client" ? onChangePage : onChangePageAdmin
-              }
-              count={
-                user?.role === "client"
-                  ? pagination.last_page
-                  : paginationAdminPage.last_page
-              }
-            />
+            {pagination.total > 0 || paginationAdminPage.total > 0 ? (
+              <PaginationOutlined
+                page={user?.role === "client" ? page : pageAdmin}
+                onPageChange={
+                  user?.role === "client" ? onChangePage : onChangePageAdmin
+                }
+                count={
+                  user?.role === "client"
+                    ? pagination.last_page
+                    : paginationAdminPage.last_page
+                }
+              />
+            ) : (
+              ""
+            )}
           </Box>
         </Box>
       )}

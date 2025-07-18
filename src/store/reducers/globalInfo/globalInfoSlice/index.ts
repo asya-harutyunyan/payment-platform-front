@@ -1,5 +1,5 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
-import { getServerInfoThunk } from "./thunks";
+import { getServerInfoLatencyThunk, getServerInfoThunk } from "./thunks";
 import { ServerInfoState } from "./types";
 
 const initialState: ServerInfoState = {
@@ -16,6 +16,10 @@ const globalInfoSlice = createSlice({
       .addCase(getServerInfoThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.serverInfo = action.payload;
+      })
+      .addCase(getServerInfoLatencyThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.serverInfoLatency = action.payload;
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;
