@@ -223,6 +223,7 @@ export const adminItems = [
     text: "history-deposits",
     icon: <HistoryIcon />,
     link: "/history-deposits",
+    permission: "superAdmin_action_log_deposits.view",
   },
   {
     text: "order_list",
@@ -291,12 +292,13 @@ export const adminItems = [
     text: "history",
     icon: <ManageSearchIcon />,
     link: "/history",
+    permission: "superAdmin_action_log.view",
   },
   {
     text: "system_settings",
     icon: <SettingsIcon />,
     link: "/system-settings",
-    permission: "system_conf_active_users.view",
+    permission: "system_conf.get",
   },
   {
     text: "orders_for_refound",
