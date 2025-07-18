@@ -20,7 +20,7 @@ export const BankInfoComponent: FC = () => {
   const navigate = useNavigate();
 
   const cards = useMemo(() => {
-    return Array.from({ length: 3 }).map((_, index) => ({
+    return Array.from({ length: 4 }).map((_, index) => ({
       key: index,
       content: (
         <BankCard
