@@ -32,7 +32,8 @@ const bankDetailsSlice = createSlice({
       .addCase(getBankCardsThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.bankCards = action.payload.data;
-        state.total = action.payload.last_page;
+
+        state.total = action.payload.pagination.last_page;
       })
       .addCase(getBlockedCardsThunk.fulfilled, (state, action) => {
         state.loading = false;

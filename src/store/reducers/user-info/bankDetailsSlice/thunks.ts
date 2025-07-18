@@ -1,7 +1,12 @@
 import { httpClient } from "@/common/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { AddCardType, EditCardType, GetBankDetailsRequest } from "./types";
+import {
+  AddCardType,
+  EditCardType,
+  GetBankDetailsRequest,
+  GetBankDetailsRequestResult,
+} from "./types";
 
 export const addBankCardThunk = createAsyncThunk(
   "bankDetails/addBankCard",
@@ -138,20 +143,23 @@ export const getBankCardsThunk = createAsyncThunk(
   "bankDetails/getBankDetailsThunk",
   async (data: GetBankDetailsRequest, { rejectWithValue }) => {
     try {
-      const response = await httpClient.get("/banks/all", {
-        params: {
-          page: data.page,
-          per_page: data.per_page,
-          card_holder: data.card_holder,
-          card_number: data.card_number,
-          currency: data.currency,
-          bank_name: data.bank_name,
-          from: data.from,
-          to: data.to,
-          name: data.name,
-          sort: data.sort,
-        },
-      });
+      const response = await httpClient.get<GetBankDetailsRequestResult>(
+        "/banks/all",
+        {
+          params: {
+            page: data.page,
+            per_page: data.per_page,
+            card_holder: data.card_holder,
+            card_number: data.card_number,
+            currency: data.currency,
+            bank_name: data.bank_name,
+            from: data.from,
+            to: data.to,
+            name: data.name,
+            sort: data.sort,
+          },
+        }
+      );
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {

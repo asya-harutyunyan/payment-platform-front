@@ -34,6 +34,16 @@ export interface GetBankDetailsRequest {
   month?: string;
   sort?: "ASC" | "DESC";
 }
+export interface GetBankDetailsRequestResult {
+  message: string;
+  data: Array<BankCardsDetails>;
+  pagination: {
+    total: number;
+    current_page: number;
+    per_page: number;
+    last_page: number;
+  };
+}
 
 export type AddCardType = z.infer<typeof add_card_schema>;
 export type EditCardType = z.infer<typeof edit_card_schema>;
