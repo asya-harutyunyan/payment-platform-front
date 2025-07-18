@@ -4,6 +4,7 @@ export interface ServerInfoState {
   loading: boolean;
   error: string | null;
   serverInfo?: SystemHealthReport;
+  serverInfoLatency?: NodeCheckData;
 }
 export interface ServerInfo {
   page: number;
@@ -39,6 +40,7 @@ type ServiceStatusOK = {
   http_code?: number;
   response_time_ms?: number;
   message?: string;
+  valid_until?: string;
   response?: {
     token: string;
     type: string;
@@ -46,8 +48,10 @@ type ServiceStatusOK = {
 };
 
 type ServiceStatusError = {
-  status: "error";
+  status: "inactive" | "active" | "error";
   http_code?: number;
+  valid_until?: string;
+
   response_time_ms?: number;
   message?: string;
 };
@@ -68,4 +72,27 @@ export type SystemHealthReport = {
   partner_api: ServiceStatus;
   login_check: ServiceStatusOK;
   health_check: ServiceStatusOK;
+  backend_version: string;
 };
+
+// interface SystemStatusLatency {
+//   backend_version: string;
+//   ssl_cert: {
+//     valid_until: string;
+//     days_remaining: number;
+//   };
+//   partner_api: {
+//     status: "inactive" | "active";
+//     http_code: number;
+//     content_snippet: string;
+//   };
+// }
+type SystemStatusLatency = [
+  status: number, // 1 = success, 0 = failure
+  responseTime: number, // Time in seconds (float)
+  statusText: string, // e.g., "Moved Permanently"
+  statusCode: string, // e.g., "301"
+  ipAddress: string, // IP address string
+];
+
+type NodeCheckData = Record<string, SystemStatusLatency[]>;

@@ -17,17 +17,17 @@ import useUserOrder from "./_services/useUserOrder";
 export const UserOrdersComponent: FC = () => {
   const {
     filter,
+    open,
     ordersUser,
     loading,
-    total,
-    page,
-    open,
     setOpen,
-    addId,
+    columns,
+    page,
+    total,
     onChangePage,
+    addId,
     handleFilterChange,
     handleConfirm,
-    columns,
   } = useUserOrder();
 
   return (

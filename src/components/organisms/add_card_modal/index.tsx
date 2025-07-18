@@ -56,7 +56,6 @@ export const AddCardModal: FC<IStepTwo> = ({
     setError,
     reset,
     setValue,
-    register,
     formState: { errors },
   } = useForm<FormData>({
     resolver: zodResolver(add_card_schema),
@@ -322,7 +321,6 @@ export const AddCardModal: FC<IStepTwo> = ({
         {bankNameInput?.name === "Другое" && (
           <FormTextInput
             control={control}
-            {...register("bank_name_manual")}
             name="bank_name_manual"
             type="text"
             whiteVariant
@@ -332,7 +330,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         <FormTextInput
           control={control}
           name="card_number"
-          mask
+          // mask
           placeholder={t("card_number")}
           whiteVariant={true}
         />

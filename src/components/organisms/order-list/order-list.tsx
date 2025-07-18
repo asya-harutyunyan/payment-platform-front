@@ -9,7 +9,7 @@ import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { H3 } from "@/styles/typography";
 import { Box, Tab, Tabs } from "@mui/material";
 import { t } from "i18next";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import useAdminOrder from "./_services/useUserOrder";
 
 export const OrderListComponent: FC = () => {

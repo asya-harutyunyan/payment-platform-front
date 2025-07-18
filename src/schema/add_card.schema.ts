@@ -20,10 +20,12 @@ export const add_card_schema = z
     // }),
     card_number: z
       .string()
-      .transform((val) => val.replace(/\s+/g, ""))
-      .refine((val) => /^\d{16}$/.test(val), {
-        message: "Номер карты должен состоять из 16 цифр",
-      }),
+      // .transform((val) => val.replace(/\s+/g, ""))
+      // .refine((val) => /^\d{16}$/.test(val), {
+      //   message: "Номер карты должен состоять из 16 цифр",
+      // }),
+      .min(13, "Номер карты должен состоять из 13 цифр")
+      .max(19, "Номер карты должен состоять из 19 цифр"),
     currency: z.string().min(3).max(50),
   })
   .superRefine((data, ctx) => {
