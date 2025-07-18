@@ -252,7 +252,9 @@ const useBankCardList = () => {
                 <IconButton
                   onClick={() => {
                     const bank = banks.find(
-                      (bank) => bank.key === row.bank_name
+                      (bank) =>
+                        bank.name === row.bank_name ||
+                        bank.key === row.bank_name
                     );
 
                     form.reset({
@@ -344,7 +346,7 @@ const useBankCardList = () => {
           },
         },
       ].filter(Boolean) as IColumn<BankCardsDetalis>[],
-    [user?.permissions]
+    [user?.permissions, banks]
   );
 
   const handleUnblockCard = (id?: number) => {
