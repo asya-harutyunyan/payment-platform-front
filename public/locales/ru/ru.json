@@ -389,5 +389,6 @@
   "support_trainee": "Стажер поддержки",
   "technical_specialist": "Технический специалист",
   "custom_role": "Другая роль",
-  "confirm_all": "Подтвердить все"
+  "confirm_all": "Подтвердить все",
+  "deposit_limit": "Лимит депозитов"
 }

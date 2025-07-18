@@ -6,6 +6,7 @@ import { H2, H4 } from "@/styles/typography";
 import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
 import { useCreateUser } from "./_services/useCreateUser";
+import { LimitInput } from "./limit-input";
 import PermissionsTable from "./permissions-table/create-user";
 
 const DROPDOWN_OPTIONS = [
@@ -105,6 +106,14 @@ export const CreateUser = () => {
         }}
       >
         <Box sx={{ width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" } }}>
+          <LimitInput control={control} />
+        </Box>
+        <Box
+          sx={{
+            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
+            mt: 1,
+          }}
+        >
           <SelectFieldWith
             name="role"
             control={control}

@@ -41,6 +41,7 @@ export const create_permissions = z
       z.object({
         role: z.literal(EUserRole.Admin),
         permissions: z.array(z.string()),
+        deposit_limit: z.string().optional(),
       }),
       z.object({
         role: z.nativeEnum(EUserRole),
