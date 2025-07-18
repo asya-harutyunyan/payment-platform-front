@@ -1,3 +1,5 @@
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
+
 export function getStatusColor(status: string) {
   switch (status) {
     case "pending":
@@ -43,7 +45,11 @@ export const TypeOptions = [
 
 export const RoleOptions = [
   // { id: Math.random(), name: "superAdmin" },
-  { id: Math.random(), name: "admin" },
-  { id: Math.random(), name: "client" },
+  { id: Math.random(), name: EUserRole.Admin },
+  { id: Math.random(), name: EUserRole.Client },
+  { id: Math.random(), name: EUserRole.SupportLead },
+  { id: Math.random(), name: EUserRole.SupportOperator },
+  { id: Math.random(), name: EUserRole.SupportTrainee },
+  { id: Math.random(), name: EUserRole.TechnicalSpecialist },
   { id: Math.random(), name: "all" },
 ];

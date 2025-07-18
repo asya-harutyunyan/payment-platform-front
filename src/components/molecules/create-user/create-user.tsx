@@ -1,25 +1,23 @@
 import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
+import { SelectFieldWith } from "@/components/atoms/select";
+import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { H2, H4 } from "@/styles/typography";
 import { Box, FormHelperText } from "@mui/material";
 import { t } from "i18next";
-import { useState } from "react";
 import { useCreateUser } from "./_services/useCreateUser";
 import PermissionsTable from "./permissions-table/create-user";
 
-export const CreateUser = () => {
-  const [checkedPermissions, setCheckedPermissions] = useState<string[]>([]);
+const DROPDOWN_OPTIONS = [
+  { id: EUserRole.Admin, name: "custom_role" },
+  { id: EUserRole.SupportLead, name: "support_lead" },
+  { id: EUserRole.SupportOperator, name: "support_operator" },
+  { id: EUserRole.SupportTrainee, name: "support_trainee" },
+  { id: EUserRole.TechnicalSpecialist, name: "technical_specialist" },
+];
 
-  const {
-    control,
-    handleSubmit,
-    register,
-    onSubmit,
-    setValue,
-    // watch,
-    // names,
-    errors,
-  } = useCreateUser({ setCheckedPermissions });
+export const CreateUser = () => {
+  const { control, handleSubmit, onSubmit, errors } = useCreateUser();
 
   return (
     <Box
@@ -49,26 +47,16 @@ export const CreateUser = () => {
           },
         }}
       >
-        <Box
-          sx={{
-            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
-          }}
-        >
+        <Box sx={{ width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" } }}>
           <FormTextInput
             control={control}
-            {...register("name")}
             name="name"
             placeholder={t("name")}
           />
         </Box>
-        <Box
-          sx={{
-            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
-          }}
-        >
+        <Box sx={{ width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" } }}>
           <FormTextInput
             control={control}
-            {...register("surname")}
             name="surname"
             placeholder={t("surname")}
           />
@@ -87,26 +75,16 @@ export const CreateUser = () => {
           },
         }}
       >
-        <Box
-          sx={{
-            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
-          }}
-        >
+        <Box sx={{ width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" } }}>
           <FormTextInput
             control={control}
-            {...register("email")}
             name="email"
             placeholder={t("email")}
           />
         </Box>
-        <Box
-          sx={{
-            width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" },
-          }}
-        >
+        <Box sx={{ width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" } }}>
           <FormTextInput
             control={control}
-            {...register("password")}
             name="password"
             type="password"
             placeholder={t("password")}
@@ -115,14 +93,33 @@ export const CreateUser = () => {
       </Box>
       <Box
         sx={{
+          display: "flex",
           width: "100%",
-          marginTop: "20px",
+          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          justifyContent: {
+            lg: "space-between",
+            md: "space-between",
+            xs: "inherit",
+            sm: "inherit",
+          },
         }}
       >
+        <Box sx={{ width: { lg: "48%", mg: "48%", xs: "100%", sm: "100%" } }}>
+          <SelectFieldWith
+            name="role"
+            control={control}
+            options={DROPDOWN_OPTIONS}
+            placeholder={t("select_currency")}
+            valueKey="id"
+          />
+        </Box>
+      </Box>
+
+      <Box sx={{ width: "100%", marginTop: "20px" }}>
         <H4 align="center" color="primary.main" sx={{ marginBottom: "20px" }}>
           {t("checkbox_title")}
         </H4>
-        {errors.permissions && (
+        {"permissions" in errors && errors.permissions && (
           <Box
             sx={{
               color: "error.main",
@@ -137,11 +134,7 @@ export const CreateUser = () => {
         )}
         <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
           <Box sx={{ width: "100%" }}>
-            <PermissionsTable
-              setValue={setValue}
-              checkedPermissions={checkedPermissions}
-              setCheckedPermissions={setCheckedPermissions}
-            />
+            <PermissionsTable control={control} />
           </Box>
         </Box>
       </Box>

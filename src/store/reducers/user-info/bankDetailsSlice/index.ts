@@ -1,4 +1,5 @@
 import { createSlice, isPending, isRejected } from "@reduxjs/toolkit";
+import { changeAndReassignCardThunk } from "../../allUsersSlice/thunks";
 import {
   addBankCardThunk,
   deleteBankCardThunk,
@@ -32,7 +33,8 @@ const bankDetailsSlice = createSlice({
       .addCase(getBankCardsThunk.fulfilled, (state, action) => {
         state.loading = false;
         state.bankCards = action.payload.data;
-        state.total = action.payload.last_page;
+
+        state.total = action.payload.pagination.last_page;
       })
       .addCase(getBlockedCardsThunk.fulfilled, (state, action) => {
         state.loading = false;
@@ -44,6 +46,9 @@ const bankDetailsSlice = createSlice({
         state.loading = false;
       })
       .addCase(deleteBankCardThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(changeAndReassignCardThunk.fulfilled, (state) => {
         state.loading = false;
       })
       .addMatcher(isPending, (state) => {

@@ -32,6 +32,7 @@ import Countdown, { CountdownRenderProps } from "react-countdown";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
 import { z } from "zod";
+import { EUserRole } from "../../auth/sign-in-form/_services/useSignIn";
 type ICountdownRendererFn = (
   props: CountdownRenderProps,
   id?: number
@@ -59,7 +60,7 @@ const useDepositInfo = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const [pageAdmin, setPageAdmin] = useState(1);
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(deposit_schema),
     defaultValues: {
       name: "",
@@ -107,8 +108,12 @@ const useDepositInfo = () => {
     const statusType = debouncedType === "all" ? "" : debouncedType;
 
     switch (user?.role) {
-      case "admin":
-      case "superAdmin":
+      case EUserRole.SuperAdmin:
+      case EUserRole.Admin:
+      case EUserRole.SupportLead:
+      case EUserRole.SupportOperator:
+      case EUserRole.SupportTrainee:
+      case EUserRole.TechnicalSpecialist:
         dispatch(
           getDepositsAdminThunk({
             page: pageAdmin,
@@ -297,7 +302,6 @@ const useDepositInfo = () => {
             return (
               <FormTextInput
                 control={control}
-                {...register("name")}
                 name="name"
                 width="200px"
                 style={{ input: { padding: "10px 14px" } }}

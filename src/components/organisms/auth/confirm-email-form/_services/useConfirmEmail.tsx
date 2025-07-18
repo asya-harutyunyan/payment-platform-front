@@ -6,6 +6,7 @@ import { confirmEmail, fetchUser } from "@/store/reducers/authSlice/thunks";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { ADMIN_ROLES } from "../../sign-in-form/_services/useSignIn";
 
 type FormData = z.infer<typeof comfirm_email_schema>;
 
@@ -35,8 +36,9 @@ const useConfirmEmail = () => {
                 localStorage.setItem("user_role", data.user.role ?? "");
                 navigate({
                   to:
-                    data.user.role === "admin" ||
-                    data.user.role === "superAdmin"
+                    ADMIN_ROLES.includes(
+                      data.user.role as (typeof ADMIN_ROLES)[number]
+                    ) || data.user.role === "superAdmin"
                       ? "/user-list"
                       : "/wallet",
                 });

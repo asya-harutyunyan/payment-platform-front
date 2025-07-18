@@ -1,3 +1,4 @@
+import { useAuth } from "@/context/auth.context";
 import { updateRegistrationLimitSchema } from "@/schema/system_settings.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
@@ -34,6 +35,7 @@ const useSystemSettings = () => {
   const activeUsersCount = useAppSelector(
     (state) => state.users.activeUsersState.data?.count
   );
+  const auth = useAuth();
   const { control, handleSubmit, reset } =
     useForm<TRegistrationLimitFormValues>({
       resolver: zodResolver(updateRegistrationLimitSchema),
@@ -733,6 +735,10 @@ const useSystemSettings = () => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
+      if (!auth.user?.permissions.includes("system_conf.update")) {
+        return;
+      }
+
       await dispatch(
         updateSystemConfigThunk({
           config: {

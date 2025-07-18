@@ -53,7 +53,7 @@ export const BankCardLists: FC = () => {
                 count={total}
                 page={page}
               />
-            </Box>{" "}
+            </Box>
           </>
         </Box>
       )}

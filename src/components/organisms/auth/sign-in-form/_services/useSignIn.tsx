@@ -26,12 +26,34 @@ export enum EUserRole {
   Admin = "admin",
   Client = "client",
   SuperAdmin = "superAdmin",
+
+  SupportLead = "support_lead",
+  SupportOperator = "support_operator",
+  SupportTrainee = "support_trainee",
+  TechnicalSpecialist = "technical_specialist",
 }
 
+export const ADMIN_ROLES = [
+  EUserRole.Admin,
+  EUserRole.SupportLead,
+  EUserRole.SupportOperator,
+  EUserRole.SupportTrainee,
+  EUserRole.TechnicalSpecialist,
+] as const;
+
 const INITIAL_PATHS_WITH_ROLES = {
-  [EUserRole.Admin]: "/welcome",
   [EUserRole.SuperAdmin]: "/user-list",
   [EUserRole.Client]: "/my-information",
+  ...ADMIN_ROLES.reduce(
+    (prevValue, currentValue) => {
+      prevValue[currentValue] = "/welcome";
+      return prevValue;
+    },
+    {} as Record<
+      Exclude<EUserRole, EUserRole.SuperAdmin | EUserRole.Client>,
+      string
+    >
+  ),
 };
 
 const useSignIn = () => {

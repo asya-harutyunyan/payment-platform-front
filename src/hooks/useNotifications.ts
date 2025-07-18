@@ -1,5 +1,6 @@
 import { httpClient } from "@/common/api";
 import { messaging } from "@/common/firebase";
+import { ADMIN_ROLES } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import {
@@ -41,11 +42,14 @@ export const useNotifications = () => {
     if (
       payload?.data?.id &&
       deposit?.id === +payload?.data?.id &&
-      user?.role !== "admin"
+      !ADMIN_ROLES.includes(user?.role as (typeof ADMIN_ROLES)[number])
     ) {
       dispatch(updateDepositAdminStatus(payload.data.status));
     }
-    if (payload.data?.order && user?.role !== "admin") {
+    if (
+      payload.data?.order &&
+      !ADMIN_ROLES.includes(user?.role as (typeof ADMIN_ROLES)[number])
+    ) {
       if (payload.data.order) {
         try {
           const data = JSON.parse(payload.data.order as unknown as string);

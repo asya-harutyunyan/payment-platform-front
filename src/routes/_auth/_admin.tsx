@@ -1,3 +1,4 @@
+import { ADMIN_ROLES } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { connect } from "@/store/reducers/websocket";
@@ -24,7 +25,10 @@ const AdminLayout = () => {
 export const Route = createFileRoute("/_auth/_admin")({
   beforeLoad: async () => {
     const role = localStorage.getItem("user_role");
-    if (role !== "admin" && role !== "superAdmin") {
+    if (
+      !ADMIN_ROLES.includes(role as (typeof ADMIN_ROLES)[number]) &&
+      role !== "superAdmin"
+    ) {
       throw redirect({
         to: "/",
       });

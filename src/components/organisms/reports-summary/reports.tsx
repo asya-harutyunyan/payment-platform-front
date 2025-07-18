@@ -69,7 +69,12 @@ export const ReportsSummary = () => {
 
   const onDownloadClick = async (format: EReportFormats) => {
     const { url, filename } = await dispatch(
-      downloadReportThunk({ key: EReportKeys.by_platform_interaction, format })
+      downloadReportThunk({
+        key: EReportKeys.by_platform_interaction,
+        format,
+        from: debouncedFrom,
+        to: debouncedTo,
+      })
     ).unwrap();
 
     downloadFileWithURL(url, filename);

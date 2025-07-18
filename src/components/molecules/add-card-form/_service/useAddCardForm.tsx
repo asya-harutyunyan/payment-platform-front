@@ -158,7 +158,7 @@ export const useAddCardForm = () => {
                 "Данная карта была использована в системе заблокированным пользователем.",
             });
           }
-          if (error.bank_details[0]) {
+          if (error.bank_details?.[0]) {
             enqueueSnackbar(
               "Вы можете добавить не более 3 банковских реквизитов.",
               {
@@ -166,12 +166,21 @@ export const useAddCardForm = () => {
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               }
             );
-          } else if (error.card_number[0] === "Поле номер карты уже занято.") {
+          } else if (
+            error.card_number?.[0] === "Поле номер карты уже занято."
+          ) {
             enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
-          } else {
+          } else if (error.card_number?.[0]) {
+            enqueueSnackbar(error.card_number?.[0], {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+            return;
+          }
+          {
             enqueueSnackbar(t("something_went_wrong"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
@@ -180,11 +189,7 @@ export const useAddCardForm = () => {
           reset();
           setValue(
             "bank_name",
-            {
-              name: "",
-              key: "",
-              id: 0,
-            },
+            { name: "", key: "", id: 0 },
             { shouldValidate: false }
           );
           if (error.errors && error.message) {

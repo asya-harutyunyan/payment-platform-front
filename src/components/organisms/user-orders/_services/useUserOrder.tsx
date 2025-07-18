@@ -17,6 +17,7 @@ import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 import Countdown, { CountdownRenderProps } from "react-countdown";
+import { ADMIN_ROLES } from "../../auth/sign-in-form/_services/useSignIn";
 
 type ICountdownRendererFn = (
   props: CountdownRenderProps,
@@ -42,7 +43,10 @@ const useUserOrder = () => {
         getUserOrdersThunk({
           page: page,
           per_page:
-            user.role === "admin" || user.role === "superAdmin" ? 20 : 5,
+            ADMIN_ROLES.includes(user.role as (typeof ADMIN_ROLES)[number]) ||
+            user.role === "superAdmin"
+              ? 20
+              : 5,
           status_by_client: DEPOSIT_STATUSES.ALL,
         })
       );
@@ -162,7 +166,10 @@ const useUserOrder = () => {
       getUserOrdersThunk({
         page,
         per_page:
-          user?.role === "admin" || user?.role === "superAdmin" ? 20 : 5,
+          ADMIN_ROLES.includes(user?.role as (typeof ADMIN_ROLES)[number]) ||
+          user?.role === "superAdmin"
+            ? 20
+            : 5,
         status_by_client: filter,
       })
     );
