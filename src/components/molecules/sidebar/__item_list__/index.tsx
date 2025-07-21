@@ -299,6 +299,7 @@ export const adminItems = [
     icon: <SettingsIcon />,
     link: "/system-settings",
     permission: "system_conf.get",
+    // permission: "system_conf_active_users.view",
   },
   {
     text: "orders_for_refound",

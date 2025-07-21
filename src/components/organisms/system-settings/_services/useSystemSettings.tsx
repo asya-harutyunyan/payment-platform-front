@@ -37,6 +37,7 @@ const useSystemSettings = () => {
   const activeUsersCount = useAppSelector(
     (state) => state.users.activeUsersState.data?.count
   );
+  const auth = useAuth();
   const { control, handleSubmit, reset } =
     useForm<TRegistrationLimitFormValues>({
       resolver: zodResolver(updateRegistrationLimitSchema),
