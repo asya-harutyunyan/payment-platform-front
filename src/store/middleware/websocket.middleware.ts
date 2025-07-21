@@ -27,7 +27,7 @@ webSocketMiddleware.startListening({
       socketConnection.ws.connect();
       socketConnection.ws
         .channel("orders")
-        .listen(".OrderDeleted", (data: { id: number; message: string }) => {
+        .listen(".OrderUpdated", (data: { id: number; message: string }) => {
           listenerApi.dispatch(deleteOrder(data.id));
         });
       // socketConnection.ws
