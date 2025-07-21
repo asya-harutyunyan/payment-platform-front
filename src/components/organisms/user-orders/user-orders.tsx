@@ -176,7 +176,7 @@ export const UserOrdersComponent: FC = () => {
             },
           }}
         >
-          {t("deposit_confirm_text")}
+          {t("order_confirm_text")}
         </H3>
         <Button
           variant={"outlinedWhite"}
