@@ -1,6 +1,9 @@
 import { socketConnection } from "@/common/socket";
 import { createListenerMiddleware } from "@reduxjs/toolkit";
-import { deleteOrder } from "../reducers/user-info/orderSlice";
+import {
+  getOrdersThunk,
+  getUserOrdersThunk,
+} from "../reducers/user-info/orderSlice/thunks";
 import { connect } from "../reducers/websocket";
 
 // let socket: Socket<ServerToClientListen, ClientToServerListen>;
@@ -25,11 +28,24 @@ webSocketMiddleware.startListening({
     // Run whatever additional side-effect-y logic you want here
     if (action.type === "websocket/connect") {
       socketConnection.ws.connect();
-      socketConnection.ws
-        .channel("orders")
-        .listen(".OrderUpdated", (data: { id: number; message: string }) => {
-          listenerApi.dispatch(deleteOrder(data.id));
-        });
+      socketConnection.ws.channel("orders").listen(".OrderUpdated", () => {
+        const role = localStorage.getItem("user_role");
+        if (role === "client") {
+          listenerApi.dispatch(
+            getUserOrdersThunk({
+              page: 1,
+              per_page: 20,
+            })
+          );
+        } else {
+          listenerApi.dispatch(
+            getOrdersThunk({
+              page: 1,
+              per_page: 50,
+            })
+          );
+        }
+      });
       // socketConnection.ws
       //   .private(`App.User.${action.payload}`)
       //   .notification((notification: unknown) => {
