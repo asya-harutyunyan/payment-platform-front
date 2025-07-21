@@ -8,6 +8,7 @@ import axios from "axios";
 import {
   ConfirmEmailType,
   FetchUserResponseType,
+  IRoleInfo,
   LoginUserType,
   recaptchaErrorSchema,
   RegisterUserType,
@@ -274,10 +275,11 @@ export const enableTwoFAThunk = createAsyncThunk(
 export const getUserRoleThunk = createAsyncThunk<
   TGetUserRoleData,
   TGetUserRoleOptions
->("auth/getUserRoleThunk", async (userInfo, { rejectWithValue }) => {
+>("auth/getUserRoleThunk", async (userInfo: IRoleInfo, { rejectWithValue }) => {
   try {
-    const response = await httpClient.get<TGetUserRoleData>("/get-role", {
-      params: userInfo,
+    const response = await httpClient.post<TGetUserRoleData>("/get-role", {
+      email: userInfo.email,
+      password: userInfo.password,
     });
 
     return response.data;
@@ -288,6 +290,7 @@ export const getUserRoleThunk = createAsyncThunk<
     return rejectWithValue("Invalid Role");
   }
 });
+
 export const deleteUserThunk = createAsyncThunk(
   "auth/deleteUserThunk",
   async (_, { rejectWithValue }) => {

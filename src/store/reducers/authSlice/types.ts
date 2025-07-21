@@ -47,6 +47,10 @@ export type TwoFAEnableOptions = {
   otp: string;
   secret: string;
 };
+export type IRoleInfo = {
+  email: string;
+  password: string;
+};
 
 export type TGetUserRoleData = { role: EUserRole; google2fa_enabled: boolean };
 export type TGetUserRoleOptions = { email: string; password: string };
