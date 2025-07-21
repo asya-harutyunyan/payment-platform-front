@@ -76,14 +76,24 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          if (
-            error.card_number &&
-            error.card_number[0] === "Поле номер карты уже занято."
-          ) {
+          if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
             enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
+            return;
+          } else if (
+            error?.bank_details?.[0] ===
+            "Вы можете добавить не более 3 банковских реквизитов."
+          ) {
+            enqueueSnackbar(
+              "Вы можете добавить не более 3 банковских реквизитов.",
+              {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              }
+            );
+            return;
           }
           reset();
           setValue(
@@ -95,23 +105,18 @@ export const useAddCardForm = () => {
             },
             { shouldValidate: false }
           );
-          if (error.errors && error.message) {
-            Object.entries(error.errors).forEach(([field, messages]) => {
-              if (Array.isArray(messages) && messages.length > 0) {
-                setError(field as keyof FormData, {
-                  type: "manual",
-                  message: messages[0],
-                });
-              }
-            });
-          }
-          if (error) {
-            console.log(error);
-
-            // setValue("card_number", error.card_number[2]);
-          }
+          // if (error.errors && error.message) {
+          //   Object.entries(error.errors).forEach(([field, messages]) => {
+          //     if (Array.isArray(messages) && messages.length > 0) {
+          //       setError(field as keyof FormData, {
+          //         type: "manual",
+          //         message: messages[0],
+          //       });
+          //     }
+          //   });
+          // }
           if (
-            error.bank_details[0] ===
+            error?.bank_details?.[0] ===
             "Вы можете добавить не более 3 банковских реквизитов."
           ) {
             enqueueSnackbar(
@@ -121,6 +126,7 @@ export const useAddCardForm = () => {
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               }
             );
+            return;
           }
           enqueueSnackbar(t("something_went_wrong"), {
             variant: "error",
@@ -149,8 +155,8 @@ export const useAddCardForm = () => {
         })
         .catch((error) => {
           if (
-            error.card_number[1] &&
-            error.card_number[1] ===
+            error?.card_number?.[1] &&
+            error?.card_number?.[1] ===
               "Эта карта заблокирована и не может быть добавлена."
           ) {
             setError("card_number", {

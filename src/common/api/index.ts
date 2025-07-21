@@ -1,6 +1,7 @@
 import axios from "axios";
 
 import i18n from "@/i18n/i18n";
+import { router } from "@/router";
 
 export const httpClient = axios.create({
   baseURL: "/api",
@@ -26,6 +27,10 @@ httpClient.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       //   console.log(error);
+      localStorage.removeItem("notification_token");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("user_role");
+      router.navigate({ to: "/auth/sign-in" });
     }
     return Promise.reject(error);
   }

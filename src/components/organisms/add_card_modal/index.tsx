@@ -65,7 +65,6 @@ export const AddCardModal: FC<IStepTwo> = ({
           ? { name: bankName, id: bankDetailID, key: bankName }
           : undefined,
       card_holder: cardHolder ?? "",
-      // phone_number: phoneNumber ?? "",
       card_number: cardNumber ?? "",
       currency: currency ?? "RUB",
     },
@@ -123,11 +122,12 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
-            if (error.card_number[0] === "Поле номер карты уже занято.") {
+            if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
               enqueueSnackbar("Карта с этим номером уже существует.", {
                 variant: "error",
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               });
+              return;
             }
             reset();
             setValue(
@@ -139,18 +139,18 @@ export const AddCardModal: FC<IStepTwo> = ({
               },
               { shouldValidate: false }
             );
-            if (error.errors && error.message) {
-              Object.entries(error.errors).forEach(([field, messages]) => {
-                if (Array.isArray(messages) && messages.length > 0) {
-                  setError(field as keyof FormData, {
-                    type: "manual",
-                    message: messages[0],
-                  });
-                }
-              });
-            }
+            // if (error.errors && error.message) {
+            //   Object.entries(error.errors).forEach(([field, messages]) => {
+            //     if (Array.isArray(messages) && messages.length > 0) {
+            //       setError(field as keyof FormData, {
+            //         type: "manual",
+            //         message: messages[0],
+            //       });
+            //     }
+            //   });
+            // }
             if (
-              error.bank_details[0] ===
+              error?.bank_details?.[0] ===
               "Вы можете добавить не более 3 банковских реквизитов."
             ) {
               enqueueSnackbar(
@@ -160,6 +160,7 @@ export const AddCardModal: FC<IStepTwo> = ({
                   anchorOrigin: { vertical: "top", horizontal: "right" },
                 }
               );
+              return;
             }
 
             enqueueSnackbar(t("something_went_wrong"), {
@@ -189,8 +190,7 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
-            if (error.bank_details[0]) {
-              console.log(error.bank_details[0]);
+            if (error?.bank_details?.[0]) {
               enqueueSnackbar(
                 "Вы можете добавить не более 3 банковских реквизитов.",
                 {
@@ -198,13 +198,15 @@ export const AddCardModal: FC<IStepTwo> = ({
                   anchorOrigin: { vertical: "top", horizontal: "right" },
                 }
               );
+              return;
             } else if (
-              error.card_number[0] === "Поле номер карты уже занято."
+              error?.card_number?.[0] === "Поле номер карты уже занято."
             ) {
               enqueueSnackbar("Карта с этим номером уже существует.", {
                 variant: "error",
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               });
+              return;
             } else {
               enqueueSnackbar(t("something_went_wrong"), {
                 variant: "error",
@@ -221,16 +223,16 @@ export const AddCardModal: FC<IStepTwo> = ({
               },
               { shouldValidate: false }
             );
-            if (error.errors && error.message) {
-              Object.entries(error.errors).forEach(([field, messages]) => {
-                if (Array.isArray(messages) && messages.length > 0) {
-                  setError(field as keyof FormData, {
-                    type: "manual",
-                    message: messages[0],
-                  });
-                }
-              });
-            }
+            // if (error.errors && error.message) {
+            //   Object.entries(error.errors).forEach(([field, messages]) => {
+            //     if (Array.isArray(messages) && messages.length > 0) {
+            //       setError(field as keyof FormData, {
+            //         type: "manual",
+            //         message: messages[0],
+            //       });
+            //     }
+            //   });
+            // }
           });
       }
     }
