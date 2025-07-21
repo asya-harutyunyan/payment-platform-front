@@ -19,7 +19,6 @@ export const getServerInfoThunk = createAsyncThunk(
     }
   }
 );
-
 export const getServerInfoLatencyThunk = createAsyncThunk(
   "globalInfo/getServerInfoLatencyThunk",
   async (_, { rejectWithValue }) => {
