@@ -29,13 +29,14 @@ export type TRegistrationLimitFormValues = z.infer<
 >;
 const useSystemSettings = () => {
   const dispatch = useAppDispatch();
+  const auth = useAuth();
+
   const { serverInfo, serverInfoLatency, loading } = useAppSelector(
     (state) => state.globalInfo
   );
   const activeUsersCount = useAppSelector(
     (state) => state.users.activeUsersState.data?.count
   );
-  const auth = useAuth();
   const { control, handleSubmit, reset } =
     useForm<TRegistrationLimitFormValues>({
       resolver: zodResolver(updateRegistrationLimitSchema),
