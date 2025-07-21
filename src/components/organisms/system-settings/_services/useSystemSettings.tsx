@@ -453,7 +453,7 @@ const useSystemSettings = () => {
                       paddingRight={"5px"}
                       fontSize={"18px"}
                     >
-                      {t("http_code")}:
+                      {t("message")}:
                     </P>{" "}
                     <P fontSize={"18px"}>
                       {serverInfo?.partner_api?.message
