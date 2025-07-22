@@ -24,7 +24,6 @@ export const FreezeUserInfo: FC = () => {
   useEffect(() => {
     dispatch(getFreezeUserThunk(Number(id)));
   }, [dispatch, id]);
-  console.log(pandingOrders);
 
   return (
     <Box>

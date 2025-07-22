@@ -20,7 +20,7 @@ export const BankInfoComponent: FC = () => {
   const navigate = useNavigate();
 
   const cards = useMemo(() => {
-    return Array.from({ length: 4 }).map((_, index) => ({
+    return Array.from({ length: 6 }).map((_, index) => ({
       key: index,
       content: (
         <BankCard
@@ -30,9 +30,6 @@ export const BankInfoComponent: FC = () => {
           )}
           bankName={user?.bank_details[index]?.bank_name ?? "Bank"}
           isBlocked={user?.bank_details[index]?.is_blocked}
-          // phoneNumber={
-          //   user?.bank_details[index]?.phone_number ?? "+37400000000"
-          // }
           bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
           textColor="#FFFFFF"
           bankDetailID={user?.bank_details[index]?.id ?? 0}

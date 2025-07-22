@@ -105,16 +105,7 @@ export const useAddCardForm = () => {
             },
             { shouldValidate: false }
           );
-          // if (error.errors && error.message) {
-          //   Object.entries(error.errors).forEach(([field, messages]) => {
-          //     if (Array.isArray(messages) && messages.length > 0) {
-          //       setError(field as keyof FormData, {
-          //         type: "manual",
-          //         message: messages[0],
-          //       });
-          //     }
-          //   });
-          // }
+
           if (
             error?.bank_details?.[0] ===
             "Вы можете добавить не более 3 банковских реквизитов."
