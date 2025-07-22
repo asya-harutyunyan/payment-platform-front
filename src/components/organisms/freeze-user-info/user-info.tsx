@@ -4,6 +4,7 @@ import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getFreezeUserThunk } from "@/store/reducers/allUsersSlice/thunks";
+import { H3 } from "@/styles/typography";
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import { Box } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
@@ -23,6 +24,7 @@ export const FreezeUserInfo: FC = () => {
   useEffect(() => {
     dispatch(getFreezeUserThunk(Number(id)));
   }, [dispatch, id]);
+  console.log(pandingOrders);
 
   return (
     <Box>
@@ -42,7 +44,7 @@ export const FreezeUserInfo: FC = () => {
           sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
         />
       </Box>
-      {!freezedUser ? (
+      {loading ? (
         <CircularIndeterminate />
       ) : (
         <Box>
@@ -52,8 +54,10 @@ export const FreezeUserInfo: FC = () => {
             fields={fields}
             title={"Список замароженных пользовательей"}
           />
-          <DynamicTable columns={orderColumns} data={pandingOrders} />
-
+          <Box sx={{ width: "60%", marginTop: "20px" }}>
+            <H3 color="primary.main"> {t("orders")}</H3>
+            <DynamicTable columns={orderColumns} data={pandingOrders} />
+          </Box>
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "90%" }}
           ></Box>

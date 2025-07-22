@@ -16,6 +16,7 @@ export const FreezedUserListComponent: FC = () => {
     loading,
     freezedUsers,
   } = useUserList();
+  console.log();
 
   return (
     <Box>
