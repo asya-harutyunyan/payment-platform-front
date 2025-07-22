@@ -215,6 +215,7 @@
   "not_gived_count": " Количество неподтвержденных заказов",
   "success_change_order": "Заказ успешно изменен",
   "orders_update.status": "Изменить статус у просроченных заказов",
+  "ip_address": " IP адрес",
   "not_gived": "Не Выдано",
   "earned_amount": "Сумма заработка за всё время",
   "deposit_amount": "Сумма депозита",

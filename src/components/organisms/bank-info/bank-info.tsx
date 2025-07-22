@@ -20,23 +20,56 @@ export const BankInfoComponent: FC = () => {
   const navigate = useNavigate();
 
   const cards = useMemo(() => {
-    return Array.from({ length: 6 }).map((_, index) => ({
-      key: index,
+    const userCards = (user?.bank_details || []).map((card, index) => ({
+      key: card.id || index,
       content: (
         <BankCard
-          cardHolder={user?.bank_details[index]?.card_holder ?? "Name Surname"}
+          cardHolder={card.card_holder ?? "Name Surname"}
           cardNumber={formatCardNumber(
-            user?.bank_details[index]?.card_number ?? "1234 5678 1234 5678"
+            card.card_number ?? "1234 5678 1234 5678"
           )}
-          bankName={user?.bank_details[index]?.bank_name ?? "Bank"}
-          isBlocked={user?.bank_details[index]?.is_blocked}
-          bgColor={user?.bank_details[index] ? "#4CAF50" : "silver"}
+          bankName={card.bank_name ?? "Bank"}
+          isBlocked={card.is_blocked}
           textColor="#FFFFFF"
-          bankDetailID={user?.bank_details[index]?.id ?? 0}
-          currency={(user?.bank_details[index]?.currency as string) ?? 0}
+          bankDetailID={card.id ?? 0}
+          currency={(card.currency as string) ?? 0}
+          isBankDetailsLengthBigger={
+            user?.bank_details.length && user?.bank_details.length >= 3
+              ? true
+              : false
+          }
         />
       ),
     }));
+
+    if (userCards.length > 3) {
+      return userCards;
+    }
+
+    // Добавляем дефолтные карты, если своих меньше 3
+    const defaultCards = Array.from({ length: 3 - userCards.length }).map(
+      (_, idx) => ({
+        key: userCards.length + idx, // теперь key всегда number
+        content: (
+          <BankCard
+            cardHolder={"Name Surname"}
+            cardNumber={formatCardNumber("1234 5678 1234 5678")}
+            bankName={"Bank"}
+            isBlocked={undefined}
+            textColor="#FFFFFF"
+            bankDetailID={0}
+            currency={""}
+            isBankDetailsLengthBigger={
+              user?.bank_details.length && user?.bank_details.length >= 3
+                ? true
+                : false
+            }
+          />
+        ),
+      })
+    );
+
+    return [...userCards, ...defaultCards];
   }, [user]);
 
   const tabContent = useMemo(

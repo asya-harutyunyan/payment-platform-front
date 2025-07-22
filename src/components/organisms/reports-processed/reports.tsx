@@ -191,7 +191,7 @@ export const ReportsProccesedAmount = () => {
               }}
             >
               <P fontSize={"1.2rem"} paddingRight={"5px"}>
-                Сумма депозитов, сделанных картой:{" "}
+                Сумма депозитов, сделанных криптой:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
                 {admingetProcessedAmounts.crypto_deposits ?? 0}₽

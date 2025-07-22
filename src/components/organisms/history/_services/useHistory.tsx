@@ -227,6 +227,10 @@ const usePlatipayService = () => {
         },
       },
       {
+        column: "ip_address",
+        valueKey: "ip_address",
+      },
+      {
         valueKey: "role",
         filters: () => {
           return (

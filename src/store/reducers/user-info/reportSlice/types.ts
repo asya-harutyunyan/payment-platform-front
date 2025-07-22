@@ -141,6 +141,7 @@ export interface HistoryRequest {
   date?: string;
   from?: string;
   to?: string;
+  ip_address?: string;
   sort?: "ASC" | "DESC";
   created_at?: string;
 }

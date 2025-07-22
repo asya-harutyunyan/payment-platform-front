@@ -7,7 +7,7 @@ import { AddCardModal } from "@/components/organisms/add_card_modal";
 import { H3, H5, P } from "@/styles/typography";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
-import { Box, Typography } from "@mui/material";
+import { Box, Tooltip, Typography } from "@mui/material";
 import { t } from "i18next";
 import { Dispatch, FC, SetStateAction, useMemo } from "react";
 import { useBankCard } from "./_service/useBankCard";
@@ -18,12 +18,13 @@ interface IBankCard {
   isBlocked?: number;
   bankName: string;
   // phoneNumber: string;
-  bgColor: string;
+  bgColor?: string;
   textColor: string;
   currency: string;
   onClick?: (card: BankDetail) => void;
   bankDetailID?: number;
   setChangeTab?: Dispatch<SetStateAction<number>>;
+  isBankDetailsLengthBigger?: boolean;
 }
 const BankCard: FC<IBankCard> = ({
   cardHolder = "Name Surname",
@@ -32,6 +33,7 @@ const BankCard: FC<IBankCard> = ({
   textColor = "#FFFFFF",
   bankDetailID,
   isBlocked,
+  isBankDetailsLengthBigger,
   currency,
 }) => {
   const {
@@ -44,9 +46,14 @@ const BankCard: FC<IBankCard> = ({
     handleOpen,
     banks,
   } = useBankCard();
+
   const bankNameFormatted = useMemo(() => {
-    return banks.find((bank) => bank.key === bankName)?.["name"] ?? bankName;
+    const name =
+      banks.find((bank) => bank.key === bankName)?.["name"] ?? bankName;
+    return name.length > 15 ? `${name.slice(0, 15)}...` : name;
   }, [bankName, banks]);
+  console.log(isBankDetailsLengthBigger);
+
   return (
     <Box component="form">
       <Box
@@ -87,9 +94,19 @@ const BankCard: FC<IBankCard> = ({
               alignItems: "center",
             }}
           >
-            <H5 sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}>
-              {bankNameFormatted}
-            </H5>
+            <Tooltip title={bankNameFormatted}>
+              <H5
+                sx={{
+                  color: isBlocked ? "#b3b3b3" : "#ffffff",
+                  maxWidth: "100%",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {bankNameFormatted}
+              </H5>
+            </Tooltip>
             {bankDetailID ? (
               <Box sx={{ display: "flex" }}>
                 <Box onClick={() => !isBlocked && handleOpen()}>
