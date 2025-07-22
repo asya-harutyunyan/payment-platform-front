@@ -53,9 +53,6 @@ const useUserOrder = () => {
     };
 
     fetchOrders();
-
-    // const interval = setInterval(fetchOrders, 10000);
-    // return () => clearInterval(interval);
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
@@ -64,8 +61,8 @@ const useUserOrder = () => {
 
   const handleOpen = () => setOpen(true);
 
-  const getTimer = (created_at: string, type?: "CRYPTO" | "FIAT") => {
-    const duration = type === "FIAT" ? 40 : 15; //checking
+  const getTimer = (created_at: string) => {
+    const duration = 20;
     return new Date(
       dayjs()
         .add(
@@ -110,7 +107,7 @@ const useUserOrder = () => {
           return row.status_by_client === "pending" ? (
             <P sx={{ width: "120px" }}>
               <Countdown
-                date={getTimer(row.created_at, "FIAT")}
+                date={getTimer(row.created_at)}
                 renderer={(props) => countDownrenderer(props, row.id)}
               />
             </P>

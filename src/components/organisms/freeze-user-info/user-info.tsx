@@ -1,5 +1,6 @@
 import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
+import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getFreezeUserThunk } from "@/store/reducers/allUsersSlice/thunks";
@@ -9,6 +10,7 @@ import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useEffect } from "react";
 import { Paper } from "../../molecules/paper/paper";
+import useUserList from "./_services/useUserList";
 import { fields } from "./columns";
 
 export const FreezeUserInfo: FC = () => {
@@ -17,7 +19,7 @@ export const FreezeUserInfo: FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const canGoBack = useCanGoBack();
-
+  const { pandingOrders, orderColumns } = useUserList();
   useEffect(() => {
     dispatch(getFreezeUserThunk(Number(id)));
   }, [dispatch, id]);
@@ -50,6 +52,7 @@ export const FreezeUserInfo: FC = () => {
             fields={fields}
             title={"Список замароженных пользовательей"}
           />
+          <DynamicTable columns={orderColumns} data={pandingOrders} />
 
           <Box
             sx={{ display: "flex", justifyContent: "center", width: "90%" }}

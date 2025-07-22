@@ -52,6 +52,7 @@ const initialState: UserState = {
   activeUsersState: {},
   getReferralOrdersState: {},
   getUserReferralsOrdersState: {},
+  pandingOrders: [],
 };
 
 const usersSlice = createSlice({
@@ -117,7 +118,7 @@ const usersSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(getFreezeUserThunk.fulfilled, (state, action) => {
-        state.freezedUser = action.payload.user;
+        state.pandingOrders = action.payload.orders.data;
       })
       .addCase(getSystemConfigThunk.pending, (state) => {
         state.systemConfigState.loading = true;

@@ -43,7 +43,7 @@ const useUserList = () => {
     (state) => state.users
   );
 
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(filter_schema),
     defaultValues: {
       name: "",
@@ -181,7 +181,6 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              {...register("name")}
               name="name"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -207,7 +206,6 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              {...register("surname")}
               name="surname"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -220,7 +218,6 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              {...register("email")}
               width="200px"
               name="email"
               style={{ input: { padding: "10px 14px" } }}

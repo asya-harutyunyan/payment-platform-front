@@ -15,6 +15,7 @@ export interface UserState {
   blockedUsers: User[];
   user: User | null;
   freezedUser: User | null;
+  pandingOrders: pangingOrder[];
   currentPage: number | null;
   lastPage: number | null;
   total: number;
@@ -41,6 +42,11 @@ export interface UserState {
     loading?: boolean;
     data?: TGetReferralsOrdersThunkResponse["data"];
   };
+}
+export interface pangingOrder {
+  id: string;
+  created_at: string;
+  status?: string;
 }
 export interface ReferedUsersListRequest {
   id: string;
