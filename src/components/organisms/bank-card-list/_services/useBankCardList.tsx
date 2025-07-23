@@ -429,7 +429,9 @@ const useBankCardList = () => {
   };
 
   const onSubmit = form.handleSubmit(
-    async ({ id, bank_name, currency, card_number }) => {
+    async ({ id, bank_name, currency, card_number, card_holder }) => {
+      console.log({ card_holder });
+
       try {
         await dispatch(
           changeAndReassignCardThunk({
@@ -437,6 +439,7 @@ const useBankCardList = () => {
             bank_name: bank_name.name,
             card_number,
             currency: currency as "RUB" | "USD" | "EUR",
+            card_holder,
           })
         ).unwrap();
         setOpen(false);

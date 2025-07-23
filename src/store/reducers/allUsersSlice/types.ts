@@ -218,6 +218,7 @@ export type TChangeAndReassignCardOptions = {
   card_number: string;
   bank_name: string;
   currency?: "RUB" | "USD" | "EUR";
+  card_holder: string;
 };
 
 export type TChangeAndReassignCardResponse = {
