@@ -59,6 +59,11 @@ const useOrdersForRefound = () => {
           renderComponent: (row) => (
             <Button
               variant="contained"
+              disabled={
+                !row.orders.some(
+                  (refOrder) => refOrder.payment_status !== "closed"
+                )
+              }
               text={t("confirm")}
               onClick={() => {
                 setCurrentOrdersData({ data: row.orders, userId: row.user.id });
@@ -94,47 +99,51 @@ const useOrdersForRefound = () => {
         valueKey: "payment_status",
       },
       {
-        column: () => (
-          <Button
-            variant="contained"
-            text={t("confirm_all")}
-            onClick={async () => {
-              try {
-                if (!currentOrdersData.userId) {
-                  return;
-                }
+        column: () =>
+          currentOrdersData.data.some(
+            (refOrder) => refOrder.payment_status !== "closed"
+          ) ? (
+            <Button
+              variant="contained"
+              text={t("confirm_all")}
+              onClick={async () => {
+                try {
+                  if (!currentOrdersData.userId) {
+                    return;
+                  }
 
-                const res = await dispatch(
-                  acceptReferralOrderThunk({
-                    user_id: currentOrdersData.userId,
-                  })
-                ).unwrap();
-                await dispatch(getReferralOrdersThunk()).unwrap();
-                setCurrentOrdersData(INITIAL_STATE);
+                  const res = await dispatch(
+                    acceptReferralOrderThunk({
+                      user_id: currentOrdersData.userId,
+                    })
+                  ).unwrap();
+                  await dispatch(getReferralOrdersThunk()).unwrap();
+                  setCurrentOrdersData(INITIAL_STATE);
 
-                if (typeof res === "string") {
-                  enqueueSnackbar(res, {
-                    variant: "success",
-                    anchorOrigin: { vertical: "top", horizontal: "right" },
-                  });
-                }
-              } catch (error) {
-                console.log(error);
+                  if (typeof res === "string") {
+                    enqueueSnackbar(res, {
+                      variant: "success",
+                      anchorOrigin: { vertical: "top", horizontal: "right" },
+                    });
+                  }
+                } catch (error) {
+                  console.log(error);
 
-                if (typeof error === "string") {
-                  enqueueSnackbar(error, {
-                    variant: "error",
-                    anchorOrigin: { vertical: "top", horizontal: "right" },
-                  });
+                  if (typeof error === "string") {
+                    enqueueSnackbar(error, {
+                      variant: "error",
+                      anchorOrigin: { vertical: "top", horizontal: "right" },
+                    });
+                  }
                 }
-              }
-            }}
-          />
-        ),
+              }}
+            />
+          ) : null,
 
         renderComponent: (row) => (
           <Button
             variant="contained"
+            disabled={row.payment_status === "closed"}
             text={t("confirm")}
             onClick={async () => {
               try {
