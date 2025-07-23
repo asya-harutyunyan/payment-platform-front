@@ -3,7 +3,6 @@ import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import { ECurrencyRefOrder } from "@/components/organisms/partner-program/_serivces/usePartnerProgram";
 import { useAuth } from "@/context/auth.context";
 import { createReferralsOrderSchema } from "@/schema/wallet_details.schema";
-import { t } from "i18next";
 import { Control, FieldValues, useController } from "react-hook-form";
 import { z } from "zod";
 
@@ -34,7 +33,7 @@ export function CheckoutForm({ control }: TCheckoutForm<TFormData>) {
     <FormTextInput
       control={control}
       name="transaction_hash"
-      placeholder={t("hash")}
+      placeholder={"Номер кошелька"}
       whiteVariant={true}
     />
   );
