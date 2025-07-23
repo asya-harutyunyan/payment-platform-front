@@ -2,7 +2,6 @@ import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/us
 import { z } from "zod";
 import { password_regex } from "./password.regex";
 
-
 export enum EUserRoles {
   SUPPORT_LEAD = "support_lead",
   SUPPORT_OPERATOR = "support_operator",
@@ -53,12 +52,12 @@ export const create_permissions = z
         deposit_limit: z.string().optional(),
       }),
       z.object({
-        role: z.nativeEnum(EUserRole),
-      //   role: z.literal(EUserRoles.CUSTOM),
-      //   permissions: z.array(z.string()),
-      // }),
-      // z.object({
-      //   role: z.nativeEnum(EUserRoles),
+        role: z.enum([
+          EUserRole.SupportLead,
+          EUserRole.SupportOperator,
+          EUserRole.SupportTrainee,
+          EUserRole.TechnicalSpecialist,
+        ]),
       }),
     ])
   );
