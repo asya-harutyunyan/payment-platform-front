@@ -1,9 +1,13 @@
 import { IColumn } from "@/components/molecules/table";
+import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { pangingOrder } from "@/store/reducers/allUsersSlice/types";
+import { PangingOrder } from "@/store/reducers/allUsersSlice/types";
 import { getDepositsThunk } from "@/store/reducers/user-info/depositSlice/thunks";
+import { P } from "@/styles/typography";
+import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
+import { t } from "i18next";
 import { useMemo, useState } from "react";
 
 const useUserList = () => {
@@ -29,18 +33,33 @@ const useUserList = () => {
     );
   };
 
-  const orderColumns = useMemo<IColumn<pangingOrder>[]>(
+  const orderColumns = useMemo<IColumn<PangingOrder>[]>(
     () =>
       [
         {
           column: "status",
-          valueKey: "status",
+          renderComponent: (row: PangingOrder) => {
+            return (
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <P
+                  sx={{
+                    fontSize: "15px",
+                    fontWeight: 500,
+                    paddingRight: "5px",
+                    color: getStatusColor(row.status ?? "-"),
+                  }}
+                >
+                  {row.status && t(row.status)}
+                </P>
+              </Box>
+            );
+          },
         },
         {
           column: "created_at",
           valueKey: "created_at",
         },
-      ].filter(Boolean) as IColumn<pangingOrder>[],
+      ].filter(Boolean) as IColumn<PangingOrder>[],
     [user?.permissions]
   );
 

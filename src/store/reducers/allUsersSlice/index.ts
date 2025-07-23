@@ -119,6 +119,7 @@ const usersSlice = createSlice({
       })
       .addCase(getFreezeUserThunk.fulfilled, (state, action) => {
         state.pandingOrders = action.payload.orders.data;
+        state.freezedUser = action.payload.user;
       })
       .addCase(getSystemConfigThunk.pending, (state) => {
         state.systemConfigState.loading = true;
