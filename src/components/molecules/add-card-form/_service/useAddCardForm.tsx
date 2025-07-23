@@ -76,6 +76,8 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
+          console.log(1);
+
           if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
             enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
@@ -145,6 +147,7 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
+          console.log(2);
           if (
             error?.card_number?.[1] &&
             error?.card_number?.[1] ===
@@ -163,6 +166,7 @@ export const useAddCardForm = () => {
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               }
             );
+            return;
           } else if (
             error.card_number?.[0] === "Поле номер карты уже занято."
           ) {
@@ -170,6 +174,7 @@ export const useAddCardForm = () => {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
+            return;
           } else if (error.card_number?.[0]) {
             enqueueSnackbar(error.card_number?.[0], {
               variant: "error",
@@ -177,12 +182,12 @@ export const useAddCardForm = () => {
             });
             return;
           }
-          {
-            enqueueSnackbar(t("something_went_wrong"), {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            });
-          }
+
+          enqueueSnackbar(t("something_went_wrong"), {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+
           reset();
           setValue(
             "bank_name",
