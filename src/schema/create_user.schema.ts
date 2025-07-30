@@ -2,14 +2,6 @@ import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/us
 import { z } from "zod";
 import { password_regex } from "./password.regex";
 
-export enum EUserRoles {
-  SUPPORT_LEAD = "support_lead",
-  SUPPORT_OPERATOR = "support_operator",
-  SUPPORT_TRAINEE = "support_trainee",
-  TECHNICAL_SPECIALIST = "technical_specialist",
-  CUSTOM = "CUSTOM",
-}
-
 export const create_permissions = z
   .object({
     name: z

@@ -31,7 +31,13 @@ export const useCreateUser = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    if (data.role === EUserRole.Admin && !data.deposit_limit) {
+    console.log(data);
+
+    if (
+      data.role === EUserRole.Admin &&
+      !data.deposit_limit &&
+      data.permissions.includes("deposits_confirm")
+    ) {
       return setError("deposit_limit", {
         message:
           "Поле 'Лимит депозита' обязательно при наличии разрешения подтверждение депозита",
