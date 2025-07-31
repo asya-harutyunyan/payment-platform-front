@@ -37,6 +37,10 @@ const useUserList = () => {
     () =>
       [
         {
+          column: "id",
+          valueKey: "id",
+        },
+        {
           column: "status",
           renderComponent: (row: PangingOrder) => {
             return (
