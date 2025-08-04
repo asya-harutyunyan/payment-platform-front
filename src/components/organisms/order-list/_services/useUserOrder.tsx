@@ -166,7 +166,6 @@ const useAdminOrder = () => {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
-          console.log(12);
 
           dispatch(
             getOrdersThunk({
@@ -295,7 +294,6 @@ const useAdminOrder = () => {
               </span>
             );
           },
-          // TODO: there is a problem with backend
           filters: () => {
             return (
               <Box>

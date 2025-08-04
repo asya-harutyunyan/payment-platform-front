@@ -199,6 +199,14 @@ export const getDeletedOrdersThunk = createAsyncThunk(
         params: {
           page: data.page,
           per_page: data.per_page,
+          name: data.name,
+          surname: data.surname,
+          transaction_id: data.transaction_id,
+          status_by_client: data.status_by_client,
+          amount: data.amount,
+          card_number: data.card_number,
+          from: data.from,
+          to: data.to,
           sort: data.sort,
         },
       });

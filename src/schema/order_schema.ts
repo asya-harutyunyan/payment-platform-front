@@ -12,3 +12,14 @@ export const order_schema = z.object({
   from: z.any().optional(),
   to: z.any().optional(),
 });
+
+export const deleted_order_schema = z.object({
+  amount: z.string(),
+  status_by_client: z.string(),
+  name: z.string(),
+  surname: z.string(),
+  transaction_id: z.string(),
+  from: z.any().optional(),
+  to: z.any().optional(),
+  card_number: z.string(),
+});

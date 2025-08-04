@@ -24,14 +24,17 @@ export interface Pagination {
   id?: string | number;
   page: number;
   per_page?: number;
-  status_by_client?: DEPOSIT_STATUSES;
+  status_by_client?: DEPOSIT_STATUSES | string;
   search?: string;
   name?: string;
   surname?: string;
   email?: string;
   period?: string;
   month?: string;
+  amount?: string;
+  card_number?: string;
   referral_code?: string;
+  transaction_id?: string;
   from?: string;
   to?: string;
   sort?: "ASC" | "DESC";
