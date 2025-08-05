@@ -51,8 +51,8 @@ const initialState: ReportsState = {
     total_amount_with_deposit: "",
     total_done_ammount: "",
     order_count: "",
-    donee_order_ammount: "",
     order_witouth_card_count: "",
+    done_order_amount: "",
   },
   orderSummary: {
     active_cards: 0,
@@ -61,6 +61,10 @@ const initialState: ReportsState = {
     expiredAmount: 0,
     expiredCount: "",
   },
+  done_count: "",
+  progress_count: "",
+  not_gived_count: "",
+  expired_count: "",
 };
 
 const reportsSlice = createSlice({
@@ -83,10 +87,8 @@ const reportsSlice = createSlice({
       })
       .addCase(getReportUsersThunk.fulfilled, (state, action) => {
         state.report_users = action.payload.data;
-        state.last_page = action.payload.meta.last_page;
-        state.total = Math.ceil(
-          action.payload.meta.total / action.payload.meta.per_page
-        );
+        state.last_page = action.payload.last_page;
+        state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getOrderSummaryThunk.fulfilled, (state, action) => {
         state.singleOrder = action.payload;

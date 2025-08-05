@@ -11,9 +11,9 @@ import useReports from "./_services/useReports";
 
 export const ReportsUsers = () => {
   const {
-    loadingDeposits,
+    loading,
     page,
-    totalDeposits,
+    total,
     report_users,
     onChangeReportUsersPage,
     columnsReportUsers,
@@ -39,7 +39,7 @@ export const ReportsUsers = () => {
           </Box>
         }
       />
-      {loadingDeposits ? (
+      {loading ? (
         <CircularIndeterminate />
       ) : (
         <Box
@@ -53,7 +53,7 @@ export const ReportsUsers = () => {
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <PaginationOutlined
               onPageChange={onChangeReportUsersPage}
-              count={totalDeposits}
+              count={total}
               page={page}
             />
           </Box>

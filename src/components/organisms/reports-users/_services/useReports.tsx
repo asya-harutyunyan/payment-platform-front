@@ -39,13 +39,8 @@ const useReports = () => {
   const [sortUsers, setSortUsers] = useState<"ASC" | "DESC">("DESC");
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
-  const {
-    orders_stats,
-    total: totalDeposits,
-    loading: loadingDeposits,
-    report_users,
-    adminSummary,
-  } = useAppSelector((state) => state.reports);
+  const { orders_stats, total, loading, report_users, adminSummary } =
+    useAppSelector((state) => state.reports);
 
   //reporst users
   const { control: UserControl, watch: UserWatch } = useForm<NewUserFormData>({
@@ -130,7 +125,11 @@ const useReports = () => {
     debouncedDepositAmount,
     sortUsers,
     page,
+    isDatePickerOpen,
   ]);
+  useEffect(() => {
+    console.log(report_users, "report_users");
+  }, [report_users]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -454,8 +453,8 @@ const useReports = () => {
     handleChange,
     onChangeReportUsersPage,
     orders_stats,
-    totalDeposits,
-    loadingDeposits,
+    total,
+    loading,
     report_users,
     adminSummary,
     dispatch,
