@@ -115,7 +115,7 @@ export const getReportUsersThunk = createAsyncThunk(
           name: data.name,
           surname: data.surname,
           email: data.email,
-          blocked_card: data.blocked_card,
+          blocked_cards: data.blocked_card,
           total_cards: data.total_card,
           earned_amount: data.earned_amount,
           paid_amount: data.paid_amount,
