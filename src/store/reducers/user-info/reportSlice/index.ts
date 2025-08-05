@@ -83,6 +83,10 @@ const reportsSlice = createSlice({
       .addCase(platipayThunk.fulfilled, (state, action) => {
         state.platipay = action.payload.data;
         state.last_page = action.payload.last_page;
+        state.done_count = action.payload.done_count;
+        state.progress_count = action.payload.progress_count;
+        state.not_gived_count = action.payload.not_gived_count;
+        state.expired_count = action.payload.expired_count;
         state.total = Math.ceil(action.payload.total / action.payload.per_page);
       })
       .addCase(getReportUsersThunk.fulfilled, (state, action) => {

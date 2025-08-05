@@ -37,7 +37,7 @@ const usePlatipayService = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
   const { user } = useAuth();
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(platipay_schema),
     defaultValues: {
       amount: "",
@@ -92,6 +92,7 @@ const usePlatipayService = () => {
     debouncedTo,
     sort,
     page,
+    isDatePickerOpen,
   ]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
@@ -151,7 +152,6 @@ const usePlatipayService = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("amount")}
               name="amount"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -165,7 +165,6 @@ const usePlatipayService = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("status_by_client")}
               name="status_by_client"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
@@ -195,7 +194,6 @@ const usePlatipayService = () => {
           return (
             <FormTextInput
               control={control}
-              {...register("transaction_id")}
               name="transaction_id"
               width="200px"
               style={{ input: { padding: "10px 14px" } }}
