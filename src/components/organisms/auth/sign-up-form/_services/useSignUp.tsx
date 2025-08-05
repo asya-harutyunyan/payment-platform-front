@@ -57,11 +57,12 @@ const useSignUp = () => {
         }
 
         setValue("fingerprint", visitorId);
-      } catch () {
+      } catch (error) {
         enqueueSnackbar(t("something_went_wrong"), {
           variant: "error",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });
+        console.log(error);
       }
     };
 

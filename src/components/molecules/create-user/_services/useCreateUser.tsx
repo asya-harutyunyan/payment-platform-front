@@ -31,8 +31,6 @@ export const useCreateUser = () => {
   });
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
-
     if (
       data.role === EUserRole.Admin &&
       !data.deposit_limit &&
