@@ -56,19 +56,35 @@ const useReports = () => {
       email: "",
       from: undefined,
       to: undefined,
+      blocked_cards: "",
+      total_cards: "",
+      earned_amount: "",
+      deposit_amount: "",
+      paid_amount: "",
     },
   });
 
-  //reporst users
   const nameUser = UserWatch("name");
   const surnameUser = UserWatch("surname");
   const emailUser = UserWatch("email");
   const from = UserWatch("from");
   const to = UserWatch("to");
+  const blocked_cards = UserWatch("blocked_cards");
+  const total_cards = UserWatch("total_cards");
+  const earned_amount = UserWatch("earned_amount");
+  const paid_amount = UserWatch("paid_amount");
+  const deposit_amount = UserWatch("deposit_amount");
 
   const [debouncedNameUser] = useDebounce(nameUser, 700);
   const [debouncedSurnameUser] = useDebounce(surnameUser, 700);
   const [debouncedEmailUser] = useDebounce(emailUser, 700);
+
+  const [debouncedBlockedCards] = useDebounce(blocked_cards, 700);
+  const [debouncedTotalCards] = useDebounce(total_cards, 700);
+  const [debouncedEarnedAmount] = useDebounce(earned_amount, 700);
+  const [debouncedPaidAmount] = useDebounce(paid_amount, 700);
+  const [debouncedDepositAmount] = useDebounce(deposit_amount, 700);
+
   const [debouncedFrom] = useDebounce(
     from && dayjs(from).isValid() ? dayjs(from).format("DD.MM.YYYY") : "",
     2000
@@ -94,6 +110,11 @@ const useReports = () => {
         to: isValidRange ? debouncedTo : "",
         from: isValidRange ? debouncedFrom : "",
         sort: sortUsers,
+        blocked_card: debouncedBlockedCards,
+        total_card: debouncedTotalCards,
+        earned_amount: debouncedEarnedAmount,
+        paid_amount: debouncedPaidAmount,
+        deposit_amount: debouncedDepositAmount,
       })
     );
   }, [
@@ -102,6 +123,11 @@ const useReports = () => {
     debouncedFrom,
     debouncedSurnameUser,
     debouncedEmailUser,
+    debouncedBlockedCards,
+    debouncedTotalCards,
+    debouncedEarnedAmount,
+    debouncedPaidAmount,
+    debouncedDepositAmount,
     sortUsers,
     page,
   ]);
@@ -237,27 +263,105 @@ const useReports = () => {
         },
       },
       {
-        column: "blocked_cards",
         valueKey: "blocked_cards",
+        filters: () => {
+          return (
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("blocked_cards")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="blocked_cards"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
+          );
+        },
       },
 
       {
-        column: "total_cards",
         valueKey: "total_cards",
+        filters: () => {
+          return (
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("total_cards")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="total_cards"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
+          );
+        },
       },
       //
       {
-        column: "earned_amount",
         valueKey: "earned_amount",
+        filters: () => {
+          return (
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("earned_amount")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="earned_amount"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
+          );
+        },
       },
 
       {
-        column: "deposit_amount",
         valueKey: "deposit_amount",
+        filters: () => {
+          return (
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("deposit_amount")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="deposit_amount"
+                width="200px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
+          );
+        },
       },
       {
         column: "paid_amount",
         valueKey: "paid_amount",
+        filters: () => {
+          return (
+            <FormTextInput
+              control={UserControl}
+              name="paid_amount"
+              width="200px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          );
+        },
       },
     ],
     []

@@ -24,4 +24,9 @@ export const new_users_schema = z.object({
   email: z.string(),
   from: z.any().optional(),
   to: z.any().optional(),
+  blocked_cards: z.string(),
+  total_cards: z.string(),
+  earned_amount: z.string(),
+  deposit_amount: z.string(),
+  paid_amount: z.string(),
 });

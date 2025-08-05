@@ -90,20 +90,19 @@ const usePartnerProgram = () => {
           justifyContent: "start",
           width: "100%",
           flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          marginTop: "10px",
         }}
       >
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            paddingLeft: "15px",
           }}
         >
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-
               fontSize: "1rem",
             }}
           >

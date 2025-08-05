@@ -22,7 +22,7 @@ export interface CreateWallet {
 }
 export interface Pagination {
   id?: string | number;
-  page: number;
+  page?: number;
   per_page?: number;
   status_by_client?: DEPOSIT_STATUSES | string;
   search?: string;
@@ -37,6 +37,11 @@ export interface Pagination {
   transaction_id?: string;
   from?: string;
   to?: string;
+  blocked_card?: string;
+  total_card?: string;
+  earned_amount?: string;
+  paid_amount?: string;
+  deposit_amount?: string;
   sort?: "ASC" | "DESC";
 }
 export interface FilterWallet {

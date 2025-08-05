@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/store";
 import {
   cancelReferralsOrdersThunk,
   createRefOrderThunk,
+  getReferalsUserThunk,
   getReferralsOrdersThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { TGetReferralsOrdersThunkResponse } from "@/store/reducers/allUsersSlice/types";
@@ -29,8 +30,13 @@ const useOrdersHistory = () => {
   const userReferralsData = useAppSelector(
     (state) => state.users.getUserReferralsOrdersState.data?.orders ?? []
   );
+  const { total_amount } = useAppSelector((state) => state.users);
 
-  const { control, handleSubmit } = useForm<TFormData>({
+  useEffect(() => {
+    dispatch(getReferalsUserThunk({ page: 1, per_page: 5 }));
+  }, []);
+
+  const { control, handleSubmit, setError } = useForm<TFormData>({
     resolver: zodResolver(createReferralsOrderSchema),
     defaultValues: { currency_of_payment: ECurrencyRefOrder.USDT },
   });
@@ -101,17 +107,32 @@ const useOrdersHistory = () => {
   );
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      await dispatch(createRefOrderThunk(data)).unwrap();
-      enqueueSnackbar(
-        "Ваш запрос находится на обработке! Пожалуйста подождите.",
-        {
-          variant: "success",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        }
-      );
-    } catch (error) {
-      console.log(error);
+    console.log(total_amount);
+
+    if (total_amount === 0) {
+      setError("request_amount", {
+        type: "manual",
+        message: "У вас недостаточно средств на балансе для выполнения вывода.",
+      });
+      return;
+    } else {
+      dispatch(createRefOrderThunk(data))
+        .unwrap()
+        .then(() => {
+          enqueueSnackbar(
+            "Ваш запрос находится на обработке! Пожалуйста подождите.",
+            {
+              variant: "success",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            }
+          );
+        })
+        .catch((error) => {
+          enqueueSnackbar(error, {
+            variant: "error",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        });
     }
   });
 
@@ -123,6 +144,7 @@ const useOrdersHistory = () => {
     control,
     columns,
     onSubmit,
+    setError,
     options,
     isCheckoutFormVisible,
     onCheckoutButtonClick,

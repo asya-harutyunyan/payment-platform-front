@@ -1,6 +1,7 @@
 import bg from "@/assets/images/modal.png";
 // import { AndroidIcon } from "@/assets/svg/android";
 // import { IOSIcon } from "@/assets/svg/ios";
+import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
 import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
@@ -10,7 +11,7 @@ import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
-import { H3, H6 } from "@/styles/typography";
+import { H3, H6, P } from "@/styles/typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import {
@@ -185,7 +186,46 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             zIndex: 1,
           }}
         >
+          {user?.role === "client" && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "10px 0",
+              }}
+            >
+              <a
+                href="https://t.me/payhubofficial"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+                target="_blanck"
+              >
+                <img
+                  src={telegram}
+                  alt="telegram"
+                  style={{ width: "30px", cursor: "pointer" }}
+                />
+                <P
+                  sx={{
+                    paddingLeft: "10px",
+                    color: "#fff",
+                    hover: {
+                      color: "#896e6e",
+                    },
+                  }}
+                >
+                  {" "}
+                  Связь с нами
+                </P>
+              </a>
+            </Box>
+          )}
           <LogoutButton handleLogout={handleLogout} />
+
           {user?.role === "client" && <DeleteAccountButton />}
         </Box>
       </Drawer>
@@ -217,6 +257,44 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             }}
           >
             <LogoutButton handleLogout={handleLogout} />
+            {user?.role === "client" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  margin: "10px 0",
+                }}
+              >
+                <a
+                  href="https://t.me/payhubofficial"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                  target="_blanck"
+                >
+                  <img
+                    src={telegram}
+                    alt="telegram"
+                    style={{ width: "30px", cursor: "pointer" }}
+                  />
+                  <P
+                    sx={{
+                      paddingLeft: "10px",
+                      color: "#fff",
+                      hover: {
+                        color: "#896e6e",
+                      },
+                    }}
+                  >
+                    {" "}
+                    Связь с нами
+                  </P>
+                </a>
+              </Box>
+            )}
           </Box>
         </Box>
       </Drawer>
@@ -249,6 +327,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         >
           {children}
         </Box>
+
         <Box
           sx={{
             width: "100%",

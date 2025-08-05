@@ -81,7 +81,7 @@ const useDeletedOrders = () => {
     dispatch(
       getDeletedOrdersThunk({
         page,
-        per_page: 20,
+        per_page: 2,
         name: debouncedName,
         surname: debouncedSurname,
         to: isValidRange ? debouncedTo : "",

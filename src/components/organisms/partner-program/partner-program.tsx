@@ -6,11 +6,10 @@ import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
 
-import { P } from "@/styles/typography";
+import { H5, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
-import { EmptyComponent } from "../empty-component";
 import usePartnerProgram from "./_serivces/usePartnerProgram";
 
 export const PartnerProgramComponent: FC = () => {
@@ -54,7 +53,12 @@ export const PartnerProgramComponent: FC = () => {
             </Box>
 
             {user?.referral?.referral_code && (
-              <Box sx={{ display: "flex", flexDirection: "row" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
                 <Box
                   sx={{
                     display: "flex",
@@ -63,8 +67,11 @@ export const PartnerProgramComponent: FC = () => {
                     padding: "10px 0",
                   }}
                 >
-                  <CopyButton text={user.referral.referral_code} />
+                  <H5 sx={{ paddingRight: "10px", color: "primary.main" }}>
+                    Ваш код:
+                  </H5>
                   <P color="primary.main">{user.referral.referral_code}</P>
+                  <CopyButton text={user.referral.referral_code} />
                 </Box>
                 <Box
                   sx={{
@@ -74,8 +81,12 @@ export const PartnerProgramComponent: FC = () => {
                     padding: "10px 0",
                   }}
                 >
+                  <H5 sx={{ paddingRight: "10px", color: "primary.main" }}>
+                    {" "}
+                    Ваша ссылка:
+                  </H5>
+                  <P color="primary.main">{referralUrl}</P>{" "}
                   <CopyButton text={referralUrl} />
-                  <P color="primary.main">{referralUrl}</P>
                 </Box>
               </Box>
             )}
@@ -92,27 +103,27 @@ export const PartnerProgramComponent: FC = () => {
 
       {loading ? (
         <CircularIndeterminate />
-      ) : referralUser.length > 0 ? (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-            marginTop: "20px",
-          }}
-        >
-          <DynamicTable columns={columns} data={referralUser} />
-          <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-          >
-            <PaginationOutlined
-              onPageChange={onChangePage}
-              count={total}
-              page={page}
-            />
-          </Box>
-        </Box>
       ) : (
-        <EmptyComponent text={"no_data"} />
+        referralUser.length > 0 && (
+          <Box
+            sx={{
+              width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+              height: "100vh",
+              marginTop: "20px",
+            }}
+          >
+            <DynamicTable columns={columns} data={referralUser} />
+            <Box
+              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            >
+              <PaginationOutlined
+                onPageChange={onChangePage}
+                count={total}
+                page={page}
+              />
+            </Box>
+          </Box>
+        )
       )}
     </Box>
   );
