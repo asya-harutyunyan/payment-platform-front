@@ -26,7 +26,6 @@ httpClient.interceptors.response.use(
   },
   (error) => {
     if (error?.response?.status === 401) {
-      //   console.log(error);
       localStorage.removeItem("notification_token");
       localStorage.removeItem("accessToken");
       localStorage.removeItem("user_role");

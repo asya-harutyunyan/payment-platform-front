@@ -21,7 +21,6 @@ export const OrderInfoUser: FC = () => {
   useEffect(() => {
     dispatch(getSingleOrderThunk(id));
   }, [dispatch, id]);
-  console.log(singleOrder);
 
   return (
     <Box>

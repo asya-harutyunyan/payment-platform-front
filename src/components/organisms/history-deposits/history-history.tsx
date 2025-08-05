@@ -10,7 +10,6 @@ import useHistoryDeposit from "./_services/useHistoryDeposit";
 export const HistoryDepositsComponent: FC = () => {
   const { depositHistory, lastPage, loading, page, onChangePage, columns } =
     useHistoryDeposit();
-  console.log("Deposit History:", depositHistory);
 
   return (
     <Box sx={{ width: "100%" }}>

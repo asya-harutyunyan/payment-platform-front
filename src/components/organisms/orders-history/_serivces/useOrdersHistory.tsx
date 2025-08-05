@@ -107,8 +107,6 @@ const useOrdersHistory = () => {
   );
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(total_amount);
-
     if (total_amount === 0) {
       setError("request_amount", {
         type: "manual",

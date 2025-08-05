@@ -21,7 +21,6 @@ export const useNotifications = () => {
       });
       const localToken = localStorage.getItem("notification_token");
       if (token && token !== localToken) {
-        // console.log("Token generated:", token);
         httpClient
           .post("save-fcm-token", {
             fcm_token: token,
@@ -29,7 +28,6 @@ export const useNotifications = () => {
           .then(() => {
             localStorage.setItem("notification_token", token);
           });
-        // Send this token to your server to store it for later use
       } else {
         console.log("No registration token available.");
       }

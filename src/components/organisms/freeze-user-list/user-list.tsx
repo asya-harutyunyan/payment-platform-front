@@ -16,8 +16,6 @@ export const FreezedUserListComponent: FC = () => {
     loading,
     freezedUsers,
   } = useUserList();
-  console.log();
-
   return (
     <Box>
       <TaskHeader title={t("freezed_user_info")} />

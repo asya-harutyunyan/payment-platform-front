@@ -76,8 +76,6 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          console.log(1);
-
           if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
             enqueueSnackbar("Карта с этим номером уже существует.", {
               variant: "error",
@@ -147,7 +145,6 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          console.log(2);
           if (
             error?.card_number?.[1] &&
             error?.card_number?.[1] ===

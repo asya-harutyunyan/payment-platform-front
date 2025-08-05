@@ -430,8 +430,6 @@ const useBankCardList = () => {
 
   const onSubmit = form.handleSubmit(
     async ({ id, bank_name, currency, card_number, card_holder }) => {
-      console.log({ card_holder });
-
       try {
         await dispatch(
           changeAndReassignCardThunk({
