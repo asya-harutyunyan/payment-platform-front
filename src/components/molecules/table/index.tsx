@@ -124,12 +124,18 @@ function DynamicTable<
               {renderBottomComponent?.()}
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody
+            sx={{
+              td: {
+                padding: "0 10px",
+              },
+            }}
+          >
             {data?.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
                 sx={{
-                  height: "70px",
+                  height: "50px",
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
                   },
