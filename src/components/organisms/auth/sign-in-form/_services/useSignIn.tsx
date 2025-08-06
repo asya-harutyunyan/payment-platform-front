@@ -156,7 +156,11 @@ const useSignIn = () => {
       }
     }
 
-    if (userData.role === EUserRole.Admin && !userData.google2fa_enabled) {
+    if (
+      userData.role !== EUserRole.SuperAdmin &&
+      userData.role !== EUserRole.Client &&
+      !userData.google2fa_enabled
+    ) {
       if (!data.otp || data.otp.length === 0) {
         setError("otp", {
           type: "manual",
