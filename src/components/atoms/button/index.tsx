@@ -50,10 +50,11 @@ const Button: React.FC<DynamicButtonProps> = ({
       variant={variant}
       sx={{
         ...sx,
-        minHeight: "40px",
+        minHeight: "35px",
         minWidth: "100px",
         textTransform: "capitalize",
         transition: "transform 0.1s ease",
+        padding: "5px 10px",
         ":active": {
           transform: "scale(0.95)",
         },

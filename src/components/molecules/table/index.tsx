@@ -135,7 +135,7 @@ function DynamicTable<
               <TableRow
                 key={rowIndex}
                 sx={{
-                  height: "50px",
+                  height: "43px",
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
                   },
