@@ -93,7 +93,8 @@ const LoginForm = () => {
           />
 
           {getUserRoleData?.role !== EUserRole.SuperAdmin &&
-            getUserRoleData?.role !== EUserRole.Client && (
+            getUserRoleData?.role !== EUserRole.Client &&
+            getUserRoleData?.google2fa_enabled && (
               <FormTextInput
                 control={control}
                 name="otp"
