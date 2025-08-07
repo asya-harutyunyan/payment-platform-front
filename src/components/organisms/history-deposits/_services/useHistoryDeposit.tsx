@@ -133,12 +133,14 @@ const useHistoryDeposit = () => {
                 }}
               >
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -176,7 +178,7 @@ const useHistoryDeposit = () => {
             <FormTextInput
               control={control}
               name="by_fullname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -190,7 +192,7 @@ const useHistoryDeposit = () => {
             <FormTextInput
               control={control}
               name="by_email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -227,7 +229,7 @@ const useHistoryDeposit = () => {
             <FormTextInput
               control={control}
               name="to_fullname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -241,7 +243,7 @@ const useHistoryDeposit = () => {
             <FormTextInput
               control={control}
               name="to_email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );

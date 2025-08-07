@@ -125,7 +125,7 @@ const useBlockedUserList = ({ value, setValue }: UseUserListProps) => {
               <FormTextInput
                 control={BlockedUserControl}
                 name="name"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );
@@ -139,7 +139,7 @@ const useBlockedUserList = ({ value, setValue }: UseUserListProps) => {
               <FormTextInput
                 control={BlockedUserControl}
                 name="surname"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );
@@ -153,7 +153,7 @@ const useBlockedUserList = ({ value, setValue }: UseUserListProps) => {
               <FormTextInput
                 control={BlockedUserControl}
                 name="email"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );

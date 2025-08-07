@@ -132,12 +132,14 @@ const useWallet = () => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <MonthPicker
+                    width="130px"
                     name="from"
                     control={control}
                     onOpen={() => setIsDatePickerOpen(true)}
                     onClose={() => setIsDatePickerOpen(false)}
                   />
                   <MonthPicker
+                    width="130px"
                     name="to"
                     control={control}
                     onOpen={() => setIsDatePickerOpen(true)}
@@ -175,7 +177,7 @@ const useWallet = () => {
                 control={control}
                 {...register("network")}
                 name="network"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );
@@ -212,7 +214,7 @@ const useWallet = () => {
                 control={control}
                 {...register("address")}
                 name="address"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );

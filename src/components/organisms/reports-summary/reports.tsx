@@ -120,6 +120,7 @@ export const ReportsSummary = () => {
           >
             <Box sx={{ marginRight: { lg: "20px", md: "0", xs: "0" } }}>
               <MonthPicker
+                width="130px"
                 name="from"
                 control={control}
                 onOpen={() => setIsDatePickerOpen(true)}
@@ -127,6 +128,7 @@ export const ReportsSummary = () => {
               />
             </Box>
             <MonthPicker
+              width="130px"
               name="to"
               control={control}
               onOpen={() => setIsDatePickerOpen(true)}

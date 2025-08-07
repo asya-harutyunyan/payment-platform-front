@@ -130,12 +130,14 @@ const useBlockedUserList = () => {
               <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <MonthPicker
+                    width="130px"
                     name="from"
                     control={BlockedUserControl}
                     onOpen={() => setIsDatePickerOpen(true)}
                     onClose={() => setIsDatePickerOpen(false)}
                   />
                   <MonthPicker
+                    width="130px"
                     name="to"
                     control={BlockedUserControl}
                     onOpen={() => setIsDatePickerOpen(true)}
@@ -188,7 +190,7 @@ const useBlockedUserList = () => {
               <FormTextInput
                 control={BlockedUserControl}
                 name="name"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );
@@ -202,7 +204,7 @@ const useBlockedUserList = () => {
               <FormTextInput
                 control={BlockedUserControl}
                 name="surname"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );
@@ -216,7 +218,7 @@ const useBlockedUserList = () => {
               <FormTextInput
                 control={BlockedUserControl}
                 name="email"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             );

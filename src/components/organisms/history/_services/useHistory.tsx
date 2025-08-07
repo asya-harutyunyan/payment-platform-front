@@ -133,12 +133,14 @@ const usePlatipayService = () => {
                 }}
               >
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -175,7 +177,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="action"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -190,7 +192,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="by_fullname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -206,7 +208,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="by_email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -236,7 +238,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="date"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -276,7 +278,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="to_fullname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -290,7 +292,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="to_email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );

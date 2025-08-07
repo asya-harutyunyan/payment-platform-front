@@ -198,7 +198,7 @@ const useManageModerators = () => {
             <FormTextInput
               control={filterControl}
               name="name"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -212,7 +212,7 @@ const useManageModerators = () => {
             <FormTextInput
               control={filterControl}
               name="surname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -227,7 +227,7 @@ const useManageModerators = () => {
             <FormTextInput
               control={filterControl}
               name="email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );

@@ -13,6 +13,7 @@ type MonthPickerProps = {
   control: Control<any>;
   label?: string;
   minDate?: Dayjs;
+  width?: string;
   maxDate?: Dayjs;
   disabled?: boolean;
   onClear?: () => void;
@@ -28,6 +29,7 @@ export const MonthPicker = ({
   label = "",
   minDate,
   maxDate,
+  width,
   onClose,
   onOpen,
   disabled = false,
@@ -50,7 +52,7 @@ export const MonthPicker = ({
                   minDate={minDate}
                   maxDate={maxDate}
                   disabled={disabled}
-                  sx={{ width: "100%" }}
+                  sx={{ width: width ?? "100%" }}
                   onOpen={onOpen}
                   onClose={onClose}
                   slotProps={{

@@ -168,12 +168,14 @@ const useReports = () => {
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={UserControl}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={UserControl}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -227,7 +229,7 @@ const useReports = () => {
             <FormTextInput
               control={UserControl}
               name="name"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -241,7 +243,7 @@ const useReports = () => {
             <FormTextInput
               control={UserControl}
               name="surname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -255,7 +257,7 @@ const useReports = () => {
             <FormTextInput
               control={UserControl}
               name="email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -275,7 +277,7 @@ const useReports = () => {
               <FormTextInput
                 control={UserControl}
                 name="blocked_cards"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             </Box>
@@ -297,7 +299,7 @@ const useReports = () => {
               <FormTextInput
                 control={UserControl}
                 name="total_cards"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             </Box>
@@ -319,7 +321,7 @@ const useReports = () => {
               <FormTextInput
                 control={UserControl}
                 name="earned_amount"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             </Box>
@@ -341,7 +343,7 @@ const useReports = () => {
               <FormTextInput
                 control={UserControl}
                 name="deposit_amount"
-                width="200px"
+                width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
             </Box>
@@ -356,7 +358,7 @@ const useReports = () => {
             <FormTextInput
               control={UserControl}
               name="paid_amount"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );

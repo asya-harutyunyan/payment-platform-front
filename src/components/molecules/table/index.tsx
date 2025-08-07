@@ -128,6 +128,7 @@ function DynamicTable<
             sx={{
               td: {
                 padding: "0 10px",
+                width: "150px",
               },
             }}
           >
@@ -135,7 +136,7 @@ function DynamicTable<
               <TableRow
                 key={rowIndex}
                 sx={{
-                  height: "43px",
+                  height: "60px",
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
                   },

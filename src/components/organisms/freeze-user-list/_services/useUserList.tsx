@@ -182,7 +182,7 @@ const useUserList = () => {
             <FormTextInput
               control={control}
               name="name"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           ),
@@ -207,7 +207,7 @@ const useUserList = () => {
             <FormTextInput
               control={control}
               name="surname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           ),
@@ -218,7 +218,7 @@ const useUserList = () => {
           filters: () => (
             <FormTextInput
               control={control}
-              width="200px"
+              width="130px"
               name="email"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -238,12 +238,14 @@ const useUserList = () => {
               >
                 <Box sx={{ display: "flex", flexDirection: "column" }}>
                   <MonthPicker
+                    width="130px"
                     name="from"
                     control={control}
                     onOpen={() => setIsDatePickerOpen(true)}
                     onClose={() => setIsDatePickerOpen(false)}
                   />
                   <MonthPicker
+                    width="130px"
                     name="to"
                     control={control}
                     onOpen={() => setIsDatePickerOpen(true)}

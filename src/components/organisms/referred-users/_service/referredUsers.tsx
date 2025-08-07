@@ -337,12 +337,14 @@ const useReferredUsers = () => {
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={filterControl}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={filterControl}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -379,7 +381,7 @@ const useReferredUsers = () => {
             <FormTextInput
               control={filterControl}
               name="name"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -393,7 +395,7 @@ const useReferredUsers = () => {
             <FormTextInput
               control={filterControl}
               name="surname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -407,7 +409,7 @@ const useReferredUsers = () => {
           return (
             <FormTextInput
               control={filterControl}
-              width="200px"
+              width="130px"
               name="email"
               style={{ input: { padding: "10px 14px" } }}
             />
@@ -517,7 +519,7 @@ const useReferredUsers = () => {
           return (
             <FormTextInput
               control={filterControl}
-              width="200px"
+              width="130px"
               name="referral_code"
               style={{ input: { padding: "10px 14px" } }}
             />

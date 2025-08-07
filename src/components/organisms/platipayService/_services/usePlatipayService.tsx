@@ -114,12 +114,14 @@ const usePlatipayService = () => {
                 }}
               >
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -153,7 +155,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="amount"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -166,7 +168,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="status_by_client"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -195,7 +197,7 @@ const usePlatipayService = () => {
             <FormTextInput
               control={control}
               name="transaction_id"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );

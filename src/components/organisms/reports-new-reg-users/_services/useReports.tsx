@@ -161,12 +161,14 @@ const useReports = () => {
                 }}
               >
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={NewUserControl}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={NewUserControl}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -219,7 +221,7 @@ const useReports = () => {
             <FormTextInput
               control={NewUserControl}
               name="name"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -233,7 +235,7 @@ const useReports = () => {
             <FormTextInput
               control={NewUserControl}
               name="surname"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );
@@ -247,7 +249,7 @@ const useReports = () => {
             <FormTextInput
               control={NewUserControl}
               name="email"
-              width="200px"
+              width="130px"
               style={{ input: { padding: "10px 14px" } }}
             />
           );

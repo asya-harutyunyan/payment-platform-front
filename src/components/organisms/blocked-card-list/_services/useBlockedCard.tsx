@@ -124,12 +124,14 @@ const useBlockedCard = () => {
                 }}
               >
                 <MonthPicker
+                  width="130px"
                   name="from"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
                   onClose={() => setIsDatePickerOpen(false)}
                 />
                 <MonthPicker
+                  width="130px"
                   name="to"
                   control={control}
                   onOpen={() => setIsDatePickerOpen(true)}
@@ -177,7 +179,7 @@ const useBlockedCard = () => {
             control={control}
             {...register("name")}
             name="name"
-            width="200px"
+            width="130px"
             style={{ input: { padding: "10px 14px" } }}
           />
         ),
@@ -190,7 +192,7 @@ const useBlockedCard = () => {
             control={control}
             {...register("surname")}
             name="surname"
-            width="200px"
+            width="130px"
             style={{ input: { padding: "10px 14px" } }}
           />
         ),
@@ -202,7 +204,7 @@ const useBlockedCard = () => {
           <FormTextInput
             control={control}
             name="bank_name"
-            width="200px"
+            width="130px"
             style={{ input: { padding: "10px 14px" } }}
           />
         ),
@@ -214,7 +216,7 @@ const useBlockedCard = () => {
           <FormTextInput
             control={control}
             name="card_holder"
-            width="200px"
+            width="130px"
             style={{ input: { padding: "10px 14px" } }}
           />
         ),
@@ -226,7 +228,7 @@ const useBlockedCard = () => {
           <FormTextInput
             control={control}
             name="card_number"
-            width="200px"
+            width="130px"
             style={{ input: { padding: "10px 14px" } }}
           />
         ),
