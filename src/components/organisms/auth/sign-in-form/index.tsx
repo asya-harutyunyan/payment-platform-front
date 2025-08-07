@@ -92,13 +92,14 @@ const LoginForm = () => {
             placeholder={t("password")}
           />
 
-          {getUserRoleData?.role === EUserRole.Admin && (
-            <FormTextInput
-              control={control}
-              name="otp"
-              placeholder={t("otp_code")}
-            />
-          )}
+          {getUserRoleData?.role !== EUserRole.SuperAdmin &&
+            getUserRoleData?.role !== EUserRole.Client && (
+              <FormTextInput
+                control={control}
+                name="otp"
+                placeholder={t("otp_code")}
+              />
+            )}
 
           {getUserRoleData?.role === EUserRole.Client && (
             <GoogleReCaptcha onVerify={handleRecaptchaVerify} />
