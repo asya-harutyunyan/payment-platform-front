@@ -141,7 +141,11 @@ const useSignIn = () => {
           getUserRoleThunk({ email: data.email, password: data.password })
         ).unwrap();
 
-        if (userData.role === EUserRole.Admin && !userData.google2fa_enabled) {
+        if (
+          userData.role !== EUserRole.SuperAdmin &&
+          userData.role !== EUserRole.Client &&
+          !userData.google2fa_enabled
+        ) {
           await dispatch(loginUser(data)).unwrap();
           setIsTwoFAModalOpen(true);
           return;
