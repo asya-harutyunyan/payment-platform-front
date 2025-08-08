@@ -9,7 +9,9 @@ import {
   getReferralsOrdersThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { TGetReferralsOrdersThunkResponse } from "@/store/reducers/allUsersSlice/types";
+import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Box } from "@mui/material";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -55,41 +57,90 @@ const useOrdersHistory = () => {
   const columns = useMemo(
     () =>
       [
-        { column: t("currency"), valueKey: "currency_of_payment" },
-        { column: t("id"), valueKey: "id" },
-        { column: t("amount"), valueKey: "request_amount" },
-        { column: t("status"), valueKey: "payment_status" },
-        { column: t("wallet"), valueKey: "transaction_hash" },
         {
-          column: "",
+          column: "currency",
+          valueKey: "currency_of_payment",
+        },
+        {
+          column: "id",
+          valueKey: "id",
+        },
+        {
+          column: "amount",
+          valueKey: "request_amount",
+        },
+        {
+          column: "status",
+          renderComponent: (row) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                }}
+              >
+                {t(row.payment_status)}
+              </P>
+            );
+          },
+        },
+        {
+          column: "wallet",
+          renderComponent: (row) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                }}
+              >
+                {row.transaction_hash ? t(row.transaction_hash) : "-"}
+              </P>
+            );
+          },
+        },
+        {
+          column: "key",
           renderComponent: (row) => (
-            <Button
-              variant="contained"
-              text={t("cancel")}
-              onClick={async () => {
-                try {
-                  const res = await dispatch(
-                    cancelReferralsOrdersThunk({ id: row.id })
-                  ).unwrap();
+            <Box>
+              {row.payment_status === "open" ? (
+                <Button
+                  variant="contained"
+                  text={t("cancel")}
+                  onClick={async () => {
+                    try {
+                      const res = await dispatch(
+                        cancelReferralsOrdersThunk({ id: row.id })
+                      ).unwrap();
 
-                  if (typeof res === "string") {
-                    enqueueSnackbar(res, {
-                      variant: "success",
-                      anchorOrigin: { vertical: "top", horizontal: "right" },
-                    });
-                  }
-                } catch (error) {
-                  console.log(error);
+                      if (typeof res === "string") {
+                        enqueueSnackbar(res, {
+                          variant: "success",
+                          anchorOrigin: {
+                            vertical: "top",
+                            horizontal: "right",
+                          },
+                        });
+                      }
+                    } catch (error) {
+                      console.log(error);
 
-                  if (typeof error === "string") {
-                    enqueueSnackbar(error, {
-                      variant: "error",
-                      anchorOrigin: { vertical: "top", horizontal: "right" },
-                    });
-                  }
-                }
-              }}
-            />
+                      if (typeof error === "string") {
+                        enqueueSnackbar(error, {
+                          variant: "error",
+                          anchorOrigin: {
+                            vertical: "top",
+                            horizontal: "right",
+                          },
+                        });
+                      }
+                    }
+                  }}
+                />
+              ) : null}
+            </Box>
           ),
         },
       ] as TColumn<

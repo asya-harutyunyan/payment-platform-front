@@ -213,7 +213,10 @@ const useSignIn = () => {
     dispatch(resetRoleData());
   }, [dispatch]);
 
-  const handleModalClose = useCallback(() => setIsTwoFAModalOpen(false), []);
+  const handleModalClose = useCallback(() => {
+    setIsTwoFAModalOpen(false);
+    dispatch(resetRoleData());
+  }, [dispatch]);
 
   return {
     handleSubmit,

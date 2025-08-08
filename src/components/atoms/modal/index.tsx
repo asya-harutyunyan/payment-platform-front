@@ -2,7 +2,7 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import { ReactNode } from "@tanstack/react-router";
-import { FC } from "react";
+import { CSSProperties, FC } from "react";
 
 interface IBasicModal {
   handleClose: () => void;
@@ -11,6 +11,7 @@ interface IBasicModal {
   bg?: string;
   width?: string;
   minHeight?: string;
+  style?: CSSProperties;
 }
 export const BasicModal: FC<IBasicModal> = ({
   open,
@@ -18,6 +19,7 @@ export const BasicModal: FC<IBasicModal> = ({
   handleClose,
   children,
   minHeight,
+  style,
   bg,
 }) => {
   return (
@@ -47,6 +49,8 @@ export const BasicModal: FC<IBasicModal> = ({
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
+          maxHeight: "70%",
+          ...style,
         }}
       >
         <HighlightOffIcon
@@ -58,6 +62,7 @@ export const BasicModal: FC<IBasicModal> = ({
             color: "tertiary.main",
             fontSize: "40px",
             cursor: "pointer",
+            marginBottom: "20px",
           }}
         />
         {children}

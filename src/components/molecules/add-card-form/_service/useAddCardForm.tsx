@@ -77,7 +77,7 @@ export const useAddCardForm = () => {
         })
         .catch((error) => {
           if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
-            enqueueSnackbar("Карта с этим номером уже существует.", {
+            enqueueSnackbar(t("already_exist"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
@@ -167,7 +167,7 @@ export const useAddCardForm = () => {
           } else if (
             error.card_number?.[0] === "Поле номер карты уже занято."
           ) {
-            enqueueSnackbar("Карта с этим номером уже существует.", {
+            enqueueSnackbar(t("already_exist"), {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });

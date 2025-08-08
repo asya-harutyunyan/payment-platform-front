@@ -37,6 +37,9 @@ export const OrdersForRefoundPage: FC = () => {
         open={!!currentOrdersData.data.length}
         bg={bg}
         width="50%"
+        style={{
+          padding: "50px",
+        }}
       >
         <DynamicTable columns={ordersColumns} data={currentOrdersData.data} />
       </BasicModal>
