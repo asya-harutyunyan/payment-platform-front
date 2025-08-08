@@ -7,6 +7,7 @@ import {
   getReferralOrdersThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { TGetReferralOrdersResponse } from "@/store/reducers/allUsersSlice/types";
+import { P } from "@/styles/typography";
 import { t } from "i18next";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
@@ -77,26 +78,50 @@ const useOrdersForRefound = () => {
 
   const ordersColumns = useMemo<TColumn<TOrderDataItem>[]>(
     () => [
-      { column: t("id") as keyof TOrderDataItem, valueKey: "id" },
+      { column: "id" as keyof TOrderDataItem, valueKey: "id" },
       {
-        column: t("amount") as keyof TOrderDataItem,
+        column: "amount" as keyof TOrderDataItem,
         valueKey: "request_amount",
       },
       {
-        column: t("currency") as keyof TOrderDataItem,
+        column: "currency" as keyof TOrderDataItem,
         valueKey: "currency_of_payment",
       },
       {
-        column: t("payment_method_id") as keyof TOrderDataItem,
+        column: "payment_method_id" as keyof TOrderDataItem,
         valueKey: "payment_method",
       },
       {
-        column: t("wallet") as keyof TOrderDataItem,
-        valueKey: "transaction_hash",
+        column: "wallet" as keyof TOrderDataItem,
+        renderComponent: (row) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              {row.transaction_hash ? t(row.transaction_hash) : "-"}
+            </P>
+          );
+        },
       },
       {
-        column: t("status") as keyof TOrderDataItem,
-        valueKey: "payment_status",
+        column: "status" as keyof TOrderDataItem,
+        renderComponent: (row) => {
+          return (
+            <P
+              sx={{
+                color: "black",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              {t(row.payment_status)}
+            </P>
+          );
+        },
       },
       {
         column: () =>
