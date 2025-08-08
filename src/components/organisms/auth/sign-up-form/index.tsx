@@ -1,7 +1,6 @@
 import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { CustomCheckbox } from "@/components/atoms/checkbox";
-import { HiddenInput } from "@/components/atoms/hidden-input/hidden-input";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
 import theme from "@/styles/theme";
@@ -10,13 +9,17 @@ import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
-import { GoogleReCaptcha } from "react-google-recaptcha-v3";
 import bg from "../../../../assets/images/bg.jpg";
 import useSignUp from "./_services/useSignUp";
 
 const SignUpForm: FC = () => {
-  const { control, handleSubmit, watch, onSubmit, onRecaptchaVerify } =
-    useSignUp();
+  const {
+    control,
+    handleSubmit,
+    watch,
+    onSubmit,
+    //  onRecaptchaVerify
+  } = useSignUp();
 
   return (
     <>
@@ -81,7 +84,7 @@ const SignUpForm: FC = () => {
             {t("create_account")}
           </P>
 
-          <HiddenInput control={control} name="validation_token" />
+          {/* <HiddenInput control={control} name="validation_token" /> */}
 
           <FormTextInput
             control={control}
@@ -151,7 +154,7 @@ const SignUpForm: FC = () => {
           </TextWithDivider>
         </BasicCard>
       </Box>
-      <GoogleReCaptcha onVerify={onRecaptchaVerify} />
+      {/* <GoogleReCaptcha onVerify={onRecaptchaVerify} /> */}
     </>
   );
 };
