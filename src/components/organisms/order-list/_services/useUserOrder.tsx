@@ -137,9 +137,9 @@ const useAdminOrder = () => {
     };
 
     fetchOrders();
-    // const interval = setInterval(fetchOrders, 10000);
+    const interval = setInterval(fetchOrders, 10000);
 
-    // return () => clearInterval(interval);
+    return () => clearInterval(interval);
   }, [
     debouncedAmount,
     debouncedName,

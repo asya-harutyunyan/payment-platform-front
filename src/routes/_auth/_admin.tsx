@@ -1,17 +1,15 @@
 import { ADMIN_ROLES } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { useAuth } from "@/context/auth.context";
-import { useAppDispatch } from "@/store";
-import { connect } from "@/store/reducers/websocket";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { useEffect } from "react";
 
 const AdminLayout = () => {
   const { user } = useAuth();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (user) {
-      dispatch(connect());
+      // dispatch(connect());
     }
   }, []);
 

@@ -53,6 +53,9 @@ const useUserOrder = () => {
     };
 
     fetchOrders();
+    const interval = setInterval(fetchOrders, 10000);
+
+    return () => clearInterval(interval);
   }, [dispatch, page, user?.role]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {

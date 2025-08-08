@@ -1,19 +1,17 @@
 // import { useAuth } from "@/context/auth.context";
 // import { useNotifications } from "@/hooks/useNotifications";
 import { useAuth } from "@/context/auth.context";
-import { useAppDispatch } from "@/store";
-import { connect } from "@/store/reducers/websocket";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { useEffect } from "react";
 // import { useEffect } from "react";
 
 const UserLayout = () => {
   const { user } = useAuth();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (user) {
-      dispatch(connect());
+      // dispatch(connect());
     }
   }, []);
   return (
