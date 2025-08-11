@@ -17,7 +17,6 @@ interface IBankCard {
   cardNumber: string;
   isBlocked?: number;
   bankName: string;
-  // phoneNumber: string;
   bgColor?: string;
   textColor: string;
   currency: string;
@@ -33,7 +32,6 @@ const BankCard: FC<IBankCard> = ({
   textColor = "#FFFFFF",
   bankDetailID,
   isBlocked,
-  isBankDetailsLengthBigger,
   currency,
 }) => {
   const {
@@ -52,7 +50,6 @@ const BankCard: FC<IBankCard> = ({
       banks.find((bank) => bank.key === bankName)?.["name"] ?? bankName;
     return name.length > 15 ? `${name.slice(0, 15)}...` : name;
   }, [bankName, banks]);
-  console.log(isBankDetailsLengthBigger);
 
   return (
     <Box component="form">

@@ -1,12 +1,18 @@
+import Button from "@/components/atoms/button";
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
 import { CurrencyOptions } from "@/components/utils/status-color";
+import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { blocked_card_schema } from "@/schema/blocked_card_schena";
 import { useAppDispatch, useAppSelector } from "@/store";
-import { getBlockedCardsThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
+import {
+  getBankCardsThunk,
+  getBlockedCardsThunk,
+  unblockCardThunk,
+} from "@/store/reducers/user-info/bankDetailsSlice/thunks";
 import { BankCardsDetalis } from "@/store/reducers/user-info/depositSlice/types";
 import { P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +21,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Box } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
+import { enqueueSnackbar } from "notistack";
 import { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "use-debounce";
@@ -28,12 +35,13 @@ const useBlockedCard = () => {
   const [sort, setSort] = useState<"ASC" | "DESC">("DESC");
   const { goToUserPage } = useUserContext();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
+  const { user } = useAuth();
 
   const { blockedCards, loading, total } = useAppSelector(
     (state) => state.bankDetails
   );
 
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(blocked_card_schema),
     defaultValues: {
       name: "",
@@ -109,151 +117,201 @@ const useBlockedCard = () => {
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage?.(page);
   };
-
+  const handleUnblockCard = (id?: number) => {
+    if (user?.id && id) {
+      dispatch(unblockCardThunk(id))
+        .unwrap()
+        .then(() => {
+          dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
+          enqueueSnackbar("Карта разблокировано", {
+            variant: "success",
+            anchorOrigin: { vertical: "top", horizontal: "right" },
+          });
+        })
+        .catch((error) => {
+          if (
+            error ===
+            "Невозможно разблокировать карту пользователя, так как у него уже есть 3 активные карты."
+          ) {
+            enqueueSnackbar(
+              "Невозможно разблокировать карту пользователя, так как у него уже есть 3 активные карты.",
+              {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              }
+            );
+          } else {
+            enqueueSnackbar(t("something_went_wrong"), {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
+        });
+    }
+  };
   const columns = useMemo<IColumn<BankCardsDetalis>[]>(
-    () => [
-      {
-        column: () => (
-          <Box>
-            <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+    () =>
+      [
+        {
+          column: () => (
+            <Box>
+              <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <MonthPicker
+                    width="130px"
+                    name="from"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                  <MonthPicker
+                    width="130px"
+                    name="to"
+                    control={control}
+                    onOpen={() => setIsDatePickerOpen(true)}
+                    onClose={() => setIsDatePickerOpen(false)}
+                  />
+                </Box>
+                {sortComponent()}
+              </Box>
+            </Box>
+          ),
+          renderComponent: (row: BankCardsDetalis) => (
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box
+              <P
                 sx={{
-                  display: "flex",
-                  flexDirection: "column",
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                  paddingRight: "5px",
                 }}
               >
-                <MonthPicker
-                  width="130px"
-                  name="from"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-                <MonthPicker
-                  width="130px"
-                  name="to"
-                  control={control}
-                  onOpen={() => setIsDatePickerOpen(true)}
-                  onClose={() => setIsDatePickerOpen(false)}
-                />
-              </Box>
-              {sortComponent()}
+                {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+              </P>
             </Box>
-          </Box>
-        ),
-        renderComponent: (row: BankCardsDetalis) => (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          ),
+        },
+        {
+          column: "name",
+          renderComponent: (row: BankCardsDetalis) => (
             <P
               sx={{
                 color: "black",
                 fontSize: "15px",
                 fontWeight: 500,
-                paddingRight: "5px",
+                ":hover": {
+                  textDecoration: "underline",
+                },
               }}
+              onClick={() => row.id && goToUserPage(row.id)}
             >
-              {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
+              {row?.user?.name}
             </P>
-          </Box>
-        ),
-      },
-      {
-        column: "name",
-        renderComponent: (row: BankCardsDetalis) => (
-          <P
-            sx={{
-              color: "black",
-              fontSize: "15px",
-              fontWeight: 500,
-              ":hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={() => row.id && goToUserPage(row.id)}
-          >
-            {row?.user?.name}
-          </P>
-        ),
-        filters: () => (
-          <FormTextInput
-            control={control}
-            {...register("name")}
-            name="name"
-            width="130px"
-            style={{ input: { padding: "10px 14px" } }}
-          />
-        ),
-      },
-      {
-        column: "surname",
-        valueKey: "user.surname",
-        filters: () => (
-          <FormTextInput
-            control={control}
-            {...register("surname")}
-            name="surname"
-            width="130px"
-            style={{ input: { padding: "10px 14px" } }}
-          />
-        ),
-      },
-      {
-        column: "bank_name",
-        valueKey: "bank_name",
-        filters: () => (
-          <FormTextInput
-            control={control}
-            name="bank_name"
-            width="130px"
-            style={{ input: { padding: "10px 14px" } }}
-          />
-        ),
-      },
-      {
-        column: "card_holder",
-        valueKey: "card_holder",
-        filters: () => (
-          <FormTextInput
-            control={control}
-            name="card_holder"
-            width="130px"
-            style={{ input: { padding: "10px 14px" } }}
-          />
-        ),
-      },
-      {
-        column: "card_number",
-        valueKey: "card_number",
-        filters: () => (
-          <FormTextInput
-            control={control}
-            name="card_number"
-            width="130px"
-            style={{ input: { padding: "10px 14px" } }}
-          />
-        ),
-      },
-      {
-        valueKey: "currency",
-        filters: () => (
-          <Box>
-            <P
-              fontWeight={"bold"}
-              sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
-            >
-              {t("currency")}
-            </P>
-            <SelectFieldWith
-              placeholder={""}
-              name="currency"
+          ),
+          filters: () => (
+            <FormTextInput
               control={control}
-              options={CurrencyOptions}
-              height="43px"
+              name="name"
+              width="130px"
+              style={{ input: { padding: "10px 14px" } }}
             />
-          </Box>
-        ),
-      },
-    ],
+          ),
+        },
+        {
+          column: "surname",
+          valueKey: "user.surname",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              name="surname"
+              width="130px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+        },
+        {
+          column: "bank_name",
+          valueKey: "bank_name",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              name="bank_name"
+              width="130px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+        },
+        {
+          column: "card_holder",
+          valueKey: "card_holder",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              name="card_holder"
+              width="130px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+        },
+        {
+          column: "card_number",
+          valueKey: "card_number",
+          filters: () => (
+            <FormTextInput
+              control={control}
+              name="card_number"
+              width="130px"
+              style={{ input: { padding: "10px 14px" } }}
+            />
+          ),
+        },
+        {
+          valueKey: "currency",
+          filters: () => (
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("currency")}
+              </P>
+              <SelectFieldWith
+                placeholder={""}
+                name="currency"
+                control={control}
+                options={CurrencyOptions}
+                height="43px"
+              />
+            </Box>
+          ),
+        },
+        (user?.permissions.includes("banks_update") ||
+          user?.permissions.includes("users_card.block") ||
+          user?.permissions.includes("users_card.unblock")) && {
+          column: "key",
+          renderComponent: (row: BankCardsDetalis) => {
+            const canUnblock = user?.permissions.includes("users_card.unblock");
+            if (row.is_blocked && canUnblock) {
+              return (
+                <Button
+                  variant="outlined"
+                  text={t("unblock")}
+                  sx={{ width: "130px" }}
+                  onClick={() => handleUnblockCard?.(row.id)}
+                />
+              );
+            }
+
+            return null;
+          },
+        },
+      ].filter(Boolean) as IColumn<BankCardsDetalis>[],
     []
   );
 

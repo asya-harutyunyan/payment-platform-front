@@ -40,5 +40,6 @@ export default ({ mode }: ResolvedConfig) => {
         "msk.payhub.finance",
       ],
     },
+    publicDir: "public",
   });
 };

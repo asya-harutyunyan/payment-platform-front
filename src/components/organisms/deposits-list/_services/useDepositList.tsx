@@ -441,8 +441,22 @@ const useDepositInfo = () => {
         },
         {
           column: "left_amount",
+          renderComponent: (row: DataDeposits) => {
+            return (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  fontWeight: 400,
+                  textTransform: "capitalize",
+                  color: "#000",
+                }}
+              >
+                {Number(row.processing_amount) < 0 ? 0 : row.processing_amount}
+              </span>
+            );
+          },
           currency: "deposit_currency",
-          valueKey: "processing_amount",
         },
         {
           renderComponent: (row: DataDeposits) => {

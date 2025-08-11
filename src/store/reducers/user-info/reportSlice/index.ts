@@ -114,8 +114,10 @@ const reportsSlice = createSlice({
 
       .addCase(historyThunk.fulfilled, (state, action) => {
         state.history = action.payload.data.data;
-        state.history_last_page = action.payload.last_page;
-        state.total = Math.ceil(action.payload.total / action.payload.per_page);
+        state.history_last_page = action.payload.data.last_page;
+        state.total = Math.ceil(
+          action.payload.data.total / action.payload.data.per_page
+        );
       })
       .addMatcher(isPending, (state) => {
         state.loading = true;

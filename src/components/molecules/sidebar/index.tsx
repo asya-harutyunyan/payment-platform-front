@@ -1,7 +1,6 @@
 import bg from "@/assets/images/modal.png";
-// import { AndroidIcon } from "@/assets/svg/android";
-// import { IOSIcon } from "@/assets/svg/ios";
 import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
+import { AndroidIcon } from "@/assets/svg/android";
 import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
@@ -22,7 +21,7 @@ import {
   Toolbar,
   useMediaQuery,
 } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { adminItems, superAdminItems, userItems } from "./__item_list__";
@@ -113,6 +112,36 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       setIsDrawerOpen(!isDrawerOpen);
     }
   };
+  const downloadApk = async () => {
+    try {
+      fetch("/public/app-release.apk", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          // Create blob link to download
+          const url = window.URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `app-release.apk`);
+
+          // Append to html link element page
+          document.body.appendChild(link);
+
+          // Start download
+          link.click();
+
+          // Clean up and remove the link
+          link.parentNode?.removeChild(link);
+        });
+    } catch (error) {
+      console.error("Ошибка при скачивании:", error);
+    }
+  };
 
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
@@ -123,6 +152,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("Logout failed:", resultAction.payload);
     }
   };
+
+  const location = useLocation();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -328,28 +359,37 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {children}
         </Box>
 
-        <Box
-          sx={{
-            width: "100%",
-            height: "10%",
-            display: "flex",
-            justifyContent: "end",
-          }}
-        >
+        {location.pathname === "/my-information" && (
           <Box
-            sx={{ display: "flex", width: "max-content", alignItems: "center" }}
+            sx={{
+              width: "100%",
+              height: "10%",
+              display: "flex",
+              justifyContent: "end",
+            }}
           >
-            {/* <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
-              Скачать приложение
-            </P>
-            <Box sx={{ paddingRight: "5px", cursor: "pointer" }}>
-              <IOSIcon />
+            <Box
+              sx={{
+                display: "flex",
+                width: "max-content",
+                alignItems: "center",
+              }}
+            >
+              <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
+                Скачать приложение
+              </P>
+              <Box sx={{ paddingRight: "5px", cursor: "pointer" }}>
+                {/* <IOSIcon /> */}
+              </Box>
+              <Box
+                sx={{ paddingRight: "5px", cursor: "pointer" }}
+                onClick={downloadApk}
+              >
+                <AndroidIcon />
+              </Box>
             </Box>
-            <Box sx={{ cursor: "pointer" }} onClick={() => downloadAPK()}>
-              <AndroidIcon />
-            </Box> */}
           </Box>
-        </Box>
+        )}
       </Box>
       <BasicModal
         handleClose={() => setOpen(false)}
