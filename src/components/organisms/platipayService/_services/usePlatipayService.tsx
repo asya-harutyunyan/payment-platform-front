@@ -105,7 +105,6 @@ const usePlatipayService = () => {
         column: () => (
           <Box>
             <P fontWeight={"bold"}>{t("created_at")}</P>
-
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box
                 sx={{
@@ -141,14 +140,14 @@ const usePlatipayService = () => {
                 fontWeight: 500,
               }}
             >
-              {dayjs(row.created_at).format("DD MMM HH:mm")}
+              {dayjs(row.created_at).format("DD.MM.YYYY HH:mm")}
             </span>
           );
         },
       },
       {
         column: "amount",
-        currencyManual: " ₽",
+        currencyManual: "₽",
         valueKey: "amount",
         filters: () => {
           return (
