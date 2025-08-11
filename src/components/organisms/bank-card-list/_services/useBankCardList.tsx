@@ -192,7 +192,7 @@ const useBankCardList = () => {
                     textDecoration: "underline",
                   },
                 }}
-                onClick={() => row.id && goToUserPage(row.id)}
+                onClick={() => row.id && goToUserPage(row.user_id)}
               >
                 {row.card_holder}
               </P>

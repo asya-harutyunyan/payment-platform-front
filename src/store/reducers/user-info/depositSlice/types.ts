@@ -151,6 +151,7 @@ export interface BankCardsDetalis {
   name?: string;
   surname?: string;
   currency: string;
+  user_id: number;
   id: number;
   is_blocked: number;
   phone_number: string;

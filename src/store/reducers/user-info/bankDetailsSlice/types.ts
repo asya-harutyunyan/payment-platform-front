@@ -16,7 +16,7 @@ export interface BankCardsDetails {
   id: number;
   is_blocked: number;
   phone_number: string;
-  user_id: number | string;
+  user_id: number;
   name?: string;
   surname?: string;
 }
