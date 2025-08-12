@@ -1,9 +1,7 @@
 import { CopyButton } from "@/components/atoms/copy-btn";
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
-import { SelectFieldWith } from "@/components/atoms/select";
 import { IColumn } from "@/components/molecules/table";
-import { StatusOptions } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useUserContext } from "@/context/single.user.page/user.context";
 import { deleted_order_schema } from "@/schema/order_schema";
@@ -198,28 +196,6 @@ const useDeletedOrders = () => {
                 width="130px"
                 style={{ input: { padding: "10px 14px" } }}
               />
-            );
-          },
-        },
-        {
-          valueKey: "status_by_client",
-          filters: () => {
-            return (
-              <Box>
-                <P
-                  fontWeight={"bold"}
-                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
-                >
-                  {t("order_status_client")}
-                </P>
-                <SelectFieldWith
-                  placeholder={""}
-                  name="status_by_client"
-                  control={control}
-                  options={StatusOptions}
-                  height="43px"
-                />
-              </Box>
             );
           },
         },
