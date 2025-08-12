@@ -177,10 +177,20 @@ const useOrdersHistory = () => {
           );
         })
         .catch((error) => {
+          // if (
+          //   error ===
+          //   "У вас уже есть открытая заявка на сумму 7526.00. Ваш текущий заработок: 7836. Вы можете запросить не более 310."
+          // ) {
+          //   enqueueSnackbar(error, {
+          //     variant: "error",
+          //     anchorOrigin: { vertical: "top", horizontal: "right" },
+          //   });
+          // } else {
           enqueueSnackbar(error, {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
+          // }
         });
     }
   });
