@@ -25,6 +25,8 @@ export const UserInfo: FC = () => {
   useEffect(() => {
     dispatch(getUserThunk(Number(id)));
   }, [dispatch, id]);
+  console.log(user?.current_orders);
+
   return (
     <Box>
       <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
@@ -91,10 +93,10 @@ export const UserInfo: FC = () => {
           <Box sx={{ marginTop: "20px" }}>
             <H4 color="primary.main">{t("orders")}</H4>
             <Divider />
-            {user.current_orders.data && user.current_orders.data.length ? (
+            {user.current_orders && user.current_orders.length ? (
               <DynamicTable
                 columns={columnsOrders}
-                data={user.current_orders.data}
+                data={user?.current_orders}
               />
             ) : (
               <Box>

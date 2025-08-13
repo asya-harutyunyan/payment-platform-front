@@ -23,7 +23,7 @@ export interface UserState {
   referred_users_list: ReferedUsersListRequest[];
   referralUsersForAdmin: RefferedUsersList[];
   amount_to_pay: string;
-  total_amount: number;
+  total_amount: number | string;
   referralUser: ReferralOfUser[];
   referralUsersForAdminPagination: ReferralAdminPagination;
   systemConfigState: {

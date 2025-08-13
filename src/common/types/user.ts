@@ -25,9 +25,7 @@ export interface User {
     profit: string;
     total_amount: string;
   };
-  current_orders: {
-    data: Order[];
-  };
+  current_orders: Order[];
 }
 export interface Wallet {
   processing_amount: string;
