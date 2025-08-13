@@ -38,7 +38,7 @@ const useOrdersHistory = () => {
     dispatch(getReferalsUserThunk({ page: 1, per_page: 5 }));
   }, []);
 
-  const { control, handleSubmit, setError } = useForm<TFormData>({
+  const { control, handleSubmit, setError, reset } = useForm<TFormData>({
     resolver: zodResolver(createReferralsOrderSchema),
     defaultValues: { currency_of_payment: ECurrencyRefOrder.USDT },
   });
@@ -175,28 +175,20 @@ const useOrdersHistory = () => {
               anchorOrigin: { vertical: "top", horizontal: "right" },
             }
           );
+          setIsCheckoutFormVisible(false);
+          reset();
         })
         .catch((error) => {
-          // if (
-          //   error ===
-          //   "У вас уже есть открытая заявка на сумму 7526.00. Ваш текущий заработок: 7836. Вы можете запросить не более 310."
-          // ) {
-          //   enqueueSnackbar(error, {
-          //     variant: "error",
-          //     anchorOrigin: { vertical: "top", horizontal: "right" },
-          //   });
-          // } else {
           enqueueSnackbar(error, {
             variant: "error",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
-          // }
         });
     }
   });
 
   const onCheckoutButtonClick = () => {
-    setIsCheckoutFormVisible(true);
+    setIsCheckoutFormVisible(!isCheckoutFormVisible);
   };
 
   return {
@@ -204,6 +196,7 @@ const useOrdersHistory = () => {
     columns,
     onSubmit,
     setError,
+    reset,
     options,
     isCheckoutFormVisible,
     onCheckoutButtonClick,
