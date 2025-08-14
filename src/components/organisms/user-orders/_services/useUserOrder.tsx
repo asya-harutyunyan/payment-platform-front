@@ -47,7 +47,7 @@ const useUserOrder = () => {
             user.role === "superAdmin"
               ? 20
               : 5,
-          status_by_client: DEPOSIT_STATUSES.ALL,
+          status_by_client: filter,
         })
       );
     };
@@ -56,7 +56,7 @@ const useUserOrder = () => {
     const interval = setInterval(fetchOrders, 10000);
 
     return () => clearInterval(interval);
-  }, [dispatch, page, user?.role]);
+  }, [dispatch, page, user?.role, filter]);
 
   const onChangePage = (_event: React.ChangeEvent<unknown>, page: number) => {
     setPage(page);
