@@ -20,6 +20,7 @@ export interface AuthContext {
   wallet?: Wallet;
   setWallet: Dispatch<SetStateAction<Wallet | undefined>>;
   fetchAuthUser?: () => void;
+  logout?: () => void;
 }
 
 const AuthContext = createContext<AuthContext | null>(null);
@@ -33,12 +34,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const dispatch = useAppDispatch();
 
+  const logout = () => {
+    setUser(undefined);
+    setWallet(undefined);
+    setIsAuthenticated(false);
+    localStorage.removeItem("user_role");
+    localStorage.removeItem("accessToken");
+  };
+
   useEffect(() => {
     if (localStorage.getItem("accessToken")) {
       dispatch(fetchUser())
         .unwrap()
         .then((data) => {
           if (data) {
+            // Clear wallet data if this is a different user
+            if (user && user.id !== data.user.id) {
+              setWallet(undefined);
+            }
+
             setUser({
               ...data.user,
               permissions: data.permissions,
@@ -47,7 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         });
     }
-  }, []);
+  }, [user?.id]);
 
   useEffect(() => {
     setIsAuthenticated(!!user);
@@ -77,6 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setWallet,
         setUser,
         fetchAuthUser,
+        logout,
       }}
     >
       {children}

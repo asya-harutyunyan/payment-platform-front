@@ -16,7 +16,7 @@ const DeleteAccountButton = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { setUser } = useAuth();
+  const { setUser, logout } = useAuth();
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
@@ -93,7 +93,7 @@ const DeleteAccountButton = () => {
             onClick={async () => {
               try {
                 await dispatch(deleteUserThunk()).unwrap();
-                setUser(undefined);
+                logout?.();
                 navigate({ to: "/auth/sign-in" });
               } catch (error) {
                 console.error("Delete failed:", error);

@@ -40,7 +40,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width:600px)");
 
-  const { user, setUser } = useAuth();
+  const { user, setUser, logout } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -146,7 +146,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
     if (logoutUser.fulfilled.match(resultAction)) {
-      setUser(undefined);
+      logout?.();
       navigate({ to: "/auth/sign-in" });
     } else {
       console.error("Logout failed:", resultAction.payload);
