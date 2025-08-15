@@ -380,6 +380,7 @@
   "closed": "Закрыт",
   "orders_history": "История запросов",
   "server_statuses": "Статус сервера",
+  "deleted_freezed_user": "Пользователь успешно разблокирован.",
   "delete": "Удалить",
   "admin.referral_orders_all.view": "Просмотр реферальных заказов",
   "admin.referral_order_approve.approve": "Подтверждение реферальных заказов",

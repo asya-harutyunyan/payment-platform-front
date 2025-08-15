@@ -156,6 +156,10 @@ const useSignIn = () => {
         }
       } catch (error) {
         handleAuthError(error);
+        enqueueSnackbar(t("something_went_wrong"), {
+          variant: "error",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        });
         return;
       }
     }
