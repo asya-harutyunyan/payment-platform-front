@@ -40,7 +40,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width:600px)");
 
-  const { user, setUser, logout } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -49,32 +49,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const filteredAdminItems = useMemo(() => {
     return adminItems
       .map((item) => {
-        // if (item.subItems) {
-        //   const filteredSubItems = item.subItems.filter(
-        //     (subItem: { permission: string }) =>
-        //       user?.permissions.includes(subItem.permission)
-        //   );
-
-        //   if (
-        //     user?.permissions.includes(item.permission) ||
-        //     filteredSubItems.length > 0
-        //   ) {
-        //     return {
-        //       text: item.text,
-        //       icon: item.icon,
-        //       link: user?.permissions.includes(item.permission)
-        //         ? item.link
-        //         : "#",
-        //       subItems: filteredSubItems.map(({ text, link }) => ({
-        //         text,
-        //         link,
-        //       })),
-        //     };
-        //   }
-
-        //   return null;
-        // }
-
         return item.permission &&
           user?.permissions
             ?.filter((perm): perm is string => !!perm)
@@ -365,7 +339,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               width: "100%",
               height: "10%",
               display: "flex",
-              justifyContent: "end",
+              justifyContent: "start",
             }}
           >
             <Box

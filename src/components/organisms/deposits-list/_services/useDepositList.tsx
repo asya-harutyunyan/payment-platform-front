@@ -140,8 +140,8 @@ const useDepositInfo = () => {
             status_by_admin: status,
             amount: debouncedAmount,
             type: statusType,
-            from: "",
-            to: "",
+            from: isValidRange ? debouncedFrom : "",
+            to: isValidRange ? debouncedTo : "",
           })
         );
         return;
@@ -158,7 +158,6 @@ const useDepositInfo = () => {
     debouncedTo,
     statusByAdmin,
     sortBy,
-    isDatePickerOpen,
     user?.role,
   ]);
 
@@ -571,8 +570,27 @@ const useDepositInfo = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>{t("sort_by_created_at")} </P>
-            <MonthPicker name="month" control={control} />
+            <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Box sx={{ display: "flex", flexDirection: "column" }}>
+                {" "}
+                <MonthPicker
+                  width="130px"
+                  name="from"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+                <MonthPicker
+                  width="130px"
+                  name="to"
+                  control={control}
+                  onOpen={() => setIsDatePickerOpen(true)}
+                  onClose={() => setIsDatePickerOpen(false)}
+                />
+              </Box>
+              {sortComponent()}
+            </Box>
           </Box>
         ),
         renderComponent: (row: DataDeposits) => {
