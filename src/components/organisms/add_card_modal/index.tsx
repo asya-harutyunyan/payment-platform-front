@@ -122,13 +122,57 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
-            if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
-              enqueueSnackbar(t("already_exist"), {
+            // Handle all backend errors dynamically
+            if (error && typeof error === "object") {
+              // Check for specific known error types first
+              if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
+                enqueueSnackbar(t("already_exist"), {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                });
+                return;
+              }
+
+              if (
+                error?.bank_details?.[0] ===
+                "Вы можете добавить не более 3 банковских реквизитов."
+              ) {
+                enqueueSnackbar(
+                  "Вы можете добавить не более 3 банковских реквизитов.",
+                  {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "right" },
+                  }
+                );
+                return;
+              }
+
+              // Display all other backend errors dynamically
+              Object.entries(error).forEach(([, messages]) => {
+                if (Array.isArray(messages) && messages.length > 0) {
+                  messages.forEach((message: string) => {
+                    if (message && typeof message === "string") {
+                      enqueueSnackbar(message, {
+                        variant: "error",
+                        anchorOrigin: { vertical: "top", horizontal: "right" },
+                      });
+                    }
+                  });
+                } else if (typeof messages === "string" && messages) {
+                  enqueueSnackbar(messages, {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "right" },
+                  });
+                }
+              });
+            } else if (typeof error === "string") {
+              // Handle string errors
+              enqueueSnackbar(error, {
                 variant: "error",
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               });
-              return;
             }
+
             reset();
             setValue(
               "bank_name",
@@ -139,34 +183,6 @@ export const AddCardModal: FC<IStepTwo> = ({
               },
               { shouldValidate: false }
             );
-            // if (error.errors && error.message) {
-            //   Object.entries(error.errors).forEach(([field, messages]) => {
-            //     if (Array.isArray(messages) && messages.length > 0) {
-            //       setError(field as keyof FormData, {
-            //         type: "manual",
-            //         message: messages[0],
-            //       });
-            //     }
-            //   });
-            // }
-            if (
-              error?.bank_details?.[0] ===
-              "Вы можете добавить не более 3 банковских реквизитов."
-            ) {
-              enqueueSnackbar(
-                "Вы можете добавить не более 3 банковских реквизитов.",
-                {
-                  variant: "error",
-                  anchorOrigin: { vertical: "top", horizontal: "right" },
-                }
-              );
-              return;
-            }
-
-            enqueueSnackbar(t("something_went_wrong"), {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            });
           });
       } else {
         dispatch(addBankCardThunk(data))
@@ -190,29 +206,54 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
-            if (error?.bank_details?.[0]) {
-              enqueueSnackbar(
-                "Вы можете добавить не более 3 банковских реквизитов.",
-                {
+            // Handle all backend errors dynamically
+            if (error && typeof error === "object") {
+              // Check for specific known error types first
+              if (error?.bank_details?.[0]) {
+                enqueueSnackbar(
+                  "Вы можете добавить не более 3 банковских реквизитов.",
+                  {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "right" },
+                  }
+                );
+                return;
+              } else if (
+                error?.card_number?.[0] === "Поле номер карты уже занято."
+              ) {
+                enqueueSnackbar(t("already_exist"), {
                   variant: "error",
                   anchorOrigin: { vertical: "top", horizontal: "right" },
+                });
+                return;
+              }
+
+              // Display all other backend errors dynamically
+              Object.entries(error).forEach(([, messages]) => {
+                if (Array.isArray(messages) && messages.length > 0) {
+                  messages.forEach((message: string) => {
+                    if (message && typeof message === "string") {
+                      enqueueSnackbar(message, {
+                        variant: "error",
+                        anchorOrigin: { vertical: "top", horizontal: "right" },
+                      });
+                    }
+                  });
+                } else if (typeof messages === "string" && messages) {
+                  enqueueSnackbar(messages, {
+                    variant: "error",
+                    anchorOrigin: { vertical: "top", horizontal: "right" },
+                  });
                 }
-              );
-              return;
-            } else if (
-              error?.card_number?.[0] === "Поле номер карты уже занято."
-            ) {
-              enqueueSnackbar(t("already_exist"), {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
               });
-              return;
-            } else {
-              enqueueSnackbar(t("something_went_wrong"), {
+            } else if (typeof error === "string") {
+              // Handle string errors
+              enqueueSnackbar(error, {
                 variant: "error",
                 anchorOrigin: { vertical: "top", horizontal: "right" },
               });
             }
+
             reset();
             setValue(
               "bank_name",
@@ -223,16 +264,6 @@ export const AddCardModal: FC<IStepTwo> = ({
               },
               { shouldValidate: false }
             );
-            // if (error.errors && error.message) {
-            //   Object.entries(error.errors).forEach(([field, messages]) => {
-            //     if (Array.isArray(messages) && messages.length > 0) {
-            //       setError(field as keyof FormData, {
-            //         type: "manual",
-            //         message: messages[0],
-            //       });
-            //     }
-            //   });
-            // }
           });
       }
     }
@@ -251,17 +282,47 @@ export const AddCardModal: FC<IStepTwo> = ({
           handleClose();
         })
         .catch((error) => {
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-          if (typeof error === "object") {
-            for (const key in error) {
-              setError(key as keyof FormData, {
-                type: "validate",
-                message: error[key as keyof FormData][0],
-              });
+          // Handle all backend errors dynamically
+          if (error && typeof error === "object") {
+            // Display all backend errors dynamically
+            Object.entries(error).forEach(([, messages]) => {
+              if (Array.isArray(messages) && messages.length > 0) {
+                messages.forEach((message: string) => {
+                  if (message && typeof message === "string") {
+                    enqueueSnackbar(message, {
+                      variant: "error",
+                      anchorOrigin: { vertical: "top", horizontal: "right" },
+                    });
+                  }
+                });
+              } else if (typeof messages === "string" && messages) {
+                enqueueSnackbar(messages, {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                });
+              }
+            });
+
+            // Set form errors for validation
+            if (typeof error === "object") {
+              for (const key in error) {
+                if (
+                  error[key as keyof FormData] &&
+                  Array.isArray(error[key as keyof FormData])
+                ) {
+                  setError(key as keyof FormData, {
+                    type: "validate",
+                    message: error[key as keyof FormData][0],
+                  });
+                }
+              }
             }
+          } else if (typeof error === "string") {
+            // Handle string errors
+            enqueueSnackbar(error, {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
           }
         });
     }

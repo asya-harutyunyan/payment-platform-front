@@ -76,25 +76,53 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
-            enqueueSnackbar(t("already_exist"), {
+          // Handle all backend errors dynamically
+          if (error && typeof error === "object") {
+            // Check for specific known error types first
+            if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
+              enqueueSnackbar(t("already_exist"), {
+                variant: "error",
+                anchorOrigin: { vertical: "top", horizontal: "right" },
+              });
+            } else if (
+              error?.bank_details?.[0] ===
+              "Вы можете добавить не более 3 банковских реквизитов."
+            ) {
+              enqueueSnackbar(
+                "Вы можете добавить не более 3 банковских реквизитов.",
+                {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                }
+              );
+            }
+
+            // Display all other backend errors dynamically
+            Object.entries(error).forEach(([, messages]) => {
+              if (Array.isArray(messages) && messages.length > 0) {
+                messages.forEach((message: string) => {
+                  if (message && typeof message === "string") {
+                    enqueueSnackbar(message, {
+                      variant: "error",
+                      anchorOrigin: { vertical: "top", horizontal: "right" },
+                    });
+                  }
+                });
+              } else if (typeof messages === "string" && messages) {
+                enqueueSnackbar(messages, {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                });
+              }
+            });
+          } else if (typeof error === "string") {
+            // Handle string errors
+            enqueueSnackbar(error, {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },
             });
-            return;
-          } else if (
-            error?.bank_details?.[0] ===
-            "Вы можете добавить не более 3 банковских реквизитов."
-          ) {
-            enqueueSnackbar(
-              "Вы можете добавить не более 3 банковских реквизитов.",
-              {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
-              }
-            );
-            return;
           }
+
           reset();
           setValue(
             "bank_name",
@@ -105,24 +133,6 @@ export const useAddCardForm = () => {
             },
             { shouldValidate: false }
           );
-
-          if (
-            error?.bank_details?.[0] ===
-            "Вы можете добавить не более 3 банковских реквизитов."
-          ) {
-            enqueueSnackbar(
-              "Вы можете добавить не более 3 банковских реквизитов.",
-              {
-                variant: "error",
-                anchorOrigin: { vertical: "top", horizontal: "right" },
-              }
-            );
-            return;
-          }
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
         });
     } else {
       dispatch(addBankCardThunk(data))
@@ -145,45 +155,62 @@ export const useAddCardForm = () => {
           fetchAuthUser?.();
         })
         .catch((error) => {
-          if (
-            error?.card_number?.[1] &&
-            error?.card_number?.[1] ===
-              "Эта карта заблокирована и не может быть добавлена."
-          ) {
-            setError("card_number", {
-              message:
-                "Данная карта была использована в системе заблокированным пользователем.",
-            });
-          }
-          if (error.bank_details?.[0]) {
-            enqueueSnackbar(
-              "Вы можете добавить не более 3 банковских реквизитов.",
-              {
+          // Handle all backend errors dynamically
+          if (error && typeof error === "object") {
+            // Check for specific known error types first
+            if (
+              error?.card_number?.[1] &&
+              error?.card_number?.[1] ===
+                "Эта карта заблокирована и не может быть добавлена."
+            ) {
+              setError("card_number", {
+                message:
+                  "Данная карта была использована в системе заблокированным пользователем.",
+              });
+            }
+
+            if (error.bank_details?.[0]) {
+              enqueueSnackbar(
+                "Вы можете добавить не более 3 банковских реквизитов.",
+                {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                }
+              );
+            } else if (
+              error.card_number?.[0] === "Поле номер карты уже занято."
+            ) {
+              enqueueSnackbar(t("already_exist"), {
                 variant: "error",
                 anchorOrigin: { vertical: "top", horizontal: "right" },
-              }
-            );
-            return;
-          } else if (
-            error.card_number?.[0] === "Поле номер карты уже занято."
-          ) {
-            enqueueSnackbar(t("already_exist"), {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            });
-            return;
-          } else if (error.card_number?.[0]) {
-            enqueueSnackbar(error.card_number?.[0], {
-              variant: "error",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            });
-            return;
-          }
+              });
+            }
 
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
+            // Display all other backend errors dynamically
+            Object.entries(error).forEach(([, messages]) => {
+              if (Array.isArray(messages) && messages.length > 0) {
+                messages.forEach((message: string) => {
+                  if (message && typeof message === "string") {
+                    enqueueSnackbar(message, {
+                      variant: "error",
+                      anchorOrigin: { vertical: "top", horizontal: "right" },
+                    });
+                  }
+                });
+              } else if (typeof messages === "string" && messages) {
+                enqueueSnackbar(messages, {
+                  variant: "error",
+                  anchorOrigin: { vertical: "top", horizontal: "right" },
+                });
+              }
+            });
+          } else if (typeof error === "string") {
+            // Handle string errors
+            enqueueSnackbar(error, {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            });
+          }
 
           reset();
           setValue(
@@ -191,16 +218,6 @@ export const useAddCardForm = () => {
             { name: "", key: "", id: 0 },
             { shouldValidate: false }
           );
-          if (error.errors && error.message) {
-            Object.entries(error.errors).forEach(([field, messages]) => {
-              if (Array.isArray(messages) && messages.length > 0) {
-                setError(field as keyof FormData, {
-                  type: "manual",
-                  message: messages[0],
-                });
-              }
-            });
-          }
         });
     }
   };
