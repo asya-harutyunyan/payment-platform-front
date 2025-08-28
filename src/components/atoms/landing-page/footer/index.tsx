@@ -1,4 +1,4 @@
-import { AndroidIcon } from "@/assets/svg/android";
+import AndroidImg from "@/assets/images/android.png";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -95,7 +95,11 @@ export const Footer: FC<IMediaCard> = () => {
             sx={{ paddingRight: "5px", cursor: "pointer" }}
             onClick={downloadApk}
           >
-            <AndroidIcon />
+            <img
+              src={AndroidImg}
+              alt="android"
+              style={{ width: "120px", borderRadius: "3px" }}
+            />{" "}
           </Box>
         </Box>
       </Box>

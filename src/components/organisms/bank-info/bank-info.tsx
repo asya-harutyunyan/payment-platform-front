@@ -1,3 +1,4 @@
+import AndroidImg from "@/assets/images/android.png";
 import { formatCardNumber } from "@/common/utils";
 import Button from "@/components/atoms/button";
 import { MobileCards } from "@/components/atoms/swiper-slider";
@@ -10,7 +11,7 @@ import theme from "@/styles/theme";
 import { H2, P } from "@/styles/typography";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import { Box } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, useMemo } from "react";
 import { tabNames } from "./__mocks_";
@@ -18,6 +19,37 @@ import { tabNames } from "./__mocks_";
 export const BankInfoComponent: FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+  const downloadApk = async () => {
+    try {
+      fetch("/public/app-release.apk", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          // Create blob link to download
+          const url = window.URL.createObjectURL(blob);
+
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `app-release.apk`);
+
+          // Append to html link element page
+          document.body.appendChild(link);
+
+          // Start download
+          link.click();
+
+          // Clean up and remove the link
+          link.parentNode?.removeChild(link);
+        });
+    } catch (error) {
+      console.error("Ошибка при скачивании:", error);
+    }
+  };
 
   const cards = useMemo(() => {
     const userCards = (user?.bank_details || []).map((card, index) => ({
@@ -215,10 +247,41 @@ export const BankInfoComponent: FC = () => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "center",
+          justifyContent: "start",
           width: "100%",
         }}
       >
+        {location.pathname === "/my-information" && (
+          <Box
+            sx={{
+              width: "40%",
+              height: "10%",
+              display: "flex",
+              justifyContent: "start",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                width: "max-content",
+                // alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
+              <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
+                Скачать приложение
+              </P>
+
+              <Box sx={{ cursor: "pointer" }} onClick={downloadApk}>
+                <img
+                  src={AndroidImg}
+                  alt="android"
+                  style={{ width: "120px", borderRadius: "3px" }}
+                />
+              </Box>
+            </Box>
+          </Box>
+        )}
         <Button
           variant={"gradient"}
           sx={{ width: "230px", margin: "20px 0" }}

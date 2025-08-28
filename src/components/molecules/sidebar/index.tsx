@@ -1,6 +1,6 @@
+// import AndroidImg from "@/assets/images/android.png";
 import bg from "@/assets/images/modal.png";
 import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
-import { AndroidIcon } from "@/assets/svg/android";
 import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
@@ -21,7 +21,7 @@ import {
   Toolbar,
   useMediaQuery,
 } from "@mui/material";
-import { useLocation, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { adminItems, superAdminItems, userItems } from "./__item_list__";
@@ -39,6 +39,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width:600px)");
+  // const location = useLocation();
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -86,36 +87,36 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       setIsDrawerOpen(!isDrawerOpen);
     }
   };
-  const downloadApk = async () => {
-    try {
-      fetch("/public/app-release.apk", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          // Create blob link to download
-          const url = window.URL.createObjectURL(blob);
+  // const downloadApk = async () => {
+  //   try {
+  //     fetch("/public/app-release.apk", {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/pdf",
+  //       },
+  //     })
+  //       .then((response) => response.blob())
+  //       .then((blob) => {
+  //         // Create blob link to download
+  //         const url = window.URL.createObjectURL(blob);
 
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", `app-release.apk`);
+  //         const link = document.createElement("a");
+  //         link.href = url;
+  //         link.setAttribute("download", `app-release.apk`);
 
-          // Append to html link element page
-          document.body.appendChild(link);
+  //         // Append to html link element page
+  //         document.body.appendChild(link);
 
-          // Start download
-          link.click();
+  //         // Start download
+  //         link.click();
 
-          // Clean up and remove the link
-          link.parentNode?.removeChild(link);
-        });
-    } catch (error) {
-      console.error("Ошибка при скачивании:", error);
-    }
-  };
+  //         // Clean up and remove the link
+  //         link.parentNode?.removeChild(link);
+  //       });
+  //   } catch (error) {
+  //     console.error("Ошибка при скачивании:", error);
+  //   }
+  // };
 
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
@@ -126,8 +127,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       console.error("Logout failed:", resultAction.payload);
     }
   };
-
-  const location = useLocation();
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -333,7 +332,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           {children}
         </Box>
 
-        {location.pathname === "/my-information" && (
+        {/* {location.pathname === "/my-information" && (
           <Box
             sx={{
               width: "100%",
@@ -346,24 +345,24 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               sx={{
                 display: "flex",
                 width: "max-content",
-                alignItems: "center",
+                // alignItems: "center",
+                flexDirection: "column",
               }}
             >
               <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
                 Скачать приложение
               </P>
-              <Box sx={{ paddingRight: "5px", cursor: "pointer" }}>
-                {/* <IOSIcon /> */}
-              </Box>
-              <Box
-                sx={{ paddingRight: "5px", cursor: "pointer" }}
-                onClick={downloadApk}
-              >
-                <AndroidIcon />
+
+              <Box sx={{ cursor: "pointer" }} onClick={downloadApk}>
+                <img
+                  src={AndroidImg}
+                  alt="android"
+                  style={{ width: "120px", borderRadius: "3px" }}
+                />
               </Box>
             </Box>
           </Box>
-        )}
+        )} */}
       </Box>
       <BasicModal
         handleClose={() => setOpen(false)}
