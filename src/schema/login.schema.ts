@@ -2,7 +2,7 @@ import { z } from "@/common/validation";
 
 export const login_schema = z.object({
   email: z.string().email().max(50),
-  password: z.string().min(3),
+  password: z.string().min(3, "Пароль должен содержать минимум 3 символа"),
   otp: z.string().optional(),
   recaptcha_token: z.string().optional(),
 });

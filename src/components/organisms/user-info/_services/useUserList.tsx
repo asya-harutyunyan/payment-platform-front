@@ -1,4 +1,5 @@
 import { IColumn } from "@/components/molecules/table";
+import { getStatusColor } from "@/components/utils/status-color";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getUsersThunk } from "@/store/reducers/allUsersSlice/thunks";
@@ -11,6 +12,7 @@ import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useLocation, useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
+import { t } from "i18next";
 import { useMemo, useState } from "react";
 
 const useUserList = () => {
@@ -53,7 +55,21 @@ const useUserList = () => {
 
         {
           column: "status",
-          valueKey: "status",
+          renderComponent: (row: DataDeposits) => {
+            return (
+              <span
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: getStatusColor(row.status ?? "-"),
+                  fontWeight: 400,
+                  textTransform: "capitalize",
+                }}
+              >
+                {row.status && t(row.status)}
+              </span>
+            );
+          },
         },
         {
           column: "created_at",

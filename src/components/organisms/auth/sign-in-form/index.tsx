@@ -64,7 +64,7 @@ const LoginForm = () => {
           bgColor
           sx={{
             width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-            height: { lg: "63%", md: "63%", sx: "55%", xs: "55%" },
+            height: { lg: "63%", md: "63%", sx: "60%", xs: "60%" },
             marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
           }}
           align="center"

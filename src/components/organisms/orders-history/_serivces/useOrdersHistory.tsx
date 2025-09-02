@@ -38,10 +38,38 @@ const useOrdersHistory = () => {
     dispatch(getReferalsUserThunk({ page: 1, per_page: 5 }));
   }, []);
 
-  const { control, handleSubmit, setError, reset } = useForm<TFormData>({
+  const { control, handleSubmit, setError, reset, watch } = useForm<TFormData>({
     resolver: zodResolver(createReferralsOrderSchema),
     defaultValues: { currency_of_payment: ECurrencyRefOrder.USDT },
   });
+
+  // Watch form values to check if button should be disabled
+  const requestAmount = watch("request_amount");
+  const currencyOfPayment = watch("currency_of_payment");
+  const paymentMethodId = watch("payment_method_id");
+  const transactionHash = watch("transaction_hash");
+
+  // Check if button should be disabled based on payment method
+  const isButtonDisabled = useMemo(() => {
+    if (!requestAmount?.trim() || !currencyOfPayment) {
+      return true;
+    }
+
+    // For RUB (card payment), require payment_method_id
+    if (currencyOfPayment === ECurrencyRefOrder.RUB && !paymentMethodId) {
+      return true;
+    }
+
+    // For USDT (crypto payment), require transaction_hash
+    if (
+      currencyOfPayment === ECurrencyRefOrder.USDT &&
+      !transactionHash?.trim()
+    ) {
+      return true;
+    }
+
+    return false;
+  }, [requestAmount, currencyOfPayment, paymentMethodId, transactionHash]);
 
   useEffect(() => {
     const initData = async () => {
@@ -164,26 +192,53 @@ const useOrdersHistory = () => {
         message: "У вас недостаточно средств на балансе для выполнения вывода.",
       });
       return;
-    } else {
-      dispatch(createRefOrderThunk(data))
-        .unwrap()
-        .then(() => {
-          enqueueSnackbar(
-            "Ваш запрос находится на обработке! Пожалуйста подождите.",
-            {
-              variant: "success",
-              anchorOrigin: { vertical: "top", horizontal: "right" },
-            }
-          );
-          setIsCheckoutFormVisible(false);
-          reset();
-        })
-        .catch((error) => {
-          enqueueSnackbar(error, {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
-        });
+    }
+
+    // Validate required fields based on payment method
+    if (
+      data.currency_of_payment === ECurrencyRefOrder.RUB &&
+      !data.payment_method_id
+    ) {
+      setError("payment_method_id", {
+        type: "manual",
+        message: "Пожалуйста, выберите карту для вывода средств.",
+      });
+      return;
+    }
+
+    if (
+      data.currency_of_payment === ECurrencyRefOrder.USDT &&
+      !data.transaction_hash?.trim()
+    ) {
+      setError("transaction_hash", {
+        type: "manual",
+        message: "Пожалуйста, введите номер кошелька для вывода средств.",
+      });
+      return;
+    }
+
+    try {
+      await dispatch(createRefOrderThunk(data)).unwrap();
+
+      enqueueSnackbar(
+        "Ваш запрос находится на обработке! Пожалуйста подождите.",
+        {
+          variant: "success",
+          anchorOrigin: { vertical: "top", horizontal: "right" },
+        }
+      );
+
+      setIsCheckoutFormVisible(false);
+      reset();
+    } catch (error) {
+      const errorMessage =
+        typeof error === "string"
+          ? error
+          : "Произошла ошибка при создании заказа";
+      enqueueSnackbar(errorMessage, {
+        variant: "error",
+        anchorOrigin: { vertical: "top", horizontal: "right" },
+      });
     }
   });
 
@@ -201,6 +256,7 @@ const useOrdersHistory = () => {
     isCheckoutFormVisible,
     onCheckoutButtonClick,
     userReferralsData,
+    isButtonDisabled,
   };
 };
 

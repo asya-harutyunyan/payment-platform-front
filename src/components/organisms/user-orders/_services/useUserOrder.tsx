@@ -184,7 +184,7 @@ const useUserOrder = () => {
         if (data.is_final) {
           setOpen(true);
         }
-        enqueueSnackbar(t("confirm_order_success"), {
+        enqueueSnackbar(t("confirm_order_successfully"), {
           variant: "success",
           anchorOrigin: { vertical: "top", horizontal: "right" },
         });

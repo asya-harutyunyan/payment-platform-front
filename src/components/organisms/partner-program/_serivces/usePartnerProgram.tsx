@@ -119,7 +119,7 @@ const usePartnerProgram = () => {
             sx={{
               color: "primary.main",
               fontWeight: "700",
-              paddingLeft: "15px",
+              paddingLeft: { lg: "15px", md: "15px", xs: "0", sm: "0" },
               fontSize: "1rem",
             }}
           >

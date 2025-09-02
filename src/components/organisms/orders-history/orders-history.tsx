@@ -22,6 +22,7 @@ export const OrdersHistoryPage: FC = () => {
     isCheckoutFormVisible,
     onCheckoutButtonClick,
     userReferralsData,
+    isButtonDisabled,
   } = useOrdersHistory();
 
   return (
@@ -90,6 +91,7 @@ export const OrdersHistoryPage: FC = () => {
                     variant={"gradient"}
                     text={t("confirm")}
                     type="submit"
+                    disabled={isButtonDisabled}
                     sx={{
                       width: "100%",
                       height: "50px",

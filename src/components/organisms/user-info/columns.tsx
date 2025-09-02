@@ -23,7 +23,17 @@ export const fields = [
   },
   {
     column: "role",
-    valueKey: "role",
+    renderComponent: (row: User) => (
+      <P
+        sx={{
+          textTransform: "capitalize",
+          fontWeight: "600",
+          display: "flex",
+        }}
+      >
+        {t(row?.role)}
+      </P>
+    ),
   },
 
   {

@@ -180,7 +180,6 @@ const useBankCardList = () => {
           },
         },
         {
-          column: "card_holder",
           renderComponent: (row: BankCardsDetalis) => {
             return (
               <P
@@ -188,6 +187,7 @@ const useBankCardList = () => {
                   color: "black",
                   fontSize: "15px",
                   fontWeight: 500,
+
                   ":hover": {
                     textDecoration: "underline",
                   },
@@ -200,26 +200,41 @@ const useBankCardList = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="card_holder"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("card_holder")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="card_holder"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
         {
-          column: "name_user",
           valueKey: "user.name",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="name"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("name_user")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="name"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
