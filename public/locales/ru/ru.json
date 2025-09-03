@@ -23,6 +23,8 @@
   "earnings_amount": "Сумма заработка",
   "orders": "Список заказов",
   "deposit_lists": "Список депозитов",
+  "orders-comfirmed-successfully": "Запрос на выплату успешно подтвержден",
+  "orders-deleted-successfully": "Заказы успешно удалены",
   "history-deposits": "История депозитов",
   "limit": "Лимит",
   "qr_code": "QR код",
