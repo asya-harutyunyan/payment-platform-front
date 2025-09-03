@@ -146,17 +146,24 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "amount",
         currencyManual: "₽",
         valueKey: "amount",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="amount"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("amount")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="amount"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },

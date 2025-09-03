@@ -56,10 +56,8 @@ export const BankInfoComponent: FC = () => {
       key: card.id || index,
       content: (
         <BankCard
-          cardHolder={card.card_holder ?? "Name Surname"}
-          cardNumber={formatCardNumber(
-            card.card_number ?? "1234 5678 1234 5678"
-          )}
+          cardHolder={card.card_holder}
+          cardNumber={formatCardNumber(card.card_number)}
           bankName={card.bank_name ?? "Bank"}
           isBlocked={card.is_blocked}
           textColor="#FFFFFF"

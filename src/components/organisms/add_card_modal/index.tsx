@@ -80,9 +80,28 @@ export const AddCardModal: FC<IStepTwo> = ({
           { shouldValidate: false }
         );
       }
+      // Set card holder and card number values when in edit mode
+      if (cardHolder) {
+        setValue("card_holder", cardHolder, { shouldValidate: false });
+      }
+      if (cardNumber) {
+        setValue("card_number", cardNumber, { shouldValidate: false });
+      }
+      if (currency) {
+        setValue("currency", currency, { shouldValidate: false });
+      }
     }
     dispatch(getBankNamesThunk());
-  }, [dispatch, setValue]);
+  }, [
+    dispatch,
+    setValue,
+    isEdit,
+    bankName,
+    bankDetailID,
+    cardHolder,
+    cardNumber,
+    currency,
+  ]);
 
   const bankNameManual = useWatch({
     control,
@@ -331,13 +350,13 @@ export const AddCardModal: FC<IStepTwo> = ({
   const options = [{ id: 1, name: "RUB" }];
 
   useEffect(() => {
-    if (bankName) {
+    if (bankName && !isEdit) {
       const bank = banks.find((bank) => bank.key === bankName);
       if (bank) {
         setValue("bank_name", bank);
       }
     }
-  }, [bankName, banks, setValue]);
+  }, [bankName, banks, setValue, isEdit]);
 
   const bankNameInput = useWatch({
     control,

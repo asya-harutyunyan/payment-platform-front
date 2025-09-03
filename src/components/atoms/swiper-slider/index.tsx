@@ -24,13 +24,10 @@ export const MobileCards: FC<ICardsMobile> = ({ cards }) => {
           {cards?.map((item, index) => (
             <Box key={index} sx={{ marginBottom: "40px" }}>
               <BankCard
-                cardHolder={item?.card_holder ?? "Name Surname"}
-                cardNumber={formatCardNumber(
-                  item?.card_number ?? "1234 5678 1234 5678"
-                )}
+                cardHolder={item?.card_holder}
+                cardNumber={formatCardNumber(item?.card_number)}
                 bankName={item?.bank_name}
                 isBlocked={item?.is_blocked}
-                // phoneNumber={item?.phone_number ?? "+37400000000"}
                 bgColor={item ? "#4CAF50" : "silver"}
                 textColor="#FFFFFF"
                 bankDetailID={item?.id}
