@@ -386,7 +386,7 @@ const useBankCardList = () => {
         .unwrap()
         .then(() => {
           dispatch(getBankCardsThunk({ page: page, per_page: 20 }));
-          enqueueSnackbar("Карта разблокировано", {
+          enqueueSnackbar("Карта разблокирована", {
             variant: "success",
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
