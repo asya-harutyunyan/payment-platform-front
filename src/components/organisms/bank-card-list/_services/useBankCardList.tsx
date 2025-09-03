@@ -391,11 +391,14 @@ const useBankCardList = () => {
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
         })
-        .catch(() => {
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
+        .catch((error) => {
+          enqueueSnackbar(
+            typeof error === "string" ? error : t("something_went_wrong"),
+            {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            }
+          );
         });
     }
   };
@@ -411,11 +414,14 @@ const useBankCardList = () => {
             anchorOrigin: { vertical: "top", horizontal: "right" },
           });
         })
-        .catch(() => {
-          enqueueSnackbar(t("something_went_wrong"), {
-            variant: "error",
-            anchorOrigin: { vertical: "top", horizontal: "right" },
-          });
+        .catch((error) => {
+          enqueueSnackbar(
+            typeof error === "string" ? error : t("something_went_wrong"),
+            {
+              variant: "error",
+              anchorOrigin: { vertical: "top", horizontal: "right" },
+            }
+          );
         });
     }
   };

@@ -26,8 +26,8 @@ interface IBankCard {
   isBankDetailsLengthBigger?: boolean;
 }
 const BankCard: FC<IBankCard> = ({
-  cardHolder = "Name Surname",
-  cardNumber = "1234 5678 1234 5678",
+  cardHolder = "",
+  cardNumber = "",
   bankName,
   textColor = "#FFFFFF",
   bankDetailID,

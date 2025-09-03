@@ -120,8 +120,45 @@ export const unblockCardThunk = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        // Try to extract error message dynamically from any possible format
+        const responseData = error.response?.data;
+
+        if (responseData) {
+          // If response data is a string, return it directly
+          if (typeof responseData === "string") {
+            return rejectWithValue(responseData);
+          }
+
+          // If response data is an object, try different properties
+          if (typeof responseData === "object") {
+            // Try common error message fields
+            const possibleErrorFields = [
+              responseData.errors,
+              responseData.error,
+              responseData.message,
+              responseData.detail,
+              responseData.msg,
+            ];
+
+            for (const field of possibleErrorFields) {
+              if (field) {
+                if (typeof field === "string") {
+                  return rejectWithValue(field);
+                }
+                if (typeof field === "object") {
+                  return rejectWithValue(JSON.stringify(field));
+                }
+              }
+            }
+
+            // If no standard fields found, stringify the whole response
+            return rejectWithValue(JSON.stringify(responseData));
+          }
+        }
+
+        // Fallback to status text or generic message
         return rejectWithValue(
-          error.response?.data?.message || "Something went wrong"
+          error.response?.statusText || "Something went wrong"
         );
       }
       return rejectWithValue("An unexpected error occurred");
@@ -136,8 +173,45 @@ export const blockCardThunk = createAsyncThunk(
       return response.data;
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
+        // Try to extract error message dynamically from any possible format
+        const responseData = error.response?.data;
+
+        if (responseData) {
+          // If response data is a string, return it directly
+          if (typeof responseData === "string") {
+            return rejectWithValue(responseData);
+          }
+
+          // If response data is an object, try different properties
+          if (typeof responseData === "object") {
+            // Try common error message fields
+            const possibleErrorFields = [
+              responseData.errors,
+              responseData.error,
+              responseData.message,
+              responseData.detail,
+              responseData.msg,
+            ];
+
+            for (const field of possibleErrorFields) {
+              if (field) {
+                if (typeof field === "string") {
+                  return rejectWithValue(field);
+                }
+                if (typeof field === "object") {
+                  return rejectWithValue(JSON.stringify(field));
+                }
+              }
+            }
+
+            // If no standard fields found, stringify the whole response
+            return rejectWithValue(JSON.stringify(responseData));
+          }
+        }
+
+        // Fallback to status text or generic message
         return rejectWithValue(
-          error.response?.data?.message || "Something went wrong"
+          error.response?.statusText || "Something went wrong"
         );
       }
       return rejectWithValue("An unexpected error occurred");

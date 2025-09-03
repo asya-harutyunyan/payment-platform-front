@@ -145,12 +145,16 @@ const useOrdersForRefound = () => {
                   await dispatch(getReferralOrdersThunk()).unwrap();
                   setCurrentOrdersData(INITIAL_STATE);
 
-                  if (typeof res === "string") {
-                    enqueueSnackbar(res, {
+                  // Always show success message after confirmation
+                  enqueueSnackbar(
+                    typeof res === "string"
+                      ? res
+                      : t("orders_confirmed_successfully"),
+                    {
                       variant: "success",
                       anchorOrigin: { vertical: "top", horizontal: "right" },
-                    });
-                  }
+                    }
+                  );
                 } catch (error) {
                   console.log(error);
 
@@ -176,12 +180,26 @@ const useOrdersForRefound = () => {
                   acceptReferralOrderThunk({ referral_order_id: row.id })
                 ).unwrap();
 
-                if (typeof res === "string") {
-                  enqueueSnackbar(res, {
+                // Update local state immediately to disable the button
+                setCurrentOrdersData((prev) => ({
+                  ...prev,
+                  data: prev.data.map((order) =>
+                    order.id === row.id
+                      ? { ...order, payment_status: "closed" as const }
+                      : order
+                  ),
+                }));
+
+                // Always show success message after confirmation
+                enqueueSnackbar(
+                  typeof res === "string"
+                    ? res
+                    : t("order_confirmed_successfully"),
+                  {
                     variant: "success",
                     anchorOrigin: { vertical: "top", horizontal: "right" },
-                  });
-                }
+                  }
+                );
               } catch (error) {
                 console.log(error);
 

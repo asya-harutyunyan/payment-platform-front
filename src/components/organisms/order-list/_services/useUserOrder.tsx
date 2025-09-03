@@ -315,7 +315,7 @@ const useAdminOrder = () => {
               <Box>
                 <P
                   fontWeight={"bold"}
-                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                  sx={{ textWrap: "nowrap", paddingBottom: "17px" }}
                 >
                   {t("order_status_client")}
                 </P>

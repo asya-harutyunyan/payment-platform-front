@@ -607,7 +607,8 @@ const useDepositInfo = () => {
       {
         column: "key",
         renderComponent: (row: DataDeposits) => {
-          return row.processing_amount === "0.00" ? (
+          return row.processing_amount === "0.00" &&
+            row?.status_by_admin !== "expired" ? (
             <DoneIcon sx={{ color: "green" }} />
           ) : null;
         },

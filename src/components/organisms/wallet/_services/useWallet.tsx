@@ -196,7 +196,7 @@ const useWallet = () => {
               <Box>
                 <P
                   fontWeight={"bold"}
-                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                  sx={{ textWrap: "nowrap", paddingBottom: "17px" }}
                 >
                   {t("currency")}
                 </P>
