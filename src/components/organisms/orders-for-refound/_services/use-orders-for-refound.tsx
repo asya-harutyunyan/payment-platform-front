@@ -149,7 +149,7 @@ const useOrdersForRefound = () => {
                   enqueueSnackbar(
                     typeof res === "string"
                       ? res
-                      : t("orders_confirmed_successfully"),
+                      : t("orders-comfirmed-successfully"),
                     {
                       variant: "success",
                       anchorOrigin: { vertical: "top", horizontal: "right" },
