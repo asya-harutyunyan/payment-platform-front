@@ -293,7 +293,7 @@ const useDepositInfo = () => {
                     textDecoration: "underline",
                   },
                 }}
-                onClick={() => row.id && goToUserPage(row.id)}
+                onClick={() => row.user.id && goToUserPage(row.user?.id)}
               >
                 {row.user?.name}
               </P>
