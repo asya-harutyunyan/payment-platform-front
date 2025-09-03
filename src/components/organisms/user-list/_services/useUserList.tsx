@@ -244,14 +244,21 @@ const useUserList = () => {
           ),
         },
         {
-          column: "name",
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="name"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("name")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="name"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
           renderComponent: (row: User) => (
             <P
@@ -268,28 +275,42 @@ const useUserList = () => {
           ),
         },
         {
-          column: "surname",
           valueKey: "surname",
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="surname"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("surname")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="surname"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
 
         {
-          column: "email",
           valueKey: "email",
           filters: () => (
-            <FormTextInput
-              control={control}
-              width="130px"
-              name="email"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("email")}
+              </P>
+              <FormTextInput
+                control={control}
+                width="130px"
+                name="email"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
         {

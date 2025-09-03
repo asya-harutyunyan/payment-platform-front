@@ -167,7 +167,6 @@ const useBlockedUserList = () => {
           },
         },
         {
-          column: "name",
           renderComponent: (row: User) => {
             return (
               <P
@@ -187,40 +186,62 @@ const useBlockedUserList = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={BlockedUserControl}
-                name="name"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("name")}
+                </P>
+                <FormTextInput
+                  control={BlockedUserControl}
+                  name="name"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
         {
-          column: "surname",
           valueKey: "surname",
           filters: () => {
             return (
-              <FormTextInput
-                control={BlockedUserControl}
-                name="surname"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("surname")}
+                </P>
+                <FormTextInput
+                  control={BlockedUserControl}
+                  name="surname"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
         {
-          column: "email",
           valueKey: "email",
           filters: () => {
             return (
-              <FormTextInput
-                control={BlockedUserControl}
-                name="email"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("email")}
+                </P>
+                <FormTextInput
+                  control={BlockedUserControl}
+                  name="email"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },

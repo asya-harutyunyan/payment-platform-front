@@ -239,21 +239,27 @@ const useBankCardList = () => {
           },
         },
         {
-          column: "bank_name",
           valueKey: "bank_name",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="bank_name"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("bank_name")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="bank_name"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
         {
-          column: "card_number",
           renderComponent: (row: BankCardsDetalis) => {
             return (
               <Box sx={{ display: "flex" }}>
@@ -298,12 +304,20 @@ const useBankCardList = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="card_number"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("card_number")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="card_number"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
@@ -314,7 +328,7 @@ const useBankCardList = () => {
               <Box>
                 <P
                   fontWeight={"bold"}
-                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                  sx={{ textWrap: "nowrap", paddingBottom: "17px" }}
                 >
                   {t("currency")}
                 </P>

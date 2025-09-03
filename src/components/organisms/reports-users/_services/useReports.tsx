@@ -205,7 +205,6 @@ const useReports = () => {
         },
       },
       {
-        column: "name",
         renderComponent: (row: ReportUsers) => {
           return (
             <P
@@ -226,40 +225,62 @@ const useReports = () => {
 
         filters: () => {
           return (
-            <FormTextInput
-              control={UserControl}
-              name="name"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("name")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="name"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
       {
-        column: "surname",
         valueKey: "surname",
         filters: () => {
           return (
-            <FormTextInput
-              control={UserControl}
-              name="surname"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("surname")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="surname"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
       {
-        column: "email",
         valueKey: "email",
         filters: () => {
           return (
-            <FormTextInput
-              control={UserControl}
-              name="email"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("email")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="email"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
@@ -351,16 +372,23 @@ const useReports = () => {
         },
       },
       {
-        column: "paid_amount",
         valueKey: "paid_amount",
         filters: () => {
           return (
-            <FormTextInput
-              control={UserControl}
-              name="paid_amount"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("paid_amount")}
+              </P>
+              <FormTextInput
+                control={UserControl}
+                name="paid_amount"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },

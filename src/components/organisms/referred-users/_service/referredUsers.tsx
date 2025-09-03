@@ -513,16 +513,23 @@ const useReferredUsers = () => {
         valueKey: "ref_count",
       },
       {
-        column: "referral_code",
         valueKey: "referral_code",
         filters: () => {
           return (
-            <FormTextInput
-              control={filterControl}
-              width="130px"
-              name="referral_code"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("referral_code")}
+              </P>
+              <FormTextInput
+                control={filterControl}
+                width="130px"
+                name="referral_code"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },

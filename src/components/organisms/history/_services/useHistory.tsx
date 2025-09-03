@@ -170,52 +170,71 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "action",
         valueKey: "action",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="action"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("action")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="action"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
 
       {
-        column: "by_fullname",
         valueKey: "by_fullname",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="by_fullname"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("by_fullname")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="by_fullname"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
 
       {
-        column: "by_email",
         valueKey: "by_email",
-
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="by_email"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("by_email")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="by_email"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
       {
-        column: "date",
         renderComponent: (row: HistoryRequest) => {
           return (
             <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -235,12 +254,20 @@ const usePlatipayService = () => {
         },
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="date"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("date")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="date"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
@@ -255,7 +282,7 @@ const usePlatipayService = () => {
             <Box>
               <P
                 fontWeight={"bold"}
-                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                sx={{ textWrap: "nowrap", paddingBottom: "17px" }}
               >
                 {t("role")}
               </P>
@@ -271,30 +298,44 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "to_fullname",
         valueKey: "to_fullname",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="to_fullname"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("to_fullname")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="to_fullname"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },
       {
-        column: "to_email",
         valueKey: "to_email",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="to_email"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("to_email")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="to_email"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },

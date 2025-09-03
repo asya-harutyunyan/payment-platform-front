@@ -198,7 +198,6 @@ const useBlockedCard = () => {
           ),
         },
         {
-          column: "name",
           renderComponent: (row: BankCardsDetalis) => (
             <P
               sx={{
@@ -215,60 +214,96 @@ const useBlockedCard = () => {
             </P>
           ),
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="name"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("name_user")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="name"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
         {
-          column: "surname",
           valueKey: "user.surname",
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="surname"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("surname")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="surname"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
         {
-          column: "bank_name",
           valueKey: "bank_name",
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="bank_name"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("bank_name")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="bank_name"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
         {
-          column: "card_holder",
           valueKey: "card_holder",
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="card_holder"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("card_holder")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="card_holder"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
         {
-          column: "card_number",
           valueKey: "card_number",
           filters: () => (
-            <FormTextInput
-              control={control}
-              name="card_number"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("card_number")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="card_number"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           ),
         },
         {

@@ -40,7 +40,7 @@ const useWallet = () => {
   const [selectedItem, setSelectedItem] = useState<string | number | null>(
     null
   );
-  const { control, register, watch } = useForm<FormData>({
+  const { control, watch } = useForm<FormData>({
     resolver: zodResolver(add_wallet_schema),
     defaultValues: {
       address: "",
@@ -169,17 +169,23 @@ const useWallet = () => {
           },
         },
         {
-          column: "network",
           valueKey: "network",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                {...register("network")}
-                name="network"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("network")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="network"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
@@ -206,17 +212,23 @@ const useWallet = () => {
           },
         },
         {
-          column: "address",
           valueKey: "address",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                {...register("address")}
-                name="address"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("address")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="address"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },

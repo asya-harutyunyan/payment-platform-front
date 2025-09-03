@@ -161,15 +161,22 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "status_order",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="status_by_client"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("status_order")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="status_by_client"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
         renderComponent: (row: Platipay) => {
@@ -189,16 +196,23 @@ const usePlatipayService = () => {
         },
       },
       {
-        column: "transaction_id",
         valueKey: "transaction_id",
         filters: () => {
           return (
-            <FormTextInput
-              control={control}
-              name="transaction_id"
-              width="130px"
-              style={{ input: { padding: "10px 14px" } }}
-            />
+            <Box>
+              <P
+                fontWeight={"bold"}
+                sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+              >
+                {t("transaction_id")}
+              </P>
+              <FormTextInput
+                control={control}
+                name="transaction_id"
+                width="130px"
+                style={{ input: { padding: "10px 14px" } }}
+              />
+            </Box>
           );
         },
       },

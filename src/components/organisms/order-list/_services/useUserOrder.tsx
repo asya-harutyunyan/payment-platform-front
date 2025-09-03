@@ -237,7 +237,6 @@ const useAdminOrder = () => {
           ),
         },
         {
-          column: "name",
           renderComponent: (row: Order) => {
             return (
               <P
@@ -257,26 +256,41 @@ const useAdminOrder = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="name"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("name")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="name"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
         {
-          column: "surname",
           valueKey: "user.surname",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="surname"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("surname")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="surname"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
@@ -361,23 +375,29 @@ const useAdminOrder = () => {
           },
         },
         {
-          column: "amount_order",
           currency: "wallet_deposit.order_currency",
           valueKey: "amount",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="amount"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("amount")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="amount"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
 
         {
-          column: "id",
           valueKey: "transaction_id",
           renderComponent: (row: Order) => {
             return (
@@ -388,26 +408,41 @@ const useAdminOrder = () => {
           },
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="transaction_id"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("transaction_id")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="transaction_id"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
         {
-          column: "card_number",
           valueKey: "wallet_deposit.payment_method.card_number",
           filters: () => {
             return (
-              <FormTextInput
-                control={control}
-                name="card_number"
-                width="130px"
-                style={{ input: { padding: "10px 14px" } }}
-              />
+              <Box>
+                <P
+                  fontWeight={"bold"}
+                  sx={{ textWrap: "nowrap", paddingBottom: "8px" }}
+                >
+                  {t("card_number")}
+                </P>
+                <FormTextInput
+                  control={control}
+                  name="card_number"
+                  width="130px"
+                  style={{ input: { padding: "10px 14px" } }}
+                />
+              </Box>
             );
           },
         },
