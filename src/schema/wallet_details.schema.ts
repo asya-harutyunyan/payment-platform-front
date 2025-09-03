@@ -27,7 +27,7 @@ export const createReferralsOrderSchema = z
       }),
       z.object({
         currency_of_payment: z.literal(ECurrencyRefOrder.RUB),
-        payment_method_id: z.number(),
+        payment_method_id: z.string().or(z.number()),
       }),
     ])
   );

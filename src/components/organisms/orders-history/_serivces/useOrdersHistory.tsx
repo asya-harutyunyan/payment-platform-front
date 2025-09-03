@@ -38,10 +38,11 @@ const useOrdersHistory = () => {
     dispatch(getReferalsUserThunk({ page: 1, per_page: 5 }));
   }, []);
 
-  const { control, handleSubmit, setError, reset, watch } = useForm<TFormData>({
-    resolver: zodResolver(createReferralsOrderSchema),
-    defaultValues: { currency_of_payment: ECurrencyRefOrder.USDT },
-  });
+  const { control, handleSubmit, setError, reset, watch, formState } =
+    useForm<TFormData>({
+      resolver: zodResolver(createReferralsOrderSchema),
+      defaultValues: { currency_of_payment: ECurrencyRefOrder.USDT },
+    });
 
   // Watch form values to check if button should be disabled
   const requestAmount = watch("request_amount");
@@ -257,6 +258,7 @@ const useOrdersHistory = () => {
     onCheckoutButtonClick,
     userReferralsData,
     isButtonDisabled,
+    formState,
   };
 };
 
