@@ -206,7 +206,7 @@ export const ReportsSummary = () => {
               }}
             >
               <P fontSize={"1.2rem"} paddingRight={"5px"}>
-                Количество выполненного заказа:{" "}
+                Количество выполненных заказов:{" "}
               </P>
               <H5 color="primary.main" sx={{ fontWeight: 400 }}>
                 {orders_stats.done_order_count}
