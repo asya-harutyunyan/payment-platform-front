@@ -40,7 +40,7 @@ export const PERMISSIONS_DATA: Root = [
           name: "users_blocked.view",
           checking: "view",
         },
-        { prefix: "blocked_users", name: "users_block", checking: "edit" },
+        { prefix: "blocked_users", name: "users_unblock", checking: "edit" },
       ],
     ],
   },
@@ -135,7 +135,7 @@ export const PERMISSIONS_DATA: Root = [
       [
         {
           prefix: "orders_summary",
-          name: "orders_view.summary",
+          name: "platformX_view",
           checking: "view",
         },
       ],
@@ -150,10 +150,7 @@ export const PERMISSIONS_DATA: Root = [
   },
   {
     title: "Платформы",
-    rows: [
-      [{ prefix: "platipay", name: "platiPay_view", checking: "view" }],
-      [{ prefix: "platformX", name: "platformX_view", checking: "view" }],
-    ],
+    rows: [[{ prefix: "platipay", name: "platiPay_view", checking: "view" }]],
   },
   {
     title: "Реферальная программа",
