@@ -286,16 +286,18 @@ const useUserList = () => {
             />
           ),
         },
-        {
-          renderComponent: (row: User) => (
-            <Button
-              variant={"error"}
-              text={t("delete")}
-              sx={{ width: "130px" }}
-              onClick={() => deleteUser(row.id)}
-            />
-          ),
-        },
+        user?.permissions.includes("users_freezed_delete")
+          ? {
+              renderComponent: (row: User) => (
+                <Button
+                  variant={"error"}
+                  text={t("delete")}
+                  sx={{ width: "130px" }}
+                  onClick={() => deleteUser(row.id)}
+                />
+              ),
+            }
+          : null,
       ].filter(Boolean) as IColumn<User>[],
     [control, user?.permissions]
   );

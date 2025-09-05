@@ -27,8 +27,18 @@ export const PERMISSIONS_DATA: Root = [
     rows: [
       [
         { prefix: "users", name: "users_view", checking: "view" },
-        { prefix: "users", name: "users_unblock", checking: "edit" },
+        { prefix: "users", name: "users_block", checking: "edit" },
       ],
+      [{ prefix: "users", name: "users_unblock", checking: "edit" }],
+      [
+        { prefix: "freezed_users", name: "users_freezed", checking: "view" },
+        {
+          prefix: "freezed_users",
+          name: "users_freezed_delete",
+          checking: "delete",
+        },
+      ],
+      [{ prefix: "users", name: "users_create", checking: "view" }],
     ],
   },
   {
@@ -68,6 +78,13 @@ export const PERMISSIONS_DATA: Root = [
         { prefix: "deposits", name: "deposits_view", checking: "view" },
         { prefix: "deposits", name: "deposits_confirm", checking: "edit" },
       ],
+      [
+        {
+          prefix: "deposits",
+          name: "superAdmin_action_log_deposits.view",
+          checking: "view",
+        },
+      ],
     ],
   },
   {
@@ -94,7 +111,7 @@ export const PERMISSIONS_DATA: Root = [
       [
         {
           prefix: "blocked_cards",
-          name: "users_blockedCards.view",
+          name: "users_blocked.view",
           checking: "view",
         },
         { prefix: "blocked_cards", name: "users_card.block", checking: "edit" },
@@ -149,8 +166,32 @@ export const PERMISSIONS_DATA: Root = [
     ],
   },
   {
+    title: "Управление модераторами",
+    rows: [
+      [
+        {
+          prefix: "moderator",
+          name: "superAdmin_deposits_limits.view",
+          checking: "view",
+        },
+      ],
+    ],
+  },
+  {
     title: "Платформы",
     rows: [[{ prefix: "platipay", name: "platiPay_view", checking: "view" }]],
+  },
+  {
+    title: "История пользователей",
+    rows: [
+      [
+        {
+          prefix: "history",
+          name: "superAdmin_action_log.view",
+          checking: "view",
+        },
+      ],
+    ],
   },
   {
     title: "Реферальная программа",
@@ -178,15 +219,7 @@ export const PERMISSIONS_DATA: Root = [
           name: "system_conf_active_users.view",
           checking: "view",
         },
-        { prefix: "system_conf", name: "system_conf.update", checking: "edit" },
-
-        // {
-        //   prefix: "system_conf",
-        //   name: "system_conf.delete",
-        //   checking: "delete",
-        // },
       ],
-      // [{ prefix: "system_conf", name: "system_conf.create", checking: "edit" }],
     ],
   },
 ];
