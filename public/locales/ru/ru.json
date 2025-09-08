@@ -24,6 +24,8 @@
   "orders": "Список заказов",
   "deposit_lists": "Список депозитов",
   "orders-comfirmed-successfully": "Запрос на выплату успешно подтвержден",
+  "superAdmin_freezed.view": "Просмотр замороженных пользователей",
+  "superAdmin_freezed_expired_orders.delete": "Удаление замороженных пользователей",
   "orders-deleted-successfully": "Заказы успешно удалены",
   "history-deposits": "История депозитов",
   "limit": "Лимит",

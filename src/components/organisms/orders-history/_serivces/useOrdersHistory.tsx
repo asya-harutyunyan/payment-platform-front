@@ -87,6 +87,22 @@ const useOrdersHistory = () => {
     () =>
       [
         {
+          column: "created_at",
+          renderComponent: (row) => {
+            return (
+              <span
+                style={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+                }}
+              >
+                {row.created_at || "-"}
+              </span>
+            );
+          },
+        },
+        {
           column: "currency",
           valueKey: "currency_of_payment",
         },

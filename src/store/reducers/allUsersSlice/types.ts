@@ -281,3 +281,13 @@ export type TGetReferralsOrdersThunkResponse = {
   };
 };
 export type TGetReferralsOrdersThunkOptions = void;
+
+export type IRefferalOrders = {
+  created_at: string;
+  currency_of_payment: string;
+  id: number | string;
+  payment_method: string;
+  payment_status: string;
+  request_amount: string;
+  transaction_hash: string;
+};

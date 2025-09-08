@@ -29,12 +29,15 @@ export const PERMISSIONS_DATA: Root = [
         { prefix: "users", name: "users_view", checking: "view" },
         { prefix: "users", name: "users_block", checking: "edit" },
       ],
-      [{ prefix: "users", name: "users_unblock", checking: "edit" }],
       [
-        { prefix: "freezed_users", name: "users_freezed", checking: "view" },
         {
           prefix: "freezed_users",
-          name: "users_freezed_delete",
+          name: "superAdmin_freezed.view",
+          checking: "view",
+        },
+        {
+          prefix: "freezed_users",
+          name: "superAdmin_freezed_expired_orders.delete",
           checking: "delete",
         },
       ],
