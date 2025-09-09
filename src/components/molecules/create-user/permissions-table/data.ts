@@ -114,18 +114,16 @@ export const PERMISSIONS_DATA: Root = [
       [
         {
           prefix: "blocked_cards",
-          name: "users_blocked.view",
+          name: "users_blockedCards.view",
           checking: "view",
         },
-        { prefix: "blocked_cards", name: "users_card.block", checking: "edit" },
-      ],
-      [
         {
           prefix: "blocked_cards",
           name: "users_card.unblock",
           checking: "edit",
         },
       ],
+
       [
         {
           prefix: "blocked_cards",

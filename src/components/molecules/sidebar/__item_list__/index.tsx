@@ -275,7 +275,7 @@ export const adminItems = [
     link: "/reports-summary",
     text: "reports-summary",
     icon: <FiberManualRecordIcon sx={{ fontSize: "15px" }} />,
-    permission: "orders_view.summary",
+    permission: "platformX_view",
   },
 
   {
