@@ -298,6 +298,7 @@
   "memory_available_percent": "Процент доступной памяти",
   "users_create": "Создание пользователя",
   "month": "Месяц",
+  "request_success_deleted": "Реферальный запрос успешно удалён",
   "checkbox_title": "Выберите, чем может управлять созданный пользователь.",
   "permission_added_success": "Пользователь успешно создан",
   "users_view": "Просмотр пользователей",

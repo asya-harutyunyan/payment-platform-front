@@ -81,7 +81,7 @@ const useOrdersHistory = () => {
       }
     };
     initData();
-  }, [dispatch]);
+  }, []);
 
   const columns = useMemo(
     () =>
@@ -156,22 +156,19 @@ const useOrdersHistory = () => {
                   text={t("cancel")}
                   onClick={async () => {
                     try {
-                      const res = await dispatch(
-                        cancelReferralsOrdersThunk({ id: row.id })
-                      ).unwrap();
-
-                      if (typeof res === "string") {
-                        enqueueSnackbar(res, {
-                          variant: "success",
-                          anchorOrigin: {
-                            vertical: "top",
-                            horizontal: "right",
-                          },
+                      await dispatch(cancelReferralsOrdersThunk({ id: row.id }))
+                        .unwrap()
+                        .then(() => {
+                          enqueueSnackbar(t("request_success_deleted"), {
+                            variant: "success",
+                            anchorOrigin: {
+                              vertical: "top",
+                              horizontal: "right",
+                            },
+                          });
+                          dispatch(getReferralsOrdersThunk());
                         });
-                      }
                     } catch (error) {
-                      console.log(error);
-
                       if (typeof error === "string") {
                         enqueueSnackbar(error, {
                           variant: "error",
