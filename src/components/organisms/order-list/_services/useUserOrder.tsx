@@ -248,7 +248,7 @@ const useAdminOrder = () => {
                     textDecoration: "underline",
                   },
                 }}
-                onClick={() => goToUserPage(row.id)}
+                onClick={() => goToUserPage(row.user_id)}
               >
                 {row?.user?.name}
               </P>

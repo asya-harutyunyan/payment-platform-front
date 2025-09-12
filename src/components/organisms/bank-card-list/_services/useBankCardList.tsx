@@ -187,12 +187,7 @@ const useBankCardList = () => {
                   color: "black",
                   fontSize: "15px",
                   fontWeight: 500,
-
-                  ":hover": {
-                    textDecoration: "underline",
-                  },
                 }}
-                onClick={() => row.id && goToUserPage(row.user_id)}
               >
                 {row.card_holder}
               </P>
@@ -218,7 +213,24 @@ const useBankCardList = () => {
           },
         },
         {
-          valueKey: "user.name",
+          renderComponent: (row: BankCardsDetalis) => {
+            return (
+              <P
+                sx={{
+                  color: "black",
+                  fontSize: "15px",
+                  fontWeight: 500,
+
+                  ":hover": {
+                    textDecoration: "underline",
+                  },
+                }}
+                onClick={() => row.id && goToUserPage(row.user_id)}
+              >
+                {row.user?.name}
+              </P>
+            );
+          },
           filters: () => {
             return (
               <Box>
