@@ -187,7 +187,7 @@
   "profit_amount": "Сумма выплаты",
   "left_amount": "Остаток суммы выплаты",
   "resend": "Отправить повторно",
-  "welcome_landing": "Добро пожаловать в PayHub",
+  "welcome_landing": "Добро пожаловать в PayHub- Здесь Деньги Работают на Вас",
   "welcome_landing_second": "Зарабатывать деньги стало просто",
   "welcome_text": "Получай свою прибыль без особых усилий. Мы в PayHub считаем, что заработок должен быть простым и безопасным.",
   "welcome_people_count": "Активных пользователей по всему миру",
@@ -412,5 +412,11 @@
   "technical_specialist": "Технический специалист",
   "custom_role": "Другая роль",
   "confirm_all": "Подтвердить все",
-  "deposit_limit": "Лимит депозитов"
+  "deposit_limit": "Лимит депозитов",
+  "header_why_choose_us": "Почему Выбирают Нас",
+  "header_how_it_works": "Как Это Работает",
+  "header_about_us": "О Нас",
+  "header_our_contacts": "Наши Контакты",
+  "home": "Главная",
+  "contact_us": "Связаться с нами"
 }

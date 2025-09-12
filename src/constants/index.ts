@@ -12,6 +12,10 @@ export const Colors = {
 	status_yellow: "#F7DD17",
 	status_red: "#E63838",
 	status_rose: "#FCF3F3",
+	gradientBg: `
+      linear-gradient(0deg, #00000033, #00000033),
+      linear-gradient(180deg, #1f243a 0%, #28356f 100%)
+    `
 };
 
 export const Weight = {

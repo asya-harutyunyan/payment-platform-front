@@ -116,11 +116,13 @@ const theme = createTheme({
   typography: {
     h1: {
       fontSize: "2.5rem",
-      fontWeight: "bold",
-      padding: "10px 0",
-      color: "#EBECF0",
+      fontStyle: "medium",
+      lineHeight: "100%",
+      letterSpacing: "0%",
+      color: "#D3D3D3",
       fontFamily: "Poppins, sans-serif",
     },
+
     h2: {
       fontSize: "2rem",
       fontWeight: "bold",
@@ -144,16 +146,16 @@ const theme = createTheme({
     },
     h5: {
       fontSize: "1.25rem",
-      fontWeight: "bold",
+      fontWeight: "300",
       padding: "10px 0",
       color: "#EBECF0",
       fontFamily: "Poppins, sans-serif",
     },
     h6: {
       fontSize: "1rem",
-      fontWeight: "bold",
+      fontWeight: "400",
       padding: "10px 0",
-      color: "#EBECF0",
+      color: "#fff",
       fontFamily: "Poppins, sans-serif",
     },
     body1: {
