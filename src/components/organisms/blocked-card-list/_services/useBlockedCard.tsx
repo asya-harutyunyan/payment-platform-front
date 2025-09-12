@@ -208,7 +208,7 @@ const useBlockedCard = () => {
                   textDecoration: "underline",
                 },
               }}
-              onClick={() => row.id && goToUserPage(row.id)}
+              onClick={() => row.user_id && goToUserPage(row.user_id)}
             >
               {row?.user?.name}
             </P>
