@@ -33,10 +33,13 @@ export const Footer = () => {
         component="nav"
         sx={{
           maxWidth: 857,
-          m: "72px auto 14px",
+          m: { xs: "16px 0", sm: "72px auto 14px" },
           p: 0,
           display: "flex",
-          gap: "32px",
+          gap: { xs: "10px", sm: "32px" },
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: { xs: "column", sm: "row" }
         }}
       >
         {pages.map((page) => (
@@ -79,7 +82,17 @@ export const Footer = () => {
           <H6 sx={{ fontSize: 12, m: 0 }}>Телеграм-канал</H6>
         </Link>
       </Box>
-      <hr style={{ backgroundColor: "#3aceac", width: "100%", height: "1px", margin: "40px 0 57px 0", border: "none", }} />
+      <Box
+        component="hr"
+        sx={{
+          backgroundColor: "#3aceac",
+          width: "100%",
+          height: "1px",
+          border: "none",
+          my: { xs: 2.5, sm: 5 },
+          mb: { sm: 7.125 },
+        }}
+      />
       <Box
         component="footer"
         sx={{

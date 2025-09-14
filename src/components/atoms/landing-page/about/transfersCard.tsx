@@ -1,7 +1,7 @@
 import Icon1 from "@/assets/images/transfer_card_icon_1.svg";
 import Icon2 from "@/assets/images/transfer_card_icon_2.svg";
 
-import { Colors } from "@/constants";
+import { Colors, greenGradientBorder } from "@/constants";
 import { Box, Stack, Typography } from "@mui/material";
 
 
@@ -36,25 +36,13 @@ const transfers = [
 export default function TransfersCard() {
     return (
         <Box
-            width={418}
+            maxWidth={400}
+            width={400}
             sx={{
                 position: "relative",
                 borderRadius: "28px",
                 p: "26.6px 10.7px",
-                "&::before": {
-                    content: '""',
-                    position: "absolute",
-                    inset: 0,
-                    borderRadius: "16px",
-                    padding: "1px",
-                    background:
-                        "linear-gradient(360deg, rgba(43,255,255,0.8) 0%, rgba(43,255,255,0.2) 100%)",
-                    WebkitMask:
-                        "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                    WebkitMaskComposite: "xor",
-                    maskComposite: "exclude",
-                    pointerEvents: "none",
-                },
+                "&::before": greenGradientBorder
             }}
         >
             <Stack spacing={4}>
@@ -80,7 +68,7 @@ function Row({
     time: string;
 }) {
     return (
-        <Box>
+        <Box maxWidth="421px">
             <Stack direction="row" spacing={1} alignItems="center">
                 <Box
                     sx={{

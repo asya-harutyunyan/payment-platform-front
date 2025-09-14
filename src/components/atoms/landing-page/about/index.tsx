@@ -1,15 +1,16 @@
 import AppleIcon from "@/assets/images/apple_icon.svg";
 import PhoneImg from "@/assets/images/landing_page_phone.png";
 import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
-import { Colors } from "@/constants";
+import { Colors, greenGradientBorder } from "@/constants";
 import { useAuth } from "@/context/auth.context";
 import { H1, H6 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
 import NewButton from "../../btn";
+import BalanceChart from "./balanceChart";
 import TransfersCard from "./transfersCard";
-import FxChart from "./valuechart";
+import ValueChart from "./valuechart";
 
 
 export const AboutSection = () => {
@@ -67,22 +68,25 @@ export const AboutSection = () => {
 
   return (
     <Box
+      id={"why_choose_us"}
       sx={{
         width: "100%",
         display: "flex",
         flexDirection: "column",
         background: Colors.gradientBg,
         pt: "40px",
+
       }}
     >
 
       <H1
-        maxWidth="654px"
+        maxWidth={{ xs: "400px", sm: "654px" }}
         margin="0 auto"
         minHeight="120px"
         textAlign="center"
-        style={{
+        sx={{
           lineHeight: "1.3",
+          fontSize: { xs: "30px", sm: "40px" }
         }}
       >
         Добро пожаловать в{" "}
@@ -99,39 +103,45 @@ export const AboutSection = () => {
         </span>
         - Здесь Деньги Работают на Вас
       </H1>
-      <Box display="flex" maxWidth="466px" gap="10px" margin="20px auto 20px auto">
-        <Box
-        >
-          <NewButton
-            text={"Скачать приложение"}
-            onClick={downloadApk}
-            icon={AppleIcon}
-            variant="outlinedBlue"
-            sx={{
-              width: "242px",
-              height: "46px",
-              padding: "13px 16px"
-            }}
-          />
-        </Box>
-        <Box
-        >
-          <NewButton
-            text={user ? "Главная" : "Начать Сейчас"}
-            variant={"gradient"}
-            onClick={onBtnClick}
-            glow
-            sx={{
-              width: "208px",
-              height: "46px",
-              padding: "13px 16px"
-            }}
-          />
-        </Box>
+      {/* Buttons */}
+      <Box
+        display="flex"
+        width={{ xs: "350px", sm: "466px" }}
+        maxWidth="100%"
+        gap="10px"
+        margin="20px auto"
+        px={{ xs: "16px", sm: "0" }}
+      >
+        <NewButton
+          text="Скачать приложение"
+          onClick={downloadApk}
+          icon={AppleIcon}
+          variant="outlinedBlue"
+          sx={{
+            flex: 1,
+            minWidth: "120px",
+            height: "46px",
+            padding: "13px 16px",
+          }}
+        />
+
+        <NewButton
+          text={user ? "Главная" : "Начать Сейчас"}
+          variant="gradient"
+          onClick={onBtnClick}
+          glow
+          sx={{
+            minWidth: "120px",
+            width: { xs: "160px", sm: "208px" },
+            height: "46px",
+            padding: "13px 16px",
+          }}
+        />
       </Box>
 
 
-      <Box maxWidth={1200} margin="0 auto" display="flex" gap="30px">
+      {/* ------------- */}
+      <Box maxWidth={1200} margin="0 auto" display="flex" gap="30px" flexDirection={{ xs: "column", lg: "row" }} alignItems="center">
         {/* 1 */}
         <Box maxWidth={418} display="flex" flexDirection="column" gap="24px" alignItems="flex-end">
           <Box
@@ -143,20 +153,7 @@ export const AboutSection = () => {
               background:
                 "linear-gradient(180deg, rgba(49,58,91,0) 0%, rgba(49,58,91,0.44) 44%, rgba(49,58,91,1) 100%)",
               backdropFilter: "blur(25px)",
-              "&::before": {
-                content: '""',
-                position: "absolute",
-                inset: 0,
-                borderRadius: "16px",
-                padding: "1px",
-                background:
-                  "linear-gradient(360deg, rgba(43,255,255,0.8) 0%, rgba(43,255,255,0.2) 100%)",
-                WebkitMask:
-                  "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-                WebkitMaskComposite: "xor",
-                maskComposite: "exclude",
-                pointerEvents: "none",
-              },
+              "&::before": greenGradientBorder
             }}
           >
             <H6 sx={{ textAlign: "center" }}>
@@ -171,11 +168,14 @@ export const AboutSection = () => {
           <img
             src={PhoneImg}
             alt="Phone"
-            style={{ width: "346px", borderRadius: "3px" }}
+            style={{ maxWidth: "350px", marginBottom: "-3px" }}
           />
         </Box>
         {/* 3 */}
-        <FxChart />
+        <Box width="410px" display="flex" flexDirection="column" gap="10px" flex="1">
+          <ValueChart />
+          <BalanceChart />
+        </Box>
       </Box>
 
     </Box >

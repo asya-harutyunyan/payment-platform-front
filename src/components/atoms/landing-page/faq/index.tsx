@@ -15,16 +15,19 @@ export default function FaqSwiper() {
   const nextRef = React.useRef<HTMLButtonElement | null>(null);
 
   return (
-    <Box sx={{ py: { xs: 6, md: 16 }, position: "relative" }} id="contact">
+    <Box sx={{ p: { xs: "24px 0 40px 0", md: "90px 0 60px 0" }, position: "relative" }} id="contact">
       <Box
         display="flex"
-        alignItems="center"
+        alignItems={{ xs: "flex-end", sm: "center" }}
         maxWidth="1200px"
-        margin="0 auto 40px auto"
+        margin={{ xs: "0 auto 16px auto", sm: "0 auto 40px auto" }}
+        flexDirection={{ xs: "column", sm: "row" }}
         justifyContent="space-between"
+        px={{ xs: "16px", lg: "0" }}
+        gap="16px"
       >
-        <Box maxWidth="587px" width="587px">
-          <H1 sx={{ color: "#000", mb: "16px", p: 0, fontWeight: 600 }}>Часто Задаваемые Вопросы</H1>
+        <Box maxWidth="587px" textAlign={{ xs: "center", sm: "left" }}>
+          <H1 sx={{ color: "#000", mb: "16px", p: 0, fontWeight: 600, fontSize: { xs: "24px", sm: "40px" } }}>Часто Задаваемые Вопросы</H1>
           <H6 sx={{ color: "#393939", p: 0, maxWidth: "570px" }}>
             Приумножайте деньги с умом! В PayHub мы уверены: зарабатывать можно легко, безопасно и выгодно.
           </H6>
@@ -49,8 +52,8 @@ export default function FaqSwiper() {
           slideToClickedSlide
           watchSlidesProgress
           loop
-          slidesOffsetBefore={120}
-          slidesOffsetAfter={16}
+          slidesOffsetBefore={30}
+          slidesOffsetAfter={30}
           onSlideChange={(s) => setActive(s.realIndex)}
           onBeforeInit={(s) => {
             // @ts-ignore

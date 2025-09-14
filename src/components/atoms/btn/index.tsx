@@ -112,7 +112,7 @@ const NewButton: React.FC<DynamicButtonProps> = ({
         }}
       >
         {renderIcon()}
-        <H6 sx={{ padding: 0 }}>
+        <H6 sx={{ padding: 0, lineHeight: "18px" }}>
           {text}
         </H6>
       </div>

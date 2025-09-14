@@ -146,7 +146,7 @@ const theme = createTheme({
     },
     h5: {
       fontSize: "1.25rem",
-      fontWeight: "300",
+      fontWeight: "600",
       padding: "10px 0",
       color: "#EBECF0",
       fontFamily: "Poppins, sans-serif",

@@ -57,7 +57,6 @@ export const Partners = () => {
                     <img
                         src={item.icon}
                         alt="partner icon"
-                        style={{ maxHeight: "100%", objectFit: "contain" }}
                     />
                 </Box>
             ))}

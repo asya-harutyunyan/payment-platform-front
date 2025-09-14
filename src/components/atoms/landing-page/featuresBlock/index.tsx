@@ -5,7 +5,7 @@ import Icon3 from "@/assets/images/why_choose_us_icon3.svg";
 import Icon4 from "@/assets/images/why_choose_us_icon4.svg";
 import Phones from "@/assets/images/why_choose_us_phones.png";
 import { Colors } from "@/constants";
-import { H1, H5, H6 } from "@/styles/typography";
+import { H1, H5, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { FEATURES } from "./data";
 
@@ -17,31 +17,30 @@ export const FeaturesSection = () => {
                 boxSizing: "border-box",
                 width: "100%",
                 background: Colors.gradientBg,
-                py: { xs: 3, md: 4 },
-                px: { xs: 2, md: 6 },
-                pb: { xs: 8, md: 12 },
+                pt: "24px",
+                pb: { xs: "17px", sm: "33px" },
                 position: "relative",
             }}
         >
             <Box
                 sx={{
-                    maxWidth: 1600,
-                    ml: "auto",
+                    maxWidth: 1300,
+                    m: "0 auto",
                     display: "flex",
                     alignItems: "center",
-                    gap: { xs: 4, md: 10 },
-                    flexWrap: "wrap",
+                    gap: { xs: 3, md: 10 },
                     minWidth: 0,
+                    justifyContent: "center",
+                    flexDirection: { xs: "column", md: "row" }
                 }}
             >
                 {/* Left */}
-                <Box sx={{ flex: "1 1 520px", minWidth: 0 }}>
-                    <H1 sx={{ color: "#fff", mb: "50px", fontWeight: 600 }}>
+                <Box sx={{ minWidth: 0, pl: { xs: "0", sm: "16px" } }}>
+                    <H1 sx={{ color: "#fff", mb: { xs: "0", sm: "50px" }, fontWeight: 600, fontSize: { xs: "24px", sm: "40px" }, textAlign: { xs: "center", sm: "left" } }}>
                         Почему выбирают PayHub
                     </H1>
-
-                    <Box display="flex" gap="26px" alignItems="center" minWidth={0}>
-
+                    {/* Desktop UI*/}
+                    <Box display={{ xs: "none", sm: "flex" }} gap="26px" alignItems="center" minWidth={0}>
                         <Box display="flex" flexDirection="column" alignItems="center">
                             <Box>
                                 <img src={Icon1} alt="Icon 1" style={{ width: 34 }} />
@@ -118,17 +117,15 @@ export const FeaturesSection = () => {
                 {/* Right */}
                 <Box
                     sx={{
-                        flex: "0 1 650px",
-                        minWidth: 280,
-                        width: { xs: "100%", md: 650 },
+                        flex: "1",
+                        width: { xs: "80%", sm: 500 },
                     }}
                 >
-
                     <Box
                         sx={{
                             position: "relative",
                             width: "100%",
-                            aspectRatio: "16 / 16",
+                            aspectRatio: "18 / 18",
                             backgroundImage: `url(${PhonesBg})`,
                             backgroundSize: "cover",
                             backgroundPosition: "center",
@@ -136,17 +133,16 @@ export const FeaturesSection = () => {
                             overflow: "visible",
                         }}
                     >
-
                         <Box
                             component="img"
                             src={Phones}
                             alt="Phones"
                             sx={{
                                 position: "absolute",
-                                left: "50%",
-                                transform: "translateX(-50%)",
-                                bottom: { xs: "-2px", md: "-220px" },
-                                width: { xs: "clamp(220px, 72%, 463px)", md: 580 },
+                                left: { xs: "40%", sm: "50%" },
+                                transform: { xs: "translateX(-60%)", sm: "translateX(-50%)" },
+                                bottom: { xs: "-2px", md: "-140px" },
+                                width: { xs: "clamp(220px, 72%, 463px)", md: 500 },
                                 maxWidth: "100%",
                                 height: "auto",
                                 zIndex: 2,
@@ -156,8 +152,29 @@ export const FeaturesSection = () => {
                         />
                     </Box>
                 </Box>
-
+                {/* Mobile UI */}
+                <Box display={{ xs: "flex", sm: "none" }} flexDirection="column" gap="16px" p="0 17px">
+                    {FEATURES.map((feature, index) => (
+                        <Box key={feature.id} width="100%" display="flex" flexDirection="column" alignItems="center" justifyContent="center">
+                            <Box>
+                                <img src={feature.icon} alt="Icon 3" style={{ width: 34 }} />
+                            </Box>
+                            <H5 p="16px 0 4px 0">{feature.title}</H5>
+                            <P sx={{ textAlign: "center", p: "0 0 10px 0", color: "#fff" }}>{feature.text}</P>
+                            {index !== FEATURES.length - 1 && (
+                                <hr
+                                    style={{
+                                        width: "100%",
+                                        margin: 0,
+                                        border: "none",
+                                        borderTop: "1px dashed #2EE8E2",
+                                    }}
+                                />
+                            )}
+                        </Box>
+                    ))}
+                </Box>
             </Box>
-        </Box >
+        </Box>
     );
 };

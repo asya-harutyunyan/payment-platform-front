@@ -14,8 +14,21 @@ export const Colors = {
 	status_rose: "#FCF3F3",
 	gradientBg: `
       linear-gradient(0deg, #00000033, #00000033),
-      linear-gradient(180deg, #1f243a 0%, #28356f 100%)
+      linear-gradient(180deg, #1f243a 0%, #263569 100%)
     `
+};
+
+export const greenGradientBorder = {
+	content: '""',
+	position: "absolute" as const,
+	inset: 0,
+	borderRadius: "16px",
+	padding: "1px",
+	background: "linear-gradient(360deg, rgba(43,255,255,0.8) 0%, rgba(43,255,255,0.2) 100%)",
+	WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+	WebkitMaskComposite: "xor" as const,
+	maskComposite: "exclude" as const,
+	pointerEvents: "none" as const,
 };
 
 export const Weight = {
