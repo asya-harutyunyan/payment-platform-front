@@ -1,21 +1,51 @@
-import imgArrow from "@/assets/images/arrow.png";
-import img from "@/assets/images/Isolation.png";
-import imgUsers from "@/assets/images/users.png";
+import AppleIcon from "@/assets/images/apple_icon.svg";
+import PhoneImg from "@/assets/images/landing_page_phone.png";
 import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
+import { Colors, greenGradientBorder } from "@/constants";
 import { useAuth } from "@/context/auth.context";
-import { H1, H6, P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { H1, H6 } from "@/styles/typography";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
-import { t } from "i18next";
 import { useCallback } from "react";
-import ReactPlayer from "react-player";
-import Button from "../../button";
+import NewButton from "../../btn";
+import ResponsiveAppBar from "../header";
+import BalanceChart from "./components/balanceChart";
+import TransfersCard from "./components/transfersCard";
+import ValueChart from "./components/valuechart";
+import { Transfers } from "./transfersData";
+
 
 export const AboutSection = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const isDesktop = useMediaQuery("(min-width:600px)");
+
+  const downloadApk = async () => {
+    try {
+      fetch("/public/app-release.apk", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/pdf",
+        },
+      })
+        .then((response) => response.blob())
+        .then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `app-release.apk`);
+          document.body.appendChild(link);
+          link.click();
+          link.parentNode?.removeChild(link);
+        });
+    } catch (error) {
+      console.error("Ошибка при скачивании:", error);
+    }
+  };
+
   const onBtnClick = useCallback(() => {
-    let to = "/auth/sign-up";
+    let to = "/auth/sign-in";
+
     switch (user?.role) {
       case EUserRole.Client:
         to = "/my-information";
@@ -25,6 +55,9 @@ export const AboutSection = () => {
       case EUserRole.SupportOperator:
       case EUserRole.SupportTrainee:
       case EUserRole.TechnicalSpecialist:
+        to = "/welcome";
+        break;
+      case EUserRole.SuperAdmin:
         to = "/deposit-list";
         break;
       default:
@@ -35,201 +68,145 @@ export const AboutSection = () => {
       replace: true,
     });
   }, [navigate, user?.role]);
+
   return (
     <Box
+      id={"why_choose_us"}
       sx={{
+        width: "100%",
         display: "flex",
         flexDirection: "column",
-        margin: { lg: "50px 0", md: "50px 0", xs: "0", sm: "0" },
+        background: Colors.gradientBg,
+
+
       }}
     >
-      <Box
+      <ResponsiveAppBar />
+      <H1
+        maxWidth={{ xs: "400px", sm: "654px" }}
+        margin="0 auto"
+        minHeight="120px"
+        textAlign="center"
         sx={{
-          display: "flex",
-          width: "100%",
-          alignItems: { lg: "end", md: "end", xs: "start", sm: "start" },
-          justifyContent: "start",
-          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
-          height: {
-            lg: "320px",
-            md: "320px",
-            xs: "max-content",
-            sm: "max-content",
-          },
+          lineHeight: "1.3",
+          fontSize: { xs: "30px", sm: "40px" },
+          pt: "40px"
         }}
       >
-        <Box
-          sx={{
-            width: { lg: "50%", md: "50%", xs: "100%", sm: "100%" },
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: { lg: "end", md: "end", xs: "start", sm: "start" },
-            justifyContent: "start",
+        Добро пожаловать в{" "}
+        <span
+          style={{
+            fontStyle: "italic",
+            background: Colors.gradientBg,
+            color: Colors.white,
+            padding: "0 8px",
+            borderRadius: "50px",
           }}
         >
-          <Box width={"100%"}>
-            <H1
-              color="primary.main"
-              fontSize={{ lg: "40px", md: "40px", xs: "30px", sm: "30px" }}
-            >
-              {t("welcome_landing")}
-            </H1>
-          </Box>
-          <img
-            src={img}
-            style={{ width: "220px", height: "30px", marginRight: "100px" }}
-          />
-          <Box width={"100%"}>
-            <H1
-              color="primary.main"
-              fontSize={{ lg: "40px", md: "40px", xs: "30px", sm: "30px" }}
-            >
-              {t("welcome_landing_second")}
-            </H1>
-          </Box>
-          <P
-            sx={{
-              padding: "20px 0 0 10px",
-              width: { lg: "100%", md: "100%", xs: "100%", sm: "100%" },
-            }}
-          >
-            {t("welcome_text")}
-          </P>
-        </Box>
-        <Box
+          PayHub
+        </span>
+        - Здесь Деньги Работают на Вас
+      </H1>
+      <Box
+        display="flex"
+        width={{ xs: "350px", sm: "466px" }}
+        maxWidth="100%"
+        gap="10px"
+        margin="20px auto"
+        px={{ xs: "16px", sm: "0" }}
+      >
+        <NewButton
+          text="Скачать приложение"
+          onClick={downloadApk}
+          icon={AppleIcon}
+          variant="outlinedBlue"
           sx={{
-            width: { lg: "50%", md: "50%", xs: "100%", sm: "100%" },
-            height: "100%",
-            display: "flex",
-            flexDirection: "column",
+            flex: 1,
+            minWidth: "120px",
+            height: "46px",
+            padding: "13px 16px",
           }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "start",
-              width: "100%",
-              height: "80%",
-            }}
-          >
-            <img
-              src={imgUsers}
-              style={{
-                width: "120px",
-                height: "60px",
-              }}
-            />
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                paddingTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
-              }}
-            >
-              <H6 sx={{ padding: "0" }} color="primary.main">
-                140.000+{" "}
-              </H6>
-              <P paddingBottom={{ ls: "0", md: "0", xs: "20px", sm: "20px" }}>
-                {" "}
-                {t("welcome_people_count")}
-              </P>
-            </Box>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              withd: "100%",
-              height: "20%",
-              justifyContent: "end",
-              marginRight: { lg: "100px", md: "100px", xs: "30px", sm: "30px" },
-            }}
-          >
-            <img
-              src={imgArrow}
-              style={{
-                width: "120px",
-                height: "60px",
-              }}
-            />
-            <P>
-              {t("watch_video")}
-              <br />
-              {t("watch_video_second")}
-              {t(" ")}
-            </P>
-          </Box>
-        </Box>
+        />
+        <NewButton
+          text={user ? "Главная" : "Начать Сейчас"}
+          variant="gradient"
+          onClick={onBtnClick}
+          glow
+          sx={{
+            minWidth: "120px",
+            width: { xs: "160px", sm: "208px" },
+            height: "46px",
+            padding: "13px 16px",
+          }}
+        />
       </Box>
+      <Box maxWidth={1200} px={{ xs: "16px", sm: "0" }} margin="0 auto" display="flex" gap={{ xs: "10px", sm: "30px" }} flexDirection={{ xs: "column", lg: "row" }} alignItems="center">
+        {/* 1 */}
+        <Box maxWidth={"100%"} display="flex" flexDirection={{ xs: "row", lg: "column" }} gap="24px" alignItems="flex-end" order={{ xs: 2, lg: 1 }}>
+          <Box
+            sx={{
+              position: "relative",
+              flexBasis: { xs: "100%", sm: "100%" },
+              maxWidth: { xs: "none", sm: "none", md: 356 },
+              p: "20px 13.5px",
+              borderRadius: "16px",
+              background: { xs: Colors.gradientBg, sm: "linear-gradient(180deg, rgba(49,58,91,0) 0%, rgba(49,58,91,0.44) 44%, rgba(49,58,91,1) 100%)" },
+              backdropFilter: { xs: "blur(0)", sm: "blur(25px)" },
+              mt: { xs: "-200px", sm: "0" },
+              "&::before": greenGradientBorder
+            }}
+          >
+            <H6 sx={{ textAlign: "center" }}>
+              Приумножайте деньги с умом! В PayHub мы уверены: зарабатывать должно быть
+              легко, безопасно и выгодно.
+            </H6>
+          </Box>
+          {isDesktop &&
+            <TransfersCard />
+          }
+        </Box>
+        <Box order={{ xs: 1, lg: 2 }}>
+          <img
+            src={PhoneImg}
+            alt="Phone"
+            style={{ maxWidth: "350px", marginBottom: "-3px" }}
+          />
+        </Box>
+        {isDesktop &&
+          <Box order={3} width="410px" display="flex" flexDirection="column" gap="10px" flex="1">
+            <ValueChart />
+            <BalanceChart />
+          </Box>
+        }
 
-      <Box
-        sx={{
-          marginTop: { lg: "20px", md: "20px", xs: "20px", sm: "20px" },
-          display: "flex",
-          justifyContent: {
-            lg: "space-between",
-            md: "space-between",
-            xs: "center",
-            sm: "center",
-          },
-          alignItems: {
-            lg: "inherit",
-            md: "inherit",
-            xs: "center",
-            sm: "center",
-          },
-          width: "100%",
-          height: {
-            lg: "320px",
-            md: "320px",
-            xs: "max-content",
-            sm: "max-content",
-          },
-          flexDirection: {
-            lg: "row",
-            md: "row",
-            xs: "column-reverse",
-            sm: "column-reverse",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            backgroundColor: "primary.main",
-            width: { lg: "35%", md: "35%", xs: "80%", sm: "80%" },
-            borderRadius: "20px",
-            padding: "30px",
-          }}
-        >
-          <P color="text.secondary" width={"70%"} fontSize={"16px"}>
-            {t("welcome_first_part")}
-          </P>
-          <Button
-            variant={"gradient"}
-            text={t("get_start")}
-            onClick={() => onBtnClick()}
-            sx={{ margin: "30px 0", width: "160px" }}
-          />
-        </Box>
-        <Box
-          sx={{
-            width: { lg: "58%", md: "58%", xs: "95%", sm: "95%" },
-            marginBottom: { lg: "0", md: "0", xs: "20px", sm: "20px" },
-            borderRadius: "20px",
-            backgroundColor: "primary.main",
-            height: "100%",
-            overflow: "hidden",
-          }}
-        >
-          <ReactPlayer
-            url="https://www.youtube.com/watch?v=etz00cgQAzM"
-            controls={true}
-            width="100%"
-            height="100%"
-            borderRadius={"10px"}
-          />
-        </Box>
+        {!isDesktop &&
+          <Box width="100%" display="flex" gap="11px" order={3}>
+            <Box display="flex" flexDirection="column" gap="19px" >
+              {Transfers.map((t) => (
+                <Box display="flex" justifyContent="space-between" alignItems="center" width="140px" p="6px 10px" borderRadius="0.87px" position="relative" sx={{ "&::before": greenGradientBorder }}>
+                  <Box
+                    sx={{
+                      width: "41px",
+                      height: "41px",
+                    }}
+                  >
+                    <img src={t.icon} alt="Icon" style={{ maxWidth: "100%", maxHeight: "100%" }} />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontSize: "16.4px",
+                      fontWeight: 700,
+                      color: "#3A95FF",
+                    }}
+                  >
+                    {t.amount}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+            <BalanceChart />
+          </Box>
+        }
       </Box>
     </Box>
   );

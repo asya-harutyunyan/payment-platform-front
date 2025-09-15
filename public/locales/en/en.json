@@ -122,5 +122,11 @@
   "wallet": "Wallet",
   "status": "status",
   "orders_history": "Orders history",
-  "delete": "Delete"
+  "delete": "Delete",
+  "header_why_choose_us": "Why Choose Us",
+  "header_how_it_works": "How It Works",
+  "header_about_us": "About Us",
+  "header_our_contacts": "Our Contacts",
+  "home": "Main",
+  "contact_us": "Contact us"
 }

@@ -34,7 +34,7 @@ const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_KEY!}>
+    // <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_KEY!}>
       <Provider store={store}>
         <I18nextProvider i18n={i18n} defaultNS={"translation"}>
           <AuthProvider>
@@ -46,6 +46,6 @@ if (!rootElement.innerHTML) {
           </AuthProvider>
         </I18nextProvider>
       </Provider>
-    </GoogleReCaptchaProvider>
+    // </GoogleReCaptchaProvider>
   );
 }

@@ -1,122 +1,143 @@
-import AndroidImg from "@/assets/images/android.png";
-import theme from "@/styles/theme";
-import { P } from "@/styles/typography";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TelegramIcon from "@mui/icons-material/Telegram";
-import { Box } from "@mui/material";
-import { FC } from "react";
+import TelegramIcon from "@/assets/images/telegram_icon.svg";
+import { Colors } from "@/constants";
+import { H5, H6, P } from "@/styles/typography";
+import { Box, Container, Link, List, ListItem, ListItemButton } from "@mui/material";
+import { t } from "i18next";
 
-interface IMediaCard {
-  img?: string;
-}
-export const Footer: FC<IMediaCard> = () => {
-  const downloadApk = async () => {
-    try {
-      fetch("/public/app-release.apk", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-          // Create blob link to download
-          const url = window.URL.createObjectURL(blob);
+export const Footer = () => {
+  const year = new Date().getFullYear();
+  const pages = ["home", "header_why_choose_us", "header_how_it_works", "contact"];
 
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", `app-release.apk`);
-
-          // Append to html link element page
-          document.body.appendChild(link);
-
-          // Start download
-          link.click();
-
-          // Clean up and remove the link
-          link.parentNode?.removeChild(link);
-        });
-    } catch (error) {
-      console.error("Ошибка при скачивании:", error);
+  const handleScroll = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
+
   return (
     <Box
+      id="header_our_contacts"
       sx={{
         width: "100%",
-        height: "180px",
-        background: theme.palette.primary.main,
+        background: Colors.gradientBg,
         display: "flex",
-        justifyContent: {
-          lg: "space-between",
-          md: "space-between",
-          xs: "center",
-          sm: "center",
-        },
-        alignItems: "center",
-        marginTop: "50px",
-        flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+        flexDirection: "column",
+        alignItems: "center"
       }}
     >
-      <P color="text.primary" paddingLeft={"50px"}>
-        Terms and conditions | Privacy policy
-      </P>
-      <Box
+      <List
+        component="nav"
         sx={{
-          width: "100%",
-          height: "10%",
+          maxWidth: 857,
+          m: { xs: "16px 0", sm: "72px auto 14px" },
+          p: 0,
           display: "flex",
-          justifyContent: "end",
-          marginRight: "50px",
+          gap: { xs: "10px", sm: "32px" },
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: { xs: "column", sm: "row" }
         }}
       >
-        <Box
-          sx={{
-            display: "flex",
-            width: "max-content",
-            alignItems: "center",
-          }}
+        {pages.map((page) => (
+          <ListItem
+            key={page}
+            disableGutters
+            disablePadding
+            sx={{ width: "auto" }}
+          >
+            <ListItemButton
+              onClick={() => handleScroll(page)}
+              sx={{
+                px: 0,
+                py: 0,
+                cursor: "pointer",
+                "&:hover .nav-text": { textDecoration: "underline" },
+              }}
+            >
+              <H5 className="nav-text">{t(page)}</H5>
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+
+
+      <Box display={"flex"} gap="8px" >
+        <Box border="2px solid #234178" borderRadius="50%" width="40px" height="40px" display="flex" justifyContent="center" alignItems="center" >
+          <img
+            src={TelegramIcon}
+            alt="Telegram icon"
+            style={{ width: "24px" }}
+          />{" "}
+        </Box>
+        <Link
+          href="https://t.me/payhubofficial"
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{ color: "#fff" }}
         >
+          <H6 sx={{ fontSize: 12, m: 0 }}>Телеграм-канал</H6>
+        </Link>
+      </Box>
+      <Box
+        component="hr"
+        sx={{
+          backgroundColor: "#3aceac",
+          width: "100%",
+          height: "1px",
+          border: "none",
+          my: { xs: 2.5, sm: 5 },
+          mb: { sm: 7.125 },
+        }}
+      />
+      <Box
+        component="footer"
+        sx={{
+          color: "#fff",
+          py: { xs: 2, md: 3 },
+
+        }}
+      >
+        <Container maxWidth="lg">
           <P
+            variant="body1"
             sx={{
-              paddingRight: "10px",
-              fontWeight: "bold",
-              color: "text.primary",
+              display: "flex",
+              alignItems: "center",
+              gap: 0.5,
+              whiteSpace: "nowrap",
+              color: "#fff",
             }}
           >
-            Скачать приложение
+            <Box component="span">©</Box>
+            <Box component="span">{year}.</Box>
+            <Box component="span" sx={{ fontWeight: 400 }}>PAYHUB</Box>
+            <Box component="span" sx={{ mx: 1 }} aria-hidden>|</Box>
+
+            <Link
+              href="#"
+              sx={{
+                color: "inherit",
+                fontWeight: 600,
+                textDecorationThickness: "2px",
+              }}
+            >
+              Условия
+            </Link>
+            <Box component="span" sx={{ mx: 0.5 }}>и</Box>
+            <Link
+              href="#"
+              sx={{
+                color: "inherit",
+                fontWeight: 600,
+                textDecorationThickness: "2px",
+              }}
+            >
+              Положения
+            </Link>
           </P>
-          <Box sx={{ paddingRight: "5px", cursor: "pointer" }}>
-            {/* <IOSIcon /> */}
-          </Box>
-          <Box
-            sx={{ paddingRight: "5px", cursor: "pointer" }}
-            onClick={downloadApk}
-          >
-            <img
-              src={AndroidImg}
-              alt="android"
-              style={{ width: "120px", borderRadius: "3px" }}
-            />{" "}
-          </Box>
-        </Box>
+        </Container>
       </Box>
-      <Box
-        width={"200px"}
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          paddingRight: "50px",
-          padding: { lg: "0", md: "", xs: "10px", sm: "10px" },
-        }}
-      >
-        <LinkedInIcon sx={{ color: "text.secondary" }} />
-        <InstagramIcon sx={{ color: "text.secondary" }} />
-        <FacebookIcon sx={{ color: "text.secondary" }} />
-        <TelegramIcon sx={{ color: "text.secondary", marginRight: "20px" }} />
-      </Box>
-    </Box>
+    </Box >
   );
 };
