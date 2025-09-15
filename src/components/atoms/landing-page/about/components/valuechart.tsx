@@ -12,7 +12,6 @@ import {
     YAxis
 } from 'recharts';
 
-
 const fmtDate = (iso: string) =>
     new Date(iso + 'T00:00:00').toLocaleDateString(undefined, {
         month: 'short',
@@ -102,7 +101,7 @@ export default function ValueChart() {
     return (
         <Box sx={{
             width: "100%",
-            maxWidth: "500px",
+            maxWidth: "320px",
             padding: "20px 16px",
             borderRadius: "16px",
             position: "relative",
@@ -143,13 +142,10 @@ export default function ValueChart() {
                     </Box>
                 </div>
             </div>
-
-            {/* Chart */}
             <div style={{ width: "100%", height: 120 }}>
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart
                         data={data.map(d => ({ name: d.date, value: d.rate }))}
-
                     >
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.08)" />
                         <XAxis
@@ -175,7 +171,6 @@ export default function ValueChart() {
                     </LineChart>
                 </ResponsiveContainer>
             </div>
-
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div style={{ display: 'flex', gap: 12 }}>
                     {(['1D', '1W', '1M', '3M', '1Y', 'All'] as RangeKey[]).map(r => (
@@ -195,7 +190,6 @@ export default function ValueChart() {
                         </button>
                     ))}
                 </div>
-
                 <Box sx={{
                     position: "relative",
                     background: Colors.gradientBg,
@@ -216,7 +210,6 @@ export default function ValueChart() {
                         {change7d ? `${change7d.pct >= 0 ? '+' : ''}${change7d.pct.toFixed(1)}% (7D)` : ''}
                     </div>
                 </Box>
-
             </div>
             {
                 error && (

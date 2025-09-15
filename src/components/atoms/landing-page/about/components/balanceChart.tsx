@@ -38,15 +38,19 @@ export default function BalanceChart() {
         <Box
             sx={{
                 position: "relative",
-                maxWidth: 356,
-                p: "17px 50px",
+                maxWidth: "356px",
+                flex: 1,
+                p: { xs: "10px", sm: "17px 50px" },
                 borderRadius: "16px",
                 background:
                     "linear-gradient(180deg, rgba(49,58,91,0) 0%, rgba(49,58,91,0.44) 44%, rgba(49,58,91,1) 100%)",
                 backdropFilter: "blur(25px)",
                 marginBottom: "10px",
-                ml: "25px",
-                "&::before": greenGradientBorder,
+                textAlign: { xs: "center", sm: "left" },
+                ml: {
+                    xs: "0", sm: "25px"
+                }
+                , "&::before": greenGradientBorder,
             }}
         >
             <H6 sx={{ fontSize: "12px", fontStyle: "italic", fontWeight: 400, p: "4px 0" }}>
@@ -91,26 +95,26 @@ export default function BalanceChart() {
                         flexDirection: "column",
                         justifyContent: "center",
                         gap: "6px",
-                        width: "100%",
+                        width: "40%",
                     }}
                 >
                     {legendItems.map((item) => (
-                        <Box key={item.label} sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                        <Box key={item.label} sx={{ display: "flex", alignItems: "center", gap: "5px" }}>
                             <Box
                                 sx={{
-                                    width: 5,
-                                    height: 5,
+                                    width: 6,
+                                    height: 6,
                                     borderRadius: "50%",
                                     background: item.color,
                                 }}
                             />
-                            <H6 sx={{ fontSize: "7.5px", fontWeight: 500, p: "0" }}>
+                            <H6 sx={{ fontSize: "7px", fontWeight: 500, p: "0" }}>
                                 {item.label}
                             </H6>
                         </Box>
                     ))}
                 </Box>
             </Box>
-        </Box>
+        </Box >
     );
 }

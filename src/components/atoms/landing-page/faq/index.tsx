@@ -1,6 +1,6 @@
 import ChevronLeft from "@/assets/images/faq_chevron_left.svg";
 import ChevronRight from "@/assets/images/faq_chevron_right.svg";
-import { H1, H4, H6 } from "@/styles/typography";
+import { H1, H4, H6, P } from "@/styles/typography";
 import { Box, Card, CardContent, IconButton, Stack } from "@mui/material";
 import * as React from "react";
 import "swiper/css";
@@ -90,7 +90,7 @@ export default function FaqSwiper() {
                 >
                   <CardContent sx={{ maxWidth: 353, p: "28px 28px" }}>
                     <H4 sx={{ color: textColor, p: 0, mb: "16px", fontStyle: "SemiBold" }}>{item.question}</H4>
-                    <H6 sx={{ color: textColor, p: 0, fontSize: "15px", fontStyle: "normal", fontWeight: 300 }}>{item.answer}</H6>
+                    <P sx={{ color: textColor, p: 0, fontSize: "15px", fontStyle: "normal" }}>{item.answer}</P>
                   </CardContent>
                 </Card>
               </SwiperSlide>

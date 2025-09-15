@@ -2,7 +2,6 @@ import Icon1 from "@/assets/images/how_it_works_icon_1.svg";
 import Icon2 from "@/assets/images/how_it_works_icon_2.svg";
 import Icon3 from "@/assets/images/how_it_works_icon_3.svg";
 
-
 type HowItWorksData = {
   id: number;
   icon: string,
@@ -12,6 +11,7 @@ type HowItWorksData = {
   btnAction: string
 
 };
+
 export const HowItWorksData: HowItWorksData[] = [
   {
     id: 1,

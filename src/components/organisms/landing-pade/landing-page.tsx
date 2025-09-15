@@ -3,7 +3,6 @@ import { AchievementsSection } from "@/components/atoms/landing-page/achievement
 import FaqSwiper from "@/components/atoms/landing-page/faq";
 import { FeaturesSection } from "@/components/atoms/landing-page/featuresBlock";
 import { Footer } from "@/components/atoms/landing-page/footer";
-import ResponsiveAppBar from "@/components/atoms/landing-page/header";
 import { HowItWorks } from "@/components/atoms/landing-page/howItWorks";
 import { Partners } from "@/components/atoms/landing-page/partners";
 import { Box, Container } from "@mui/material";
@@ -21,7 +20,7 @@ export const LandingPage = () => {
 
           }}
         >
-          {/* <ResponsiveAppBar /> */}
+
           <AboutSection />
           <AchievementsSection />
           <HowItWorks />

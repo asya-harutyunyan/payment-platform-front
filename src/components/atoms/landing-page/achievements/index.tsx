@@ -1,35 +1,13 @@
 import { H1, H6 } from "@/styles/typography"
 import { Box } from "@mui/material"
-
-const achievementsdata = [
-    {
-        id: 1,
-        title: "25K+",
-        subtitle: "Надёжных партнёров"
-    },
-    {
-        id: 2,
-        title: "4,9+",
-        subtitle: "Рейтинг"
-    },
-    {
-        id: 3,
-        title: "90K+",
-        subtitle: "Довольных клиентов"
-    },
-    {
-        id: 4,
-        title: "18+",
-        subtitle: "Лет работы"
-    }
-]
+import { achievementsData } from "./data"
 
 export const AchievementsSection = () => {
     return (
 
-        <Box maxWidth="804px" margin="60px auto 60px auto" display="flex" gap={{ xs: "20px", sm: "60px" }}>
+        <Box maxWidth="804px" margin={{ xs: "24px auto 24px auto", sm: "60px auto 60px auto" }} display="flex" gap={{ xs: "20px", sm: "60px" }}>
             {
-                achievementsdata.map((item) => (
+                achievementsData.map((item) => (
                     <Box key={item.id} textAlign="center" maxWidth="168px">
                         <H1 color="#232d56" fontWeight={600} sx={{
                             fontSize: { xs: "21px", sm: "40px" },

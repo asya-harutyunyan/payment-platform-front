@@ -22,7 +22,7 @@ export const greenGradientBorder = {
 	content: '""',
 	position: "absolute" as const,
 	inset: 0,
-	borderRadius: "16px",
+	borderRadius: "14px",
 	padding: "1px",
 	background: "linear-gradient(360deg, rgba(43,255,255,0.8) 0%, rgba(43,255,255,0.2) 100%)",
 	WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",

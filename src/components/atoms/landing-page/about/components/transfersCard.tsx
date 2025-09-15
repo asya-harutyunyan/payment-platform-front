@@ -1,52 +1,25 @@
-import Icon1 from "@/assets/images/transfer_card_icon_1.svg";
-import Icon2 from "@/assets/images/transfer_card_icon_2.svg";
 
 import { Colors, greenGradientBorder } from "@/constants";
 import { Box, Stack, Typography } from "@mui/material";
+import { Transfers } from "../transfersData";
 
-
-// demo data
-const transfers = [
-    {
-        id: 1,
-        icon: Icon1,
-        amount: "$37,740",
-        title: "Перевод на  Банковский Счёт",
-        status: "Вывод завершён",
-        time: "3 часа назад",
-    },
-    {
-        id: 2,
-        icon: Icon1,
-        amount: "$8,349",
-        title: "Перевод на  Банковский Счёт",
-        status: "Вывод завершён",
-        time: "1 день назад",
-    },
-    {
-        id: 3,
-        icon: Icon2,
-        amount: "$13,930",
-        title: "Перевод цифровых активов",
-        status: "Вывод завершён",
-        time: "2 дня назад",
-    },
-];
 
 export default function TransfersCard() {
     return (
         <Box
-            maxWidth={400}
             width={400}
             sx={{
                 position: "relative",
                 borderRadius: "28px",
                 p: "26.6px 10.7px",
+                flexBasis: { xs: "100%", sm: "100%" },
+                maxWidth: { xs: "none", sm: "none", lg: 400 },
+
                 "&::before": greenGradientBorder
             }}
         >
             <Stack spacing={4}>
-                {transfers.map((t) => (
+                {Transfers.map((t) => (
                     <Row key={t.id} {...t} />
                 ))}
             </Stack>
@@ -78,7 +51,6 @@ function Row({
                 >
                     <img src={icon} alt="Icon" style={{ maxWidth: "100%", maxHeight: "100%" }} />
                 </Box>
-
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography
                         sx={{
@@ -89,8 +61,6 @@ function Row({
                     >
                         {amount}
                     </Typography>
-
-
                     <Box display="flex" justifyContent="space-between">
                         <Typography
                             sx={{
@@ -110,7 +80,6 @@ function Row({
                         }}>
                             {time}
                         </Typography>
-
                     </Box>
                     <Box
                         sx={{
@@ -121,7 +90,6 @@ function Row({
                                 "#91aeb7"
                         }}
                     />
-
                     <Typography sx={{
                         fontSize: "6.15px",
                         fontWeight: 700,

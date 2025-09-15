@@ -4,18 +4,21 @@ import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/us
 import { Colors, greenGradientBorder } from "@/constants";
 import { useAuth } from "@/context/auth.context";
 import { H1, H6 } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
 import NewButton from "../../btn";
-import BalanceChart from "./balanceChart";
-import TransfersCard from "./transfersCard";
-import ValueChart from "./valuechart";
+import ResponsiveAppBar from "../header";
+import BalanceChart from "./components/balanceChart";
+import TransfersCard from "./components/transfersCard";
+import ValueChart from "./components/valuechart";
+import { Transfers } from "./transfersData";
 
 
 export const AboutSection = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const isDesktop = useMediaQuery("(min-width:600px)");
 
   const downloadApk = async () => {
     try {
@@ -74,11 +77,11 @@ export const AboutSection = () => {
         display: "flex",
         flexDirection: "column",
         background: Colors.gradientBg,
-        pt: "40px",
+
 
       }}
     >
-
+      <ResponsiveAppBar />
       <H1
         maxWidth={{ xs: "400px", sm: "654px" }}
         margin="0 auto"
@@ -86,7 +89,8 @@ export const AboutSection = () => {
         textAlign="center"
         sx={{
           lineHeight: "1.3",
-          fontSize: { xs: "30px", sm: "40px" }
+          fontSize: { xs: "30px", sm: "40px" },
+          pt: "40px"
         }}
       >
         Добро пожаловать в{" "}
@@ -103,7 +107,6 @@ export const AboutSection = () => {
         </span>
         - Здесь Деньги Работают на Вас
       </H1>
-      {/* Buttons */}
       <Box
         display="flex"
         width={{ xs: "350px", sm: "466px" }}
@@ -124,7 +127,6 @@ export const AboutSection = () => {
             padding: "13px 16px",
           }}
         />
-
         <NewButton
           text={user ? "Главная" : "Начать Сейчас"}
           variant="gradient"
@@ -138,21 +140,19 @@ export const AboutSection = () => {
           }}
         />
       </Box>
-
-
-      {/* ------------- */}
-      <Box maxWidth={1200} margin="0 auto" display="flex" gap="30px" flexDirection={{ xs: "column", lg: "row" }} alignItems="center">
+      <Box maxWidth={1200} px={{ xs: "16px", sm: "0" }} margin="0 auto" display="flex" gap={{ xs: "10px", sm: "30px" }} flexDirection={{ xs: "column", lg: "row" }} alignItems="center">
         {/* 1 */}
-        <Box maxWidth={418} display="flex" flexDirection="column" gap="24px" alignItems="flex-end">
+        <Box maxWidth={"100%"} display="flex" flexDirection={{ xs: "row", lg: "column" }} gap="24px" alignItems="flex-end" order={{ xs: 2, lg: 1 }}>
           <Box
             sx={{
               position: "relative",
-              maxWidth: 356,
+              flexBasis: { xs: "100%", sm: "100%" },
+              maxWidth: { xs: "none", sm: "none", md: 356 },
               p: "20px 13.5px",
               borderRadius: "16px",
-              background:
-                "linear-gradient(180deg, rgba(49,58,91,0) 0%, rgba(49,58,91,0.44) 44%, rgba(49,58,91,1) 100%)",
-              backdropFilter: "blur(25px)",
+              background: { xs: Colors.gradientBg, sm: "linear-gradient(180deg, rgba(49,58,91,0) 0%, rgba(49,58,91,0.44) 44%, rgba(49,58,91,1) 100%)" },
+              backdropFilter: { xs: "blur(0)", sm: "blur(25px)" },
+              mt: { xs: "-200px", sm: "0" },
               "&::before": greenGradientBorder
             }}
           >
@@ -161,23 +161,53 @@ export const AboutSection = () => {
               легко, безопасно и выгодно.
             </H6>
           </Box>
-          <TransfersCard />
+          {isDesktop &&
+            <TransfersCard />
+          }
         </Box>
-        {/* 2 */}
-        <Box>
+        <Box order={{ xs: 1, lg: 2 }}>
           <img
             src={PhoneImg}
             alt="Phone"
             style={{ maxWidth: "350px", marginBottom: "-3px" }}
           />
         </Box>
-        {/* 3 */}
-        <Box width="410px" display="flex" flexDirection="column" gap="10px" flex="1">
-          <ValueChart />
-          <BalanceChart />
-        </Box>
-      </Box>
+        {isDesktop &&
+          <Box order={3} width="410px" display="flex" flexDirection="column" gap="10px" flex="1">
+            <ValueChart />
+            <BalanceChart />
+          </Box>
+        }
 
-    </Box >
+        {!isDesktop &&
+          <Box width="100%" display="flex" gap="11px" order={3}>
+            <Box display="flex" flexDirection="column" gap="19px" >
+              {Transfers.map((t) => (
+                <Box display="flex" justifyContent="space-between" alignItems="center" width="140px" p="6px 10px" borderRadius="0.87px" position="relative" sx={{ "&::before": greenGradientBorder }}>
+                  <Box
+                    sx={{
+                      width: "41px",
+                      height: "41px",
+                    }}
+                  >
+                    <img src={t.icon} alt="Icon" style={{ maxWidth: "100%", maxHeight: "100%" }} />
+                  </Box>
+                  <Typography
+                    sx={{
+                      fontSize: "16.4px",
+                      fontWeight: 700,
+                      color: "#3A95FF",
+                    }}
+                  >
+                    {t.amount}
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+            <BalanceChart />
+          </Box>
+        }
+      </Box>
+    </Box>
   );
 };

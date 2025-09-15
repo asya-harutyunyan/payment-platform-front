@@ -4,12 +4,9 @@ import { H5, H6, P } from "@/styles/typography";
 import { Box, Container, Link, List, ListItem, ListItemButton } from "@mui/material";
 import { t } from "i18next";
 
-
-
 export const Footer = () => {
   const year = new Date().getFullYear();
   const pages = ["home", "header_why_choose_us", "header_how_it_works", "contact"];
-
 
   const handleScroll = (id: string) => {
     const element = document.getElementById(id);
