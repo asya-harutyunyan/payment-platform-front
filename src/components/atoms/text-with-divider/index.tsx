@@ -13,7 +13,7 @@ const TextWithDriver: FC<ITextWithDivider> = ({ children }) => {
         alignItems: "center",
         justifyContent: "center",
         width: "100%",
-        margin: "30px 0",
+        margin: { xs: "16px 0", sm: "30px 0" },
       }}
     >
       {children}

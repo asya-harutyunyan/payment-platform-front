@@ -1,14 +1,16 @@
-import Button from "@/components/atoms/button";
+import Circle1 from "@/assets/images/blue_circle_1.png";
+import Circle2 from "@/assets/images/blue_circle_2.png";
+import NewButton from "@/components/atoms/btn";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
+import { Logo } from "@/components/atoms/logo";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import theme from "@/styles/theme";
-import { P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Colors } from "@/constants";
+import { H6, P } from "@/styles/typography";
+import { Box, useMediaQuery } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
 import { GoogleReCaptcha } from "react-google-recaptcha-v3";
-import bg from "../../../../assets/images/bg.jpg";
 import { TwoFAModal } from "../../two-fa-modal";
 import useSignIn, { EUserRole } from "./_services/useSignIn";
 
@@ -24,141 +26,171 @@ const LoginForm = () => {
     handleRecaptchaVerify,
   } = useSignIn();
 
+  const isDesktop = useMediaQuery("(min-width:600px)");
+
+
   return (
-    <>
+    <Box sx={{
+      background: Colors.gradientBgSignIn,
+      width: "100%",
+      minHeight: "100vh"
+    }}>
+      {!isDesktop &&
+        <Box component={Link} to="/" sx={{ width: "84px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", p: "16px 0 0 17px" }}>
+          <Logo width="26px" height="26px" />
+          <H6
+            sx={{
+              fontSize: "12px",
+            }}
+          >
+            PayHub
+          </H6>
+        </Box>
+      }
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
         sx={{
-          width: "100%",
-          height: "100vh",
           display: "flex",
-          justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
+          justifyContent: "center",
           alignItems: "center",
-          backgroundImage: `url(${bg})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
+          py: "30px"
+
         }}
       >
-        <Box
-          sx={{
-            width: { lg: "60%", md: "60%", sx: "70%", xs: "70%" },
-            display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <P
-            fontSize={"30px"}
-            color="primary.contrastText"
-            width={"75%"}
-            paddingBottom={"20px"}
-          >
-            {t("sign_in_long")}
-          </P>
-          <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
-            {t("sign_in_short")}
-          </P>
-        </Box>
-        <BasicCard
-          bgColor
-          sx={{
-            width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-            height: { lg: "63%", md: "63%", sx: "60%", xs: "60%" },
-            marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
-          }}
-          align="center"
-        >
-          <P
-            fontSize={"21px"}
-            paddingBottom={"20px"}
-            fontWeight={500}
-            color={theme.palette.primary.main}
-          >
-            {t("welcome_sign_in")}
-          </P>
-          <FormTextInput
-            control={control}
-            type="text"
-            name="email"
-            onChange={handleEmailOrPasswordChange}
-            placeholder={t("email")}
-          />
-          <FormTextInput
-            control={control}
-            name="password"
-            type="password"
-            onChange={handleEmailOrPasswordChange}
-            placeholder={t("password")}
-          />
-
-          {getUserRoleData?.role !== EUserRole.SuperAdmin &&
-            getUserRoleData?.role !== EUserRole.Client &&
-            getUserRoleData?.google2fa_enabled && (
-              <FormTextInput
-                control={control}
-                name="otp"
-                placeholder={t("otp_code")}
-              />
-            )}
-
-          {getUserRoleData?.role === EUserRole.Client && (
-            <GoogleReCaptcha onVerify={handleRecaptchaVerify} />
-          )}
-
-          <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
-            <P style={{ padding: "20px 0", fontSize: "14px" }}>
-              <Link
-                to="/auth/reset-password"
-                style={{
-                  color: theme.palette.primary.main,
-                }}
-              >
-                {t("forgot_password")}
-              </Link>
-            </P>
-          </Box>
-          <Button
-            variant={"gradient"}
-            color="secondary"
-            text={t("sign_in")}
-            sx={{ width: "100%", margin: "20px 0", height: "50px" }}
-            type="submit"
-          />
-
+        <Box width="900px" maxWidth={900} margin="0 auto" display="flex" justifyContent="center" position="relative">
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "100%",
+              position: "absolute",
+              left: { xs: "5px", sm: "-30px" },
+              bottom: { xs: "-40px", sm: "-110px" },
+              width: { xs: "130px", sm: "270px" },
+              height: { xs: "165px", sm: "348px" },
             }}
           >
-            <TextWithDivider>
-              <P>
+            <img src={Circle2} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              right: { xs: "10px", sm: "50px" },
+              top: { xs: "-20px", sm: "5px" },
+              width: { xs: "86px", sm: "150px" },
+              height: { xs: "86px", sm: "150px" },
+            }}
+          >
+            <img src={Circle1} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+          </Box>
+          <BasicCard
+            sx={{
+              width: "60%",
+              borderRadius: "40px",
+              background: "rgba(255, 255, 255, 0.01)",
+              backdropFilter: "blur(25px)",
+              WebkitBackdropFilter: "blur(25px)",
+              backgroundColor: "transparent",
+              boxShadow: Colors.transparentBoxShadow,
+              zIndex: "1",
+            }}
+          >
+            <P
+              fontSize={{ xs: "24px", sm: "36px" }}
+              paddingBottom={{ xs: "23px", sm: "40px" }}
+              fontWeight={600}
+              color={Colors.white}
+              width="max-content"
+              margin="0 auto"
+            >
+              {t("welcome_sign_in")}
+            </P>
+            <FormTextInput
+              control={control}
+              type="text"
+              name="email"
+              onChange={handleEmailOrPasswordChange}
+              placeholder={t("email")}
+              greenGradientVariant
+            />
+
+            <FormTextInput
+              control={control}
+              name="password"
+              type="password"
+              onChange={handleEmailOrPasswordChange}
+              placeholder={t("password")}
+              greenGradientVariant
+            />
+
+            {getUserRoleData?.role !== EUserRole.SuperAdmin &&
+              getUserRoleData?.role !== EUserRole.Client &&
+              getUserRoleData?.google2fa_enabled && (
+                <FormTextInput
+                  control={control}
+                  name="otp"
+                  placeholder={t("otp_code")}
+                />
+              )}
+
+            {getUserRoleData?.role === EUserRole.Client && (
+              <GoogleReCaptcha onVerify={handleRecaptchaVerify} />
+            )}
+
+            <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
+              <P style={{ padding: "20px 0", fontSize: "14px" }}>
                 <Link
-                  to="/auth/sign-up"
+                  to="/auth/reset-password"
+
                   style={{
-                    color: theme.palette.primary.main,
-                    fontWeight: 300,
+                    color: Colors.white,
                     fontSize: "14px",
-                    textDecoration: "none",
+                    textDecoration: "none"
                   }}
                 >
-                  {t("already")}
-                  <span style={{ textDecoration: "underline" }}>
-                    {" "}
-                    {t("sign_up")}
-                  </span>
+                  {t("forgot_password")}
                 </Link>
               </P>
-            </TextWithDivider>
-          </Box>
-        </BasicCard>
-      </Box>
+            </Box>
+            <NewButton
+              variant={"gradient"}
+              color="primary"
+              text={t("sign_in")}
+              sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+              type="submit"
+            />
 
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "100%",
+              }}
+            >
+              <TextWithDivider>
+                <P textAlign="center">
+                  <Link
+                    to="/auth/sign-up"
+                    style={{
+                      color: Colors.white,
+                      fontWeight: 400,
+                      fontSize: "14px",
+                      textDecoration: "none",
+                    }}
+                  >
+                    {t("already")}
+                    <span style={{ textDecoration: "underline", fontWeight: 700 }}>
+                      {" "}
+                      {t("sign_up")}
+                    </span>
+                  </Link>
+                </P>
+              </TextWithDivider>
+            </Box>
+          </BasicCard>
+        </Box>
+      </Box >
       <TwoFAModal open={isTwoFAModalOpen} onClose={handleModalClose} />
-    </>
+    </Box>
   );
 };
 

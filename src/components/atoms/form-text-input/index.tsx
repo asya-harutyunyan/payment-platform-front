@@ -29,10 +29,12 @@ interface IBasicTextFields {
   textColor?: string;
   width?: string;
   whiteVariant?: boolean;
+  greenGradientVariant?: boolean;
   ref?: Ref<HTMLDivElement>;
   id?: string;
   autofocus?: boolean;
   padding?: string;
+  borderRadius?: string | number;
 }
 
 export const BasicTextFields: FC<IBasicTextFields> = ({
@@ -46,10 +48,12 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   error = false,
   helperText,
   whiteVariant,
+  greenGradientVariant,
   autofocus,
   width,
   id,
   ref,
+  borderRadius
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
@@ -63,7 +67,7 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   }, [type, showPassword]);
 
   return (
-    <Box sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 }, width: "100%" }}>
+    <Box sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 }, width: "100%" }} >
       <TextField
         key={placeholder}
         label={placeholder}
@@ -72,12 +76,12 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         ref={ref}
         id={id}
         autoFocus={autofocus}
+
         sx={{
           "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-            {
-              display: "none",
-            },
-
+          {
+            display: "none",
+          },
           "& input[type=number]": {
             MozAppearance: "textfield",
           },
@@ -88,30 +92,69 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
           border: "#B5BBC6",
 
           ".MuiOutlinedInput-notchedOutline": {
-            borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+            borderColor: whiteVariant ? "tertiary.main" : greenGradientVariant ? "#1b939f" : "primary.main",
           },
-          ".MuiFormLabel-root": {
-            color: whiteVariant ? "tertiary.main" : "primary.main",
+
+          "& .MuiInputLabel-root": {
+            fontSize: "14px",
+            color: whiteVariant
+              ? "tertiary.main"
+              : greenGradientVariant
+                ? "white"
+                : "primary.main",
+            top: "50%",
+            transform: "translateY(-50%)",
+            position: "absolute",
+            pointerEvents: "none",
+            ml: "16px",
+
             "&.Mui-focused": {
-              color: whiteVariant ? "tertiary.main" : "primary.main",
+              color: whiteVariant
+                ? "tertiary.main"
+                : greenGradientVariant
+                  ? "white"
+                  : "primary.main",
+            },
+          },
+
+          "& .MuiInputLabel-shrink": {
+            top: 0,
+            left: "20px",
+            transform: "translate(0, -4px) scale(0.75)",
+            transformOrigin: "top left",
+            ml: "0"
+          },
+
+          ".MuiFormLabel-root": {
+            fontSize: "12px",
+            color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
+            "&.Mui-focused": {
+              color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
             },
           },
           ".MuiInputBase-input": {
-            color: whiteVariant ? "tertiary.main" : "primary.main",
+            color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
           },
+
+          "& .MuiInputBase-input::placeholder, & .MuiOutlinedInput-input::placeholder": {
+            color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
+            opacity: 1,
+          },
+
           "&:input:-internal-autofill-selected": {
             backgroundColor: !whiteVariant ? "tertiary.main" : "primary.main",
           },
 
           "& .MuiOutlinedInput-root": {
-            "& fieldset": {
-              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+            borderRadius: borderRadius ?? 8,
+
+            "&:hover .MuiOutlinedInput-notchedOutline": {
+              borderColor: whiteVariant ? "tertiary.main" : greenGradientVariant ? "#1b939f" : "primary.main",
             },
-            "&:hover fieldset": {
-              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
-            },
-            "&.Mui-focused fieldset": {
-              borderColor: whiteVariant ? "tertiary.main" : "primary.main",
+
+
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: whiteVariant ? "tertiary.main" : greenGradientVariant ? "#1b939f" : "primary.main",
             },
           },
           ...style,
@@ -128,6 +171,9 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
                 aria-label="toggle password visibility"
                 onClick={handleClickShowPassword}
                 onMouseDown={handleMouseDownPassword}
+                sx={{
+                  color: greenGradientVariant ? "white" : "black"
+                }}
               >
                 {showPassword ? <Visibility /> : <VisibilityOff />}
               </IconButton>

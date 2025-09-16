@@ -11,14 +11,20 @@ interface FormData {
 
 interface CustomCheckboxProps<T extends FieldValues>
   extends Omit<CheckboxProps, "defaultValue" | "name">,
-    UseControllerProps<T> {
+  UseControllerProps<T> {
   label?: string;
+  checkedColor?: string;
+  uncheckedColor?: string;
+  labelColor?: string;
 }
 
 export const CustomCheckbox = <T extends FieldValues = FormData>({
   control,
   name,
   label,
+  checkedColor = "primary.main",
+  uncheckedColor = "grey.500",
+  labelColor = "primary.main",
   ...props
 }: CustomCheckboxProps<T>) => {
   const {
@@ -33,9 +39,9 @@ export const CustomCheckbox = <T extends FieldValues = FormData>({
           checked={value}
           onChange={(e) => onChange(e.target.checked)}
           sx={{
-            color: "primary.main",
+            color: uncheckedColor,
             "&.Mui-checked": {
-              color: "primary.main",
+              color: checkedColor,
             },
           }}
         />
@@ -43,10 +49,10 @@ export const CustomCheckbox = <T extends FieldValues = FormData>({
       label={label}
       sx={{
         "& .MuiFormControlLabel-label": {
-          color: "primary.main",
+          color: labelColor,
           fontWeight: "300",
           fontFamily: "Poppins, sans-serif",
-          fontSize: "14px",
+          fontSize: { xs: "8px", sm: "14px" },
         },
         padding: "10px 0 10px 10px",
       }}

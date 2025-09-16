@@ -26,7 +26,6 @@ export const BasicCard: React.FC<IBasicCard> = ({
   return (
     <Box
       sx={{
-        ...sx,
         backgroundColor: {
           lg: bgColor ? "#f5f5f5" : "primary.main",
           md: bgColor ? "#f5f5f5" : "primary.main",
@@ -43,7 +42,6 @@ export const BasicCard: React.FC<IBasicCard> = ({
         minHeight: "280px",
         borderRadius: "5px",
         display: "flex",
-        // justifyContent: "center",
         flexDirection: "column",
         padding: "40px",
         "> div": {
@@ -51,46 +49,26 @@ export const BasicCard: React.FC<IBasicCard> = ({
           flexDirection: "column",
           alignItems: align ? align : "start",
         },
+        ...sx,
       }}
     >
-      <Typography
-        sx={{
-          display: "flex",
-          textAlign: {
-            lg: "start",
-            md: "start",
-            xs: "center",
-            sm: "center",
-          },
-        }}
-      >
-        <H4
+      {title &&
+        <Typography
           sx={{
-            color: "text.secondary",
-            paddingRight: "10px",
-            textAlign: { lg: "start", md: "start", xs: "center", sm: "center" },
-            fontSize: {
-              lg: "1.5rem",
-              md: "1.5rem",
-              xs: "1.2rem",
-              sm: "1.2rem",
+            display: "flex",
+            textAlign: {
+              lg: "start",
+              md: "start",
+              xs: "center",
+              sm: "center",
             },
           }}
         >
-          {title ?? ""}
-        </H4>
-        {sub_title && (
           <H4
             sx={{
               color: "text.secondary",
-
-              textAlign: {
-                lg: "start",
-                md: "start",
-                xs: "center",
-                sm: "center",
-              },
-
+              paddingRight: "10px",
+              textAlign: { lg: "start", md: "start", xs: "center", sm: "center" },
               fontSize: {
                 lg: "1.5rem",
                 md: "1.5rem",
@@ -99,10 +77,33 @@ export const BasicCard: React.FC<IBasicCard> = ({
               },
             }}
           >
-            {sub_title}
+            {title ?? ""}
           </H4>
-        )}
-      </Typography>
+          {sub_title && (
+            <H4
+              sx={{
+                color: "text.secondary",
+
+                textAlign: {
+                  lg: "start",
+                  md: "start",
+                  xs: "center",
+                  sm: "center",
+                },
+
+                fontSize: {
+                  lg: "1.5rem",
+                  md: "1.5rem",
+                  xs: "1.2rem",
+                  sm: "1.2rem",
+                },
+              }}
+            >
+              {sub_title}
+            </H4>
+          )}
+        </Typography>
+      }
       {title_B ? (
         <H5
           sx={{

@@ -18,10 +18,12 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   isPassword?: boolean;
   width?: string;
   whiteVariant?: boolean;
+  greenGradientVariant?: boolean;
   mask?: boolean;
   autofocus?: boolean;
   numeric?: boolean;
   onChange?: (value: string) => void;
+  borderRadius?: number
 }
 
 export const FormTextInput = <T extends FieldValues>({
@@ -36,6 +38,8 @@ export const FormTextInput = <T extends FieldValues>({
   style,
   type,
   whiteVariant,
+  greenGradientVariant,
+  borderRadius,
   mask,
   numeric,
   onChange,
@@ -76,12 +80,13 @@ export const FormTextInput = <T extends FieldValues>({
           rightIcon={rightIcon}
           helperText={helperText}
           whiteVariant={whiteVariant}
+          greenGradientVariant={greenGradientVariant}
+          borderRadius={borderRadius}
           error={!!helperText}
           type={type}
           value={numeric ? formatNumericValue(field.value || "") : field.value}
           onChange={(value: string) => {
             const numericValue = numeric ? value.replace(/\D/g, "") : value;
-
             onChange?.(numericValue);
             field.onChange(numericValue);
           }}
