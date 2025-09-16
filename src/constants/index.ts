@@ -15,7 +15,16 @@ export const Colors = {
 	gradientBg: `
       linear-gradient(0deg, #00000033, #00000033),
       linear-gradient(180deg, #1f243a 0%, #263569 100%)
-    `
+    `,
+	gradientBgSignIn: "linear-gradient(180deg, #091131 0%, #132775 100%)",
+	transparentBoxShadow: `
+           inset 0px 1px 40px rgba(13, 137, 207, 0.2),
+           inset 0px 4px 18px rgba(8, 59, 88, 0.3),
+           inset 0px 98px 100px -48px rgba(0, 161, 253, 0.3),
+           inset 0px -82px 68px -64px rgba(14, 78, 114, 0.3),
+           inset 0px 7px 11px -4px rgba(255, 255, 255, 1),
+           inset 0px 39px 56px -36px rgba(255, 255, 255, 0.5)
+           `
 };
 
 export const greenGradientBorder = {

@@ -74,7 +74,7 @@ export const FeaturesSection = () => {
                         />
                     </Box>
                 </Box>
-                <MobileUi />
+                <MobileUi/>
             </Box>
         </Box>
     );

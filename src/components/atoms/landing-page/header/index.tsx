@@ -1,9 +1,9 @@
+import MenuIcon from "@/assets/images/menu_icon.svg";
 import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
 import { Colors } from "@/constants";
 import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { H3, P } from "@/styles/typography";
-import MenuIcon from "@mui/icons-material/Menu";
 import { Drawer, List, ListItem, ListItemButton } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
@@ -123,14 +123,38 @@ export const ResponsiveAppBar = () => {
                 PayHub
               </H3>
             </Box>
-            <MenuIcon
+
+            <Box
+              display={{ xs: "flex", md: "none" }}
+              width="40px"
+              height="40px"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="50%"
               sx={{
-                width: "32px",
-                height: "32px",
-                display: { xs: "block", md: "none", },
+                backgroundColor: "#101f5e",
+                boxShadow: [
+                  "inset 0px 0.33px 13.09px 0px rgba(13,137,207,0.20)",
+                  "inset 0px 1.31px 5.89px 0px rgba(8,59,88,0.30)",
+                  "inset 0px 32.07px 32.73px -15.71px rgba(0,161,253,0.30)",
+                  "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
+                  "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
+                  "inset 0px 12.76px 18.33px -11.78px rgba(255,255,255,0.50)",
+                ].join(","),
               }}
-              onClick={toggleDrawer}
-            />
+            >
+              <Box
+                width="23px"
+                height="23px"
+                onClick={toggleDrawer}
+
+              >
+                <img
+                  src={MenuIcon}
+                  alt="Menu icon"
+                />
+              </Box>
+            </Box>
           </Box>
           <Box
             sx={{
@@ -198,8 +222,8 @@ export const ResponsiveAppBar = () => {
             }}
           />
         </Toolbar>
-      </Box>
-    </AppBar>
+      </Box >
+    </AppBar >
   );
 };
 export default ResponsiveAppBar;

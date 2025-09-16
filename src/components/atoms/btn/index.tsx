@@ -79,6 +79,9 @@ const NewButton: React.FC<DynamicButtonProps> = ({
           variant === "gradient"
             ? "linear-gradient(180deg, #0062E0 0%, #00A6FF 100%)"
             : undefined,
+        "&.Mui-disabled": {
+          color: "#0055C2",
+        },
         ...(glow && {
           "&::after": {
             content: '""',
@@ -112,7 +115,7 @@ const NewButton: React.FC<DynamicButtonProps> = ({
         }}
       >
         {renderIcon()}
-        <H6 sx={{ padding: 0, lineHeight: "18px" }}>
+        <H6 sx={{ padding: 0, lineHeight: "18px", color: "inherit" }}>
           {text}
         </H6>
       </div>
