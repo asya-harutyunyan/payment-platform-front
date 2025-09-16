@@ -33,7 +33,8 @@ const LoginForm = () => {
     <Box sx={{
       background: Colors.gradientBgSignIn,
       width: "100%",
-      minHeight: "100vh"
+      minHeight: "100vh",
+      overflow: "hidden",
     }}>
       {!isDesktop &&
         <Box component={Link} to="/" sx={{ width: "84px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", p: "16px 0 0 17px" }}>
@@ -54,8 +55,8 @@ const LoginForm = () => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          py: "30px"
-
+          height: { xs: "80vh", sm: "100vh" },
+          pb: { xs: "30px", sm: "0" }
         }}
       >
         <Box width="900px" maxWidth={900} margin="0 auto" display="flex" justifyContent="center" position="relative">
@@ -136,10 +137,9 @@ const LoginForm = () => {
             )}
 
             <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
-              <P style={{ padding: "20px 0", fontSize: "14px" }}>
+              <P sx={{ padding: { xs: "13px 0", sm: "20px 0" }, fontSize: "14px" }}>
                 <Link
                   to="/auth/reset-password"
-
                   style={{
                     color: Colors.white,
                     fontSize: "14px",
@@ -154,7 +154,7 @@ const LoginForm = () => {
               variant={"gradient"}
               color="primary"
               text={t("sign_in")}
-              sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+              sx={{ width: "100%", margin: { xs: "0", sm: "20px 0" }, height: "50px" }}
               type="submit"
             />
 
@@ -167,13 +167,11 @@ const LoginForm = () => {
               }}
             >
               <TextWithDivider>
-                <P textAlign="center">
+                <P textAlign="center" fontSize="14px" fontWeight={500}>
                   <Link
                     to="/auth/sign-up"
                     style={{
                       color: Colors.white,
-                      fontWeight: 400,
-                      fontSize: "14px",
                       textDecoration: "none",
                     }}
                   >
@@ -190,7 +188,7 @@ const LoginForm = () => {
         </Box>
       </Box >
       <TwoFAModal open={isTwoFAModalOpen} onClose={handleModalClose} />
-    </Box>
+    </Box >
   );
 };
 
