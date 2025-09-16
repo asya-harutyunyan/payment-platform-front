@@ -1,11 +1,9 @@
-import { useAuth } from "@/context/auth.context";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { List, ListItem, ListItemButton, ListItemIcon } from "@mui/material";
 import { Link, useLocation } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC } from "react";
-import useWalletInfo from "./_services/useWalletInfo";
 
 interface SubItems {
   link: string;
@@ -25,8 +23,7 @@ interface SidebarProps {
 
 const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
   const location = useLocation();
-  const { user } = useAuth();
-  const { walletInfo } = useWalletInfo();
+
 
   return (
     <>
@@ -45,8 +42,8 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
           transition: transform 6s linear;
           will-change: transform;
         }
-        @media (min-width:768px) {
 
+        @media (min-width:768px) {
         .scrollable-text-wrapper:hover .scrollable-text {
           transform: translateX(-50%);
         }}
@@ -80,15 +77,14 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
                   sx={{
                     width: "100%",
                     height: "60px",
-                    borderBottom: "1px solid #40404078",
-                    background: isActive
-                      ? "linear-gradient(to right, transparent 0%,rgba(42, 60, 110, 0.95) 20%,rgba(42, 60, 110, 0.95) 80%,transparent 100%)"
-                      : "",
+                    borderRadius: "40px",
+                    borderBottom: isActive ? "2px solid #24cacb" : "none",
+                    backgroundColor: isActive ? "#053e83" : "transparent",
                     display: "flex",
                     ":hover": {
-                      backgroundColor: "#202a6083",
-                      borderRadius: "5px",
-                    },
+                      borderBottom: "2px solid #24cacb",
+                      backgroundColor: "#053e83"
+                    }
                   }}
                 >
                   <ListItemIcon
@@ -117,9 +113,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
                       className="scrollable-text"
                       sx={{
                         fontSize: "0.9rem",
-                        color: isActive
-                          ? "white"
-                          : theme.palette.secondary.contrastText,
+                        color:"white",               
                         fontWeight: isActive ? "700" : "",
                         padding: "0",
                         minWidth: isCollapsed ? "0" : "40px",
@@ -133,12 +127,7 @@ const Sidebar: FC<SidebarProps> = ({ items, onItemClick, isCollapsed }) => {
             </ListItem>
           );
         })}
-
-        {user?.role === "client" &&
-          walletInfo &&
-          typeof walletInfo === "function" &&
-          walletInfo() !== undefined && <>{!isCollapsed ? walletInfo() : ""}</>}
-      </List>
+      </List >
     </>
   );
 };

@@ -1,4 +1,3 @@
-// import AndroidImg from "@/assets/images/android.png";
 import bg from "@/assets/images/modal.png";
 import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
 import JivoChat from "@/common/jivosite";
@@ -6,13 +5,15 @@ import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
 import { BasicModal } from "@/components/atoms/modal";
 import { EUserRole } from "@/components/organisms/auth/sign-in-form/_services/useSignIn";
+import { Colors } from "@/constants";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
-import { H3, H6, P } from "@/styles/typography";
+import { H2, H3, H6, P } from "@/styles/typography";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+
 import {
   AppBar,
   Box,
@@ -21,7 +22,7 @@ import {
   Toolbar,
   useMediaQuery,
 } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
 import { adminItems, superAdminItems, userItems } from "./__item_list__";
@@ -30,6 +31,8 @@ import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
 import Sidebar from "./sidebar_general";
+
+
 interface DashboardPageProps {
   children?: ReactNode;
 }
@@ -39,7 +42,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width:600px)");
-  // const location = useLocation();
+  // const data = useAuth();
+
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -55,10 +59,10 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             ?.filter((perm): perm is string => !!perm)
             .includes(item.permission)
           ? {
-              text: item.text,
-              icon: item.icon,
-              link: item.link,
-            }
+            text: item.text,
+            icon: item.icon,
+            link: item.link,
+          }
           : null;
       })
       .filter((item) => item !== null);
@@ -128,8 +132,10 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     }
   };
 
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ background: `linear-gradient(135deg, #0551ac 0%, #041939 100%)` }}>
+      {/* mobile header */}
       <AppBar
         position="fixed"
         sx={{
@@ -151,89 +157,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           <H3 noWrap> {t("payhub")}</H3>
         </Toolbar>
       </AppBar>
-      <Drawer
-        variant="permanent"
-        anchor="left"
-        sx={{
-          display: { lg: "flex", md: "flex", xs: "none", sm: "block" },
-          justifyContent: isCollapsed ? "center" : "start",
-          width: isCollapsed ? "7%" : "25%",
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: isCollapsed ? "7%" : "25%",
-            padding: isCollapsed ? "10px" : "30px",
-            backgroundColor: theme.palette.primary.main,
-            overflowX: "hidden",
-            transition: "width 0.3s",
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <Box sx={{ height: "auto" }}>
-          <GeneralInfo
-            setIsCollapsed={setIsCollapsed}
-            isCollapsed={isCollapsed}
-          />
-          <Sidebar
-            items={sidebarItems}
-            onItemClick={toggleDrawer}
-            isCollapsed={isCollapsed}
-          />
-        </Box>
-        <Box
-          sx={{
-            height: "6%",
-            display: "flex",
-            gap: 2,
-            justifyContent: "space-between",
-            flexDirection: "column",
-            zIndex: 1,
-          }}
-        >
-          {user?.role === "client" && (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                margin: "10px 0",
-              }}
-            >
-              <a
-                href="https://t.me/payhubofficial"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-                target="_blanck"
-              >
-                <img
-                  src={telegram}
-                  alt="telegram"
-                  style={{ width: "30px", cursor: "pointer" }}
-                />
-                <P
-                  sx={{
-                    paddingLeft: "10px",
-                    color: "#fff",
-                    hover: {
-                      color: "#896e6e",
-                    },
-                  }}
-                >
-                  {" "}
-                  Связь с нами
-                </P>
-              </a>
-            </Box>
-          )}
-          <LogoutButton handleLogout={handleLogout} />
 
-          {user?.role === "client" && <DeleteAccountButton />}
-        </Box>
-      </Drawer>
-
+      {/* mobile opening sidebar */}
       <Drawer
         variant="temporary"
         anchor="left"
@@ -303,14 +228,84 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </Box>
       </Drawer>
 
+      <Box maxWidth={1200} height="60px" margin="0 auto" display="flex" justifyContent="space-between" alignItems="center" pt="40px" >
+        <Box component={Link} to="/" sx={{ width: "189px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", textDecoration: "none" }}>
+          <Logo width="44px" height="52px" />
+          <H6
+            sx={{
+              fontSize: "26px",
+              p: "0"
+            }}
+          >
+            PayHub
+          </H6>
+        </Box>
+        {user?.role === "client" &&
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: isCollapsed ? "center" : "start",
+              alignItems: "center",
+              gap: "8px"
+            }}
+          >
+
+            <Box
+              width="60px"
+              height="60px"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="50%"
+              sx={{
+                backgroundColor: "#101f5e",
+                boxShadow: [
+                  "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
+                  "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
+                  "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
+                  "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
+                  "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
+                  "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
+                ].join(","),
+              }}
+            >
+              <H2>
+                {user?.name ? user.name.charAt(0).toUpperCase() : ""}
+              </H2>
+            </Box>
+
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                marginBottom: "5px",
+              }}
+            >
+
+              <Box
+                sx={{
+                  display: "flex",
+                }}
+              >
+                <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
+                  {user?.name}{" "} {user?.surname}
+                </H6>
+              </Box>
+
+            </Box>
+          </Box>
+        }
+      </Box>
+
       <Box
         component="main"
         sx={{
-          width: isCollapsed ? "88%" : "68%",
-          transform: isCollapsed ? "scaleX(0.99)" : "scaleX(1)",
-          transformOrigin: "left center",
-          transition: "transform 0.3s ease",
-          // height: "88vh",
+          display: "flex",
+          flexDirection: "row",
+          gap: "16px",
+          alignItems: "stretch",
+          height: "90vh",
           flexGrow: 1,
           padding: {
             ld: "50px",
@@ -318,52 +313,65 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             xs: "20px",
             sm: "20px",
           },
-          display: "flex",
-          flexDirection: "column",
         }}
       >
+        {/* desk sidebar */}
+        <Drawer
+          variant="permanent"
+          sx={{
+            display: { lg: "flex", md: "flex", xs: "none", sm: "block" },
+            justifyContent: isCollapsed ? "center" : "flex-start",
+            width: isCollapsed ? 88 : 349,
+            height: "70vh",
+            "& .MuiDrawer-paper": {
+              width: isCollapsed ? 88 : 280,
+              padding: isCollapsed ? "10px" : "30px",
+              backgroundColor: "transparent",
+              overflowX: "hidden",
+              transition: "width 0.3s",
+              boxSizing: "border-box",
+              position: "relative",
+              backdropFilter: "blur(25px)",
+              WebkitBackdropFilter: "blur(25px)",
+              boxShadow: Colors.transparentBoxShadow,
+              borderRadius: "40px"
+            },
+          }}
+        >
+          <Box sx={{ height: "auto" }}>
+            <GeneralInfo setIsCollapsed={setIsCollapsed} isCollapsed={isCollapsed} />
+            <Sidebar items={sidebarItems} onItemClick={toggleDrawer} isCollapsed={isCollapsed} />
+          </Box>
+
+          <Box
+            sx={{
+              height: "6%",
+              display: "flex",
+              gap: 2,
+              justifyContent: "space-between",
+              flexDirection: "column",
+              zIndex: 1,
+            }}
+          >
+            <LogoutButton handleLogout={handleLogout} />
+            {user?.role === "client" && <DeleteAccountButton />}
+          </Box>
+        </Drawer>
+
+        {/* content */}
         <Box
           sx={{
-            height: "90%",
+            flex: 1,
+            minWidth: 0,
+            height: "100%",
             zIndex: 2,
-            marginTop: { lg: "0", md: "0", xs: "70px", sm: "70px" },
+            mt: { lg: 0, md: 0, xs: "70px", sm: "70px" },
           }}
         >
           {children}
         </Box>
-
-        {/* {location.pathname === "/my-information" && (
-          <Box
-            sx={{
-              width: "100%",
-              height: "10%",
-              display: "flex",
-              justifyContent: "start",
-            }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                width: "max-content",
-                // alignItems: "center",
-                flexDirection: "column",
-              }}
-            >
-              <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
-                Скачать приложение
-              </P>
-
-              <Box sx={{ cursor: "pointer" }} onClick={downloadApk}>
-                <img
-                  src={AndroidImg}
-                  alt="android"
-                  style={{ width: "120px", borderRadius: "3px" }}
-                />
-              </Box>
-            </Box>
-          </Box>
-        )} */}
       </Box>
+
       <BasicModal
         handleClose={() => setOpen(false)}
         open={open}
@@ -402,7 +410,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
       {user?.role !== "superAdmin" && <JivoChat />}
-    </Box>
+    </Box >
   );
 };
 
