@@ -1,12 +1,10 @@
 import { HorizontalNonLinearStepper } from "@/components/atoms/stepper";
-import TaskHeader from "@/components/molecules/title";
 import { StepOne } from "@/components/organisms/earn-money-steps/first-step";
 import { StepTwo } from "@/components/organisms/earn-money-steps/second-step";
 import { Success } from "@/components/organisms/earn-money-steps/success";
 import { StepThree } from "@/components/organisms/earn-money-steps/third-step";
 import { useAuth } from "@/context/auth.context";
 import { Box } from "@mui/material";
-import { t } from "i18next";
 import { FC } from "react";
 
 export const TaskListComponent: FC = () => {
@@ -37,7 +35,6 @@ export const TaskListComponent: FC = () => {
 
   return (
     <Box>
-      <TaskHeader title={t("task_list")} />
       <Box
         sx={{
           display: "flex",

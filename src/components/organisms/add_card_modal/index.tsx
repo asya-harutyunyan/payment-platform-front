@@ -412,7 +412,7 @@ export const AddCardModal: FC<IStepTwo> = ({
         <FormTextInput
           control={control}
           name="card_number"
-          // mask
+     
           placeholder={t("card_number")}
           whiteVariant={true}
         />

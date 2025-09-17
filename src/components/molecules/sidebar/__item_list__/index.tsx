@@ -1,14 +1,16 @@
+import CardsIcon from "@/assets/images/sidebar_cards.svg";
+import DepositIcon from "@/assets/images/sidebar_deposits.svg";
+import OrdersIcon from "@/assets/images/sidebar_orders.svg";
+import ReferalSystem from "@/assets/images/sidebar_referal_system.svg";
+import StartIcon from "@/assets/images/sidebar_start.svg";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AllInboxIcon from "@mui/icons-material/AllInbox";
 import DvrIcon from "@mui/icons-material/Dvr";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import GroupIcon from "@mui/icons-material/Group";
 import HistoryIcon from "@mui/icons-material/History";
-import ImportExportIcon from "@mui/icons-material/ImportExport";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
@@ -17,30 +19,31 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import WalletIcon from "@mui/icons-material/Wallet";
 import WebIcon from "@mui/icons-material/Web";
 
+
 export const userItems = [
   {
     text: "task_list",
-    icon: <FormatListBulletedIcon />,
+    icon: <img src={StartIcon} alt="start" style={{ width: 32, height: 32 }} />,
     link: "/wallet",
   },
   {
     text: "bank_info",
-    icon: <MonetizationOnIcon />,
+    icon: <img src={CardsIcon} alt="start" style={{ width: 32, height: 32 }} />,
     link: "/my-information",
   },
   {
     text: "deposit_list",
-    icon: <FormatListNumberedIcon />,
+    icon: <img src={DepositIcon} alt="start" style={{ width: 32, height: 32 }} />,
     link: "/deposit-info",
   },
   {
     text: "order_list",
-    icon: <ImportExportIcon />,
+    icon: <img src={OrdersIcon} alt="start" style={{ width: 32, height: 32 }} />,
     link: "/orders",
   },
   {
     text: "partner_program",
-    icon: <GroupIcon />,
+    icon: <img src={ReferalSystem} alt="start" style={{ width: 32, height: 32 }} />,
     link: "/partner-program",
   },
   {

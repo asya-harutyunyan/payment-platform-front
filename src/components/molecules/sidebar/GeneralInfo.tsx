@@ -14,12 +14,11 @@ const GeneralInfo: FC<IGeneralInfo> = ({ setIsCollapsed, isCollapsed }) => {
           display: { lg: "flex", md: "flex", xs: "none", sm: "none" },
           justifyContent: isCollapsed ? "center" : "space-between",
           alignItems: "center",
-          paddingBottom: "20px",
         }}
       >
         <IconButton
           onClick={() => setIsCollapsed?.((prev) => !prev)}
-          sx={{ color: "white"}}
+          sx={{ color: "white" }}
         >
           {isCollapsed ? <ArrowForwardIosIcon /> : <ArrowBackIosNewIcon />}
         </IconButton>

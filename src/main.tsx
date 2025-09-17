@@ -45,6 +45,6 @@ if (!rootElement.innerHTML) {
           </AuthProvider>
         </I18nextProvider>
       </Provider>
-    // </GoogleReCaptchaProvider>
+    </GoogleReCaptchaProvider>
   );
 }

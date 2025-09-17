@@ -1,22 +1,25 @@
-import Button from "@/components/atoms/button";
-import { Logout } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import LogoutIcon from "@/assets/images/sidebar_logout_icon.svg";
+import NewButton from "@/components/atoms/btn";
 import { t } from "i18next";
 
-const LogoutButton = ({ handleLogout }: { handleLogout: () => void }) => (
-  <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-    <Button
-      onClick={handleLogout}
-      sx={{
-        width: "90%",
-        textAlign: "center",
-        cursor: "pointer",
-      }}
-      icon={Logout}
-      text={t("log_out")}
-      variant={"text"}
-    />
-  </Box>
+const LogoutButton = ({ handleLogout, isCollapsed }: { handleLogout: () => void, isCollapsed?: boolean }) => (
+  <NewButton
+    onClick={handleLogout}
+    sx={{
+      width: "max-content",
+      textAlign: "center",
+      cursor: "pointer",
+      background: "transparent",
+      color: "white",
+      p: "8px 16px",
+      ":hover": {
+        background: "transparent",
+        color: "white",
+      },
+    }}
+    icon={LogoutIcon}
+    text={!isCollapsed ? t("log_out") : ""}
+  />
 );
 
 export default LogoutButton;

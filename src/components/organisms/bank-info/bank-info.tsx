@@ -30,20 +30,20 @@ export const BankInfoComponent: FC = () => {
       })
         .then((response) => response.blob())
         .then((blob) => {
-          // Create blob link to download
+   
           const url = window.URL.createObjectURL(blob);
 
           const link = document.createElement("a");
           link.href = url;
           link.setAttribute("download", `app-release.apk`);
 
-          // Append to html link element page
+      
           document.body.appendChild(link);
 
-          // Start download
+     
           link.click();
 
-          // Clean up and remove the link
+
           link.parentNode?.removeChild(link);
         });
     } catch (error) {
@@ -76,10 +76,10 @@ export const BankInfoComponent: FC = () => {
       return userCards;
     }
 
-    // Добавляем дефолтные карты, если своих меньше 3
+   
     const defaultCards = Array.from({ length: 3 - userCards.length }).map(
       (_, idx) => ({
-        key: userCards.length + idx, // теперь key всегда number
+        key: userCards.length + idx, 
         content: (
           <BankCard
             cardHolder={"Name Surname"}
@@ -262,7 +262,6 @@ export const BankInfoComponent: FC = () => {
               sx={{
                 display: "flex",
                 width: "max-content",
-                // alignItems: "center",
                 flexDirection: "column",
               }}
             >

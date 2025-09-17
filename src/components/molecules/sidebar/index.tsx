@@ -32,18 +32,17 @@ import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
 import Sidebar from "./sidebar_general";
 
-
 interface DashboardPageProps {
   children?: ReactNode;
 }
+
+const HEADER_H = 100;
 
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width:600px)");
-  // const data = useAuth();
-
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -91,36 +90,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       setIsDrawerOpen(!isDrawerOpen);
     }
   };
-  // const downloadApk = async () => {
-  //   try {
-  //     fetch("/public/app-release.apk", {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/pdf",
-  //       },
-  //     })
-  //       .then((response) => response.blob())
-  //       .then((blob) => {
-  //         // Create blob link to download
-  //         const url = window.URL.createObjectURL(blob);
-
-  //         const link = document.createElement("a");
-  //         link.href = url;
-  //         link.setAttribute("download", `app-release.apk`);
-
-  //         // Append to html link element page
-  //         document.body.appendChild(link);
-
-  //         // Start download
-  //         link.click();
-
-  //         // Clean up and remove the link
-  //         link.parentNode?.removeChild(link);
-  //       });
-  //   } catch (error) {
-  //     console.error("Ошибка при скачивании:", error);
-  //   }
-  // };
 
   const handleLogout = async () => {
     const resultAction = await dispatch(logoutUser());
@@ -132,15 +101,20 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
     }
   };
 
-
   return (
-    <Box sx={{ background: `linear-gradient(135deg, #0551ac 0%, #041939 100%)` }}>
-      {/* mobile header */}
+    <Box
+      sx={{
+        background: `linear-gradient(135deg, #0551ac 0%, #041939 100%)`,
+        height: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      {/* mobile header (unchanged) */}
       <AppBar
         position="fixed"
         sx={{
           display: { xs: "block", sm: "none" },
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+          zIndex: (theme) => theme.zIndex.drawer + 2,
         }}
       >
         <Toolbar>
@@ -149,7 +123,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             color="inherit"
             aria-label="menu"
             onClick={toggleDrawer}
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, width: "44px", height: "52px" }}
           >
             <MoreVertIcon sx={{ paddingRight: "10px" }} />
             <Logo />
@@ -158,7 +132,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </Toolbar>
       </AppBar>
 
-      {/* mobile opening sidebar */}
+      {/* mobile opening sidebar (unchanged) */}
       <Drawer
         variant="temporary"
         anchor="left"
@@ -228,76 +202,97 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </Box>
       </Drawer>
 
-      <Box maxWidth={1200} height="60px" margin="0 auto" display="flex" justifyContent="space-between" alignItems="center" pt="40px" >
-        <Box component={Link} to="/" sx={{ width: "189px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", textDecoration: "none" }}>
-          <Logo width="44px" height="52px" />
-          <H6
-            sx={{
-              fontSize: "26px",
-              p: "0"
-            }}
-          >
-            PayHub
-          </H6>
-        </Box>
-        {user?.role === "client" &&
+      {/* FIXED red header for desktop/tablet */}
+      <Box
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: `${HEADER_H}px`,
+          zIndex: (theme) => theme.zIndex.appBar + 1,
+          display: { xs: "none", sm: "block" },
+        }}
+      >
+        <Box
+          maxWidth={1200}
+          height="100%"
+          margin="0 auto"
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          px={{ xs: 2, sm: 2, md: 0 }}
+        >
           <Box
+            component={Link}
+            to="/"
             sx={{
+              width: "189px",
               display: "flex",
-              justifyContent: isCollapsed ? "center" : "start",
+              justifyContent: "center",
               alignItems: "center",
-              gap: "8px"
+              gap: "5px",
+              textDecoration: "none",
             }}
           >
+            <Logo width="44px" height="52px" />
+            <H6 sx={{ fontSize: "26px", p: 0 }}>PayHub</H6>
+          </Box>
 
-            <Box
-              width="60px"
-              height="60px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              borderRadius="50%"
-              sx={{
-                backgroundColor: "#101f5e",
-                boxShadow: [
-                  "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
-                  "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
-                  "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
-                  "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
-                  "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
-                  "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
-                ].join(","),
-              }}
-            >
-              <H2>
-                {user?.name ? user.name.charAt(0).toUpperCase() : ""}
-              </H2>
-            </Box>
-
+          {user?.role === "client" && (
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                marginBottom: "5px",
+                justifyContent: isCollapsed ? "center" : "start",
+                alignItems: "center",
+                gap: "8px",
               }}
             >
+              <Box
+                width="60px"
+                height="60px"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                borderRadius="50%"
+                sx={{
+                  backgroundColor: "#101f5e",
+                  boxShadow: [
+                    "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
+                    "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
+                    "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
+                    "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
+                    "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
+                    "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
+                  ].join(","),
+                }}
+              >
+                <H2>{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H2>
+              </Box>
 
               <Box
                 sx={{
                   display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  mb: "5px",
                 }}
               >
-                <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
-                  {user?.name}{" "} {user?.surname}
-                </H6>
+                <Box sx={{ display: "flex" }}>
+                  <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
+                    {user?.name} {user?.surname}
+                  </H6>
+                </Box>
               </Box>
-
             </Box>
-          </Box>
-        }
+          )}
+        </Box>
       </Box>
 
+      {/* spacer under fixed header for desktop/tablet */}
+      <Box sx={{ height: { xs: 0, sm: `${HEADER_H}px` } }} />
+
+      {/* Main row: fixed sidebar + scrollable content */}
       <Box
         component="main"
         sx={{
@@ -305,36 +300,39 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           flexDirection: "row",
           gap: "16px",
           alignItems: "stretch",
-          height: "90vh",
+          height: "calc(100vh - 0px)",
           flexGrow: 1,
-          padding: {
-            ld: "50px",
-            md: "50px",
-            xs: "20px",
-            sm: "20px",
-          },
+          px: { lg: "16px", md: "16px", xs: "20px", sm: "20px" },
+          pt: { xs: "70px", sm: 0 },
         }}
       >
-        {/* desk sidebar */}
+        {/* desktop fixed sidebar with its own scroll */}
         <Drawer
           variant="permanent"
           sx={{
             display: { lg: "flex", md: "flex", xs: "none", sm: "block" },
-            justifyContent: isCollapsed ? "center" : "flex-start",
-            width: isCollapsed ? 88 : 349,
-            height: "70vh",
             "& .MuiDrawer-paper": {
               width: isCollapsed ? 88 : 280,
-              padding: isCollapsed ? "10px" : "30px",
+              padding: isCollapsed ? "20px 10px" : "20px",
               backgroundColor: "transparent",
               overflowX: "hidden",
+
+              position: "fixed",
+              top: { xs: 70, sm: HEADER_H + 16 },
+              left: 16,
+              height: {
+                xs: `calc(100vh - ${70 + 32}px)`,
+                sm: `calc(100vh - ${HEADER_H + 32}px)`,
+              },
+              overflowY: "auto",
+
               transition: "width 0.3s",
               boxSizing: "border-box",
-              position: "relative",
               backdropFilter: "blur(25px)",
               WebkitBackdropFilter: "blur(25px)",
               boxShadow: Colors.transparentBoxShadow,
-              borderRadius: "40px"
+              borderRadius: "40px",
+              zIndex: (theme) => theme.zIndex.drawer + 1,
             },
           }}
         >
@@ -343,32 +341,51 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             <Sidebar items={sidebarItems} onItemClick={toggleDrawer} isCollapsed={isCollapsed} />
           </Box>
 
+          <hr
+            style={{
+              width: "100%",
+              border: "1px solid #0e6c9b",
+              margin: "15px 0",
+            }}
+          />
           <Box
             sx={{
-              height: "6%",
               display: "flex",
-              gap: 2,
-              justifyContent: "space-between",
               flexDirection: "column",
-              zIndex: 1,
+              alignItems: "flex-start",
             }}
           >
-            <LogoutButton handleLogout={handleLogout} />
-            {user?.role === "client" && <DeleteAccountButton />}
+            <LogoutButton handleLogout={handleLogout} isCollapsed={isCollapsed} />
+            {user?.role === "client" && <DeleteAccountButton isCollapsed={isCollapsed} />}
           </Box>
         </Drawer>
 
-        {/* content */}
+        {/* scrollable  content area */}
         <Box
           sx={{
             flex: 1,
             minWidth: 0,
-            height: "100%",
+            ml: {
+              xs: 0,
+              md: (isCollapsed ? "88px" : "290px"),
+            },
+            height: {
+              xs: `calc(100vh - 70px)`,
+              sm: `calc(100vh - ${HEADER_H + 16}px)`,
+            },
+            overflow: "auto",
             zIndex: 2,
-            mt: { lg: 0, md: 0, xs: "70px", sm: "70px" },
+            mt: { lg: 0, md: 0, xs: 0, sm: 0 },
+            backgroundColor: "transparent",
           }}
         >
-          {children}
+          <Box
+            sx={{
+              minHeight: "100%",
+            }}
+          >
+            {children}
+          </Box>
         </Box>
       </Box>
 
@@ -410,7 +427,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
       {user?.role !== "superAdmin" && <JivoChat />}
-    </Box >
+    </Box>
   );
 };
 
