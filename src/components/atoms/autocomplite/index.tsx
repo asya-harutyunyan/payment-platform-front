@@ -15,7 +15,7 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   options: ISelectOption[];
   placeholder: string;
   error?: boolean;
-
+  lightGreyVariant?: boolean;
   helperText?: string | ReactNode;
   defaultValue?: T[FieldPath<T>];
   valueKey?: keyof ISelectOption;
@@ -33,6 +33,7 @@ export const Autocomplite = <T extends FieldValues>({
   whiteVariant,
   placeholder,
   defaultValue,
+  lightGreyVariant,
   style,
   error,
   ...props
@@ -43,6 +44,7 @@ export const Autocomplite = <T extends FieldValues>({
     defaultValue,
     ...props,
   });
+
   const helperText = useMemo(() => {
     if (fieldState.invalid && fieldState.error?.message) {
       return fieldState.error.message;
@@ -50,13 +52,24 @@ export const Autocomplite = <T extends FieldValues>({
     return undefined;
   }, [fieldState.error?.message, fieldState.invalid]);
 
-  const borderColor =
-    error || fieldState.invalid
-      ? "#d32f2f"
-      : whiteVariant
-        ? "tertiary.main"
+  const isError = error || fieldState.invalid;
+
+  const borderColor = isError
+    ? "#d32f2f"
+    : whiteVariant
+      ? "tertiary.main"
+      : lightGreyVariant
+        ? "#EAEAEA"
         : "primary.main";
-  const helperTextColor = error || fieldState.invalid ? "#d32f2f" : "inherit";
+
+  const labelColor = whiteVariant
+    ? "tertiary.main"
+    : lightGreyVariant
+      ? "#0082ef"
+      : "primary.main";
+
+  const textColor = whiteVariant ? "tertiary.main" : "primary.main";
+  const helperTextColor = isError ? "#d32f2f" : "inherit";
 
   const onItemSelect = (_event: React.SyntheticEvent, value: unknown) => {
     field.onChange(value);
@@ -69,41 +82,39 @@ export const Autocomplite = <T extends FieldValues>({
       options={options}
       disabled={disabled}
       value={field.value || null}
-      renderOption={(props, option) => {
-        return (
-          <li {...props} key={option.id}>
-            {option.name}
-          </li>
-        );
-      }}
+      renderOption={(props, option) => (
+        <li {...props} key={option.id}>
+          {option.name}
+        </li>
+      )}
       getOptionLabel={(option) => option.name ?? ""}
       sx={{
         width: "100%",
         "& .MuiOutlinedInput-root": {
-          "& fieldset": {
-            borderColor,
-          },
-          "&:hover fieldset": {
-            borderColor,
-          },
-          "&.Mui-focused fieldset": {
-            borderColor,
-          },
+          backgroundColor: lightGreyVariant ? "#e3e3e3" : "transparent",
+          boxShadow: lightGreyVariant ? "0 1px 0 0 #000" : "none",
+          borderRadius: 8,
+
+          "& fieldset": { borderColor: borderColor },
+          "&:hover fieldset": { borderColor: borderColor },
+          "&.Mui-focused fieldset": { borderColor: borderColor },
         },
+
         "& .MuiFormLabel-root": {
-          color: whiteVariant ? "tertiary.main" : "primary.main",
+          color: labelColor,
         },
         "& .MuiInputBase-input": {
-          color: whiteVariant ? "tertiary.main" : "primary.main",
+          color: textColor,
         },
-        color: whiteVariant ? "tertiary.main" : "primary.main",
-        fieldset: {
-          borderColor,
-        },
-        label: { color: whiteVariant ? "tertiary.main" : "primary.main" },
+
+        color: textColor,
+
+        fieldset: { borderColor: borderColor },
+        label: { color: labelColor },
         svg: {
-          color: "white",
+          color: textColor, // caret/arrow icon
         },
+
         ...style,
       }}
       renderInput={(params) => (
@@ -113,17 +124,22 @@ export const Autocomplite = <T extends FieldValues>({
           error={error}
           helperText={helperText}
           sx={{
-            borderColor,
+            // ensure the inner TextField mirrors the same variant styles
             "& .MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor,
-              },
-              "&:hover fieldset": {
-                borderColor,
-              },
-              "&.Mui-focused fieldset": {
-                borderColor,
-              },
+              backgroundColor: lightGreyVariant ? "#e3e3e3" : "transparent",
+              boxShadow: lightGreyVariant ? "0 1px 0 0 #000" : "none",
+              borderRadius: 8,
+
+              "& fieldset": { borderColor: borderColor },
+              "&:hover fieldset": { borderColor: borderColor },
+              "&.Mui-focused fieldset": { borderColor: borderColor },
+            },
+            "& .MuiFormLabel-root": {
+              color: labelColor,
+              fontSize: "12px",
+            },
+            "& .MuiInputBase-input": {
+              color: textColor,
             },
             "& .MuiFormHelperText-root": {
               color: helperTextColor,

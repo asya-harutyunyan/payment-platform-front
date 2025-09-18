@@ -10,16 +10,16 @@ import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
-import { H2, H3, H6, P } from "@/styles/typography";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { H3, H6, P } from "@/styles/typography";
+// import MoreVertIcon from "@mui/icons-material/MoreVert";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
 import {
-  AppBar,
+  // AppBar,
   Box,
   Drawer,
-  IconButton,
-  Toolbar,
+  // IconButton,
+  // Toolbar,
   useMediaQuery,
 } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -36,7 +36,7 @@ interface DashboardPageProps {
   children?: ReactNode;
 }
 
-const HEADER_H = 100;
+const HEADER_H = 60; 
 
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -106,11 +106,11 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       sx={{
         background: `linear-gradient(135deg, #0551ac 0%, #041939 100%)`,
         height: "100vh",
-        overflow: "hidden",
+        overflow: "hidden", // page itself does not scroll
       }}
     >
       {/* mobile header (unchanged) */}
-      <AppBar
+      {/* <AppBar
         position="fixed"
         sx={{
           display: { xs: "block", sm: "none" },
@@ -130,7 +130,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           </IconButton>
           <H3 noWrap> {t("payhub")}</H3>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
 
       {/* mobile opening sidebar (unchanged) */}
       <Drawer
@@ -211,17 +211,18 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           right: 0,
           height: `${HEADER_H}px`,
           zIndex: (theme) => theme.zIndex.appBar + 1,
-          display: { xs: "none", sm: "block" },
         }}
       >
         <Box
-          maxWidth={1200}
+          // maxWidth=
+          width="90%"
           height="100%"
           margin="0 auto"
           display="flex"
           justifyContent="space-between"
           alignItems="center"
           px={{ xs: 2, sm: 2, md: 0 }}
+          py={1.5}
         >
           <Box
             component={Link}
@@ -249,8 +250,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               }}
             >
               <Box
-                width="60px"
-                height="60px"
+                width="40px"
+                height="40px"
                 display="flex"
                 justifyContent="center"
                 alignItems="center"
@@ -267,12 +268,12 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
                   ].join(","),
                 }}
               >
-                <H2>{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H2>
+                <H3 >{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H3>
               </Box>
 
               <Box
                 sx={{
-                  display: "flex",
+                  display: { xs: "none", sm: "flex" },
                   flexDirection: "column",
                   justifyContent: "center",
                   mb: "5px",
@@ -290,50 +291,39 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       </Box>
 
       {/* spacer under fixed header for desktop/tablet */}
-      <Box sx={{ height: { xs: 0, sm: `${HEADER_H}px` } }} />
+      <Box sx={{ height: HEADER_H + 32 }} />
 
-      {/* Main row: fixed sidebar + scrollable content */}
+      {/* Main row: sticky sidebar + scrollable content under header */}
       <Box
         component="main"
+        width="90%"
+        // maxWidth={1200}
+        m="0 auto"
         sx={{
           display: "flex",
           flexDirection: "row",
-          gap: "16px",
-          alignItems: "stretch",
-          height: "calc(100vh - 0px)",
-          flexGrow: 1,
-          px: { lg: "16px", md: "16px", xs: "20px", sm: "20px" },
-          pt: { xs: "70px", sm: 0 },
+          gap: 2,
+          height: "100vh",
+
         }}
       >
-        {/* desktop fixed sidebar with its own scroll */}
-        <Drawer
-          variant="permanent"
+        {/* desktop sticky sidebar */}
+        <Box
           sx={{
-            display: { lg: "flex", md: "flex", xs: "none", sm: "block" },
-            "& .MuiDrawer-paper": {
-              width: isCollapsed ? 88 : 280,
-              padding: isCollapsed ? "20px 10px" : "20px",
-              backgroundColor: "transparent",
-              overflowX: "hidden",
-
-              position: "fixed",
-              top: { xs: 70, sm: HEADER_H + 16 },
-              left: 16,
-              height: {
-                xs: `calc(100vh - ${70 + 32}px)`,
-                sm: `calc(100vh - ${HEADER_H + 32}px)`,
-              },
-              overflowY: "auto",
-
-              transition: "width 0.3s",
-              boxSizing: "border-box",
-              backdropFilter: "blur(25px)",
-              WebkitBackdropFilter: "blur(25px)",
-              boxShadow: Colors.transparentBoxShadow,
-              borderRadius: "40px",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-            },
+            display: { xs: "none", sm: "block" },
+            flex: `0 0 ${isCollapsed ? 88 : 280}px`,
+            width: `${isCollapsed ? 88 : 280}px`,
+            position: "sticky",
+            // top: `${HEADER_H + 16}px`,
+            alignSelf: "flex-start",
+            height: "82vh",
+            overflowY: "auto",
+            padding: isCollapsed ? "20px 10px" : "20px",
+            backdropFilter: "blur(25px)",
+            WebkitBackdropFilter: "blur(25px)",
+            boxShadow: Colors.transparentBoxShadow,
+            borderRadius: "40px",
+            boxSizing: "border-box",
           }}
         >
           <Box sx={{ height: "auto" }}>
@@ -358,25 +348,23 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             <LogoutButton handleLogout={handleLogout} isCollapsed={isCollapsed} />
             {user?.role === "client" && <DeleteAccountButton isCollapsed={isCollapsed} />}
           </Box>
-        </Drawer>
+        </Box>
 
         {/* scrollable  content area */}
         <Box
           sx={{
             flex: 1,
             minWidth: 0,
-            ml: {
-              xs: 0,
-              md: (isCollapsed ? "88px" : "290px"),
-            },
             height: {
-              xs: `calc(100vh - 70px)`,
-              sm: `calc(100vh - ${HEADER_H + 16}px)`,
+              xs: `calc(100vh - 100px)`,
+              sm: `calc(100vh - ${HEADER_H}px)`,
             },
             overflow: "auto",
             zIndex: 2,
             mt: { lg: 0, md: 0, xs: 0, sm: 0 },
             backgroundColor: "transparent",
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
           <Box
@@ -427,7 +415,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
       {user?.role !== "superAdmin" && <JivoChat />}
-    </Box>
+    </Box >
   );
 };
 

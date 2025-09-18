@@ -125,7 +125,7 @@ const theme = createTheme({
 
     h2: {
       fontSize: "2rem",
-      fontWeight: "bold",
+      fontWeight: 600,
       padding: "10px 0",
       color: "#EBECF0",
       fontFamily: "Poppins, sans-serif",

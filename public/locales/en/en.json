@@ -11,7 +11,7 @@
   "bank_info": "Bank info",
   "cancel": "Cancel",
   "my_information": "Personal information",
-  "confirm_text_second_step": "Once the transaction is completed, enter the transaction ID and click Confirm.",
+  "confirm_text_second_step": "После завершения транзакции введите Hash транзакции и подтвердите её в течение 30 минут.",
   "get_start": "Get start",
   "something_went_wrong": "Something went wrong",
   "qr_code": "QR code",
@@ -128,5 +128,10 @@
   "header_about_us": "About Us",
   "header_our_contacts": "Our Contacts",
   "home": "Main",
-  "contact_us": "Contact us"
+  "contact_us": "Contact us",
+  "cards": "Cards",
+  "payment_variant": "Payment variant",
+  "successed": "Success",
+  "choose_card": "Choose a card",
+  "step_2_description": "Добавьте или выберите карту, на которую хотите получать прибыль — убедитесь, что у вас есть к ней доступ. На неё будут поступать заказы."
 }

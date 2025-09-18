@@ -1,14 +1,15 @@
-import success from "@/assets/images/success.png";
-import { FailedIcon } from "@/assets/svg/failed";
+import fail from "@/assets/images/last_step_fail.svg";
+import last_step from "@/assets/images/last_step_gradient.png";
+import success from "@/assets/images/success_last_step.png";
 import { httpClient } from "@/common/api";
+import NewButton from "@/components/atoms/btn";
 // import { httpClient } from "@/common/api";
-import Button from "@/components/atoms/button";
 import { BasicCard } from "@/components/atoms/card";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
 // import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
-import { H4, H5, H6, P } from "@/styles/typography";
+import { H1, H2, H5, H6, P } from "@/styles/typography";
 import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
@@ -27,7 +28,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
   const countDownrenderer: CountdownRendererFn = ({ completed, formatted }) => {
     if (completed) {
       return (
-        <H6 align="center" sx={{ textDecoration: "underline" }}>
+        <H6 align="center" sx={{ textDecoration: "underline", color: "#000" }}>
           Ваше время истекло, пожалуйста, свяжитесь с поддержкой.
         </H6>
       );
@@ -40,11 +41,14 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             flexDirection: "column",
           }}
         >
-          <H4>Загрузка..</H4>
-          <CircularProgress sx={{ color: "white" }} />
-          <P color="text.secondary" padding={"10px 0"}>
+          <H5 color="#008ef4" mb="24px">Загрузка...</H5>
+          <CircularProgress
+            sx={{ color: "#008ef4" }}
+            size={126}
+          />
+          <H5 color="#000" padding={"24px 0"}>
             {formatted.minutes}:{formatted.seconds}
-          </P>
+          </H5>
         </Box>
       );
     }
@@ -72,7 +76,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             .add(deposit?.type === "FIAT" ? 40 : 20, "minutes")
             .unix() -
             dayjs().utc().unix()) *
-            1000,
+          1000,
           "milliseconds"
         )
         .format()
@@ -87,14 +91,16 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               display: "flex",
               flexDirection: "column",
               width: "100%",
+              maxWidth: "587px",
               alignItems: "center",
             }}
           >
+            <H2 color="#000">{t("success")}</H2>
             <Countdown
-              date={getTimer(deposit.created_at as string)}
+              date={getTimer(deposit?.created_at as string)}
               renderer={countDownrenderer}
             />
-            <P color="primary.contrastText" padding={"20px 0"} align="center">
+            <P color="black" padding={"20px 0"} align="center">
               Ваш депозит обрабатывается, это обычно занимает до{" "}
               {deposit?.type === "FIAT" ? "40" : "20"} минут. Пожалуйста
               ожидайте подтверждения поступления депозита. После этого перейдите
@@ -114,24 +120,44 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               marginBottom: "90px",
             }}
           >
-            <P
-              color="tertiary.main"
-              sx={{
-                textAlign: {
-                  lg: "start",
-                  md: "start",
-                  xs: "center",
-                  sm: "center",
-                },
-              }}
+            <Box
+              width="349px"
+              height="320px"
+              position="relative"
+              mb="16px"
+              sx={{ overflow: "hidden" }}
             >
-              {t("success_step")}
-            </P>
-            <img src={success} style={{ width: "150px" }} />
-            <Button
+              <img
+                src={success}
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+              <Box maxWidth={208} position="absolute" top="65px" left="40px">
+                <H1
+                  color="white"
+                  textAlign="center"
+                  fontWeight={600}
+                  sx={{
+                    zIndex: 1,
+                  }}
+                >
+                  Готово
+                </H1>
+                <P
+                  color="white"
+                  sx={{
+                    textAlign: "center",
+                    zIndex: 1,
+                  }}
+                >
+                  {t("success_step")}
+                </P>
+              </Box>
+            </Box>
+
+            <NewButton
               variant={"gradient"}
-              sx={{ width: "230px" }}
-              text={"В список заказов"}
+              sx={{ width: "327px" }}
+              text={"К заказам"}
               onClick={() => {
                 handleReset?.();
                 navigate({ to: "/orders" });
@@ -148,16 +174,16 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               flexDirection: "column",
               width: "100%",
               alignItems: "center",
-              marginBottom: "170px",
             }}
           >
-            <H5>Ошибка</H5>
+            <H2 color="#000">{t("success")}</H2>
+            <H5 color="#008ef4">Ошибка</H5>
             <Box
               sx={{
-                display: { lg: "block", md: "block", xs: "none", sm: "none" },
+                width: "156px", height: "100px"
               }}
             >
-              <FailedIcon />
+              <img src={fail} alt="Fail icon" />
             </Box>
             <ErrorOutlineIcon
               sx={{
@@ -167,10 +193,9 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               fontSize="large"
             />
             <P
-              fontSize={"1.1rem"}
               align="center"
-              color="tertiary.main"
-              paddingTop={"10px"}
+              color="#000"
+              paddingTop={"22px"}
             >
               Платеж отклонен или отменен, попробуйте еще раз.
             </P>
@@ -186,8 +211,15 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               alignItems: "center",
             }}
           >
-            <ErrorOutlineIcon sx={{ color: "white" }} fontSize="large" />
-            <H4 align="center">Срок платежа истек</H4>
+            <H2 color="#000">{t("success")}</H2>
+            <H5 color="#008ef4" p="24px 0">Срок платежа истек</H5>
+            <Box
+              sx={{
+                width: "156px", height: "100px"
+              }}
+            >
+              <img src={fail} alt="Fail icon" />
+            </Box>
           </Box>
         );
       default:
@@ -197,23 +229,33 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
   }, [deposit?.status_by_admin]);
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center" }}>
+    <Box sx={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center", height: "100%",
+      minHeight: "100%",
+      overflow: "hidden"
+    }}>
       <BasicCard
         sx={{
           width: "100%",
-          marginTop: "20px",
-          padding: "0",
-          height: {
-            lg: "370px",
-            md: "370px",
-            xs: "max-content",
-            sm: "max-content",
-          },
+          p: 0,
+          pt: "66px",
+          m: 0,
+          height: "100%",
+          backgroundColor: "transparent",
+          boxShadow: "none",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "space-between",
+          position: "relative",
+          overflow: "hidden",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center bottom",
+          backgroundSize: { xs: "100% 30%", md: "100% 70%" },
+          backgroundImage: `url(${last_step})`,
+          justifyContent: { xs: "center", sm: "flex-start" }
         }}
-        title={t("success")}
       >
         <Box
           sx={{

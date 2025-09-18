@@ -15,7 +15,7 @@ export const TaskListComponent: FC = () => {
       component: (props: () => void) => <StepOne {...props} />,
     },
     {
-      label: "add_card",
+      label: "cards",
       component: (props: () => void) => (
         <StepTwo
           {...props}
@@ -24,11 +24,11 @@ export const TaskListComponent: FC = () => {
       ),
     },
     {
-      label: "it_will_be",
+      label: "payment_variant",
       component: (props: () => void) => <StepThree {...props} />,
     },
     {
-      label: "success",
+      label: "successed",
       component: (props: () => void) => <Success {...props} />,
     },
   ];
@@ -40,6 +40,7 @@ export const TaskListComponent: FC = () => {
           display: "flex",
           justifyContent: "center",
           padding: { lg: "0", md: "0", sx: "0", xs: "0" },
+          overflow: "hidden",
         }}
       >
         <HorizontalNonLinearStepper steps={steps} />

@@ -1,10 +1,12 @@
-import Button from "@/components/atoms/button";
+import InformationIcon from "@/assets/images/information_icon.svg";
+import NewButton from "@/components/atoms/btn";
 import { SelectFieldWith } from "@/components/atoms/select";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 import useDepositFeat from "../_services/useDepositFIAT";
+
 
 interface ITYPEComponent {
   handleNext?: () => void;
@@ -20,45 +22,61 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
   const type = watch("type");
 
   return (
-    <Box
-      component="form"
-      onSubmit={handleSubmit}
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        flexDirection: "column",
-        width: { lg: "100%" },
-      }}
-    >
-      {type === "FIAT" && (
-        <P color="primary.contrastText" width={"70%"}>
-          {t("fiat_deposit_text")}
-        </P>
-      )}
+    <>
       <Box
+        component="form"
+        onSubmit={handleSubmit}
         sx={{
           display: "flex",
           justifyContent: "center",
           flexDirection: "column",
-          width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
-          paddingTop: "30px",
+          alignItems: "center",
+          width: "100%",
+          maxWidth: 520,
         }}
       >
-        <SelectFieldWith
-          name="type"
-          control={control}
-          options={options}
-          whiteVariant
-          nameKey="currency"
-          placeholder={t("select_currency")}
-        />
-        <Button
-          variant={"gradient"}
-          text={t("confirm")}
-          type="submit"
-          sx={{ width: "100%", height: "50px", marginTop: "30px" }}
-        />
+
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            width: { xs: "100%", md: "80%" },
+            paddingTop: "30px",
+            gap: "24px"
+          }}
+        >
+          <SelectFieldWith
+            name="type"
+            control={control}
+            options={options}
+            lightGreyVariant
+            nameKey="currency"
+            placeholder={t("select_currency")}
+          />
+          <NewButton
+            variant={"gradient"}
+            text={t("confirm")}
+            type="submit"
+            sx={{ width: "100%", height: "50px" }}
+          />
+        </Box>
       </Box>
-    </Box>
+      {type === "FIAT" && (
+        <Box width={"100%"} maxWidth={600} mt="20px" display="flex" flexDirection="column" alignItems="center" justifyContent="center" gap="4px">
+          <Box width="20px" height="20px">
+            <img
+              src={InformationIcon}
+              alt="Information icon"
+              style={{ width: "100%", height: "1005" }}
+            />{" "}
+          </Box>
+
+          <P color="black" >
+            {t("fiat_deposit_text")}
+          </P>
+        </Box>
+      )}
+    </>
   );
 };

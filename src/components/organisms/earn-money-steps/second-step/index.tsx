@@ -1,21 +1,18 @@
-import second_step from "@/assets/images/step_2.png";
+import AddCardIcon from "@/assets/images/add_card_icon.svg";
+import second_step from "@/assets/images/step_2_bg.png";
 import { BankDetail } from "@/common/types/user";
-import Button from "@/components/atoms/button";
+import NewButton from "@/components/atoms/btn";
 import { BasicCard } from "@/components/atoms/card";
 import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import { useAuth } from "@/context/auth.context";
 import { choose_card_schema } from "@/schema/add_card.schema";
-import { RootState, useAppDispatch, useAppSelector } from "@/store";
-import { deleteBankCardThunk } from "@/store/reducers/user-info/bankDetailsSlice/thunks";
+import { useAppDispatch, useAppSelector } from "@/store";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
 import { Deposit } from "@/store/reducers/user-info/depositSlice/types";
-import { H5, P } from "@/styles/typography";
-import { addFivePercent } from "@/utils";
+import { H2, H5, H6, P } from "@/styles/typography";
 import { zodResolver } from "@hookform/resolvers/zod";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { enqueueSnackbar } from "notistack";
 import { BaseSyntheticEvent, FC, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AddCardModal } from "../../add_card_modal";
@@ -30,9 +27,8 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
   const [open, setOpen] = useState(false);
   const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
-  const { user, fetchAuthUser } = useAuth();
-  const price = useAppSelector((state: RootState) => state.deposit.price);
-  const updatedPrice = addFivePercent(price);
+  const { user } = useAuth();
+
 
   const handleOpen = () => setOpen(true);
   const { control, handleSubmit, setError, setValue } = useForm<
@@ -78,102 +74,119 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
     return true;
   }, [user]);
 
-  const onCardDelete = (card: BankDetail) => {
-    dispatch(deleteBankCardThunk(card.id))
-      .unwrap()
-      .then(() => {
-        fetchAuthUser?.();
-      })
-      .catch(() => {
-        setOpen(false);
-        enqueueSnackbar(t("delete_error_card"), {
-          variant: "error",
-          anchorOrigin: { vertical: "top", horizontal: "right" },
-        });
-      });
-  };
-  function formatPrice(price: number) {
-    return price
-      .toFixed(2)
-      .replace(".", ",")
-      .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
+
+
 
   return (
-    <Box>
+    <>
       <Box
         component="form"
         onSubmit={submitForm}
-        sx={{ display: "flex", justifyContent: "center" }}
+        sx={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          height: "100%",
+          minHeight: "100%",
+        }}
       >
         <BasicCard
           sx={{
             width: "100%",
-            marginTop: "20px",
-            padding: "0",
-            height: "350px",
+            p: 0,
+            m: 0,
+            height: "100%",
+            backgroundColor: "transparent",
+            boxShadow: "none",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            position: "relative",
+            overflow: "hidden",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center bottom",
+            backgroundSize: { xs: "100% 30%", md: "100% 70%" },
+            backgroundImage: `url(${second_step})`,
           }}
-          bg={second_step}
-          title={t("profit")}
-          sub_title={`${formatPrice(updatedPrice)} ₽`}
         >
-          {user?.bank_details.length !== 3 && (
-            <Box
-              sx={{ display: "flex", alignItems: "center", marginTop: "20px" }}
-              onClick={handleOpen}
-            >
-              <AddCircleIcon
-                sx={{ color: "tertiary.main", cursor: "pointer" }}
-              />
 
-              <P
-                fontSize={"20px"}
-                textAlign={"center"}
-                color="tertiary.main"
-                sx={{
-                  textDecoration: "underline",
-                  paddingLeft: "5px",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleOpen()}
-              >
-                {t("add_bank_card")}
-              </P>
-            </Box>
-          )}
-
-          {!showAddCard && !cards.length ? (
-            <H5>
-              Все ваши карты заблокированы,
-              <br /> свяжитесь со службой поддержки.
-            </H5>
-          ) : (
-            ""
-          )}
-
-          <RadioButtonsGroup
-            data={cards}
-            control={control}
-            name="payment_method_id"
-            labelKey="card_number"
-            valueKey="id"
-            onItemDelete={onCardDelete}
-          />
-          <Button
+          <Box
             sx={{
-              marginTop: "20px",
-              width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
-              height: "50px",
-              fontSize: "17px",
+              position: "relative",
+              zIndex: 1,
+              maxWidth: 765,
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              textAlign: "center",
             }}
-            disabled={!showAddCard && !cards.length}
-            text={t("confirm")}
-            variant={"gradient"}
-            type="submit"
-          />
+          >
+            <H2 color="#000000" align="center" sx={{ width: "100%", p: 0, mt: "20px", }}>
+              {t("choose_card")}
+            </H2>
+
+            <H6 color="#000000" align="center" sx={{ width: "100%", lineHeight: 1.35 }}>
+              {t("step_2_description")}
+            </H6>
+
+
+
+            {!showAddCard && !cards.length ? (
+              <H5>
+                Все ваши карты заблокированы,
+                <br /> свяжитесь со службой поддержки.
+              </H5>
+            ) : null}
+
+
+            <RadioButtonsGroup
+              data={cards}
+              control={control}
+              name="payment_method_id"
+              labelKey="card_number"
+              valueKey="id"
+            />
+
+            {user?.bank_details.length !== 3 && (
+              <Box sx={{ display: "flex", width: "329.23px", alignItems: "center", cursor: "pointer", mt: "20px", backgroundColor: "#e3e3e3", border: "1px solid #27c6ca", p: "8px 0px", borderRadius: "40px" }} onClick={handleOpen}>
+                <Box>
+                  <img
+                    src={AddCardIcon}
+                    alt="Add card icon"
+                    style={{ width: "32px", borderRadius: "32px", paddingLeft: "5px" }}
+                  />
+                </Box>
+                <P
+                  fontSize={"14px"}
+                  textAlign={"center"}
+                  color="#0062E0"
+                  sx={{ pl: "5px", }}
+                >
+                  {t("add_bank_card")}
+                </P>
+              </Box>
+            )}
+
+            <NewButton
+              sx={{
+                mt: "20px",
+                height: "50px",
+                fontSize: "17px",
+                width: "329.23px"
+              }}
+              disabled={!showAddCard && !cards.length}
+              text={t("confirm")}
+              variant={"gradient"}
+              type="submit"
+            />
+          </Box>
         </BasicCard>
+
       </Box>
       <AddCardModal open={open} setOpen={setOpen} />
-    </Box>
+    </>
   );
 };

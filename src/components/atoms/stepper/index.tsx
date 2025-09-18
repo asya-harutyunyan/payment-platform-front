@@ -1,10 +1,11 @@
+import Completed from "@/assets/images/step_completed.svg";
+import NotCompleted from "@/assets/images/step_not_completed.svg";
+
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import Box from "@mui/material/Box";
 import ButtonMui from "@mui/material/Button";
-
 import Step from "@mui/material/Step";
-import StepButton from "@mui/material/StepButton";
 import Stepper from "@mui/material/Stepper";
 import Typography from "@mui/material/Typography";
 import { ReactNode } from "@tanstack/react-router";
@@ -13,6 +14,7 @@ import * as React from "react";
 import { FC } from "react";
 import { BasicCard } from "../card";
 import { useStepper } from "./_services/useStepper";
+
 
 type Steps = {
   label: string;
@@ -43,64 +45,86 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
   const allStepsCompleted = () => completedSteps() === totalSteps();
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "100%",
+        height: "80vh",
+        bgcolor: "#EAEAEA",
+        borderRadius: "40px",
+        pt: "20px",
+        position: "relative",
+      }}
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          top: 20 + 16,
+          left: "12%",
+          width: "75%",
+          height: 4,
+          background:
+            "linear-gradient(90deg, #153762 0%, #0B62A1 40%, #1AA1FF 100%)",
+          borderRadius: 2,
+          zIndex: 1,
+          transition: "width 250ms ease",
+        }}
+      />
       <Stepper
-        nonLinear
         activeStep={activeStep}
         sx={{
           display: "flex!important",
           width: "100%",
-          flexDirection: {
-            lg: "row",
-            md: "row",
-            xs: "column",
-            sm: "column",
-          },
+          m: "0 auto",
+          position: "relative",
+          zIndex: 2,
+          
         }}
       >
         {steps.map((step, index) => (
-          <Step
-            key={step.label}
-            completed={completed[index]}
-            sx={{
-              color: theme.palette.primary.main,
-              width: "100%",
-              margin: "13px 0",
-            }}
-          >
-            <StepButton
-              color="inherit"
-              aria-label={`Step ${index + 1}`}
+          <React.Fragment key={step.label}>
+            <Step
+              completed={completed[index]}
               sx={{
-                cursor: "pointer",
+                color: theme.palette.primary.main,
                 width: "100%",
-                justifyContent: "start",
-                padding: {
-                  lg: "20px 10px",
-                  md: "20px 10px",
-                  xs: "5px 0",
-                  sm: "5px 0",
-                },
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                position: "relative",
               }}
             >
+              {index <= activeStep ? (
+                <img
+                  src={Completed}
+                  alt="Completed step"
+                  style={{ width: 32, height: 32, zIndex: 1 }}
+                />
+              ) : (
+                <img
+                  src={NotCompleted}
+                  alt="Not completed step"
+                  style={{ width: 32, height: 32, zIndex: 1 }}
+                />
+              )}
               <P
                 sx={{
-                  color: theme.palette.primary.main,
-                  width: {
-                    lg: "max-content",
-                    md: "max-content",
-                    xs: "100%",
-                    sm: "100%",
-                  },
+                  mt: 1,
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: activeStep === index ? "#153762" : "#017FED",
+                  textAlign: "center",
                 }}
               >
                 {t(step.label)}
               </P>
-            </StepButton>
-          </Step>
+
+
+            </Step>
+          </React.Fragment>
         ))}
       </Stepper>
-      <div>
+
+      <div style={{ height: "90%" }}>
         {allStepsCompleted() ? (
           <BasicCard sx={{ height: "300px" }}>
             <Typography sx={{ mt: 2, mb: 1 }}>
@@ -113,7 +137,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
           </BasicCard>
         ) : (
           <React.Fragment>
-            <Box sx={{ mt: 2, mb: 1, py: 1 }}>
+            <Box sx={{ mt: 2, mb: 1, height: "100%" }}>
               {steps[activeStep]?.component({
                 handleNext,
                 handleReset,

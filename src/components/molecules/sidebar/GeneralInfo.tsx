@@ -11,7 +11,7 @@ const GeneralInfo: FC<IGeneralInfo> = ({ setIsCollapsed, isCollapsed }) => {
     <Box>
       <Box
         sx={{
-          display: { lg: "flex", md: "flex", xs: "none", sm: "none" },
+          display: { xs: "none", sm: "flex" },
           justifyContent: isCollapsed ? "center" : "space-between",
           alignItems: "center",
         }}

@@ -85,7 +85,7 @@
   "statun": "Статус",
   "profit_B": " Это вас устраивает?",
   "success": "Подтверждение платежа",
-  "confirm_text_second_step": "Как только транзакция будет завершена, введите Hash транзакции и нажмите «Подтвердить».",
+  "confirm_text_second_step": "После завершения транзакции введите Hash транзакции и подтвердите её в течение 30 минут.",
   "confirm": "Подтвердить",
   "your_action_success": "Ваши действия успешно выполнены!",
   "lorem_short": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
@@ -94,7 +94,7 @@
   "no_content": "Нет контента для этого шага",
   "complated_steps": "Все шаги выполнены — вы закончили.",
   "reset": "Сброс",
-  "earn_money": "Сумма",
+  "earn_money": "Сумма депозита",
   "it_will_be": "Депозит",
   "havent_account": "Нет аккаунта?",
   "have_account": "У вас уже есть аккаунт?",
@@ -120,7 +120,7 @@
   "address": "Адрес",
   "currency": "Валюта",
   "network": "Сеть",
-  "success_step": "Ваши действия успешно выполнены!",
+  "success_step": "Ваш депозит успешно подтверждён!",
   "start_again": "Начать заново",
   "welcome": "Видеоурок",
   "start_earning_money": "Начни зарабатывать деньги",
@@ -418,5 +418,10 @@
   "header_about_us": "О Нас",
   "header_our_contacts": "Наши Контакты",
   "home": "Главная",
-  "contact_us": "Связаться с нами"
+  "contact_us": "Связаться с нами",
+  "cards": "Карта",
+  "payment_variant": "Способ оплаты",
+  "successed": "Подтверждение",
+  "choose_card": "Выберите карту",
+  "step_2_description": "Добавьте или выберите карту, на которую хотите получать прибыль — убедитесь, что у вас есть к ней доступ. На неё будут поступать заказы."
 }

@@ -19,6 +19,7 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   width?: string;
   whiteVariant?: boolean;
   greenGradientVariant?: boolean;
+  lightGreyVariant?:boolean;
   mask?: boolean;
   autofocus?: boolean;
   numeric?: boolean;
@@ -39,6 +40,7 @@ export const FormTextInput = <T extends FieldValues>({
   type,
   whiteVariant,
   greenGradientVariant,
+  lightGreyVariant,
   borderRadius,
   mask,
   numeric,
@@ -81,6 +83,7 @@ export const FormTextInput = <T extends FieldValues>({
           helperText={helperText}
           whiteVariant={whiteVariant}
           greenGradientVariant={greenGradientVariant}
+          lightGreyVariant={lightGreyVariant}
           borderRadius={borderRadius}
           error={!!helperText}
           type={type}
