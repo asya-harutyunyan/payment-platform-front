@@ -218,7 +218,7 @@ export const ResponsiveAppBar = () => {
             glow
             sx={{
               minWidth: "160px",
-              display: { xs: "none", md: "block" }
+              display: { xs: "none", md: "block" },
             }}
           />
         </Toolbar>

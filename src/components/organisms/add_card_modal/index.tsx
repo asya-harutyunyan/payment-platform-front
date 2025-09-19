@@ -1,7 +1,6 @@
-import bg from "@/assets/images/modal.png";
 import { z } from "@/common/validation";
 import { Autocomplite } from "@/components/atoms/autocomplite";
-import Button from "@/components/atoms/button";
+import NewButton from "@/components/atoms/btn";
 import { FormTextInput } from "@/components/atoms/input";
 import { BasicModal } from "@/components/atoms/modal";
 import { SelectFieldWith } from "@/components/atoms/select";
@@ -80,7 +79,6 @@ export const AddCardModal: FC<IStepTwo> = ({
           { shouldValidate: false }
         );
       }
-      // Set card holder and card number values when in edit mode
       if (cardHolder) {
         setValue("card_holder", cardHolder, { shouldValidate: false });
       }
@@ -141,9 +139,8 @@ export const AddCardModal: FC<IStepTwo> = ({
             handleClose();
           })
           .catch((error) => {
-            // Handle all backend errors dynamically
             if (error && typeof error === "object") {
-              // Check for specific known error types first
+
               if (error?.card_number?.[0] === "Поле номер карты уже занято.") {
                 enqueueSnackbar(t("already_exist"), {
                   variant: "error",
@@ -364,30 +361,33 @@ export const AddCardModal: FC<IStepTwo> = ({
   });
 
   return (
-    <BasicModal handleClose={handleClose} open={open} bg={bg}>
+
+    <BasicModal handleClose={handleClose} open={open} width={{ xs: "80%", sm: "30%" }}
+      sx={{ p: { xs: 2, sm: 4 }, maxWidth: "100%" }} >
       <Box
         component="form"
         onSubmit={handleSubmit(isEdit ? onEditSubmit : onAddSubmit)}
         sx={{
-          width: { lg: "40%", md: "40%", xs: "100%", sm: "100%" },
+          width: "90%",
           marginTop: { lg: "0", md: "0", xs: "20px", sm: "20px" },
           height: { lg: "auto", md: "auto", xs: "500px", sm: "500px" },
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
+          gap: "10px"
         }}
       >
         <FormTextInput
           control={control}
           name="card_holder"
           placeholder={t("name_cards_member")}
-          whiteVariant
+          lightGreyVariant
         />
         <Autocomplite
           name="bank_name"
           control={control}
           options={banks}
-          whiteVariant
+          lightGreyVariant
           defaultValueFirst
           defaultValue={
             isEdit && bankName
@@ -398,33 +398,33 @@ export const AddCardModal: FC<IStepTwo> = ({
           error={!!errors.bank_name}
           helperText={errors.bank_name?.message}
           disabled={!!bankNameManual}
-          style={{ marginBottom: "10px" }}
         />
         {bankNameInput?.name === "Другое" && (
           <FormTextInput
             control={control}
             name="bank_name_manual"
             type="text"
-            whiteVariant
+            lightGreyVariant
             placeholder={t("bank_name")}
           />
         )}
+
         <FormTextInput
           control={control}
           name="card_number"
-          // mask
           placeholder={t("card_number")}
-          whiteVariant={true}
+          lightGreyVariant
         />
+
         <SelectFieldWith
           name="currency"
           control={control}
           options={options}
-          whiteVariant
           defaultValueFirst
           placeholder={t("select_currency")}
           error={!!errors.currency}
           helperText={errors.currency?.message}
+          lightGreyVariant
         />
         <Box
           sx={{
@@ -434,7 +434,7 @@ export const AddCardModal: FC<IStepTwo> = ({
             margin: "20px 0",
           }}
         >
-          <Button
+          <NewButton
             sx={{ width: "99%", height: "50px" }}
             variant={"gradient"}
             type="submit"
@@ -442,6 +442,6 @@ export const AddCardModal: FC<IStepTwo> = ({
           />
         </Box>
       </Box>
-    </BasicModal>
+    </BasicModal >
   );
 };

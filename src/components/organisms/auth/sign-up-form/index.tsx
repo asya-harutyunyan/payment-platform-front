@@ -29,7 +29,8 @@ const SignUpForm: FC = () => {
     <Box sx={{
       background: Colors.gradientBgSignIn,
       width: "100%",
-      minHeight: "100vh"
+      minHeight: "100vh",
+      overflow: "hidden",
     }}>
       {!isDesktop &&
         <Box component={Link} to="/" sx={{ width: "84px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", p: "16px 0 0 17px" }}>
@@ -48,8 +49,9 @@ const SignUpForm: FC = () => {
         onSubmit={handleSubmit(onSubmit)}
         sx={{
           display: "flex",
-          justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
+          justifyContent: "center",
           alignItems: "center",
+          minHeight: { xs: "80vh", sm: "90vh" },
           py: "30px"
         }}
       >
@@ -159,21 +161,20 @@ const SignUpForm: FC = () => {
               disabled={watch("checkbox") !== true}
             />
             <TextWithDivider>
-              <Box
-                component={Link}
-                to="/auth/sign-in"
-                sx={{
-                  color: Colors.white,
-                  fontWeight: 500,
-                  fontSize: { xs: "12px", sm: "14px" },
-                  textDecoration: "none",
-                }}
-              >
-                {t("have_account")}{" "}
-                <span style={{ textDecoration: "underline" }}>
-                  {t("sign_in")}
-                </span>
-              </Box>
+              <P textAlign="center" fontSize="14px" fontWeight={500}>
+                <Link
+                  to="/auth/sign-in"
+                  style={{
+                    color: Colors.white,
+                    textDecoration: "none",
+                  }}
+                >
+                  {t("have_account")}{" "}
+                  <span style={{ textDecoration: "underline", fontWeight: 700 }}>
+                    {t("sign_in")}
+                  </span>
+                </Link>
+              </P>
             </TextWithDivider>
           </BasicCard>
         </Box>

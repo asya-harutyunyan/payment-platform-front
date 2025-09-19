@@ -10,6 +10,7 @@ interface SelectFieldWithHookFormProps<T extends FieldValues> {
   error?: boolean;
   helperText?: string | ReactNode;
   whiteVariant?: boolean;
+  lightGreyVariant?: boolean;
   defaultValueFirst?: boolean;
   valueKey?: keyof ISelectOption;
   nameKey?: string;
@@ -23,6 +24,7 @@ export const SelectFieldWith = <T extends FieldValues>({
   whiteVariant,
   placeholder,
   defaultValueFirst,
+  lightGreyVariant,
   error,
   helperText,
   valueKey,
@@ -37,6 +39,7 @@ export const SelectFieldWith = <T extends FieldValues>({
         <SelectField
           {...field}
           whiteVariant={whiteVariant}
+          lightGreyVariant={lightGreyVariant}
           placeholder={placeholder}
           defaultValueFirst={defaultValueFirst}
           options={options}

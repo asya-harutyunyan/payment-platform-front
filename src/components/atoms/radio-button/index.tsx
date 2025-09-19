@@ -60,7 +60,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
 
   return (
     <Box
-      sx={{ display: "flex", flexDirection: "column", width: width ?? "40%" }}
+      sx={{ display: "flex", flexDirection: "column" }}
     >
       <FormControl error={hasErrors}>
         <RadioGroup
@@ -72,18 +72,17 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
             <Box
               key={index}
               sx={{
-                border: "1px solid",
-                borderColor: (item as { is_blocked?: boolean }).is_blocked
-                  ? "#b3b3b3"
-                  : "#fff",
+                backgroundColor: "#e3e3e3",
+                boxShadow: "0 1px 0 0 #000",
                 height: "50px",
                 marginTop: "20px",
-                borderRadius: "10px",
+                borderRadius: "40px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 color: "white",
                 fontSize: "17px",
+                width: "100%"
               }}
             >
               <FormControlLabel
@@ -114,14 +113,14 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                   span: {
                     color: (item as { is_blocked?: boolean }).is_blocked
                       ? "#b3b3b3"
-                      : "white",
-                    fontSize: "17px",
+                      : "#006ee6",
+                    fontSize: "12px",
                     letterSpacing: "4px",
                   },
                   "& .MuiFormControlLabel-label.Mui-disabled": {
                     color: (item as { is_blocked?: boolean }).is_blocked
                       ? "#b3b3b3"
-                      : "white",
+                      : "#006ee6",
                     fontSize: "17px",
                     letterSpacing: "4px",
                   },

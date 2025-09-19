@@ -3,16 +3,22 @@ import { BasicModal } from "@/components/atoms/modal";
 import { PersonRemove } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import { t } from "i18next";
-import { useState } from "react";
+import React, { useState } from "react";
 
 import bg from "@/assets/images/modal.png";
+import NewButton from "@/components/atoms/btn";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { deleteUserThunk } from "@/store/reducers/authSlice/thunks";
 import { H3 } from "@/styles/typography";
 import { useNavigate } from "@tanstack/react-router";
 
-const DeleteAccountButton = () => {
+interface DeleteAccountButtonProps {
+  isCollapsed: boolean
+}
+
+
+const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -21,19 +27,23 @@ const DeleteAccountButton = () => {
 
   return (
     <>
-      <Box sx={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <Button
-          onClick={() => setIsModalOpened(true)}
-          sx={{
-            width: "90%",
-            textAlign: "center",
-            cursor: "pointer",
-          }}
-          icon={PersonRemove}
-          text={t("delete_account")}
-          variant={"error_background"}
-        />
-      </Box>
+      <NewButton
+        onClick={() => setIsModalOpened(true)}
+        sx={{
+          width: "max-content",
+          textAlign: "center",
+          cursor: "pointer",
+          background: "transparent",
+          color: "red",
+          p: "8px 16px",
+          ":hover": {
+            background: "transparent",
+            color: "red",
+          },
+        }}
+        icon={PersonRemove}
+        text={!isCollapsed ? t("delete_account") : ""}
+      />
       <BasicModal
         handleClose={() => setIsModalOpened(false)}
         open={isModalOpened}

@@ -161,7 +161,7 @@ export const useAddCardForm = () => {
             if (
               error?.card_number?.[1] &&
               error?.card_number?.[1] ===
-                "Эта карта заблокирована и не может быть добавлена."
+              "Эта карта заблокирована и не может быть добавлена."
             ) {
               setError("card_number", {
                 message:
@@ -205,7 +205,7 @@ export const useAddCardForm = () => {
               }
             });
           } else if (typeof error === "string") {
-            // Handle string errors
+
             enqueueSnackbar(error, {
               variant: "error",
               anchorOrigin: { vertical: "top", horizontal: "right" },

@@ -27,7 +27,7 @@ export const BlockedUserListComponent: FC = () => {
           sx={{
             width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
             height: "100vh",
-            // overflowX: "auto",
+         
           }}
         >
           <DynamicTable columns={columnsBlockedUsers} data={blockedUsers} />

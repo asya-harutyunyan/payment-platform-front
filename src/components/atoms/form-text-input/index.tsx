@@ -30,6 +30,7 @@ interface IBasicTextFields {
   width?: string;
   whiteVariant?: boolean;
   greenGradientVariant?: boolean;
+  lightGreyVariant?: boolean;
   ref?: Ref<HTMLDivElement>;
   id?: string;
   autofocus?: boolean;
@@ -49,25 +50,51 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
   helperText,
   whiteVariant,
   greenGradientVariant,
+  lightGreyVariant,
   autofocus,
   width,
   id,
   ref,
-  borderRadius
+  borderRadius,
 }) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   const inputType = useMemo(() => {
-    if (type !== "password") {
-      return type;
-    }
+    if (type !== "password") return type;
     return showPassword ? "text" : "password";
   }, [type, showPassword]);
 
+  // Shared color decisions (kept simple & consistent)
+  const borderCol =
+    whiteVariant
+      ? "tertiary.main"
+      : greenGradientVariant
+        ? "#1b939f"
+        : lightGreyVariant
+          ? "#EAEAEA"
+          : "primary.main";
+
+  const labelCol =
+    whiteVariant
+      ? "tertiary.main"
+      : greenGradientVariant
+        ? "white"
+        : lightGreyVariant
+          ? "#0082ef"
+          : "primary.main";
+
+
+  const textCol =
+    whiteVariant
+      ? "tertiary.main"
+      : greenGradientVariant
+        ? "white"
+        : "primary.main";
+
   return (
-    <Box sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 }, width: "100%" }} >
+    <Box sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 }, width: "100%" }}>
       <TextField
         key={placeholder}
         label={placeholder}
@@ -76,87 +103,73 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         ref={ref}
         id={id}
         autoFocus={autofocus}
-
         sx={{
-          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
-          {
+          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
             display: "none",
           },
-          "& input[type=number]": {
-            MozAppearance: "textfield",
-          },
-          ":-internal-autofill-selected": {
-            backgroundColor: "red !important",
-          },
+          "& input[type=number]": { MozAppearance: "textfield" },
           width: width ?? "100%",
           border: "#B5BBC6",
 
-          ".MuiOutlinedInput-notchedOutline": {
-            borderColor: whiteVariant ? "tertiary.main" : greenGradientVariant ? "#1b939f" : "primary.main",
-          },
 
           "& .MuiInputLabel-root": {
             fontSize: "14px",
-            color: whiteVariant
-              ? "tertiary.main"
-              : greenGradientVariant
-                ? "white"
-                : "primary.main",
+            color: labelCol,
             top: "50%",
             transform: "translateY(-50%)",
             position: "absolute",
             pointerEvents: "none",
             ml: "16px",
-
-            "&.Mui-focused": {
-              color: whiteVariant
-                ? "tertiary.main"
-                : greenGradientVariant
-                  ? "white"
-                  : "primary.main",
-            },
+            "&.Mui-focused": { color: labelCol },
           },
-
           "& .MuiInputLabel-shrink": {
             top: 0,
             left: "20px",
-            transform: "translate(0, -4px) scale(0.75)",
             transformOrigin: "top left",
-            ml: "0"
+            ml: 0,
           },
+
+
+          ".MuiOutlinedInput-notchedOutline": {
+            borderColor: borderCol,
+          },
+
 
           ".MuiFormLabel-root": {
             fontSize: "12px",
-            color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
-            "&.Mui-focused": {
-              color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
-            },
+            color: labelCol,
+            "&.Mui-focused": { color: labelCol },
           },
           ".MuiInputBase-input": {
-            color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
+            color: textCol,
           },
-
           "& .MuiInputBase-input::placeholder, & .MuiOutlinedInput-input::placeholder": {
-            color: whiteVariant ? "tertiary.main" : greenGradientVariant ? "white" : "primary.main",
+            color: textCol,
             opacity: 1,
           },
 
-          "&:input:-internal-autofill-selected": {
-            backgroundColor: !whiteVariant ? "tertiary.main" : "primary.main",
-          },
 
           "& .MuiOutlinedInput-root": {
             borderRadius: borderRadius ?? 8,
 
+
+            backgroundColor: lightGreyVariant ? "#e3e3e3" : "transparent",
+            boxShadow: lightGreyVariant ? "0 1px 0 0 #000" : "none",
+
             "&:hover .MuiOutlinedInput-notchedOutline": {
-              borderColor: whiteVariant ? "tertiary.main" : greenGradientVariant ? "#1b939f" : "primary.main",
+              borderColor: borderCol,
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: borderCol,
             },
 
 
-            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-              borderColor: whiteVariant ? "tertiary.main" : greenGradientVariant ? "#1b939f" : "primary.main",
+            "&.Mui-error .MuiOutlinedInput-notchedOutline": {
+              borderColor: "error.main",
             },
           },
+
+          // Allow consumers to override last
           ...style,
         }}
         value={value}
@@ -165,20 +178,19 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         error={error}
         helperText={error ? helperText : ""}
         InputProps={{
-          endAdornment: type === "password" && (
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={handleClickShowPassword}
-                onMouseDown={handleMouseDownPassword}
-                sx={{
-                  color: greenGradientVariant ? "white" : "black"
-                }}
-              >
-                {showPassword ? <Visibility /> : <VisibilityOff />}
-              </IconButton>
-            </InputAdornment>
-          ),
+          endAdornment:
+            type === "password" && (
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  sx={{ color: greenGradientVariant ? "white" : "black" }}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
         }}
       />
     </Box>

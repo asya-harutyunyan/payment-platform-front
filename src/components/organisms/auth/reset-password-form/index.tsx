@@ -1,13 +1,14 @@
-import Button from "@/components/atoms/button";
+import Circle1 from "@/assets/images/blue_circle_1.png";
+import Circle2 from "@/assets/images/blue_circle_2.png";
+import NewButton from "@/components/atoms/btn";
 import { BasicCard } from "@/components/atoms/card";
 import { FormTextInput } from "@/components/atoms/input";
 import TextWithDivider from "@/components/atoms/text-with-divider";
-import theme from "@/styles/theme";
-import { P } from "@/styles/typography";
+import { Colors } from "@/constants";
+import { H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { t } from "i18next";
-import bg from "../../../../assets/images/bg.jpg";
 import useResetPassword from "./_services/useResetPassword";
 
 const ResetPasswordComponent = () => {
@@ -22,80 +23,86 @@ const ResetPasswordComponent = () => {
         display: "flex",
         justifyContent: { lg: "end", md: "end", sx: "center", xs: "center" },
         alignItems: "center",
-        backgroundImage: `url(${bg})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
+        background: Colors.gradientBgSignIn,
       }}
     >
-      <Box
-        sx={{
-          width: { lg: "50%", md: "50%", sx: "70%", xs: "70%" },
-          display: { lg: "flex", md: "flex", sx: "none", xs: "none" },
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <P
-          fontSize={"30px"}
-          color="primary.contrastText"
-          width={"75%"}
-          paddingBottom={"20px"}
+      <Box width="900px" maxWidth={900} margin="0 auto" display="flex" justifyContent="center" position="relative">
+        <Box
+          sx={{
+            position: "absolute",
+            left: { xs: "5px", sm: "-30px" },
+            bottom: { xs: "-40px", sm: "-110px" },
+            width: { xs: "130px", sm: "270px" },
+            height: { xs: "165px", sm: "348px" },
+          }}
         >
-          {t("reset_email_long")}
-        </P>
-        <P fontSize={"17px"} color="primary.contrastText" width={"75%"}>
-          {t("reset_email_short")}
-        </P>
-      </Box>
-      <BasicCard
-        bgColor
-        sx={{
-          width: { lg: "40%", md: "40%", sx: "70%", xs: "70%" },
-          height: "60%",
-          marginRight: { lg: "50px", md: "50px", sx: "0", xs: "0" },
-        }}
-      >
-        <P
-          fontSize={"21px"}
-          paddingBottom={"20px"}
-          align="center"
-          fontWeight={500}
-          color={theme.palette.primary.main}
+          <img src={Circle2} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+        </Box>
+        <Box
+          sx={{
+            position: "absolute",
+            right: { xs: "10px", sm: "50px" },
+            top: { xs: "-20px", sm: "5px" },
+            width: { xs: "86px", sm: "150px" },
+            height: { xs: "86px", sm: "150px" },
+          }}
         >
-          {t("reset_email_short")}
-        </P>
-        <FormTextInput
-          control={control}
-          name="email"
-          placeholder={t("email")}
-        />
-
-        <Button
-          variant={"gradient"}
-          color="secondary"
-          text={t("send_email")}
-          sx={{ width: "100%", margin: "20px 0", height: "50px" }}
-          type="submit"
-        />
-        <TextWithDivider>
-          <P>
-            <Link
-              to="/auth/sign-in"
-              style={{
-                color: theme.palette.primary.main,
-                fontWeight: 300,
-                fontSize: "14px",
-                textDecoration: "none",
-              }}
-            >
-              {t("have_account")}{" "}
-              <span style={{ textDecoration: "underline" }}>
-                {t("sign_in")}
-              </span>
-            </Link>
+          <img src={Circle1} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+        </Box>
+        <BasicCard
+          sx={{
+            borderRadius: "40px",
+            background: "rgba(255, 255, 255, 0.01)",
+            backdropFilter: "blur(25px)",
+            WebkitBackdropFilter: "blur(25px)",
+            backgroundColor: "transparent",
+            boxShadow: Colors.transparentBoxShadow,
+            zIndex: "1",
+            width: "60%",
+          }}
+        >
+          <P
+            maxWidth={457} m="0 auto"
+            fontSize={{ xs: "24px", sm: "36px" }}
+            paddingBottom="6px"
+            fontWeight={600}
+            color={Colors.white}
+            width="max-content"
+            margin="0 auto"
+          >
+            {t("reset_email_short")}
           </P>
-        </TextWithDivider>
-      </BasicCard>
+          <H6 maxWidth={421} m="0 auto" textAlign="center">Введите вашу почту, и мы отправим вам ссылку для сброса пароля</H6>
+          <FormTextInput
+            control={control}
+            name="email"
+            placeholder={t("email")}
+            greenGradientVariant
+          />
+          <NewButton
+            variant={"gradient"}
+            text={t("send_email")}
+            sx={{ width: "100%", margin: "20px 0", height: "50px" }}
+            type="submit"
+          />
+          <TextWithDivider>
+            <P textAlign="center" fontSize="14px" fontWeight={500}>
+              <Link
+                to="/auth/sign-in"
+                style={{
+                  textDecoration: "none",
+                  color: "white"
+                }}
+              >
+                {t("have_account")}{" "}
+                <span style={{ textDecoration: "underline" }}>
+                  {t("sign_in")}
+                </span>
+              </Link>
+            </P>
+          </TextWithDivider>
+        </BasicCard>
+      </Box>
     </Box>
   );
 };

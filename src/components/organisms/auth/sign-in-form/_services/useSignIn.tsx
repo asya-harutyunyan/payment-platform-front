@@ -99,7 +99,7 @@ const useSignIn = () => {
         typedError.message !== "Ваша почта не подтверждена"
       ) {
         Object.entries(typedError.errors).forEach(([field, messages]) => {
-          // for make red email field
+         
           if (messages === " ") {
             setError("email", { type: "manual", message: " " });
           }

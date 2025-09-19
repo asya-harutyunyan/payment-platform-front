@@ -1,9 +1,8 @@
-import ReactDOM from "react-dom/client";
-
 import { ThemeProvider } from "@emotion/react";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import { SnackbarProvider } from "notistack";
+import ReactDOM from "react-dom/client";
 import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import { I18nextProvider } from "react-i18next";
 import { Provider } from "react-redux";
@@ -34,7 +33,7 @@ const rootElement = document.getElementById("root")!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    // <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_KEY!}>
+    <GoogleReCaptchaProvider reCaptchaKey={import.meta.env.VITE_RECAPTCHA_KEY!}>
       <Provider store={store}>
         <I18nextProvider i18n={i18n} defaultNS={"translation"}>
           <AuthProvider>
@@ -46,6 +45,6 @@ if (!rootElement.innerHTML) {
           </AuthProvider>
         </I18nextProvider>
       </Provider>
-    // </GoogleReCaptchaProvider>
+    </GoogleReCaptchaProvider>
   );
 }
