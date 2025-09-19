@@ -82,6 +82,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                 justifyContent: "space-between",
                 color: "white",
                 fontSize: "17px",
+                width: "100%"
               }}
             >
               <FormControlLabel
@@ -113,7 +114,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                     color: (item as { is_blocked?: boolean }).is_blocked
                       ? "#b3b3b3"
                       : "#006ee6",
-                    fontSize: "17px",
+                    fontSize: "12px",
                     letterSpacing: "4px",
                   },
                   "& .MuiFormControlLabel-label.Mui-disabled": {

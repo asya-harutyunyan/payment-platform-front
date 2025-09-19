@@ -4,13 +4,15 @@ import { CopyButton } from "@/components/atoms/copy-btn";
 import { FormTextInput } from "@/components/atoms/input";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { resetDeposit } from "@/store/reducers/user-info/depositSlice";
+import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import dayjs from "dayjs";
 import { t } from "i18next";
 import { BaseSyntheticEvent, Dispatch, FC, useMemo } from "react";
 import Countdown, { CountdownRendererFn } from "react-countdown";
 import useDepositUsdt from "../_services/useDepositUSDT";
+import QRCode from "./components/qrCode";
 
 
 interface IUSDTComponent {
@@ -62,6 +64,9 @@ export const USDTComponent: FC<IUSDTComponent> = ({
     handleNext?.();
   };
 
+  // const isDesktop = useMediaQuery("(min-width:600px)");
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
   return (
     <Box
       component="form"
@@ -69,6 +74,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
       sx={{ display: "flex", justifyContent: "center" }}
       maxWidth={432}
       gap="32px"
+      width="100%"
     >
       <Box
         sx={{
@@ -93,12 +99,8 @@ export const USDTComponent: FC<IUSDTComponent> = ({
           <Box
             sx={{
               display: "flex",
-              flexDirection: {
-                lg: "row",
-                md: "row",
-                xs: "column",
-                sm: "column",
-              },
+              flexDirection: "column",
+              alignItems: "center"
             }}
           >
             <Box
@@ -109,40 +111,41 @@ export const USDTComponent: FC<IUSDTComponent> = ({
                 padding: "32.5px 16px",
                 display: "flex",
                 flexDirection: "column",
-                width: "400px",
+                maxWidth: { xs: "270px", sm: "400px" }
               }}
             >
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
+                  flexDirection: { xs: "column", sm: "row" }
                 }}
               >
-                <P fontSize={"15px"} color="#000">
+                <P fontSize={"14px"} color="#000">
                   {t("address")}:
                 </P>
-                <P
-                  fontSize={{
-                    lg: "15px",
-                    md: "15px",
-                    xs: "10px",
-                    sm: "10px",
-                  }}
-                  color="#4477b7"
-                  paddingLeft={"5px"}
-                >
-                  {deposit?.wallet.address}
-                </P>
-                {deposit?.wallet.address && (
-                  <CopyButton text={deposit.wallet.address} />
-                )}
+                <Box display="flex" alignItems="center">
+                  <P
+                    fontSize={"10px"}
+                    color="#4477b7"
+                    paddingLeft={"5px"}
+                  >
+                    {deposit?.wallet.address}
+                  </P>
+
+
+                  {deposit?.wallet.address && (
+                    <CopyButton text={deposit.wallet.address} />
+                  )}
+
+                </Box>
               </Box>
-              <P fontSize={"15px"} color="#000" paddingBottom={"10px"}>
-                {t("network")}: <span style={{ color: "#4477b7" }}>{deposit?.wallet.network}</span>
+              <P fontSize={"14px"} color="#000" paddingBottom={"10px"}>
+                {t("network")}: <span style={{ color: "#4477b7", fontSize: "10px" }}>{deposit?.wallet.network}</span>
               </P>
-              <P fontSize="15px" color="#000" paddingBottom="10px">
+              <P fontSize="14px" color="#000" paddingBottom="10px">
                 {t("amount")}:{" "}
-                <span style={{ color: "#4477b7" }}>
+                <span style={{ color: "#4477b7", fontSize: "10px" }}>
                   {t("rate_text", {
                     converted_amount: `${deposit?.converted_amount.toFixed(2)} ${deposit?.wallet.currency}`,
                     deposit_amount: `${deposit.amount} ${deposit.deposit_currency}`,
@@ -151,16 +154,15 @@ export const USDTComponent: FC<IUSDTComponent> = ({
                   })}
                 </span>
               </P>
-
             </Box>
-
+            {isMobile &&
+              <QRCode />
+            }
           </Box>
         )}
-
-
         <Box
           sx={{
-            width: "432px",
+            width: { xs: "100%", md: "432px" },
             display: "flex",
           }}
         >
@@ -173,7 +175,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
         </Box>
         <Box
           sx={{
-            width: "432px",
+            width: { xs: "100%", md: "432px" },
             display: "flex",
             justifyContent: "space-between",
             margin: "10px 0",
@@ -187,7 +189,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
             sx={{ width: "100%" }}
           />
         </Box>
-        <Box display="flex" alignItems="center" gap="8px" maxWidth={432}>
+        <Box display="flex" alignItems="center" gap="8px" maxWidth={432} mb="24px">
           <Box width="20px" height="20px">
             <img
               src={InformationIcon}
@@ -198,6 +200,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
           <P
             color="#000"
             sx={{ fontWeight: 400, fontSize: "12px" }}
+            textAlign={{ xs: "left", sm: "center" }}
           >
             Скопируйте и вставьте Hash транзакции из{" "}
             <a
@@ -215,30 +218,10 @@ export const USDTComponent: FC<IUSDTComponent> = ({
           </P>
         </Box>
       </Box>
-      <Box sx={{
-        width: {
-          xs: "max-content",
-          md: "200px",
-        },
-      }}>
 
-        <Box
-          sx={{
-            width: "100%",
-            margin: {
-              lg: "0",
-              md: "0",
-              xs: "20px auto",
-              sm: "20px auto",
-            },
-          }}
-        >
-          <img src={deposit?.wallet.qr_code} style={{ width: "140px" }} />
-        </Box>
-        <Box bgcolor="#c7d9ed" borderRadius="12px" p="12px 14px">
-          <P color="#007AFF">Отсканируйте QR код</P>
-        </Box>
-      </Box>
+      {!isMobile &&
+        <QRCode />
+      }
     </Box>
   );
 };

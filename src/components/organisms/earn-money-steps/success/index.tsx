@@ -3,14 +3,11 @@ import last_step from "@/assets/images/last_step_gradient.png";
 import success from "@/assets/images/success_last_step.png";
 import { httpClient } from "@/common/api";
 import NewButton from "@/components/atoms/btn";
-// import { httpClient } from "@/common/api";
 import { BasicCard } from "@/components/atoms/card";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
-// import { updateDepositAdminStatus } from "@/store/reducers/user-info/depositSlice";
 import { H1, H2, H5, H6, P } from "@/styles/typography";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 import { Box, CircularProgress } from "@mui/material";
 import { useNavigate } from "@tanstack/react-router";
 import dayjs from "dayjs";
@@ -44,7 +41,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           <H5 color="#008ef4" mb="24px">Загрузка...</H5>
           <CircularProgress
             sx={{ color: "#008ef4" }}
-            size={126}
+            size={50}
           />
           <H5 color="#000" padding={"24px 0"}>
             {formatted.minutes}:{formatted.seconds}
@@ -93,9 +90,10 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               width: "100%",
               maxWidth: "587px",
               alignItems: "center",
+              height: "100%"
             }}
           >
-            <H2 color="#000">{t("success")}</H2>
+            <H2 color="#000" fontSize={{ xs: "16px", sm: "32px" }} textAlign="center">{t("success")}</H2>
             <Countdown
               date={getTimer(deposit?.created_at as string)}
               renderer={countDownrenderer}
@@ -121,8 +119,8 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             }}
           >
             <Box
-              width="349px"
-              height="320px"
+              width={{ xs: "300px", sm: "349px" }}
+              height={{ xs: "280px", sm: "320px" }}
               position="relative"
               mb="16px"
               sx={{ overflow: "hidden" }}
@@ -131,7 +129,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
                 src={success}
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
-              <Box maxWidth={208} position="absolute" top="65px" left="40px">
+              <Box maxWidth={208} position="absolute" top={{ xs: "55px", sm: "65px" }} left={{ xs: "10px", sm: "40px" }}>
                 <H1
                   color="white"
                   textAlign="center"
@@ -176,7 +174,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               alignItems: "center",
             }}
           >
-            <H2 color="#000">{t("success")}</H2>
+            <H2 color="#000" fontSize={{ xs: "16px", sm: "32px" }} textAlign="center">{t("success")}</H2>
             <H5 color="#008ef4">Ошибка</H5>
             <Box
               sx={{
@@ -185,13 +183,6 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
             >
               <img src={fail} alt="Fail icon" />
             </Box>
-            <ErrorOutlineIcon
-              sx={{
-                color: "white",
-                display: { lg: "none", md: "none", xs: "block", sm: "block" },
-              }}
-              fontSize="large"
-            />
             <P
               align="center"
               color="#000"
@@ -211,7 +202,7 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
               alignItems: "center",
             }}
           >
-            <H2 color="#000">{t("success")}</H2>
+            <H2 color="#000" fontSize={{ xs: "16px", sm: "32px" }} textAlign="center">{t("success")}</H2>
             <H5 color="#008ef4" p="24px 0">Срок платежа истек</H5>
             <Box
               sx={{
@@ -232,7 +223,8 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
     <Box sx={{
       display: "flex",
       justifyContent: "center",
-      alignItems: "center", height: "100%",
+      alignItems: "center",
+      height: "100%",
       minHeight: "100%",
       overflow: "hidden"
     }}>
@@ -254,12 +246,11 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           backgroundPosition: "center bottom",
           backgroundSize: { xs: "100% 30%", md: "100% 70%" },
           backgroundImage: `url(${last_step})`,
-          justifyContent: { xs: "center", sm: "flex-start" }
         }}
       >
         <Box
           sx={{
-            display: { lg: "flex", md: "flex", xs: "flex", sm: "flex" },
+            display: "flex",
             width: "100%",
             borderRadius: "50%",
             alignItems: "center",
@@ -267,8 +258,9 @@ export const Success: FC<ISuccess> = ({ handleReset }) => {
           }}
         >
           {renderStatus}
+
         </Box>
-      </BasicCard>
-    </Box>
+      </BasicCard >
+    </Box >
   );
 };

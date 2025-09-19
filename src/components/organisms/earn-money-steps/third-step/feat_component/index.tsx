@@ -41,25 +41,32 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
             display: "flex",
             justifyContent: "center",
             flexDirection: "column",
-            width: { xs: "100%", md: "80%" },
+            alignItems: "center",
+            width: "100%",
             paddingTop: "30px",
             gap: "24px"
           }}
         >
-          <SelectFieldWith
-            name="type"
-            control={control}
-            options={options}
-            lightGreyVariant
-            nameKey="currency"
-            placeholder={t("select_currency")}
-          />
-          <NewButton
-            variant={"gradient"}
-            text={t("confirm")}
-            type="submit"
-            sx={{ width: "100%", height: "50px" }}
-          />
+
+          <Box sx={{ width: { xs: "100%", md: "73%" } }}>
+            <SelectFieldWith
+              name="type"
+              control={control}
+              options={options}
+              lightGreyVariant
+              nameKey="currency"
+              placeholder={t("select_currency")}
+              height="50px"
+            />
+          </Box>
+          <Box sx={{ width: { xs: "100%", md: "73%" } }}>
+            <NewButton
+              variant={"gradient"}
+              text={t("confirm")}
+              type="submit"
+              sx={{ width: "100%", height: "50px" }}
+            />
+          </Box>
         </Box>
       </Box>
       {type === "FIAT" && (
@@ -68,10 +75,8 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
             <img
               src={InformationIcon}
               alt="Information icon"
-              style={{ width: "100%", height: "1005" }}
             />{" "}
           </Box>
-
           <P color="black" >
             {t("fiat_deposit_text")}
           </P>

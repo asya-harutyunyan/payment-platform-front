@@ -39,7 +39,7 @@ export const TaskListComponent: FC = () => {
         sx={{
           display: "flex",
           justifyContent: "center",
-          padding: { lg: "0", md: "0", sx: "0", xs: "0" },
+          padding: { md: "0", xs: "0" },
           overflow: "hidden",
         }}
       >

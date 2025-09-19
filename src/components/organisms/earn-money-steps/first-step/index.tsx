@@ -49,18 +49,18 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           alignItems: "center",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center bottom",
-          backgroundSize: { xs: "100% 30%", md: "100% 70%" },
+          backgroundSize: { xs: "100% 50%", md: "100% 70%" },
           backgroundImage: `url(${first_step})`,
         }}
       >
-        <H2 color="#000000" align="center" sx={{ width: "100%", p: 0, mt: "20px" }}>
+        <H2 color="#000000" align="center" width="100%" p="0" mt="20px" fontSize={{ xs: "16px", md: "32px" }}>
           {t("how_much_money")}
         </H2>
-
         <H6
           color="#000000"
           align="center"
           sx={{ width: "100%", maxWidth: 520, lineHeight: 1.35 }}
+          fontSize={{ xs: "14px", md: "16px" }}
         >
           Вы получаете <span style={{ color: "#047ced", fontSize: 24 }}>5%</span> от суммы сделанного депозита. Чем больше депозит — тем выше ваша прибыль.
         </H6>
@@ -75,7 +75,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
             gap: "10px"
           }}
         >
-          <Box sx={{ width: { lg: "60%", md: "60%", sm: "100%", xs: "100%" } }}>
+          <Box sx={{ width: { xs: "100%", md: "73%" } }}>
             <FormTextInput
               control={control}
               placeholder="Введите сумму"
@@ -92,7 +92,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
             disabled={!processingAmountValue}
             sx={{
               height: 50,
-              width: { lg: "60%", md: "60%", sm: "100%", xs: "100%" },
+              width: { xs: "100%", md: "73%" },
               fontSize: 18,
 
             }}
@@ -101,6 +101,6 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
         </Box>
       </BasicCard>
 
-    </Box>
+    </Box >
   );
 };

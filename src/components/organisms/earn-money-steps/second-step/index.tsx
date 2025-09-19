@@ -124,11 +124,11 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
               textAlign: "center",
             }}
           >
-            <H2 color="#000000" align="center" sx={{ width: "100%", p: 0, mt: "20px", }}>
+            <H2 color="#000000" align="center" width="100%" p="0" mt="20px" fontSize={{ xs: "16px", md: "32px" }}>
               {t("choose_card")}
             </H2>
 
-            <H6 color="#000000" align="center" sx={{ width: "100%", lineHeight: 1.35 }}>
+            <H6 color="#000000" align="center" width="100%" lineHeight={1.35} fontSize={{ xs: "14px", md: "16px" }}>
               {t("step_2_description")}
             </H6>
 
@@ -141,17 +141,18 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
               </H5>
             ) : null}
 
-
-            <RadioButtonsGroup
-              data={cards}
-              control={control}
-              name="payment_method_id"
-              labelKey="card_number"
-              valueKey="id"
-            />
+            <Box sx={{ width: { xs: "95%", md: "49%" } }}>
+              <RadioButtonsGroup
+                data={cards}
+                control={control}
+                name="payment_method_id"
+                labelKey="card_number"
+                valueKey="id"
+              />
+            </Box>
 
             {user?.bank_details.length !== 3 && (
-              <Box sx={{ display: "flex", width: "329.23px", alignItems: "center", cursor: "pointer", mt: "20px", backgroundColor: "#e3e3e3", border: "1px solid #27c6ca", p: "8px 0px", borderRadius: "40px" }} onClick={handleOpen}>
+              <Box sx={{ display: "flex", width: { xs: "95%", md: "49%" }, alignItems: "center", cursor: "pointer", mt: "20px", backgroundColor: "#e3e3e3", border: "1px solid #27c6ca", p: "8px 0px", borderRadius: "40px" }} onClick={handleOpen}>
                 <Box>
                   <img
                     src={AddCardIcon}
@@ -175,7 +176,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
                 mt: "20px",
                 height: "50px",
                 fontSize: "17px",
-                width: "329.23px"
+                width: { xs: "95%", md: "49%" }
               }}
               disabled={!showAddCard && !cards.length}
               text={t("confirm")}
