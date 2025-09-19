@@ -1,5 +1,5 @@
+import MenuIcon from "@/assets/images/menu_icon.svg";
 import bg from "@/assets/images/modal.png";
-import telegram from "@/assets/images/telegram-icon-6896828_1280.webp";
 import JivoChat from "@/common/jivosite";
 import Button from "@/components/atoms/button";
 import { Logo } from "@/components/atoms/logo";
@@ -10,17 +10,13 @@ import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
 import { logoutUser } from "@/store/reducers/authSlice/thunks";
 import theme from "@/styles/theme";
-import { H3, H6, P } from "@/styles/typography";
-// import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { H3, H6 } from "@/styles/typography";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
 import {
-  // AppBar,
   Box,
   Drawer,
-  // IconButton,
-  // Toolbar,
-  useMediaQuery,
+    useMediaQuery,
 } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
@@ -36,7 +32,7 @@ interface DashboardPageProps {
   children?: ReactNode;
 }
 
-const HEADER_H = 60; 
+const HEADER_H = 60;
 
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -106,33 +102,10 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
       sx={{
         background: `linear-gradient(135deg, #0551ac 0%, #041939 100%)`,
         height: "100vh",
-        overflow: "hidden", // page itself does not scroll
+        overflow: "hidden",
       }}
     >
-      {/* mobile header (unchanged) */}
-      {/* <AppBar
-        position="fixed"
-        sx={{
-          display: { xs: "block", sm: "none" },
-          zIndex: (theme) => theme.zIndex.drawer + 2,
-        }}
-      >
-        <Toolbar>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={toggleDrawer}
-            sx={{ mr: 2, width: "44px", height: "52px" }}
-          >
-            <MoreVertIcon sx={{ paddingRight: "10px" }} />
-            <Logo />
-          </IconButton>
-          <H3 noWrap> {t("payhub")}</H3>
-        </Toolbar>
-      </AppBar> */}
 
-      {/* mobile opening sidebar (unchanged) */}
       <Drawer
         variant="temporary"
         anchor="left"
@@ -160,49 +133,11 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             }}
           >
             <LogoutButton handleLogout={handleLogout} />
-            {user?.role === "client" && (
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "10px 0",
-                }}
-              >
-                <a
-                  href="https://t.me/payhubofficial"
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                  target="_blanck"
-                >
-                  <img
-                    src={telegram}
-                    alt="telegram"
-                    style={{ width: "30px", cursor: "pointer" }}
-                  />
-                  <P
-                    sx={{
-                      paddingLeft: "10px",
-                      color: "#fff",
-                      hover: {
-                        color: "#896e6e",
-                      },
-                    }}
-                  >
-                    {" "}
-                    Связь с нами
-                  </P>
-                </a>
-              </Box>
-            )}
+            {user?.role === "client" && <DeleteAccountButton isCollapsed={isCollapsed} />}
           </Box>
         </Box>
       </Drawer>
 
-      {/* FIXED red header for desktop/tablet */}
       <Box
         sx={{
           position: "fixed",
@@ -214,7 +149,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         }}
       >
         <Box
-          // maxWidth=
           width="90%"
           height="100%"
           margin="0 auto"
@@ -228,7 +162,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             component={Link}
             to="/"
             sx={{
-              width: "189px",
+              width: { xs: "84px", sm: "189px" },
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -236,68 +170,104 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               textDecoration: "none",
             }}
           >
-            <Logo width="44px" height="52px" />
-            <H6 sx={{ fontSize: "26px", p: 0 }}>PayHub</H6>
+            <Box width={{ xs: "26px", sm: "44px" }} height={{ xs: "30px", sm: "52px" }}>
+              <Logo width="100%" height="100%" />
+            </Box>
+            <H6 sx={{ fontSize: { xs: "13px", sm: "26px" }, p: 0, fontWeight: 700 }}>PayHub</H6>
           </Box>
 
-          {user?.role === "client" && (
+          <Box display="flex" gap="12px">
+
+            {user?.role === "client" && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: isCollapsed ? "center" : "start",
+                  alignItems: "center",
+                  gap: "8px",
+                }}
+              >
+                <Box
+                  width="40px"
+                  height="40px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                  borderRadius="50%"
+                  sx={{
+                    backgroundColor: "#101f5e",
+                    boxShadow: [
+                      "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
+                      "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
+                      "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
+                      "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
+                      "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
+                      "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
+                    ].join(","),
+                  }}
+                >
+                  <H3 >{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H3>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    mb: "5px",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
+                      {user?.name} {user?.surname}
+                    </H6>
+                  </Box>
+                </Box>
+              </Box>
+            )}
+
             <Box
+              onClick={toggleDrawer}
+              display={{ xs: "flex", sm: "none" }}
+              width="40px"
+              height="40px"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="50%"
               sx={{
-                display: "flex",
-                justifyContent: isCollapsed ? "center" : "start",
-                alignItems: "center",
-                gap: "8px",
+                backgroundColor: "#101f5e",
+                boxShadow: [
+                  "inset 0px 0.33px 13.09px 0px rgba(13,137,207,0.20)",
+                  "inset 0px 1.31px 5.89px 0px rgba(8,59,88,0.30)",
+                  "inset 0px 32.07px 32.73px -15.71px rgba(0,161,253,0.30)",
+                  "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
+                  "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
+                  "inset 0px 12.76px 18.33px -11.78px rgba(255,255,255,0.50)",
+                ].join(","),
               }}
             >
               <Box
-                width="40px"
-                height="40px"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                borderRadius="50%"
-                sx={{
-                  backgroundColor: "#101f5e",
-                  boxShadow: [
-                    "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
-                    "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
-                    "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
-                    "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
-                    "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
-                    "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
-                  ].join(","),
-                }}
-              >
-                <H3 >{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H3>
-              </Box>
+                width="23px"
+                height="23px"
+                onClick={toggleDrawer}
 
-              <Box
-                sx={{
-                  display: { xs: "none", sm: "flex" },
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  mb: "5px",
-                }}
               >
-                <Box sx={{ display: "flex" }}>
-                  <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
-                    {user?.name} {user?.surname}
-                  </H6>
-                </Box>
+                <img
+                  src={MenuIcon}
+                  alt="Menu icon"
+                />
               </Box>
             </Box>
-          )}
+          </Box>
+
         </Box>
       </Box>
 
-      {/* spacer under fixed header for desktop/tablet */}
       <Box sx={{ height: HEADER_H + 32 }} />
 
-      {/* Main row: sticky sidebar + scrollable content under header */}
       <Box
         component="main"
         width="90%"
-        // maxWidth={1200}
         m="0 auto"
         sx={{
           display: "flex",
@@ -307,14 +277,12 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
 
         }}
       >
-        {/* desktop sticky sidebar */}
         <Box
           sx={{
             display: { xs: "none", sm: "block" },
             flex: `0 0 ${isCollapsed ? 88 : 280}px`,
             width: `${isCollapsed ? 88 : 280}px`,
             position: "sticky",
-            // top: `${HEADER_H + 16}px`,
             alignSelf: "flex-start",
             height: "82vh",
             overflowY: "auto",
@@ -350,7 +318,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           </Box>
         </Box>
 
-        {/* scrollable  content area */}
         <Box
           sx={{
             flex: 1,
