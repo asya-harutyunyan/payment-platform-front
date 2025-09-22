@@ -1,7 +1,7 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
-import { H4 } from "@/styles/typography";
+import { H4, P } from "@/styles/typography";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 import { ReactNode } from "react";
@@ -36,27 +36,21 @@ export const Paper = <T,>({
   return (
     <Box
       sx={{
-        padding: 3,
-        width: { lg: "100%", md: "100%", xs: "88%", sm: "88%" },
-        maxWidth: 800,
-        borderRadius: 2,
-        boxShadow: 3,
-        backgroundColor: "#f9f9f9",
         display: "flex",
         flexDirection: "column",
         gap: 2,
       }}
     >
-      <H4
+      <P
         sx={{
           fontWeight: 600,
-          color: "primary.main",
+          color: "#000",
           textAlign: "start",
-          marginBottom: 3,
+          marginBottom: "16px",
         }}
       >
         {title && t(title)}
-      </H4>
+      </P>
 
       {loading ? (
         <CircularIndeterminate />

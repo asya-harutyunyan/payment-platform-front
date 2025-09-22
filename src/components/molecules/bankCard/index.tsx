@@ -1,13 +1,15 @@
-import img from "@/assets/images/Card.png";
+import cardBg from "@/assets/images/Card.png";
+import blockedCardBg from "@/assets/images/blocked_card_bg.png";
+import Chip from "@/assets/images/chip.svg";
+
 import bg from "@/assets/images/modal.png";
 import { BankDetail } from "@/common/types/user";
 import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
 import { AddCardModal } from "@/components/organisms/add_card_modal";
+import { greenGradientBorder } from "@/constants";
 import { H3, H5, P } from "@/styles/typography";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from "@mui/icons-material/Edit";
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 import { Dispatch, FC, SetStateAction, useMemo } from "react";
 import { useBankCard } from "./_service/useBankCard";
@@ -41,7 +43,6 @@ const BankCard: FC<IBankCard> = ({
     onItemDelete,
     openDeleteModal,
     setOpenDeleteModal,
-    handleOpen,
     banks,
   } = useBankCard();
 
@@ -52,7 +53,11 @@ const BankCard: FC<IBankCard> = ({
   }, [bankName, banks]);
 
   return (
-    <Box component="form">
+    <Box
+      component="form"
+      position="relative"
+      sx={{ "&::before": greenGradientBorder }}
+    >
       <Box
         sx={{
           display: "flex",
@@ -66,7 +71,9 @@ const BankCard: FC<IBankCard> = ({
             height: { md: 160, xs: 160, sm: 160 },
             borderRadius: 2,
             backgroundImage:
-              bankDetailID && !isBlocked ? `url(${img})` : "none",
+              bankDetailID && !isBlocked
+                ? `url(${cardBg})`
+                : `url(${blockedCardBg})`,
             backgroundColor: isBlocked
               ? "#686868"
               : bankDetailID
@@ -91,70 +98,35 @@ const BankCard: FC<IBankCard> = ({
               alignItems: "center",
             }}
           >
-            <Tooltip title={bankNameFormatted}>
-              <H5
-                sx={{
-                  color: isBlocked ? "#b3b3b3" : "#ffffff",
-                  maxWidth: "100%",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap",
-                }}
-              >
-                {bankNameFormatted}
-              </H5>
-            </Tooltip>
-            {bankDetailID ? (
-              <Box sx={{ display: "flex" }}>
-                <Box onClick={() => !isBlocked && handleOpen()}>
-                  <EditIcon
-                    sx={{
-                      color: isBlocked ? "#b3b3b3" : "#ffffff",
-                      marginRight: "5px",
-                      fontSize: "27px",
-                      ":hover": {
-                        color: "#dad8d8",
-                      },
-                    }}
-                  />
-                </Box>
-                <Box onClick={() => !isBlocked && setOpenDeleteModal(true)}>
-                  <DeleteForeverIcon
-                    sx={{
-                      color: "#dc0e0e",
-                      fontSize: "27px",
-                      ":hover": {
-                        color: "#a01b1b",
-                      },
-                    }}
-                  />
-                </Box>
-              </Box>
-            ) : undefined}
-          </Box>
-
-          <Box display="flex" alignItems="center" gap={2}>
+            <H5
+              sx={{
+                color: isBlocked ? "#b3b3b3" : "#ffffff",
+                maxWidth: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                p: "0",
+              }}
+            >
+              {bankNameFormatted}
+            </H5>
             <Box
               sx={{
-                width: 30,
-                height: 18,
+                width: 40,
+                height: 27,
                 borderRadius: 1,
                 backgroundColor: "#D6D6D6",
               }}
-            ></Box>
-            <Typography
-              fontSize={"10px"}
-              variant="body2"
-              sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
             >
-              Secure Chip
-            </Typography>
+              <img src={Chip} alt="Chip" />
+            </Box>
           </Box>
 
           <Typography
             variant="h5"
             letterSpacing={2}
             fontSize={"16px"}
+            textAlign="center"
             sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
           >
             {cardNumber}
@@ -206,7 +178,8 @@ const BankCard: FC<IBankCard> = ({
               },
             }}
           >
-            Ваша карта заморожена системой, обратитесь в саппорт.
+            Ваша карта была заморожена системой. Пожалуйста, обратитесь в службу
+            поддержки.
           </P>
         ) : (
           ""
@@ -219,7 +192,6 @@ const BankCard: FC<IBankCard> = ({
         cardHolder={cardHolder}
         bankName={bankName}
         cardNumber={cardNumber}
-        // phoneNumber={phoneNumber}
         bankDetailID={bankDetailID}
         currency={currency}
         isEdit

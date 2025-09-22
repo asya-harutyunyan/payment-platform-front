@@ -1,55 +1,22 @@
-import AndroidImg from "@/assets/images/android.png";
+import PlusIcon from "@/assets/images/plus_icon.svg";
 import { formatCardNumber } from "@/common/utils";
-import Button from "@/components/atoms/button";
+import NewButton from "@/components/atoms/btn";
 import { MobileCards } from "@/components/atoms/swiper-slider";
-import { BankCardDetalis } from "@/components/molecules/add-card-form";
 import BankCard from "@/components/molecules/bankCard";
 import Carroussel from "@/components/molecules/carousel-3d";
-import { TabsComponent } from "@/components/molecules/tabs";
+import { greenGradientBorder } from "@/constants";
 import { useAuth } from "@/context/auth.context";
-import theme from "@/styles/theme";
-import { H2, P } from "@/styles/typography";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import { H1, H5, H6, P } from "@/styles/typography";
 import { Box } from "@mui/material";
-import { useLocation, useNavigate } from "@tanstack/react-router";
-import { t } from "i18next";
-import { FC, useMemo } from "react";
-import { tabNames } from "./__mocks_";
+import { useNavigate } from "@tanstack/react-router";
+import { FC, useMemo, useState } from "react";
+import { AddCardModal } from "../add_card_modal";
+import CardTable from "./components/cardsTable";
 
 export const BankInfoComponent: FC = () => {
   const { user } = useAuth();
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const downloadApk = async () => {
-    try {
-      fetch("/public/app-release.apk", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/pdf",
-        },
-      })
-        .then((response) => response.blob())
-        .then((blob) => {
-   
-          const url = window.URL.createObjectURL(blob);
-
-          const link = document.createElement("a");
-          link.href = url;
-          link.setAttribute("download", `app-release.apk`);
-
-      
-          document.body.appendChild(link);
-
-     
-          link.click();
-
-
-          link.parentNode?.removeChild(link);
-        });
-    } catch (error) {
-      console.error("Ошибка при скачивании:", error);
-    }
-  };
 
   const cards = useMemo(() => {
     const userCards = (user?.bank_details || []).map((card, index) => ({
@@ -71,223 +38,176 @@ export const BankInfoComponent: FC = () => {
         />
       ),
     }));
-
-    if (userCards.length > 3) {
-      return userCards;
-    }
-
-   
-    const defaultCards = Array.from({ length: 3 - userCards.length }).map(
-      (_, idx) => ({
-        key: userCards.length + idx, 
-        content: (
-          <BankCard
-            cardHolder={"Name Surname"}
-            cardNumber={formatCardNumber("1234 5678 1234 5678")}
-            bankName={"Bank"}
-            isBlocked={undefined}
-            textColor="#FFFFFF"
-            bankDetailID={0}
-            currency={""}
-            isBankDetailsLengthBigger={
-              user?.bank_details.length && user?.bank_details.length >= 3
-                ? true
-                : false
-            }
-          />
-        ),
-      })
-    );
-
-    return [...userCards, ...defaultCards];
+    return [...userCards];
   }, [user]);
 
-  const tabContent = useMemo(
-    () => [
-      {
-        id: 1,
-        component: (
-          <Box
-            sx={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                display: { lg: "block", md: "block", sx: "none", xs: "none" },
-              }}
-            >
-              <Carroussel
-                cards={cards}
-                height="500px"
-                width="100%"
-                margin="0 auto"
-                offset={2}
-                showArrows={false}
-              />
-            </Box>
-            <Box
-              sx={{
-                display: { lg: "none", md: "none", sx: "flex", xs: "flex" },
-                justifyContent: "center",
-                width: "100%",
-              }}
-            >
-              <MobileCards cards={user?.bank_details} />
-            </Box>
-          </Box>
-        ),
-      },
-      { id: 2, component: <BankCardDetalis /> },
-    ],
-    [cards, user?.bank_details]
-  );
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          width: "100%",
-        }}
-      >
+    <>
+      <Box>
         <Box
           sx={{
             width: "100%",
             display: "flex",
-            height: {
-              lg: "80vh",
-              md: "80vh",
-              xs: "max-content",
-              sm: "max-content",
-            },
-            justifyContent: {
-              lg: "space-between",
-              md: "space-between",
-              sx: "center",
-              xs: "center",
-            },
-            flexDirection: {
-              lg: "row",
-              md: "row",
-              sx: "column",
-              xs: "column",
-            },
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
-          <Box
-            sx={{
-              width: {
-                lg: "45%",
-                md: "45%",
-                sx: "100%",
-                xs: "100%",
-              },
-            }}
-          >
-            <H2 color="primary.main">
-              <AccountBalanceIcon
-                sx={{ paddingRight: "10px", width: "30px", height: "30px" }}
-              />
-              {t("bank_info")}
-            </H2>
-            <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
-              {t("name")} :{" "}
-              <span
-                style={{
-                  fontSize: "17px",
-                  color: theme.palette.tertiary.contrastText,
-                }}
+          {cards.length >= 3 ? (
+            <H5
+              fontStyle="italic"
+              fontWeight={400}
+              maxWidth={650}
+              textAlign="center"
+            >
+              Вы добавили все доступные карты. Для добавления новой удалите одну
+              из существующих.
+            </H5>
+          ) : (
+            <Box maxWidth={569} m="0 auto">
+              <H1
+                color="white"
+                mb={{ xs: "16px", sm: "24px" }}
+                fontSize={{ xs: "24px", sm: "40px" }}
+                textAlign="center"
               >
-                {user?.name}
-              </span>
-            </P>
-            <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
-              {t("surname")} :{" "}
-              <span
-                style={{
-                  fontSize: "17px",
-                  color: theme.palette.tertiary.contrastText,
-                }}
+                Добро пожаловать в{" "}
+                <span style={{ fontStyle: "italic" }}>PayHub</span>
+              </H1>
+              <P
+                textAlign="center"
+                fontSize={{ xs: "14px", sm: "16px" }}
+                color="white"
+                mb="25px"
               >
-                {user?.surname}
-              </span>
-            </P>
-            <P fontSize={"20px"} paddingTop={"10px"} paddingLeft={"10px"}>
-              {t("email")} :{" "}
-              <span
-                style={{
-                  fontSize: "17px",
-                  color: theme.palette.tertiary.contrastText,
-                }}
-              >
-                {user?.email}
-              </span>
-            </P>
-          </Box>
-          <Box
-            sx={{
-              width: { lg: "50%", md: "50%", sx: "100%", xs: "100%" },
-              marginBottom: {
-                lg: "200px",
-                md: "200px",
-                sx: "0",
-                xs: "0",
-              },
-            }}
-          >
-            <TabsComponent tabPanel={tabContent} tabNames={tabNames} />
-          </Box>
-        </Box>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "start",
-          width: "100%",
-        }}
-      >
-        {location.pathname === "/my-information" && (
-          <Box
-            sx={{
-              width: "40%",
-              height: "10%",
-              display: "flex",
-              justifyContent: "start",
-            }}
-          >
+                Приумножайте деньги с умом! В PayHub мы уверены: зарабатывать
+                можно легко, безопасно и выгодно.
+              </P>
+            </Box>
+          )}
+
+          {/* Cards */}
+          {cards.length <= 0 ? (
             <Box
               sx={{
+                width: {
+                  xs: "80%",
+                  lg: "437px",
+                },
                 display: "flex",
-                width: "max-content",
                 flexDirection: "column",
+                alignItems: "center",
+                p: "40px 20px",
+                position: "relative",
+                mx: "auto",
+                borderRadius: "14px",
+                background: `linear-gradient(135deg, #1e508e 0%, #1e508e 40%, #368593 100%)`,
+                "&::before": greenGradientBorder,
               }}
             >
-              <P sx={{ paddingRight: "10px", fontWeight: "bold" }}>
-                Скачать приложение
-              </P>
-
-              <Box sx={{ cursor: "pointer" }} onClick={downloadApk}>
-                <img
-                  src={AndroidImg}
-                  alt="android"
-                  style={{ width: "120px", borderRadius: "3px" }}
-                />
-              </Box>
+              <H6
+                width={{ xs: "100%", sm: 256 }}
+                textAlign="center"
+                fontSize={{ xs: "13px", sm: "16px" }}
+              >
+                Добавьте карту, на которую хотите получать деньги
+              </H6>
+              <NewButton
+                variant={"gradient"}
+                sx={{ width: { xs: "100%", sm: "256px" } }}
+                text={"Добавить карту"}
+                icon={PlusIcon}
+                onClick={() => setOpen(true)}
+              />
             </Box>
-          </Box>
-        )}
-        <Button
-          variant={"gradient"}
-          sx={{ width: "230px", margin: "20px 0" }}
-          text={"Начать Зарабатывать"}
-          onClick={() => {
-            navigate({ to: "/steps" });
-          }}
-        />
+          ) : (
+            <>
+              {cards.length < 3 && (
+                <Box
+                  display="flex"
+                  justifyContent="center"
+                  width="100%"
+                  maxWidth={{ xs: "100%", lg: "50%" }}
+                  gap="10px"
+                  margin="10px auto"
+                >
+                  <Box flex={1}>
+                    <NewButton
+                      text="Начать Сейчас"
+                      variant="outlinedBlue"
+                      onClick={() => {
+                        navigate({ to: "/steps" });
+                      }}
+                      sx={{
+                        width: "100%",
+                        height: "46px",
+                        padding: "13px 16px",
+                      }}
+                    />
+                  </Box>
+                  <Box flex={1}>
+                    <NewButton
+                      variant={"gradient"}
+                      sx={{
+                        width: "100%",
+                        height: "46px",
+                      }}
+                      text={"Добавить карту"}
+                      icon={PlusIcon}
+                      onClick={() => setOpen(true)}
+                    />
+                  </Box>
+                </Box>
+              )}
+
+              <Box
+                mt={{ xs: "22px", sm: "50px" }}
+                sx={{
+                  width: { xs: "100%", md: "60%" },
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: { xs: "none", md: "block" },
+                    }}
+                  >
+                    <Carroussel
+                      cards={cards}
+                      height="204px"
+                      width="100%"
+                      margin="0 auto"
+                      offset={2}
+                    />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: {
+                        lg: "none",
+                        md: "none",
+                        sx: "flex",
+                        xs: "flex",
+                      },
+                      justifyContent: "center",
+                      width: "100%",
+                    }}
+                  >
+                    <MobileCards cards={user?.bank_details} />
+                  </Box>
+                </Box>
+              </Box>
+            </>
+          )}
+        </Box>
+        <CardTable cards={user?.bank_details} />
       </Box>
-    </Box>
+      <AddCardModal open={open} setOpen={setOpen} />
+    </>
   );
 };

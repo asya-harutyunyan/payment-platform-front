@@ -1,11 +1,9 @@
-import Button from "@/components/atoms/button";
 import { BasicModal } from "@/components/atoms/modal";
 import { PersonRemove } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import React, { useState } from "react";
 
-import bg from "@/assets/images/modal.png";
 import NewButton from "@/components/atoms/btn";
 import { useAuth } from "@/context/auth.context";
 import { useAppDispatch } from "@/store";
@@ -22,7 +20,7 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { setUser, logout } = useAuth();
+  const { logout } = useAuth();
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   return (
@@ -44,62 +42,47 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }
         icon={PersonRemove}
         text={!isCollapsed ? t("delete_account") : ""}
       />
+
       <BasicModal
         handleClose={() => setIsModalOpened(false)}
         open={isModalOpened}
-        bg={bg}
-        width="50%"
+        width={{ xs: "80%", sm: "40%", md: "30%" }}
       >
         <H3
           align="center"
-          sx={{
-            fontSize: {
-              lg: "1.5rem",
-              md: "1.5rem",
-              xs: "1.1rem",
-              sm: "1.1rem",
-            },
-          }}
+          color="#000"
+          fontSize="24px"
         >
           {t("delete_account_description")}
         </H3>
         <Box
           sx={{
             display: "flex",
-            gap: 4,
-            width: {
-              lg: "30%",
-              md: "30%",
-              xs: "100%",
-              sm: "100%",
-            },
+            gap: "24px",
+            width: "100%",
+            maxWidth: "390px",
             justifyContent: "space-between",
+            alignItems: "center",
             flexDirection: {
-              lg: "row",
-              md: "row",
               xs: "column",
-              sm: "column",
+              md: "row",
             },
             marginTop: "30px",
           }}
         >
-          <Button
-            variant={"outlinedWhite"}
+          <NewButton
             text={t("no")}
             onClick={() => setIsModalOpened(false)}
             sx={{
-              marginBottom: {
-                lg: "0",
-                md: "0",
-                xs: "10px",
-                sm: "10px",
-              },
+              width: "90%",
+              border: "1px solid #23c6cb",
+              background: "transparent"
             }}
           />
-
-          <Button
-            variant={"text"}
+          <NewButton
+            variant={"gradient"}
             text={t("yes")}
+            sx={{ width: "90%" }}
             onClick={async () => {
               try {
                 await dispatch(deleteUserThunk()).unwrap();
@@ -111,7 +94,8 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }
             }}
           />
         </Box>
-      </BasicModal>
+      </BasicModal >
+
     </>
   );
 };

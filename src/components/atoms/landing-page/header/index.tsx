@@ -218,12 +218,15 @@ export const ResponsiveAppBar = () => {
             glow
             sx={{
               minWidth: "160px",
-              display: { xs: "none", md: "block" },
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
             }}
           />
         </Toolbar>
-      </Box >
-    </AppBar >
+      </Box>
+    </AppBar>
   );
 };
 export default ResponsiveAppBar;
