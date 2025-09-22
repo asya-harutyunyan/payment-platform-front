@@ -219,6 +219,7 @@ export interface DataDeposits {
   status: string;
   user: User;
   blocked_card: string;
+  transaction_id?: number;
 }
 //TODO:must be change
 export interface Deposits {

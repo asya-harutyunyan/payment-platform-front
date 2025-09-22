@@ -1,6 +1,5 @@
 import ArrowLeftIcon from "@/assets/images/deposit_left_arrow.svg";
 import { CircularIndeterminate } from "@/components/atoms/loader";
-
 import { H4 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
@@ -15,10 +14,9 @@ export const DepositInfoUser: FC = () => {
     <Box
       sx={{
         backgroundColor: "#EAEAEA",
-        width: "90%",
-        p: "20px",
+        width: "95%",
         borderRadius: "16px",
-        ml: "20px",
+        ml: { xs: "0", lg: "20px" },
       }}
     >
       <Box
@@ -26,11 +24,18 @@ export const DepositInfoUser: FC = () => {
           display: "flex",
           alignItems: "center",
           gap: "24px",
+          p: "20px",
+          borderBottom: "1px solid #6cadfc",
         }}
       >
         {" "}
         {canGoBack && (
-          <Box onClick={() => router.history.back()} width={42} height={42}>
+          <Box
+            onClick={() => router.history.back()}
+            width={42}
+            height={42}
+            sx={{ cursor: "pointer" }}
+          >
             <img src={ArrowLeftIcon} alt="Back" />
           </Box>
         )}

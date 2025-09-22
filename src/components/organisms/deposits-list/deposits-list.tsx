@@ -1,11 +1,9 @@
 import bg from "@/assets/images/modal.png";
-import { CircularIndeterminate } from "@/components/atoms/loader";
-import { PaginationOutlined } from "@/components/atoms/pagination";
-
 import Button from "@/components/atoms/button";
+import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
+import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
-import TaskHeader from "@/components/molecules/title";
 import {
   confirmDepositAdminThunk,
   getDepositsThunk,
@@ -62,14 +60,12 @@ export const DepositLists: FC = () => {
   };
   return (
     <Box>
-      <TaskHeader title={t("deposit_lists")} />
       {loading ? (
         <CircularIndeterminate />
       ) : (
         <Box
           sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-
+            width: { xs: "350px", md: "95%" },
           }}
         >
           <DynamicTable

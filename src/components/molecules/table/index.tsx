@@ -69,90 +69,106 @@ function DynamicTable<
 }: TableProps<T>) {
   return (
     <>
-      <TableContainer component={Paper}>
+      <TableContainer
+        component={Paper}
+        sx={{
+          borderRadius: 2,
+          px: 2,
+          pb: 2,
+          backgroundColor: "#fff",
+        }}
+      >
         <Table
+          size="small"
           sx={{
-            overflow: "auto",
+            borderCollapse: "separate",
+            borderSpacing: "0 8px",
+            width: "100%",
           }}
         >
-          <TableHead
-            sx={{
-              width: "100%",
-            }}
-          >
+          <TableHead>
             <TableRow
               sx={{
-                borderBottom: "3px solid #041F44",
+                borderBottom: "1px solid #304564",
               }}
             >
               {columns?.map((column, index) => (
-                <>
-                  <TableCell
+                <TableCell
+                  key={index}
+                  padding="none"
+                  sx={{
+                    px: 1.5,
+                    py: 1,
+                    verticalAlign: "top",
+                  }}
+                >
+                  <P
                     sx={{
-                      width: "100%",
-                      minHeight: "100px",
-                      verticalAlign: "top",
+                      fontWeight: "600",
+                      fontSize: "13.14px",
+                      color: "primary.main",
                     }}
-                    key={index}
                   >
-                    <P
-                      sx={{
-                        fontWeight: "bold",
-                        color: "primary.main",
-                      }}
-                    >
-                      {typeof column.column === "string" &&
-                        t(column.column as string)}
-                    </P>
-                    <Box key={index}>
-                      {column.filters ? column.filters() : ""}
-                      {column.column &&
-                        typeof column.column === "function" &&
-                        column.column()}
-                    </Box>
-                  </TableCell>
-                </>
+                    {typeof column.column === "string" &&
+                      t(column.column as string)}
+                  </P>
+                  <Box>
+                    {column.filters ? column.filters() : ""}
+                    {column.column &&
+                      typeof column.column === "function" &&
+                      column.column()}
+                  </Box>
+                </TableCell>
               ))}
-
               {renderSortComponent}
             </TableRow>
             <TableRow
               sx={{
-                borderBottom: "3px solid #041F44",
+                borderBottom: "1px solid #304564",
               }}
             >
               {renderBottomComponent?.()}
             </TableRow>
           </TableHead>
-          <TableBody
-            sx={{
-              td: {
-                padding: "0 10px",
-                width: "150px",
-              },
-            }}
-          >
+
+          <TableBody>
             {data?.map((row, rowIndex) => (
               <TableRow
                 key={rowIndex}
                 sx={{
-                  height: "60px",
+                  backgroundColor: "#EAEAEA",
+                  "& td": {
+                    border: 0,
+                  },
+                  cursor: "pointer",
                   "&:hover": {
                     backgroundColor: "#e0e0e0",
                   },
-                  cursor: "pointer",
                 }}
               >
                 {columns?.map((column, colIndex) => (
                   <TableCell
                     key={colIndex}
+                    padding="none"
                     sx={{
-                      minWidth: "150px",
-                      fontSize: "15px",
+                      px: 1.5,
+                      py: 1,
+                      minWidth: 110,
+                      fontSize: "13px",
                       textOverflow: "ellipsis",
                       overflow: "hidden",
                       whiteSpace: "nowrap",
                       color: "#7d7d7d",
+
+                      ...(colIndex === 0 && {
+                        borderTopLeftRadius: "10px",
+                        borderBottomLeftRadius: "10px",
+                      }),
+                      ...(colIndex === columns.length - 1 && {
+                        borderTopRightRadius: "10px",
+                        borderBottomRightRadius: "10px",
+                      }),
+                      backgroundColor: "#EAEAEA",
                     }}
                   >
                     <span
@@ -179,27 +195,16 @@ function DynamicTable<
                             ] ?? ""
                           }`
                         : ""}
-
                       {column.currencyManual ? column.currencyManual : ""}
                       {column.renderComponent && column.renderComponent(row)}
                     </span>
                   </TableCell>
                 ))}
-
-                {}
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "20px",
-        }}
-      ></Box>
     </>
   );
 }

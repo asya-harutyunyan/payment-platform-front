@@ -143,14 +143,14 @@ export const SelectField = <T extends FieldValues>({
           ...(lightGreyVariant
             ? {}
             : {
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: error
-                  ? `${theme.palette.error.main}!important`
-                  : whiteVariant
-                    ? `${theme.palette.tertiary.main}!important`
-                    : `${theme.palette.primary.main}!important`,
-              },
-            }),
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: error
+                    ? `${theme.palette.error.main}!important`
+                    : whiteVariant
+                      ? `${theme.palette.tertiary.main}!important`
+                      : `${theme.palette.primary.main}!important`,
+                },
+              }),
           ...style,
         }}
       >
