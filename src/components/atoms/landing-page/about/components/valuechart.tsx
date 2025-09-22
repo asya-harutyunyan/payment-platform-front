@@ -1,5 +1,5 @@
 import { Colors, greenGradientBorder } from '@/constants';
-import { RangeKey, useShowUSDValue } from '@/hooks/useshowUsdValue';
+import { RangeKey, useShowUSDValue } from '@/hooks/useShowUSDValue';
 import { H6 } from '@/styles/typography';
 import { Box } from '@mui/material';
 import { useState } from 'react';

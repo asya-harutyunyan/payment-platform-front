@@ -25,7 +25,6 @@ export const Colors = {
            inset 0px 7px 11px -4px rgba(255, 255, 255, 1),
            inset 0px 39px 56px -36px rgba(255, 255, 255, 0.5)
            `
-		//    blueGradient:
 };
 
 export const greenGradientBorder = {

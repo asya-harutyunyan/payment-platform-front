@@ -44,7 +44,11 @@ export const DepositInfo: FC = () => {
         )}
         <TaskHeader
           title={t("deposit_information")}
-          sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "3px",
+          }}
         />
       </Box>
       {!singleDeposit ? (

@@ -1,7 +1,7 @@
-import Button from "@/components/atoms/button";
+import ArrowLeftIcon from "@/assets/images/deposit_left_arrow.svg";
 import { CircularIndeterminate } from "@/components/atoms/loader";
-import TaskHeader from "@/components/molecules/title";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+
+import { H4 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
@@ -12,22 +12,36 @@ import { fields } from "./columns";
 export const DepositInfoUser: FC = () => {
   const { singleDeposit, loading, router, canGoBack } = useDepositInfo();
   return (
-    <Box>
-      <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
+    <Box
+      sx={{
+        backgroundColor: "#EAEAEA",
+        width: "90%",
+        p: "20px",
+        borderRadius: "16px",
+        ml: "20px",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "24px",
+        }}
+      >
         {" "}
         {canGoBack && (
-          <Button
-            onClick={() => router.history.back()}
-            variant={"outlined"}
-            text={t("back")}
-            sx={{ height: "30px", fontSize: "15px", color: "primary.main" }}
-            icon={ArrowLeftIcon}
-          />
+          <Box onClick={() => router.history.back()} width={42} height={42}>
+            <img src={ArrowLeftIcon} alt="Back" />
+          </Box>
         )}
-        <TaskHeader
-          title={t("deposit_information")}
-          sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
-        />
+        <H4
+          fontWeight={600}
+          fontSize={{ xs: "18px", sm: "24px" }}
+          p="0"
+          color="#000"
+        >
+          {t("deposit_information")}
+        </H4>
       </Box>
       {!singleDeposit ? (
         <CircularIndeterminate />

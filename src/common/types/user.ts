@@ -43,4 +43,5 @@ export interface BankDetail {
   created_at: string;
   updated_at: string;
   currency: string;
+  status: string;
 }

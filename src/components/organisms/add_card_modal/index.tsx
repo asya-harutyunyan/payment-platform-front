@@ -361,7 +361,6 @@ export const AddCardModal: FC<IStepTwo> = ({
   });
 
   return (
-
     <BasicModal handleClose={handleClose} open={open} width={{ xs: "80%", sm: "30%" }}
       sx={{ p: { xs: 2, sm: 4 }, maxWidth: "100%" }} >
       <Box
