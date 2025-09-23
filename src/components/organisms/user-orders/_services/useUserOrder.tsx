@@ -5,6 +5,7 @@ import { useAuth } from "@/context/auth.context";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { useAppDispatch, useAppSelector } from "@/store";
 
+import NewButton from "@/components/atoms/btn";
 import { Order } from "@/store/reducers/user-info/depositSlice/types";
 import {
   confirmOrderByClientThunk,
@@ -145,8 +146,8 @@ const useUserOrder = () => {
       {
         column: "key",
         renderComponent: (row: Order) => (
-          <Button
-            variant="outlined"
+          <NewButton
+            variant="gradient"
             text={t("see_more")}
             sx={{ width: "130px" }}
             onClick={() => handleSingleOrder(row.id)}

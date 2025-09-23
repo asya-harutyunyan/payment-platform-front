@@ -1,5 +1,6 @@
+import IconDone from "@/assets/images/done.svg";
+import NewButton from "@/components/atoms/btn";
 import Button from "@/components/atoms/button";
-
 import { FormTextInput } from "@/components/atoms/input";
 import { MonthPicker } from "@/components/atoms/month-picker";
 import { SelectFieldWith } from "@/components/atoms/select";
@@ -527,6 +528,21 @@ const useDepositInfo = () => {
         valueKey: "amount",
       },
       {
+        column: "id",
+        renderComponent: (row: DataDeposits) => {
+          return (
+            <span
+              style={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              {row.transaction_id ? `#${row.transaction_id} ` : "-"}
+            </span>
+          );
+        },
+      },
+      {
         column: "status_by_user_row",
         renderComponent: (row: DataDeposits) => {
           return (
@@ -570,7 +586,9 @@ const useDepositInfo = () => {
       {
         column: () => (
           <Box>
-            <P fontWeight={"bold"}>{t("sort_by_created_at")}</P>
+            <P fontWeight={"600"} fontSize="13.14px">
+              {t("sort_by_created_at")}
+            </P>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 {" "}
@@ -595,22 +613,31 @@ const useDepositInfo = () => {
         ),
         renderComponent: (row: DataDeposits) => {
           return (
-            <Button
-              variant={"outlined"}
-              text={t("see_more")}
-              sx={{ width: "130px" }}
-              onClick={() => handleSingleOrder?.(row.id)}
-            />
+            <>
+              <NewButton
+                variant={"gradient"}
+                text={t("see_more")}
+                sx={{ width: "140px" }}
+                onClick={() => handleSingleOrder?.(row.id)}
+              />
+
+              {row.processing_amount === "0.00" &&
+              row?.status_by_admin !== "expired" ? (
+                <Box display="flex" alignItems="center" gap="5px" ml="24px">
+                  <P fontSize="13px" color="#0DC98D" fontWeight={500}>
+                    Done
+                  </P>
+                  <Box order={{ xs: 1, lg: 2 }}>
+                    <img
+                      src={IconDone}
+                      alt="Phone"
+                      style={{ maxWidth: "350px", marginBottom: "-3px" }}
+                    />
+                  </Box>
+                </Box>
+              ) : null}
+            </>
           );
-        },
-      },
-      {
-        column: "key",
-        renderComponent: (row: DataDeposits) => {
-          return row.processing_amount === "0.00" &&
-            row?.status_by_admin !== "expired" ? (
-            <DoneIcon sx={{ color: "green" }} />
-          ) : null;
         },
       },
     ],

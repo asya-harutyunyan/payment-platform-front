@@ -95,23 +95,24 @@ export const MonthPicker = ({
                     popper: {
                       sx: {
                         "& .MuiPaper-root": {
-                          color: "primary.main",
-                          backgroundColor: "white",
+                          background:
+                            "linear-gradient(180deg, #6BADFC 0%, #041F44 100%)",
+                          color: "white",
                         },
                         "& .MuiPickersCalendarHeader-label": {
-                          color: "primary.main",
+                          color: "white",
                         },
                         "& .MuiIconButton-root": {
-                          color: "primary.main",
+                          color: "white",
                         },
                         "& .MuiButtonBase-root": {
-                          color: "primary.main",
+                          color: "white",
                         },
                         "& .MuiPickersYear-yearButton": {
-                          color: "primary.main",
+                          color: "white",
                         },
                         "& .MuiPickersMonth-monthButton": {
-                          color: "primary.main",
+                          color: "white",
                         },
                       },
                     },

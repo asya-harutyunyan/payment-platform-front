@@ -1,9 +1,8 @@
-import Button from "@/components/atoms/button";
+import ArrowLeftIcon from "@/assets/images/deposit_left_arrow.svg";
 import { CircularIndeterminate } from "@/components/atoms/loader";
-import TaskHeader from "@/components/molecules/title";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { getSingleOrderThunk } from "@/store/reducers/user-info/orderSlice/thunks";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import { H4 } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { useCanGoBack, useParams, useRouter } from "@tanstack/react-router";
 import { t } from "i18next";
@@ -23,22 +22,42 @@ export const OrderInfoUser: FC = () => {
   }, [dispatch, id]);
 
   return (
-    <Box>
-      <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
+    <Box
+      sx={{
+        backgroundColor: "#EAEAEA",
+        width: "95%",
+        borderRadius: "16px",
+        ml: { xs: "0", lg: "20px" },
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: "24px",
+          p: "20px",
+          borderBottom: "1px solid #6cadfc",
+        }}
+      >
         {" "}
         {canGoBack && (
-          <Button
+          <Box
             onClick={() => router.history.back()}
-            variant={"outlined"}
-            text={t("back")}
-            sx={{ height: "30px", fontSize: "15px", color: "primary.main" }}
-            icon={ArrowLeftIcon}
-          />
+            width={42}
+            height={42}
+            sx={{ cursor: "pointer" }}
+          >
+            <img src={ArrowLeftIcon} alt="Back" />
+          </Box>
         )}
-        <TaskHeader
-          title={t("orders_information")}
-          sx={{ display: "flex", alignItems: "center", marginBottom: "3px" }}
-        />
+        <H4
+          fontWeight={600}
+          fontSize={{ xs: "18px", sm: "24px" }}
+          p="0"
+          color="#000"
+        >
+          {t("orders_information")}
+        </H4>
       </Box>
       {!singleOrder ? (
         <CircularIndeterminate />

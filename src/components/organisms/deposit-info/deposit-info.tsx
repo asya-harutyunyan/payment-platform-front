@@ -31,7 +31,14 @@ export const DepositInfo: FC = () => {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "70px",
+  
+        }}
+      >
         {" "}
         {canGoBack && (
           <Button

@@ -1,7 +1,7 @@
 import { CircularIndeterminate } from "@/components/atoms/loader";
 import { getStatusColor } from "@/components/utils/status-color";
 import { CURRENCY } from "@/enum/currencies.enum";
-import { H4, P } from "@/styles/typography";
+import { P } from "@/styles/typography";
 import { Box, Typography } from "@mui/material";
 import { t } from "i18next";
 import { ReactNode } from "react";
@@ -25,20 +25,14 @@ interface PaperProps<T> {
   secondSectionWidth?: string;
 }
 
-export const Paper = <T,>({
-  data,
-  fields,
-  title,
-  loading,
-  firstSectionWidth,
-  secondSectionWidth,
-}: PaperProps<T>) => {
+export const Paper = <T,>({ data, fields, title, loading }: PaperProps<T>) => {
   return (
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         gap: 2,
+        p: { xs: "16px", lg: "24px 0 24px 86px" },
       }}
     >
       <P
@@ -46,7 +40,6 @@ export const Paper = <T,>({
           fontWeight: 600,
           color: "#000",
           textAlign: "start",
-          marginBottom: "16px",
         }}
       >
         {title && t(title)}
@@ -61,29 +54,34 @@ export const Paper = <T,>({
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: "100%",
             }}
           >
             {field.label && (
-              <H4
+              <P
                 sx={{
                   fontWeight: 600,
-                  color: "primary.main",
+                  color: "#000",
                   textAlign: "start",
-                  marginBottom: 3,
+                  mb: "16px",
                 }}
               >
                 {t(field.label)}
-              </H4>
+              </P>
             )}
             <Box
               sx={{
+                width: { xs: "90%", lg: "60%" },
+                backgroundColor: "#e3e3e3",
+                borderBottom: "1px solid #C4C4C4",
+                borderRadius: "35px",
+                p: "10px 18px",
                 display: "flex",
-                alignItems: "center",
+                flexDirection: { xs: "column", lg: "row" },
+                justifyContent: "space-between",
               }}
             >
-              <Box sx={{ width: firstSectionWidth ?? "50%" }}>
-                <Typography sx={{ fontWeight: 500 }}>
+              <Box>
+                <Typography sx={{ fontWeight: 500, fontStyle: "italic" }}>
                   {t(field?.column ?? "")}
                 </Typography>
                 <Typography sx={{ fontWeight: 500 }}>
@@ -92,7 +90,7 @@ export const Paper = <T,>({
                     field.renderOptionalComponent(data)}
                 </Typography>
               </Box>
-              <Box sx={{ width: secondSectionWidth ?? "50%" }}>
+              <Box>
                 <Typography
                   sx={{
                     color: "primary.main",

@@ -5,7 +5,6 @@ import { CircularIndeterminate } from "@/components/atoms/loader";
 import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
-import TaskHeader from "@/components/molecules/title";
 import { DEPOSIT_STATUSES } from "@/enum/deposit.status.enum";
 import { H3, P } from "@/styles/typography";
 import { Box, Tab, Tabs } from "@mui/material";
@@ -32,51 +31,62 @@ export const UserOrdersComponent: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("orders")} />
       <Box
         sx={{
-          width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
+          width: {
+            xs: "350px",
+            md: "100%",
+          },
         }}
       >
-        <Tabs
-          value={filter}
-          onChange={handleFilterChange}
-          sx={{
-            color: "black",
-            backgroundColor: "#f6f6f6",
-            ".MuiTabs-list": {
-              overflowX: "auto",
-            },
-          }}
-        >
-          <Tab
-            label="Все"
-            value={DEPOSIT_STATUSES.ALL}
-            sx={{ color: "black" }}
-          />
-          <Tab
-            label="Неподтвержденные"
-            value={DEPOSIT_STATUSES.PENDING}
-            sx={{ color: "black" }}
-          />
-          <Tab
-            label="Успешные"
-            value={DEPOSIT_STATUSES.DONE}
-            sx={{ color: "black" }}
-          />
-          <Tab
-            label="Просроченные"
-            value={DEPOSIT_STATUSES.EXPRIED}
-            sx={{ color: "black" }}
-          />
-        </Tabs>
+        <Box sx={{ borderBottom: 1, borderColor: "#ccc", mb: "40px" }}>
+          <Tabs
+            value={filter}
+            onChange={handleFilterChange}
+            sx={{
+              ".MuiTabs-list": {
+                overflowX: "auto",
+              },
+              "& .MuiTab-root": {
+                textTransform: "none",
+                fontWeight: 600,
+                fontFamily: "Poppins, sans-serif",
+                fontSize: "16px",
+                color: "white",
+                minHeight: "48px",
+                borderRadius: "8px 8px 0 0",
+                marginRight: "8px",
+              },
+              "& .Mui-selected": {
+                color: "#fff !important",
+              },
+              "& .MuiTabs-indicator": {
+                backgroundColor: "#6BADFC",
+                height: "5px",
+                borderRadius: "3px",
+                mb: "-3px",
+              },
+            }}
+          >
+            <Tab label="Все" value={DEPOSIT_STATUSES.ALL} />
+            <Tab label="Неподтвержденные" value={DEPOSIT_STATUSES.PENDING} />
+            <Tab label="Успешные" value={DEPOSIT_STATUSES.DONE} />
+            <Tab label="Просроченные" value={DEPOSIT_STATUSES.EXPRIED} />
+          </Tabs>
+        </Box>
+
         {loading ? (
           <CircularIndeterminate />
         ) : ordersUser.length > 0 ? (
           <Box
             sx={{
-              width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-              height: "100vh",
+              width: "100%",
+              height: "75vh",
+              overflowY: "auto",
+              overflowX: { xs: "auto", lg: "hidden" },
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
             }}
           >
             <DynamicTable columns={columns} data={ordersUser} />
@@ -86,6 +96,7 @@ export const UserOrdersComponent: FC = () => {
                 display: "flex",
                 justifyContent: "center",
                 width: "100%",
+                mt: "24px",
               }}
             >
               {" "}
@@ -114,10 +125,8 @@ export const UserOrdersComponent: FC = () => {
           align="center"
           sx={{
             fontSize: {
-              lg: "1.5rem",
-              md: "1.5rem",
               xs: "1.1rem",
-              sm: "1.1rem",
+              md: "1.5rem",
             },
           }}
         >
@@ -169,10 +178,8 @@ export const UserOrdersComponent: FC = () => {
           align="center"
           sx={{
             fontSize: {
-              lg: "1.5rem",
-              md: "1.5rem",
               xs: "1.1rem",
-              sm: "1.1rem",
+              md: "1.5rem",
             },
           }}
         >
