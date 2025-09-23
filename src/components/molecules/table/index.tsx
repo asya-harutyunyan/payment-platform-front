@@ -79,19 +79,14 @@ function DynamicTable<
         }}
       >
         <Table
-          size="small"
           sx={{
             borderCollapse: "separate",
             borderSpacing: "0 8px",
-            width: "100%",
+            width: "97%",
           }}
         >
           <TableHead>
-            <TableRow
-              sx={{
-                borderBottom: "1px solid #304564",
-              }}
-            >
+            <TableRow>
               {columns?.map((column, index) => (
                 <TableCell
                   key={index}
@@ -100,6 +95,7 @@ function DynamicTable<
                     px: 1.5,
                     py: 1,
                     verticalAlign: "top",
+                    borderBottom: data?.length ? "1px solid #062247" : "none",
                   }}
                 >
                   <P
@@ -122,13 +118,7 @@ function DynamicTable<
               ))}
               {renderSortComponent}
             </TableRow>
-            <TableRow
-              sx={{
-                borderBottom: "1px solid #304564",
-              }}
-            >
-              {renderBottomComponent?.()}
-            </TableRow>
+            <TableRow>{renderBottomComponent?.()}</TableRow>
           </TableHead>
 
           <TableBody>

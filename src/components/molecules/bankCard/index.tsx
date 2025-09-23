@@ -67,8 +67,8 @@ const BankCard: FC<IBankCard> = ({
       >
         <Box
           sx={{
-            width: { md: 300, xs: 250, sm: 250 },
-            height: { md: 160, xs: 160, sm: 160 },
+            width: { xs: 280, sm: 300 },
+            height: 160,
             borderRadius: 2,
             backgroundImage:
               bankDetailID && !isBlocked
@@ -123,11 +123,12 @@ const BankCard: FC<IBankCard> = ({
           </Box>
 
           <Typography
-            variant="h5"
+            variant="h4"
             letterSpacing={2}
             fontSize={"16px"}
             textAlign="center"
             sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+            fontFamily={"'DigitalNumbers', Arial, sans-serif"}
           >
             {cardNumber}
           </Typography>
@@ -143,6 +144,7 @@ const BankCard: FC<IBankCard> = ({
                 display="block"
                 fontSize={"11px"}
                 sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
+                mb="6px"
               >
                 Card Holder
               </Typography>
@@ -150,6 +152,7 @@ const BankCard: FC<IBankCard> = ({
                 variant="body1"
                 fontSize={"14px"}
                 sx={{ color: isBlocked ? "#b3b3b3" : "primary.contrastText" }}
+                fontFamily={"'DigitalNumbers', Arial, sans-serif"}
               >
                 {cardHolder}
               </Typography>

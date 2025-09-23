@@ -1,5 +1,5 @@
-import SadFolderIcon from "@/assets/svg/empty";
-import Button from "@/components/atoms/button";
+import EmptyData from "@/assets/images/empty_data.svg";
+import NewButton from "@/components/atoms/btn";
 import { useAuth } from "@/context/auth.context";
 import { H4, P } from "@/styles/typography";
 import { Box, Divider } from "@mui/material";
@@ -28,6 +28,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
         mineight: "40vh",
         display: "flex",
         justifyContent: "center",
+        mt: "30px",
       }}
     >
       <Divider />
@@ -41,24 +42,33 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
           height: "100%",
         }}
       >
-        <SadFolderIcon width={300} height={200} />
+        <Box width="100px" height="100px">
+          <img src={EmptyData} alt="Empty icon" width="100%" height="100%" />
+        </Box>
         <H4
-          color="primary.main"
-          sx={{ textDecoration: "underline" }}
-          paddingBottom={"50px"}
+          color="white"
+          paddingBottom={"20px"}
           align="center"
+          fontWeight={400}
+          maxWidth={800}
         >
           {t(text)}
         </H4>
         {isButtonNeeded && textBtn && user?.role === "client" && (
-          <Button
-            variant={"contained"}
+          <NewButton
+            variant={"gradient"}
             text={t(textBtn)}
             onClick={handleClick}
           />
         )}
         {isTextNeeded && (
-          <P align="justify" paddingTop={"30px"} fontSize={"15px"}>
+          <P
+            align="justify"
+            paddingTop={"10px"}
+            fontSize={"15px"}
+            color="white"
+            maxWidth={800}
+          >
             {t(isTextNeeded)}
           </P>
         )}

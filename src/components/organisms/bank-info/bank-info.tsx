@@ -205,7 +205,7 @@ export const BankInfoComponent: FC = () => {
             </>
           )}
         </Box>
-        <CardTable cards={user?.bank_details} />
+        {cards.length > 1 && <CardTable cards={user?.bank_details} />}
       </Box>
       <AddCardModal open={open} setOpen={setOpen} />
     </>

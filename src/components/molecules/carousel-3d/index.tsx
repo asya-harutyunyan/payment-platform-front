@@ -47,13 +47,13 @@ const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
   console.log(cards, "==");
 
   return (
-    <div
-      style={{
+    <Box
+      sx={{
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
         margin: props.margin,
-        gap: "40px",
+        gap: "30px",
       }}
     >
       <Box
@@ -88,7 +88,7 @@ const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
       >
         <img src={RightArrow} alt="Left arrow " />
       </Box>
-    </div>
+    </Box>
   );
 };
 

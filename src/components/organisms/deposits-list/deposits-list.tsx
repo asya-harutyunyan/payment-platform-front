@@ -58,22 +58,35 @@ export const DepositLists: FC = () => {
         });
     }
   };
+
   return (
-    <Box>
+    <Box pb="90px">
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { xs: "350px", md: "95%" },
-          }}
-        >
-          <DynamicTable
-            columns={user?.role === "client" ? columnsUser : columns}
-            data={user?.role === "client" ? deposits : depositsAdmin}
-          />
+        <Box>
           <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            height={loading || pagination.total === 0 ? "auto" : "75vh"}
+            sx={{
+              overflowY: "auto",
+              overflowX: { xs: "auto", lg: "hidden" },
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
+            <DynamicTable
+              columns={user?.role === "client" ? columnsUser : columns}
+              data={user?.role === "client" ? deposits : depositsAdmin}
+            />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
           >
             {pagination.total > 0 || paginationAdminPage.total > 0 ? (
               <PaginationOutlined
@@ -93,7 +106,7 @@ export const DepositLists: FC = () => {
           </Box>
         </Box>
       )}
-      {pagination.total === 0 && user && user.role === "client" && (
+      {pagination.total === 0 && user && user.role === "client" && !loading && (
         <EmptyComponent
           text={"empty_deposit"}
           isButtonNeeded

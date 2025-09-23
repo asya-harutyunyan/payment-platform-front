@@ -39,19 +39,21 @@ export const PaginationOutlined: FC<IPaginationOutlined> = ({
         page={page}
         color="secondary"
         sx={{
-          "& .MuiPaginationItem-root:not(.Mui-selected)": {
-            color: theme.palette.tertiary.contrastText,
-            borderColor: "gray",
+          "& .MuiPaginationItem-root": {
+            color: "white",
+            borderColor: "white",
           },
           "& .MuiPaginationItem-root.Mui-selected": {
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.common.white,
+            borderColor: theme.palette.secondary.main,
             "&:hover": {
               backgroundColor: theme.palette.secondary.dark,
             },
           },
-          "& .MuiPaginationItem-previousNext": {
-            color: theme.palette.primary.main,
+          "& .MuiPaginationItem-root.MuiPaginationItem-previousNext": {
+            color: "white",
+            borderColor: "white",
           },
         }}
       />
