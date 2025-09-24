@@ -83,6 +83,10 @@ const useOrdersHistory = () => {
     initData();
   }, []);
 
+  useEffect(() => {
+    dispatch(getReferralsOrdersThunk());
+  }, [isCheckoutFormVisible, dispatch]);
+
   const columns = useMemo(
     () =>
       [
@@ -190,6 +194,8 @@ const useOrdersHistory = () => {
       >[],
     []
   );
+
+  //
 
   const options = useMemo(
     () => [

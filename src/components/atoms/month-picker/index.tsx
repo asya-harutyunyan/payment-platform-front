@@ -52,12 +52,12 @@ export const MonthPicker = ({
                   minDate={minDate}
                   maxDate={maxDate}
                   disabled={disabled}
-                  sx={{ width: width ?? "100%" }}
+                  sx={{ width: width ?? "100px" }}
                   onOpen={onOpen}
                   onClose={onClose}
                   slotProps={{
                     textField: {
-                      fullWidth: true,
+                      fullWidth: false,
 
                       sx: {
                         height: VERTICAL_PADDING,

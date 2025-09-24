@@ -128,17 +128,12 @@ export const OrdersHistoryPage: FC = () => {
             width="95%"
             renderComponent={
               <Box sx={{ display: "flex", flexDirection: "column" }}>
-                <H6 color="#000" >
-                  {t("ref_percent")}
-                </H6>
+                <H6 color="#000">{t("ref_percent")}</H6>
                 <NewButton
-                  variant="gradient"
+                  variant="outlinedGreen"
                   text={t("checkout_money")}
                   sx={{
-                    width: "320px",
-                    border: "1px solid #23c6cb",
-                    background: "transparent",
-                    color: "#2c78e1",
+                    width: { xs: "100%", md: "30%" },
                   }}
                   onClick={onCheckoutButtonClick}
                 />
