@@ -2,7 +2,13 @@ import LogoutIcon from "@/assets/images/sidebar_logout_icon.svg";
 import NewButton from "@/components/atoms/btn";
 import { t } from "i18next";
 
-const LogoutButton = ({ handleLogout, isCollapsed }: { handleLogout: () => void, isCollapsed?: boolean }) => (
+const LogoutButton = ({
+  handleLogout,
+  isCollapsed,
+}: {
+  handleLogout: () => void;
+  isCollapsed?: boolean;
+}) => (
   <NewButton
     onClick={handleLogout}
     sx={{

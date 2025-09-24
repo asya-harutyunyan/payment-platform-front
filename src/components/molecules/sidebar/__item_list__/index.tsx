@@ -19,7 +19,6 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import WalletIcon from "@mui/icons-material/Wallet";
 import WebIcon from "@mui/icons-material/Web";
 
-
 export const userItems = [
   {
     text: "task_list",
@@ -33,23 +32,24 @@ export const userItems = [
   },
   {
     text: "deposit_list",
-    icon: <img src={DepositIcon} alt="start" style={{ width: 32, height: 32 }} />,
+    icon: (
+      <img src={DepositIcon} alt="start" style={{ width: 32, height: 32 }} />
+    ),
     link: "/deposit-info",
   },
   {
-    text: "order_list",
-    icon: <img src={OrdersIcon} alt="start" style={{ width: 32, height: 32 }} />,
+    text: "orders_sidebar",
+    icon: (
+      <img src={OrdersIcon} alt="start" style={{ width: 32, height: 32 }} />
+    ),
     link: "/orders",
   },
   {
-    text: "partner_program",
-    icon: <img src={ReferalSystem} alt="start" style={{ width: 32, height: 32 }} />,
+    text: "referral_system",
+    icon: (
+      <img src={ReferalSystem} alt="start" style={{ width: 32, height: 32 }} />
+    ),
     link: "/partner-program",
-  },
-  {
-    text: "orders_history",
-    icon: <GroupIcon />,
-    link: "/orders-history",
   },
 ];
 

@@ -1,6 +1,6 @@
 import theme from "@/styles/theme";
 import { H3, P } from "@/styles/typography";
-import { Box, Divider, SxProps } from "@mui/material";
+import { Box, SxProps } from "@mui/material";
 import { ReactNode } from "@tanstack/react-router";
 import { FC } from "react";
 
@@ -20,24 +20,26 @@ const TaskHeader: FC<ITaskHeader> = ({
 }) => {
   return (
     <Box sx={{ padding: "7px 0", width: width ?? "90%", ...sx }}>
-      <H3
-        color={theme.palette.primary.main}
-        sx={{
-          fontSize: {
-            lg: "1.75rem",
-            md: "1.75rem",
-            xs: "1.2rem",
-            sm: "1.2rem",
-          },
-        }}
-      >
-        {title}
-      </H3>
+      {title && (
+        <H3
+          color={theme.palette.primary.main}
+          sx={{
+            fontSize: {
+              lg: "1.75rem",
+              md: "1.75rem",
+              xs: "1.2rem",
+              sm: "1.2rem",
+            },
+          }}
+        >
+          {title}
+        </H3>
+      )}
       {subTitle && (
         <P
           sx={{
             fontSize: "16px",
-            fontWeight: "500",
+            fontWeight: "400",
             padding: "10px 5px",
           }}
         >
@@ -45,9 +47,8 @@ const TaskHeader: FC<ITaskHeader> = ({
         </P>
       )}
       {renderComponent && (
-        <Box sx={{ margin: "20px 0", width: "100%" }}>{renderComponent}</Box>
+        <Box sx={{ margin: "10px 0", width: "100%" }}>{renderComponent}</Box>
       )}
-      {subTitle && <Divider sx={{ marginTop: "8px", marginBottom: "30px" }} />}
     </Box>
   );
 };

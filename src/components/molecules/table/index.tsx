@@ -92,8 +92,7 @@ function DynamicTable<
                   key={index}
                   padding="none"
                   sx={{
-                    px: 1.5,
-                    py: 1,
+                    p: "14px",
                     verticalAlign: "top",
                     borderBottom: data?.length ? "1px solid #062247" : "none",
                   }}
@@ -141,8 +140,7 @@ function DynamicTable<
                     key={colIndex}
                     padding="none"
                     sx={{
-                      px: 1.5,
-                      py: 1,
+                      p: "14px",
                       minWidth: 110,
                       fontSize: "13px",
                       textOverflow: "ellipsis",

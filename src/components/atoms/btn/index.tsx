@@ -82,6 +82,16 @@ const NewButton: React.FC<DynamicButtonProps> = ({
         "&.Mui-disabled": {
           color: "#0055C2",
         },
+
+        ...(variant === "outlinedBlue" && {
+          border: "1px solid #0062E0",
+          color: "#fff",
+          backgroundColor: "transparent",
+          "&:hover": {
+            border: "1.5px solid #22b4be",
+            backgroundColor: "transparent",
+          },
+        }),
         ...(glow && {
           "&::after": {
             content: '""',

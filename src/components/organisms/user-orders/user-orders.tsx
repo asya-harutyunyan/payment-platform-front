@@ -34,7 +34,7 @@ export const UserOrdersComponent: FC = () => {
       <Box
         sx={{
           width: {
-            xs: "350px",
+            xs: "90%",
             md: "100%",
           },
         }}

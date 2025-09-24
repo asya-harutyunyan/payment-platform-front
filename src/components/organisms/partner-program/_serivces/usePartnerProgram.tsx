@@ -7,9 +7,8 @@ import {
   getReferalsUserThunk,
 } from "@/store/reducers/allUsersSlice/thunks";
 import { ReferralOfUser } from "@/store/reducers/user-info/depositSlice/types";
-import { P } from "@/styles/typography";
+import { H6 } from "@/styles/typography";
 import { Box } from "@mui/material";
-import { useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { useEffect, useMemo, useState } from "react";
 import { z } from "zod";
@@ -23,7 +22,7 @@ export enum ECurrencyRefOrder {
 
 const usePartnerProgram = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+
   const { fetchAuthUser } = useAuth();
 
   const [page, setPage] = useState(1);
@@ -78,10 +77,6 @@ const usePartnerProgram = () => {
       });
   };
 
-  const onCheckoutButtonClick = () => {
-    navigate({ to: "/orders-history" });
-  };
-
   const PartnerProgramSummary = () => {
     return (
       <Box
@@ -89,8 +84,7 @@ const usePartnerProgram = () => {
           display: "flex",
           justifyContent: "start",
           width: "100%",
-          flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
-          marginTop: "10px",
+          flexDirection: "column",
         }}
       >
         <Box
@@ -99,33 +93,32 @@ const usePartnerProgram = () => {
             alignItems: "center",
           }}
         >
-          <P
+          <H6
             sx={{
+              paddingRight: "10px",
               color: "primary.main",
-              fontWeight: "700",
-              fontSize: "1rem",
+              fontStyle: "italic",
+              lineHeight: "100%",
             }}
           >
             {t("amount_to_pay")}:
-          </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>
-            {amount_to_pay}₽
-          </P>
+          </H6>
+          <H6 color="#595959">{amount_to_pay}₽</H6>
         </Box>
         <Box
           sx={{ display: "flex", paddingRight: "15px", alignItems: "center" }}
         >
-          <P
+          <H6
             sx={{
+              paddingRight: "10px",
               color: "primary.main",
-              fontWeight: "700",
-              paddingLeft: { lg: "15px", md: "15px", xs: "0", sm: "0" },
-              fontSize: "1rem",
+              fontStyle: "italic",
+              lineHeight: "100%",
             }}
           >
             {t("total_amount")}:
-          </P>
-          <P sx={{ fontSize: "0.8rem", paddingLeft: "5px" }}>{total_amount}₽</P>
+          </H6>
+          <H6 color="#595959">{total_amount}₽</H6>
         </Box>
       </Box>
     );
@@ -142,7 +135,6 @@ const usePartnerProgram = () => {
     PartnerProgramSummary,
     page,
     referralUrl,
-    onCheckoutButtonClick,
   };
 };
 

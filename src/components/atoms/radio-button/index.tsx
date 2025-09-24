@@ -35,7 +35,7 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   name,
   labelKey,
   valueKey,
-  width,
+  // width,
   ...props
 }: IFormTextInput<T, U>) => {
   const { field, fieldState } = useController<T>({
@@ -59,14 +59,17 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
   const [selectedItem, setSelectedItem] = useState<U | null>(null);
 
   return (
-    <Box
-      sx={{ display: "flex", flexDirection: "column" }}
-    >
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       <FormControl error={hasErrors}>
         <RadioGroup
           {...field}
           defaultValue={valueKey ? data[0]?.[valueKey as keyof U] : data[0]}
           name={name}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "20px",
+          }}
         >
           {data.map((item, index) => (
             <Box
@@ -75,14 +78,13 @@ export const RadioButtonsGroup = <T extends FieldValues, U extends object>({
                 backgroundColor: "#e3e3e3",
                 boxShadow: "0 1px 0 0 #000",
                 height: "50px",
-                marginTop: "20px",
                 borderRadius: "40px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 color: "white",
                 fontSize: "17px",
-                width: "100%"
+                width: "100%",
               }}
             >
               <FormControlLabel
