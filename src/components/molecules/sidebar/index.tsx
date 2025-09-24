@@ -23,7 +23,6 @@ import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
 import Sidebar from "./sidebar_general";
-
 interface DashboardPageProps {
   children?: ReactNode;
 }
@@ -194,42 +193,55 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
                   gap: "8px",
                 }}
               >
-                <Box
-                  width="40px"
-                  height="40px"
-                  display="flex"
-                  justifyContent="center"
-                  alignItems="center"
-                  borderRadius="50%"
-                  sx={{
-                    backgroundColor: "#101f5e",
-                    boxShadow: [
-                      "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
-                      "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
-                      "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
-                      "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
-                      "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
-                      "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
-                    ].join(","),
+                <Link
+                  to="/profile"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    textDecoration: "none",
+                    color: "inherit",
                   }}
                 >
-                  <H3>{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H3>
-                </Box>
-
-                <Box
-                  sx={{
-                    display: { xs: "none", sm: "flex" },
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    mb: "5px",
-                  }}
-                >
-                  <Box sx={{ display: "flex" }}>
-                    <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
-                      {user?.name} {user?.surname}
-                    </H6>
+                  <Box
+                    width="40px"
+                    height="40px"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    borderRadius="50%"
+                    sx={{
+                      backgroundColor: "#101f5e",
+                      boxShadow: [
+                        "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
+                        "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
+                        "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
+                        "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
+                        "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
+                        "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
+                      ].join(","),
+                    }}
+                  >
+                    <H3>
+                      {user?.name ? user.name.charAt(0).toUpperCase() : ""}
+                    </H3>
                   </Box>
-                </Box>
+
+                  <Box
+                    sx={{
+                      display: { xs: "none", sm: "flex" },
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      mb: "5px",
+                    }}
+                  >
+                    <Box sx={{ display: "flex" }}>
+                      <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
+                        {user?.name} {user?.surname}
+                      </H6>
+                    </Box>
+                  </Box>
+                </Link>
               </Box>
             )}
 
