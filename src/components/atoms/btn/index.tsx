@@ -1,6 +1,6 @@
 import { H6 } from "@/styles/typography";
 import { SvgIconProps, SxProps, Theme } from "@mui/material";
-import DinamicButton from "@mui/material/Button";
+import Button from "@mui/material/Button";
 import * as React from "react";
 
 type ButtonVariant =
@@ -10,6 +10,7 @@ type ButtonVariant =
   | "gradient"
   | "outlinedWhite"
   | "outlinedBlue"
+  | "outlinedGreen"
   | "error"
   | "error_background";
 type Sizes = "small" | "medium" | "large";
@@ -63,9 +64,27 @@ const NewButton: React.FC<DynamicButtonProps> = ({
     return <Comp fontSize="small" />;
   };
 
+  const muiVariant: "text" | "contained" | "outlined" = (() => {
+    if (
+      variant === "gradient" ||
+      variant === "error" ||
+      variant === "error_background"
+    ) {
+      return "contained";
+    }
+    if (
+      variant === "outlinedWhite" ||
+      variant === "outlinedBlue" ||
+      variant === "outlinedGreen"
+    ) {
+      return "outlined";
+    }
+    return (variant as "text" | "contained" | "outlined") ?? "contained";
+  })();
+
   return (
-    <DinamicButton
-      variant={variant === "gradient" ? "contained" : variant}
+    <Button
+      variant={muiVariant}
       disableElevation
       sx={{
         minHeight: "46px",
@@ -75,13 +94,18 @@ const NewButton: React.FC<DynamicButtonProps> = ({
         transition: "transform 0.1s ease",
         position: "relative",
         overflow: "visible",
-        background:
-          variant === "gradient"
-            ? "linear-gradient(180deg, #0062E0 0%, #00A6FF 100%)"
-            : undefined,
-        "&.Mui-disabled": {
-          color: "#0055C2",
-        },
+
+        ...(variant === "gradient" && {
+          background: "linear-gradient(180deg, #0062E0 0%, #00A6FF 100%)",
+
+          "&:hover": {
+            background: "linear-gradient(180deg, #0062E0 0%, #0062E0 100%)",
+          },
+
+          "&.Mui-disabled": {
+            color: "#0055C2",
+          },
+        }),
 
         ...(variant === "outlinedBlue" && {
           border: "1px solid #0062E0",
@@ -92,6 +116,35 @@ const NewButton: React.FC<DynamicButtonProps> = ({
             backgroundColor: "transparent",
           },
         }),
+
+        ...(variant === "outlinedGreen" && {
+          borderRadius: "56px",
+          border: "2px solid transparent",
+          background:
+            "linear-gradient(to bottom, #eaeaea 0 2px, #eaeaea 2px 100%) padding-box," +
+            "linear-gradient(to bottom, #528fb3, #23c6ca) border-box",
+          color: "#0c5cca",
+          "&:hover": {
+            background:
+              "linear-gradient(to bottom, #F2F2F2 0 2px, #F2F2F2 2px 100%) padding-box," +
+              "linear-gradient(to bottom, #528fb3, #23c6ca) border-box",
+          },
+        }),
+
+        ...(variant === "error" && {
+          backgroundColor: "#D32F2F",
+          "&:hover": { backgroundColor: "#B71C1C" },
+        }),
+        ...(variant === "error_background" && {
+          backgroundColor: "rgba(211, 47, 47, 0.1)",
+          color: "#D32F2F",
+          "&:hover": { backgroundColor: "rgba(211, 47, 47, 0.15)" },
+        }),
+
+        "&.Mui-disabled": {
+          color: "#ccc",
+        },
+
         ...(glow && {
           "&::after": {
             content: '""',
@@ -107,6 +160,7 @@ const NewButton: React.FC<DynamicButtonProps> = ({
             zIndex: 0,
           },
         }),
+
         ...sx,
       }}
       size={size}
@@ -129,7 +183,7 @@ const NewButton: React.FC<DynamicButtonProps> = ({
           {text}
         </H6>
       </div>
-    </DinamicButton>
+    </Button>
   );
 };
 
