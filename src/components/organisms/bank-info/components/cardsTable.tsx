@@ -188,10 +188,9 @@ const CardsTable: FC<ICardsMobile> = ({ cards }) => {
           }}
         >
           <NewButton
+            variant="outlinedGreen"
             sx={{
               width: "90%",
-              border: "1px solid #23c6cb",
-              background: "transparent",
             }}
             text={t("no")}
             onClick={() => {

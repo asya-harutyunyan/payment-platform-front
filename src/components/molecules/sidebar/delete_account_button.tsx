@@ -12,11 +12,12 @@ import { H3 } from "@/styles/typography";
 import { useNavigate } from "@tanstack/react-router";
 
 interface DeleteAccountButtonProps {
-  isCollapsed: boolean
+  isCollapsed: boolean;
 }
 
-
-const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }) => {
+const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({
+  isCollapsed,
+}) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -48,11 +49,7 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }
         open={isModalOpened}
         width={{ xs: "80%", sm: "40%", md: "30%" }}
       >
-        <H3
-          align="center"
-          color="#000"
-          fontSize="24px"
-        >
+        <H3 align="center" color="#000" fontSize="24px">
           {t("delete_account_description")}
         </H3>
         <Box
@@ -73,10 +70,11 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }
           <NewButton
             text={t("no")}
             onClick={() => setIsModalOpened(false)}
+            variant="outlinedGreen"
             sx={{
               width: "90%",
-              border: "1px solid #23c6cb",
-              background: "transparent"
+              // border: "1px solid #23c6cb",
+              // background: "transparent",
             }}
           />
           <NewButton
@@ -94,8 +92,7 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({ isCollapsed }
             }}
           />
         </Box>
-      </BasicModal >
-
+      </BasicModal>
     </>
   );
 };
