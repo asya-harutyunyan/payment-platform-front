@@ -51,8 +51,6 @@ export const TabsComponent: FC<ITabsComponent> = ({ tabPanel, tabNames }) => {
     setValue(newValue);
   };
 
-  console.log(user, "====");
-
 
   useEffect(() => {
     if (user?.bank_details.length === 0) {

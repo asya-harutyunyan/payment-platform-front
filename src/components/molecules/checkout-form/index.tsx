@@ -34,7 +34,7 @@ export function CheckoutForm({ control }: TCheckoutForm<TFormData>) {
       control={control}
       name="transaction_hash"
       placeholder={"Номер кошелька"}
-      whiteVariant={true}
+      lightGreyVariant
     />
   );
 }

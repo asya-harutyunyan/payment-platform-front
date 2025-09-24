@@ -13,11 +13,7 @@ import theme from "@/styles/theme";
 import { H3, H6 } from "@/styles/typography";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 
-import {
-  Box,
-  Drawer,
-    useMediaQuery,
-} from "@mui/material";
+import { Box, Drawer, useMediaQuery } from "@mui/material";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { t } from "i18next";
 import { FC, ReactNode, useEffect, useMemo, useState } from "react";
@@ -38,7 +34,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [sidebarItems, setSidebarItems] = useState(userItems);
   const [open, setOpen] = useState(false);
-  const matches = useMediaQuery("(min-width:600px)");
+  const matches = useMediaQuery("(min-width:768px)");
 
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -54,10 +50,10 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             ?.filter((perm): perm is string => !!perm)
             .includes(item.permission)
           ? {
-            text: item.text,
-            icon: item.icon,
-            link: item.link,
-          }
+              text: item.text,
+              icon: item.icon,
+              link: item.link,
+            }
           : null;
       })
       .filter((item) => item !== null);
@@ -105,7 +101,6 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         overflow: "hidden",
       }}
     >
-
       <Drawer
         variant="temporary"
         anchor="left"
@@ -133,7 +128,9 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             }}
           >
             <LogoutButton handleLogout={handleLogout} />
-            {user?.role === "client" && <DeleteAccountButton isCollapsed={isCollapsed} />}
+            {user?.role === "client" && (
+              <DeleteAccountButton isCollapsed={isCollapsed} />
+            )}
           </Box>
         </Box>
       </Drawer>
@@ -170,14 +167,24 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               textDecoration: "none",
             }}
           >
-            <Box width={{ xs: "26px", sm: "44px" }} height={{ xs: "30px", sm: "52px" }}>
+            <Box
+              width={{ xs: "26px", sm: "44px" }}
+              height={{ xs: "30px", sm: "52px" }}
+            >
               <Logo width="100%" height="100%" />
             </Box>
-            <H6 sx={{ fontSize: { xs: "13px", sm: "26px" }, p: 0, fontWeight: 700 }}>PayHub</H6>
+            <H6
+              sx={{
+                fontSize: { xs: "13px", sm: "26px" },
+                p: 0,
+                fontWeight: 700,
+              }}
+            >
+              PayHub
+            </H6>
           </Box>
 
           <Box display="flex" gap="12px">
-
             {user?.role === "client" && (
               <Box
                 sx={{
@@ -206,7 +213,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
                     ].join(","),
                   }}
                 >
-                  <H3 >{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H3>
+                  <H3>{user?.name ? user.name.charAt(0).toUpperCase() : ""}</H3>
                 </Box>
 
                 <Box
@@ -246,20 +253,11 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
                 ].join(","),
               }}
             >
-              <Box
-                width="23px"
-                height="23px"
-                onClick={toggleDrawer}
-
-              >
-                <img
-                  src={MenuIcon}
-                  alt="Menu icon"
-                />
+              <Box width="23px" height="23px">
+                <img src={MenuIcon} alt="Menu icon" />
               </Box>
             </Box>
           </Box>
-
         </Box>
       </Box>
 
@@ -267,19 +265,20 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
 
       <Box
         component="main"
-        width="90%"
+        width="95%"
         m="0 auto"
         sx={{
           display: "flex",
           flexDirection: "row",
           gap: 2,
           height: "100vh",
-
         }}
       >
         <Box
           sx={{
-            display: { xs: "none", sm: "block" },
+            display: { xs: "none", sm: "flex" },
+            flexDirection: "column",
+            justifyContent: "space-between",
             flex: `0 0 ${isCollapsed ? 88 : 280}px`,
             width: `${isCollapsed ? 88 : 280}px`,
             position: "sticky",
@@ -295,26 +294,41 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
           }}
         >
           <Box sx={{ height: "auto" }}>
-            <GeneralInfo setIsCollapsed={setIsCollapsed} isCollapsed={isCollapsed} />
-            <Sidebar items={sidebarItems} onItemClick={toggleDrawer} isCollapsed={isCollapsed} />
+            <GeneralInfo
+              setIsCollapsed={setIsCollapsed}
+              isCollapsed={isCollapsed}
+            />
+            <Sidebar
+              items={sidebarItems}
+              onItemClick={toggleDrawer}
+              isCollapsed={isCollapsed}
+            />
           </Box>
 
-          <hr
-            style={{
-              width: "100%",
-              border: "1px solid #0e6c9b",
-              margin: "15px 0",
-            }}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "flex-start",
-            }}
-          >
-            <LogoutButton handleLogout={handleLogout} isCollapsed={isCollapsed} />
-            {user?.role === "client" && <DeleteAccountButton isCollapsed={isCollapsed} />}
+          <Box>
+            <hr
+              style={{
+                width: "100%",
+                border: "1px solid #0e6c9b",
+                margin: "15px 0",
+              }}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "flex-start",
+              }}
+              ml={isCollapsed ? "5px" : "0"}
+            >
+              <LogoutButton
+                handleLogout={handleLogout}
+                isCollapsed={isCollapsed}
+              />
+              {user?.role === "client" && (
+                <DeleteAccountButton isCollapsed={isCollapsed} />
+              )}
+            </Box>
           </Box>
         </Box>
 
@@ -326,17 +340,19 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
               xs: `calc(100vh - 100px)`,
               sm: `calc(100vh - ${HEADER_H}px)`,
             },
-            overflow: "auto",
+            overflowY: "auto",
             zIndex: 2,
             mt: { lg: 0, md: 0, xs: 0, sm: 0 },
             backgroundColor: "transparent",
-            display: 'flex',
-            flexDirection: 'column',
+            display: "flex",
+            flexDirection: "column",
+            ml: { xs: "0", lg: "20px" },
           }}
         >
           <Box
             sx={{
               minHeight: "100%",
+              width: "100%",
             }}
           >
             {children}
@@ -382,7 +398,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
         </H6>
       </BasicModal>
       {user?.role !== "superAdmin" && <JivoChat />}
-    </Box >
+    </Box>
   );
 };
 
