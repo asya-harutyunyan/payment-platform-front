@@ -12,6 +12,7 @@ interface IEmptyComponent {
   isTextNeeded?: string;
   textBtn?: string;
   handleClick?: () => void;
+  color?: string;
 }
 export const EmptyComponent: FC<IEmptyComponent> = ({
   text,
@@ -19,6 +20,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
   isTextNeeded,
   textBtn,
   handleClick,
+  color,
 }) => {
   const { user } = useAuth();
   return (
@@ -46,7 +48,7 @@ export const EmptyComponent: FC<IEmptyComponent> = ({
           <img src={EmptyData} alt="Empty icon" width="100%" height="100%" />
         </Box>
         <H4
-          color="white"
+          color={color ?? "white"}
           paddingBottom={"20px"}
           align="center"
           fontWeight={400}

@@ -19,21 +19,30 @@ export const BlockedUserListComponent: FC = () => {
 
   return (
     <Box>
-      <TaskHeader title={t("blocked_user_list_title")} />
+      <TaskHeader title={t("blocked_user_list_title")} color="#fff" />
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-         
-          }}
-        >
-          <DynamicTable columns={columnsBlockedUsers} data={blockedUsers} />
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "70vh",
+              minWidth: "max-content",
+              overflow: "auto",
+              borderRadius: 2,
+            }}
+          >
+            <DynamicTable columns={columnsBlockedUsers} data={blockedUsers} />
+          </Box>
 
           <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
           >
             <PaginationOutlined
               onPageChange={onChangeBlockedUsersPage}

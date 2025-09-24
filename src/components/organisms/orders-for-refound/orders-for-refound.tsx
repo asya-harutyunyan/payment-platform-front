@@ -20,7 +20,7 @@ export const OrdersForRefoundPage: FC = () => {
   return (
     <Box sx={{ width: "100%" }}>
       {user?.permissions.includes("orders_view.summary") && (
-        <TaskHeader title={t("orders_for_refound")} width="100%" />
+        <TaskHeader title={t("orders_for_refound")} width="100%" color="#fff" />
       )}
       <Box sx={{ width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" } }}>
         <Box

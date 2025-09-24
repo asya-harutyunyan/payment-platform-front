@@ -68,8 +68,10 @@ export const DepositLists: FC = () => {
           <Box
             height={loading || pagination.total === 0 ? "auto" : "75vh"}
             sx={{
+              width: "100%",
+              height: "77vh",
               overflowY: "auto",
-              overflowX: { xs: "auto", lg: "hidden" },
+              overflowX: "auto",
               borderRadius: 2,
               minWidth: 0,
               scrollbarGutter: "stable",

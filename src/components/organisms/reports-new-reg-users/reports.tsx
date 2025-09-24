@@ -24,6 +24,7 @@ export const ReportsNewUsers = () => {
     <Box sx={{ width: "100%" }}>
       <TaskHeader
         title={t("reports_title_new_reg")}
+        color="#fff"
         renderComponent={
           <Box sx={{ display: "flex", gap: "10px" }}>
             <Button
@@ -42,18 +43,24 @@ export const ReportsNewUsers = () => {
       {newRegUsersloading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-            marginTop: "20px",
-          }}
-        >
-          <DynamicTable
-            columns={columnsNewRegUsers}
-            data={newRegisteredUsers}
-          />
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "60vh",
+              overflowY: "auto",
+              overflowX: "auto",
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
+            <DynamicTable
+              columns={columnsNewRegUsers}
+              data={newRegisteredUsers}
+            />
+          </Box>
+          <Box sx={{ display: "flex", justifyContent: "center", mt: "24px" }}>
             <PaginationOutlined
               onPageChange={onChangePageNewUsers}
               count={totalNewRegUsers}

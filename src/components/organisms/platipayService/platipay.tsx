@@ -22,31 +22,41 @@ export const PlatiPay: FC = () => {
     <Box sx={{ width: "100%" }}>
       <TaskHeader
         title={t("platipay")}
+        color="#fff"
         width="100%"
         renderComponent={PartnerProgramSummary()}
       />
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-            marginTop: "20px",
-          }}
-        >
-          <>
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "60vh",
+              overflowY: "auto",
+              overflowX: "auto",
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
             <DynamicTable columns={columns} data={platipay} />
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <PaginationOutlined
-                onPageChange={onChangePage}
-                count={total}
-                page={page}
-              />
-            </Box>
-          </>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
+          >
+            <PaginationOutlined
+              onPageChange={onChangePage}
+              count={total}
+              page={page}
+            />
+          </Box>
         </Box>
       )}
     </Box>
