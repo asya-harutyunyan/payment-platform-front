@@ -25,11 +25,15 @@ export const CreateUser = () => {
       component="form"
       onSubmit={handleSubmit(onSubmit)}
       sx={{
-        width: "100%",
+        width: "90%",
         height: "max-content",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
+        backgroundColor: "#fff",
+        p: "16px",
+        mb: "24px",
+        borderRadius: "16px",
       }}
     >
       <H2 color="primary.main" align="center" paddingBottom={"30px"}>

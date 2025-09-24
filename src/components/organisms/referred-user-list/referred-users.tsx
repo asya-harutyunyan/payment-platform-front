@@ -103,12 +103,21 @@ export const ReferredUserList = () => {
       });
   };
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "90%",
+        backgroundColor: "#fff",
+        borderRadius: "16px",
+        p: "16px",
+        height: "70vh",
+      }}
+    >
       <Box
         sx={{
           display: "flex",
           alignItems: "center",
           height: "70px",
+          gap: "16px",
         }}
       >
         {canGoBack && (
@@ -128,16 +137,27 @@ export const ReferredUserList = () => {
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-            marginTop: "20px",
-          }}
-        >
-          <DynamicTable columns={columns} data={referred_users_list} />
+        <Box>
           <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            sx={{
+              width: "100%",
+              height: "70vh",
+              overflowY: "auto",
+              overflowX: "auto",
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
+            <DynamicTable columns={columns} data={referred_users_list} />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
           >
             <PaginationOutlined
               onPageChange={onChangePage}

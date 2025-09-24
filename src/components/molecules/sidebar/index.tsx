@@ -23,11 +23,12 @@ import drawerStyles from "./drawer_styles";
 import GeneralInfo from "./GeneralInfo";
 import LogoutButton from "./logout_button";
 import Sidebar from "./sidebar_general";
+
 interface DashboardPageProps {
   children?: ReactNode;
 }
 
-const HEADER_H = 60;
+const HEADER_H = 65;
 
 const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -226,22 +227,22 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
                       {user?.name ? user.name.charAt(0).toUpperCase() : ""}
                     </H3>
                   </Box>
-
-                  <Box
-                    sx={{
-                      display: { xs: "none", sm: "flex" },
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      mb: "5px",
-                    }}
-                  >
-                    <Box sx={{ display: "flex" }}>
-                      <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
-                        {user?.name} {user?.surname}
-                      </H6>
-                    </Box>
-                  </Box>
                 </Link>
+
+                <Box
+                  sx={{
+                    display: { xs: "none", sm: "flex" },
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    mb: "5px",
+                  }}
+                >
+                  <Box sx={{ display: "flex" }}>
+                    <H6 color={"#A4A6A7"} padding={"0 5px 0 0 "}>
+                      {user?.name} {user?.surname}
+                    </H6>
+                  </Box>
+                </Box>
               </Box>
             )}
 
@@ -349,8 +350,8 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
             flex: 1,
             minWidth: 0,
             height: {
-              xs: `calc(100vh - 100px)`,
-              sm: `calc(100vh - ${HEADER_H}px)`,
+              xs: `calc(95vh - 100px)`,
+              sm: `calc(95vh - ${HEADER_H}px)`,
             },
             overflowY: "auto",
             zIndex: 2,

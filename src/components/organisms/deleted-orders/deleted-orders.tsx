@@ -12,7 +12,7 @@ export const DeletedOrdersComponent: FC = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("deleted_orders_list")} width="100%" />
+      <TaskHeader title={t("deleted_orders_list")} width="100%" color="#fff" />
       {loading ? (
         <CircularIndeterminate />
       ) : (
@@ -26,7 +26,12 @@ export const DeletedOrdersComponent: FC = () => {
           <>
             <DynamicTable columns={columns} data={deletedOrders} />
             <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                width: "100%",
+                mt: "24px",
+              }}
             >
               <PaginationOutlined
                 onPageChange={onChangePage}

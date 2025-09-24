@@ -36,6 +36,7 @@ export const OrderListComponent: FC = () => {
           title={t("order_list")}
           renderComponent={OrderSummary()}
           width="100%"
+          color="#fff"
         />
       )}
       <Box
@@ -50,6 +51,7 @@ export const OrderListComponent: FC = () => {
             color: "black",
             backgroundColor: "#f6f6f6",
             width: "100%",
+            mb: "20px",
             ".MuiTabs-list": {
               overflowX: "auto",
             },
@@ -79,18 +81,26 @@ export const OrderListComponent: FC = () => {
         {loading ? (
           <CircularIndeterminate />
         ) : (
-          <Box
-            sx={{
-              width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-              height: "100vh",
-            }}
-          >
-            <DynamicTable columns={columns} data={orders} />
+          <Box>
+            <Box
+              sx={{
+                width: "100%",
+                height: "50vh",
+                overflowY: "auto",
+                overflowX: "auto",
+                borderRadius: 2,
+                minWidth: 0,
+                scrollbarGutter: "stable",
+              }}
+            >
+              <DynamicTable columns={columns} data={orders} />
+            </Box>
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 width: "100%",
+                mt: "24px",
               }}
             >
               <PaginationOutlined

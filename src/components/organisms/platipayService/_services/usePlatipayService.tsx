@@ -273,6 +273,8 @@ const usePlatipayService = () => {
           justifyContent: "space-between",
           width: "100%",
           flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          backgroundColor: "#fff",
+          p: "3px",
         }}
       >
         <Box
@@ -295,7 +297,7 @@ const usePlatipayService = () => {
         <Box
           sx={{
             display: "flex",
-            paddingRight: "15px",
+            paddingRight: "10px",
           }}
         >
           <P
@@ -314,7 +316,7 @@ const usePlatipayService = () => {
         <Box
           sx={{
             display: "flex",
-            paddingRight: "15px",
+            paddingRight: "10px",
           }}
         >
           <P
@@ -333,7 +335,7 @@ const usePlatipayService = () => {
         <Box
           sx={{
             display: "flex",
-            paddingRight: "15px",
+            paddingRight: "10px",
           }}
         >
           <P

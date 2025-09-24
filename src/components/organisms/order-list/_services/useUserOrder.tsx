@@ -547,20 +547,22 @@ const useAdminOrder = () => {
           justifyContent: "space-between",
           width: "100%",
           flexDirection: { lg: "row", md: "row", xs: "column", sm: "column" },
+          backgroundColor: "#fff",
+          p: "10px",
         }}
       >
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            paddingRight: "15px",
+            paddingRight: "10px",
           }}
         >
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-              fontSize: "0.9rem",
+              fontSize: "0.8rem",
             }}
           >
             Количество активных карт:
@@ -569,13 +571,13 @@ const useAdminOrder = () => {
             {orderSummary.active_cards}
           </P>
         </Box>
-        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+        <Box sx={{ display: "flex", paddingRight: "10px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.9rem",
+              fontSize: "0.8rem",
             }}
           >
             Сумма, залитая на карты:
@@ -584,13 +586,13 @@ const useAdminOrder = () => {
             {orderSummary.deposited_amounts}₽
           </P>
         </Box>
-        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+        <Box sx={{ display: "flex", paddingRight: "10px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.9rem",
+              fontSize: "0.8rem",
             }}
           >
             Полученная сумма:
@@ -599,13 +601,13 @@ const useAdminOrder = () => {
             {orderSummary.expiredAmount}₽
           </P>
         </Box>
-        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+        <Box sx={{ display: "flex", paddingRight: "10px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
 
-              fontSize: "0.9rem",
+              fontSize: "0.8rem",
             }}
           >
             Количество истекших:
@@ -615,13 +617,12 @@ const useAdminOrder = () => {
           </P>
         </Box>
 
-        <Box sx={{ display: "flex", paddingRight: "15px" }}>
+        <Box sx={{ display: "flex", paddingRight: "10px" }}>
           <P
             sx={{
               color: "primary.main",
               fontWeight: "700",
-
-              fontSize: "0.9rem",
+              fontSize: "0.8rem",
             }}
           >
             Ожидаемая сумма:

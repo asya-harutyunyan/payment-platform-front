@@ -32,29 +32,38 @@ export const BankCardLists: FC = () => {
   const options = [{ id: 1, name: "RUB" }];
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("bank_card_list")} />
+      <TaskHeader title={t("bank_card_list")} color="#fff" />
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-            marginTop: "20px",
-          }}
-        >
-          <>
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "70vh",
+              overflowY: "auto",
+              overflowX: "auto",
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
             <DynamicTable columns={columns} data={bankCards} />
-            <Box
-              sx={{ display: "flex", justifyContent: "center", width: "100%" }}
-            >
-              <PaginationOutlined
-                onPageChange={onChangePage}
-                count={total}
-                page={page}
-              />
-            </Box>
-          </>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
+          >
+            <PaginationOutlined
+              onPageChange={onChangePage}
+              count={total}
+              page={page}
+            />
+          </Box>
         </Box>
       )}
 

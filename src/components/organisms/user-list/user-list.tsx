@@ -1,5 +1,7 @@
 import bg from "@/assets/images/modal.png";
+import Button from "@/components/atoms/button";
 import { CircularIndeterminate } from "@/components/atoms/loader";
+import { BasicModal } from "@/components/atoms/modal";
 import { PaginationOutlined } from "@/components/atoms/pagination";
 import DynamicTable from "@/components/molecules/table";
 import TaskHeader from "@/components/molecules/title";
@@ -8,8 +10,6 @@ import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 import useUserList from "./_services/useUserList";
-import { BasicModal } from "@/components/atoms/modal";
-import Button from "@/components/atoms/button";
 
 export const UserListComponent: FC = () => {
   const {
@@ -26,20 +26,32 @@ export const UserListComponent: FC = () => {
 
   return (
     <Box>
-      <TaskHeader title={t("user_list")} />
+      <TaskHeader title={t("user_list")} color="#fff" />
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-          }}
-        >
-          <DynamicTable columns={columnsUsers} data={users} />
+        <Box>
+          <Box
+            sx={{
+              width: "100%",
+              height: "70vh",
+              overflowY: "auto",
+              overflowX: "auto",
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
+            <DynamicTable columns={columnsUsers} data={users} />
+          </Box>
 
           <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
           >
             <PaginationOutlined
               onPageChange={onChangeUsersPage}

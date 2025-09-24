@@ -84,6 +84,7 @@ export const ReportsProccesedAmount = () => {
     <Box sx={{ width: "100%" }}>
       <TaskHeader
         title={t("processed-amounts")}
+        color="#fff"
         renderComponent={
           <Box sx={{ display: "flex", gap: "10px" }}>
             <Button

@@ -84,6 +84,7 @@ export const ReportsSummary = () => {
     <Box sx={{ width: "100%" }}>
       <TaskHeader
         title={t("reports-summary")}
+        color="#fff"
         renderComponent={
           <Box sx={{ display: "flex", gap: "10px" }}>
             <Button

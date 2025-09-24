@@ -28,8 +28,23 @@ export const UserInfo: FC = () => {
   console.log(user?.current_orders);
 
   return (
-    <Box>
-      <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
+    <Box
+      sx={{
+        backgroundColor: "#fff",
+        p: "16px",
+        borderRadius: "16px",
+        height: "78vh",
+        overflow: "auto",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "70px",
+          gap: "16px",
+        }}
+      >
         {" "}
         {canGoBack && (
           <Button
@@ -85,7 +100,7 @@ export const UserInfo: FC = () => {
               />
             ) : (
               <Box>
-                <EmptyComponent text={"no_deposits"} />
+                <EmptyComponent text={"no_deposits"} color="#000" />
               </Box>
             )}
           </Box>
@@ -100,7 +115,7 @@ export const UserInfo: FC = () => {
               />
             ) : (
               <Box>
-                <EmptyComponent text={"no_orders"} />
+                <EmptyComponent text={"no_orders"} color="#000" />
               </Box>
             )}
           </Box>

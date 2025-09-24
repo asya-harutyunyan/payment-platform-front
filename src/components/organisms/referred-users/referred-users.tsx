@@ -33,20 +33,31 @@ export const ReferredUsers = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TaskHeader title={t("referred_users")} />
+      <TaskHeader title={t("referred_users")} color="#fff" />
       {loading ? (
         <CircularIndeterminate />
       ) : (
-        <Box
-          sx={{
-            width: { lg: "100%", md: "100%", xs: "350px", sm: "350px" },
-            height: "100vh",
-            marginTop: "20px",
-          }}
-        >
-          <DynamicTable columns={columns} data={referralUsersForAdmin} />
+        <Box>
           <Box
-            sx={{ display: "flex", justifyContent: "center", width: "100%" }}
+            sx={{
+              width: "100%",
+              height: "70vh",
+              overflowY: "auto",
+              overflowX: "auto",
+              borderRadius: 2,
+              minWidth: 0,
+              scrollbarGutter: "stable",
+            }}
+          >
+            <DynamicTable columns={columns} data={referralUsersForAdmin} />
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              width: "100%",
+              mt: "24px",
+            }}
           >
             <PaginationOutlined
               onPageChange={onChangePage}

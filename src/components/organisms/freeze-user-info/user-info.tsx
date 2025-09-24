@@ -26,8 +26,23 @@ export const FreezeUserInfo: FC = () => {
   }, [dispatch, id]);
 
   return (
-    <Box>
-      <Box sx={{ display: "flex", alignItems: "center", height: "70px" }}>
+    <Box
+      sx={{
+        backgroundColor: "#fff",
+        p: "16px",
+        borderRadius: "16px",
+        height: "78vh",
+        overflow: "auto",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          height: "70px",
+          gap: "16px",
+        }}
+      >
         {" "}
         {canGoBack && (
           <Button

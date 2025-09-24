@@ -24,7 +24,14 @@ export const SystemSettings: FC = () => {
   } = useSystemSettings();
 
   return (
-    <Box sx={{ width: "100%" }}>
+    <Box
+      sx={{
+        width: "90%",
+        backgroundColor: "#fff",
+        p: "16px",
+        borderRadius: "16px",
+      }}
+    >
       <TaskHeader title={t("system_settings")} />
       <P sx={{ color: "black", mb: 4 }}>
         {t("active_users_count")}: {activeUsersCount ?? 0}
