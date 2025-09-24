@@ -19,6 +19,7 @@ import { Route as AuthUserImport } from './routes/_auth/_user'
 import { Route as AuthAdminImport } from './routes/_auth/_admin'
 import { Route as AuthUserWalletIndexImport } from './routes/_auth/_user/wallet/index'
 import { Route as AuthUserStepsIndexImport } from './routes/_auth/_user/steps/index'
+import { Route as AuthUserProfileIndexImport } from './routes/_auth/_user/profile/index'
 import { Route as AuthUserPartnerProgramIndexImport } from './routes/_auth/_user/partner-program/index'
 import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/index'
 import { Route as AuthUserOrdersHistoryIndexImport } from './routes/_auth/_user/orders-history/index'
@@ -182,6 +183,12 @@ const AuthUserWalletIndexRoute = AuthUserWalletIndexImport.update({
 const AuthUserStepsIndexRoute = AuthUserStepsIndexImport.update({
   id: '/steps/',
   path: '/steps/',
+  getParentRoute: () => AuthUserRoute,
+} as any)
+
+const AuthUserProfileIndexRoute = AuthUserProfileIndexImport.update({
+  id: '/profile/',
+  path: '/profile/',
   getParentRoute: () => AuthUserRoute,
 } as any)
 
@@ -718,6 +725,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthUserPartnerProgramIndexImport
       parentRoute: typeof AuthUserImport
     }
+    '/_auth/_user/profile/': {
+      id: '/_auth/_user/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthUserProfileIndexImport
+      parentRoute: typeof AuthUserImport
+    }
     '/_auth/_user/steps/': {
       id: '/_auth/_user/steps/'
       path: '/steps'
@@ -847,6 +861,7 @@ interface AuthUserRouteChildren {
   AuthUserOrdersHistoryIndexRoute: typeof AuthUserOrdersHistoryIndexRoute
   AuthUserOrdersIndexRoute: typeof AuthUserOrdersIndexRoute
   AuthUserPartnerProgramIndexRoute: typeof AuthUserPartnerProgramIndexRoute
+  AuthUserProfileIndexRoute: typeof AuthUserProfileIndexRoute
   AuthUserStepsIndexRoute: typeof AuthUserStepsIndexRoute
   AuthUserWalletIndexRoute: typeof AuthUserWalletIndexRoute
 }
@@ -859,6 +874,7 @@ const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserOrdersHistoryIndexRoute: AuthUserOrdersHistoryIndexRoute,
   AuthUserOrdersIndexRoute: AuthUserOrdersIndexRoute,
   AuthUserPartnerProgramIndexRoute: AuthUserPartnerProgramIndexRoute,
+  AuthUserProfileIndexRoute: AuthUserProfileIndexRoute,
   AuthUserStepsIndexRoute: AuthUserStepsIndexRoute,
   AuthUserWalletIndexRoute: AuthUserWalletIndexRoute,
 }
@@ -941,6 +957,7 @@ export interface FileRoutesByFullPath {
   '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
   '/partner-program': typeof AuthUserPartnerProgramIndexRoute
+  '/profile': typeof AuthUserProfileIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
   '/wallet': typeof AuthUserWalletIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
@@ -990,6 +1007,7 @@ export interface FileRoutesByTo {
   '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
   '/orders': typeof AuthUserOrdersIndexRoute
   '/partner-program': typeof AuthUserPartnerProgramIndexRoute
+  '/profile': typeof AuthUserProfileIndexRoute
   '/steps': typeof AuthUserStepsIndexRoute
   '/wallet': typeof AuthUserWalletIndexRoute
   '/auth/change-password': typeof NoauthAuthChangePasswordIndexLazyRoute
@@ -1043,6 +1061,7 @@ export interface FileRoutesById {
   '/_auth/_user/orders-history/': typeof AuthUserOrdersHistoryIndexRoute
   '/_auth/_user/orders/': typeof AuthUserOrdersIndexRoute
   '/_auth/_user/partner-program/': typeof AuthUserPartnerProgramIndexRoute
+  '/_auth/_user/profile/': typeof AuthUserProfileIndexRoute
   '/_auth/_user/steps/': typeof AuthUserStepsIndexRoute
   '/_auth/_user/wallet/': typeof AuthUserWalletIndexRoute
   '/_no_auth/auth/change-password/': typeof NoauthAuthChangePasswordIndexLazyRoute
@@ -1094,6 +1113,7 @@ export interface FileRouteTypes {
     | '/orders-history'
     | '/orders'
     | '/partner-program'
+    | '/profile'
     | '/steps'
     | '/wallet'
     | '/auth/change-password'
@@ -1142,6 +1162,7 @@ export interface FileRouteTypes {
     | '/orders-history'
     | '/orders'
     | '/partner-program'
+    | '/profile'
     | '/steps'
     | '/wallet'
     | '/auth/change-password'
@@ -1193,6 +1214,7 @@ export interface FileRouteTypes {
     | '/_auth/_user/orders-history/'
     | '/_auth/_user/orders/'
     | '/_auth/_user/partner-program/'
+    | '/_auth/_user/profile/'
     | '/_auth/_user/steps/'
     | '/_auth/_user/wallet/'
     | '/_no_auth/auth/change-password/'
@@ -1299,6 +1321,7 @@ export const routeTree = rootRoute
         "/_auth/_user/orders-history/",
         "/_auth/_user/orders/",
         "/_auth/_user/partner-program/",
+        "/_auth/_user/profile/",
         "/_auth/_user/steps/",
         "/_auth/_user/wallet/"
       ]
@@ -1448,6 +1471,10 @@ export const routeTree = rootRoute
     },
     "/_auth/_user/partner-program/": {
       "filePath": "_auth/_user/partner-program/index.tsx",
+      "parent": "/_auth/_user"
+    },
+    "/_auth/_user/profile/": {
+      "filePath": "_auth/_user/profile/index.tsx",
       "parent": "/_auth/_user"
     },
     "/_auth/_user/steps/": {

@@ -1,3 +1,4 @@
+import ProfileIcon from "@/assets/images/profile.svg";
 import CardsIcon from "@/assets/images/sidebar_cards.svg";
 import DepositIcon from "@/assets/images/sidebar_deposits.svg";
 import OrdersIcon from "@/assets/images/sidebar_orders.svg";
@@ -20,6 +21,13 @@ import WalletIcon from "@mui/icons-material/Wallet";
 import WebIcon from "@mui/icons-material/Web";
 
 export const userItems = [
+  {
+    text: "profile",
+    icon: (
+      <img src={ProfileIcon} alt="start" style={{ width: 32, height: 32 }} />
+    ),
+    link: "/profile",
+  },
   {
     text: "task_list",
     icon: <img src={StartIcon} alt="start" style={{ width: 32, height: 32 }} />,
