@@ -4,6 +4,7 @@ import { webSocketMiddleware } from "./middleware/websocket.middleware";
 import usersSlice from "./reducers/allUsersSlice";
 import authSlice from "./reducers/authSlice";
 import globalInfoSlice from "./reducers/globalInfo/globalInfoSlice";
+import layoutStatsSlice from "./reducers/layoutStats";
 import permissionsSlice from "./reducers/permissions";
 import bankDetailsSlice from "./reducers/user-info/bankDetailsSlice";
 import depositSlice from "./reducers/user-info/depositSlice";
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   order: orderSlice,
   permissions: permissionsSlice,
   globalInfo: globalInfoSlice,
+  layoutStats: layoutStatsSlice,
 });
 
 export const store = configureStore({
