@@ -44,8 +44,6 @@ const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
     setGoToSlide((prev) => (prev === processedCards.length - 1 ? 0 : prev + 1));
   };
 
-  console.log(cards, "==");
-
   return (
     <Box
       sx={{

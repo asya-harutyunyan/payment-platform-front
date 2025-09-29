@@ -25,6 +25,7 @@ import { Route as AuthUserOrdersIndexImport } from './routes/_auth/_user/orders/
 import { Route as AuthUserOrdersHistoryIndexImport } from './routes/_auth/_user/orders-history/index'
 import { Route as AuthUserMyInformationIndexImport } from './routes/_auth/_user/my-information/index'
 import { Route as AuthUserDepositInfoIndexImport } from './routes/_auth/_user/deposit-info/index'
+import { Route as AuthUserChatIndexImport } from './routes/_auth/_user/chat/index'
 import { Route as AuthAdminWelcomeIndexImport } from './routes/_auth/_admin/welcome/index'
 import { Route as AuthAdminWalletListIndexImport } from './routes/_auth/_admin/wallet-list/index'
 import { Route as AuthAdminUserListIndexImport } from './routes/_auth/_admin/user-list/index'
@@ -224,6 +225,12 @@ const AuthUserMyInformationIndexRoute = AuthUserMyInformationIndexImport.update(
 const AuthUserDepositInfoIndexRoute = AuthUserDepositInfoIndexImport.update({
   id: '/deposit-info/',
   path: '/deposit-info/',
+  getParentRoute: () => AuthUserRoute,
+} as any)
+
+const AuthUserChatIndexRoute = AuthUserChatIndexImport.update({
+  id: '/chat/',
+  path: '/chat/',
   getParentRoute: () => AuthUserRoute,
 } as any)
 
@@ -690,6 +697,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAdminWelcomeIndexImport
       parentRoute: typeof AuthAdminImport
     }
+    '/_auth/_user/chat/': {
+      id: '/_auth/_user/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof AuthUserChatIndexImport
+      parentRoute: typeof AuthUserImport
+    }
     '/_auth/_user/deposit-info/': {
       id: '/_auth/_user/deposit-info/'
       path: '/deposit-info'
@@ -856,6 +870,7 @@ const AuthAdminRouteWithChildren = AuthAdminRoute._addFileChildren(
 interface AuthUserRouteChildren {
   AuthUserDepositInfoIdRoute: typeof AuthUserDepositInfoIdRoute
   AuthUserOrdersIdRoute: typeof AuthUserOrdersIdRoute
+  AuthUserChatIndexRoute: typeof AuthUserChatIndexRoute
   AuthUserDepositInfoIndexRoute: typeof AuthUserDepositInfoIndexRoute
   AuthUserMyInformationIndexRoute: typeof AuthUserMyInformationIndexRoute
   AuthUserOrdersHistoryIndexRoute: typeof AuthUserOrdersHistoryIndexRoute
@@ -869,6 +884,7 @@ interface AuthUserRouteChildren {
 const AuthUserRouteChildren: AuthUserRouteChildren = {
   AuthUserDepositInfoIdRoute: AuthUserDepositInfoIdRoute,
   AuthUserOrdersIdRoute: AuthUserOrdersIdRoute,
+  AuthUserChatIndexRoute: AuthUserChatIndexRoute,
   AuthUserDepositInfoIndexRoute: AuthUserDepositInfoIndexRoute,
   AuthUserMyInformationIndexRoute: AuthUserMyInformationIndexRoute,
   AuthUserOrdersHistoryIndexRoute: AuthUserOrdersHistoryIndexRoute,
@@ -952,6 +968,7 @@ export interface FileRoutesByFullPath {
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/welcome': typeof AuthAdminWelcomeIndexRoute
+  '/chat': typeof AuthUserChatIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
@@ -1002,6 +1019,7 @@ export interface FileRoutesByTo {
   '/user-list': typeof AuthAdminUserListIndexRoute
   '/wallet-list': typeof AuthAdminWalletListIndexRoute
   '/welcome': typeof AuthAdminWelcomeIndexRoute
+  '/chat': typeof AuthUserChatIndexRoute
   '/deposit-info': typeof AuthUserDepositInfoIndexRoute
   '/my-information': typeof AuthUserMyInformationIndexRoute
   '/orders-history': typeof AuthUserOrdersHistoryIndexRoute
@@ -1056,6 +1074,7 @@ export interface FileRoutesById {
   '/_auth/_admin/user-list/': typeof AuthAdminUserListIndexRoute
   '/_auth/_admin/wallet-list/': typeof AuthAdminWalletListIndexRoute
   '/_auth/_admin/welcome/': typeof AuthAdminWelcomeIndexRoute
+  '/_auth/_user/chat/': typeof AuthUserChatIndexRoute
   '/_auth/_user/deposit-info/': typeof AuthUserDepositInfoIndexRoute
   '/_auth/_user/my-information/': typeof AuthUserMyInformationIndexRoute
   '/_auth/_user/orders-history/': typeof AuthUserOrdersHistoryIndexRoute
@@ -1108,6 +1127,7 @@ export interface FileRouteTypes {
     | '/user-list'
     | '/wallet-list'
     | '/welcome'
+    | '/chat'
     | '/deposit-info'
     | '/my-information'
     | '/orders-history'
@@ -1157,6 +1177,7 @@ export interface FileRouteTypes {
     | '/user-list'
     | '/wallet-list'
     | '/welcome'
+    | '/chat'
     | '/deposit-info'
     | '/my-information'
     | '/orders-history'
@@ -1209,6 +1230,7 @@ export interface FileRouteTypes {
     | '/_auth/_admin/user-list/'
     | '/_auth/_admin/wallet-list/'
     | '/_auth/_admin/welcome/'
+    | '/_auth/_user/chat/'
     | '/_auth/_user/deposit-info/'
     | '/_auth/_user/my-information/'
     | '/_auth/_user/orders-history/'
@@ -1316,6 +1338,7 @@ export const routeTree = rootRoute
       "children": [
         "/_auth/_user/deposit-info/$id",
         "/_auth/_user/orders/$id",
+        "/_auth/_user/chat/",
         "/_auth/_user/deposit-info/",
         "/_auth/_user/my-information/",
         "/_auth/_user/orders-history/",
@@ -1452,6 +1475,10 @@ export const routeTree = rootRoute
     "/_auth/_admin/welcome/": {
       "filePath": "_auth/_admin/welcome/index.tsx",
       "parent": "/_auth/_admin"
+    },
+    "/_auth/_user/chat/": {
+      "filePath": "_auth/_user/chat/index.tsx",
+      "parent": "/_auth/_user"
     },
     "/_auth/_user/deposit-info/": {
       "filePath": "_auth/_user/deposit-info/index.tsx",
