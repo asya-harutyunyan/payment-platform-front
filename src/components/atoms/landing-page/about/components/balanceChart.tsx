@@ -16,6 +16,7 @@ const renderCustomizedLabel = ({
   innerRadius,
   outerRadius,
   percent,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
 }: any) => {
   const RADIAN = Math.PI / 180;
   const radius = innerRadius + (outerRadius - innerRadius) / 2;
