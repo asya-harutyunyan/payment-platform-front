@@ -18,7 +18,7 @@ import ChatListItem from "./components/chatListItem";
 const initialChats = [
   {
     id: 1,
-    name: "Tatev",
+    name: "John",
     lastMessage: "Переведите средства на карту: 123 123 123 123 123",
     timestamp: "Today | 05:30 PM",
     starred: true,
@@ -34,7 +34,7 @@ const initialChats = [
   },
   {
     id: 3,
-    name: "Tatev",
+    name: "Ann",
     lastMessage: "Переведите средства на карту: 123 123 123 123 123",
     timestamp: "Today | 05:30 PM",
     starred: true,
@@ -42,7 +42,7 @@ const initialChats = [
   },
   {
     id: 4,
-    name: "Tatev",
+    name: "Daniel",
     lastMessage: "Переведите средства на карту: 123 123 123 123 123",
     timestamp: "Today | 05:30 PM",
     starred: true,
@@ -50,7 +50,7 @@ const initialChats = [
   },
   {
     id: 5,
-    name: "Tatev",
+    name: "Smith",
     lastMessage: "Переведите средства на карту: 123 123 123 123 123",
     timestamp: "Today | 05:30 PM",
     starred: true,
@@ -58,7 +58,7 @@ const initialChats = [
   },
   {
     id: 6,
-    name: "Tatev",
+    name: "Julia",
     lastMessage: "Переведите средства на карту: 123 123 123 123 123",
     timestamp: "Today | 05:30 PM",
     starred: true,
@@ -66,7 +66,7 @@ const initialChats = [
   },
   {
     id: 7,
-    name: "Tatev",
+    name: "Nina",
     lastMessage: "Переведите средства на карту: 123 123 123 123 123",
     timestamp: "Today | 05:30 PM",
     starred: true,
@@ -176,15 +176,15 @@ const ChatUI = () => {
             }}
             sx={{
               width: "90%",
-              m: "10px 13px", // margin
+              m: "10px 13px", 
               "& .MuiOutlinedInput-root": {
                 bgcolor: "#F2F2F2",
                 borderRadius: "26px",
-                height: "26px", // 👈 total input height
+                height: "26px",
                 "& fieldset": { border: "none" },
                 "& .MuiInputBase-input": {
                   color: "black",
-                  padding: "0 8px", // 👈 keeps text centered vertically
+                  padding: "0 8px",
                   fontSize: "7px",
                   "&::placeholder": {
                     fontSize: "7px",
@@ -207,6 +207,7 @@ const ChatUI = () => {
         >
           {filteredChats.map((chat) => (
             <ChatListItem
+              key={chat.id}
               chat={chat}
               setActiveChat={setActiveChat}
               activeChat={activeChat}
@@ -261,7 +262,13 @@ const ChatUI = () => {
             gap: 1,
             backgroundColor: "#EAEAEA",
           }}
-        ></Box>
+        >
+          <iframe
+            src="https://payment-platform.rocketsystems.net/chat/channels/town-square?token=pepgsgpwitfuzeeqrro78856mc"
+            width="100%"
+            height="600px"
+          />
+        </Box>
 
         {/* Message Input */}
         <Box

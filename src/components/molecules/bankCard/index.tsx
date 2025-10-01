@@ -124,11 +124,17 @@ const BankCard: FC<IBankCard> = ({
 
           <Typography
             variant="h4"
-            letterSpacing={2}
-            fontSize={"16px"}
+            noWrap
             textAlign="center"
-            sx={{ color: isBlocked ? "#b3b3b3" : "#ffffff" }}
-            fontFamily={"'DigitalNumbers', Arial, sans-serif"}
+            letterSpacing={2}
+            sx={{
+              color: isBlocked ? "#b3b3b3" : "#ffffff",
+              fontFamily: "'DigitalNumbers', Arial, sans-serif",
+              fontSize: "clamp(10px, 4vw, 15px)", // will shrink if needed
+              whiteSpace: "nowrap", // ensures no wrapping
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
           >
             {cardNumber}
           </Typography>
@@ -150,7 +156,7 @@ const BankCard: FC<IBankCard> = ({
               </Typography>
               <Typography
                 variant="body1"
-                fontSize={"14px"}
+                fontSize={"13px"}
                 sx={{ color: isBlocked ? "#b3b3b3" : "primary.contrastText" }}
                 fontFamily={"'DigitalNumbers', Arial, sans-serif"}
               >

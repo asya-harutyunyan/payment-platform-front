@@ -51,7 +51,7 @@ const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
         alignItems: "center",
         justifyContent: "center",
         margin: props.margin,
-        gap: "30px",
+        gap: "40px",
       }}
     >
       <Box

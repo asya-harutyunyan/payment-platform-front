@@ -28,16 +28,29 @@ const LoginForm = () => {
 
   const isDesktop = useMediaQuery("(min-width:600px)");
 
-
   return (
-    <Box sx={{
-      background: Colors.gradientBgSignIn,
-      width: "100%",
-      minHeight: "100vh",
-      overflow: "hidden",
-    }}>
-      {!isDesktop &&
-        <Box component={Link} to="/" sx={{ width: "84px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", p: "16px 0 0 17px" }}>
+    <Box
+      sx={{
+        background: Colors.gradientBgSignIn,
+        width: "100%",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      {!isDesktop && (
+        <Box
+          component={Link}
+          to="/"
+          sx={{
+            width: "84px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "5px",
+            p: "16px 0 0 17px",
+            textDecoration: "none",
+          }}
+        >
           <Logo width="26px" height="26px" />
           <H6
             sx={{
@@ -47,7 +60,7 @@ const LoginForm = () => {
             PayHub
           </H6>
         </Box>
-      }
+      )}
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -56,10 +69,17 @@ const LoginForm = () => {
           justifyContent: "center",
           alignItems: "center",
           height: { xs: "80vh", sm: "100vh" },
-          pb: { xs: "30px", sm: "0" }
+          pb: { xs: "30px", sm: "0" },
         }}
       >
-        <Box width="900px" maxWidth={900} margin="0 auto" display="flex" justifyContent="center" position="relative">
+        <Box
+          width="900px"
+          maxWidth={900}
+          margin="0 auto"
+          display="flex"
+          justifyContent="center"
+          position="relative"
+        >
           <Box
             sx={{
               position: "absolute",
@@ -69,7 +89,11 @@ const LoginForm = () => {
               height: { xs: "165px", sm: "348px" },
             }}
           >
-            <img src={Circle2} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+            <img
+              src={Circle2}
+              alt="Blue circle"
+              style={{ width: "100%", height: "100%" }}
+            />
           </Box>
           <Box
             sx={{
@@ -80,7 +104,11 @@ const LoginForm = () => {
               height: { xs: "86px", sm: "150px" },
             }}
           >
-            <img src={Circle1} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+            <img
+              src={Circle1}
+              alt="Blue circle"
+              style={{ width: "100%", height: "100%" }}
+            />
           </Box>
           <BasicCard
             sx={{
@@ -136,14 +164,21 @@ const LoginForm = () => {
               <GoogleReCaptcha onVerify={handleRecaptchaVerify} />
             )}
 
-            <Box sx={{ display: "flex", justifyContent: "start", width: "100%" }}>
-              <P sx={{ padding: { xs: "13px 0", sm: "20px 0" }, fontSize: "14px" }}>
+            <Box
+              sx={{ display: "flex", justifyContent: "start", width: "100%" }}
+            >
+              <P
+                sx={{
+                  padding: { xs: "13px 0", sm: "20px 0" },
+                  fontSize: "14px",
+                }}
+              >
                 <Link
                   to="/auth/reset-password"
                   style={{
                     color: Colors.white,
                     fontSize: "14px",
-                    textDecoration: "none"
+                    textDecoration: "none",
                   }}
                 >
                   {t("forgot_password")}
@@ -154,7 +189,11 @@ const LoginForm = () => {
               variant={"gradient"}
               color="primary"
               text={t("sign_in")}
-              sx={{ width: "100%", margin: { xs: "0", sm: "20px 0" }, height: "50px" }}
+              sx={{
+                width: "100%",
+                margin: { xs: "0", sm: "20px 0" },
+                height: "50px",
+              }}
               type="submit"
             />
 
@@ -176,7 +215,9 @@ const LoginForm = () => {
                     }}
                   >
                     {t("already")}
-                    <span style={{ textDecoration: "underline", fontWeight: 700 }}>
+                    <span
+                      style={{ textDecoration: "underline", fontWeight: 700 }}
+                    >
                       {" "}
                       {t("sign_up")}
                     </span>
@@ -186,9 +227,9 @@ const LoginForm = () => {
             </Box>
           </BasicCard>
         </Box>
-      </Box >
+      </Box>
       <TwoFAModal open={isTwoFAModalOpen} onClose={handleModalClose} />
-    </Box >
+    </Box>
   );
 };
 
