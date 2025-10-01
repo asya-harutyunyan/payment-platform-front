@@ -1,5 +1,7 @@
 import Completed from "@/assets/images/step_completed.svg";
 import NotCompleted from "@/assets/images/step_not_completed.svg";
+import NewButton from "@/components/atoms/btn";
+import { useFormSteps } from "@/context/form-steps.context";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
 import { useMediaQuery } from "@mui/material";
@@ -22,7 +24,9 @@ interface IHorizontalNonLinearStepper {
   steps: Steps[];
 }
 
-export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ steps }) => {
+export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
+  steps,
+}) => {
   const {
     activeStep,
     completed,
@@ -32,11 +36,17 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ st
     setActiveStep,
   } = useStepper(steps.length);
 
+  const { startOver } = useFormSteps();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const totalSteps = () => steps.length;
   const completedSteps = () => Object.keys(completed).length;
   const allStepsCompleted = () => completedSteps() === totalSteps();
+
+  const handleStartOver = () => {
+    startOver();
+    handleReset();
+  };
 
   return (
     <Box
@@ -50,6 +60,35 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ st
         px: { xs: "14px", md: "0" },
       }}
     >
+      {/* Кнопка "Начать сначала" */}
+      {(activeStep > 0 || Object.keys(completed).length > 0) && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 16,
+            right: 16,
+            zIndex: 10,
+          }}
+        >
+          <NewButton
+            variant="outlined"
+            text="Начать сначала"
+            onClick={handleStartOver}
+            sx={{
+              fontSize: "7px",
+              padding: "6px 12px",
+              width: "70px",
+              height: "32px",
+              borderColor: "#047ced",
+              color: "#047ced",
+              "&:hover": {
+                backgroundColor: "#047ced",
+                color: "white",
+              },
+            }}
+          />
+        </Box>
+      )}
       {!isMobile && (
         <Box
           sx={{
@@ -77,7 +116,6 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ st
           display: "flex!important",
           alignItems: "flex-start",
           justifyContent: isMobile ? "flex-start" : "space-between",
-
         }}
       >
         {steps.map((step, index) => {
@@ -85,11 +123,9 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ st
 
           return (
             <Step
-
               key={step.label}
               completed={completed[index]}
               sx={{
-
                 width: isMobile ? "auto" : "100%",
                 display: "flex",
                 flexDirection: { xs: "row", sm: "column" },
@@ -99,9 +135,17 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ st
               }}
             >
               {index <= activeStep ? (
-                <img src={Completed} alt="Completed step" style={{ width: 32, height: 32 }} />
+                <img
+                  src={Completed}
+                  alt="Completed step"
+                  style={{ width: 32, height: 32 }}
+                />
               ) : (
-                <img src={NotCompleted} alt="Not completed step" style={{ width: 32, height: 32 }} />
+                <img
+                  src={NotCompleted}
+                  alt="Not completed step"
+                  style={{ width: 32, height: 32 }}
+                />
               )}
               <P
                 sx={{
@@ -121,7 +165,9 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({ st
       <div style={{ height: "100%" }}>
         {allStepsCompleted() ? (
           <BasicCard sx={{ height: "100%" }}>
-            <Typography sx={{ mt: 2, mb: 1 }}>{t("complated_steps")}</Typography>
+            <Typography sx={{ mt: 2, mb: 1 }}>
+              {t("complated_steps")}
+            </Typography>
             <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
               <Box sx={{ flex: "1 1 auto" }} />
               <ButtonMui onClick={handleReset}>Reset</ButtonMui>

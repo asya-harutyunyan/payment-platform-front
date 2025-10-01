@@ -1,18 +1,23 @@
 import InformationIcon from "@/assets/images/information_icon.svg";
 import NewButton from "@/components/atoms/btn";
 import { SelectFieldWith } from "@/components/atoms/select";
+import { useFormSteps } from "@/context/form-steps.context";
 import { P } from "@/styles/typography";
 import { Box } from "@mui/material";
 import { t } from "i18next";
 import { FC } from "react";
 import useDepositFeat from "../_services/useDepositFIAT";
 
-
 interface ITYPEComponent {
   handleNext?: () => void;
 }
 export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
-  const { handleSubmit, control, watch } = useDepositFeat(handleNext);
+  const { markStepCompleted, updateStepThree } = useFormSteps();
+  const { handleSubmit, control, watch } = useDepositFeat(
+    handleNext,
+    markStepCompleted,
+    updateStepThree
+  );
 
   const options = [
     { id: 1, name: "FIAT", currency: "Картой" },
@@ -35,7 +40,6 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
           maxWidth: 520,
         }}
       >
-
         <Box
           sx={{
             display: "flex",
@@ -44,10 +48,9 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
             alignItems: "center",
             width: "100%",
             paddingTop: "30px",
-            gap: "24px"
+            gap: "24px",
           }}
         >
-
           <Box sx={{ width: { xs: "100%", md: "73%" } }}>
             <SelectFieldWith
               name="type"
@@ -70,16 +73,20 @@ export const TYPEComponent: FC<ITYPEComponent> = ({ handleNext }) => {
         </Box>
       </Box>
       {type === "FIAT" && (
-        <Box width={"100%"} maxWidth={600} mt="20px" display="flex" flexDirection="column" alignItems="center" justifyContent="center" gap="4px">
+        <Box
+          width={"100%"}
+          maxWidth={600}
+          mt="20px"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          gap="4px"
+        >
           <Box width="20px" height="20px">
-            <img
-              src={InformationIcon}
-              alt="Information icon"
-            />{" "}
+            <img src={InformationIcon} alt="Information icon" />{" "}
           </Box>
-          <P color="black" >
-            {t("fiat_deposit_text")}
-          </P>
+          <P color="black">{t("fiat_deposit_text")}</P>
         </Box>
       )}
     </>

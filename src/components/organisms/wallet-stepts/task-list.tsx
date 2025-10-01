@@ -4,6 +4,7 @@ import { StepTwo } from "@/components/organisms/earn-money-steps/second-step";
 import { Success } from "@/components/organisms/earn-money-steps/success";
 import { StepThree } from "@/components/organisms/earn-money-steps/third-step";
 import { useAuth } from "@/context/auth.context";
+import { FormStepsProvider } from "@/context/form-steps.context";
 import { Box } from "@mui/material";
 import { FC } from "react";
 
@@ -34,17 +35,19 @@ export const TaskListComponent: FC = () => {
   ];
 
   return (
-    <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          padding: { md: "0", xs: "0" },
-          overflow: "hidden",
-        }}
-      >
-        <HorizontalNonLinearStepper steps={steps} />
+    <FormStepsProvider>
+      <Box>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            padding: { md: "0", xs: "0" },
+            overflow: "hidden",
+          }}
+        >
+          <HorizontalNonLinearStepper steps={steps} />
+        </Box>
       </Box>
-    </Box>
+    </FormStepsProvider>
   );
 };

@@ -5,6 +5,7 @@ import NewButton from "@/components/atoms/btn";
 import { BasicCard } from "@/components/atoms/card";
 import { RadioButtonsGroup } from "@/components/atoms/radio-button";
 import { useAuth } from "@/context/auth.context";
+import { useFormSteps } from "@/context/form-steps.context";
 import { choose_card_schema } from "@/schema/add_card.schema";
 import { useAppDispatch, useAppSelector } from "@/store";
 import { updateDeposit } from "@/store/reducers/user-info/depositSlice/thunks";
@@ -28,19 +29,37 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
   const dispatch = useAppDispatch();
   const { deposit } = useAppSelector((state) => state.deposit);
   const { user } = useAuth();
-
+  const { state, updateStepTwo, markStepCompleted } = useFormSteps();
 
   const handleOpen = () => setOpen(true);
+
+  // Определяем значение по умолчанию: сначала из сохраненного состояния, затем из депозита, затем первая карта
+  const getDefaultCardId = () => {
+    if (state.stepTwo.selectedCardId) {
+      return state.stepTwo.selectedCardId.toString();
+    }
+    if (deposit?.payment_method_id) {
+      return deposit.payment_method_id.toString();
+    }
+    return cards[0]?.id?.toString() ?? "";
+  };
+
   const { control, handleSubmit, setError, setValue } = useForm<
     Partial<Deposit>
   >({
     resolver: zodResolver(choose_card_schema),
     defaultValues: {
-      payment_method_id: cards[0]?.id?.toString() ?? deposit?.payment_method_id,
+      payment_method_id: getDefaultCardId(),
     },
   });
 
   const onSubmit = (formData: Partial<Deposit>) => {
+    // Сохраняем выбранную карту в контекст
+    if (formData.payment_method_id) {
+      updateStepTwo({ selectedCardId: formData.payment_method_id });
+      markStepCompleted(1);
+    }
+
     dispatch(updateDeposit(formData))
       .unwrap()
       .then(() => {
@@ -57,11 +76,15 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
         }
       });
   };
+
   useEffect(() => {
-    if (deposit?.payment_method_id) {
-      setValue("payment_method_id", deposit.payment_method_id);
+    // Восстанавливаем значение из сохраненного состояния или депозита
+    const savedCardId =
+      state.stepTwo.selectedCardId || deposit?.payment_method_id;
+    if (savedCardId) {
+      setValue("payment_method_id", savedCardId.toString());
     }
-  }, [deposit, setValue]);
+  }, [deposit, setValue, state.stepTwo.selectedCardId]);
 
   const submitForm = async (e?: BaseSyntheticEvent) => {
     await handleSubmit(onSubmit)(e);
@@ -73,9 +96,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
     }
     return true;
   }, [user]);
-
-
-
 
   return (
     <>
@@ -111,7 +131,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
             backgroundImage: `url(${second_step})`,
           }}
         >
-
           <Box
             sx={{
               position: "relative",
@@ -124,15 +143,26 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
               textAlign: "center",
             }}
           >
-            <H2 color="#000000" align="center" width="100%" p="0" mt="20px" fontSize={{ xs: "16px", md: "32px" }}>
+            <H2
+              color="#000000"
+              align="center"
+              width="100%"
+              p="0"
+              mt="20px"
+              fontSize={{ xs: "16px", md: "32px" }}
+            >
               {t("choose_card")}
             </H2>
 
-            <H6 color="#000000" align="center" width="100%" lineHeight={1.35} fontSize={{ xs: "14px", md: "16px" }}>
+            <H6
+              color="#000000"
+              align="center"
+              width="100%"
+              lineHeight={1.35}
+              fontSize={{ xs: "14px", md: "16px" }}
+            >
               {t("step_2_description")}
             </H6>
-
-
 
             {!showAddCard && !cards.length ? (
               <H5>
@@ -152,19 +182,36 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
             </Box>
 
             {user?.bank_details.length !== 3 && (
-              <Box sx={{ display: "flex", width: { xs: "95%", md: "49%" }, alignItems: "center", cursor: "pointer", mt: "20px", backgroundColor: "#e3e3e3", border: "1px solid #27c6ca", p: "8px 0px", borderRadius: "40px" }} onClick={handleOpen}>
+              <Box
+                sx={{
+                  display: "flex",
+                  width: { xs: "95%", md: "49%" },
+                  alignItems: "center",
+                  cursor: "pointer",
+                  mt: "20px",
+                  backgroundColor: "#e3e3e3",
+                  border: "1px solid #27c6ca",
+                  p: "8px 0px",
+                  borderRadius: "40px",
+                }}
+                onClick={handleOpen}
+              >
                 <Box>
                   <img
                     src={AddCardIcon}
                     alt="Add card icon"
-                    style={{ width: "32px", borderRadius: "32px", paddingLeft: "5px" }}
+                    style={{
+                      width: "32px",
+                      borderRadius: "32px",
+                      paddingLeft: "5px",
+                    }}
                   />
                 </Box>
                 <P
                   fontSize={"14px"}
                   textAlign={"center"}
                   color="#0062E0"
-                  sx={{ pl: "5px", }}
+                  sx={{ pl: "5px" }}
                 >
                   {t("add_bank_card")}
                 </P>
@@ -176,7 +223,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
                 mt: "20px",
                 height: "50px",
                 fontSize: "17px",
-                width: { xs: "95%", md: "49%" }
+                width: { xs: "95%", md: "49%" },
               }}
               disabled={!showAddCard && !cards.length}
               text={t("confirm")}
@@ -185,7 +232,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
             />
           </Box>
         </BasicCard>
-
       </Box>
       <AddCardModal open={open} setOpen={setOpen} />
     </>
