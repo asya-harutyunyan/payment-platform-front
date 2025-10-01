@@ -213,14 +213,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
                     borderRadius="50%"
                     sx={{
                       backgroundColor: "#101f5e",
-                      boxShadow: [
-                        "inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30)",
-                        "inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1)",
-                        "inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1)",
-                        "inset 0px -26.84px 22.26px -20.95px rgba(14,78,114,0.30)",
-                        "inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1)",
-                        "inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)",
-                      ].join(","),
+                      boxShadow: Colors.avatarBoxShadow,
                     }}
                   >
                     <H3>

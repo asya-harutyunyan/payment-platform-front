@@ -1,3 +1,4 @@
+import Chat from "@/assets/images/chat.svg";
 import ProfileIcon from "@/assets/images/profile.svg";
 import CardsIcon from "@/assets/images/sidebar_cards.svg";
 import DepositIcon from "@/assets/images/sidebar_deposits.svg";
@@ -58,6 +59,12 @@ export const userItems = [
       <img src={ReferalSystem} alt="start" style={{ width: 32, height: 32 }} />
     ),
     link: "/partner-program",
+  },
+
+  {
+    text: "chat",
+    icon: <img src={Chat} alt="start" style={{ width: 32, height: 32 }} />,
+    link: "/chat",
   },
 ];
 

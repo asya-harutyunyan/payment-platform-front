@@ -1,108 +1,119 @@
 export const Colors = {
-	black: " #282529",
-	white: "#FFFFFF",
-	dark_grey: "#7C7C7C",
-	grey: "#C1C1C1",
-	medium_grey: "#EBEBEB",
-	light_grey: "#F5F5F5",
-	accent: "#7A58D0",
-	medium_accent: "#F0EBFA",
-	light_accent: "#F6F3FC",
-	status_green: "#26B05D",
-	status_yellow: "#F7DD17",
-	status_red: "#E63838",
-	status_rose: "#FCF3F3",
-	gradientBg: `
+  black: " #282529",
+  white: "#FFFFFF",
+  dark_grey: "#7C7C7C",
+  grey: "#C1C1C1",
+  medium_grey: "#EBEBEB",
+  light_grey: "#F5F5F5",
+  accent: "#7A58D0",
+  medium_accent: "#F0EBFA",
+  light_accent: "#F6F3FC",
+  status_green: "#26B05D",
+  status_yellow: "#F7DD17",
+  status_red: "#E63838",
+  status_rose: "#FCF3F3",
+  gradientBg: `
       linear-gradient(0deg, #00000033, #00000033),
       linear-gradient(180deg, #1f243a 0%, #263569 100%)
     `,
-	gradientBgSignIn: "linear-gradient(180deg, #091131 0%, #132775 100%)",
-	transparentBoxShadow: `
+  gradientBgSignIn: "linear-gradient(180deg, #091131 0%, #132775 100%)",
+  transparentBoxShadow: `
            inset 0px 1px 40px rgba(13, 137, 207, 0.2),
            inset 0px 4px 18px rgba(8, 59, 88, 0.3),
            inset 0px 98px 100px -48px rgba(0, 161, 253, 0.3),
            inset 0px -82px 68px -64px rgba(14, 78, 114, 0.3),
            inset 0px 7px 11px -4px rgba(255, 255, 255, 1),
            inset 0px 39px 56px -36px rgba(255, 255, 255, 0.5)
-           `
+           `,
+  avatarBoxShadow: `
+  inset 0px 0.33px 13.09px 0px rgba(14,78,114,0.30),
+  inset 0px 1.31px 5.89px 0px rgba(107, 173, 252, 1),
+  inset 0px 32.07px 32.73px -15.71px rgba(107, 173, 252, 1),
+  inset 0px -26.84px 22.26px -20.95px #041F44,  
+  inset 0px 2.29px 3.60px -1.31px rgba(255,255,255,1),
+  inset 0px 12.76px 18.33px -11.78px rgba(107, 173, 252, 1)
+`,
 };
 
 export const greenGradientBorder = {
-	content: '""',
-	position: "absolute" as const,
-	inset: 0,
-	borderRadius: "14px",
-	padding: "1px",
-	background: "linear-gradient(360deg, rgba(43,255,255,0.8) 0%, rgba(43,255,255,0.2) 100%)",
-	WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
-	WebkitMaskComposite: "xor" as const,
-	maskComposite: "exclude" as const,
-	pointerEvents: "none" as const,
+  content: '""',
+  position: "absolute" as const,
+  inset: 0,
+  borderRadius: "14px",
+  padding: "1px",
+  background:
+    "linear-gradient(360deg, rgba(43,255,255,0.8) 0%, rgba(43,255,255,0.2) 100%)",
+  WebkitMask:
+    "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+  WebkitMaskComposite: "xor" as const,
+  maskComposite: "exclude" as const,
+  pointerEvents: "none" as const,
 };
 
 export const Weight = {
-	font_weight_thin: 100,
-	font_weight_light: 300,
-	font_weight_normal: 400,
-	font_weight_medium: 600,
-	font_weight_bold: 700,
-	font_weight_black: 900,
+  font_weight_thin: 100,
+  font_weight_light: 300,
+  font_weight_normal: 400,
+  font_weight_medium: 600,
+  font_weight_bold: 700,
+  font_weight_black: 900,
 };
 
 export const FontSize = {
-	font_size_mobile_xs: "10px",
-	font_size_mobile_s: "12px",
-	font_size_mobile_m: "14px",
-	font_size_mobile_l: "16px",
-	font_size_mobile_xl: "20px",
-	font_size_mobile_xxl: "24px",
+  font_size_mobile_xs: "10px",
+  font_size_mobile_s: "12px",
+  font_size_mobile_m: "14px",
+  font_size_mobile_l: "16px",
+  font_size_mobile_xl: "20px",
+  font_size_mobile_xxl: "24px",
 
-	font_size_desktop_xs: "14px",
-	font_size_desktop_s: "16px",
-	font_size_desktop_m: "20px",
-	font_size_desktop_l: "24px",
-	font_size_desktop_xl: "40px",
-	font_size_desktop_xxl: "56px",
+  font_size_desktop_xs: "14px",
+  font_size_desktop_s: "16px",
+  font_size_desktop_m: "20px",
+  font_size_desktop_l: "24px",
+  font_size_desktop_xl: "40px",
+  font_size_desktop_xxl: "56px",
 };
 
 export const Breakpoints = {
-	mobile: 375,
-	mobile_x: 480,
-	mini_tablet: 576,
-	tablet: 769,
-	tablet_x: 991,
-	desktop: 1048,
-	laptop: 1200,
-	laptop_x: 1350,
-	pc: 1440,
-	pc_x: 1920,
+  mobile: 375,
+  mobile_x: 480,
+  mini_tablet: 576,
+  tablet: 769,
+  tablet_x: 991,
+  desktop: 1048,
+  laptop: 1200,
+  laptop_x: 1350,
+  pc: 1440,
+  pc_x: 1920,
 };
 export const skill_matcher_tooltips = {
-	your_statistic_text:
-		"See how many jobs match your skills and check the status of your applications.",
-	project_duration_text:
-		"Standard is limited to short-term projects, while Premium and Elite allow Short, Medium, and Long-term options.",
-	skills_text:
-		"Add extra skills beside your main 6 skills—up to 3 (Standard), 8 (Premium), or 15 (Elite).",
-	category_text:
-		"Standard and Premium plans offer one category, while Elite gives access to six categories.",
-	category_access_text: "Standard and Premium plans offer one category, while Elite gives access to six categories.",
-	job_type_text:
-		"Apply for full-time and part-time jobs; Premium and Elite users also see flexible roles.",
-	proposed_paid_text: "Choose between hourly rate or fixed-price jobs.",
-	hourly_rate_categories_text:
-		"Select Junior, Mid, or Senior level based on your desired rate range.",
-	fixed_price_categories_text:
-		" Select Small, Medium, or Large projects based on your desired general amount.",
-	choose_budget_text:
-		"Bid under, within, or over the client’s posted budget to optimize your chances of winning projects.",
-	company_category_text:
-		"View client ratings, reviews, and repeat hire history for informed decision-making.",
-	submission_proccess_text:
-		"Choose to pause job applications once a client contacts you or continue applying for more opportunities.",
+  your_statistic_text:
+    "See how many jobs match your skills and check the status of your applications.",
+  project_duration_text:
+    "Standard is limited to short-term projects, while Premium and Elite allow Short, Medium, and Long-term options.",
+  skills_text:
+    "Add extra skills beside your main 6 skills—up to 3 (Standard), 8 (Premium), or 15 (Elite).",
+  category_text:
+    "Standard and Premium plans offer one category, while Elite gives access to six categories.",
+  category_access_text:
+    "Standard and Premium plans offer one category, while Elite gives access to six categories.",
+  job_type_text:
+    "Apply for full-time and part-time jobs; Premium and Elite users also see flexible roles.",
+  proposed_paid_text: "Choose between hourly rate or fixed-price jobs.",
+  hourly_rate_categories_text:
+    "Select Junior, Mid, or Senior level based on your desired rate range.",
+  fixed_price_categories_text:
+    " Select Small, Medium, or Large projects based on your desired general amount.",
+  choose_budget_text:
+    "Bid under, within, or over the client’s posted budget to optimize your chances of winning projects.",
+  company_category_text:
+    "View client ratings, reviews, and repeat hire history for informed decision-making.",
+  submission_proccess_text:
+    "Choose to pause job applications once a client contacts you or continue applying for more opportunities.",
 };
 export const _tooltip_styles = {
-	color: Colors.white,
-	borderRadius: 8,
-	background: "#666",
+  color: Colors.white,
+  borderRadius: 8,
+  background: "#666",
 };

@@ -44,8 +44,6 @@ const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
     setGoToSlide((prev) => (prev === processedCards.length - 1 ? 0 : prev + 1));
   };
 
-  console.log(cards, "==");
-
   return (
     <Box
       sx={{
@@ -53,7 +51,7 @@ const Carroussel: React.FC<CarouselProps> = ({ cards, ...props }) => {
         alignItems: "center",
         justifyContent: "center",
         margin: props.margin,
-        gap: "30px",
+        gap: "40px",
       }}
     >
       <Box

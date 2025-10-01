@@ -73,8 +73,6 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({
             variant="outlinedGreen"
             sx={{
               width: "90%",
-              // border: "1px solid #23c6cb",
-              // background: "transparent",
             }}
           />
           <NewButton

@@ -15,7 +15,12 @@ import NewButton from "../../btn";
 import { Logo } from "../../logo";
 
 export const ResponsiveAppBar = () => {
-  const pages = ["header_why_choose_us", "header_how_it_works", "contact", "header_our_contacts"];
+  const pages = [
+    "header_why_choose_us",
+    "header_how_it_works",
+    "contact",
+    "header_our_contacts",
+  ];
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { user } = useAuth();
@@ -25,13 +30,16 @@ export const ResponsiveAppBar = () => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      setIsDrawerOpen(false)
+      setIsDrawerOpen(false);
     }
   };
 
   const renderGeneralInfo = () => {
     return pages.map((item, index) => (
-      <ListItem key={index} sx={{ width: "100%", padding: "0 0 0 10px", cursor: "pointer" }} >
+      <ListItem
+        key={index}
+        sx={{ width: "100%", padding: "0 0 0 10px", cursor: "pointer" }}
+      >
         <Box
           onClick={() => handleScroll(item)}
           style={{ textDecoration: "none", width: "100%", padding: "0" }}
@@ -60,7 +68,6 @@ export const ResponsiveAppBar = () => {
     color: theme.palette.secondary.contrastText,
   };
 
-
   const onBtnClick = useCallback(() => {
     let to = "/auth/sign-in";
 
@@ -88,17 +95,33 @@ export const ResponsiveAppBar = () => {
   }, [navigate, user?.role]);
 
   return (
-    <AppBar position="static" sx={{
-      maxWidth: "1200px", boxShadow: "none", margin: "0 auto", border: { xs: "none", sm: "1px solid #74B4FF" }, bgcolor: "transparent", borderRadius: { xs: "0", sm: "236px" }, mt: { xs: "16px", sm: "40px" }
-    }}>
-      <Box sx={{
-        py: 0,
-        px: 2
-
-      }}>
-        <Toolbar disableGutters sx={{
-          display: "flex", justifyContent: "space-between", alignItems: "center", p: 0
-        }}>
+    <AppBar
+      position="static"
+      sx={{
+        maxWidth: "1200px",
+        boxShadow: "none",
+        margin: "0 auto",
+        border: { xs: "none", sm: "1px solid #74B4FF" },
+        bgcolor: "transparent",
+        borderRadius: { xs: "0", sm: "236px" },
+        mt: { xs: "16px", sm: "40px" },
+      }}
+    >
+      <Box
+        sx={{
+          py: 0,
+          px: 2,
+        }}
+      >
+        <Toolbar
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: 0,
+          }}
+        >
           <Box
             sx={{
               width: { xs: "100%", md: "auto" },
@@ -106,11 +129,19 @@ export const ResponsiveAppBar = () => {
               alignItems: "center",
               justifyContent: {
                 xs: "space-between",
-                md: "center"
+                md: "center",
               },
             }}
           >
-            <Box sx={{ width: "156px", display: "flex", justifyContent: "center", alignItems: "center", gap: "9px" }}>
+            <Box
+              sx={{
+                width: "156px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "9px",
+              }}
+            >
               <Logo />
               <H3
                 sx={{
@@ -143,16 +174,8 @@ export const ResponsiveAppBar = () => {
                 ].join(","),
               }}
             >
-              <Box
-                width="23px"
-                height="23px"
-                onClick={toggleDrawer}
-
-              >
-                <img
-                  src={MenuIcon}
-                  alt="Menu icon"
-                />
+              <Box width="23px" height="23px" onClick={toggleDrawer}>
+                <img src={MenuIcon} alt="Menu icon" />
               </Box>
             </Box>
           </Box>
@@ -162,7 +185,6 @@ export const ResponsiveAppBar = () => {
               display: { lg: "flex", md: "flex", xs: "none", sm: "none" },
               gap: "40px",
               width: "50%",
-
             }}
           >
             {pages.map((page) => (
@@ -181,7 +203,9 @@ export const ResponsiveAppBar = () => {
                 }}
                 onClick={() => handleScroll(page)}
               >
-                <P color="primary.contrastText" textAlign="center">{t(page)}</P>
+                <P color="primary.contrastText" textAlign="center">
+                  {t(page)}
+                </P>
               </Box>
             ))}
           </Box>

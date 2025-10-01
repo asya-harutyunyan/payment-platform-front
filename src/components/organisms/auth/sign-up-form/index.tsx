@@ -15,25 +15,33 @@ import { FC } from "react";
 import useSignUp from "./_services/useSignUp";
 
 const SignUpForm: FC = () => {
-  const {
-    control,
-    handleSubmit,
-    watch,
-    onSubmit,
-  } = useSignUp();
+  const { control, handleSubmit, watch, onSubmit } = useSignUp();
 
   const isDesktop = useMediaQuery("(min-width:600px)");
 
-
   return (
-    <Box sx={{
-      background: Colors.gradientBgSignIn,
-      width: "100%",
-      minHeight: "100vh",
-      overflow: "hidden",
-    }}>
-      {!isDesktop &&
-        <Box component={Link} to="/" sx={{ width: "84px", display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", p: "16px 0 0 17px" }}>
+    <Box
+      sx={{
+        background: Colors.gradientBgSignIn,
+        width: "100%",
+        minHeight: "100vh",
+        overflow: "hidden",
+      }}
+    >
+      {!isDesktop && (
+        <Box
+          component={Link}
+          to="/"
+          sx={{
+            width: "84px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "5px",
+            p: "16px 0 0 17px",
+            textDecoration: "none",
+          }}
+        >
           <Logo width="26px" height="26px" />
           <H6
             sx={{
@@ -43,7 +51,7 @@ const SignUpForm: FC = () => {
             PayHub
           </H6>
         </Box>
-      }
+      )}
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -52,10 +60,17 @@ const SignUpForm: FC = () => {
           justifyContent: "center",
           alignItems: "center",
           minHeight: { xs: "80vh", sm: "90vh" },
-          py: "30px"
+          py: "30px",
         }}
       >
-        <Box width="900px" maxWidth={900} margin="0 auto" display="flex" justifyContent="center" position="relative">
+        <Box
+          width="900px"
+          maxWidth={900}
+          margin="0 auto"
+          display="flex"
+          justifyContent="center"
+          position="relative"
+        >
           <Box
             sx={{
               position: "absolute",
@@ -65,7 +80,11 @@ const SignUpForm: FC = () => {
               height: { xs: "165px", sm: "348px" },
             }}
           >
-            <img src={Circle2} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+            <img
+              src={Circle2}
+              alt="Blue circle"
+              style={{ width: "100%", height: "100%" }}
+            />
           </Box>
           <Box
             sx={{
@@ -76,7 +95,11 @@ const SignUpForm: FC = () => {
               height: { xs: "86px", sm: "150px" },
             }}
           >
-            <img src={Circle1} alt="Blue circle" style={{ width: "100%", height: "100%" }} />
+            <img
+              src={Circle1}
+              alt="Blue circle"
+              style={{ width: "100%", height: "100%" }}
+            />
           </Box>
           <BasicCard
             sx={{
@@ -89,7 +112,7 @@ const SignUpForm: FC = () => {
               backgroundColor: "transparent",
               boxShadow: Colors.transparentBoxShadow,
               zIndex: "1",
-              p: "22px 40px 0px 40px"
+              p: "22px 40px 0px 40px",
             }}
           >
             <P
@@ -149,7 +172,6 @@ const SignUpForm: FC = () => {
                 checkedColor={Colors.white}
                 uncheckedColor={Colors.white}
                 labelColor={Colors.white}
-
               />
             </Box>
             <NewButton
@@ -170,7 +192,9 @@ const SignUpForm: FC = () => {
                   }}
                 >
                   {t("have_account")}{" "}
-                  <span style={{ textDecoration: "underline", fontWeight: 700 }}>
+                  <span
+                    style={{ textDecoration: "underline", fontWeight: 700 }}
+                  >
                     {t("sign_in")}
                   </span>
                 </Link>
@@ -178,7 +202,7 @@ const SignUpForm: FC = () => {
             </TextWithDivider>
           </BasicCard>
         </Box>
-      </Box >
+      </Box>
     </Box>
   );
 };
