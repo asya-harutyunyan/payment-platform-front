@@ -11,7 +11,6 @@ import { DEPOSIT_TYPES } from "./enums";
 import { TYPEComponent } from "./feat_component";
 import { USDTComponent } from "./usdt_component";
 
-
 interface IStepThree {
   handleNext?: () => void;
   setActiveStep?: Dispatch<number>;
@@ -47,10 +46,16 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
           position: "relative",
           overflow: "hidden",
           backgroundRepeat: "no-repeat",
-          backgroundPosition: { xs: "center bottom", sm: "center calc(100% + 50px)" },
-          backgroundSize: { xs: "100% 40%", md: "100% 70%" },
+          backgroundPosition: {
+            xs: "center bottom",
+            sm: "center calc(100% + 50px)",
+          },
+          backgroundSize: { xs: "100% 40%", md: "100% 80%" },
           borderRadius: { xs: "0 0 0 0", sm: "0 0 170px 170px" },
-          backgroundImage: deposit?.type === DEPOSIT_TYPES.CRYPTO ? `url(${third_step_cripto_bg})` : `url(${third_step})`,
+          backgroundImage:
+            deposit?.type === DEPOSIT_TYPES.CRYPTO
+              ? `url(${third_step_cripto_bg})`
+              : `url(${third_step})`,
         }}
       >
         <Box
@@ -63,18 +68,29 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
             flexDirection: "column",
             alignItems: "center",
             textAlign: "center",
-
           }}
         >
-          {
-            deposit?.type === DEPOSIT_TYPES.CRYPTO ?
-              <H2 color="#000000" align="center" sx={{ width: "100%", p: 0, mt: "20px", fontWeight: 500 }} fontSize={{ xs: "16px", md: "32px" }}>
-                Отправьте <span style={{ fontWeight: 600 }}>USDT</span> в сети <span style={{ fontWeight: 600 }}>TRC20</span> на указанный ниже адрес:
-              </H2> :
-              <H2 color="#000000" align="center" sx={{ width: "100%", p: 0, mt: "20px" }} fontSize={{ xs: "16px", md: "32px" }}>
-                {t("step_c")}
-              </H2>
-          }
+          {deposit?.type === DEPOSIT_TYPES.CRYPTO ? (
+            <H2
+              color="#000000"
+              align="center"
+              sx={{ width: "100%", p: 0, mt: "20px", fontWeight: 500 }}
+              fontSize={{ xs: "16px", md: "32px" }}
+            >
+              Отправьте <span style={{ fontWeight: 600 }}>USDT</span> в сети{" "}
+              <span style={{ fontWeight: 600 }}>TRC20</span> на указанный ниже
+              адрес:
+            </H2>
+          ) : (
+            <H2
+              color="#000000"
+              align="center"
+              sx={{ width: "100%", p: 0, mt: "20px" }}
+              fontSize={{ xs: "16px", md: "32px" }}
+            >
+              {t("step_c")}
+            </H2>
+          )}
 
           {deposit?.type === DEPOSIT_TYPES.CRYPTO ? (
             <USDTComponent
@@ -85,7 +101,7 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
             <TYPEComponent handleNext={handleNext} />
           ) : null}
         </Box>
-      </BasicCard >
-    </Box >
+      </BasicCard>
+    </Box>
   );
 };

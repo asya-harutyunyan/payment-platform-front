@@ -14,12 +14,12 @@ import Countdown, { CountdownRendererFn } from "react-countdown";
 import useDepositUsdt from "../_services/useDepositUSDT";
 import QRCode from "./components/qrCode";
 
-
 interface IUSDTComponent {
   handleNext?: () => void;
   setActiveStep?: Dispatch<number>;
   handleBack?: () => void;
 }
+
 export const USDTComponent: FC<IUSDTComponent> = ({
   handleNext,
   setActiveStep,
@@ -30,13 +30,14 @@ export const USDTComponent: FC<IUSDTComponent> = ({
   const transactionId = watch("transaction_id");
 
   const { deposit } = useAppSelector((state) => state.deposit);
+
   const timer = useMemo(() => {
     return new Date(
       dayjs()
         .add(
           (dayjs.utc(deposit?.created_at).add(30, "minutes").unix() -
             dayjs().utc().unix()) *
-          1000,
+            1000,
           "milliseconds"
         )
         .format()
@@ -59,13 +60,33 @@ export const USDTComponent: FC<IUSDTComponent> = ({
     dispatch(resetDeposit());
     setActiveStep?.(0);
   };
+
   const submitForm = async (e?: BaseSyntheticEvent) => {
     await handleSubmit(onSubmit)(e);
     handleNext?.();
   };
 
-  // const isDesktop = useMediaQuery("(min-width:600px)");
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+
+  const convertedAmountNum = Number(deposit?.converted_amount);
+  const depositAmountNum = Number(deposit?.amount);
+
+  const formattedConverted = Number.isFinite(convertedAmountNum)
+    ? convertedAmountNum.toFixed(2)
+    : "—";
+
+  const formattedDeposit = Number.isFinite(depositAmountNum)
+    ? depositAmountNum.toString()
+    : "—";
+
+  const rateNum =
+    Number.isFinite(depositAmountNum) &&
+    Number.isFinite(convertedAmountNum) &&
+    convertedAmountNum !== 0
+      ? depositAmountNum / convertedAmountNum
+      : NaN;
+
+  const formattedRate = Number.isFinite(rateNum) ? rateNum.toFixed(2) : "—";
 
   return (
     <Box
@@ -85,22 +106,24 @@ export const USDTComponent: FC<IUSDTComponent> = ({
         }}
       >
         <P color="black" maxWidth="468px" m="16px 0 10px 0">
-          После завершения транзакции введите Hash транзакции и подтвердите её в течение{' '}
+          После завершения транзакции введите Hash транзакции и подтвердите её в
+          течение{" "}
           <span style={{ color: "#4477b7" }}>
             <Countdown
               date={timer}
               renderer={countDownrenderer}
               onComplete={onTimerComplete}
             />
-
-          </span> минут.
+          </span>{" "}
+          минут.
         </P>
+
         {deposit?.wallet && (
           <Box
             sx={{
               display: "flex",
               flexDirection: "column",
-              alignItems: "center"
+              alignItems: "center",
             }}
           >
             <Box
@@ -111,55 +134,53 @@ export const USDTComponent: FC<IUSDTComponent> = ({
                 padding: "32.5px 16px",
                 display: "flex",
                 flexDirection: "column",
-                maxWidth: { xs: "270px", sm: "400px" }
+                maxWidth: { xs: "270px", sm: "400px" },
               }}
             >
               <Box
                 sx={{
                   display: "flex",
                   alignItems: "center",
-                  flexDirection: { xs: "column", sm: "row" }
+                  flexDirection: { xs: "column", sm: "row" },
                 }}
               >
                 <P fontSize={"14px"} color="#000">
                   {t("address")}:
                 </P>
                 <Box display="flex" alignItems="center">
-                  <P
-                    fontSize={"10px"}
-                    color="#4477b7"
-                    paddingLeft={"5px"}
-                  >
+                  <P fontSize={"10px"} color="#4477b7" paddingLeft={"5px"}>
                     {deposit?.wallet.address}
                   </P>
-
-
                   {deposit?.wallet.address && (
                     <CopyButton text={deposit.wallet.address} />
                   )}
-
                 </Box>
               </Box>
+
               <P fontSize={"14px"} color="#000" paddingBottom={"10px"}>
-                {t("network")}: <span style={{ color: "#4477b7", fontSize: "10px" }}>{deposit?.wallet.network}</span>
+                {t("network")}:{" "}
+                <span style={{ color: "#4477b7", fontSize: "10px" }}>
+                  {deposit?.wallet.network}
+                </span>
               </P>
+
               <P fontSize="14px" color="#000" paddingBottom="10px">
                 {t("amount")}:{" "}
                 <span style={{ color: "#4477b7", fontSize: "10px" }}>
                   {t("rate_text", {
-                    converted_amount: `${deposit?.converted_amount.toFixed(2)} ${deposit?.wallet.currency}`,
-                    deposit_amount: `${deposit.amount} ${deposit.deposit_currency}`,
-                    rate: `${(deposit.amount / deposit.converted_amount).toFixed(2)} ${deposit.deposit_currency}`,
-                    convert_currency: deposit.wallet.currency,
+                    converted_amount: `${formattedConverted} ${deposit?.wallet.currency}`,
+                    deposit_amount: `${formattedDeposit} ${deposit?.deposit_currency}`,
+                    rate: `${formattedRate} ${deposit?.deposit_currency}`,
+                    convert_currency: deposit?.wallet.currency,
                   })}
                 </span>
               </P>
             </Box>
-            {isMobile &&
-              <QRCode />
-            }
+
+            {isMobile && <QRCode />}
           </Box>
         )}
+
         <Box
           sx={{
             width: { xs: "100%", md: "432px" },
@@ -173,6 +194,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
             lightGreyVariant
           />
         </Box>
+
         <Box
           sx={{
             width: { xs: "100%", md: "432px" },
@@ -189,7 +211,14 @@ export const USDTComponent: FC<IUSDTComponent> = ({
             sx={{ width: "100%" }}
           />
         </Box>
-        <Box display="flex" alignItems="center" gap="8px" maxWidth={432} mb="24px">
+
+        <Box
+          display="flex"
+          alignItems="center"
+          gap="8px"
+          maxWidth={432}
+          mb="24px"
+        >
           <Box width="20px" height="20px">
             <img
               src={InformationIcon}
@@ -219,9 +248,7 @@ export const USDTComponent: FC<IUSDTComponent> = ({
         </Box>
       </Box>
 
-      {!isMobile &&
-        <QRCode />
-      }
+      {!isMobile && <QRCode />}
     </Box>
   );
 };
