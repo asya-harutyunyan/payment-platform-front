@@ -33,7 +33,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
 
   const handleOpen = () => setOpen(true);
 
-  // Определяем значение по умолчанию: сначала из сохраненного состояния, затем из депозита, затем первая карта
   const getDefaultCardId = () => {
     if (state.stepTwo.selectedCardId) {
       return state.stepTwo.selectedCardId.toString();
@@ -54,7 +53,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
   });
 
   const onSubmit = (formData: Partial<Deposit>) => {
-    // Сохраняем выбранную карту в контекст
     if (formData.payment_method_id) {
       updateStepTwo({ selectedCardId: formData.payment_method_id });
       markStepCompleted(1);
@@ -78,7 +76,6 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
   };
 
   useEffect(() => {
-    // Восстанавливаем значение из сохраненного состояния или депозита
     const savedCardId =
       state.stepTwo.selectedCardId || deposit?.payment_method_id;
     if (savedCardId) {
@@ -127,7 +124,7 @@ export const StepTwo: FC<IStepTwo> = ({ handleNext, cards = [] }) => {
             overflow: "hidden",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center bottom",
-            backgroundSize: { xs: "100% 30%", md: "100% 70%" },
+            backgroundSize: { xs: "100% 30%", md: "100% 90%" },
             backgroundImage: `url(${second_step})`,
           }}
         >

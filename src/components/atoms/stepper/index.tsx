@@ -1,6 +1,5 @@
 import Completed from "@/assets/images/step_completed.svg";
 import NotCompleted from "@/assets/images/step_not_completed.svg";
-import NewButton from "@/components/atoms/btn";
 import { useFormSteps } from "@/context/form-steps.context";
 import theme from "@/styles/theme";
 import { P } from "@/styles/typography";
@@ -60,42 +59,50 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
         px: { xs: "14px", md: "0" },
       }}
     >
-      {/* Кнопка "Начать сначала" */}
       {(activeStep > 0 || Object.keys(completed).length > 0) && (
         <Box
           sx={{
             position: "absolute",
             top: 16,
-            right: 16,
+            right: 25,
             zIndex: 10,
           }}
         >
-          <NewButton
-            variant="outlined"
-            text="Начать сначала"
+          <Box
+            component="button"
             onClick={handleStartOver}
+            borderRadius="48px"
+            p="13.5px 18px"
+            bgcolor="transparent"
             sx={{
-              fontSize: "7px",
-              padding: "6px 12px",
-              width: "70px",
-              height: "32px",
-              borderColor: "#047ced",
-              color: "#047ced",
+              border: "none",
+              cursor: "pointer",
+              borderBottom: "2px solid #052046",
               "&:hover": {
-                backgroundColor: "#047ced",
-                color: "white",
+                scale: 1.1,
               },
             }}
-          />
+          >
+            <Typography
+              sx={{
+                color: "#008ef4",
+                fontSize: "14px",
+                fontWeight: 500,
+              }}
+            >
+              Начать сначала
+            </Typography>
+          </Box>
         </Box>
       )}
       {!isMobile && (
         <Box
           sx={{
             position: "absolute",
-            top: 36,
+            top: { xs: 28, lg: 36 },
             left: "12%",
             width: "75%",
+            mt: "70px",
             height: 4,
             background:
               "linear-gradient(90deg, #153762 0%, #0B62A1 40%, #1AA1FF 100%)",
@@ -111,6 +118,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
         sx={{
           width: "100%",
           m: "0 auto",
+          mt: { xs: "60px", lg: "70px" },
           position: "relative",
           zIndex: 2,
           display: "flex!important",
@@ -162,7 +170,7 @@ export const HorizontalNonLinearStepper: FC<IHorizontalNonLinearStepper> = ({
         })}
       </Stepper>
 
-      <div style={{ height: "100%" }}>
+      <div style={{ height: "100%", marginTop: "20px" }}>
         {allStepsCompleted() ? (
           <BasicCard sx={{ height: "100%" }}>
             <Typography sx={{ mt: 2, mb: 1 }}>

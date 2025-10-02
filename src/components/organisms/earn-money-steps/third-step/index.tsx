@@ -50,7 +50,7 @@ export const StepThree: FC<IStepThree> = ({ handleNext, setActiveStep }) => {
             xs: "center bottom",
             sm: "center calc(100% + 50px)",
           },
-          backgroundSize: { xs: "100% 40%", md: "100% 70%" },
+          backgroundSize: { xs: "100% 40%", md: "100% 80%" },
           borderRadius: { xs: "0 0 0 0", sm: "0 0 170px 170px" },
           backgroundImage:
             deposit?.type === DEPOSIT_TYPES.CRYPTO

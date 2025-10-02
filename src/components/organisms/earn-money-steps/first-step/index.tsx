@@ -19,10 +19,9 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
   const { handleSubmit, control, processingAmountValue } =
     useProcessingAmount(handleNext);
 
-  const sumitForm = async (e?: BaseSyntheticEvent) => {
+  const submitForm = async (e?: BaseSyntheticEvent) => {
     e?.preventDefault();
 
-    // Сохраняем данные в контекст перед отправкой
     if (processingAmountValue) {
       updateStepOne({ amount: processingAmountValue });
       markStepCompleted(0);
@@ -34,7 +33,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
   return (
     <Box
       component="form"
-      onSubmit={sumitForm}
+      onSubmit={submitForm}
       sx={{
         display: "flex",
         flex: 1,
@@ -58,7 +57,7 @@ export const StepOne: FC<IStepOne> = ({ handleNext }) => {
           alignItems: "center",
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center bottom",
-          backgroundSize: { xs: "100% 50%", md: "100% 70%" },
+          backgroundSize: { xs: "100% 50%", md: "100% 90%" },
           backgroundImage: `url(${first_step})`,
         }}
       >

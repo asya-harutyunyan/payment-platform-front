@@ -7,7 +7,6 @@ import React, {
   useState,
 } from "react";
 
-// Типы для данных каждого шага
 export interface StepOneData {
   amount?: number;
 }
@@ -21,7 +20,6 @@ export interface StepThreeData {
   transactionId?: string;
 }
 
-// Общий интерфейс состояния формы
 export interface FormStepsState {
   stepOne: StepOneData;
   stepTwo: StepTwoData;
@@ -30,7 +28,6 @@ export interface FormStepsState {
   completedSteps: Record<number, boolean>;
 }
 
-// Интерфейс контекста
 interface FormStepsContextType {
   state: FormStepsState;
   updateStepOne: (data: Partial<StepOneData>) => void;
@@ -44,10 +41,8 @@ interface FormStepsContextType {
   startOver: () => void;
 }
 
-// Ключ для localStorage
 const STORAGE_KEY = "form-steps-data";
 
-// Начальное состояние
 const initialState: FormStepsState = {
   stepOne: {},
   stepTwo: {},
@@ -56,18 +51,15 @@ const initialState: FormStepsState = {
   completedSteps: {},
 };
 
-// Создание контекста
 const FormStepsContext = createContext<FormStepsContextType | undefined>(
   undefined
 );
 
-// Функция для загрузки данных из localStorage
 const loadFromStorage = (): FormStepsState => {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
       const parsedData = JSON.parse(stored);
-      // Проверяем, что данные имеют правильную структуру
       return {
         stepOne: parsedData.stepOne || {},
         stepTwo: parsedData.stepTwo || {},
@@ -82,7 +74,6 @@ const loadFromStorage = (): FormStepsState => {
   return initialState;
 };
 
-// Функция для сохранения данных в localStorage
 const saveToStorage = (state: FormStepsState) => {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -91,19 +82,16 @@ const saveToStorage = (state: FormStepsState) => {
   }
 };
 
-// Провайдер контекста
 export const FormStepsProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const [state, setState] = useState<FormStepsState>(initialState);
 
-  // Загружаем данные из localStorage при инициализации
   useEffect(() => {
     const storedState = loadFromStorage();
     setState(storedState);
   }, []);
 
-  // Сохраняем данные в localStorage при каждом изменении состояния
   useEffect(() => {
     saveToStorage(state);
   }, [state]);
@@ -152,7 +140,6 @@ export const FormStepsProvider: React.FC<{ children: ReactNode }> = ({
     setState(initialState);
   };
 
-  // Полный сброс формы - очищает localStorage и возвращает на первый шаг
   const startOver = () => {
     localStorage.removeItem(STORAGE_KEY);
     const resetState = {
@@ -163,7 +150,6 @@ export const FormStepsProvider: React.FC<{ children: ReactNode }> = ({
     setState(resetState);
   };
 
-  // Дополнительная утилита для очистки только определенного шага
   const clearStep = (stepNumber: number) => {
     setState((prev) => {
       const newState = { ...prev };
@@ -178,7 +164,6 @@ export const FormStepsProvider: React.FC<{ children: ReactNode }> = ({
           newState.stepThree = {};
           break;
       }
-      // Удаляем отметку о завершении шага
       const newCompleted = { ...newState.completedSteps };
       delete newCompleted[stepNumber];
       newState.completedSteps = newCompleted;
@@ -207,7 +192,6 @@ export const FormStepsProvider: React.FC<{ children: ReactNode }> = ({
   );
 };
 
-// Хук для использования контекста
 export const useFormSteps = (): FormStepsContextType => {
   const context = useContext(FormStepsContext);
   if (!context) {
