@@ -96,7 +96,7 @@ const DashboardPage: FC<DashboardPageProps> = ({ children }) => {
   return (
     <Box
       sx={{
-        background: `linear-gradient(135deg, #0551ac 0%, #041939 100%)`,
+        background: `linear-gradient(135deg, #0551ac 0%, #071636 80%)`,
         height: "100vh",
         overflow: "hidden",
       }}

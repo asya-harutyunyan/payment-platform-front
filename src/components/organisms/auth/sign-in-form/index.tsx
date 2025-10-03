@@ -111,6 +111,7 @@ const LoginForm = () => {
             />
           </Box>
           <BasicCard
+            fullWidth
             sx={{
               width: "60%",
               borderRadius: "40px",
@@ -120,6 +121,9 @@ const LoginForm = () => {
               backgroundColor: "transparent",
               boxShadow: Colors.transparentBoxShadow,
               zIndex: "1",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <P
@@ -127,7 +131,7 @@ const LoginForm = () => {
               paddingBottom={{ xs: "23px", sm: "40px" }}
               fontWeight={600}
               color={Colors.white}
-              width="max-content"
+              width="70%"
               margin="0 auto"
             >
               {t("welcome_sign_in")}
@@ -139,6 +143,7 @@ const LoginForm = () => {
               onChange={handleEmailOrPasswordChange}
               placeholder={t("email")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "70%" } }}
             />
 
             <FormTextInput
@@ -148,6 +153,7 @@ const LoginForm = () => {
               onChange={handleEmailOrPasswordChange}
               placeholder={t("password")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "70%" } }}
             />
 
             {getUserRoleData?.role !== EUserRole.SuperAdmin &&
@@ -163,9 +169,12 @@ const LoginForm = () => {
             {getUserRoleData?.role === EUserRole.Client && (
               <GoogleReCaptcha onVerify={handleRecaptchaVerify} />
             )}
-
             <Box
-              sx={{ display: "flex", justifyContent: "start", width: "100%" }}
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "flex-start", sm: "center" },
+                width: { xs: "100%", sm: "55%" },
+              }}
             >
               <P
                 sx={{
@@ -185,13 +194,14 @@ const LoginForm = () => {
                 </Link>
               </P>
             </Box>
+
             <NewButton
               variant={"gradient"}
               color="primary"
               text={t("sign_in")}
               sx={{
-                width: "100%",
-                margin: { xs: "0", sm: "20px 0" },
+                width: { xs: "100%", sm: "70%" },
+                margin: { xs: "0 auto", sm: "20px auto" },
                 height: "50px",
               }}
               type="submit"
@@ -200,13 +210,13 @@ const LoginForm = () => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: "flex-start",
                 alignItems: "center",
                 width: "100%",
               }}
             >
               <TextWithDivider>
-                <P textAlign="center" fontSize="14px" fontWeight={500}>
+                <P fontSize="14px" fontWeight={500}>
                   <Link
                     to="/auth/sign-up"
                     style={{
@@ -218,7 +228,7 @@ const LoginForm = () => {
                     <span
                       style={{ textDecoration: "underline", fontWeight: 700 }}
                     >
-                      {" "}
+                      {"  "}
                       {t("sign_up")}
                     </span>
                   </Link>

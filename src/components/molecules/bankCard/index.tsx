@@ -130,8 +130,8 @@ const BankCard: FC<IBankCard> = ({
             sx={{
               color: isBlocked ? "#b3b3b3" : "#ffffff",
               fontFamily: "'DigitalNumbers', Arial, sans-serif",
-              fontSize: "clamp(10px, 4vw, 15px)", // will shrink if needed
-              whiteSpace: "nowrap", // ensures no wrapping
+              fontSize: "clamp(10px, 4vw, 15px)",
+              whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
             }}

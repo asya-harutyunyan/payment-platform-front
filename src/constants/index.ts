@@ -14,7 +14,7 @@ export const Colors = {
   status_rose: "#FCF3F3",
   gradientBg: `
       linear-gradient(0deg, #00000033, #00000033),
-      linear-gradient(180deg, #1f243a 0%, #263569 100%)
+      linear-gradient(180deg, #1f243a 0%, #2a3b7c 80%)
     `,
   gradientBgSignIn: "linear-gradient(180deg, #091131 0%, #132775 100%)",
   transparentBoxShadow: `

@@ -111,10 +111,13 @@ export const AboutSection = () => {
         margin="0 auto"
         minHeight="120px"
         textAlign="center"
+        letterSpacing="1.5px"
         sx={{
           lineHeight: "1.3",
           fontSize: { xs: "30px", sm: "40px" },
           pt: "40px",
+
+          fontStyle: "medium",
         }}
       >
         Добро пожаловать в{" "}

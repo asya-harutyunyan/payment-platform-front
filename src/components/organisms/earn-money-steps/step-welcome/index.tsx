@@ -34,14 +34,15 @@ export const StepWelcome = () => {
           color="white"
           mb="25px"
         >
-          Приумножайте деньги с умом! В PayHub мы уверены: зарабатывать можно легко, безопасно и выгодно.
+          Приумножайте деньги с умом! В PayHub мы уверены: зарабатывать можно
+          легко, безопасно и выгодно.
         </P>
         <Box
           display="flex"
           justifyContent="center"
           width="100%"
           maxWidth={{ xs: "100%", sm: "80%" }}
-          gap="10px"
+          gap={{ xs: "10px", sm: "24px" }}
           margin="10px auto"
         >
           <Box flex={1}>
@@ -49,7 +50,11 @@ export const StepWelcome = () => {
               href="https://t.me/payhubofficial"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ textDecoration: "none", display: "block", height: "100%" }}
+              style={{
+                textDecoration: "none",
+                display: "block",
+                height: "100%",
+              }}
             >
               <NewButton
                 text="Телеграм-канал"

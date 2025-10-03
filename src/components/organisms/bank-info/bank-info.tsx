@@ -112,6 +112,7 @@ export const BankInfoComponent: FC = () => {
                 Добавьте карту, на которую хотите получать деньги
               </H6>
               <NewButton
+                glow
                 variant={"gradient"}
                 sx={{ width: { xs: "100%", sm: "256px" } }}
                 text={"Добавить карту"}
@@ -146,6 +147,7 @@ export const BankInfoComponent: FC = () => {
                   </Box>
                   <Box flex={1}>
                     <NewButton
+                      glow
                       variant={"gradient"}
                       sx={{
                         width: "100%",

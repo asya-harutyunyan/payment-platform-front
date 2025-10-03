@@ -49,7 +49,13 @@ const DeleteAccountButton: React.FC<DeleteAccountButtonProps> = ({
         open={isModalOpened}
         width={{ xs: "80%", sm: "40%", md: "30%" }}
       >
-        <H3 align="center" color="#000" fontSize="24px">
+        <H3
+          align="center"
+          color="#000"
+          fontSize="24px"
+          maxWidth="370px"
+          lineHeight="32px"
+        >
           {t("delete_account_description")}
         </H3>
         <Box
