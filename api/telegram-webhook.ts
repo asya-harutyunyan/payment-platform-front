@@ -25,7 +25,7 @@ export default async function handler(req: any, res: any) {
     const arg = text.split(" ")[1];
 
     const messageText =
-      "Welcome! 🎉\n\nTap the button below to open the web app." +
+      "Добро пожаловать в PayHub 🎉\n\n Здесь Деньги Работают на Вас" +
       (arg ? `\n\nStart parameter: \`${arg}\`` : "");
 
     const tgRes = await fetch(
