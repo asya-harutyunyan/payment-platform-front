@@ -102,6 +102,7 @@ const SignUpForm: FC = () => {
             />
           </Box>
           <BasicCard
+            fullWidth
             sx={{
               width: "50%",
               height: "40%",
@@ -113,6 +114,9 @@ const SignUpForm: FC = () => {
               boxShadow: Colors.transparentBoxShadow,
               zIndex: "1",
               p: "22px 40px 0px 40px",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
             <P
@@ -130,24 +134,28 @@ const SignUpForm: FC = () => {
               name="name"
               placeholder={t("name")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "90%" } }}
             />
             <FormTextInput
               control={control}
               name="surname"
               placeholder={t("surname")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "90%" } }}
             />
             <FormTextInput
               control={control}
               name="referral_code"
               placeholder={t("referral_code")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "90%" } }}
             />
             <FormTextInput
               control={control}
               name="email"
               placeholder={t("email")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "90%" } }}
             />
 
             <FormTextInput
@@ -156,6 +164,7 @@ const SignUpForm: FC = () => {
               type="password"
               placeholder={t("password")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "90%" } }}
             />
             <FormTextInput
               control={control}
@@ -163,8 +172,9 @@ const SignUpForm: FC = () => {
               type="password"
               placeholder={t("password_confirmation")}
               greenGradientVariant
+              style={{ width: { xs: "100%", sm: "90%" } }}
             />
-            <Box sx={{ width: "100%" }}>
+            <Box sx={{ width: { xs: "100%", sm: "90%" }, m: "0 auto" }}>
               <CustomCheckbox
                 control={control}
                 label={t("privacy")}
@@ -178,7 +188,11 @@ const SignUpForm: FC = () => {
               variant={"gradient"}
               color="primary"
               text={t("register")}
-              sx={{ width: "100%", height: "50px" }}
+              sx={{
+                width: { xs: "100%", sm: "90%" },
+                height: "50px",
+                m: "0 auto",
+              }}
               type="submit"
               disabled={watch("checkbox") !== true}
             />

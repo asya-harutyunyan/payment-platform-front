@@ -12,7 +12,9 @@ interface IBasicCard {
   title_B?: string;
   sub_title?: string | number;
   align?: string;
+  fullWidth?: boolean; // ✅ added
 }
+
 export const BasicCard: React.FC<IBasicCard> = ({
   title,
   title_B,
@@ -22,6 +24,7 @@ export const BasicCard: React.FC<IBasicCard> = ({
   sx,
   bg,
   bgColor,
+  fullWidth, // ✅ destructure it
 }) => {
   return (
     <Box
@@ -52,7 +55,7 @@ export const BasicCard: React.FC<IBasicCard> = ({
         ...sx,
       }}
     >
-      {title &&
+      {title && (
         <Typography
           sx={{
             display: "flex",
@@ -68,7 +71,12 @@ export const BasicCard: React.FC<IBasicCard> = ({
             sx={{
               color: "text.secondary",
               paddingRight: "10px",
-              textAlign: { lg: "start", md: "start", xs: "center", sm: "center" },
+              textAlign: {
+                lg: "start",
+                md: "start",
+                xs: "center",
+                sm: "center",
+              },
               fontSize: {
                 lg: "1.5rem",
                 md: "1.5rem",
@@ -83,14 +91,12 @@ export const BasicCard: React.FC<IBasicCard> = ({
             <H4
               sx={{
                 color: "text.secondary",
-
                 textAlign: {
                   lg: "start",
                   md: "start",
                   xs: "center",
                   sm: "center",
                 },
-
                 fontSize: {
                   lg: "1.5rem",
                   md: "1.5rem",
@@ -103,7 +109,8 @@ export const BasicCard: React.FC<IBasicCard> = ({
             </H4>
           )}
         </Typography>
-      }
+      )}
+
       {title_B ? (
         <H5
           sx={{
@@ -113,8 +120,10 @@ export const BasicCard: React.FC<IBasicCard> = ({
         >
           {title_B ?? ""}
         </H5>
-      ) : undefined}
-      <Box>{children}</Box>
+      ) : null}
+
+      {/* ✅ Fix applied here */}
+      <Box sx={{ width: fullWidth ? "100%" : "auto" }}>{children}</Box>
     </Box>
   );
 };

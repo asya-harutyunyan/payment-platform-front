@@ -19,12 +19,12 @@ interface IFormTextInput<T extends FieldValues> extends UseControllerProps<T> {
   width?: string;
   whiteVariant?: boolean;
   greenGradientVariant?: boolean;
-  lightGreyVariant?:boolean;
+  lightGreyVariant?: boolean;
   mask?: boolean;
   autofocus?: boolean;
   numeric?: boolean;
   onChange?: (value: string) => void;
-  borderRadius?: number
+  borderRadius?: number;
 }
 
 export const FormTextInput = <T extends FieldValues>({

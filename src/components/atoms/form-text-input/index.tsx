@@ -66,35 +66,38 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
     return showPassword ? "text" : "password";
   }, [type, showPassword]);
 
-  // Shared color decisions (kept simple & consistent)
-  const borderCol =
-    whiteVariant
-      ? "tertiary.main"
-      : greenGradientVariant
-        ? "#1b939f"
-        : lightGreyVariant
-          ? "#EAEAEA"
-          : "primary.main";
-
-  const labelCol =
-    whiteVariant
-      ? "tertiary.main"
-      : greenGradientVariant
-        ? "white"
-        : lightGreyVariant
-          ? "#0082ef"
-          : "primary.main";
-
-
-  const textCol =
-    whiteVariant
-      ? "tertiary.main"
-      : greenGradientVariant
-        ? "white"
+  const borderCol = whiteVariant
+    ? "tertiary.main"
+    : greenGradientVariant
+      ? "#1b939f"
+      : lightGreyVariant
+        ? "#EAEAEA"
         : "primary.main";
 
+  const labelCol = whiteVariant
+    ? "tertiary.main"
+    : greenGradientVariant
+      ? "white"
+      : lightGreyVariant
+        ? "#0082ef"
+        : "primary.main";
+
+  const textCol = whiteVariant
+    ? "tertiary.main"
+    : greenGradientVariant
+      ? "white"
+      : "primary.main";
+
   return (
-    <Box sx={{ ...sx, "& > :not(style)": { mb: 1, mt: 1 }, width: "100%" }}>
+    <Box
+      sx={{
+        ...sx,
+        "& > :not(style)": { mb: 1, mt: 1 },
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
       <TextField
         key={placeholder}
         label={placeholder}
@@ -104,13 +107,13 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         id={id}
         autoFocus={autofocus}
         sx={{
-          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button": {
-            display: "none",
-          },
+          "& input::-webkit-outer-spin-button, & input::-webkit-inner-spin-button":
+            {
+              display: "none",
+            },
           "& input[type=number]": { MozAppearance: "textfield" },
           width: width ?? "100%",
           border: "#B5BBC6",
-
 
           "& .MuiInputLabel-root": {
             fontSize: "14px",
@@ -129,11 +132,9 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
             ml: 0,
           },
 
-
           ".MuiOutlinedInput-notchedOutline": {
             borderColor: borderCol,
           },
-
 
           ".MuiFormLabel-root": {
             fontSize: "12px",
@@ -143,15 +144,14 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
           ".MuiInputBase-input": {
             color: textCol,
           },
-          "& .MuiInputBase-input::placeholder, & .MuiOutlinedInput-input::placeholder": {
-            color: textCol,
-            opacity: 1,
-          },
-
+          "& .MuiInputBase-input::placeholder, & .MuiOutlinedInput-input::placeholder":
+            {
+              color: textCol,
+              opacity: 1,
+            },
 
           "& .MuiOutlinedInput-root": {
             borderRadius: borderRadius ?? 8,
-
 
             backgroundColor: lightGreyVariant ? "#e3e3e3" : "transparent",
             boxShadow: lightGreyVariant ? "0 1px 0 0 #000" : "none",
@@ -163,13 +163,11 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
               borderColor: borderCol,
             },
 
-
             "&.Mui-error .MuiOutlinedInput-notchedOutline": {
               borderColor: "error.main",
             },
           },
 
-          // Allow consumers to override last
           ...style,
         }}
         value={value}
@@ -178,19 +176,18 @@ export const BasicTextFields: FC<IBasicTextFields> = ({
         error={error}
         helperText={error ? helperText : ""}
         InputProps={{
-          endAdornment:
-            type === "password" && (
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                  sx={{ color: greenGradientVariant ? "white" : "black" }}
-                >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
+          endAdornment: type === "password" && (
+            <InputAdornment position="end">
+              <IconButton
+                aria-label="toggle password visibility"
+                onClick={handleClickShowPassword}
+                onMouseDown={handleMouseDownPassword}
+                sx={{ color: greenGradientVariant ? "white" : "black" }}
+              >
+                {showPassword ? <Visibility /> : <VisibilityOff />}
+              </IconButton>
+            </InputAdornment>
+          ),
         }}
       />
     </Box>
